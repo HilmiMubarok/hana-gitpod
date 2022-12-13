@@ -1,7 +1,8 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
@@ -11,6 +12,8 @@ import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { IndexRateService } from '../../index-rate.service';
+import { Router } from '@angular/router';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'jhi-loan-facility-dialog',
@@ -18,6 +21,7 @@ import { IndexRateService } from '../../index-rate.service';
   styleUrls: ['./dialog-facility.css'],
 })
 export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
@@ -201,8 +205,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       collateralProductRelations: any;
       creditProposaldata: ICreditProposal;
     },
+    protected applicationOptionService: ApplicationOptionService,
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
+    private router: Router,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
@@ -227,6 +233,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
 
+    this.testHidden();
+    this.getApplicationOption();
+    this.getObligation();
     // this.typeListControl;
   }
 
@@ -496,5 +505,148 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     let ccy = node.innerHTML;
     ccy = ccy.replace(/\$ /g, '');
     node.innerHTML = this.fee;
+  }
+
+  // Function Condition in Offering Letter
+  textBoxHidden: boolean;
+  paymentIDR: boolean;
+  public parentPath = this.router.url.split('/')[1];
+
+  public testHidden() {
+    if (this.parentPath === 'finalize') {
+      this.textBoxHidden = false;
+      this.paymentIDR = true;
+    }
+    if (this.parentPath === 'distribution') {
+      if (this.dataItem.statusId !== 'OL_ASSIGNED') {
+        this.status = true;
+      }
+    }
+    if (this.parentPath === 'review') {
+      this.status = true;
+    }
+    if (this.parentPath === 'confirmation') {
+      this.status = true;
+    }
+    if (this.parentPath === 'credit-proposal-status' || this.parentPath === 'cp-status-approval') {
+      this.textBoxHidden = true;
+    }
+  }
+
+  public latePaymentFeeUSD: any;
+  public latePaymentFeeIDR: any;
+  public paymentObligationNonAngsuran: any;
+  public paymentObligationAngsuran: any;
+  // this.latePaymentFee = '';
+  // this.paymentObligation = '';
+  // this.earlyRepaymentPenalty = 0;
+  // this.thePrimeLandingRate = 0;
+
+  // Get Parameter Data
+  public datacoba = '';
+  public getApplicationOption() {
+    this.applicationOptionService.query().subscribe(res => {
+      console.log('res body', res);
+      for (let i = 0; i < res.body.length; i++) {
+        // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_USD
+        if (res.body[i].id === 'LATE_PAYMENT_FEE_USD') {
+          // this.latePaymentFeeUSD = res.body[i].value;
+          // Kondisi Jika attributes late payment fee undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['latePaymentFee'] === '' ||
+            this.applicationProduct.attributes['latePaymentFee'] === undefined
+          ) {
+            // cek data berdasarka currency usd
+            if (this.applicationProduct.attributes['currency'] === 'USD') {
+              // jika ada yang usd di loan ambil value usd.a
+              this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
+            }
+          }
+        }
+        // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_IDR
+        if (res.body[i].id === 'LATE_PAYMENT_FEE_IDR') {
+          // Kondisi Jika attributes late payment fee undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['latePaymentFee'] === '' ||
+            this.applicationProduct.attributes['latePaymentFee'] === undefined
+          ) {
+            // cek data berdasarka currency idr
+            if (this.applicationProduct.attributes['currency'] === 'IDR') {
+              // jika ada yang idr di loan ambil value idr.a dari parameter
+              this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
+            }
+          }
+        }
+        // Cari Data dan Cek Data Berdasarkan PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK
+        if (res.body[i].id === 'PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK') {
+          // Kondisi Jika attributes paymentObligation  undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['paymentObligation'] === '' ||
+            this.applicationProduct.attributes['paymentObligation'] === undefined
+          ) {
+            // cek data berdasarka Non Cash loan [BG,LC] dari Loan facility type
+            if (
+              this.applicationProduct.attributes['facilityType'] === 'BG' ||
+              this.applicationProduct.attributes['facilityType'] === 'LC'
+            ) {
+              // jika ada facility type dengan kode tersebut di loan ambil value dari parameter
+              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+            }
+          }
+        }
+        // Cari Data dan Cek Data Berdasarkan PAYMENT_OBLIGATION_ANGSURAN_REMARK
+        if (res.body[i].id === 'PAYMENT_OBLIGATION_ANGSURAN_REMARK') {
+          // Kondisi Jika attributes paymentObligation  undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['paymentObligation'] === '' ||
+            this.applicationProduct.attributes['paymentObligation'] === undefined
+          ) {
+            // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
+            if (
+              this.applicationProduct.attributes['facilityType'] === 'DL' ||
+              this.applicationProduct.attributes['facilityType'] === 'MML' ||
+              this.applicationProduct.attributes['facilityType'] === 'FL' ||
+              this.applicationProduct.attributes['facilityType'] === 'IL' ||
+              this.applicationProduct.attributes['facilityType'] === 'OD'
+            ) {
+              // jika ada facility type dengan kode tersebut di loan ambil value dari parameter
+              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+            }
+          }
+        }
+      }
+      console.log('latepayment', this.applicationProduct.attributes['latePaymentFee']);
+    });
+    // this.getObligation();
+  }
+
+  public obligationCashLoan: number;
+  public obligationNonCashLoan: number;
+
+  public getObligation() {
+    this.obligationCashLoan = 3;
+    this.obligationNonCashLoan = 2;
+
+    if (
+      this.applicationProduct.attributes['earlyRepaymentPenalty'] === '0' ||
+      this.applicationProduct.attributes['earlyRepaymentPenalty'] === undefined
+    ) {
+      if (
+        this.applicationProduct.attributes['facilityType'] === 'DL' ||
+        this.applicationProduct.attributes['facilityType'] === 'MML' ||
+        this.applicationProduct.attributes['facilityType'] === 'FL' ||
+        this.applicationProduct.attributes['facilityType'] === 'IL' ||
+        this.applicationProduct.attributes['facilityType'] === 'OD'
+      ) {
+        console.log('ini facility', this.applicationProduct.attributes['facilityType']);
+        // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
+        this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationCashLoan;
+      }
+      if (this.applicationProduct.attributes['facilityType'] === 'BG' || this.applicationProduct.attributes['facilityType'] === 'LC') {
+        this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationNonCashLoan;
+      }
+    }
+    console.log('cash loan', this.applicationProduct.attributes['earlyRepaymentPenalty']);
+    console.log('cash non loan', this.obligationNonCashLoan);
   }
 }
