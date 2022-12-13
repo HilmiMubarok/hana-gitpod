@@ -1,19 +1,45 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 
 import { IOrganizationLegal } from '../organization-legal/organization-legal.model';
 import { OrganizationLegalService } from '../organization-legal/organization-legal.service';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+} from '@syncfusion/ej2-angular-documenteditor';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StorageService } from '../storage/storage.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
   templateUrl: './credit-proposal-tab-management-info.component.html',
   styleUrls: ['./css/credit-proposal-basic-information.css'],
+  providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
   // @ViewChild('grid') public grid: GridComponent;
   // @ViewChild('findCifDialog')
-  @Input() creditProposalItem: ICreditProposal = new CreditProposal();
+
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
+
+  private ngUnsubscribe = new Subject();
+  private bucket: string;
+  private paramsIdGet: string;
+  private getKey: string;
+  private fileGet: File;
+
+  @Input() saveWord: any;
+  @Input()
+  creditProposalItem: ICreditProposal = new CreditProposal();
   public dataItem: ICreditProposal = new CreditProposal();
   private _Info: ICreditProposal[];
   private _organizationLegal: IOrganizationLegal[];
@@ -26,12 +52,11 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   // address: string;
 
-  @Input()
   get item() {
     return this.creditProposalItem;
   }
 
-  set item(item: any) {
+  set item(item: ICreditProposal) {
     this.creditProposalItem = item;
   }
 
@@ -112,17 +137,42 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   constructor(
     private creditProposalService: CreditProposalService,
 
-    private organizationLegalService: OrganizationLegalService
+    private organizationLegalService: OrganizationLegalService,
+    // private actRoute: ActivatedRoute,
+    // private storageService: StorageService
+    protected actRoute: ActivatedRoute,
+    private router: Router,
+    private storageService: StorageService
   ) {
     this.dataItem;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnInit(): void {
+    this.bucket = 'hana';
+    this.actRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
+      this.getContainer();
+    });
+
+    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
+      for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
+        this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
+      }
+    }
+
+    this.matrixRemoveTag();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.saveWord === true) {
+      this.triggeredSave();
+    }
+
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);
     }
-    // console.log('data item', this.data);
   }
 
   initialize() {}
@@ -164,13 +214,87 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     });
   }
 
-  ngOnInit(): void {
-    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
-      for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
-        this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
-      }
+  private getContainer(): void {
+    const obj = {
+      key: this.getKey,
+    };
+    this.storageService
+      .getObjects(this.bucket, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        if (response.body.length > 0) {
+          this.storageService
+            .fileBlob(response.body[response.body.length - 1]['url'])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.fileGet = new File(
+                [res.body],
+                'credit-proposal-remark-' + this.paramsIdGet + '-hana/credit_proposal/remark/m-info-sfdt.sfdt'
+              );
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                const contents: string = e.target.result;
+                docEditor.open(contents);
+              };
+              fileReader.readAsText(this.fileGet);
+            });
+        }
+      });
+  }
+
+  onCreate(): void {
+    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
+    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+
+  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
+    const keyCode: string = args.event.key;
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
+    // 67 is the character code for 'C'
+    console.log('keycode', keyCode);
+    console.log('isCtrlKey', isCtrlKey);
+    if (isCtrlKey && keyCode === '86') {
+      // To prevent copy operation set isHandled to true
+      args.isHandled = true;
+      // console.log('ini paste');
     }
-    this.matrixRemoveTag();
+  }
+
+  public triggeredSave(): void {
+    let paramsId = '';
+    this.actRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/m-info';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/m-info-' + fileType + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+    });
+
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/m-info-' + fileType + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+    });
   }
 
   public onSelect(value: string, dataMgn: any) {

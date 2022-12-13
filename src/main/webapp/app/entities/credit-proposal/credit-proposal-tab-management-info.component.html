@@ -2,304 +2,226 @@
   cssClass="e-outline">
   </ejs-textbox> -->
 <div class="e-sample-resize-container e-card-resize-container">
-  <div class="row">
-    <div class="row card-layout">
-      <div class="e-card">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">Management Information</div>
-          </div>
-        </div>
-        <div class="e-card-content">
-          <div class="row my-3">
-            <div class="col">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline" disabled> </ejs-textbox>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-4">Based on Notarial Deed No</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ '' }}
-                  </div>
-                </div>
-              </section>
-            </div>
-            <div class="col">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-datepicker
-                  placeholder="Date"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                  [(ngModel)]="creditProposalItem.attributes['managementInfo'].date"
-                  disabled
-                >
-                </ejs-datepicker>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-1">Date</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ '' }}
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
-          <ejs-grid [dataSource]="data" allowTextWrap="true">
-            <e-columns>
-              <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
-              <e-column
-                field="prospectPerson.name"
-                headerText="Shareholder, BOD & BOC"
-                width="180"
-                headerTextAlign="center"
-                textAlign="left"
-              >
-              </e-column>
-              <e-column field="prospectPerson.name" headerText="% Ownership" width="130" headerTextAlign="center" textAlign="left">
-              </e-column>
-              <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="relationship" headerText="Relationship" width="140" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="prospectPerson.personalIdNumber" headerText="NIK" width="180" headerTextAlign="center" textAlign="left">
-              </e-column>
-              <e-column field="deedEstablishNum" headerText="Akte" width="180" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
-              </e-column>
-              <e-column
-                field="prospectPerson.dob"
-                headerText="Date of Birth"
-                width="150"
-                headerTextAlign="center"
-                textAlign="right"
-                format="d/M/y"
-              >
-              </e-column>
-              <e-column field="deedEstablishDate" headerText="Date Of Deed" width="150" headerTextAlign="center" textAlign="Right">
-              </e-column>
-              <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
-              <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
-            </e-columns>
-          </ejs-grid>
-
-          <div class="row my-3">
-            <div class="col">
-              <!-- <div class="form-space"> -->
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox
-                  [multiline]="true"
-                  [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes"
-                  placeholder="Describe relationship between BOC/BOD with shareholders"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                >
-                </ejs-textbox>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row py-3">
-                  <div class="col-3">Describe relationship between BOC/BOD with shareholders</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-2">
-                    {{ creditProposalItem.attributes['managementInfo'].notes }}
-                  </div>
-                </div>
-              </section>
-              <!-- </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn'" class="py-3">
     <div class="row">
-      <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">DEBTORS PERFORMANCE & MANAGEMENT INFORMATION</div>
-            </div>
-          </div>
-          <div class="e-card-content">
-            <div class="row">
-              <div class="col md-6 sm-12 d-flex justify-content-center">
-                <div class="grid-table mb-3 mt-3">
-                  <ejs-grid [dataSource]="dataAttrMgn">
-                    <e-columns>
-                      <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                      <e-column field="Management" headerText="Management" width="60"></e-column>
-                      <e-column headerText="Select" textAlign="Center" width="30">
-                        <div class="select">
-                          <ng-template #template let-data>
-                            <div class="d-flex justify-content-around">
-                              <div class="mx-2">
-                                <ejs-radiobutton
-                                  label="Yes"
-                                  value="Yes"
-                                  (change)="onSelect('Yes', data)"
-                                  [checked]="data.value == 'Yes'"
-                                  name="{{ data.No }}"
-                                  [checked]="data.value == 'Yes'"
-                                >
-                                </ejs-radiobutton>
-                              </div>
-                              <div class="mx-2">
-                                <ejs-radiobutton
-                                  label="No"
-                                  value="No"
-                                  (change)="onSelect('No', data)"
-                                  [checked]="data.value == 'No'"
-                                  name="{{ data.No }}"
-                                  [checked]="data.value == 'No'"
-                                >
-                                </ejs-radiobutton>
-                              </div>
-                              <div class="mx-2">
-                                <ejs-radiobutton
-                                  label="N/A"
-                                  value="N/A"
-                                  (change)="onSelect('N/A', data)"
-                                  [checked]="data.value == 'N/A'"
-                                  name="state"
-                                  name="{{ data.No }}"
-                                  [checked]="data.value == 'N/A'"
-                                ></ejs-radiobutton>
-                              </div>
-                            </div>
-                          </ng-template>
-                        </div>
-                      </e-column>
-                    </e-columns>
-                  </ejs-grid>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="e-card-content">
-            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="creditProposalItem.attributes['managementInfo'].message">
-              </ejs-richtexteditor>
-            </section>
-            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <p class="lable-form-title">{{ newMessage }}</p>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row py-3">
-      <div class="row card-layout">
-        <div class="e-card">
-          <div class="e-card-header">
-            <div class="e-card-header-caption">
-              <div class="e-card-header-title">CO-BORROWER</div>
-            </div>
-          </div>
-          <div class="e-card-content">
-            <!-- <div class="e-card"> -->
-            <div class="e-card-content">
-              <ejs-grid [dataSource]="data" allowTextWrap="true">
-                <e-columns>
-                  <e-column field="rowIndex" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
-                  <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="center"> </e-column>
-                  <e-column field="" headerText="Company Name" width="180" headerTextAlign="center" textAlign="center"> </e-column>
-                  <e-column field="address" headerText="Address" width="180" headerTextAlign="center" textAlign="center"></e-column>
-                  <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="center">
-                  </e-column>
-                  <e-column headerText="Action" width="180" textAlign="Center">
-                    <ng-template #template let-data>
-                      <div>
-                        <a [routerLink]="['/credit-proposal', data.id, 'edit']">
-                          <mat-icon>edit</mat-icon>
-                        </a>
-                      </div>
-                    </ng-template>
-                  </e-column>
-                </e-columns>
-              </ejs-grid>
-            </div>
-            <!-- </div> -->
-            <!-- <div class="e-card"> -->
-            <div class="e-card-content mt-0">
-              <div class="row my-3">
-                <div class="col">
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row py-3">
-                      <div class="col-3">"Based on Notarial Deed No</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">
-                        {{ '' }}
-                      </div>
+        <div class="row card-layout">
+            <div class="e-card">
+                <div class="e-card-header">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title">Management Information</div>
                     </div>
-                  </section>
                 </div>
-                <div class="col">
-                  <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
+                <div class="e-card-content">
+                    <div class="row my-3">
+                        <div class="col">
+                            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline" disabled> </ejs-textbox>
+                            </section>
+                            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                <div class="fontsebled row py-3">
+                                    <div class="col-4">Based on Notarial Deed No</div>
+                                    <div class="col-md-auto">:</div>
+                                    <div class="col col-lg-2">
+                                        {{ '' }}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="col">
+                            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="creditProposalItem.attributes['managementInfo'].date" disabled>
+                                </ejs-datepicker>
+                            </section>
+                            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                <div class="fontsebled row py-3">
+                                    <div class="col-1">Date</div>
+                                    <div class="col-md-auto">:</div>
+                                    <div class="col col-lg-2">
+                                        {{ '' }}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <ejs-grid [dataSource]="data" allowTextWrap="true">
+                        <e-columns>
+                            <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
+                            <e-column field="prospectPerson.name" headerText="Shareholder, BOD & BOC" width="180" headerTextAlign="center" textAlign="left">
+                            </e-column>
+                            <e-column field="prospectPerson.name" headerText="% Ownership" width="130" headerTextAlign="center" textAlign="left">
+                            </e-column>
+                            <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                            <e-column field="relationship" headerText="Relationship" width="140" headerTextAlign="center" textAlign="left"> </e-column>
+                            <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                            <e-column field="prospectPerson.personalIdNumber" headerText="NIK" width="180" headerTextAlign="center" textAlign="left">
+                            </e-column>
+                            <e-column field="deedEstablishNum" headerText="Akte" width="180" headerTextAlign="center" textAlign="left"> </e-column>
+                            <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
+                            </e-column>
+                            <e-column field="prospectPerson.dob" headerText="Date of Birth" width="150" headerTextAlign="center" textAlign="right" format="d/M/y">
+                            </e-column>
+                            <e-column field="deedEstablishDate" headerText="Date Of Deed" width="150" headerTextAlign="center" textAlign="Right">
+                            </e-column>
+                            <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
+                            <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
+                        </e-columns>
+                    </ejs-grid>
+
+                    <div class="row my-3">
+                        <div class="col">
+                            <!-- <div class="form-space"> -->
+                            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                <ejs-textbox [multiline]="true" [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes" placeholder="Describe relationship between BOC/BOD with shareholders" floatLabelType="Auto" cssClass="e-outline">
+                                </ejs-textbox>
+                            </section>
+                            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                <div class="fontsebled row py-3">
+                                    <div class="col-3">Describe relationship between BOC/BOD with shareholders</div>
+                                    <div class="col-md-auto">:</div>
+                                    <div class="col col-lg-2">
+                                        {{ creditProposalItem.attributes['managementInfo'].notes }}
+                                    </div>
+                                </div>
+                            </section>
+                            <!-- </div> -->
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <ejs-grid [dataSource]="data" allowTextWrap="true">
-                <e-columns>
-                  <e-column field="rowIndex" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
-                  <e-column
-                    field="prospectPerson.name"
-                    headerText="Shareholder, BOD & BOC"
-                    width="180"
-                    headerTextAlign="center"
-                    textAlign="left"
-                  >
-                  </e-column>
-                  <e-column
-                    field="prospectOrganization.name"
-                    headerText="% Ownership"
-                    width="130"
-                    headerTextAlign="center"
-                    textAlign="left"
-                  >
-                  </e-column>
-                  <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
-                  <e-column
-                    field="prospectOrganization.personalIdNumber"
-                    headerText="NIK / No.Deed"
-                    width="180"
-                    headerTextAlign="center"
-                    textAlign="left"
-                  >
-                  </e-column>
-                  <e-column
-                    field="prospectOrganization.taxIdNumber"
-                    headerText="NPWP"
-                    width="180"
-                    headerTextAlign="center"
-                    textAlign="left"
-                  >
-                  </e-column>
-                  <e-column
-                    field="prospectOrganization.dob"
-                    headerText="Birthdate / Deed Date"
-                    width="150"
-                    headerTextAlign="center"
-                    textAlign="right"
-                    format="E, d/M/y"
-                  >
-                  </e-column>
-                  <e-column field="deedEstablishDate" headerText="Relationship" width="150" headerTextAlign="center" textAlign="Right">
-                  </e-column>
-                  <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
-                  <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
-                </e-columns>
-              </ejs-grid>
             </div>
-            <!-- </div> -->
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+
+    <div *ngIf="creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn'" class="py-3">
+        <div class="row">
+            <div class="row card-layout">
+                <div class="e-card">
+                    <div class="e-card-header">
+                        <div class="e-card-header-caption">
+                            <div class="e-card-header-title">DEBTORS PERFORMANCE & MANAGEMENT INFORMATION</div>
+                        </div>
+                    </div>
+                    <div class="e-card-content">
+                        <div class="row">
+                            <div class="col md-6 sm-12 d-flex justify-content-center">
+                                <div class="grid-table mb-3 mt-3">
+                                    <ejs-grid [dataSource]="dataAttrMgn">
+                                        <e-columns>
+                                            <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+                                            <e-column field="Management" headerText="Management" width="60"></e-column>
+                                            <e-column headerText="Select" textAlign="Center" width="30">
+                                                <div class="select">
+                                                    <ng-template #template let-data>
+                                                        <div class="d-flex justify-content-around">
+                                                            <div class="mx-2">
+                                                                <ejs-radiobutton label="Yes" value="Yes" (change)="onSelect('Yes', data)" [checked]="data.value == 'Yes'" name="{{ data.No }}" [checked]="data.value == 'Yes'">
+                                                                </ejs-radiobutton>
+                                                            </div>
+                                                            <div class="mx-2">
+                                                                <ejs-radiobutton label="No" value="No" (change)="onSelect('No', data)" [checked]="data.value == 'No'" name="{{ data.No }}" [checked]="data.value == 'No'">
+                                                                </ejs-radiobutton>
+                                                            </div>
+                                                            <div class="mx-2">
+                                                                <ejs-radiobutton label="N/A" value="N/A" (change)="onSelect('N/A', data)" [checked]="data.value == 'N/A'" name="state" name="{{ data.No }}" [checked]="data.value == 'N/A'"></ejs-radiobutton>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </e-column>
+                                        </e-columns>
+                                    </ejs-grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="e-card-content">
+                        <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                            <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false" height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false" (keyDown)="onKeyDown($event)" (created)="onCreate()">
+                            </ejs-documenteditorcontainer>
+                        </section>
+                        <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                            <p class="lable-form-title">{{ newMessage }}</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row py-3">
+            <div class="row card-layout">
+                <div class="e-card">
+                    <div class="e-card-header">
+                        <div class="e-card-header-caption">
+                            <div class="e-card-header-title">CO-BORROWER</div>
+                        </div>
+                    </div>
+                    <div class="e-card-content">
+                        <!-- <div class="e-card"> -->
+                        <div class="e-card-content">
+                            <ejs-grid [dataSource]="data" allowTextWrap="true">
+                                <e-columns>
+                                    <e-column field="rowIndex" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
+                                    <e-column field="cif.customerId" headerText="CIF" width="130" headerTextAlign="center" textAlign="center"> </e-column>
+                                    <e-column field="" headerText="Company Name" width="180" headerTextAlign="center" textAlign="center"> </e-column>
+                                    <e-column field="address" headerText="Address" width="180" headerTextAlign="center" textAlign="center"></e-column>
+                                    <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="center">
+                                    </e-column>
+                                    <e-column headerText="Action" width="180" textAlign="Center">
+                                        <ng-template #template let-data>
+                                            <div>
+                                                <a [routerLink]="['/credit-proposal', data.id, 'edit']">
+                                                    <mat-icon>edit</mat-icon>
+                                                </a>
+                                            </div>
+                                        </ng-template>
+                                    </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                        </div>
+                        <!-- </div> -->
+                        <!-- <div class="e-card"> -->
+                        <div class="e-card-content mt-0">
+                            <div class="row my-3">
+                                <div class="col">
+                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                        <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline"> </ejs-textbox>
+                                    </section>
+                                    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                        <div class="fontsebled row py-3">
+                                            <div class="col-3">"Based on Notarial Deed No</div>
+                                            <div class="col-md-auto">:</div>
+                                            <div class="col col-lg-2">
+                                                {{ '' }}
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="col">
+                                    <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline"> </ejs-datepicker>
+                                </div>
+                            </div>
+                            <ejs-grid [dataSource]="data" allowTextWrap="true">
+                                <e-columns>
+                                    <e-column field="rowIndex" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
+                                    <e-column field="prospectPerson.name" headerText="Shareholder, BOD & BOC" width="180" headerTextAlign="center" textAlign="left">
+                                    </e-column>
+                                    <e-column field="prospectOrganization.name" headerText="% Ownership" width="130" headerTextAlign="center" textAlign="left">
+                                    </e-column>
+                                    <e-column field="title" headerText="Title" width="130" headerTextAlign="center" textAlign="left"> </e-column>
+                                    <e-column field="prospectOrganization.personalIdNumber" headerText="NIK / No.Deed" width="180" headerTextAlign="center" textAlign="left">
+                                    </e-column>
+                                    <e-column field="prospectOrganization.taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="left">
+                                    </e-column>
+                                    <e-column field="prospectOrganization.dob" headerText="Birthdate / Deed Date" width="150" headerTextAlign="center" textAlign="right" format="E, d/M/y">
+                                    </e-column>
+                                    <e-column field="deedEstablishDate" headerText="Relationship" width="150" headerTextAlign="center" textAlign="Right">
+                                    </e-column>
+                                    <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
+                                    <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
+                                </e-columns>
+                            </ejs-grid>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
