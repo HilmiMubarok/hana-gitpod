@@ -81,13 +81,13 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
         return o.partyId !== null;
       });
 
-      this.positionRMS = lodash.find(res.body, function (o) {
-        return o.employeeFirstName === tempName;
-      });
+      // this.positionRMS = lodash.find(res.body, function (o) {
+      //   return o.employeeFirstName === tempName;
+      // });
 
-      this.loadInternalInformationRM(this.positionRMS.partyId);
-      console.log('ini position', this.positionRM);
-      console.log('ini positionRMS', this.positionRMS);
+      // this.loadInternalInformationRM(this.positionRMS.partyId);
+      // console.log('ini position', this.positionRM);
+      // console.log('ini positionRMS', this.positionRMS);
     });
   }
 
