@@ -12,6 +12,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import lodash from 'lodash';
 import { CollateralProperty, ICollateralProperty } from '../collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property.service';
+import { CollateralPropertyBuildingDialogComponent } from '../dialogs/collateral-property-building-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list-realestate-building-template',
@@ -116,7 +117,7 @@ export class CollateralPropertyListRealestateBuildingTemplateComponent implement
       predicate['data'] = { collateralProperty: colProp };
     }
 
-    const dialogRef = this.dialog.open(CollateralBuildingDetailDialogComponent, predicate);
+    const dialogRef = this.dialog.open(CollateralPropertyBuildingDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.getData();

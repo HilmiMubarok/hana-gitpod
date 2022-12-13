@@ -8,7 +8,7 @@ import { map } from 'rxjs';
 import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { faBullseye, faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -16,6 +16,8 @@ import { IApplicationStateLog } from '../application-state-log/application-state
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -57,12 +59,14 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   //   'CP_CANCEL',
   //   'CP_REJECT',
   // ];
-
+  public account: Account;
+  public isRoleRM: boolean;
   public activeRoute: string;
   public title: string;
   public value: string;
-
+  public parentPath = this.router.url.split('/')[1];
   constructor(
+    private accountService: AccountService,
     private creditProposalService: CreditProposalService,
     protected _snackBar: MatSnackBar,
     protected router: Router,
@@ -86,6 +90,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   ngOnInit(): void {
     this.loadStatusChip();
     this.loadAll();
+    this.checkLogin();
+    this.kagebunshinNoJutsu();
   }
 
   // private sortStatusCodesData(): void {
@@ -263,5 +269,40 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       this.title = 'Credit Proposal';
       sessionStorage.setItem('appName', this.title);
     }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+        this.account.authorities['ROLE_RM'] = this.isRm;
+      }
+    });
+  }
+  public kagebunshinNoJutsu() {
+    if (this.isRm()) {
+      if (this.parentPath === 'cp-status-approval') {
+        if (this.account.authorities.length <= 2) {
+          this.isRoleRM = false;
+        } else {
+          this.isRoleRM = true;
+        }
+      }
+    }
+
+    if (this.isBm()) {
+      if (this.parentPath === 'cp-status-approval') {
+        if (this.account.authorities.length <= 2) {
+          this.isRoleRM = true;
+        }
+      }
+    }
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isBm(): any {
+    return this.account.authorities.includes('ROLE_BM');
   }
 }

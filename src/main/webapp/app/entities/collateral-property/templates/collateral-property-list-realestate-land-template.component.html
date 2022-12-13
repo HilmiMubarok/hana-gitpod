@@ -23,10 +23,7 @@
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button (click)="openDialog(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="$event.stopPropagation(); delete(element)">
-            <mat-icon>delete_forever</mat-icon>
+            <mat-icon>remove_red_eye</mat-icon>
           </button>
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
@@ -63,9 +60,6 @@
                   >
                 </mat-list>
               </mat-card-content>
-              <mat-card-actions align="right">
-                <button mat-raised-button (click)="openDialogCertificate(expandedElement)">ADD CERTIFICATE</button>
-              </mat-card-actions>
             </mat-card>
           </div>
         </td>
@@ -97,7 +91,4 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right">
-    <button mat-raised-button (click)="openDialog()">ADD NEW LAND INFO</button>
-  </mat-card-actions>
 </mat-card>
