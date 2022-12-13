@@ -36,8 +36,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public certiFicateTypeName: any;
   public collateralView: boolean;
 
-  public documentLainnya: string;
-  public documentCollateral: string;
+  public documents: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -45,8 +44,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       appraisal: ICollateralAppraisal;
       collateral: ICollateral;
       bucket: string;
-      documentLainnya: string;
-      documentCollateral: string;
+      documents: string;
     },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentUploadDialogComponent>,
@@ -58,8 +56,7 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.document = new Document();
     this.file = null;
     this.bucket = this.data.bucket;
-    this.documentLainnya = this.data.documentLainnya;
-    this.documentCollateral = this.data.documentCollateral;
+    this.documents = this.data.documents;
   }
 
   ngOnInit(): void {
@@ -149,14 +146,12 @@ export class DocumentUploadDialogComponent implements OnInit {
         }
 
         if (this.data.appraisal) {
-          if (this.documentLainnya === 'document-lainnya') {
-            console.log('document lainnya');
-            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/document-lainnya/${this.document.documentNumber}/${currentDate}-${files}`;
+          if (this.documents === 'document-lainnya') {
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-lainnya/${this.document.documentNumber}/${currentDate}-${files}`;
             metaData.entityId = this.data.appraisal.id;
           }
-          if (this.documentCollateral === 'document-collateral') {
-            console.log('document collateral');
-            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/document-collateral/${this.document.documentNumber}/${currentDate}-${files}`;
+          if (this.documents === 'document-collateral') {
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-colateral/${this.document.documentNumber}/${currentDate}-${files}`;
             metaData.entityId = this.data.appraisal.id;
           }
         }
