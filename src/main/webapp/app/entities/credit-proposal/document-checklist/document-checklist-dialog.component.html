@@ -155,7 +155,16 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+        <img
+          [src]="item.url"
+          *ngIf="
+            item['metaData']['content-type'] === 'image/jpeg' ||
+            item['metaData']['content-type'] === 'image/png' ||
+            item['metaData']['Value'] === 'image/jpeg' ||
+            item['metaData']['Value'] === 'image/png' ||
+            item['metaData']['Value'] === 'image/jpeg'
+          "
+        />
 
         <img
           (click)="donwload(item.url)"
