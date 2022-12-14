@@ -171,6 +171,19 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this.selectedMenu = 'BUSINESS ACTIVITY';
     this.tes();
   }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+
+    this.getOpiniObj();
+  }
+  public getOpiniObj() {
+    this.bucket = 'hana';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/business-activity/' + this.creditProposalItem.id + '/' + '/sfdt';
+      this.getContainer();
+    });
+  }
 
   private getContainer(): void {
     const obj = {

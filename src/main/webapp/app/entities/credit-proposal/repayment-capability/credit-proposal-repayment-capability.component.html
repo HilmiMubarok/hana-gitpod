@@ -100,20 +100,41 @@
           </tr>
           <tr>
             <td style="vertical-align: middle; text-align: center">Existing</td>
-            <td style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
-                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)"
-                  [formControl]="validExistingFS"
-                  required
-                />
-                <mat-error *ngIf="validExistingFS.hasError('required')">Existing is Required</mat-error>
-              </mat-form-field>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)
+                    "
+                    [formControl]="validExistingFS"
+                    required
+                  />
+                  <mat-error *ngIf="validExistingFS.hasError('required')">Existing is Required</mat-error>
+                </mat-form-field>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </td>
+            </section>
+
             <td style="vertical-align: middle; text-align: center">Existing</td>
             <td style="vertical-align: middle; text-align: center">
               <mat-form-field class="w-100 disable" appearance="outline">
@@ -126,41 +147,77 @@
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center">Existing</td>
-            <td style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
-                  (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] = numberInputChanged($event)
-                  "
-                  [formControl]="validExistingCR"
-                  required
-                />
-                <mat-error *ngIf="validExistingCR.hasError('required')">Existing is Required</mat-error>
-              </mat-form-field>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] = numberInputChanged($event)
+                    "
+                    [formControl]="validExistingCR"
+                    required
+                  />
+                  <mat-error *ngIf="validExistingCR.hasError('required')">Existing is Required</mat-error>
+                </mat-form-field>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] = numberInputChanged($event)
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </td>
+            </section>
           </tr>
           <tr>
             <td style="vertical-align: middle; text-align: center">Current Proposal</td>
-            <td style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
-                  (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
-                  "
-                  [formControl]="validCurrentProposalFS"
-                  required
-                />
-                <mat-error *ngIf="validCurrentProposalFS.hasError('required')">Current Proposal is Required</mat-error>
-              </mat-form-field>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
+                    "
+                    [formControl]="validCurrentProposalFS"
+                    required
+                  />
+                  <mat-error *ngIf="validCurrentProposalFS.hasError('required')">Current Proposal is Required</mat-error>
+                </mat-form-field>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </td>
+            </section>
             <td style="vertical-align: middle; text-align: center">Current Proposal</td>
             <td style="vertical-align: middle; text-align: center">
               <mat-form-field class="w-100" appearance="outline">
@@ -173,22 +230,40 @@
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center">Current Proposal</td>
-            <td style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
-                  [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
-                  (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] = numberInputChanged($event)
-                  "
-                  [formControl]="validCurrentProposalCR"
-                  required
-                />
-                <mat-error *ngIf="validCurrentProposalCR.hasError('required')">Current Proposal Credit Mutation is Required</mat-error>
-              </mat-form-field>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] = numberInputChanged($event)
+                    "
+                    [formControl]="validCurrentProposalCR"
+                    required
+                  />
+                  <mat-error *ngIf="validCurrentProposalCR.hasError('required')">Current Proposal Credit Mutation is Required</mat-error>
+                </mat-form-field>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] = numberInputChanged($event)
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </td>
+            </section>
           </tr>
           <tr>
             <td style="vertical-align: middle; text-align: center">Buffer</td>

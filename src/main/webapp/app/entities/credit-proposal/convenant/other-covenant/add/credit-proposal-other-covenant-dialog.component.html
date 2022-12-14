@@ -100,6 +100,11 @@
   </section>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button *ngIf="!view" (click)="save()">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <button mat-button *ngIf="!view" (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <button mat-button mat-dialog-close>Close</button>
+  </section>
 </mat-dialog-actions>
