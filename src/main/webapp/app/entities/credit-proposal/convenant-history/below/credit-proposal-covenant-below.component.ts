@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBelow } from '../convenant.constant';
 import lodash from 'lodash';
-
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-below-history',
   templateUrl: './credit-proposal-covenant-below.component.html',
@@ -21,6 +21,7 @@ export class CreditProposalCovenantBelowHistoryComponent implements OnInit {
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+  public parseAttr: any;
 
   @Input() isViewMode: Boolean = false;
 
@@ -29,7 +30,8 @@ export class CreditProposalCovenantBelowHistoryComponent implements OnInit {
     return this._creditProposalItem;
   }
 
-  set creditProposalItem(item: any) {
+  set creditProposalItem(item: ICreditProposal) {
+    this.parseAttr = parsePreviousAtrribute(item);
     this._creditProposalItem = item;
   }
 
@@ -49,11 +51,11 @@ export class CreditProposalCovenantBelowHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].justification;
+    if (this.parseAttr.previousHistory.convenant.standardCovenant.length !== 0) {
+      for (let i = 0; i < this.parseAttr.previousHistory.convenant.standardCovenant.length; i++) {
+        this.statusValue[i] = this.parseAttr.previousHistory.convenant.standardCovenant[i].status;
+        this.deviation[i] = this.parseAttr.previousHistory.convenant.standardCovenant[i].deviation;
+        this.justification[i] = this.parseAttr.previousHistory.convenant.standardCovenant[i].justification;
       }
     } else {
       for (let i = 0; i <= this.standardCovenant.length; i++) {
