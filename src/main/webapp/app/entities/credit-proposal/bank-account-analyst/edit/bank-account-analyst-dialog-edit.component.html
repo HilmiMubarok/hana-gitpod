@@ -425,11 +425,20 @@
           </ng-container>
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element; let i = index">
-              <button *ngIf="i > 0" mat-icon-button (click)="onRemove(i)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td mat-cell *matCellDef="let element; let i = index">
+                <button *ngIf="i > 0" mat-icon-button (click)="onRemove(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td mat-cell *matCellDef="let element; let i = index">
+                <button *ngIf="i > 0" mat-icon-button hidden (click)="onRemove(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </section>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 
