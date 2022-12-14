@@ -20,6 +20,8 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 import { Subject, takeUntil } from 'rxjs';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { PositionService } from 'app/entities/position/position.service';
+import { IPosition } from 'app/entities/position/position.model';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -40,6 +42,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public route: any;
   public view: boolean;
   public pacth: any;
+  public position: IPosition[];
 
   // public parentPath = this.router.url.split('/')[1];
   public nameLabel: any;
@@ -89,7 +92,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     public datePipe: DatePipe,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private positionService: PositionService
   ) {
     this.view = false;
   }
@@ -138,6 +142,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.getContainer();
     this.getContainerCondition();
     this.conditionEnableOpinion();
+    this.hiddenApprovalUser();
+    this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
   }
   public userId: any;
 
@@ -213,6 +219,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.disabledOpinion = false;
     } else {
       this.disabledOpinion = true;
+    }
+  }
+
+  public approvalUser: boolean;
+  private hiddenApprovalUser() {
+    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+      this.approvalUser = false;
+    } else {
+      this.approvalUser = true;
     }
   }
 
@@ -388,5 +403,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   onCreateCondition(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+
+  public loadPosition(position: any): void {
+    this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
+      this.position = res.body;
+    });
   }
 }
