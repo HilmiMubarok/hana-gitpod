@@ -94,6 +94,13 @@ export interface ISurveyAppraisals {
   noteForRM?: string;
   facilityType?: string;
   objectType?: string;
+  surveyCompanyId?: number;
+  surveyCompanyName?: string;
+  surveyBatchId?: number;
+  latitude?: number;
+  longitude?: number;
+  totalMarketValue?: number;
+  totalLiquidationValue?: number;
   cif?: ICif;
   properties?: ICollateralProperty[];
   tasks?: IProcessTask[];
@@ -206,6 +213,13 @@ export class SurveyAppraisals implements ISurveyAppraisals {
 	public noteForRM?: string,
     public facilityType?: string,
     public objectType?: string,
+	public surveyCompanyId?: number,
+	public surveyCompanyName?: string,
+	public surveyBatchId?: number,
+	public latitude?: number,
+	public longitude?: number,
+	public totalMarketValue?: number,
+	public totalLiquidationValue?: number,
     public cif?: ICif,
     public properties?: ICollateralProperty[],
     public tasks?: IProcessTask[],
@@ -231,10 +245,10 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public teamLeadName?: string,
     public teamLeadPersonId?: string
   ) {
-    /* this.cif = new Cif();
+    this.cif = new Cif();
     this.rm = new ApplicationRole();
     this.attributes = {};
     this.attributes['scoreCard'] = scoreCard;
-    this.attributes['segmentProduct'] = ''; */
+    this.attributes['segmentProduct'] = '';
   }
 }
