@@ -892,14 +892,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
       mustValidatedOnVisited.documentLainnya = false;
     }
-    if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
-      this._showNotification('error', 'Masukkan Land Detail Dahulu');
-      mustValidatedOnVisited.landDetail = false;
-    }
-    if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
-      this._showNotification('error', 'Masukkan Building Detail Dahulu');
-      mustValidatedOnVisited.building = false;
-    }
     if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
       this._showNotification('error', 'Masukkan Certificate Dahulu');
       mustValidatedOnVisited.certificate = false;
@@ -911,6 +903,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (marketValue.land.length < 1 && marketValue.building.length < 1) {
         this._showNotification('error', 'Masukkan Market Value M2 di Valuation Dahulu');
         mustValidatedOnVisited.marketValueM2 = false;
+      }
+      if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
+        this._showNotification('error', 'Masukkan Land Detail Dahulu');
+        mustValidatedOnVisited.landDetail = false;
+      }
+      if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
+        this._showNotification('error', 'Masukkan Building Detail Dahulu');
+        mustValidatedOnVisited.building = false;
       }
     }
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
