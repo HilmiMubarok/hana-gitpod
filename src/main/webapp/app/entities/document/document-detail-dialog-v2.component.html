@@ -18,7 +18,7 @@
   </table>
   <ul class="list-image">
     <li *ngFor="let item of folder['files']">
-      <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+      <img [src]="item.url" *ngIf="item.key.split('.')[1] === 'png' || item.key.split('.')[1] === 'jpg'" />
 
       <img
         (click)="donwload(item.url)"

@@ -1,4 +1,6 @@
 export interface ICPFacilityTable {
+  no?: number;
+  LoanAccount?: string;
   GroupName?: string;
   FacilityType?: string;
   InitialLimit?: number;
@@ -10,10 +12,13 @@ export interface ICPFacilityTable {
   AdminFee?: string;
   FirstDisbursementDate?: string;
   Tenor?: string;
+  LoanType?: string;
 }
 
 export class CPFacilityTable implements ICPFacilityTable {
   constructor(
+    public no?:number,
+    public LoanAccount?: string,
     public GroupName?: string,
     public FacilityType?: string,
     public InitialLimit?: number,
@@ -24,6 +29,8 @@ export class CPFacilityTable implements ICPFacilityTable {
     public Provision?: string,
     public AdminFee?: string,
     public FirstDisbursementDate?: string,
-    public Tenor?: string
+    public Tenor?: string,
+    public CCY?: string,
+    public LoanType?: string
   ) {}
 }

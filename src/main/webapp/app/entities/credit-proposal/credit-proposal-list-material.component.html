@@ -220,7 +220,8 @@
       >
       </mat-paginator>
     </div>
-    <div class="e-card-actions">
+
+    <div class="e-card-actions" [hidden]="isRoleRM">
       <div class="d-flex justify-content-center mb-3 mt-3">
         <button mat-raised-button [routerLink]="['./new']">ADD CREDIT PROPOSAL</button>
       </div>

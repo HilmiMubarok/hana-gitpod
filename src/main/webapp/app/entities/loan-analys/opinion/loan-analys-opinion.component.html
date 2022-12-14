@@ -49,11 +49,12 @@
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
     <div class="mb-2 col-md-2" style="margin-top: 20px">
-      <mat-form-field class="w-100" appearance="outline" [hidden]="view">
+      <mat-form-field class="w-100" appearance="outline" [hidden]="view" [hidden]="approvalUser">
+        <mat-label>Approval User</mat-label>
         <mat-select (selectionChange)="setApproval($event.value)" [(ngModel)]="creditProposalItem.attributes['list']">
-          <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of listOfValue.listApproval" [value]="item">
-            {{ item }}
+          <!-- <mat-option value="">- Please Select -</mat-option> -->
+          <mat-option *ngFor="let item of position" [value]="item">
+            {{ item.employeeFirstName }}
           </mat-option>
         </mat-select>
       </mat-form-field>

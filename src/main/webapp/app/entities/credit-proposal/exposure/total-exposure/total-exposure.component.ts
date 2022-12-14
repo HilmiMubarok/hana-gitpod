@@ -4,6 +4,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { Internationalization } from '@syncfusion/ej2-base';
 import lodash from 'lodash';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { FakeFacilityService } from 'app/entities/credit-proposal/exposure/total-exposure/fake-facility-type.service';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 // import { CPFacility, ICPFacility } from './cp-facility.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
@@ -22,6 +23,12 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.selectedMenu = args.item.text;
   }
 
+  public totalDebiturCashLoan = 0;
+  public totalDebiturCashLoanGroup = 0;
+  public totalDebiturNonCashLoan = 0;
+  public totalDebiturNonCashLoanGroup = 0;
+  public grandTotalGroup = 0;
+
   public myBusinessGroup: IDebtorData[];
   // public myBusinessGroupCPFacility: ICPFacility[];
   public myBusinessGroupCPFacility: ICPFacilityTable[];
@@ -37,7 +44,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     },
   ];
 
-  constructor(protected _snackbar: MatSnackBar, protected partyCifService: PartyCifService) {
+  constructor(protected _snackbar: MatSnackBar, protected partyCifService: PartyCifService, protected fakeFacilityService: FakeFacilityService) {
     super(_snackbar, partyCifService);
     this.myBusinessGroup = [];
     this.myBusinessGroupCPFacility = [];
@@ -78,30 +85,44 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   private filterBusinessGroupDebtorData(param: IDebtorData[]): void {
     if (param.length > 0) {
+      let no = 0;
       for (let i = 0; i < param.length; i++) {
         const item: IDebtorData = param[i];
         if (lodash.has(item.attributes, 'cpFacility')) {
-          const parsed = new CPFacilityTable();
-          const source = JSON.parse(item.attributes['cpFacility'])[0];
-          console.log('source', source);
-          if (source) {
-            parsed.GroupName = '';
-            parsed.FacilityType = source.FILN11_COM_NM;
-            parsed.InitialLimit = 0;
-            parsed.Changes = 0;
-            parsed.OS = source.LNB_BASE_LON_JAN;
-            parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-            parsed.InterestRate = source.FILN10_ROLL_GAP + source.FILN10_ROLL_GAP_GB;
-            parsed.Provision = source.FILN22_FEE_AMT;
-            parsed.AdminFee = source.FILN22_FEE_AMT;
-            parsed.FirstDisbursementDate = source.FXFIG_TRX_DT;
-            parsed.Tenor = source.FILN10_TOT_EXP_IL;
 
-            console.log('push ini', parsed);
-            this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
-            const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
-              return n === undefined;
-            });
+          const source = JSON.parse(item.attributes['cpFacility']);
+          if (source) {
+            for (let y=0; y < source.length; y++) {
+
+              const parsed = new CPFacilityTable();
+              no = no+1;
+              parsed.no = no;
+              parsed.GroupName = '';
+              parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
+              parsed.FacilityType = source[y].FILN11_COM_NM;
+              parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
+              parsed.Changes = 0;
+              parsed.OS = source[y].LNB_BASE_LON_JAN;
+              parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN10_ROLL_GAP_GB;
+              parsed.Provision = source[y].FILN22_FEE_AMT;
+              parsed.AdminFee = source[y].FILN22_FEE_AMT;
+              parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
+              parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
+              parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
+
+              if (parsed.LoanType === "Cash Loan") {
+                this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
+              } else if (parsed.LoanType === "Non Cash Loan") {
+                this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
+              }
+
+              this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
+              this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+              const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
+                return n === undefined;
+              });
+            }
           }
           // this.myBusinessGroupCPFacility.push(JSON.parse(item.attributes['cpFacility']));
           // this.myBusinessGroupCPFacility.push(parsed);
@@ -109,6 +130,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
     }
     console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
+    console.log("cash loan", this.totalDebiturCashLoanGroup);
+    console.log("non cash loan", this.totalDebiturNonCashLoanGroup);
+    this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
   }
 
   format(format: any, value: any): string {
@@ -167,14 +191,14 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public totalos = 0;
   public totalchange = 0;
   public totalcredit = 0;
+  public totalplafondgroup = 0;
   public totalavilable = 0;
   public change2 = 0;
   public _item: ICreditProposal = new CreditProposal();
   public dataGrid: any = [];
-  public totalDebiturCashLoan = 0;
-  public totalDebiturNonCashLoan = 0;
   public totalGroupCashLoan = 0;
   public totalGroupNonCashLoan = 0;
+  public grandTotalDebitor = 0;
   public totalWcl = 0;
   public totalDl = 0;
   public totalOD = 0;
@@ -224,6 +248,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.totalCashLoan();
     this.totalNonCashLoan();
     this.getMyBusinessGroup();
+    this.grandTotalDebitur();
   }
 
   totalCashLoan() {
@@ -233,6 +258,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   totalNonCashLoan() {
     this.totalDebiturNonCashLoan = this.totalDebiturNonCashLoan + this.totalBG + this.totalLC;
+  }
+
+  grandTotalDebitur() {
+    console.log(this.totalDebiturCashLoan, this.totalDebiturNonCashLoan);
+    this.grandTotalDebitor = this.totalDebiturCashLoan+this.totalDebiturNonCashLoan;
   }
 
   fungsiSumTotalDebiturCashLoan() {

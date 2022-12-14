@@ -70,6 +70,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public getListIndustry() {
     this.listOfIndustryService.query().subscribe((res: any) => {
       this.listOfIndustry = res.body;
+
       for (let i = 0; i < res.body.length; i++) {
         this.industryList.push(res.body[i].label);
       }

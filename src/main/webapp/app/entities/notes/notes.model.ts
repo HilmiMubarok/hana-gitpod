@@ -2,6 +2,8 @@ export interface INotes {
   id?: number;
   message?: string;
   userId?: string;
+  approvedName?: string;
+  position?: string;
   createDate?: Date;
   recomendation?: string;
   condition?: string;
@@ -13,6 +15,8 @@ export class Notes implements INotes {
     public id?: number,
     public message?: string,
     public userId?: string,
+    public approvedName?: string,
+    public position?: string,
     public createDate?: Date,
     public recomendation?: string,
     public condition?: string,

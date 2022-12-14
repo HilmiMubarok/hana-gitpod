@@ -59,10 +59,10 @@
           <e-columns>
             <e-column field="indexNum" headerText="No" headerTextAlign="center" textAlign="right"></e-column>
             <e-column field="applicationNumber" headerText="Credit Proposal Number" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="createdDate" headerText="Proposal Date" headerTextAlign="center" textAlign="right"></e-column>
+            <e-column field="createdDate" headerText="Proposal Date" headerTextAlign="center" textAlign="right"> </e-column>
             <e-column field="cif.name" headerText="Debtor Name" headerTextAlign="center" textAlign="left"></e-column>
-            <e-column field="customerNumber" headerText="CIF Number" headerTextAlign="center" textAlign="center"></e-column>
-            <e-column field="" headerText="Customer status/Proposal Type" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="customerNumber" headerText="CIF Number" headerTextAlign="center" textAlign="center"> </e-column>
+            <e-column field="" headerText="Customer status/Proposal Type" headerTextAlign="center" textAlign="left"> </e-column>
             <e-column
               field="managements[0].postalAdress.address1"
               headerText="Address Of Domicille"
@@ -71,7 +71,7 @@
             ></e-column>
             <e-column field="" headerText="NIK/Akte" headerTextAlign="center" textAlign="left"></e-column>
             <e-column field="" headerText="Maturity Date" headerTextAlign="center" textAlign="right"></e-column>
-            <e-column field="statusDescription" headerText="Status" headerTextAlign="center" textAlign="left"></e-column>
+            <e-column field="statusDescription" headerText="Status" headerTextAlign="center" textAlign="left"> </e-column>
             <e-column headerText="Action" headerTextAlign="center" textAlign="center">
               <ng-template #template let-data>
                 <button type="button" [routerLink]="['/loan-analys', data.id, 'single-assign']" class="flat-button">

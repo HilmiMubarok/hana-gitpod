@@ -39,17 +39,23 @@
   </ng-container>
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let element">
-      <!-- <button mat-icon-button (click)="openDialog(element)">
-        <mat-icon>remove_red_eye</mat-icon>
-      </button> -->
-      <button mat-icon-button (click)="editDialog(element)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onDelete(element)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </td>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="editDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="editDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </section>
   </ng-container>
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
@@ -60,6 +66,13 @@
 <mat-card *ngIf="loading" id="material-loading-bar">
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
-<div align="right" class="mt-2">
-  <button mat-raised-button color="success" (click)="openDialog()">ADD SUPPLIERS</button>
-</div>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <div align="right" class="mt-2">
+    <button mat-raised-button color="success" (click)="openDialog()">ADD SUPPLIERS</button>
+  </div>
+</section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <div align="right" class="mt-2">
+    <button mat-raised-button color="success" hidden (click)="openDialog()">ADD SUPPLIERS</button>
+  </div>
+</section>

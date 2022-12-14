@@ -22,7 +22,7 @@
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
-                *ngIf="f.type === 'image/jpeg'"
+                *ngIf="f.type === 'image/jpeg' || f.type === 'image/png'"
               ></ngx-dropzone-image-preview>
             </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
@@ -161,7 +161,7 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+        <img *ngIf="item.key.split('.')[1] === 'png' || item.key.split('.')[1] === 'jpg'" [src]="item.url" />
 
         <img
           (click)="donwload(item.url)"

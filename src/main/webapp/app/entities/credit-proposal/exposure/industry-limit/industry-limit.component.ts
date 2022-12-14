@@ -3,7 +3,7 @@ import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { IndustryLimit, IIndustryLimit } from './industry-limit.model';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IndustryLimitExposureParameterService } from 'app/entities/master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
-
+import { ListOfValueIndustryService } from '../../list-of-value-industry.service';
 @Component({
   selector: 'jhi-industry-limit',
   templateUrl: './industry-limit.component.html',
@@ -23,7 +23,8 @@ export class IndustryLimitComponent implements OnInit {
 
   constructor(
     public applicationOptionService: ApplicationOptionService,
-    public industryLimitExposureParameterService: IndustryLimitExposureParameterService
+    public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
+    public listOfValueIndustryService: ListOfValueIndustryService
   ) {
     this.dateAsOf = '';
     this.limitPercentage = 0;
@@ -77,13 +78,19 @@ export class IndustryLimitComponent implements OnInit {
   }
 
   public industryLimit() {
-    this.industryLimitExposureParameterService
-      .find('/industry/' + this.creditProposal.attributes['purposePricing'].industry)
-      .subscribe((res: any) => {
-        this.limitPercentage = res.body.limitPercentage;
-        this.remainingBalance = res.body.remainingBalance;
-        this.industryLimitExposure = res.body.industryLimitExposure;
-        this.limitNominal = res.body.limitNominal;
-      });
+    this.listOfValueIndustryService.query().subscribe((response: any) => {
+      // this.listOfIndustry = res.body;
+
+      for (let i = 0; i < response.body.length; i++) {
+        if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industry) {
+          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
+            this.limitPercentage = res.body.limitPercentage;
+            this.remainingBalance = res.body.remainingBalance;
+            this.industryLimitExposure = res.body.industryLimitExposure;
+            this.limitNominal = res.body.limitNominal;
+          });
+        }
+      }
+    });
   }
 }

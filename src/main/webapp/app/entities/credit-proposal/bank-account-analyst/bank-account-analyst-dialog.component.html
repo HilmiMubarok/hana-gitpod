@@ -149,10 +149,9 @@
             <th mat-header-cell *matHeaderCellDef>Month - Year</th>
             <td mat-cell *matCellDef="let element; let i = index">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <mat-form-field class="w-100" appearance="outline">
-                  <input matInput [matDatepicker]="picker" [(ngModel)]="bankAccAnalyst.detail[i]['date']" />
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
+                <mat-form-field appearance="fill">
+                  <input matInput type="month" [(ngModel)]="bankAccAnalyst.detail[i]['date']" required />
+
                   <mat-error *ngIf="ValidMonthYear.hasError('required')">Month - Year is Required</mat-error>
                 </mat-form-field>
               </section>
@@ -420,11 +419,21 @@
           </ng-container>
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element; let i = index">
-              <button *ngIf="i > 0" mat-icon-button (click)="onRemove(i)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td mat-cell *matCellDef="let element; let i = index">
+                <button *ngIf="i > 0" mat-icon-button (click)="onRemove(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td mat-cell *matCellDef="let element; let i = index">
+                <button *ngIf="i > 0" mat-icon-button hidden (click)="onRemove(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </section>
+
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
 

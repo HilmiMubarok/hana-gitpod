@@ -17,7 +17,7 @@ import { PartyPostalAddressService } from '../../party-postal-address/party-post
 import { IPostalAddress, PostalAddress } from '../../postal-address/postal-address.model';
 import { IPartyPostalAddress } from '../../party-postal-address/party-postal-address.model';
 import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
-import { ISurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
+import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
 
 import { Observable, of } from 'rxjs';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
@@ -281,6 +281,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       for (let e = 0; e < this.statusChecked.length; e++) {
         for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
           const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+		  // const surveyAppraisal: ISurveyAppraisals = new SurveyAppraisals();
 
           surveyAppraisal.partyId =
             this.selectedPartyCif.customerType === 'PERSONAL'

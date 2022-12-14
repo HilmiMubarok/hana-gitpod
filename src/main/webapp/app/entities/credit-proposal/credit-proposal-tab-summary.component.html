@@ -21,18 +21,35 @@
     </div>
   </div>
   <div class="e-card-content">
-    <ejs-documenteditorcontainer
-      #document_editor_container
-      [enableToolbar]="true"
-      [enableLocalPaste]="false"
-      height="100vh"
-      style="display: block"
-      [spellcheck]="false"
-      [enableSpellCheck]="false"
-      (keyDown)="onKeyDown($event)"
-      (created)="onCreate()"
-    >
-    </ejs-documenteditorcontainer>
+    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="true"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+      >
+      </ejs-documenteditorcontainer>
+    </section>
+    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="true"
+        (documentChange)="onDocumentChange()"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+      >
+      </ejs-documenteditorcontainer>
+    </section>
     <!-- <ejs-richtexteditor
         [(ngModel)]="item.attributes['tabSummaryMessage'].message"
         value="{{ _item.attributes['tabSummaryMessage'].message }}"

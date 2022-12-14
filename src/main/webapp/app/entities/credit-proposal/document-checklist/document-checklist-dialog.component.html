@@ -18,6 +18,13 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
+            <ngx-dropzone-label *ngIf="f.url === undefined">
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-image-preview"
+                [file]="f"
+                *ngIf="f.type === 'image/jpeg'"
+              ></ngx-dropzone-image-preview>
+            </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
               <img src="../../../../content/images/excel.png" width="100%" height="100%" />
             </ngx-dropzone-label>
@@ -155,7 +162,7 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img [src]="item.url" *ngIf="item['metaData']['content-type'] === 'image/jpeg'" />
+        <img [src]="item.url" *ngIf="item.key.split('.')[1] === 'png' || item.key.split('.')[1] === 'jpg'" />
 
         <img
           (click)="donwload(item.url)"
