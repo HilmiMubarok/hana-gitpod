@@ -404,7 +404,7 @@
       </div>
 
       <!-- Summary -->
-      <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
         <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
       </div>
 
