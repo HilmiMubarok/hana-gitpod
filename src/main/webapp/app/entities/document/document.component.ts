@@ -215,10 +215,10 @@ export class DocumentComponent implements OnChanges {
   public validateDocument() {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
-  gakbisa() {
-    if (this.appraisal.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
-  }
+  // gakbisa() {
+  //   if (this.appraisal.statusId === STATUS.APPROVE ) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }
