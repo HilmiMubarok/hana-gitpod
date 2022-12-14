@@ -1,93 +1,157 @@
 <mat-sidenav-container [hasBackdrop]="true">
-    <div class="e-card">
-        <div class="e-card-header">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Collateral Appraisal</div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <div [hidden]="clickedMenu !== 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-info
+          [statusAppraisal]="timeLineStatus"
+          [surveyAppraisal]="surveyAppraisal"
+          [accountAuthorities]="accountAuthorities"
+          (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
+          (jpRenewal)="setRenewal($event)"
+          (jpNew)="setNew($event)"
+          (jpAdditional)="setAdditional($event)"
+          (jpProgress)="setProgress($event)"
+          (jpOther)="setOther($event)"
+          [collateralAppraisal]="collateralAppraisal"
+        >
+        </jhi-collateral-appraisal-info>
+      </div>
+
+      <div *ngIf="clickedMenu === 'customer-info'">
+        <jhi-collateral-appraisal-person-view
+          mode="view"
+          [collateralAppraisal]="collateralAppraisal"
+          [id]="surveyAppraisal.cif.partyId"
+          *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
+        >
+        </jhi-collateral-appraisal-person-view>
+        <jhi-collateral-appraisal-party-group-view
+          mode="view"
+          [collateralAppraisal]="collateralAppraisal"
+          [id]="surveyAppraisal.cif.id"
+          *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
+        >
+        </jhi-collateral-appraisal-party-group-view>
+
+        <div class="e-card mb-3">
+          <div class="e-card-header mb-1">
             <div class="e-card-header-caption">
-                <div class="e-card-header-title">Collateral Appraisal</div>
+              <div class="header-title">Customer Address</div>
             </div>
+          </div>
+          <div class="e-card-content">
+            <jhi-postal-address-view [collateralAppraisal]="collateralAppraisal" [item]="postalAddress" mode="view">
+            </jhi-postal-address-view>
+          </div>
         </div>
-        <div class="e-card-content">
-            <div [hidden]="clickedMenu !== 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-appraisal-info [statusAppraisal]="timeLineStatus" [surveyAppraisal]="surveyAppraisal" [accountAuthorities]="accountAuthorities" (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)" (jpRenewal)="setRenewal($event)" (jpNew)="setNew($event)"
-                    (jpAdditional)="setAdditional($event)" (jpProgress)="setProgress($event)" (jpOther)="setOther($event)" [collateralAppraisal]="collateralAppraisal">
-                </jhi-collateral-appraisal-info>
-            </div>
+      </div>
 
-            <div *ngIf="clickedMenu === 'customer-info'">
-                <jhi-collateral-appraisal-person-view mode="view" [collateralAppraisal]="collateralAppraisal" [id]="surveyAppraisal.cif.partyId" *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'">
-                </jhi-collateral-appraisal-person-view>
-                <jhi-collateral-appraisal-party-group-view mode="view" [collateralAppraisal]="collateralAppraisal" [id]="surveyAppraisal.cif.id" *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'">
-                </jhi-collateral-appraisal-party-group-view>
+      <div *ngIf="clickedMenu === 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-external-officer [collateralAppraisal]="collateralAppraisal"> </jhi-collateral-appraisal-external-officer>
+      </div>
 
-                <div class="e-card mb-3">
-                    <div class="e-card-header mb-1">
-                        <div class="e-card-header-caption">
-                            <div class="header-title">Customer Address</div>
-                        </div>
-                    </div>
-                    <div class="e-card-content">
-                        <jhi-postal-address-view [collateralAppraisal]="collateralAppraisal" [item]="postalAddress" mode="view">
-                        </jhi-postal-address-view>
-                    </div>
-                </div>
-            </div>
+      <div *ngIf="clickedMenu === 'valuation'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-valuation [collateralAppraisal]="collateralAppraisal" [collateral]="collateral">
+        </jhi-collateral-appraisal-valuation>
+      </div>
+      <div
+        *ngIf="clickedMenu === 'collateral-info' && surveyAppraisal.collateral"
+        class="e-sample-resize-container e-card-resize-container"
+      >
+        <jhi-collateral-info
+          mode="edit"
+          [collateralAppraisal]="collateralAppraisal"
+          [collateral]="surveyAppraisal.collateral"
+          [collateralAppraisalId]="collateralAppraisal.id"
+          [appraisal]="collateralAppraisal"
+        ></jhi-collateral-info>
+      </div>
 
-            <div *ngIf="clickedMenu === 'external-officer-info'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-appraisal-external-officer [collateralAppraisal]="collateralAppraisal"> </jhi-collateral-appraisal-external-officer>
-            </div>
+      <div *ngIf="clickedMenu === 'negative-collateral'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-negative-collateral
+          [collateralAppraisal]="collateralAppraisal"
+          [item]="collateralAppraisal.attributes['scoreCard']"
+          (criteriaEvent)="addNewCriteria($event)"
+        >
+        </jhi-collateral-appraisal-negative-collateral>
+      </div>
 
-            <div *ngIf="clickedMenu === 'valuation'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-appraisal-valuation [collateralAppraisal]="collateralAppraisal" [collateral]="collateral">
-                </jhi-collateral-appraisal-valuation>
-            </div>
-            <div *ngIf="clickedMenu === 'collateral-info' && surveyAppraisal.collateral" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-info mode="edit" [collateralAppraisal]="collateralAppraisal" [collateral]="surveyAppraisal.collateral" [collateralAppraisalId]="collateralAppraisal.id" [appraisal]="collateralAppraisal"></jhi-collateral-info>
-            </div>
+      <div *ngIf="clickedMenu === 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-comparison
+          [collateralAppraisal]="collateralAppraisal"
+          *ngIf="collateralAppraisal"
+          [collateralId]="collateralAppraisal.collateralId"
+        >
+        </jhi-collateral-appraisal-comparison>
+      </div>
 
-            <div *ngIf="clickedMenu === 'negative-collateral'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-appraisal-negative-collateral [collateralAppraisal]="collateralAppraisal" [item]="collateralAppraisal.attributes['scoreCard']" (criteriaEvent)="addNewCriteria($event)">
-                </jhi-collateral-appraisal-negative-collateral>
-            </div>
+      <div *ngIf="clickedMenu === 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-collateral-appraisal-process
+          [collateralAppraisal]="collateralAppraisal"
+          *ngIf="collateralAppraisal"
+          [appraisalId]="collateralAppraisal.id"
+        ></jhi-collateral-appraisal-process>
+      </div>
 
-            <div *ngIf="clickedMenu === 'comparison-data'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-appraisal-comparison [collateralAppraisal]="collateralAppraisal" *ngIf="collateralAppraisal" [collateralId]="collateralAppraisal.collateralId">
-                </jhi-collateral-appraisal-comparison>
-            </div>
+      <div *ngIf="clickedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+            <jhi-collateral-appraisal-summary
+              [collateralAppraisal]="collateralAppraisal"
+              [item]="collateralAppraisal"
+              [input]="ketObjekJaminan"
+            >
+            </jhi-collateral-appraisal-summary>
 
-            <div *ngIf="clickedMenu === 'foto-object-jaminan'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-collateral-appraisal-process [collateralAppraisal]="collateralAppraisal" *ngIf="collateralAppraisal" [appraisalId]="collateralAppraisal.id"></jhi-collateral-appraisal-process>
-            </div>
-
-            <div *ngIf="clickedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-                        <jhi-collateral-appraisal-summary [collateralAppraisal]="collateralAppraisal" [item]="collateralAppraisal" [input]="ketObjekJaminan">
-                        </jhi-collateral-appraisal-summary>
-
-                        <jhi-collateral-appraisal-forward-to [collateralAppraisal]="collateralAppraisal" (assignTo)="onAssignTo($event)" [surveyAppraisal]="surveyAppraisal">
-                        </jhi-collateral-appraisal-forward-to>
-                    </div>
-                </div>
-            </div>
-
-            <div *ngIf="clickedMenu === 'correspondence'" class="e-sample-resize-container e-card-resize-container">
-                <jhi-credit-proposal-correspondence [collateralAppraisal]="collateralAppraisal" [creditProposal]="creditProposal"></jhi-credit-proposal-correspondence>
-            </div>
+            <jhi-collateral-appraisal-forward-to
+              [collateralAppraisal]="collateralAppraisal"
+              (assignTo)="onAssignTo($event)"
+              [surveyAppraisal]="surveyAppraisal"
+            >
+            </jhi-collateral-appraisal-forward-to>
+          </div>
         </div>
-        <div class="e-card-actions mx-auto mb-5 mt-3">
-            <button style="margin-right: 25px" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)" class="btn-lg text-uppercase">
+      </div>
+
+      <div *ngIf="clickedMenu === 'correspondence'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-credit-proposal-correspondence
+          [collateralAppraisal]="collateralAppraisal"
+          [creditProposal]="creditProposal"
+        ></jhi-credit-proposal-correspondence>
+      </div>
+    </div>
+    <div class="e-card-actions mx-auto mb-5 mt-3">
+      <button
+        style="margin-right: 25px"
+        mat-raised-button
+        *ngFor="let task of tasks"
+        (click)="processTask(task)"
+        class="btn-lg text-uppercase"
+      >
         {{ task.caption }}
       </button>
-            <!-- <button mat-raised-button class="btn-lg text-uppercase" (click)="onPrint()">Print</button> -->
-            <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave('default')">Save</button>
-        </div>
+      <!-- <button mat-raised-button class="btn-lg text-uppercase" (click)="onPrint()">Print</button> -->
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave('default')">Save</button>
     </div>
-    <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
-        <div class="p-3" style="padding-top: 90px !important">
-            <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
-            <ul class="side-menu">
-                <li *ngFor="let item of subMenu">
-                    <!--SUBMENU DOESNT HAS A CHILD-->
-                    <a *ngIf="!item.hasOwnProperty('child')" href="javascript:void(0)" class="text-capitalize" (click)="routeSubMenu(item); drawer.toggle()" [ngClass]="checkCompletedData(item) ? 'completed-data' : ''">{{ item.label }}</a
+  </div>
+  <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
+    <div class="p-3" style="padding-top: 90px !important">
+      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
+      <ul class="side-menu">
+        <li *ngFor="let item of subMenu">
+          <!--SUBMENU DOESNT HAS A CHILD-->
+          <a
+            *ngIf="!item.hasOwnProperty('child')"
+            href="javascript:void(0)"
+            class="text-capitalize"
+            (click)="routeSubMenu(item); drawer.toggle()"
+            [ngClass]="checkCompletedData(item) ? 'completed-data' : ''"
+            >{{ item.label }}</a
           >
           <!--SUBMENU HAS A CHILD-->
           <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
@@ -96,13 +160,21 @@
               <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
                 itemChild.label
               }}</a>
-                </li>
-            </ul>
             </li>
-            </ul>
-        </div>
-    </mat-sidenav>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </mat-sidenav>
 </mat-sidenav-container>
-<button matTooltip="Click this for show sub menu of Collateral Appraisal" style="z-index: 1" class="btn-menu-floating" (click)="drawer.toggle()" mat-fab color="warn" matTooltipPosition="before">
+<button
+  matTooltip="Click this for show sub menu of Collateral Appraisal"
+  style="z-index: 1"
+  class="btn-menu-floating"
+  (click)="drawer.toggle()"
+  mat-fab
+  color="warn"
+  matTooltipPosition="before"
+>
   <mat-icon>more_vert</mat-icon>
 </button>

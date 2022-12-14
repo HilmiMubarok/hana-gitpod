@@ -96,6 +96,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   set collateralAppraisal(item: ICollateralAppraisal) {
+    this.loadData(item.collateral);
+    this.documentComponent.documentCollateral(item.id);
+    this.documentComponent.documentLainnya(item.id);
+
     this._collateralAppraisal = item;
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
@@ -112,6 +116,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
+    if (item.collateral !== undefined) {
+      this.documentComponent.collateralData(item.collateral.id);
+    }
 
     // Get Foto Object Jaminan
     this.storageService.getBucketName().subscribe(res => {
@@ -123,9 +130,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
         });
     });
-
-    this.documentComponent.getFilesData('collateral', item.id);
-    this.documentComponent.getFilesData('lainnya', item.id);
 
     this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
