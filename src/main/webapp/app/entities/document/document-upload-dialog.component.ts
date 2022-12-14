@@ -182,10 +182,10 @@ export class DocumentUploadDialogComponent implements OnInit {
       this.certiFicateTypeName = res.body;
     });
   }
-  gakbisa() {
-    if (this.object.statusId === STATUS.APPROVE) {
-      return true;
-    }
-    return false;
-  }
+  // gakbisa() {
+  //   if (this.object.statusId === STATUS.APPROVE) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }
