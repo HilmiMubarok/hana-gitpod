@@ -17,53 +17,118 @@
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Country</mat-label>
-        <mat-select (selectionChange)="selectCountry($event)" [(ngModel)]="postalAddress.countryId" [disabled]="dataSource()">
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlCountry"
+          [matAutocomplete]="auto"
+          [(ngModel)]="country"
+          (ngModelChange)="getValueCountry()"
+        />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCounrtry">
+          <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option">
+            {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select (selectionChange)="selectCountry($event)" [(ngModel)]="postalAddress.countryId" [disabled]="dataSource()">
           <mat-option *ngFor="let item of country" [value]="item.id">
             {{ item.description }}
           </mat-option>
-        </mat-select>
+        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Province</mat-label>
-        <mat-select (selectionChange)="selectProvince($event)" [(ngModel)]="postalAddress.provinceId" [disabled]="dataSource()">
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlProvince"
+          [matAutocomplete]="autoP"
+          [(ngModel)]="province"
+          (ngModelChange)="getValueProvince()"
+        />
+        <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProvince">
+          <mat-option *ngFor="let option of filteredOptionsProvince | async" [value]="option">
+            {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select (selectionChange)="selectProvince($event)" [(ngModel)]="postalAddress.provinceId" [disabled]="dataSource()">
           <mat-option *ngFor="let item of province" [value]="item.id">
             {{ item.description }}
           </mat-option>
-        </mat-select>
+        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>City</mat-label>
-        <mat-select (selectionChange)="selectCity($event)" [(ngModel)]="postalAddress.cityId" [disabled]="dataSource()">
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlCity"
+          [matAutocomplete]="autoC"
+          [(ngModel)]="cities"
+          (ngModelChange)="getValueCity()"
+        />
+        <mat-autocomplete #autoC="matAutocomplete" [displayWith]="displayFnCity">
+          <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
+            {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select [(ngModel)]="postalAddress.cityId" [disabled]="dataSource()">
           <mat-option *ngFor="let item of cities" [value]="item.id">
             {{ item.description }}
           </mat-option>
-        </mat-select>
+        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>District</mat-label>
-        <mat-select (selectionChange)="selectDistrict($event)" [(ngModel)]="postalAddress.districtId" [disabled]="dataSource()">
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlDistrict"
+          [matAutocomplete]="autoD"
+          [(ngModel)]="districts"
+          (ngModelChange)="getValueDistrict()"
+        />
+        <mat-autocomplete #autoD="matAutocomplete" [displayWith]="displayFnDistrict">
+          <mat-option *ngFor="let option of filteredOptionsDistrict | async" [value]="option">
+            {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select  [(ngModel)]="postalAddress.districtId" [disabled]="dataSource()">
           <mat-option *ngFor="let item of districts" [value]="item.id">
             {{ item.description }}
           </mat-option>
-        </mat-select>
+        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Village</mat-label>
-        <mat-select (selectionChange)="selectVillage($event)" [(ngModel)]="postalAddress.villageId" [disabled]="dataSource()">
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlVillage"
+          [matAutocomplete]="autoE"
+          [(ngModel)]="villages"
+          (ngModelChange)="getIdVillage()"
+        />
+        <mat-autocomplete #autoE="matAutocomplete" [displayWith]="displayFnVillage">
+          <mat-option *ngFor="let option of filteredOptionsVillage | async" [value]="option">
+            {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+        <!-- <mat-select [(ngModel)]="postalAddress.villageId" [disabled]="dataSource()">
           <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select>
+        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

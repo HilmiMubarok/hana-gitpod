@@ -47,16 +47,16 @@
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ccy</mat-label>
-          <!-- <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.description}}
+          <input type="text" matInput [formControl]="myControlCurrency" [matAutocomplete]="auto" />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
+            <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option.id">
+              {{ option.abbreviation }} - {{ option.description }}
             </mat-option>
-          </mat-autocomplete> -->
-          <mat-select [(ngModel)]="collateralProperty.attributes.amountCcy" [disabled]="dataSource()">
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.amountCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -167,10 +167,17 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
+          <mat-label>Qty</mat-label>
+          <input type="text" matInput [formControl]="myControlQuantity" [matAutocomplete]="autok" />
+          <mat-autocomplete #autok="matAutocomplete" [displayWith]="displayFnQuantity">
+            <mat-option *ngFor="let option of filteredOptionsQuantity | async" [value]="option.id">
+              {{ option.id }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of areaMeasure" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
