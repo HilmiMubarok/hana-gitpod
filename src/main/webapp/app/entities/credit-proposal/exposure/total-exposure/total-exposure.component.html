@@ -221,7 +221,108 @@
       </div>
     </div>
     <div class="e-card-content">
-      <table mat-table [dataSource]="myBusinessGroupCPFacility" class="w-100">
+
+      <ejs-grid allowTextWrap="true" #grid [dataSource]="myBusinessGroupCPFacility" [allowPaging]="true" [pageSettings]="" gridLines="both">
+        <e-columns>
+
+          <e-column
+            field="no"
+            headerText="No"
+            headerTextAlign="center"
+            width="140"
+            textAlign="left"
+          ></e-column>
+
+          <e-column
+            field="GroupName"
+            headerText="Group Name"
+            headerTextAlign="center"
+            width="140"
+            textAlign="left"
+          ></e-column>
+
+          <e-column
+            field="LoanAccount"
+            headerText="Loan Account"
+            headerTextAlign="center"
+            width="140"
+            textAlign="left"
+          ></e-column>
+
+          <e-column
+            field="FacilityType"
+            headerText="Facility Type"
+            headerTextAlign="center"
+            width="140"
+            textAlign="left"
+          ></e-column>
+
+          <e-column
+            field="InitialLimit"
+            headerText="Initial Limit"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+            [format]="numericFormatOptions"
+          ></e-column>
+          <e-column
+            field="Changes"
+            headerText="Changes"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+            [format]="numericFormatOptions"
+          ></e-column>
+          <e-column
+            field="OS"
+            headerText="O/S"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+            [format]="numericFormatOptions"
+          ></e-column>
+          <e-column
+            field="TotalPlafond"
+            headerText="Total Plafond"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+            [format]="numericFormatOptions"
+          ></e-column>
+          <e-column
+            field="Provision"
+            headerText="Provision Fee"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+            [format]="numericFormatOptions"
+          ></e-column>
+          <e-column
+            field="AdminFee"
+            headerText="Admin Fee"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+            [format]="numericFormatOptions"
+          ></e-column>
+          <e-column
+            field="FirstDisbursementDate"
+            headerText="First Disbursement Date"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+          ></e-column>
+          <e-column
+            field="Tenor"
+            headerText="Tenor"
+            headerTextAlign="center"
+            width="140"
+            textAlign="right"
+          ></e-column>
+        </e-columns>
+      </ejs-grid>
+
+      <!-- <table mat-table [dataSource]="myBusinessGroupCPFacility" class="w-100">
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef>No</th>
           <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -275,89 +376,8 @@
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayColumn"></tr>
         <tr mat-row *matRowDef="let row; columns: displayColumn"></tr>
-      </table>
-      <!--<ejs-grid allowTextWrap="true" #grid [dataSource]="_creditProposal.products" [allowPaging]="true" [pageSettings]="" gridLines="both">
-        <e-columns>
-          <!-- <e-column field="indexNum" headerText="No" textAlign="center"></e-column> -->
-      <!--<e-column field="namegroup" headerText="Group name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-          <e-column field="facilityType " headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>-->
-      <!-- <e-column
-                  field="cifnumber"
-                  headerText="Avilable Limit "
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column> -->
-      <!--<e-column
-            field="InitialLimit2"
-            headerText="Initial Limit"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="Change"
-            headerText="Changes"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          >
-          </e-column>
-          <e-column
-            field="OS"
-            headerText="O/S"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="credit"
-            headerText="Total Plafond"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="interet"
-            headerText="Interest Rate"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="Providion"
-            headerText="Provision"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="admin"
-            headerText="Admin Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          >
-          </e-column>
-          <e-column
-            field="first"
-            headerText="Firstt Disbursement Date"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column field="Maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="left"> </e-column>
-        </e-columns>
-      </ejs-grid>-->
+      </table> -->
+
       <div class="e-card-actions"></div>
 
       <div class="row">
@@ -438,7 +458,7 @@
                 placeholder="Sub Total Plafond (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalcredit"
+                [value]="totalplafondgroup"
                 format="IDR 0,"
                 min="0 "
                 disabled
@@ -449,7 +469,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalcredit | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ totalplafondgroup | number }}</div>
             </div>
           </section>
         </div>
@@ -501,7 +521,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Debitur Cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturCashLoan | number }}</div>
             </div>
           </section>
         </div>
@@ -549,7 +569,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Debitur Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturNonCashLoan | number }}</div>
             </div>
           </section>
         </div>
@@ -584,7 +604,7 @@
                 placeholder="Total Group Cash Loan"
                 format="IDR 0,"
                 min="0"
-                [value]=""
+                [value]="totalDebiturCashLoanGroup"
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 disabled
@@ -596,7 +616,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Group Cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturCashLoanGroup | number }}</div>
             </div>
           </section>
         </div>
@@ -633,6 +653,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
+                [value]="totalDebiturNonCashLoanGroup"
                 disabled
               >
               </ejs-numerictextbox>
@@ -642,7 +663,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Group Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturNonCashLoanGroup }}</div>
             </div>
           </section>
         </div>
@@ -677,7 +698,7 @@
                 placeholder="Grand Total Debtor"
                 format="IDR 0,"
                 min="0"
-                [value]="init"
+                [value]="grandTotalDebitor"
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 disabled
@@ -689,7 +710,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Debtor</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ init }}</div>
             </div>
           </section>
         </div>
@@ -702,6 +723,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
+                [value]="grandTotalGroup"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -710,7 +732,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Group</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ grandTotalGroup }}</div>
             </div>
           </section>
         </div>
