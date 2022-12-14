@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBackToBackDeposit } from '../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-back-to-back-deposit-previous',
@@ -21,6 +22,8 @@ export class CovenantBackToBackDepositPreviousComponent implements OnInit {
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
+  public dataPrevious;
 
   @Input() isOffering: Boolean = false;
 
@@ -54,14 +57,14 @@ export class CovenantBackToBackDepositPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataPrevious = parsePreviousAtrribute(this.creditProposalItem);
     // if previous return exist
     if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
-      if (this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit.length !== 0) {
-        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit[i].deviation;
-          this.justification[i] =
-            this.creditProposalItem.attributes['previousReturn'].covenant.standardDataGridBackToBackDeposit[i].justification;
+      if (this.dataPrevious.previousReturn.covenant.standardDataGridBackToBackDeposit.length !== 0) {
+        for (let i = 0; i < this.dataPrevious.previousReturn.covenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousReturn.covenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.dataPrevious.previousReturn.covenant.standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] = this.dataPrevious.previousReturn.covenant.standardDataGridBackToBackDeposit[i].justification;
         }
       } else {
         for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
@@ -69,12 +72,11 @@ export class CovenantBackToBackDepositPreviousComponent implements OnInit {
         }
       }
     } else if (this.isOffering) {
-      if (this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit.length !== 0) {
-        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit[i].deviation;
-          this.justification[i] =
-            this.creditProposalItem.attributes['previousHistory'].covenant.standardDataGridBackToBackDeposit[i].justification;
+      if (this.dataPrevious.previousHistory.covenant.standardDataGridBackToBackDeposit.length !== 0) {
+        for (let i = 0; i < this.dataPrevious.previousHistory.covenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousHistory.covenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.dataPrevious.previousHistory.covenant.standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] = this.dataPrevious.previousHistory.covenant.standardDataGridBackToBackDeposit[i].justification;
         }
       } else {
         for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
