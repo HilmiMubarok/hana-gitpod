@@ -66,7 +66,7 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
       const colProp: ICollateralProperty = new CollateralProperty();
       colProp.collateralId = this.collateralId;
       colProp.propertyType = CollateralPropertyType.MACHINE;
-      predicate['data'] = { collateralProperty: colProp };
+      predicate['data'] = { collateralProperty: colProp, collateralAppraisal: this.collateralAppraisal };
     }
 
     const dialogRef = this.dialog.open(CollateralMachineDialogComponent, predicate);
