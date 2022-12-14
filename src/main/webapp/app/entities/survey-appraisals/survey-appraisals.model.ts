@@ -16,6 +16,7 @@ export interface ISurveyAppraisals {
   appraisalNumber?: string;
   fromDate?: Date;
   thruDate?: Date;
+  reportDate?: Date;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
@@ -24,6 +25,7 @@ export interface ISurveyAppraisals {
   partyId?: string;
   partyTypeId?: string;
   surveyorId?: string;
+  surveyorPersonId?: string;
   surveyorName?: string;
   apprType?: string;
   kjppNo?: string;
@@ -125,6 +127,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public appraisalNumber?: string,
     public fromDate?: Date,
     public thruDate?: Date,
+	public reportDate?: Date,
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,
@@ -133,6 +136,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public partyId?: string,
     public partyTypeId?: string,
     public surveyorId?: string,
+	public surveyorPersonId?: string,
     public surveyorName?: string,
     public apprType?: string,
     public kjppNo?: string,
@@ -225,10 +229,10 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public teamLeadName?: string,
     public teamLeadPersonId?: string
   ) {
-    this.cif = new Cif();
+    /* this.cif = new Cif();
     this.rm = new ApplicationRole();
     this.attributes = {};
     this.attributes['scoreCard'] = scoreCard;
-    this.attributes['segmentProduct'] = '';
+    this.attributes['segmentProduct'] = ''; */
   }
 }
