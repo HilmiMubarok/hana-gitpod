@@ -34,25 +34,46 @@
                                 <ng-template #template let-data>
                                   <div class="d-flex justify-content-around">
                                     <div class="mx-2">
-                                      <!-- [checked]="selectedRadioButtonValue === 'Yes'"  -->
-                                      <ejs-radiobutton
-                                        label="Yes"
-                                        value="Yes"
-                                        (change)="onSelect('Yes',data)"
-                                        [checked]="data.value == 'Yes'"
-                                        name="{{ data.No }}"
-                                      ></ejs-radiobutton>
-                                      <!-- <ejs-radiobutton label="Yes" name="{{ data.value }}"></ejs-radiobutton> -->
+                                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                        <ejs-radiobutton
+                                          label="Yes"
+                                          value="Yes"
+                                          (change)="onSelect('Yes',data)"
+                                          [checked]="data.value == 'Yes'"
+                                          name="{{ data.No }}"
+                                        ></ejs-radiobutton>
+                                      </section>
+                                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                        <ejs-radiobutton
+                                          label="Yes"
+                                          value="Yes"
+                                          (change)="onSelect('Yes',data)"
+                                          [checked]="data.value == 'Yes'"
+                                          name="{{ data.No }}"
+                                          disabled
+                                        ></ejs-radiobutton>
+                                      </section>
                                     </div>
                                     <div class="mx-2">
-                                      <ejs-radiobutton
-                                        label="No"
-                                        value="No"
-                                        (change)="onSelect('No',data)"
-                                        [checked]="data.value == 'No'"
-                                        name="{{ data.No }}"
-                                      ></ejs-radiobutton>
-                                      <!-- <ejs-radiobutton label="No" name="{{ odataAttrPass.value }}"></ejs-radiobutton> -->
+                                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                        <ejs-radiobutton
+                                          label="No"
+                                          value="No"
+                                          (change)="onSelect('No',data)"
+                                          [checked]="data.value == 'No'"
+                                          name="{{ data.No }}"
+                                        ></ejs-radiobutton>
+                                      </section>
+                                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                        <ejs-radiobutton
+                                          label="No"
+                                          value="No"
+                                          (change)="onSelect('No',data)"
+                                          [checked]="data.value == 'No'"
+                                          name="{{ data.No }}"
+                                          disabled
+                                        ></ejs-radiobutton>
+                                      </section>
                                     </div>
                                   </div>
                                 </ng-template>

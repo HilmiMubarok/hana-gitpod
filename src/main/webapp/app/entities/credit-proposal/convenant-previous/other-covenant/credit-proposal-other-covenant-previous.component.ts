@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
@@ -10,11 +11,13 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
   public otherDeviation: any;
   public dataSource: any;
+  public dataPrevious;
 
   ngOnInit() {
     // if previousReturn attribute exists
     if (this.creditProposalItem.attributes['previousReturn']) {
-      this.dataSource = this.creditProposalItem.attributes['previousReturn']['convenant']['otherCovenant'];
+      this.dataPrevious = parsePreviousAtrribute(this.creditProposalItem);
+      this.dataSource = this.dataPrevious.previousReturn.convenant.otherCovenant;
     } else {
       this.dataSource = [];
     }
@@ -38,16 +41,12 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
   public filterOtherDeviation() {
     // if previousReturn attribute exists
     if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
-      if (this.creditProposalItem.attributes['previousReturn'].convenant.otherCovenant.length !== 0) {
-        this.otherDeviation = this.creditProposalItem.attributes['previousReturn'].convenant.otherCovenant.filter(
-          element => element.status !== 'Applied'
-        );
+      if (this.dataPrevious.previousReturn.convenant.otherCovenant.length !== 0) {
+        this.otherDeviation = this.dataPrevious.previousReturn.convenant.otherCovenant.filter(element => element.status !== 'Applied');
       }
     } else if (this.isOffering) {
-      if (this.creditProposalItem.attributes['previousHistory'].convenant.otherCovenant.length !== 0) {
-        this.otherDeviation = this.creditProposalItem.attributes['previousHistory'].convenant.otherCovenant.filter(
-          element => element.status !== 'Applied'
-        );
+      if (this.dataPrevious.previousHistory.convenant.otherCovenant.length !== 0) {
+        this.otherDeviation = this.dataPrevious.previousHistory.convenant.otherCovenant.filter(element => element.status !== 'Applied');
       }
     }
   }

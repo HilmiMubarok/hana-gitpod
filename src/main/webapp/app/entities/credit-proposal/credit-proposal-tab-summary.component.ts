@@ -103,6 +103,19 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       this.getContainer();
     });
   }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+
+    this.getOpiniObj();
+  }
+  public getOpiniObj() {
+    this.bucket = 'hana';
+    this.actRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
+      this.getContainer();
+    });
+  }
 
   private getBucketNameSummary(): Promise<Object> {
     return new Promise<Object>((resolve, reject) => {
