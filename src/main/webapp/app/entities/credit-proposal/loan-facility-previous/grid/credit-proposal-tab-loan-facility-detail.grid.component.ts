@@ -69,9 +69,9 @@ export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements
 
   ngOnInit(): void {
     if (this.creditProposal.attributes['previousReturn']) {
-      this.dataSource = this.creditProposal.attributes['previousReturn'].products;
+      this.dataSource = JSON.parse(this.creditProposal.attributes['previousReturn']).products;
     } else if (this.isOffering) {
-      this.dataSource = this.creditProposal.attributes['previousHistory'].products;
+      this.dataSource = JSON.parse(this.creditProposal.attributes['previousHistory']).products;
     } else {
       this.dataSource = [];
     }
@@ -81,88 +81,7 @@ export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements
     this.creditProposaldata = this.creditProposal;
   }
 
-  public openDialog(param: IApplicationProduct = null): void {
-    if (param) {
-      this.applicationProduct = param;
-      if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
-        this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
-      }
-      if (this.applicationProduct.attributes.commitedLine === 'true') {
-        this.applicationProduct.attributes.commitedLine = true;
-      } else if (this.applicationProduct.attributes.commitedLine === 'false') {
-        this.applicationProduct.attributes.commitedLine = false;
-      }
-      if (this.applicationProduct.attributes.subLimit === 'true') {
-        this.applicationProduct.attributes.subLimit = true;
-      } else if (this.applicationProduct.attributes.subLimit === 'false') {
-        this.applicationProduct.attributes.subLimit = false;
-      }
-      if (this.applicationProduct.attributes.restructuredStatus === 'true') {
-        this.applicationProduct.attributes.restructuredStatus = true;
-      } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
-        this.applicationProduct.attributes.restructuredStatus = false;
-      }
-    } else {
-      this.applicationProduct = new ApplicationProduct();
-      const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
-      attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
-      this.applicationProduct.attributes = attr;
-    }
-
-    const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
-      width: '80vw',
-      data: {
-        item: this.creditProposal,
-        creditProposaldata: this.creditProposal,
-        applicationProduct: this.applicationProduct,
-        collateralInfo: this.collaterallInfo,
-        collateralProductRelations: this.collateralProductRelations,
-      },
-    });
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.applicationProduct = res;
-        this.onSave();
-      }
-    });
-  }
-
-  public onSave(): void {
-    // add new
-    const appProduct: IApplicationProduct = this.applicationProduct;
-    let idx: number;
-    if (!this.applicationProduct.id) {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.uniqueKey === appProduct.uniqueKey;
-      });
-
-      if (idx === -1) {
-        // kalau tidak pernah add baru
-        const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-        copyApplicationProduct.applicationId = this.creditProposal.id;
-
-        this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-      } else {
-        this.creditProposal.products[idx] = appProduct;
-      }
-    } else {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.id === appProduct.id;
-      });
-      this.creditProposal.products[idx] = appProduct;
-    }
-  }
-
-  public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
-    this.creditProposal.products = dataGrid;
-  }
-
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);
-  }
-
-  print() {
-    console.log(this._creditProposal);
   }
 }

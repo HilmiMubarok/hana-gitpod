@@ -67,9 +67,9 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
 
   ngOnInit(): void {
     if (this.creditProposal.attributes['previousReturn']) {
-      this.dataSource = this.creditProposal.attributes['previousReturn'].collaterals;
+      this.dataSource = JSON.parse(this.creditProposal.attributes['previousReturn']).collaterals;
     } else if (this.isOffering) {
-      this.dataSource = this.creditProposal.attributes['previousHistory'].collateras;
+      this.dataSource = JSON.parse(this.creditProposal.attributes['previousHistory']).collateras;
     } else {
       this.dataSource = [];
     }
@@ -113,11 +113,10 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
 
   public getMarketability(): string {
     if (this.creditProposal.attributes['previousReturn']) {
-      if (this.creditProposal.attributes['previousReturn'].appraisals.length > 0) {
-        const lastAppraisal: ICollateralAppraisal =
-          this.creditProposal.attributes['previousReturn'].appraisals[
-            this.creditProposal.attributes['previousReturn'].appraisals.length - 1
-          ];
+      if (JSON.parse(this.creditProposal.attributes['previousReturn']).appraisals.length > 0) {
+        const lastAppraisal: ICollateralAppraisal = JSON.parse(this.creditProposal.attributes['previousReturn']).appraisals[
+          JSON.parse(this.creditProposal.attributes['previousReturn']).appraisals.length - 1
+        ];
         if (lodash.has(lastAppraisal.attributes, 'summary')) {
           return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
         }
@@ -128,9 +127,9 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
 
   private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
     if (this.creditProposal.attributes['previousReturn']) {
-      if (this.creditProposal.attributes['previousReturn'].insurance.length > 0) {
-        for (let i = 0; i < this.creditProposal.attributes['previousReturn'].insurance.length; i++) {
-          const item: ICreditProposalCollateralInsurance = this.creditProposal.attributes['previousReturn'].insurance[i];
+      if (JSON.parse(this.creditProposal.attributes['previousReturn']).insurance.length > 0) {
+        for (let i = 0; i < JSON.parse(this.creditProposal.attributes['previousReturn']).insurance.length; i++) {
+          const item: ICreditProposalCollateralInsurance = JSON.parse(this.creditProposal.attributes['previousReturn']).insurance[i];
           if (item.collateralId === element.id) {
             return item;
           }
@@ -143,9 +142,9 @@ export class CreditProposalCollateralInfoPreviousComponent implements OnInit, On
 
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
     if (this.creditProposal.attributes['previousReturn']) {
-      if (this.creditProposal.attributes['previousReturn'].binding.length > 0) {
-        for (let i = 0; i < this.creditProposal.attributes['previousReturn'].binding.length; i++) {
-          const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['previousReturn'].binding[i];
+      if (JSON.parse(this.creditProposal.attributes['previousReturn']).binding.length > 0) {
+        for (let i = 0; i < JSON.parse(this.creditProposal.attributes['previousReturn']).binding.length; i++) {
+          const item: ICreditProposalCollateralBinding = JSON.parse(this.creditProposal.attributes['previousReturn']).binding[i];
           if (item.collateralId === element.id) {
             return item;
           }

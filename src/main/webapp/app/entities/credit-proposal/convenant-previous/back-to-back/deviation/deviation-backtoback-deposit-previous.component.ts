@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBackToBackDeposit } from '../../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-deviation-back-to-back-deposit-previous',
@@ -21,6 +22,8 @@ export class DeviationBackToBackDepositPreviousComponent implements OnInit {
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
+  public dataPrevious;
 
   @Input() isOffering: Boolean = false;
 
@@ -54,34 +57,32 @@ export class DeviationBackToBackDepositPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataPrevious = parsePreviousAtrribute(this.creditProposalItem);
     // if previousReturn exist
     if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
-      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit.length !== 0) {
-        const deletedItem = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit.filter(
+      if (this.dataPrevious.previousReturn.convenant.standardDataGridBackToBackDeposit.length !== 0) {
+        const deletedItem = this.dataPrevious.previousReturn.convenant.standardDataGridBackToBackDeposit.filter(
           item => item.status !== 'Applied'
         );
         this.standardDataGridBackToBackDeposit = deletedItem;
-        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit[i].deviation;
-          this.justification[i] =
-            this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridBackToBackDeposit[i].justification;
+        for (let i = 0; i < this.dataPrevious.previousReturn.convenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousReturn.convenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.dataPrevious.previousReturn.convenant.standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] = this.dataPrevious.previousReturn.convenant.standardDataGridBackToBackDeposit[i].justification;
         }
       } else {
         this.standardDataGridBackToBackDeposit = [];
       }
     } else if (this.isOffering) {
-      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit.length !== 0) {
-        const deletedItem = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit.filter(
+      if (this.dataPrevious.previousHistory.convenant.standardDataGridBackToBackDeposit.length !== 0) {
+        const deletedItem = this.dataPrevious.previousHistory.convenant.standardDataGridBackToBackDeposit.filter(
           item => item.status !== 'Applied'
         );
         this.standardDataGridBackToBackDeposit = deletedItem;
-        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit[i].status;
-          this.deviation[i] =
-            this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit[i].deviation;
-          this.justification[i] =
-            this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackDeposit[i].justification;
+        for (let i = 0; i < this.dataPrevious.previousHistory.convenant.standardDataGridBackToBackDeposit.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousHistory.convenant.standardDataGridBackToBackDeposit[i].status;
+          this.deviation[i] = this.dataPrevious.previousHistory.convenant.standardDataGridBackToBackDeposit[i].deviation;
+          this.justification[i] = this.dataPrevious.previousHistory.convenant.standardDataGridBackToBackDeposit[i].justification;
         }
       } else {
         this.standardDataGridBackToBackDeposit = [];
