@@ -79,7 +79,7 @@
         </ng-container>
         <ng-container matColumnDef="area">
           <th mat-header-cell *matHeaderCellDef>Area (M<sup>2</sup>)</th>
-          <td mat-cell *matCellDef="let element">{{ countTotalArea(element) }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.imbArea }}</td>
         </ng-container>
         <ng-container matColumnDef="marketValueArea">
           <th mat-header-cell *matHeaderCellDef>Market Value / M<sup>2</sup></th>
@@ -90,8 +90,8 @@
         <ng-container matColumnDef="marketValue">
           <th mat-header-cell *matHeaderCellDef>Market Value (MV)</th>
           <td mat-cell *matCellDef="let element" class="text">
-            <span *ngIf="countTotalArea(element) && element.propertyMarketValuePerMeter">
-              {{ countTotalArea(element) * element.propertyMarketValuePerMeter | currency: 'IDR ':'symbol':'1.0-0' }}
+            <span *ngIf="element.imbArea && element.propertyMarketValuePerMeter">
+              {{ element.imbArea * element.propertyMarketValuePerMeter | currency: 'IDR ':'symbol':'1.0-0' }}
             </span>
           </td></ng-container
         >
@@ -103,9 +103,9 @@
         <ng-container matColumnDef="liquidVal">
           <th mat-header-cell *matHeaderCellDef>Liquid Value Indication</th>
           <td mat-cell *matCellDef="let element" class="text">
-            <span *ngIf="countTotalArea(element) && element.propertyMarketValuePerMeter && element.propertyPercentage">
+            <span *ngIf="element.imbArea && element.propertyMarketValuePerMeter && element.propertyPercentage">
               {{
-                countTotalArea(element) * element.propertyMarketValuePerMeter * (element.propertyPercentage / 100)
+                element.imbArea * element.propertyMarketValuePerMeter * (element.propertyPercentage / 100)
                   | currency: 'IDR
                   ':'symbol':'1.0-0'
               }}

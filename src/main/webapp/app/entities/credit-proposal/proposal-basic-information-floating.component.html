@@ -44,6 +44,7 @@
                 [dataSource]="proposalType"
                 fields="{text:'text', value:'id'}"
                 required
+                [disabled]="disabledProptype()"
               >
               </ejs-combobox>
               <div class="form-group">

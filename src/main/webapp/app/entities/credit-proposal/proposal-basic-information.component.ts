@@ -179,7 +179,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.subMenu = [
             {
               id: 'credit-proposal-approval',
-              text: 'Credit Proposal Approval',
+              text: 'Credit Proposal Summary',
             },
             ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
             {
@@ -195,7 +195,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.subMenu = [
             {
               id: 'credit-proposal-approval',
-              text: 'Credit Proposal Approval',
+              text: 'Credit Proposal Summary',
             },
             ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
             {
@@ -211,7 +211,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.subMenu = [
             {
               id: 'credit-proposal-approval',
-              text: 'Credit Proposal Approval',
+              text: 'Credit Proposal Summary',
             },
             ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
             {
@@ -248,7 +248,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
+            text: 'Credit Proposal Summary',
           },
           ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
           {
@@ -263,7 +263,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
+            text: 'Credit Proposal Summary',
           },
           ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
           {
@@ -278,7 +278,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
+            text: 'Credit Proposal Summary',
           },
           ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
           {
@@ -324,7 +324,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
+            text: 'Credit Proposal Summary',
           },
           ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
           {
@@ -344,7 +344,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
+            text: 'Credit Proposal Summary',
           },
           ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
           {
@@ -363,7 +363,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
-            text: 'Credit Proposal Approval',
+            text: 'Credit Proposal Summary',
           },
           ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
           {
@@ -741,6 +741,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
 
     this.titleUrl = x;
+  }
+  disabledProptype() {
+    if (this.parentPath === 'cp-status-approval') {
+      return true;
+    }
+    return false;
   }
 }
 

@@ -213,10 +213,10 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Correspondence Address</mat-label>
-        <input matInput type="text" [(ngModel)]="partyCif.debtorData.correspondenceAddress" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="partyCif.debtorData.correspondenceAddressDesc" [disabled]="true" />
       </mat-form-field>
     </div>
-    <div class="form-group">
+    <div class="form-group" [style.display]="individu">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Occupied Since</mat-label>
         <input matInput type="text" [(ngModel)]="partyCif.debtorData.occupiedSince" [disabled]="true" />
