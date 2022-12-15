@@ -70,7 +70,7 @@
     </div>
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>CellPhone</mat-label>
+        <mat-label>Phone Number</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone1" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
@@ -161,14 +161,14 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Phone Number 1</mat-label>
-        <input matInput type="text" [(ngModel)]="person.cellPhone1" [maxlength]="50" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="person.cellPhone2" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
 
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Phone Number 2</mat-label>
-        <input matInput type="text" [(ngModel)]="person.cellPhone2" [maxlength]="50" [disabled]="true" />
+        <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
     <div class="form-group">
