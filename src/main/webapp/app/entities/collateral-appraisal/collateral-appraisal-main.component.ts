@@ -151,6 +151,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public fotoObjectJaminan: any;
   public keteranganObjectJaminan: any;
   public ketObjekJaminan: Boolean;
+  public marketability: any;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -439,13 +440,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(source: string): void {
+    this.ketObjekJaminan = true;
+    this.marketability = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
     } else {
       this.mainSave(source);
     }
-    this.ketObjekJaminan = true;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -865,6 +867,34 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
   }
 
+  // check if key machineMarketValue has value
+  public checkMachineMarketValue() {
+    const machine = this.collateralAppraisalService.totalDataDetailMachine;
+    // check if machineMarketValue has value
+    if (machine.length > 0) {
+      for (let i = 0; i < machine.length; i++) {
+        if (machine[i].machineMarketValue === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // check if key precentage has value
+  public checkMachinePercentage() {
+    const machine = this.collateralAppraisalService.totalDataDetailMachine;
+    // check if machineMarketValue has value
+    if (machine.length > 0) {
+      for (let i = 0; i < machine.length; i++) {
+        if (machine[i].percentage === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   public checkMustValidatedOnVisited() {
     const mustValidatedOnVisited = {
       documentCollateral: true,
@@ -930,17 +960,20 @@ export class CollateralAppraisalMainComponent implements OnInit {
       }
     }
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-      if (!this.collateralProp.machineMarketValue) {
+      if (!this.checkMachineMarketValue()) {
         this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
         mustValidatedOnVisited.machineMarketValue = false;
       }
-      if (!this.collateralProp.percentage) {
+      if (!this.checkMachinePercentage()) {
         this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
         mustValidatedOnVisited.precentage = false;
       }
     }
 
-    if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+    if (
+      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA &&
+      this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE'
+    ) {
       this._showNotification('error', 'Comparison data less than 3');
       mustValidatedOnVisited.comparisonData = false;
     }
@@ -953,7 +986,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (!parsedAttr.marketbility) {
+    if (this.marketability.marketbility === '' || !parsedAttr.marketbility) {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
