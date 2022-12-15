@@ -36,10 +36,13 @@ export interface User {
   templateUrl: './collateral-property-deposit-dialog.component.html',
 })
 export class CollateralPropertyDepositDialogComponent implements OnInit {
-  public myControl = new FormControl();
-  // public options: IUom[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];
-  public options: IUom[];
-  public filteredOptions: Observable<IUom[]>;
+  public myControlCurrency = new FormControl();
+  public optionsCurrency: IUom[];
+  public filteredOptionsCurrency: Observable<IUom[]>;
+
+  public myControlQuantity = new FormControl();
+  public optionsQuantity: IUom[];
+  public filteredOptionsQuantity: Observable<IUom[]>;
 
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
@@ -108,25 +111,56 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.setManagementBrance();
     this.setBranches();
     this.setDebitBlock();
+  }
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+  filteredCurrency() {
+    console.log('ini options ', this.optionsCurrency);
+    this.filteredOptionsCurrency = this.myControlCurrency.valueChanges.pipe(
       startWith(''),
       map(value => {
         const name = typeof value === 'string' ? value : value?.description;
-        return name ? this._filter(name as string) : this.options.slice();
+        return name ? this._filterCurrency(name as string) : this.optionsCurrency.slice();
       })
     );
   }
 
-  displayFn(curency: IUom): string {
+  filteredQuantity() {
+    this.filteredOptionsQuantity = this.myControlQuantity.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterQuantity(name as string) : this.optionsQuantity.slice();
+      })
+    );
+  }
+
+  displayFnCurrency(curency: IUom): string {
     return curency && curency.description ? curency.description : '';
   }
 
-  private _filter(description: string): IUom[] {
-    const filterValue = description.toLowerCase();
-
-    return this.options.filter(option => option.description.toLowerCase().includes(filterValue));
+  displayFnQuantity(quantity: IUom): string {
+    return quantity && quantity.description ? quantity.description : '';
   }
+
+  private _filterCurrency(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    console.log('ini option', this.optionsCurrency);
+    return this.optionsCurrency.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  private _filterQuantity(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsQuantity.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  // findIndex(array : IUom[]){
+  //   const index1 = array.findIndex(x => x.abbreviation ==="IDR");
+  //   const index2 = array.findIndex(x => x.abbreviation === "USD");
+  //   const index3 = array.findIndex(x => x.abbreviation === "KRW");
+
+  //   array = [array[index1], array[index2], array[index3]] = [array[0], array[1], array[2]];
+  //   return array;
+  // }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
     if (data.attributes.province) {
@@ -209,7 +243,9 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.optionsCurrency = res.body;
+        // this.options = this.findIndex(this.options);
+        this.filteredCurrency();
       });
   }
 
@@ -221,7 +257,8 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.areaMeasure = res.body;
+        this.optionsQuantity = res.body;
+        this.filteredQuantity();
       });
   }
 
