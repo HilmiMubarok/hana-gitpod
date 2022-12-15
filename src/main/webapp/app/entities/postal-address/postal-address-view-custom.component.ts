@@ -232,6 +232,8 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
       .subscribe(res => {
         this.optionsCountry = res.body;
         this.filteredCountry();
+        // const indonesia : IStateBoundary = res.body.find(obj => obj.id === 199 )
+        // this.optionsCountry = res.body.splice()
         this.country = this.optionsCountry.find(obj => obj.id === this.postalAddress.countryId);
       });
   }
