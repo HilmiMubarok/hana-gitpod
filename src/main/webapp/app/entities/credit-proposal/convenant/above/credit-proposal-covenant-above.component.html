@@ -1,7 +1,7 @@
 <ejs-grid [dataSource]="standardDataGridAbove" [hidden]="isViewMode == false" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
-    <e-column headerText="Status" textAlign="center">
+    <e-column headerText="Status" width="150" textAlign="center">
       <ng-template #template let-data>
         <ejs-dropdownlist
           (change)="onKeyUpEvent('status', $event, data)"
