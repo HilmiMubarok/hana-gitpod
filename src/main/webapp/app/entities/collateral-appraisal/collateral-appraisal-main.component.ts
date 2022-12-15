@@ -949,10 +949,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    if (this.keteranganObjectJaminan.length < 1) {
-      this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-      mustValidatedOnVisited.keterangan = false;
-    }
+    // if (this.keteranganObjectJaminan.length < 1) {
+    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
+    //   mustValidatedOnVisited.keterangan = false;
+    // }
     if (!parsedAttr.marketbility) {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
