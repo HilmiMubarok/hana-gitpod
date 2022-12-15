@@ -96,7 +96,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
 
   public getTotalArea() {
     this.totalCountAreaLand = 0;
-    if (this.certificates.length > 0) {
+    if (this.certificates?.length > 0) {
       for (let j = 0; j < this.certificates.length; j++) {
         if (this.certificates.length !== undefined) {
           this.totalCountAreaLand = this.totalCountAreaLand + Number(this.certificates[j].certArea);
