@@ -888,6 +888,27 @@
                     </div>
                   </section>
                 </div>
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="deptorData.debtorData.pep"
+                      placeholder="PEP"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">PEP</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.pep }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
               </div>
             </div>
           </div>
