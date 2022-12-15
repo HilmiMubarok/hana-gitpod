@@ -326,5 +326,6 @@ export class Collateral implements ICollateral {
     this.truncatedArea = 0;
     this.attributes = new CollateralAttribute();
     this.collateralAddress = new PostalAddress();
+    this.statusId = 'ACTIVE';
   }
 }
