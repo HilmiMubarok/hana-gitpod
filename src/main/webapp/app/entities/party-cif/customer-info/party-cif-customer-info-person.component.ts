@@ -100,6 +100,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   ngOnInit(): void {
     this.test();
     this.convrtDate();
+    this.menghilang();
   }
   public countAge(): number {
     let age: number;
@@ -124,9 +125,9 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   public test() {
     if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'Yes';
+      this.separate = '';
     } else if (this.debtorData.separateAssetAggrement === false && this.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'No';
+      this.separate = 'N/A';
     } else {
       this.separate = '';
     }
@@ -143,5 +144,14 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
       return true;
     }
     return false;
+  }
+  menghilang() {
+    if (this.person.firstName === null) {
+      this.person.firstName = '';
+    }
+
+    if (this.person.lastName === null) {
+      this.person.lastName = '';
+    }
   }
 }
