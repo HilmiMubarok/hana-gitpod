@@ -223,12 +223,12 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Disbursment',
+    name: 'Disbursement',
     iconname: 'suitcase',
 
     children: [
       {
-        name: 'Request Disbursment',
+        name: 'Request Disbursement',
         iconname: 'minus',
         route: '',
       },
@@ -439,12 +439,12 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Disbursment',
+    name: 'Disbursement',
     iconname: 'suitcase',
 
     children: [
       {
-        name: 'Request Disbursment',
+        name: 'Request Disbursement',
         iconname: 'minus',
         route: '',
       },
@@ -655,12 +655,12 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Disbursment',
+    name: 'Disbursement',
     iconname: 'suitcase',
 
     children: [
       {
-        name: 'Request Disbursment',
+        name: 'Request Disbursement',
         iconname: 'minus',
         route: '',
       },
@@ -871,12 +871,12 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Disbursment',
+    name: 'Disbursement',
     iconname: 'suitcase',
 
     children: [
       {
-        name: 'Request Disbursment',
+        name: 'Request Disbursement',
         iconname: 'minus',
         route: '',
       },
@@ -1092,12 +1092,12 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
     ],
   },
   {
-    name: 'Disbursment',
+    name: 'Disbursement',
     iconname: 'suitcase',
 
     children: [
       {
-        name: 'Request Disbursment',
+        name: 'Request Disbursement',
         iconname: 'minus',
         route: '',
       },

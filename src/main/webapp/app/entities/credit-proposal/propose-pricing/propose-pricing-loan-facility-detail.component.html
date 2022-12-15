@@ -338,10 +338,10 @@
                 readonly
                 disabled
               ></ejs-radiobutton>
-             
+
             </div>
 
-          
+
             <div class="col-4">
               <ejs-radiobutton
                 value="un-commited"
@@ -532,7 +532,7 @@
           <ejs-textbox
             [(ngModel)]="dataEdit['keterangan']"
             cssClass="e-outline"
-            placeholder="Descryption"
+            placeholder="Description"
             floatLabelType="auto"
             [readonly]="detailStats"
             readonly
@@ -541,7 +541,7 @@
         </div>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">Descryption &nbsp; :{{ dataEdit['keterangan'] }}</p>
+        <p class="lable-form-title">Description &nbsp; :{{ dataEdit['keterangan'] }}</p>
       </section>
     </div>
     <div class="col-6">
@@ -850,7 +850,7 @@
 
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
-      
+
           <ejs-numerictextbox
             [(ngModel)]="dataEdit['discountProposal']"
             cssClass="e-outline"
