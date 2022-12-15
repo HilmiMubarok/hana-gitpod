@@ -17,7 +17,7 @@ export interface ICPFacilityTable {
 
 export class CPFacilityTable implements ICPFacilityTable {
   constructor(
-    public no?:number,
+    public no?: number,
     public LoanAccount?: string,
     public GroupName?: string,
     public FacilityType?: string,

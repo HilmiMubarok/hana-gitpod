@@ -39,7 +39,7 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     this.fungsiCreditMutation();
-     this.test();
+    this.test();
     console.log('bankAnalist', this._creditProposal.attributes['bankAnalyst']);
   }
 
@@ -62,15 +62,15 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
                   this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'])
           );
 
-    //     this.totalAv =
-    //       this.totalAv +
-    //       Number(
-    //         this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance'] +
-    //           this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
-    //       );
-    //     console.log('Credit', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+        //     this.totalAv =
+        //       this.totalAv +
+        //       Number(
+        //         this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance'] +
+        //           this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
+        //       );
+        //     console.log('Credit', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
 
-    //     console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+        //     console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
       }
     }
   }

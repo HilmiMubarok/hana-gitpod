@@ -41,7 +41,7 @@ export class FacilityInfoCifComponent implements OnInit {
 
   public loadDataGroup(): void {
     this.partyCifService.getMyBusinessGroup(this.partyCif.customerNumber).subscribe((res: any) => {
-      console.log("party-cif", this.partyCif);
+      console.log('party-cif', this.partyCif);
 
       this.filterBusinessGroupDebtorData(res.body);
     });
@@ -52,13 +52,12 @@ export class FacilityInfoCifComponent implements OnInit {
     if (param.length > 0) {
       for (let i = 0; i < param.length; i++) {
         const item: IDebtorData = param[i];
-        console.log("param i ",i, param[i]);
+        console.log('param i ', i, param[i]);
         if (lodash.has(item.attributes, 'cpFacility')) {
           const parsed = new CPFacilityTable();
           const source = JSON.parse(item.attributes['cpFacility']);
-          console.log("source", source);
+          console.log('source', source);
           if (source) {
-
             for (let y = 0; y < source.length; y++) {
               this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, source[y]);
               const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {

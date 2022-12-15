@@ -221,41 +221,15 @@
       </div>
     </div>
     <div class="e-card-content">
-
       <ejs-grid allowTextWrap="true" #grid [dataSource]="myBusinessGroupCPFacility" [allowPaging]="true" [pageSettings]="" gridLines="both">
         <e-columns>
+          <e-column field="no" headerText="No" headerTextAlign="center" width="140" textAlign="left"></e-column>
 
-          <e-column
-            field="no"
-            headerText="No"
-            headerTextAlign="center"
-            width="140"
-            textAlign="left"
-          ></e-column>
+          <e-column field="GroupName" headerText="Group Name" headerTextAlign="center" width="140" textAlign="left"></e-column>
 
-          <e-column
-            field="GroupName"
-            headerText="Group Name"
-            headerTextAlign="center"
-            width="140"
-            textAlign="left"
-          ></e-column>
+          <e-column field="LoanAccount" headerText="Loan Account" headerTextAlign="center" width="140" textAlign="left"></e-column>
 
-          <e-column
-            field="LoanAccount"
-            headerText="Loan Account"
-            headerTextAlign="center"
-            width="140"
-            textAlign="left"
-          ></e-column>
-
-          <e-column
-            field="FacilityType"
-            headerText="Facility Type"
-            headerTextAlign="center"
-            width="140"
-            textAlign="left"
-          ></e-column>
+          <e-column field="FacilityType" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
 
           <e-column
             field="InitialLimit"
@@ -312,13 +286,7 @@
             width="140"
             textAlign="right"
           ></e-column>
-          <e-column
-            field="Tenor"
-            headerText="Tenor"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-          ></e-column>
+          <e-column field="Tenor" headerText="Tenor" headerTextAlign="center" width="140" textAlign="right"></e-column>
         </e-columns>
       </ejs-grid>
 

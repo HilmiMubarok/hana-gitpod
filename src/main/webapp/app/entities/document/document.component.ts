@@ -156,7 +156,6 @@ export class DocumentComponent implements OnChanges {
 
   private getFiles(owner: string, id: number): void {
     if (owner === 'collateral') {
-      console.log('collateral', id);
       const predicate: Object = {
         key: `/collateral/${id}/document`,
       };
@@ -173,6 +172,7 @@ export class DocumentComponent implements OnChanges {
         };
         this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
           this.groupByFolder(res.body);
+
           this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
         });
       }
@@ -188,27 +188,43 @@ export class DocumentComponent implements OnChanges {
     }
   }
 
-  public getFilesData(owner: string, id: number): void {
-    if (owner === 'collateral') {
-      this.storageService.getBucketName().subscribe(r => {
-        const predicate: Object = {
-          key: `/appraisals/${id}/document-colateral`,
-        };
+  public documentCollateral(id: number) {
+    console.log('document-collateral', id);
+    this.storageService.getBucketName().subscribe(r => {
+      const predicate: Object = {
+        key: `/appraisals/${id}/document-colateral`,
+      };
 
-        this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-          this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
-        });
+      this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
+        console.log('appss', res.body);
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
       });
-    } else {
-      this.storageService.getBucketName().subscribe(r => {
-        const predicate: Object = {
-          key: `/appraisals/${id}/document-lainnya`,
-        };
-        this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
-          this.collateralAppraisalService.totalDataDocumentLainya = res.body;
-        });
+    });
+  }
+
+  public collateralData(id: number) {
+    this.storageService.getBucketName().subscribe(r => {
+      const predicate: Object = {
+        key: `/collateral/${id}/document`,
+      };
+      this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
+        console.log('fasdsad', res.body);
+        this.collateralAppraisalService.totalDataDocumentCollateral = res.body;
       });
-    }
+    });
+  }
+
+  public documentLainnya(id: number) {
+    console.log('document-lainnya', id);
+    this.storageService.getBucketName().subscribe(r => {
+      const predicate: Object = {
+        key: `/appraisals/${id}/document-lainnya`,
+      };
+      this.storageService.getObjects(r.body['bucket'], predicate).subscribe(res => {
+        console.log('apttt', res.body);
+        this.collateralAppraisalService.totalDataDocumentLainya = res.body;
+      });
+    });
   }
 
   @Output() forwardTo = new EventEmitter();
