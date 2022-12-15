@@ -145,6 +145,19 @@ export class RemarskComponent implements OnInit, OnChanges {
       this.triggeredSave();
     }
   }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+
+    this.getTradeObj();
+  }
+  getTradeObj() {
+    this.bucket = 'hana';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt';
+      this.getContainer();
+    });
+  }
   // public ststusId:Boolean
   // public x(){
   //   if(this.creditProposal.statusId==='DRAFT'){

@@ -4,19 +4,35 @@
       <mat-card-subtitle class="mt-2">Remarks for Others</mat-card-subtitle>
     </div>
   </div>
-
-  <ejs-documenteditorcontainer
-    #document_editor_container
-    [enableToolbar]="true"
-    [enableLocalPaste]="false"
-    height="100vh"
-    style="display: block"
-    [spellcheck]="false"
-    [enableSpellCheck]="false"
-    (keyDown)="onKeyDown($event)"
-    (created)="onCreate()"
-  >
-  </ejs-documenteditorcontainer>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <ejs-documenteditorcontainer
+      #document_editor_container
+      [enableToolbar]="true"
+      [enableLocalPaste]="false"
+      height="100vh"
+      style="display: block"
+      [spellcheck]="false"
+      [enableSpellCheck]="false"
+      (keyDown)="onKeyDown($event)"
+      (created)="onCreate()"
+    >
+    </ejs-documenteditorcontainer>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <ejs-documenteditorcontainer
+      #document_editor_container
+      [enableToolbar]="false"
+      [enableLocalPaste]="false"
+      height="100vh"
+      style="display: block"
+      [spellcheck]="false"
+      [enableSpellCheck]="false"
+      (keyDown)="onKeyDown($event)"
+      (created)="onCreate()"
+      (documentChange)="onDocumentChange()"
+    >
+    </ejs-documenteditorcontainer>
+  </section>
   <div class="e-card-content">
     <!-- <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['tradeCheckingRemarks'].remarks" [toolbarSettings]="tools">
       </ejs-richtexteditor> -->

@@ -35,6 +35,7 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
+              <<<<<<< Updated upstream
               <ejs-combobox
                 cssClass="e-outline"
                 placeholder="Proposal Type"
@@ -47,6 +48,31 @@
                 [disabled]="disabledProptype()"
               >
               </ejs-combobox>
+              =======
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-combobox
+                  cssClass="e-outline"
+                  placeholder="Proposal Type"
+                  (change)="setSubmenu($event.itemData)"
+                  [(ngModel)]="creditProposal.attributes.proposalType"
+                  placeholder="Please select proposal type"
+                  [dataSource]="proposalType"
+                  fields="{text:'text', value:'id'}"
+                  required
+                >
+                </ejs-combobox>
+              </section>
+
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row">
+                  <div class="col-4">Proposal Type</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col col-lg-4">
+                    {{ creditProposal.attributes.proposalType }}
+                  </div>
+                </div>
+              </section>
+              >>>>>>> Stashed changes
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -58,7 +84,13 @@
                   ></ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Proposal Number : {{ creditProposal.applicationNumber }}</p>
+                  <div class="fontsebled row">
+                    <div class="col-4">Proposal Number</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.applicationNumber }}
+                    </div>
+                  </div>
                 </section>
               </div>
               <div class="form-group">
@@ -72,44 +104,64 @@
                   ></ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Proposal Date {{ creditProposal.createdDate | formatMediumDate }}</p>
+                  <div class="fontsebled row">
+                    <div class="col-4">Proposal Date</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.createdDate | formatMediumDate }}
+                    </div>
+                  </div>
                 </section>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <ejs-combobox
-                  cssClass="e-outline"
-                  placeholder="Segment"
-                  floatLabelType="Auto"
-                  [ngModel]="creditProposal.applicationTypeDescription"
-                  (change)="setSegmenTypes($event.itemData)"
-                  [dataSource]="segmentType"
-                  fields="{text:'text', value:'id'}"
-                  required
-                >
-                </ejs-combobox>
-              </div>
-
-              <div class="form-group">
-                <ejs-textbox
-                  [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
-                  placeholder="Referral"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                  required
-                ></ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    placeholder="Segment"
+                    floatLabelType="Auto"
+                    [ngModel]="creditProposal.applicationTypeDescription"
+                    (change)="setSegmenTypes($event.itemData)"
+                    [dataSource]="segmentType"
+                    fields="{text:'text', value:'id'}"
+                    required
+                  >
+                  </ejs-combobox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <div class="fontsebled row">
+                    <div class="col-4">Segment</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.applicationTypeDescription }}
+                    </div>
+                  </div>
+                </section>
               </div>
 
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
-                  <!-- <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch" placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox> -->
+                  <ejs-textbox
+                    [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
+                    placeholder="Referral"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    required
+                  ></ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <p class="lable-form-title">Booking Branch {{ creditProposal.attributes['basicInformation'].bookingBranch }}</p>
+                  <div class="fontsebled row">
+                    <div class="col-4">Referral</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.attributes['basicInformation'].refferal }}
+                    </div>
+                  </div>
                 </section>
               </div>
+
+              <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
             </div>
           </div>
         </div>
