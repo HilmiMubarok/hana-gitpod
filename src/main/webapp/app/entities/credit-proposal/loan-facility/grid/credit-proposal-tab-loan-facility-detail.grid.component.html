@@ -65,15 +65,15 @@
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+        <button mat-icon-button (click)="openDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="onDelete(element)">
+        <button mat-icon-button (click)="onDelete(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+        <button mat-icon-button (click)="openDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
       </section>
@@ -155,15 +155,15 @@
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+          <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="onDelete(element)">
+          <button mat-icon-button (click)="onDelete(element)">
             <mat-icon>delete</mat-icon>
           </button>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+          <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
           </button>
         </section>
