@@ -71,15 +71,15 @@ export class LoanAnalysDialogOpinionComponent {
     for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
       this.recommendation = this.notes.recomendation;
       if (
-        this.recommendation === 'Approved With Propose' ||
+        this.recommendation === 'Approved as Propose' ||
         this.recommendation === 'Approved With Condition' ||
         this.recommendation === 'Not Approved'
       ) {
         this.nameLabel = 'Approved';
-        this.radioButtonPurpose = 'Approved With Propose';
+        this.radioButtonPurpose = 'Approved as Propose';
         this.radioButtonCondition = 'Approved With Condition';
         this.radioButtonNotRecommend = 'Not Approved';
-        this.valueRadioPurpose = 'Approved With Propose';
+        this.valueRadioPurpose = 'Approved as Propose';
         this.valueRadioCondition = 'Approved With Condition';
         this.valueRadioRecommend = 'Not Approved';
       }

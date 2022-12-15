@@ -188,11 +188,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       // Manipulation in Label
       this.nameLabel = 'Approved Status';
       // Manipulation in radio button
-      this.radioButtonPurpose = 'Approved With Propose';
+      this.radioButtonPurpose = 'Approved as Propose';
       this.radioButtonCondition = 'Approved With Condition';
       this.radioButtonNotRecommend = 'Not Approved';
       // Manipulation in value
-      this.valueRadioPurpose = 'Approved With Propose';
+      this.valueRadioPurpose = 'Approved as Propose';
       this.valueRadioCondition = 'Approved With Condition';
       this.valueRadioRecommend = 'Not Approved';
     } else {
