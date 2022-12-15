@@ -116,7 +116,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         dataParty.push({
           adminFee: '0',
           adminFeeRateAmountType: '',
-          applicationType: 'New',
+          applicationType: 'Existing',
           availableLimit: '0',
           availablePeriod: '',
           availablePeriodType: '',
