@@ -5,13 +5,16 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICollateralProperty, CollateralProperty } from '../../collateral-property/collateral-property.model';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { CollateralVehicleDialogComponent } from './dialogs/collateral-vehicle-dialog.component';
-
+import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-unit-condition',
   templateUrl: './collateral-appraisal-process-detail-unit-condition.component.html',
   styleUrls: ['./collateral-appraisal-process-detail-unit-condition.css'],
 })
 export class CollateralAppraisalDetailProcessUnitConditionComponent implements OnChanges {
+  @Input()
+  public collateralAppraisal: ICollateralAppraisal;
   @Input()
   public collateralId: number;
 
@@ -59,15 +62,16 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
   public openDialog(colProp: ICollateralProperty = null): void {
     const predicate = {
       width: '90vw',
+      collateralAppraisal: this.collateralAppraisal,
     };
 
     if (colProp) {
-      predicate['data'] = { collateralProperty: colProp };
+      predicate['data'] = { collateralProperty: colProp, collateralAppraisal: this.collateralAppraisal };
     } else {
       const _colProp: ICollateralProperty = new CollateralProperty();
       _colProp.collateralId = this.collateralId;
       _colProp.propertyType = CollateralPropertyType.VEHICLE;
-      predicate['data'] = { collateralProperty: _colProp };
+      predicate['data'] = { collateralProperty: _colProp, collateralAppraisal: this.collateralAppraisal };
     }
 
     const dialogRef = this.dialog.open(CollateralVehicleDialogComponent, predicate);
@@ -82,5 +86,11 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getCollateralPropertyByCollateralId(this.collateralId);
     });
+  }
+  gakbisa() {
+    if (this.collateralAppraisal?.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

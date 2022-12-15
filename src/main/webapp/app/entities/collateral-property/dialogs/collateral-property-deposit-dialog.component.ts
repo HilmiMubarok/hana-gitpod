@@ -1,6 +1,4 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -8,6 +6,7 @@ import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import {
   COLLATERAL_DEPOSIT_DEBIT_BLOCK,
   COLLATERAL_TYPE,
@@ -25,14 +24,30 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import { map, Observable, startWith } from 'rxjs';
+import { FormControl } from '@angular/forms';
+
+export interface User {
+  name: string;
+}
+
 @Component({
   selector: 'jhi-collateral-property-deposit-dialog',
   templateUrl: './collateral-property-deposit-dialog.component.html',
 })
 export class CollateralPropertyDepositDialogComponent implements OnInit {
+  public myControlCurrency = new FormControl();
+  public optionsCurrency: IUom[];
+  public filteredOptionsCurrency: Observable<IUom[]>;
+
+  public myControlQuantity = new FormControl();
+  public optionsQuantity: IUom[];
+  public filteredOptionsQuantity: Observable<IUom[]>;
+
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
   guaranteeType: any;
   debitBlock: any;
 
@@ -72,12 +87,18 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
   public detailType;
+  public branceManagement: any;
+  public branchesNames: any;
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private partyCifService: PartyCifService
+  ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
-    this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
+    // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
   }
 
@@ -87,7 +108,59 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.loadAreaMeasure();
     this.loadProvince();
     this.collateral.collateralTypeId;
+    this.setManagementBrance();
+    this.setBranches();
+    this.setDebitBlock();
   }
+
+  filteredCurrency() {
+    console.log('ini options ', this.optionsCurrency);
+    this.filteredOptionsCurrency = this.myControlCurrency.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterCurrency(name as string) : this.optionsCurrency.slice();
+      })
+    );
+  }
+
+  filteredQuantity() {
+    this.filteredOptionsQuantity = this.myControlQuantity.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterQuantity(name as string) : this.optionsQuantity.slice();
+      })
+    );
+  }
+
+  displayFnCurrency(curency: IUom): string {
+    return curency && curency.description ? curency.description : '';
+  }
+
+  displayFnQuantity(quantity: IUom): string {
+    return quantity && quantity.description ? quantity.description : '';
+  }
+
+  private _filterCurrency(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    console.log('ini option', this.optionsCurrency);
+    return this.optionsCurrency.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  private _filterQuantity(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsQuantity.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  // findIndex(array : IUom[]){
+  //   const index1 = array.findIndex(x => x.abbreviation ==="IDR");
+  //   const index2 = array.findIndex(x => x.abbreviation === "USD");
+  //   const index3 = array.findIndex(x => x.abbreviation === "KRW");
+
+  //   array = [array[index1], array[index2], array[index3]] = [array[0], array[1], array[2]];
+  //   return array;
+  // }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
     if (data.attributes.province) {
@@ -170,7 +243,9 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.optionsCurrency = res.body;
+        // this.options = this.findIndex(this.options);
+        this.filteredCurrency();
       });
   }
 
@@ -182,7 +257,8 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.areaMeasure = res.body;
+        this.optionsQuantity = res.body;
+        this.filteredQuantity();
       });
   }
 
@@ -223,5 +299,23 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
+  }
+
+  public setDebitBlock() {
+    this.partyCifService.getDebitBlock().subscribe(res => {
+      this.debitBlock = res.body;
+    });
   }
 }

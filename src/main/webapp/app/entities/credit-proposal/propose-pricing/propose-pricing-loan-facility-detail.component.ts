@@ -10,7 +10,7 @@ import {
   CollateralProductRelation,
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { ICreditProposal } from '../credit-proposal.model';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
+// import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -32,7 +32,7 @@ import { PurposePricing } from './purpose-pricing.model';
   styleUrls: ['./propose-pricing.scss'],
 })
 export class ProposePricingLoanFacilityDetailComponent implements OnInit {
-  @ViewChild('grid') grid: GridComponent;
+  // @ViewChild('grid') grid: GridComponent;
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @Output() spreadPerFacility = new EventEmitter();
   private _creditProposal: ICreditProposal;
@@ -117,11 +117,13 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
         item.products[i].attributes['interestRatePeriodType'];
     }
   }
-  public dataBound(args: any) {
+
+  /* public dataBound(args: any) {
     // this.grid.autoFitColumns(["Name"]); // autoFit particular column
     this.grid.autoFitColumns(); // autofit all the columns
     // this.grid.width = (this.grid.getContentTable() as any).offsetWidth;
-  }
+  } */
+
   ngOnInit(): void {
     this.dataEdit = {
       no: 0,
@@ -214,6 +216,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   //   this.ejDialog.show();
   //   this.dataEdit = data.attributes;
   // }
+
   public onEdit(element: IApplicationProduct = null): void {
     const predicate = { width: '80vw', data: { object: this.creditProposal } };
     if (element) {
@@ -290,7 +293,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
         this.aplicationProducts[i].attributes['cost'] = res['proposePricing'][i]['cost'];
         this.aplicationProducts[i].attributes['roaa'] = res['proposePricing'][i]['roaa'];
       }
-      this.grid.refresh();
+      // this.grid.refresh();
       // this.grid.autoFitColumns();
       this.spreadPerFacility.emit(this.aplicationProducts);
     });

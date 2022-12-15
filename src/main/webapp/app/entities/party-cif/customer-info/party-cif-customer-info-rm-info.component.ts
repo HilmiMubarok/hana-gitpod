@@ -86,8 +86,8 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
       });
 
       this.loadInternalInformationRM(this.positionRMS.partyId);
-      console.log('ini position', this.positionRM);
-      console.log('ini positionRMS', this.positionRMS);
+      // console.log('ini position', this.positionRM);
+      // console.log('ini positionRMS', this.positionRMS);
     });
   }
 
@@ -107,6 +107,34 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
       }
     });
   }
+
+  // private loadInternalInformationRM(partyId: string): void {
+  //   this.branchs = [];
+  //   this.segments = [];
+  //   this.regionals = [];
+  //   this.findPositionByIdParty(partyId).then((res: IPosition) => {
+  //     if (res) {
+  //       this.loadInternalById(res.internalId).then((res2: IInternal) => {
+  //         if (res2.parentId) {
+  //           this.rmBranch = res2;
+  //           this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+  //             this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+  //               if (res4.parentId) {
+  //                 this.rmRegional = res4;
+  //                 this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+  //                   this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+  //                     this.rmSegment = res6;
+  //                     this.loadSegment();
+  //                   });
+  //                 });
+  //               }
+  //             });
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
 
   private loadInternalInformationRM(partyId: string): void {
     this.branchs = [];
@@ -130,8 +158,50 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
                 }
               });
             });
+          } else {
+            if (!res2.parentId) {
+              // this.rmBranch = res2;
+              // this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+
+              this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                if (res4.parentId) {
+                  this.rmRegional = res4;
+                  this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                    this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                      this.rmSegment = res6;
+                      this.loadSegment();
+                    });
+                  });
+                }
+                // });
+              });
+            }
           }
+          console.log('res', res2);
         });
+      } else {
+        if (!res) {
+          this.loadInternalById(res.internalId).then((res2: IInternal) => {
+            if (res2.parentId) {
+              this.rmBranch = res2;
+              this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+                this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                  if (res4.parentId) {
+                    this.rmRegional = res4;
+                    this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                      this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                        this.rmSegment = res6;
+                        this.loadSegment();
+                      });
+                    });
+                  }
+                });
+              });
+            }
+
+            console.log('res', res2);
+          });
+        }
       }
     });
   }

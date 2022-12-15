@@ -7,7 +7,8 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import lodash from 'lodash';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { CollateralMachineDialogComponent } from './dialogs/collateral-machine-dialog.component';
-
+import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-mesin',
   templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
@@ -19,7 +20,8 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
 
   @Input()
   public collateralAppraisalId: number;
-
+  @Input()
+  public collateralAppraisal: ICollateralAppraisal;
   public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
   public items: ICollateralProperty[];
   constructor(
@@ -59,12 +61,12 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
 
     // init variable collateralproperty
     if (property) {
-      predicate['data'] = { collateralProperty: property };
+      predicate['data'] = { collateralProperty: property, collateralAppraisal: this.collateralAppraisal };
     } else {
       const colProp: ICollateralProperty = new CollateralProperty();
       colProp.collateralId = this.collateralId;
       colProp.propertyType = CollateralPropertyType.MACHINE;
-      predicate['data'] = { collateralProperty: colProp };
+      predicate['data'] = { collateralProperty: colProp, collateralAppraisal: this.collateralAppraisal };
     }
 
     const dialogRef = this.dialog.open(CollateralMachineDialogComponent, predicate);
@@ -78,5 +80,11 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getData();
     });
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

@@ -28,7 +28,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="$event.stopPropagation(); delete(element)">
-            <mat-icon>delete_forever</mat-icon>
+            <mat-icon [hidden]="gakbisa()">delete_forever</mat-icon>
           </button>
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
@@ -66,7 +66,7 @@
                 </mat-list>
               </mat-card-content>
               <mat-card-actions align="right">
-                <button mat-raised-button (click)="openDialogCertificate(expandedElement)">ADD CERTIFICATE</button>
+                <button mat-button [disabled]="gakbisa()" (click)="openDialogCertificate(expandedElement)">ADD CERTIFICATE</button>
               </mat-card-actions>
             </mat-card>
           </div>
@@ -100,7 +100,7 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right">
-    <button mat-raised-button (click)="openDialog()">ADD NEW LAND INFO</button>
+    <button mat-button [disabled]="gakbisa()" (click)="openDialog()">ADD NEW LAND INFO</button>
   </mat-card-actions>
 </mat-card>
 <mat-card>
@@ -116,6 +116,7 @@
           cssClass="e-outline"
           floatLabelType="Auto"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
       </div>
       <div class="form-group">
@@ -128,6 +129,7 @@
           placeholder="Property Usage"
           popupHeight="220px"
           required
+          [disabled]="gakbisa()"
         >
         </ejs-dropdownlist>
       </div>
@@ -141,6 +143,7 @@
           placeholder="Land Shape"
           popupHeight="220px"
           required
+          [disabled]="gakbisa()"
         >
         </ejs-dropdownlist>
       </div>
@@ -154,6 +157,7 @@
           format="0,"
           min="0"
           required
+          [disabled]="gakbisa()"
         ></ejs-numerictextbox>
       </div>
       <div class="form-group">
@@ -166,6 +170,7 @@
           format="0,"
           min="0"
           required
+          [disabled]="gakbisa()"
         ></ejs-numerictextbox>
       </div>
       <div class="form-group">
@@ -176,6 +181,7 @@
           cssClass="e-outline"
           floatLabelType="Auto"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
       </div>
     </div>
@@ -189,16 +195,30 @@
           cssClass="e-outline"
           floatLabelType="Auto"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
       </div>
       <div class="form-group">
-        <ejs-textbox
+        <ejs-dropdownlist
+          #ddPropoertyUsage
+          floatLabelType="Auto"
+          [dataSource]="listOfValues.position"
+          [(ngModel)]="collateral.landPosition"
+          cssClass="e-outline"
+          placeholder="Facing in a Certain Direction"
+          popupHeight="220px"
+          required
+          [disabled]="gakbisa()"
+        >
+        </ejs-dropdownlist>
+        <!-- <ejs-textbox
           [(ngModel)]="collateral.landPosition"
           name="landPosition"
           placeholder="Land Position"
           cssClass="e-outline"
           floatLabelType="Auto"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
       </div>
       <div class="form-group">
@@ -220,6 +240,7 @@
           placeholder="Facing in a Certain Direction"
           popupHeight="220px"
           required
+          [disabled]="gakbisa()"
         >
         </ejs-dropdownlist>
       </div>
@@ -233,6 +254,7 @@
           placeholder="Made With"
           popupHeight="220px"
           required
+          [disabled]="gakbisa()"
         >
         </ejs-dropdownlist>
       </div>
@@ -250,6 +272,7 @@
     <div class="row">
       <div class="col">
         <mat-checkbox
+          [disabled]="gakbisa()"
           [checked]="collateral.attributes?.buildingHousingComplex === 'yes'"
           (change)="changeBuildingFacility($event, 'housingComplex')"
           >Housing Complex</mat-checkbox
@@ -257,6 +280,7 @@
       </div>
       <div class="col">
         <mat-checkbox
+          [disabled]="gakbisa()"
           [checked]="collateral.attributes?.buildingLooseSettlement === 'yes'"
           (change)="changeBuildingFacility($event, 'looseSettlement')"
           >Loose Settlement</mat-checkbox
@@ -264,6 +288,7 @@
       </div>
       <div class="col">
         <mat-checkbox
+          [disabled]="gakbisa()"
           [checked]="collateral.attributes?.buildingOfficeComplex === 'yes'"
           (change)="changeBuildingFacility($event, 'officeComplex')"
           >Office Complex</mat-checkbox
@@ -271,6 +296,7 @@
       </div>
       <div class="col">
         <mat-checkbox
+          [disabled]="gakbisa()"
           [checked]="collateral.attributes?.buildingCommercialArea === 'yes'"
           (change)="changeBuildingFacility($event, 'commercialArea')"
           >Commercial Area</mat-checkbox
@@ -278,6 +304,7 @@
       </div>
       <div class="col">
         <mat-checkbox
+          [disabled]="gakbisa()"
           [checked]="collateral.attributes?.buildingWareHousingArea === 'yes'"
           (change)="changeBuildingFacility($event, 'warehousingArea')"
           >WareHousing Area</mat-checkbox
@@ -298,6 +325,7 @@
           floatLabelType="Always"
           [(ngModel)]="collateral.leftSide"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -316,6 +344,7 @@
           floatLabelType="Always"
           [(ngModel)]="collateral.rightSide"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -337,6 +366,7 @@
           floatLabelType="Always"
           [(ngModel)]="collateral.frontSide"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -355,6 +385,7 @@
           floatLabelType="Always"
           [(ngModel)]="collateral.backSide"
           required
+          [disabled]="gakbisa()"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">

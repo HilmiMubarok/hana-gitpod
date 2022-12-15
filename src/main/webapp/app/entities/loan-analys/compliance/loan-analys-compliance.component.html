@@ -21,6 +21,7 @@
                         [checked]="data.value === 'Yes'"
                         name="{{ data.No }}"
                         [disabled]="view"
+                        [disabled]="disabledCompliance"
                       >
                       </ejs-radiobutton>
                     </div>
@@ -33,6 +34,7 @@
                         [checked]="data.value === 'No'"
                         name="{{ data.No }}"
                         [disabled]="view"
+                        [disabled]="disabledCompliance"
                       >
                       </ejs-radiobutton>
                     </div>
@@ -44,6 +46,7 @@
                         [checked]="data.value === 'N/A'"
                         name="{{ data.No }}"
                         [disabled]="view"
+                        [disabled]="disabledCompliance"
                       >
                       </ejs-radiobutton>
                     </div>
@@ -59,6 +62,7 @@
                   (keyup)="onKeyUpEvent()"
                   [(ngModel)]="remarks[data.No - 1]"
                   [readonly]="view"
+                  [readonly]="disabledCompliance"
                 >
                 </ejs-textbox>
               </ng-template>
@@ -74,6 +78,7 @@
               [toolbarSettings]="tools"
               [(ngModel)]="creditProposal.attributes['complienceReccomendation'].analystRecommendation"
               [readonly]="view"
+              [readonly]="disabledCompliance"
             >
             </ejs-richtexteditor>
           </div>

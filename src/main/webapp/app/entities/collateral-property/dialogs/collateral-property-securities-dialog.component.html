@@ -44,14 +44,28 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Unit Face Amount</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.unitFaceAmount" [disabled]="dataSource()" />
+        <input
+          currencyMask
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.attributes.unitFaceAmount"
+          [options]="logoCcy"
+          [disabled]="dataSource()"
+        />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Total Face Amount</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.totalFaceAmount" [disabled]="dataSource()" />
+        <input
+          currencyMask
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.attributes.totalFaceAmount"
+          [options]="logoCcy"
+          [disabled]="dataSource()"
+        />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -59,7 +73,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (Physic)</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.marketValue" [disabled]="dataSource()" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.marketValue"
+            [options]="logoCcy"
+            [disabled]="dataSource()"
+          />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -78,7 +99,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (IMB)</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueIMB" [disabled]="dataSource()" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.propertyMarketValueIMB"
+            [options]="logoCcy"
+            [disabled]="dataSource()"
+          />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>

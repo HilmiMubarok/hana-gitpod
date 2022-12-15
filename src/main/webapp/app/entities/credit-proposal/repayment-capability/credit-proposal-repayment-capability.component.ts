@@ -39,6 +39,8 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     this.fungsiCreditMutation();
+    this.test();
+    console.log('bankAnalist', this._creditProposal.attributes['bankAnalyst']);
   }
 
   fungsiCreditMutation() {
@@ -60,19 +62,30 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
                   this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'])
           );
 
-        this.totalAv =
-          this.totalAv +
-          Number(
-            this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance'] +
-              this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
-          );
-        console.log('Credit', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+        //     this.totalAv =
+        //       this.totalAv +
+        //       Number(
+        //         this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance'] +
+        //           this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
+        //       );
+        //     console.log('Credit', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
 
-        console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+        //     console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
       }
     }
   }
+  public limitBank: any;
+  public test() {
+    for (let i = 0; i < this.creditProposal.attributes['bankAnalyst'].length; i++) {
+      if (this._creditProposal.attributes['bankAnalyst'] === undefined) {
+        console.log('masuk');
+      } else {
+        this.totalAv = this.totalAv + this._creditProposal.attributes['bankAnalyst'][i]['average_other'].balance / 1000000;
+      }
 
+      console.log('datalll', this.totalAv);
+    }
+  }
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);

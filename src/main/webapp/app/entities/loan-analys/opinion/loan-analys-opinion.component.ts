@@ -20,6 +20,8 @@ import {
 } from '@syncfusion/ej2-angular-documenteditor';
 import { Subject, takeUntil } from 'rxjs';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { PositionService } from 'app/entities/position/position.service';
+import { IPosition } from 'app/entities/position/position.model';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -30,6 +32,8 @@ import { StorageService } from 'app/entities/storage/storage.service';
 export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor_container_condition')
+  public container_condition: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
@@ -38,6 +42,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public route: any;
   public view: boolean;
   public pacth: any;
+  public position: IPosition[];
 
   // public parentPath = this.router.url.split('/')[1];
   public nameLabel: any;
@@ -52,7 +57,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     listApproval: ['Head credit review 1', 'Head credit review 2', 'Business director', 'Credit director', 'Finance director'],
   };
   @Input() saveWordMinio;
-  @Input() saveWordCondition;
+  @Input() saveWordOpinionCondition;
 
   @Input()
   get creditProposalItem() {
@@ -72,10 +77,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
       }
     }
+
     if (this.saveWordMinio) {
       this.triggeredSave();
     }
-    if (this.saveWordCondition) {
+    if (this.saveWordOpinionCondition) {
       this.triggeredSaveCondition();
     }
   }
@@ -86,7 +92,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     public datePipe: DatePipe,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private positionService: PositionService
   ) {
     this.view = false;
   }
@@ -95,40 +102,55 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
+  public currentAccount: any;
 
   ngOnInit(): void {
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/opinion/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
-    });
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/opinion/condition/' + this.paramsIdGet + '/sfdt';
-      this.getContainerCondition();
-    });
+    this.getLogin();
     this.accountService.identity().subscribe(account => {
-      const currentAccount = account;
+      this.currentAccount = account;
       this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
       this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
       this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
       if (this.creditProposalItem.notes.length > 0) {
         for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
-          if (this.creditProposalItem.notes[i].userId === currentAccount.login) {
+          if (this.creditProposalItem.notes[i].userId === this.currentAccount.login) {
+            this.creditProposalItem.notes[i].message = this.obj;
             this.creditProposalItem.attributes['tempLoggedInNotes'] = this.creditProposalItem.notes[i].message;
             this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.creditProposalItem.notes[i].recomendation;
             this.creditProposalItem.attributes['tempLoggedInCondition'] = this.creditProposalItem.notes[i].condition;
           }
+          console.log('hghjg', this.creditProposalItem);
         }
       }
     });
+    this.bucket = 'hana';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/opinion-history/opinion/' + this.paramsIdGet + '/' + this.userId + '/sfdt';
+      this.getContainer();
+    });
+    this.bucket = 'hana';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/opinion-history/condition/' + this.paramsIdGet + '/' + this.userId + '/sfdt';
+      this.getContainerCondition();
+    });
+
     this.readOnlyOffering();
     this.conditionOpinion();
-    this.removefield();
+    // this.removefield();
     this.getContainer();
     this.getContainerCondition();
+    this.conditionEnableOpinion();
+    this.hiddenApprovalUser();
+    this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
+  }
+  public userId: any;
+
+  public getLogin() {
+    this.accountService.identity().subscribe(account => {
+      this.userId = account.login;
+    });
   }
 
   public openDialog(element: INotes = null): void {
@@ -141,12 +163,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     const dialogRef = this.dialog.open(LoanAnalysDialogOpinionComponent, predicate);
   }
-  public removefield() {
-    this.pacth = this.router.url.split('/')[1];
-    if (this.pacth === 'la-analyst' || this.pacth === 'la-approval-inquiry' || this.pacth === 'la-approval') {
-      this.view = true;
-    }
-  }
+  // public removefield() {
+  //   this.pacth = this.router.url.split('/')[1];
+  //   if (this.pacth === 'la-analyst' || this.pacth === 'la-approval-inquiry' || this.pacth === 'la-approval') {
+  //     this.view = true;
+  //   }
+  // }
 
   public readOnlyOffering() {
     this.route = this.activatedRoute.snapshot.data['offeringLetter'];
@@ -186,12 +208,43 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+  }
+
+  onDocumentChanges() {
+    this.container_condition.restrictEditing = true;
+  }
+
+  public disabledOpinion: boolean;
+  public conditionEnableOpinion() {
+    if (
+      this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
+      this.creditProposalItem.statusId === 'CP_CHECKER' ||
+      this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+      this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'
+    ) {
+      this.disabledOpinion = false;
+    } else {
+      this.disabledOpinion = true;
+    }
+  }
+
+  public approvalUser: boolean;
+  private hiddenApprovalUser() {
+    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+      this.approvalUser = false;
+    } else {
+      this.approvalUser = true;
+    }
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    const key = 'credit_proposal/remark/opinion';
+    const key = 'credit_proposal/remark/opinion-history/opinion';
 
     const timeStamp = Math.floor(Date.now() / 1000);
 
@@ -199,9 +252,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-opinion' + fileType + '.docs';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion' + fileType + '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -211,9 +264,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-opinion-' + fileType + '.sfdt';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -232,26 +285,28 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       args.isHandled = true;
     }
   }
+  public obj: any;
+  public message: any;
   private getContainer(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    const obj = {
-      key: 'credit_proposal/remark/opinion/' + paramsId + '/sfdt',
+    this.obj = {
+      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.bucket, this.obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('abednege', obj);
+        console.log('abednege', this.obj);
 
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-opinion-sfdt.sfdt');
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion-sfdt.sfdt');
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
                 const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -279,17 +334,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    const key = 'credit_proposal/remark/opinion/condition';
+    const key = 'credit_proposal/remark/opinion-history/condition';
 
     const timeStamp = Math.floor(Date.now() / 1000);
 
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-opinion' + '-condition' + fileType + '.docs';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion' + '-condition' + fileType + '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -299,9 +354,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-opinion-' + '-condition-' + fileType + '.sfdt';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + '-condition-' + fileType + '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -326,7 +381,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion/condition/' + paramsId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.bucket, obj)
@@ -337,10 +392,13 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-opinion' + 'condition-sfdt.sfdt');
+              this.fileGet = new File(
+                [res.body],
+                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion' + 'condition-sfdt.sfdt'
+              );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
-                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
                 const contents: string = e.target.result;
                 docEditor.open(contents);
               };
@@ -352,6 +410,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onCreateCondition(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+
+  public loadPosition(position: any): void {
+    this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
+      this.position = res.body;
+    });
   }
 }

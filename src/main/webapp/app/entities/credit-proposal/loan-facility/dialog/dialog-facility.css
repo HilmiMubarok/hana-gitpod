@@ -57,3 +57,43 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+.mat-form-field-prefix,
+.mat-form-field-suffix {
+  white-space: nowrap;
+  flex: none;
+  position: none !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-suffix {
+  top: 0em !important;
+  /* top: 0.25em !important; */
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+textarea {
+  text-align: justify;
+  white-space: normal;
+}
+textarea {
+  resize: none;
+  text-align: justify;
+  white-space: pre-line;
+  -moz-text-align-last: left;
+  text-align-last: left;
+}

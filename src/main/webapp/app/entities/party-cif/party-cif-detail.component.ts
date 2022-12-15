@@ -16,9 +16,7 @@ import { PartySlikService } from '../party-slik/party-slik.service';
 
 import { IPartyCif } from './party-cif.model';
 import { PartyCifService } from './party-cif.service';
-import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 import { DebtorDataSlikTransferService } from '../debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-transfer.service';
-import { share } from 'rxjs/operators';
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 
@@ -109,22 +107,6 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   public save() {
-    // this.TransferService.getparam().subscribe((param) => {
-    //   console.log("param", param);
-    //   if (param !== null) {
-    //     this.arrSliks = lodash.concat(this.arrSliks,param);
-
-    //     for (let y = 0; y < this.arrSliks.length; y++) {
-    //       if (this.arrSliks[y] !== PartySlik) {
-    //         const fordel = this.arrSliks[y];
-    //         const newArray = lodash.remove(this.arrSliks, function(n) {
-    //           return n === fordel;
-    //         });
-    //       }
-    //     }
-    //   }
-    // });
-
     this.arrSliks = lodash.concat(this.arrSliks, this.TransferService.getparam());
     const removeundefined = lodash.remove(this.arrSliks, function (n) {
       return n === undefined;

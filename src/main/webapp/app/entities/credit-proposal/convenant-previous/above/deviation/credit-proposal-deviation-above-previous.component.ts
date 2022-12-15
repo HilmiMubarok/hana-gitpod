@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantAbove } from '../../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-deviation-above-previous',
@@ -22,6 +23,7 @@ export class CreditProposalDeviationAbovePreviousComponent implements OnInit {
   public deviation: any = [];
   public justification: any = [];
   public dataSource: any;
+  public dataPrevious;
 
   @Input() isOffering: Boolean = false;
 
@@ -51,31 +53,28 @@ export class CreditProposalDeviationAbovePreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataPrevious = parsePreviousAtrribute(this.creditProposalItem);
     // if previousReturn attribute exists
     if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
-      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.length !== 0) {
-        const deletedItem = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.filter(
-          item => item.status !== 'Applied'
-        );
-        this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove = deletedItem;
-        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].deviation;
-          this.justification[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardDataGridAbove[i].justification;
+      if (this.dataPrevious.previousReturn.convenant.standardDataGridAbove.length !== 0) {
+        const deletedItem = this.dataPrevious.previousReturn.convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
+        this.dataPrevious.previousReturn.convenant.standardDataGridAbove = deletedItem;
+        for (let i = 0; i < this.dataPrevious.previousReturn.convenant.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousReturn.convenant.standardDataGridAbove[i].status;
+          this.deviation[i] = this.dataPrevious.previousReturn.convenant.standardDataGridAbove[i].deviation;
+          this.justification[i] = this.dataPrevious.previousReturn.convenant.standardDataGridAbove[i].justification;
         }
       } else {
         this.standardDataGridAbove = [];
       }
     } else if (this.isOffering) {
-      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.length !== 0) {
-        const deletedItem = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.filter(
-          item => item.status !== 'Applied'
-        );
-        this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove = deletedItem;
-        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].deviation;
-          this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].justification;
+      if (this.dataPrevious.previousHistory.convenant.standardDataGridAbove.length !== 0) {
+        const deletedItem = this.dataPrevious.previousHistory.convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
+        this.dataPrevious.previousHistory.convenant.standardDataGridAbove = deletedItem;
+        for (let i = 0; i < this.dataPrevious.previousHistory.convenant.standardDataGridAbove.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousHistory.convenant.standardDataGridAbove[i].status;
+          this.deviation[i] = this.dataPrevious.previousHistory.convenant.standardDataGridAbove[i].deviation;
+          this.justification[i] = this.dataPrevious.previousHistory.convenant.standardDataGridAbove[i].justification;
         }
       } else {
         this.standardDataGridAbove = [];

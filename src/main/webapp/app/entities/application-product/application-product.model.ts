@@ -82,6 +82,12 @@ export interface IApplicationProductAttribute {
   loanType?: string;
   disbursementCondition?: string;
   discountProposal?: string;
+
+  // Offering Letter Field
+  latePaymentFee?: string;
+  paymentObligation?: string;
+  earlyRepaymentPenalty?: number;
+  thePrimeLandingRate?: number;
 }
 
 export class ApplicationProductAttribute implements IApplicationProductAttribute {
@@ -133,7 +139,12 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     public indexFacilityMain?: string,
     public loanType?: string,
     public disbursementCondition?: string,
-    public discountProposal?: string
+    public discountProposal?: string,
+    // Offering Letter Field
+    public latePaymentFee?: string,
+    public paymentObligation?: string,
+    public earlyRepaymentPenalty?: number,
+    public thePrimeLandingRate?: number
   ) {
     this.applicationType = 'New';
     this.facilityType = '';
@@ -181,5 +192,11 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.loanType = '';
     this.disbursementCondition = '';
     this.discountProposal = '';
+
+    // Offering letter Field
+    this.latePaymentFee = '';
+    this.paymentObligation = '';
+    this.earlyRepaymentPenalty = 0;
+    this.thePrimeLandingRate = 0;
   }
 }

@@ -7,17 +7,14 @@ import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralProperty, CollateralPropertyAttribute, ICollateralProperty } from './collateral-property.model';
 import { CollateralPropertyService } from './collateral-property.service';
-import { CollateralPropertyDepositDialogComponent } from './dialogs/collateral-property-deposit-dialog.component';
 import { CollateralPropertySecuritiesDialogComponent } from './dialogs/collateral-property-securities-dialog.component';
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { CollateralPropertyRealestateDialogComponent } from './dialogs/collateral-property-realestate-dialog.component';
 import { CollateralPropertyOtherDialogComponent } from './dialogs/collateral-property-other-dialog.component';
-import { CollateralPropertyMachineDialogComponent } from './dialogs/collateral-property-machine-dialog.component';
 import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
-import { CollateralPropertyVehicleDialogComponent } from './dialogs/collateral-property-vehicle-dialog.component';
-import { CollateralPropertyBuildingDialogComponent } from './dialogs/collateral-property-building-dialog.component';
 import { CollateralPropertyLandInfoDialogComponent } from './dialogs/collateral-property-land-info-dialog.component';
+import { CollateralPropertyVehicleDetailDialogComponent } from './dialogs/collateral-property-vehicle-detail-dialog.component';
+import { CollateralPropertyMachineDetailDialogComponent } from './dialogs/collateral-property-machine-detail-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -78,7 +75,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       if (element) {
         value = element;
       }
-      const _dialog = this.dialog.open(CollateralPropertyMachineDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyMachineDetailDialogComponent, {
         width: '80vw',
         data: {
           collateralProperty: value,
@@ -127,7 +124,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
       if (element) {
         value = element;
       }
-      const _dialog = this.dialog.open(CollateralPropertyVehicleDialogComponent, {
+      const _dialog = this.dialog.open(CollateralPropertyVehicleDetailDialogComponent, {
         width: '80vw',
         data: {
           collateralProperty: value,

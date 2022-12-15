@@ -84,25 +84,25 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
     {
       No: 1,
       documentType: 'Have met the Anti Money Laundring requirements',
-      value: 'YES',
+      value: 'Yes',
       remarks: '',
     },
     {
       No: 2,
       documentType: 'It has been checked that the debtor and the owner of the collateral do not have problems in taxation',
-      value: 'YES',
+      value: 'Yes',
       remarks: '',
     },
     {
       No: 3,
       documentType: 'It has been checked that the debtor and the owner of the collateral do not have negative information',
-      value: 'YES',
+      value: 'Yes',
       remarks: '',
     },
     {
       No: 4,
       documentType: 'Prospective debtors are not included in the PEP (Politically Exposed Person)',
-      value: 'YES',
+      value: 'Yes',
       remarks: '',
     },
   ];
@@ -113,21 +113,21 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
       documentType:
         'The minimum time deposit tenor is 12 (twelve) months and/or the minimum deposit tenor is the same as the credit facility period.',
 
-      value: 'YES',
+      value: 'Yes',
       remarksTwo: '',
     },
     {
       No: 2,
       documentType: 'Time deposits as a collateral and loans must be recorded at the same branch office',
 
-      value: 'YES',
+      value: 'Yes',
       remarksTwo: '',
     },
     {
       No: 3,
       documentType: 'Time Deposit placement must be done all at once and should not be done in stages',
 
-      value: 'YES',
+      value: 'Yes',
       remarksTwo: '',
     },
   ];
@@ -137,14 +137,14 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
       No: 1,
       documentType: 'Hana Bank SBLC Financial Format Standard',
 
-      value: 'YES',
+      value: 'Yes',
       remarksThere: '',
     },
     {
       No: 2,
       documentType: 'Issued by banks thats categorized as prime bank',
 
-      value: 'YES',
+      value: 'Yes',
       remarksThere: '',
     },
     {
@@ -152,7 +152,7 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
       documentType:
         'The maturity date of the Standby L/C is at least 1 (one) month longer than the end date of the credit agreement or for SBLC from Hana Seoul, the SBLC period is 14 calendar days longer than the credit facility term.',
 
-      value: 'YES',
+      value: 'Yes',
       remarksThere: '',
     },
   ];
@@ -162,14 +162,14 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
       No: 1,
       documentType: 'Collateral and loan must be recorded at the same branch office.',
 
-      value: 'YES',
+      value: 'Yes',
       remarksFour: '',
     },
     {
       No: 2,
       documentType: 'The placement of Savings/Giro funds must be all at once and may not be gradual.',
 
-      value: 'YES',
+      value: 'Yes',
       remarksFour: '',
     },
   ];
@@ -179,7 +179,7 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
       No: 1,
       documentType: 'Debiting must be done all at once and should not be done in stages.',
 
-      value: 'YES',
+      value: 'Yes',
       remarksFive: '',
     },
   ];

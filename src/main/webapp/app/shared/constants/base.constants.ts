@@ -1,5 +1,10 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum CUSTOMER_TYPE {
+  PERSONAL = 'PERSONAL',
+  CORPORATE = 'CORPORATE',
+}
+
 export enum PARAMETER_TYPE {
   LEGALLENDINGLIMIT = 'LEGAL_LENDING_LIMIT',
 }
@@ -149,7 +154,7 @@ export enum DOCUMENT_TYPE_APPRAISAL {
   PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
   FOTO_OBJEK = 'Foto Objek',
   LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
-  LPA_Penilaian_KJJP = 'Lampiran Laporan Penilaian KJPP',
+  HASIL_APP_EXTERNAL = 'Hasil appraisal External',
 }
 
 export enum COLLATERAL_BINDING_TYPE {
@@ -239,6 +244,13 @@ export enum PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE {
 
 export enum PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE {
   R105 = 'Vehicles',
+}
+
+export enum PURPOSE_TYPE {
+  DOMICILE = 'DOMICILE_LOCATION',
+  GENERAL = 'GENERAL_LOCATION',
+  PRIMARY = 'PRIMARY_LOCATION',
+  WAREHOUSE = 'WAREHOUSE_LOCATION',
 }
 
 export enum SECURITIES_MANAGEMENT_BRANCH {
@@ -671,7 +683,7 @@ export const BASIC_SUBMENU_CREDITPROPOSAL: object[] = [
   },
   {
     id: 'convenant-tbo',
-    text: 'convenant & TBO',
+    text: 'covenant & TBO',
   },
   {
     id: 'summary',
@@ -715,7 +727,7 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
 
   {
     id: 'group-guarantour-analyst',
-    text: 'group & guarantour analyst',
+    text: 'group & guarantor analyst',
   },
   {
     id: 'slik-checking',
@@ -739,7 +751,7 @@ export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
   },
   {
     id: 'convenant-tbo',
-    text: 'convenant & TBO',
+    text: 'covenant & TBO',
   },
   {
     id: 'summary',
@@ -802,7 +814,7 @@ export const SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN: object[] = [
   },
   {
     id: 'convenant-tbo',
-    text: 'convenant & TBO',
+    text: 'covenant & TBO',
   },
   {
     id: 'summary',
@@ -865,7 +877,7 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
       },
       {
         id: 'convenant-tbo',
-        text: 'convenant & TBO',
+        text: 'covenant & TBO',
       },
       {
         id: 'summary',
@@ -945,7 +957,7 @@ export const SUBMENU_LOAN_CP: object[] = [
       },
       {
         id: 'convenant-tbo',
-        text: 'convenant & TBO',
+        text: 'covenant & TBO',
       },
       {
         id: 'summary',
@@ -1207,7 +1219,7 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
       },
       {
         id: 'convenant-tbo',
-        text: 'convenant & TBO',
+        text: 'covenant & TBO',
       },
       {
         id: 'summary',

@@ -33,6 +33,7 @@ import { IEJOptionNode, IOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
+import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -44,6 +45,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
+
+  @ViewChild('creditProposalOpinionHistoryComponent', {
+    static: false,
+  })
+  creditProposalOpinionHistoryComponent: CreditProposalOpinionHistoryComponent;
+
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -77,6 +84,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
   public isHistoryExist: boolean;
   public saveWord: Boolean = false;
+  public saveWordConditionOpinion: Boolean = false;
+  public cp: ICreditProposal;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -92,6 +102,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
+    this.setMainMenuCp();
+
     this.subMenu = BASIC_SUBMENU_CREDITPROPOSAL;
     this.proposalType = PROPOSAL_TYPE;
     this.segmentType = SEGMENTS_TYPE;
@@ -99,6 +111,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.activeRoute = this.router.url.replace(/\//g, '');
 
     this.url = this.parentPath;
+    this.menuCreditProposal();
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
@@ -115,7 +128,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
-
+    this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+      this.cp = response.body;
+    });
     const passSummary = {
       strength: '',
       opportunities: '',
@@ -155,8 +170,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.subMenu = PROPOSAL_TYPE;
   }*/
-
-    this.menuCreditProposal();
   }
 
   public setSubmenu(event: IEJOptionNode): void {
@@ -227,7 +240,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public menuCreditProposal() {
-    this.setMainMenuCp();
     if (this.parentPath === 'cp-status-approval') {
       if (
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
@@ -303,14 +315,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.clickedMenu = menu;
   }
   public routeSubMenu(menu: object): void {
-    this.routeHelper =
-      this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
-    this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
-
     if (menu['id'] === ID_GREATER_15_BN) {
       this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
+        // this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
       } else {
         this.subMenu = [
           {
@@ -324,11 +333,13 @@ export class ProposalBasicInformationComponent implements OnInit {
           },
         ];
       }
+      // this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
     }
     if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
       this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
+        // this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
       } else {
         this.subMenu = [
           {
@@ -342,6 +353,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           },
         ];
       }
+      // this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
     }
     if (menu['id'] === ID_BACK_TO_BACK) {
       this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
@@ -361,6 +373,10 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
       }
     }
+    this.routeHelper =
+      this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
+
+    this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
   public previousState(): void {
@@ -421,11 +437,27 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.applicationRole = ev;
   }
 
+  // private saveApplicationRole(): void {
+  //   if (this.applicationRole.id) {
+  //     this.applicationRoleService.update(this.applicationRole).subscribe(resApprole => {});
+  //   } else {
+  //     this.applicationRoleService.create(this.applicationRole).subscribe(resApprole => {});
+  //   }
+  // }
+
   private saveApplicationRole(): void {
     if (this.applicationRole.id) {
-      this.applicationRoleService.update(this.applicationRole).subscribe(resApprole => {});
+      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+        this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+          this.cp = response.body;
+        });
+      });
     } else {
-      this.applicationRoleService.create(this.applicationRole).subscribe(resApprole => {});
+      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+        this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
+          this.cp = response.body;
+        });
+      });
     }
   }
 
@@ -516,6 +548,8 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.attributes['remarksFinancialStatement']
     );
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+    // note : buat legal lending dicomment dulu on progress
+    // copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
 
     return copyCreditProposal;
   }
@@ -532,6 +566,12 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
+          }
+
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.triggeredSave();
+            this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           }
 
           if (source === 'process') {
@@ -550,6 +590,11 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
+          }
+          if (this.creditProposalOpinionHistoryComponent) {
+            this.creditProposalOpinionHistoryComponent.triggeredSave();
+            this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
           }
 
           if (source === 'process') {
@@ -566,8 +611,11 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       }
     }
-    this.saveWord = true;
-    this.saveApplicationRole();
+    if (this.parentPath === 'cp-status-approval') {
+      this.saveApplicationRole();
+    }
+    // this.saveWord = true;
+    // this.saveWordConditionOpinion = true;
   }
 
   print() {
@@ -660,7 +708,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'convenant-tbo') {
-      this.titleMenu = 'Convenant & Tbo';
+      this.titleMenu = 'Covenant & Tbo';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'propose-pricing') {
@@ -672,7 +720,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'group-guarantour-analyst') {
-      this.titleMenu = 'Group Guarantour Analyst';
+      this.titleMenu = 'Group Guarantor Analyst';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'credit-rating') {

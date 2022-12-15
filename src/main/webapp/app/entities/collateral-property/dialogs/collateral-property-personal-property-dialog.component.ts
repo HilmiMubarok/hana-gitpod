@@ -8,6 +8,7 @@ import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import {
   COLLATERAL_DEPOSIT_DEBIT_BLOCK,
   COLLATERAL_TYPE,
@@ -36,6 +37,7 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
   @Input()
   get collateralPropertyExternal() {
@@ -73,8 +75,14 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
   public detailType;
+  public branceManagement: any;
+  public branchesNames: any;
 
-  constructor(private uomService: UomService, private stateBoundaryService: StateBoundaryService) {
+  constructor(
+    private uomService: UomService,
+    private stateBoundaryService: StateBoundaryService,
+    private partyCifService: PartyCifService
+  ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
@@ -89,6 +97,8 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.loadProvince();
     this.loadUomService();
     this.collateral.collateralTypeId;
+    this.setManagementBrance();
+    this.setBranches();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -235,5 +245,17 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
 
   print() {
     console.log(this.areaMeasure);
+  }
+
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
   }
 }

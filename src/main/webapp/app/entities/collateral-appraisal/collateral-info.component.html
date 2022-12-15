@@ -8,7 +8,12 @@
   <div class="e-card-content">
     <mat-card-subtitle>General Info</mat-card-subtitle>
 
-    <jhi-collateral-type-dialog [collateral]="collateral" [disabledOpt]="disabledOpt" [hiddenOpt]="hiddenOpt"></jhi-collateral-type-dialog>
+    <jhi-collateral-type-dialog
+      [collateralAppraisal]="collateralAppraisal"
+      [collateral]="collateral"
+      [disabledOpt]="disabledOpt"
+      [hiddenOpt]="hiddenOpt"
+    ></jhi-collateral-type-dialog>
 
     <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
       <ejs-textbox
@@ -97,7 +102,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-document [collateral]="collateral"></jhi-document>
+        <jhi-document [document]="'document-collateral'" [collateral]="collateral"></jhi-document>
       </div>
     </div>
 
@@ -109,12 +114,13 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-document [appraisal]="appraisal"></jhi-document>
+        <jhi-document [document]="'document-lainnya'" [appraisal]="appraisal"></jhi-document>
       </div>
     </div>
 
     <div *ngIf="viewCollateralProperty()">
       <jhi-collateral-appraisal-process-detail-real-estate
+        [collateralAppraisal]="collateralAppraisal"
         [collateral]="collateral"
         [collateralAppraisalId]="appraisal.id"
         *ngIf="collateral.collateralTypeId === 'PROPERTY' || collateral.collateralTypeId === 'REALESTATE'"
@@ -123,6 +129,7 @@
       </jhi-collateral-appraisal-process-detail-real-estate>
 
       <jhi-collateral-appraisal-process-detail-unit-condition
+        [collateralAppraisal]="collateralAppraisal"
         [collateralId]="collateral.id"
         [collateralAppraisalId]="appraisal.id"
         *ngIf="collateral.collateralTypeId === 'VEHICLE'"
@@ -130,6 +137,7 @@
       </jhi-collateral-appraisal-process-detail-unit-condition>
 
       <jhi-collateral-appraisal-process-detail-mesin
+        [collateralAppraisal]="collateralAppraisal"
         *ngIf="collateral.collateralTypeId === 'MACHINE'"
         [collateralAppraisalId]="appraisal.id"
         [collateralId]="collateral.id"

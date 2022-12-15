@@ -277,6 +277,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             data[i]['addressF'] = data[i].addresses[k].address.address1;
           }
         }
+        const statusDist = 'Distribution';
+        for (let h = 0; h < data[i].statusDescription.length; h++) {
+          if (data[i].statusDescription === 'Ol Distribution') {
+            data[i].statusDescription = data[i].statusDescription.replace(/Ol Distribution/gi, statusDist);
+          }
+        }
       }
     }
     return data;

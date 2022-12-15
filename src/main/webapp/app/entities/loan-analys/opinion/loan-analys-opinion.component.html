@@ -48,96 +48,149 @@
       <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
+
     <div class="mb-2 col-md-2" style="margin-top: 20px">
-      <mat-form-field class="w-100" appearance="outline" [hidden]="view">
+      <mat-form-field class="w-100" appearance="outline" [hidden]="view" [hidden]="approvalUser">
+        <mat-label>Approval User</mat-label>
         <mat-select (selectionChange)="setApproval($event.value)" [(ngModel)]="creditProposalItem.attributes['list']">
-          <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of listOfValue.listApproval" [value]="item">
-            {{ item }}
+          <!-- <mat-option value="">- Please Select -</mat-option> -->
+          <mat-option *ngFor="let item of position" [value]="item">
+            {{ item.employeeFirstName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+
     <div class="e-card-content">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
-        <ejs-documenteditorcontainer
-          #document_editor_container
-          [enableToolbar]="true"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          [spellcheck]="false"
-          [enableSpellCheck]="false"
-          (onkeypress)="myFunction($event)"
-          (keyDown)="onKeyDown($event)"
-          (created)="onCreate()"
+        <section
+          *ngIf="
+            this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
+            this.creditProposalItem.statusId === 'CP_CHECKER' ||
+            this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+            this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'
+          "
         >
-        </ejs-documenteditorcontainer>
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (onkeypress)="myFunction($event)"
+            (keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+          >
+          </ejs-documenteditorcontainer>
+        </section>
+        <section
+          *ngIf="
+            creditProposalItem.statusId === 'CP_CHECKER' ||
+            creditProposalItem.statusId === 'CP_DAR_FINAL' ||
+            creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
+            creditProposalItem.statusId === 'CP_CC_ANALYST' ||
+            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION' ||
+            creditProposalItem.statusId === 'CP_CC_DIV_HEAD' ||
+            creditProposalItem.statusId === 'CC_DEPT_HEAD' ||
+            creditProposalItem.statusId === 'CC_DIRECTOR'
+          "
+        >
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [enableToolbar]="false"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            (documentChange)="onDocumentChange()"
+            [enableEditor]="false"
+            [isReadOnly]="true"
+          >
+          </ejs-documenteditorcontainer>
+        </section>
       </div>
-    </div>
-    <div class="form-group">
-      <p class="e-card-sub-title">{{ nameLabel }}</p>
-      <div class="d-flex justify-content-around">
-        <div class="mx-2">
-          <ejs-radiobutton
-            label="{{ radioButtonPurpose }}"
-            value="{{ valueRadioPurpose }}"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-            [disabled]="view"
-          ></ejs-radiobutton>
-        </div>
-        <div class="mx-2">
-          <ejs-radiobutton
-            label="{{ radioButtonCondition }}"
-            value="{{ valueRadioCondition }}"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-            [disabled]="view"
-          ></ejs-radiobutton>
-        </div>
-        <div class="mx-2">
-          <ejs-radiobutton
-            label="{{ radioButtonNotRecommend }}"
-            value="{{ valueRadioRecommend }}"
-            [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
-            [disabled]="view"
-          ></ejs-radiobutton>
+
+      <div class="form-group">
+        <p class="e-card-sub-title">{{ nameLabel }}</p>
+        <div class="d-flex justify-content-around">
+          <div class="mx-2">
+            <ejs-radiobutton
+              label="{{ radioButtonPurpose }}"
+              value="{{ valueRadioPurpose }}"
+              [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+              [disabled]="disabledOpinion"
+            >
+            </ejs-radiobutton>
+          </div>
+          <div class="mx-2">
+            <ejs-radiobutton
+              label="{{ radioButtonCondition }}"
+              value="{{ valueRadioCondition }}"
+              [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+              [disabled]="disabledOpinion"
+            >
+            </ejs-radiobutton>
+          </div>
+          <div class="mx-2">
+            <ejs-radiobutton
+              label="{{ radioButtonNotRecommend }}"
+              value="{{ valueRadioRecommend }}"
+              [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
+              [disabled]="disabledOpinion"
+            >
+            </ejs-radiobutton>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- <div class="form-group" *ngIf="parentPath === 'loan-committee-approval'">
-       <p class="e-card-sub-title">Recomendation</p>
-       <div class="d-flex justify-content-around">
-         <div class="mx-2">
-           <ejs-radiobutton label="Recommend as propose" value="Recommend as propose"
-             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="view"></ejs-radiobutton>
-         </div>
-         <div class="mx-2">
-           <ejs-radiobutton label="Recommend With Condition" value="Recommend With Condition"
-             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="view"></ejs-radiobutton>
-         </div>
-         <div class="mx-2">
-           <ejs-radiobutton label="Not Recommend" value="Not Recommend"
-             [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation" [disabled]="view"></ejs-radiobutton>
-         </div>
-       </div>
-     </div> -->
+      <div class="form-group">
+        <p class="e-card-sub-title">Condition</p>
+        <section
+          *ngIf="
+            this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
+            this.creditProposalItem.statusId === 'CP_CHECKER' ||
+            this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+            this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'
+          "
+        >
+          <ejs-documenteditorcontainer
+            #document_editor_container_condition
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDownCondition($event)"
+            (created)="onCreateCondition()"
+          >
+          </ejs-documenteditorcontainer>
+        </section>
 
-    <div class="form-group">
-      <p class="e-card-sub-title">Condition</p>
-      <ejs-documenteditorcontainer
-        #document_editor_container
-        [enableToolbar]="true"
-        [enableLocalPaste]="false"
-        height="100vh"
-        style="display: block"
-        [spellcheck]="false"
-        [enableSpellCheck]="false"
-        (keyDown)="onKeyDownCondition($event)"
-        (created)="onCreateCondition()"
-      >
-      </ejs-documenteditorcontainer>
+        <section
+          *ngIf="
+            creditProposalItem.statusId === 'CP_CHECKER' ||
+            creditProposalItem.statusId === 'CP_DAR_FINAL' ||
+            creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
+            creditProposalItem.statusId === 'CP_CC_ANALYST' ||
+            creditProposalItem.statusId === ' CP_CC_DISTRIBUTION'
+          "
+        >
+          <ejs-documenteditorcontainer
+            #document_editor_container_condition
+            [enableToolbar]="false"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            (documentChange)="onDocumentChanges()"
+            [enableEditor]="false"
+            [isReadOnly]="true"
+          >
+          </ejs-documenteditorcontainer>
+        </section>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

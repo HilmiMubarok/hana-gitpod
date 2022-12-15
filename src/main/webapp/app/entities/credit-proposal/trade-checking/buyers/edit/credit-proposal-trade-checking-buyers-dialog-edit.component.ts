@@ -1,5 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
 import { ITradeCheckingBuyers } from '../trade-checking-buyers.model';
 
@@ -8,6 +9,7 @@ import { ITradeCheckingBuyers } from '../trade-checking-buyers.model';
   templateUrl: './credit-proposal-trade-checking-buyers-dialog-edit.component.html',
 })
 export class CreditProposalTradeCheckingBuyersDialogEditComponent {
+  public creditProposal: ICreditProposal;
   public tradeCheckingBuyers: ITradeCheckingBuyers;
   public tradeCheckingBuyers1: ITradeCheckingBuyers;
   public edit: boolean;
@@ -16,11 +18,13 @@ export class CreditProposalTradeCheckingBuyersDialogEditComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       tradeCheckingBuyers: ITradeCheckingBuyers;
+      creditProposal: ICreditProposal;
       edit: boolean;
     },
     private _dialog: MatDialogRef<CreditProposalTradeCheckingBuyersDialogEditComponent>
   ) {
     this.edit = this.data.edit;
+    this.creditProposal = this.data.creditProposal;
     this.tradeCheckingBuyers = this.data.tradeCheckingBuyers;
     this.tradeCheckingBuyers1 = lodash.cloneDeep(this.data.tradeCheckingBuyers);
   }

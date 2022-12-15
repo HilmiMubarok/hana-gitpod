@@ -10,10 +10,13 @@ import { IPartyGroup } from '../party-group/party-group.model';
 export interface ISurveyAppraisals {
   createdBy?: string;
   createdDate?: Date;
+  lastModifiedBy?: string;
+  lastModifiedDate?: Date;
   id?: number;
   appraisalNumber?: string;
   fromDate?: Date;
   thruDate?: Date;
+  reportDate?: Date;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
@@ -22,6 +25,7 @@ export interface ISurveyAppraisals {
   partyId?: string;
   partyTypeId?: string;
   surveyorId?: string;
+  surveyorPersonId?: string;
   surveyorName?: string;
   apprType?: string;
   kjppNo?: string;
@@ -87,8 +91,16 @@ export interface ISurveyAppraisals {
   jpProgress?: boolean;
   jpReappraisal?: boolean;
   jpOther?: boolean;
+  noteForRM?: string;
   facilityType?: string;
   objectType?: string;
+  surveyCompanyId?: number;
+  surveyCompanyName?: string;
+  surveyBatchId?: number;
+  latitude?: number;
+  longitude?: number;
+  totalMarketValue?: number;
+  totalLiquidationValue?: number;
   cif?: ICif;
   properties?: ICollateralProperty[];
   tasks?: IProcessTask[];
@@ -117,10 +129,13 @@ export class SurveyAppraisals implements ISurveyAppraisals {
   constructor(
     public createdBy?: string,
     public createdDate?: Date,
+    public lastModifiedBy?: string,
+    public lastModifiedDate?: Date,
     public id?: number,
     public appraisalNumber?: string,
     public fromDate?: Date,
     public thruDate?: Date,
+    public reportDate?: Date,
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,
@@ -129,6 +144,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public partyId?: string,
     public partyTypeId?: string,
     public surveyorId?: string,
+    public surveyorPersonId?: string,
     public surveyorName?: string,
     public apprType?: string,
     public kjppNo?: string,
@@ -194,8 +210,16 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public jpProgress?: boolean,
     public jpReappraisal?: boolean,
     public jpOther?: boolean,
+    public noteForRM?: string,
     public facilityType?: string,
     public objectType?: string,
+    public surveyCompanyId?: number,
+    public surveyCompanyName?: string,
+    public surveyBatchId?: number,
+    public latitude?: number,
+    public longitude?: number,
+    public totalMarketValue?: number,
+    public totalLiquidationValue?: number,
     public cif?: ICif,
     public properties?: ICollateralProperty[],
     public tasks?: IProcessTask[],

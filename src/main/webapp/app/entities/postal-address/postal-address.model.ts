@@ -13,12 +13,15 @@ export interface IPostalAddress {
   countryId?: number;
   provinceDescription?: string;
   provinceId?: number;
+  postalCode?: string;
   cityDescription?: string;
   cityId?: number;
   districtDescription?: string;
   districtId?: number;
   villageDescription?: string;
   villageId?: number;
+  rt?: string;
+  rw?: string;
 }
 
 export class PostalAddress implements IPostalAddress {
@@ -35,11 +38,14 @@ export class PostalAddress implements IPostalAddress {
     public countryId?: number,
     public provinceDescription?: string,
     public provinceId?: number,
+    public postalCode?: string,
     public cityDescription?: string,
     public cityId?: number,
     public districtDescription?: string,
     public districtId?: number,
     public villageDescription?: string,
-    public villageId?: number
+    public villageId?: number,
+    public rt?: string,
+    public rw?: string
   ) {}
 }

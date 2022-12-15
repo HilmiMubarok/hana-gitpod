@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBelow } from '../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-below-previous',
@@ -21,6 +22,8 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
+  public dataPrevious;
 
   @Input() isOffering: Boolean = false;
 
@@ -49,13 +52,14 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataPrevious = parsePreviousAtrribute(this.creditProposalItem);
     // if previousReturn attribute exists
     if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
-      if (this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length !== 0) {
-        for (let i = 0; i < this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].deviation;
-          this.justification[i] = this.creditProposalItem.attributes['previousReturn'].convenant.standardCovenant[i].justification;
+      if (this.dataPrevious.previousReturn.convenant.standardCovenant.length !== 0) {
+        for (let i = 0; i < this.dataPrevious.previousReturn.convenant.standardCovenant.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousReturn.convenant.standardCovenant[i].status;
+          this.deviation[i] = this.dataPrevious.previousReturn.convenant.standardCovenant[i].deviation;
+          this.justification[i] = this.dataPrevious.previousReturn.convenant.standardCovenant[i].justification;
         }
       } else {
         for (let i = 0; i <= this.standardCovenant.length; i++) {
@@ -63,11 +67,11 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
         }
       }
     } else if (this.isOffering) {
-      if (this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length !== 0) {
-        for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant.length; i++) {
-          this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].status;
-          this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].deviation;
-          this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardCovenant[i].justification;
+      if (this.dataPrevious.previousHistory.convenant.standardCovenant.length !== 0) {
+        for (let i = 0; i < this.dataPrevious.previousHistory.convenant.standardCovenant.length; i++) {
+          this.statusValue[i] = this.dataPrevious.previousHistory.convenant.standardCovenant[i].status;
+          this.deviation[i] = this.dataPrevious.previousHistory.convenant.standardCovenant[i].deviation;
+          this.justification[i] = this.dataPrevious.previousHistory.convenant.standardCovenant[i].justification;
         }
       } else {
         for (let i = 0; i <= this.standardCovenant.length; i++) {

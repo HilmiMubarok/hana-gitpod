@@ -14,7 +14,8 @@ import { CollateralLandInfoDialogComponent } from './dialogs/collateral-land-inf
 import lodash from 'lodash';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-
+import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
   templateUrl: './collateral-appraisal-process-detail-land.component.html',
@@ -59,6 +60,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
     madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
     direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
+    position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
   private _collateral: ICollateral;
   @Input()
@@ -75,7 +77,7 @@ export class CollateralAppraisalDetailProcessLandComponent
   set collateralProperties(param: ICollateralProperty[]) {
     this.items = param;
   }
-
+  @Input() collateralAppraisal: ICollateralAppraisal;
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
   public displayedColumnsExpand = [...this.displayedColumnsLand, 'expand'];
   public certificates: ICollateralLandAttribute[];
@@ -98,7 +100,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     }
   }
 
-  public loadAll(_collateralId: number): void {
+  private loadAll(_collateralId: number): void {
     this.collateralPropertyService
       .queryFilterBy({
         page: this.page,
@@ -189,6 +191,7 @@ export class CollateralAppraisalDetailProcessLandComponent
       width: '80vw',
       data: {
         collateralProperty: colProp,
+        collateralAppraisal: this.collateralAppraisal,
       },
     });
     dialogRef.afterClosed().subscribe((result: ICollateralProperty) => {
@@ -219,5 +222,11 @@ export class CollateralAppraisalDetailProcessLandComponent
     } else if (facilityType === 'warehousingArea') {
       this.collateral.attributes['buildingWareHousingArea'] = value === true ? 'yes' : 'no';
     }
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

@@ -47,7 +47,7 @@
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button (click)="delete(element)">
-              <mat-icon>delete_forever</mat-icon>
+              <mat-icon [hidden]="gakbisa()">delete_forever</mat-icon>
             </button>
           </td>
           <td mat-footer-cell *matFooterCellDef></td>
@@ -80,6 +80,7 @@
             format="0,"
             min="0"
             required
+            [disabled]="gakbisa()"
           ></ejs-numerictextbox>
         </div>
       </div>
@@ -95,6 +96,7 @@
             format="0,"
             min="0"
             required
+            [disabled]="gakbisa()"
           >
           </ejs-numerictextbox>
         </div>
@@ -102,13 +104,19 @@
     </div>
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Total Land Area</mat-label>
-      <input matInput type="text" [value]="countTotalLandArea(collateral.truncatedArea, getTotalArea()) | number: '1.0-0'" disabled />
+      <input
+        matInput
+        type="text"
+        [value]="countTotalLandArea(collateral.truncatedArea, getTotalArea()) | number: '1.0-0'"
+        disabled
+        [disabled]="gakbisa()"
+      />
     </mat-form-field>
   </div>
 
   <mat-card-actions>
     <div class="d-flex justify-content-end mb-3 mt-3">
-      <button mat-raised-button (click)="openDialog()">ADD NEW CERTIFICATE</button>
+      <button mat-raised-button [hidden]="gakbisa()" (click)="openDialog()">ADD NEW CERTIFICATE</button>
     </div>
   </mat-card-actions>
 </mat-card>

@@ -36,7 +36,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Guarantee Amount</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.amount" [disabled]="dataSource()" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.attributes.amount"
+            [options]="logoCcy"
+            [disabled]="dataSource()"
+          />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -55,7 +62,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.marketValue" [disabled]="dataSource()" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.marketValue"
+            [options]="logoCcy"
+            [disabled]="dataSource()"
+          />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -84,6 +98,16 @@
         <mat-label>Guarantee Coverage</mat-label>
         <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeCoverage" [disabled]="dataSource()" />
         <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Guarantee Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.guaranteeType" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of guaranteeType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -208,7 +232,14 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Approved Credit Line</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.approvedCreditLine" [disabled]="dataSource()" />
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralProperty.attributes.approvedCreditLine"
+            [options]="logoCcy"
+            [disabled]="dataSource()"
+          />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -240,10 +271,10 @@
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-select [(ngModel)]="collateralProperty.attributes.charCollateralUom" [disabled]="dataSource()">
+          <mat-select [(ngModel)]="collateralProperty.attributes.charCollateral" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
-            <mat-option value="eligible">Eligible</mat-option>
-            <mat-option value="non_eligible">Non Eligible</mat-option>
+            <mat-option value="1">Eligible</mat-option>
+            <mat-option value="2">Non Eligible</mat-option>
           </mat-select>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>

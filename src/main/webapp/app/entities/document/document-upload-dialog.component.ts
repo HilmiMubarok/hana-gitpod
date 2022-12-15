@@ -15,6 +15,7 @@ import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -33,9 +34,18 @@ export class DocumentUploadDialogComponent implements OnInit {
 
   private bucket: string;
   public certiFicateTypeName: any;
+  public collateralView: boolean;
+
+  public documents: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { appraisal: ICollateralAppraisal; collateral: ICollateral; bucket: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      appraisal: ICollateralAppraisal;
+      collateral: ICollateral;
+      bucket: string;
+      documents: string;
+    },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentUploadDialogComponent>,
     private _snackBar: MatSnackBar,
@@ -46,25 +56,27 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.document = new Document();
     this.file = null;
     this.bucket = this.data.bucket;
+    this.documents = this.data.documents;
   }
 
   ngOnInit(): void {
     if (this.data.collateral) {
+      document.getElementById('appraisal').style.display = 'none';
       this.object = this.data.collateral;
-      if (this.object.collateralTypeId === 'VEHICLE') {
-        this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_VEHICLE);
-      } else if (this.object.collateralTypeId === 'PROPERTY' || this.object.collateralTypeId === 'REALESTATE') {
-        this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_PROPERTY);
-      } else if (this.object.collateralTypeId === 'MACHINE') {
-        this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_MACHINE);
-      }
+      this.setCertificateType();
+      // if (this.object.collateralTypeId === 'VEHICLE') {
+      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_VEHICLE);
+      // } else if (this.object.collateralTypeId === 'PROPERTY' || this.object.collateralTypeId === 'REALESTATE') {
+      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_PROPERTY);
+      // } else if (this.object.collateralTypeId === 'MACHINE') {
+      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_MACHINE);
+      // }
     }
-
     if (this.data.appraisal) {
+      document.getElementById('collateral').style.display = 'none';
       this.object = this.data.appraisal;
       this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
-    this.setCertificateType();
   }
 
   private doUpload(frmData: FormData, metaData: object): Promise<void> {
@@ -116,6 +128,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       const promises: Array<any> = new Array<any>();
       for (let i = 0; i < this.files.length; i++) {
         const metaData = new DocumentMetaData();
+        const files = this.files[i].name.replace('&', '');
 
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
         metaData.folder = this.document.documentNumber;
@@ -128,13 +141,19 @@ export class DocumentUploadDialogComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', this.files[i]);
         if (this.data.collateral) {
-          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber}/${currentDate}-${this.files[i].name}`;
+          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber}/${currentDate}-${files}`;
           metaData.entityId = this.data.collateral.id;
         }
 
         if (this.data.appraisal) {
-          metaData.objectName = `/appraisals/${this.data.appraisal.id}/document/${this.document.documentNumber}/${currentDate}-${this.files[i].name}`;
-          metaData.entityId = this.data.appraisal.id;
+          if (this.documents === 'document-lainnya') {
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-lainnya/${this.document.documentNumber}/${currentDate}-${files}`;
+            metaData.entityId = this.data.appraisal.id;
+          }
+          if (this.documents === 'document-collateral') {
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-colateral/${this.document.documentNumber}/${currentDate}-${files}`;
+            metaData.entityId = this.data.appraisal.id;
+          }
         }
 
         promises.push(this.doUpload(formData, metaData));
@@ -161,7 +180,12 @@ export class DocumentUploadDialogComponent implements OnInit {
   public setCertificateType() {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certiFicateTypeName = res.body;
-      console.log('cek response', res.body);
     });
   }
+  // gakbisa() {
+  //   if (this.object.statusId === STATUS.APPROVE) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

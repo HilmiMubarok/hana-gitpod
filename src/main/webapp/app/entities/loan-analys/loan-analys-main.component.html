@@ -404,13 +404,18 @@
       </div>
 
       <!-- Summary -->
-      <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
         <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
       </div>
 
       <!-- opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [saveWordCondition]="saveWord" [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal" [cp]="cp">
+        <jhi-loan-analys-opinion
+          [saveWordOpinionCondition]="saveWordOpinionCondition"
+          [saveWordMinio]="saveWord"
+          [creditProposalItem]="creditProposal"
+          [cp]="cp"
+        >
         </jhi-loan-analys-opinion>
       </div>
 

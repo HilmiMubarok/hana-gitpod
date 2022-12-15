@@ -379,8 +379,8 @@
                     cssClass="e-outline"
                     floatLabelType="Auto"
                     id="ddlelement"
-                    [dataSource]="data"
-                    placeholder="Collectibility Status"
+                    [dataSource]="collectabilityStatusData"
+                    placeholder="collectability Status"
                   >
                   </ejs-dropdownlist>
                 </div>
@@ -492,15 +492,6 @@
                     floatLabelType="Auto"
                   >
                   </ejs-dropdownlist>
-                </div>
-                <div class="col">
-                  <ejs-dropdownlist
-                    [dataSource]="collectabilityStatusData"
-                    [(ngModel)]="item.attributes['basicInformation'].collectabilityStatus"
-                    placeholder="Collectability Status"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-dropdownlist>
                 </div>
               </div>
             </div>

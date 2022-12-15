@@ -20,6 +20,8 @@ import { ApplicationService } from 'app/entities/application/application.service
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { IPartyCif } from '../party-cif/party-cif.model';
 import { ApplicationOptionService } from '../application-option/application-option.service';
+import { ListOfValueIndustryService } from '../credit-proposal/list-of-value-industry.service';
+import { IListOfValueIndustry } from '../../../../../../src/main/webapp/app/entities/credit-proposal/list-of-value-industry.model';
 
 @Component({
   selector: 'jhi-credit-rating-view',
@@ -35,6 +37,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public _partyCif: IPartyCif;
   public industry: string;
   public loading = false;
+  public listOfIndustry: IListOfValueIndustry[];
+  public industryList = [];
 
   @Input()
   get creditProposalItem() {
@@ -66,7 +70,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected translateService: TranslateService,
     protected eventManager: EventManager,
     public account: AccountService,
-    protected applicationOptionService: ApplicationOptionService // private _ngxSpinner: NgxSpinnerService
+    protected applicationOptionService: ApplicationOptionService,
+    public listOfIndustryService: ListOfValueIndustryService // private _ngxSpinner: NgxSpinnerService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
@@ -120,6 +125,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         });
     }
     this.getApplicationOption();
+    this.getListIndustry();
   }
 
   save() {
@@ -169,8 +175,22 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
       this.creditRatings.equityPosition = this.partyCif.creditRatings[0].equityPosition;
       this.creditRatings.equityPositionDate = this.partyCif.creditRatings[0].equityPositionDate;
     });
+  }
 
-    console.log('ini equity position ', this.creditRatings.equityPosition);
-    console.log('ini date position ', this.creditRatings.equityPositionDate);
+  public getListIndustry() {
+    this.listOfIndustryService.query().subscribe((res: any) => {
+      this.listOfIndustry = res.body;
+      for (let i = 0; i < res.body.length; i++) {
+        this.industryList.push(res.body[i].label);
+      }
+    });
+  }
+
+  public selectIndustry(event: any) {
+    for (let i = 0; i < this.listOfIndustry.length; i++) {
+      if (this.listOfIndustry[i].label === event.itemData.value) {
+        this.creditProposalItem.attributes['purposePricing'].industry = event.itemData.value;
+      }
+    }
   }
 }

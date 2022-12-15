@@ -10,7 +10,8 @@ import { CollateralBuildingFloorDialogComponent } from './dialogs/collateral-bui
 import { CollateralLandDialogComponent } from './dialogs/collateral-land-dialog.component';
 import { CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-
+import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from '../collateral-appraisal.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
   templateUrl: './collateral-appraisal-process-detail-real-estate.component.html',
@@ -25,6 +26,8 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   set collateral(param: ICollateral) {
     this._collateral = param;
   }
+  @Input()
+  public collateralAppraisal: ICollateralAppraisal;
 
   @Input()
   public collateralAppraisalId: number;
@@ -99,6 +102,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     if (property) {
       predicate['data'] = {
         collateralProperty: property,
+        collateralAppraisal: this.collateralAppraisal,
       };
     } else {
       const colProp: ICollateralProperty = new CollateralProperty();
@@ -109,6 +113,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       };
       predicate['data'] = {
         collateralProperty: colProp,
+        collateralAppraisal: this.collateralAppraisal,
       };
     }
 
@@ -125,6 +130,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       width: '80vw',
       data: {
         collateralProperty: data,
+        collateralAppraisal: this.collateralAppraisal,
       },
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -187,5 +193,11 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   }
   public print() {
     console.log(this.items);
+  }
+  gakbisa() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

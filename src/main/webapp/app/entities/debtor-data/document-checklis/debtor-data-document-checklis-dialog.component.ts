@@ -63,6 +63,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
+    console.log('files', this.file);
   }
 
   public doUpload(formData: FormData, metaData: object): Promise<void> {
@@ -90,7 +91,8 @@ export class DebtorDataDocumentChecklistDialogComponent {
         createdDate: null,
         createdBy: null,
       };
-      metaData.objectName = `/cif/${this.data.partyId}/document/${currentDate}-${this.file[i].name}`;
+      const files = this.file[i].name.replace('&', '');
+      metaData.objectName = `/cif/${this.data.partyId}/document/${currentDate}-${files}`;
       metaData.entityId = this.data.partyId;
       metaData.documentType = this.documentChecklist.documentType;
       metaData.document = this.documentChecklist.document;

@@ -1,22 +1,21 @@
-<div class="style-close">
-  <button class="button-close" mat-button mat-dialog-close>X</button>
-</div>
-<h2 mat-dialog-title class="header-title"></h2>
-<mat-dialog-content>
-  <section>
+<div class="height: 300px; overflow-y: scroll;">
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
+  <h2 mat-dialog-title class="header-title"></h2>
+  <mat-dialog-content style="overflow-y: auto">
     <div class="form-group">
       <div class="col">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Covenant</mat-label>
-            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.covenant">
-</textar>
+            <!-- <input matInput type="text" [(ngModel)]="otherCovenant.covenant" [disabled]="view" /> -->
+            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.covenant" [disabled]="view"></textarea>
           </mat-form-field>
         </div>
       </div>
     </div>
-  </section>
-  <section>
+
     <div class="form-group">
       <div class="col">
         <div class="mb-2">
@@ -27,39 +26,36 @@
               <mat-option value="To Be Waived">To Be Waived</mat-option>
               <mat-option value="Waived">Waived</mat-option>
             </mat-select>
+            <!-- <input matInput type="text" [(ngModel)]="otherCovenant.status" [disabled]="view" /> -->
           </mat-form-field>
         </div>
       </div>
     </div>
-  </section>
-  <section>
+
     <div class="form-group">
       <div class="col">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Deviation</mat-label>
-            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.deviation"></textarea
-            >
+            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.deviation" [disabled]="view"></textarea>
           </mat-form-field>
         </div>
       </div>
     </div>
-  </section>
 
-  <section>
     <div class="form-group">
       <div class="col">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Justification</mat-label>
-            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.justification"></textarea>
+            <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.justification" [disabled]="view"></textarea>
           </mat-form-field>
         </div>
       </div>
     </div>
-  </section>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button *ngIf="!view" (click)="save()">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button *ngIf="!view" (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</div>

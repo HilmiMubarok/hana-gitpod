@@ -124,7 +124,7 @@
         <!-- loan facility -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="false" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>
@@ -153,7 +153,11 @@
         <!-- opinion -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+            <jhi-loan-analys-opinion
+              [saveWordOpinionCondition]="saveWordOpinionCondition"
+              [saveWordMinio]="saveWord"
+              [creditProposalItem]="creditProposal"
+            ></jhi-loan-analys-opinion>
           </mat-card-content>
         </mat-card>
 
@@ -484,7 +488,11 @@
 
       <!-- opinion -->
       <div *ngIf="selectedMenu === 'credit-opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion [creditProposalItem]="creditProposal"></jhi-loan-analys-opinion>
+        <jhi-loan-analys-opinion
+          [saveWordOpinionCondition]="saveWordOpinionCondition"
+          [saveWordMinio]="saveWord"
+          [creditProposalItem]="creditProposal"
+        ></jhi-loan-analys-opinion>
       </div>
 
       <!-- compare data -->

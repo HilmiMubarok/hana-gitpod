@@ -9,7 +9,15 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Nilai Pembelian</mat-label>
-            <input matInput type="text" [(ngModel)]="nilaiRac.nilaiPembelian" [disabled]="view" />
+
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="nilaiRac.nilaiPembelian"
+              [disabled]="view"
+              currencyMask
+              [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+            />
           </mat-form-field>
         </div>
       </div>

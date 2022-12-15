@@ -83,6 +83,14 @@ export class BellowGridComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
+
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+
     this.isViewMode && this.displayedColumns.pop();
   }
 
@@ -181,8 +189,66 @@ export class BellowGridComponent implements OnChanges, OnInit {
       }
     });
   }
-  countKJJPLV(element: ICollateral) {
-    throw new Error('Method not implemented.');
+  countKJJPLV(collateral: ICollateral) {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    result = 0;
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    }
+    return result;
   }
 
   countKJJPMV(collateral: ICollateral) {

@@ -39,6 +39,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   debitBlock: any;
   public branceManagement: any;
   public branchesNames: any;
+  public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
   @Input()
   get collateralPropertyExternal() {
@@ -97,6 +98,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
+    this.setCertyficateType();
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -243,6 +245,13 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   public setBranches() {
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
+      console.log('vrk', this.branchesNames);
+    });
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
     });
   }
 }

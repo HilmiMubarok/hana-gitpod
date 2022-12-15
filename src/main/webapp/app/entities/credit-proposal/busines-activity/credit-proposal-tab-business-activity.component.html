@@ -121,18 +121,35 @@
           </section>
         </div>
       </div>
-      <ejs-documenteditorcontainer
-        #document_editor_container
-        [enableToolbar]="true"
-        [enableLocalPaste]="false"
-        height="100vh"
-        style="display: block"
-        [spellcheck]="false"
-        [enableSpellCheck]="false"
-        (keyDown)="onKeyDown($event)"
-        (created)="onCreate()"
-      >
-      </ejs-documenteditorcontainer>
+      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDown($event)"
+          (created)="onCreate()"
+        >
+        </ejs-documenteditorcontainer>
+      </section>
+      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="true"
+          (documentChange)="onDocumentChange()"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDown($event)"
+          (created)="onCreate()"
+        >
+        </ejs-documenteditorcontainer>
+      </section>
       <!--<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes" [toolbarSettings]="tools">
         </ejs-richtexteditor>
@@ -148,13 +165,24 @@
     </div>
   </div>
 
-  <div [hidden]="selectedMenu !== 'PROJECT ANALYSIS'">
+  <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'">
     <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
       <div class="e-card-content">
         <div class="e-card-header-title">PROJECT ANALYSIS</div>
         <div class="form-space">
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <ejs-richtexteditor [(ngModel)]="_item.attributes['businessActivity'].notesPa" [toolbarSettings]="tools"> </ejs-richtexteditor>
+            <ejs-documenteditorcontainer
+              #document_editor_containers
+              [enableToolbar]="true"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="containers()"
+            >
+            </ejs-documenteditorcontainer>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <p class="lable-form-title">{{ creditProposalItem.attributes['businessActivity'].notesPa }}</p>
