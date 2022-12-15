@@ -185,6 +185,7 @@ export class LoanAnalysComplianceComponent implements OnInit {
     }
     this.disabledOffering();
     this.remaksCondition();
+    this.conditionDisableCompliance();
   }
 
   public test() {}
@@ -220,6 +221,26 @@ export class LoanAnalysComplianceComponent implements OnInit {
     if (this.route) {
       this.view = true;
     }
+    if (
+      this.creditProposal.statusId === 'CC_DEPT_HEAD' ||
+      this.creditProposal.statusId === 'CC_DIV_HEAD' ||
+      this.creditProposal.statusId === 'CC_DIRECTOR'
+    ) {
+      this.view = true;
+    }
     console.log('ini route', this.route);
+  }
+
+  public disabledCompliance: boolean;
+  public conditionDisableCompliance() {
+    if (
+      this.creditProposal.statusId === 'CC_DEPT_HEAD' ||
+      this.creditProposal.statusId === 'CC_DIV_HEAD' ||
+      this.creditProposal.statusId === 'CC_DIRECTOR'
+    ) {
+      this.disabledCompliance = true;
+    } else {
+      this.disabledCompliance = false;
+    }
   }
 }
