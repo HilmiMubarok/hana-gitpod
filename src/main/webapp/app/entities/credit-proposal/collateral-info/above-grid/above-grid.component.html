@@ -14,9 +14,16 @@
           <mat-radio-button value="Yes" style="margin-left: 20px">Yes</mat-radio-button>
           <mat-radio-button value="No" style="margin-left: 20px">No</mat-radio-button>
         </mat-radio-group> -->
-        <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
-          >Is Collateral Cross col, All Facillities?</mat-slide-toggle
-        >
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
+            >Is Collateral Cross col, All Facillities?</mat-slide-toggle
+          >
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
+            >Is Collateral Cross col, All Facillities?</mat-slide-toggle
+          >
+        </section>
       </div>
       <div class="table-responsive-material">
         <table mat-table [dataSource]="dataItem" class="w-100">
@@ -155,9 +162,16 @@
           <mat-radio-button value="Yes" style="margin-left: 20px">Yes</mat-radio-button>
           <mat-radio-button value="No" style="margin-left: 20px">No</mat-radio-button>
         </mat-radio-group> -->
-        <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
-          >Is Collateral Cross col, All Facillities?</mat-slide-toggle
-        >
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
+            >Is Collateral Cross col, All Facillities?</mat-slide-toggle
+          >
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
+            >Is Collateral Cross col, All Facillities?</mat-slide-toggle
+          >
+        </section>
       </div>
       <div class="table-responsive-material">
         <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">

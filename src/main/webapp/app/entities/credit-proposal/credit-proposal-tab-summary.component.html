@@ -38,8 +38,7 @@
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <ejs-documenteditorcontainer
         #document_editor_container
-        [enableToolbar]="true"
-        (documentChange)="onDocumentChange()"
+        [enableToolbar]="false"
         [enableLocalPaste]="false"
         height="100vh"
         style="display: block"
@@ -47,6 +46,7 @@
         [enableSpellCheck]="false"
         (keyDown)="onKeyDown($event)"
         (created)="onCreate()"
+        (documentChange)="onDocumentChange()"
       >
       </ejs-documenteditorcontainer>
     </section>
