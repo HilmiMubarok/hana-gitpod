@@ -133,9 +133,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
 
   public test() {
     if (this.partyCif.debtorData.separateAssetAggrement === true && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'Yes';
+      this.separate = '';
     } else if (this.partyCif.debtorData.separateAssetAggrement === false && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'No';
+      this.separate = 'N/A';
     } else {
       this.separate = '';
     }

@@ -254,7 +254,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-      console.log('masuk sini');
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
@@ -439,13 +438,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(source: string): void {
+    this.ketObjekJaminan = true;
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
     } else {
       this.mainSave(source);
     }
-    this.ketObjekJaminan = true;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -865,6 +864,34 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
   }
 
+  // check if key machineMarketValue has value
+  public checkMachineMarketValue() {
+    const machine = this.collateralAppraisalService.totalDataDetailMachine;
+    // check if machineMarketValue has value
+    if (machine.length > 0) {
+      for (let i = 0; i < machine.length; i++) {
+        if (machine[i].machineMarketValue === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // check if key precentage has value
+  public checkMachinePercentage() {
+    const machine = this.collateralAppraisalService.totalDataDetailMachine;
+    // check if machineMarketValue has value
+    if (machine.length > 0) {
+      for (let i = 0; i < machine.length; i++) {
+        if (machine[i].percentage === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   public checkMustValidatedOnVisited() {
     const mustValidatedOnVisited = {
       documentCollateral: true,
@@ -888,7 +915,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     const landCertificate =
       this.collateralAppraisal.collateral.attributes.landCertificate &&
       JSON.parse(this.collateralAppraisal.collateral.attributes.landCertificates);
-    const parsedAttr = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
     const marketValue = {
       land: [],
       building: [],
@@ -930,17 +956,20 @@ export class CollateralAppraisalMainComponent implements OnInit {
       }
     }
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-      if (!this.collateralProp.machineMarketValue) {
+      if (!this.checkMachineMarketValue()) {
         this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
         mustValidatedOnVisited.machineMarketValue = false;
       }
-      if (!this.collateralProp.percentage) {
+      if (!this.checkMachinePercentage()) {
         this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
         mustValidatedOnVisited.precentage = false;
       }
     }
 
-    if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+    if (
+      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA &&
+      this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE'
+    ) {
       this._showNotification('error', 'Comparison data less than 3');
       mustValidatedOnVisited.comparisonData = false;
     }
@@ -949,11 +978,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    if (this.keteranganObjectJaminan.length < 1) {
-      this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-      mustValidatedOnVisited.keterangan = false;
-    }
-    if (!parsedAttr.marketbility) {
+    // if (this.keteranganObjectJaminan.length < 1) {
+    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
+    //   mustValidatedOnVisited.keterangan = false;
+    // }
+    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }

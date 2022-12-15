@@ -4,13 +4,13 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Complete Name</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.groupName" />
+        <input matInput type="text" [(ngModel)]="partyGroup.groupName" disabled />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Company Type</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.companyType" />
+        <input matInput type="text" [(ngModel)]="partyGroup.companyType" disabled />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -18,13 +18,13 @@
         <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Country Code</mat-label>
-            <input matInput type="text" [(ngModel)]="countryCode" />
+            <input matInput type="text" [(ngModel)]="countryCode" disabled />
           </mat-form-field>
         </div>
         <div class="col-8 form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
-            <input matInput type="text" [(ngModel)]="phoneNumber" [maxlength]="50" />
+            <input matInput type="text" [(ngModel)]="phoneNumber" [maxlength]="50" disabled />
           </mat-form-field>
         </div>
       </div>
@@ -34,13 +34,13 @@
         <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Country Code</mat-label>
-            <input matInput type="text" [(ngModel)]="countryCode" />
+            <input matInput type="text" [(ngModel)]="countryCode" disabled />
           </mat-form-field>
         </div>
         <div class="col-8 form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
-            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50" />
+            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50" disabled />
           </mat-form-field>
         </div>
       </div>
@@ -50,13 +50,13 @@
         <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Country Code</mat-label>
-            <input matInput type="text" [(ngModel)]="countryCode" />
+            <input matInput type="text" [(ngModel)]="countryCode" disabled />
           </mat-form-field>
         </div>
         <div class="col-8 form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Phone Number</mat-label>
-            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50" />
+            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50" disabled />
           </mat-form-field>
         </div>
       </div>
@@ -67,19 +67,19 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>NPWP</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.taxIdNumber" />
+        <input matInput type="text" [(ngModel)]="partyGroup.taxIdNumber" disabled />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Identity Type</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.organizationIdType" />
+        <input matInput type="text" [(ngModel)]="partyGroup.organizationIdType" disabled />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.officeMail" />
+        <input matInput type="text" [(ngModel)]="partyGroup.officeMail" disabled />
       </mat-form-field>
     </div>
   </div>

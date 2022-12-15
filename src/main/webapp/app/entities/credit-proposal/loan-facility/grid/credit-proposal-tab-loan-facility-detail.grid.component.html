@@ -64,12 +64,19 @@
   <ng-container matColumnDef="action" *ngIf="isViewMode === false">
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
-      <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="onDelete(element)">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </section>
     </td>
   </ng-container>
 
@@ -147,12 +154,19 @@
     <ng-container matColumnDef="action" *ngIf="isViewMode === false">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onDelete(element)">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="onDelete(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </section>
       </td>
     </ng-container>
 
