@@ -151,7 +151,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public fotoObjectJaminan: any;
   public keteranganObjectJaminan: any;
   public ketObjekJaminan: Boolean;
-  public marketability: any;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -418,7 +417,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private mainSave(source: string): void {
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
-    this.marketability = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
@@ -917,7 +915,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     const landCertificate =
       this.collateralAppraisal.collateral.attributes.landCertificate &&
       JSON.parse(this.collateralAppraisal.collateral.attributes.landCertificates);
-    const parsedAttr = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
     const marketValue = {
       land: [],
       building: [],
@@ -985,7 +982,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (this.marketability.marketbility === '' || !parsedAttr.marketbility) {
+    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
