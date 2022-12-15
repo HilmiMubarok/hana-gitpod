@@ -499,7 +499,7 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div>
+        <div *ngIf="parentPath !== 'finalize'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Disbursement Condition</mat-label>
             <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
@@ -507,11 +507,24 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <div class="fontsebled row py-1">
+        <div class="fontsebled row py-1" *ngIf="parentPath !== 'finalize'">
           <div class="col-3">Disbursement Condition</div>
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ applicationProduct.attributes['disbursementCondition'] }}
+          </div>
+        </div>
+      </section>
+      <!-- In Condition Offering letter -->
+      <section *ngIf="parentPath === 'finalize'">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-label>Disbursement Condition</mat-label> -->
+              <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+            </mat-form-field>
           </div>
         </div>
       </section>
@@ -837,62 +850,87 @@
     <!-- Left -->
     <div class="form-group" class="col-md-6">
       <div [hidden]="textBoxHidden">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Late Payment Fee</mat-label>
-          <input
-            matInput
-            type="number"
-            class="example-right-align"
-            [(ngModel)]="applicationProduct.attributes['latePaymentFee']"
-            [disabled]="status"
-          />
-          <div matSuffix>&nbsp;%</div>
-        </mat-form-field>
+        <div class="fontsebled row py-1">
+          <div class="col-3">Late Payment Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-label>Late Payment Fee</mat-label> -->
+              <input
+                matInput
+                type="number"
+                class="example-right-align"
+                [(ngModel)]="applicationProduct.attributes['latePaymentFee']"
+                [disabled]="status"
+              />
+              <div matSuffix>&nbsp;%</div>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
 
       <!-- thePrimeLandingRate -->
       <div class="form-group" [hidden]="textBoxHidden">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>The Prime Lending Rate</mat-label>
-          <input
-            matInput
-            type="number"
-            class="example-right-align"
-            [(ngModel)]="applicationProduct.attributes['thePrimeLandingRate']"
-            [disabled]="status"
-          />
-          <span matSuffix>&nbsp;%</span>
-        </mat-form-field>
+        <div class="fontsebled row py-1">
+          <div class="col-3">The Prime Lending Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <input
+                matInput
+                type="number"
+                class="example-right-align"
+                [(ngModel)]="applicationProduct.attributes['thePrimeLandingRate']"
+                [disabled]="status"
+              />
+              <span matSuffix>&nbsp;%</span>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
+
       <div class="form-group" [hidden]="textBoxHidden">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Early Repayment Penalty</mat-label>
-          <input
-            matInput
-            type="number"
-            class="example-right-align"
-            [(ngModel)]="applicationProduct.attributes['earlyRepaymentPenalty']"
-            [disabled]="status"
-          />
-          <span matSuffix>&nbsp;%</span>
-        </mat-form-field>
+        <div class="fontsebled row py-1">
+          <div class="col-3">Early Repayment Penalty</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-label>Early Repayment Penalty</mat-label> -->
+              <input
+                matInput
+                type="number"
+                class="example-right-align"
+                [(ngModel)]="applicationProduct.attributes['earlyRepaymentPenalty']"
+                [disabled]="status"
+              />
+              <span matSuffix>&nbsp;%</span>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- End Left Form -->
     <!-- Right -->
     <div class="col-md-6">
       <div class="form-group" [hidden]="textBoxHidden">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Payment Obligations</mat-label>
-          <textarea
-            matInput
-            cdkTextareaAutosize
-            #autosize="cdkTextareaAutosize"
-            [(ngModel)]="applicationProduct.attributes['paymentObligation']"
-            [disabled]="status"
-          ></textarea>
-          <!-- <input matInput type="text" [(ngModel)]="applicationProduct.attributes['paymentObligation']"
+        <div class="fontsebled row py-1">
+          <div class="col-3">Payment Obligations</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Payment Obligations</mat-label>
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                [(ngModel)]="applicationProduct.attributes['paymentObligation']"
+                [disabled]="status"
+              ></textarea>
+              <!-- <input matInput type="text" [(ngModel)]="applicationProduct.attributes['paymentObligation']"
             [disabled]="status" /> -->
-        </mat-form-field>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </div>
   </div>
