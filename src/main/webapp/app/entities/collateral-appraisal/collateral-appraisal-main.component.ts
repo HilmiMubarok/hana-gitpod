@@ -255,7 +255,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-      console.log('masuk sini');
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
@@ -923,11 +922,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       land: [],
       building: [],
     };
-
-    console.log('ksjhd', {
-      parsedAttr,
-      market: this.marketability,
-    });
 
     const getMarketValueLand = this.collateralAppraisalService.totalDataValuationLand.map(obj => obj.propertyMarketValuePerMeter);
     marketValue.land.push(getMarketValueLand);
