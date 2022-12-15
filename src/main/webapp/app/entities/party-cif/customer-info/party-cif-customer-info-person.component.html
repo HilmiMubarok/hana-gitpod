@@ -4,25 +4,25 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Complete Name</mat-label>
-        <input matInput type="text" [value]="person.firstName" />
+        <input matInput type="text" [value]="person.firstName" disabled />
       </mat-form-field>
     </div>
     <div *ngIf="spouse === 'spouse'">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>First Name</mat-label>
-          <input matInput type="text" [(ngModel)]="person.firstName" />
+          <mat-label>Complete Name</mat-label>
+          <input matInput type="text" [(ngModel)]="person.firstName + ' ' + person.lastName" disabled />
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="spouse === 'spouse'">
+    <!-- <div *ngIf="spouse === 'spouse'">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Last Name</mat-label>
           <input matInput type="text" [(ngModel)]="person.lastName" />
         </mat-form-field>
       </div>
-    </div>
+    </div> -->
     <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Alias Name</mat-label>
@@ -32,7 +32,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Number</mat-label>
-        <input matInput type="text" [(ngModel)]="person.personalIdNumber" />
+        <input matInput type="text" [(ngModel)]="person.personalIdNumber" disabled />
       </mat-form-field>
     </div>
     <!-- <div class="form-group">
@@ -48,14 +48,14 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Identity Type</mat-label>
-          <input matInput type="text" [(ngModel)]="person.personalIdType" />
+          <input matInput type="text" [(ngModel)]="person.personalIdType" disabled />
         </mat-form-field>
       </div>
     </div>
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Marital Status</mat-label>
-        <mat-select [(ngModel)]="person.maritalStatus">
+        <mat-select [(ngModel)]="person.maritalStatus" disabled>
           <mat-option *ngFor="let item of maritalStatuses | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -63,7 +63,7 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Gender</mat-label>
-        <mat-select [(ngModel)]="person.gender">
+        <mat-select [(ngModel)]="person.gender" disabled>
           <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -84,12 +84,24 @@
   <!-- RIGHT SIDE -->
   <!-- [(ngModel)]="person.dob" -->
   <div class="col-6">
-    <div class="form-group">
+    <div class="form-group" *ngIf="spouse === 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date of Birth</mat-label>
         <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" />
         <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
         <mat-datepicker #dob></mat-datepicker>
+        <mat-hint align="start"
+          ><strong>{{ countAge() }} years old</strong>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Date of Birth</mat-label>
+        <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" disabled />
+        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+        <mat-datepicker disabled #dob></mat-datepicker>
         <mat-hint align="start"
           ><strong>{{ countAge() }} years old</strong>
         </mat-hint>
@@ -111,7 +123,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Expiry Date</mat-label>
-        <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" [disabled]="spouseData()" />
+        <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" disabled [disabled]="spouseData()" />
         <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
         <mat-datepicker #idExpiryDate disabled="true"></mat-datepicker>
       </mat-form-field>
@@ -129,7 +141,7 @@
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>NPWP</mat-label>
-        <input matInput type="text" [(ngModel)]="person.taxIdNumber" />
+        <input matInput type="text" [(ngModel)]="person.taxIdNumber" disabled />
       </mat-form-field>
     </div>
 
@@ -155,7 +167,7 @@
         <div *ngIf="spouseCustomer()">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Separate Asset Agreement</mat-label>
-            <input matInput type="text" [value]="separate" />
+            <input matInput type="text" [value]="separate" disabled />
           </mat-form-field>
         </div>
       </div>
