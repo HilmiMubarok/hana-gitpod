@@ -441,7 +441,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public onSave(source: string): void {
     this.ketObjekJaminan = true;
-    this.marketability = JSON.parse(this.surveyAppraisal.attributes.summary);
+    this.marketability = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
