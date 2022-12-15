@@ -72,7 +72,7 @@
               <div *ngIf="collateralProp.propertyType === 'BUILDING'">
                 <ejs-numerictextbox
                   cssClass="e-outline"
-                  [value]="countTotalArea() * this.collateralProp.propertyMarketValuePerMeter"
+                  [value]="this.collateralProp.imbArea * this.collateralProp.propertyMarketValuePerMeter"
                   placeholder="Market
                   Value"
                   floatLabelType="auto"

@@ -33,6 +33,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
 
   public cancel(): void {
     this._dialog.close(this.collateralProp);
+    console.log('total', this.collateralProp.imbArea);
   }
   public save(): void {
     this.collateralPropertyService.update(this.collateralProp).subscribe(res => {
@@ -45,27 +46,27 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
   }
 
   public getMarketValueImbBuilding() {
-    this.collateralProp.propertyMarketValue = this.countTotalArea() * this.collateralProp.propertyMarketValuePerMeter;
+    this.collateralProp.propertyMarketValue = this.collateralProp.imbArea * this.collateralProp.propertyMarketValuePerMeter;
   }
 
-  public totalArea: number;
-  public countTotalArea(): number {
-    this.totalArea = 0;
+  // public totalArea: number;
+  // public countTotalArea(): number {
+  //   this.totalArea = 0;
 
-    if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
-      if (lodash.has(this.collateralProp.attributes, 'floors')) {
-        const floors: object[] = JSON.parse(this.collateralProp.attributes['floors']);
-        if (floors.length > 0) {
-          for (let i = 0; i < floors.length; i++) {
-            const floor: object = floors[i];
-            this.totalArea = this.totalArea + parseInt(floor['area'], 10);
-          }
-        }
-      }
-    }
+  //   if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
+  //     if (lodash.has(this.collateralProp.imbArea)) {
+  //       const floors: object[] = JSON.parse(this.collateralProp.attributes['imbArea']);
+  //       if (floors.length > 0) {
+  //         for (let i = 0; i < floors.length; i++) {
+  //           const floor: object = floors[i];
+  //           this.totalArea = this.totalArea + parseInt(floor['imbArea'], 10);
+  //         }
+  //       }
+  //     }
+  //   }
 
-    return this.totalArea;
-  }
+  //   return this.totalArea;
+  // }
   gakbisa() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
       return true;

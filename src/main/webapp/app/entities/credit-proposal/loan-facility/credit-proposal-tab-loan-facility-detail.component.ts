@@ -80,8 +80,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
   }
- 
-
 
   ngOnInit(): void {
     this.bucket = 'hana';
@@ -94,7 +92,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     this.removeTagRemaks();
     this.setCurrency();
   }
-
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWord === true) {
@@ -184,7 +181,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.storageService.uploadMeta('hana', formData, metaData).subscribe();
     });
   }
-
 
   public tools: object = {
     items: [

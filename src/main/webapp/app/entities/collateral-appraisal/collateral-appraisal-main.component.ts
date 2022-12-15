@@ -33,6 +33,7 @@ import {
   SUBMENU_COLLATERAL_APPRAISAL,
   SUBMENU_COLLATERAL_APPRAISAL_ADMIN,
   SUBMENU_COLLATERAL_APPRAISAL_MACHINE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
 } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
@@ -253,7 +254,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
@@ -286,6 +286,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
 
       this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
+        console.log('resCreditProposal.body', resCreditProposal.body);
         this.creditProposal = resCreditProposal.body;
         if (this.creditProposal.attributes['correspondence']) {
           if (this.creditProposal.attributes['correspondence'].length > 0) {
@@ -374,9 +375,18 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private getSurveyAppraisal(cifId: string): void {
     this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
       this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
+      this.getConditionSubMenu(res.body);
     });
   }
 
+  public getConditionSubMenu(data): void {
+    console.log('data detail', data);
+    if (data.apprOfficer === 'External') {
+      console.log('datanya external');
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      console.log('submenu', this.subMenu);
+    }
+  }
   public addNewCriteria(data: IScoreCard[]): void {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
@@ -428,13 +438,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public onSave(source: string): void {
+    this.ketObjekJaminan = true;
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
     } else {
       this.mainSave(source);
     }
-    this.ketObjekJaminan = true;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -677,6 +687,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
+      console.log("menu['id']", menu['id']);
       this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
       this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
     }
@@ -853,6 +864,34 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
   }
 
+  // check if key machineMarketValue has value
+  public checkMachineMarketValue() {
+    const machine = this.collateralAppraisalService.totalDataDetailMachine;
+    // check if machineMarketValue has value
+    if (machine.length > 0) {
+      for (let i = 0; i < machine.length; i++) {
+        if (machine[i].machineMarketValue === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // check if key precentage has value
+  public checkMachinePercentage() {
+    const machine = this.collateralAppraisalService.totalDataDetailMachine;
+    // check if machineMarketValue has value
+    if (machine.length > 0) {
+      for (let i = 0; i < machine.length; i++) {
+        if (machine[i].percentage === 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   public checkMustValidatedOnVisited() {
     const mustValidatedOnVisited = {
       documentCollateral: true,
@@ -876,7 +915,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     const landCertificate =
       this.collateralAppraisal.collateral.attributes.landCertificate &&
       JSON.parse(this.collateralAppraisal.collateral.attributes.landCertificates);
-    const parsedAttr = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
     const marketValue = {
       land: [],
       building: [],
@@ -918,17 +956,20 @@ export class CollateralAppraisalMainComponent implements OnInit {
       }
     }
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-      if (!this.collateralProp.machineMarketValue) {
+      if (!this.checkMachineMarketValue()) {
         this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
         mustValidatedOnVisited.machineMarketValue = false;
       }
-      if (!this.collateralProp.percentage) {
+      if (!this.checkMachinePercentage()) {
         this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
         mustValidatedOnVisited.precentage = false;
       }
     }
 
-    if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+    if (
+      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA &&
+      this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE'
+    ) {
       this._showNotification('error', 'Comparison data less than 3');
       mustValidatedOnVisited.comparisonData = false;
     }
@@ -941,7 +982,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (!parsedAttr.marketbility) {
+    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }

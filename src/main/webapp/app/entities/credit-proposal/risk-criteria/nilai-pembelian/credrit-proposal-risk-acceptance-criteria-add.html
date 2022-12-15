@@ -31,6 +31,14 @@
     </div>
   </section>
 
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="fontsebled row">
+      <div class="col-3">Facility Type</div>
+      <div class="col-md-auto">:</div>
+      <div class="col col-lg-2">{{ nilaiRac.facilityType [disabled]="view" }}</div>
+    </div>
+  </section>
+
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <div class="form-group">
       <div class="col">

@@ -44,7 +44,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     },
   ];
 
-  constructor(protected _snackbar: MatSnackBar, protected partyCifService: PartyCifService, protected fakeFacilityService: FakeFacilityService) {
+  constructor(
+    protected _snackbar: MatSnackBar,
+    protected partyCifService: PartyCifService,
+    protected fakeFacilityService: FakeFacilityService
+  ) {
     super(_snackbar, partyCifService);
     this.myBusinessGroup = [];
     this.myBusinessGroupCPFacility = [];
@@ -89,13 +93,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       for (let i = 0; i < param.length; i++) {
         const item: IDebtorData = param[i];
         if (lodash.has(item.attributes, 'cpFacility')) {
-
           const source = JSON.parse(item.attributes['cpFacility']);
           if (source) {
-            for (let y=0; y < source.length; y++) {
-
+            for (let y = 0; y < source.length; y++) {
               const parsed = new CPFacilityTable();
-              no = no+1;
+              no = no + 1;
               parsed.no = no;
               parsed.GroupName = '';
               parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
@@ -111,9 +113,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
 
-              if (parsed.LoanType === "Cash Loan") {
+              if (parsed.LoanType === 'Cash Loan') {
                 this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
-              } else if (parsed.LoanType === "Non Cash Loan") {
+              } else if (parsed.LoanType === 'Non Cash Loan') {
                 this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
               }
 
@@ -130,8 +132,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
     }
     console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
-    console.log("cash loan", this.totalDebiturCashLoanGroup);
-    console.log("non cash loan", this.totalDebiturNonCashLoanGroup);
+    console.log('cash loan', this.totalDebiturCashLoanGroup);
+    console.log('non cash loan', this.totalDebiturNonCashLoanGroup);
     this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
   }
 
@@ -262,7 +264,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   grandTotalDebitur() {
     console.log(this.totalDebiturCashLoan, this.totalDebiturNonCashLoan);
-    this.grandTotalDebitor = this.totalDebiturCashLoan+this.totalDebiturNonCashLoan;
+    this.grandTotalDebitor = this.totalDebiturCashLoan + this.totalDebiturNonCashLoan;
   }
 
   fungsiSumTotalDebiturCashLoan() {

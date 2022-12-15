@@ -1,6 +1,6 @@
 <ejs-grid [dataSource]="standardDataGridAbove" [hidden]="isViewMode == false" allowTextWrap="true">
   <e-columns>
-    <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
+    <e-column field="covenant" headerText="Covenant" width="250" textAlign="left" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" textAlign="center">
       <ng-template #template let-data>
         <ejs-dropdownlist
@@ -46,8 +46,8 @@
 
 <ejs-grid [dataSource]="standardDataGridAbove" [hidden]="isViewMode == true" allowTextWrap="true">
   <e-columns>
-    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
-    <e-column headerText="Status" width="150" textAlign="center">
+    <e-column field="covenant" headerText="Covenant" width="250" textAlign="justify" headerTextAlign="center"> </e-column>
+    <e-column headerText="Status" width="100" textAlign="center">
       <ng-template #template let-data>
         <ejs-dropdownlist
           (change)="onKeyUpEvent('status', $event, data)"
@@ -59,7 +59,7 @@
         </ejs-dropdownlist>
       </ng-template>
     </e-column>
-    <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
+    <e-column field="deviation" headerText="Deviation" width="250" textAlign="justify" headerTextAlign="center">
       <ng-template #template let-data>
         <ejs-textbox
           class="txtHeight"

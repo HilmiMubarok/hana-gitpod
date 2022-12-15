@@ -71,6 +71,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   public rmBranch: IInternal;
   public rmPosition: IPosition;
   public positionRMS: IPosition;
+  public individu: any;
   moment = _rollupMoment || _moment;
 
   date = new FormControl(moment());
@@ -119,6 +120,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.getDate();
     // this.getExis();
     this.CollectabilityStatus();
+    this.showHideElement();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -133,9 +135,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
 
   public test() {
     if (this.partyCif.debtorData.separateAssetAggrement === true && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'Yes';
+      this.separate = '';
     } else if (this.partyCif.debtorData.separateAssetAggrement === false && this.partyCif.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'No';
+      this.separate = 'N/A';
     } else {
       this.separate = '';
     }
@@ -172,8 +174,6 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       });
 
       this.loadInternalInformationRM(this.positionRMS.partyId);
-      console.log('ini position', this.positionRM);
-      console.log('ini positionRMS', this.positionRMS);
     });
   }
 
@@ -193,7 +193,6 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
                 if (res4.parentId) {
                   this.rmRegional = res4;
-                  console.log('ini regional', this.rmRegional);
                 }
               });
             });
@@ -249,5 +248,11 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.year = new Date(this.partyCif.debtorData.customerSince);
     const fullYear = this.year.toISOString().split('T')[0];
     this.partyCif.debtorData.customerSince = fullYear;
+  }
+
+  public showHideElement() {
+    if (this.customerType !== 'PERSONAL') {
+      this.individu = 'none';
+    }
   }
 }
