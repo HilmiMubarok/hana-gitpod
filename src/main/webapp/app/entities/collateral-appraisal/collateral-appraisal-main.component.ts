@@ -255,7 +255,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-      console.log('masuk sini');
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
@@ -419,6 +418,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private mainSave(source: string): void {
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
+    this.marketability = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
@@ -441,7 +441,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   public onSave(source: string): void {
     this.ketObjekJaminan = true;
-    this.marketability = this.surveyAppraisal.attributes.summary && JSON.parse(this.surveyAppraisal.attributes.summary);
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
