@@ -499,6 +499,26 @@ export const SUBMENU_COLLATERAL_APPRAISAL: IOptionNode[] = [
     label: 'summary',
   },
 ];
+
+export const SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL: IOptionNode[] = [
+  {
+    id: 'appraisal-info',
+    label: 'appraisal info',
+  },
+  {
+    id: 'customer-info',
+    label: 'customer info',
+  },
+  {
+    id: 'collateral-info',
+    label: 'collateral info',
+  },
+  {
+    id: 'report-independent',
+    label: 'Report Independent',
+  },
+];
+
 export const SUBMENU_COLLATERAL_APPRAISAL_MACHINE: IOptionNode[] = [
   {
     id: 'appraisal-info',

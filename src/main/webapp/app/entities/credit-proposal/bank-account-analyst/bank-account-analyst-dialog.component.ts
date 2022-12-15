@@ -5,12 +5,10 @@ import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
 import { FormControl, Validators } from '@angular/forms';
 
-
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog.component.html',
   styleUrls: ['./bank-account-analyst-dialog.component.css'],
- 
 })
 export class CreditProposalBankAccountAnalystDialogComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI'];

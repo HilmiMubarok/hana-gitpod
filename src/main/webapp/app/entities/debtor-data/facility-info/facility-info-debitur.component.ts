@@ -38,7 +38,7 @@ export class FacilityInfoDebiturComponent {
 
   set data(object: any[]) {
     this._data = object;
-    console.log("data",this.data);
+    console.log('data', this.data);
   }
 
   @Input()
@@ -48,10 +48,9 @@ export class FacilityInfoDebiturComponent {
 
   set dataGroup(object: any[]) {
     this._dataGroup = object;
-    this.data = this.dataGroup
-    console.log("dataGroup", this.dataGroup);
+    this.data = this.dataGroup;
+    console.log('dataGroup', this.dataGroup);
   }
 
-  constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {
-  }
+  constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {}
 }

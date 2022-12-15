@@ -33,6 +33,7 @@ import {
   SUBMENU_COLLATERAL_APPRAISAL,
   SUBMENU_COLLATERAL_APPRAISAL_ADMIN,
   SUBMENU_COLLATERAL_APPRAISAL_MACHINE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
 } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
@@ -253,7 +254,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
-
+      console.log('masuk sini');
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
       } else {
@@ -286,6 +287,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
 
       this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
+        console.log('resCreditProposal.body', resCreditProposal.body);
         this.creditProposal = resCreditProposal.body;
         if (this.creditProposal.attributes['correspondence']) {
           if (this.creditProposal.attributes['correspondence'].length > 0) {
@@ -374,9 +376,18 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private getSurveyAppraisal(cifId: string): void {
     this.surveyAppraisalsService.find(cifId).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
       this.cif = res.body['cif'] !== null ? res.body['cif'] : new Cif();
+      this.getConditionSubMenu(res.body);
     });
   }
 
+  public getConditionSubMenu(data): void {
+    console.log('data detail', data);
+    if (data.apprOfficer === 'External') {
+      console.log('datanya external');
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      console.log('submenu', this.subMenu);
+    }
+  }
   public addNewCriteria(data: IScoreCard[]): void {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
@@ -677,6 +688,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
+      console.log("menu['id']", menu['id']);
       this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
       this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
     }
