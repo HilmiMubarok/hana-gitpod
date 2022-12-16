@@ -322,18 +322,48 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.loading = true;
 
     if (this.clickedChip !== '') {
-      this.surveyAppraisalService
-        .queryFilterBy({
-          page: this.page,
-          idStatus: this.clickedChip,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
+      if (this.urlAppraisalInternal) {
+        this.surveyAppraisalService
+          .queryFilterBy({
+            page: this.page,
+            idStatus: this.clickedChip,
+            appOfficerType: 'Internal',
+            size: this.itemsPerPage,
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      } else if (this.urlAppraisalProcess) {
+        this.surveyAppraisalService
+          .queryFilterBy({
+            page: this.page,
+            idStatus: this.clickedChip,
+            appOfficerType: 'Internal',
+            size: this.itemsPerPage,
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      } else {
+        this.surveyAppraisalService
+          .queryFilterBy({
+            page: this.page,
+            idStatus: this.clickedChip,
+            size: this.itemsPerPage,
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      }
     }
 
     if (this.currentSearch && this.currentSearch !== '') {

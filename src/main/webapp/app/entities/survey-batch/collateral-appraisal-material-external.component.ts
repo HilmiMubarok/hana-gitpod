@@ -176,6 +176,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
           page: this.page,
           idStatus: this.clickedChip,
           size: this.itemsPerPage,
+          appOfficerType: 'External',
           sort: this.sortData(),
         })
         .subscribe({
