@@ -230,10 +230,16 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
           this.isEnablePlafond = true;
         } else {
           this.isEnablePlafond = false;
+          this.resetValues();
         }
       }
     }
     this.jpRenewal.emit(ev.checked);
+  }
+
+  resetValues() {
+    this.surveyAppraisal.totalPlafond = null;
+    this.surveyAppraisal.tglJatuhTempo = null;
   }
   public setNew(ev) {
     this.jpNew.emit(ev.checked);
