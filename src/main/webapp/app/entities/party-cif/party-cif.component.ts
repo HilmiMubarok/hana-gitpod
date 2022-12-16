@@ -48,7 +48,6 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
 
   set partyCifs(partyCif: IPartyCif[]) {
     this.items = partyCif;
-    console.log('cek items', this.items);
   }
 
   public personalCustomer: IPerson;
@@ -190,8 +189,6 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
       for (let i = 0; i < this.partyCifs.length; i++) {
         this.partyCifs[i] = res.body;
       }
-      // console.log('cek pe', this.partyCifs)
-      // console.log('cek data masusk',this.partyCifs.push(res.body) )
     });
   }
 }
