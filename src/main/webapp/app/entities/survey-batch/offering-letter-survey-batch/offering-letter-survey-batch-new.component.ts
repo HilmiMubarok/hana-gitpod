@@ -104,9 +104,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
     this.loading = true;
 
     this.surveyAppraisalsService
-      .queryFilterBy({
-        idStatus: 'ASSIGNMENT',
-        apprOfficer: 'External',
+      .queryUrlAppraisalExternal({
         page: this.page,
         size: this.itemsPerPage,
       })
@@ -221,7 +219,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
         });
 
         if (res.body) {
-          this.router.navigate(['/batch-apprisal']);
+          this.router.navigate(['/batch-apprisal/offering-letter']);
         }
       });
     }
