@@ -1,11 +1,22 @@
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
-    <mat-label>Booking Branchs</mat-label>
-    <mat-select [value]="creditProposal.internalId" (selectionChange)="select($event)">
-      <mat-option value="">Please Select</mat-option>
-      <mat-option *ngFor="let item of branchs" [value]="item.id">
-        {{ item.organizationName }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+      <mat-label>Booking Branchs</mat-label>
+      <mat-select [value]="creditProposal.internalId" (selectionChange)="select($event)">
+        <mat-option value="">Please Select</mat-option>
+        <mat-option *ngFor="let item of branchs" [value]="item.id">
+          {{ item.organizationName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <div class="fontsebled row">
+        <div class="col-4">Booking Branchs</div>
+        <div class="col-md-auto">:</div>
+        <div class="col col-lg-4">
+          {{ creditProposal.internalId }}
+        </div>
+      </div>
+    </section>

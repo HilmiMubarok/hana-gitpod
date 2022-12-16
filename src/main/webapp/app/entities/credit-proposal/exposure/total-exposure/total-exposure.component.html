@@ -68,7 +68,8 @@
                   [format]="numericFormatOptions"
                 ></e-column> -->
           <e-column
-            field="attributes.provitionFee"
+            field="attributes.provitionFee + ' ' + attributes.provitionFeeRateAmountType"
+            provitionFee
             headerText="Provision Fee"
             headerTextAlign="center"
             width="140"
@@ -76,7 +77,7 @@
             [format]="numericFormatOptions"
           ></e-column>
           <e-column
-            field="attributes.adminFee"
+            field="attributes.adminFee + ' ' + attributes.adminFeeRateAmountType"
             headerText="Admin Fee"
             headerTextAlign="center"
             width="140"

@@ -113,7 +113,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
       const dataParty = [];
       for (let i = 0; i < cpFacility.length; i++) {
-        dataParty.push({
+        const data = {
           adminFee: '0',
           adminFeeRateAmountType: '',
           applicationType: 'Existing',
@@ -162,7 +162,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           totalPlafond: '0',
           totalRate: '0',
           hobbies: true,
-        });
+        };
+
+        dataParty.push(data);
       }
 
       const appProduct: IApplicationProduct = this.applicationProduct;
@@ -184,11 +186,16 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         }
 
         if (countDataHobbies.length < 1) {
-          const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-          copyApplicationProduct.applicationId = this.creditProposal.id;
+          for (let i = 0; i < dataParty.length; i++) {
+            const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+            copyApplicationProduct.applicationId = this.creditProposal.id;
+            this.applicationProduct = {
+              attributes: dataParty[i],
+            };
 
-          this.applicationProduct.attributes = dataParty[0];
-          this.dataParty = [...this.dataParty, this.applicationProduct];
+            this.dataParty = [...this.dataParty, this.applicationProduct];
+          }
+
           this.creditProposal.attributes['loanHobbies'] = 'true';
           this.creditProposal.products = this.dataParty;
         } else {

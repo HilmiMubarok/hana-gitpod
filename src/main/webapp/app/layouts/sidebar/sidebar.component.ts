@@ -10,7 +10,7 @@ import { sidebarAnimation, iconAnimation, labelAnimation } from '../../animation
 import lodash from 'lodash';
 import {
   APPRAISAL_MENU_ADMIN,
-  APPRAISAL_MENU_RM,
+  
   APPRAISAL_MENU_SURVEYOR,
   APPRAISAL_MENU_APPROVAL,
   APPRAISAL_MENU_ADMIN_APPRAISAL,
@@ -51,7 +51,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         if (lodash.indexOf(account.authorities, Authority.SURVEYOR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_SURVEYOR;
         } else if (lodash.indexOf(account.authorities, Authority.RM) >= 0) {
-          this.dataSource.data = APPRAISAL_MENU_RM;
+          this.dataSource.data = APPRAISAL_MENU_ADMIN;
         } else if (lodash.indexOf(account.authorities, Authority.TL) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_APPROVAL;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN_APPRAISER) >= 0) {

@@ -233,7 +233,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
 
-    this.testHidden();
+    this.hiddenFieldInOffering();
+    // this.hideMatrixOffering();
     this.getApplicationOption();
     this.getObligation();
     // this.typeListControl;
@@ -513,7 +514,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   paymentIDR: boolean;
   public parentPath = this.router.url.split('/')[1];
 
-  public testHidden() {
+  public hiddenFieldInOffering() {
     if (this.parentPath === 'finalize') {
       this.textBoxHidden = false;
       this.paymentIDR = true;
@@ -538,10 +539,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public latePaymentFeeIDR: any;
   public paymentObligationNonAngsuran: any;
   public paymentObligationAngsuran: any;
-  // this.latePaymentFee = '';
-  // this.paymentObligation = '';
-  // this.earlyRepaymentPenalty = 0;
-  // this.thePrimeLandingRate = 0;
 
   // Get Parameter Data
   public datacoba = '';

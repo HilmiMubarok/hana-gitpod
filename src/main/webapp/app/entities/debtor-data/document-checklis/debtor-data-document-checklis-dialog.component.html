@@ -56,7 +56,7 @@
                 <mat-select [disabled]="view" [(ngModel)]="documentChecklist.documentType" name="documentType">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
-                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Aggrement', 'Other']"
+                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other']"
                     [value]="item"
                   >
                     {{ item }}
