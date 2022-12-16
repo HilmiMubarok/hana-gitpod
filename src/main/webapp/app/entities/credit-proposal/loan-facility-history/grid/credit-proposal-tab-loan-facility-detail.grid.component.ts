@@ -18,6 +18,7 @@ import {
   ICollateralProductRelation,
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-history',
@@ -67,6 +68,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   public numericFormatOptions: Object;
   public loading: boolean;
   public cloneData: any;
+  public parsedAttribute = {};
 
   constructor(public partyCifService: PartyCifService, public dialog: MatDialog, public _router: Router) {
     this.applicationProduct = new ApplicationProduct();
@@ -77,16 +79,17 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
-    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+    this.isViewMode && this.displayColumns.pop();
   }
   partyCifFunc() {
-    for (let i = 0; i < this.creditProposal.attributes['previousHistory'].products.length; i++) {
-      this.dataParty.push(this.creditProposal.attributes['previousHistory'].products[i]);
+    for (let i = 0; i < this.parsedAttribute['previousHistory'].products.length; i++) {
+      this.dataParty.push(this.parsedAttribute['previousHistory'].products[i]);
     }
   }
 
