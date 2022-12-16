@@ -18,6 +18,7 @@ import {
   ICollateralProductRelation,
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { IProduct } from 'app/entities/product/product.model';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -56,7 +57,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     'totalCreditLimit',
     'interestrate',
     'provisionAmount',
-    'provisionCcy',
     'tenor',
     'maturityDate',
     'action',
@@ -105,6 +105,24 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           this.dataFunc(response);
         });
     }
+  }
+
+  public getCurrency(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+      return 'IDR';
+    }
+
+    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+      return 'USD';
+    }
+    return '';
+  }
+
+  public getCurrency2(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+      return '%p.a';
+    }
+    return '';
   }
 
   dataFunc(response: any) {

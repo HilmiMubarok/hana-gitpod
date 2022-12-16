@@ -348,7 +348,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            console.log('dolar', filterUsd[i].attributes.totalPlafond);
+            // console.log('dolar', filterUsd[i].attributes.totalPlafond);
             // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
           }
