@@ -176,7 +176,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
           page: this.page,
           idStatus: this.clickedChip,
           size: this.itemsPerPage,
-          appOfficerType: 'External',
+          apprOfficer: 'External',
           sort: this.sortData(),
         })
         .subscribe({
@@ -188,12 +188,15 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
 
     if (this.currentSearch && this.currentSearch !== '') {
       this.surveyAppraisalService
-        .search({
-          page: this.page,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: ['id,desc'],
-        })
+        .searchNew(
+          {
+            page: this.page,
+            query: this.currentSearch,
+            size: this.itemsPerPage,
+            sort: ['id,desc'],
+          },
+          'External'
+        )
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -203,12 +206,15 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
 
     if (this.globalSearchVal) {
       this.surveyAppraisalService
-        .search({
-          page: this.page,
-          query: this.globalSearchVal,
-          size: this.itemsPerPage,
-          sort: ['id,desc'],
-        })
+        .searchNew(
+          {
+            page: this.page,
+            query: this.globalSearchVal,
+            size: this.itemsPerPage,
+            sort: ['id,desc'],
+          },
+          'External'
+        )
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -343,7 +349,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
 
   public doSearch(args: any = null): void {
     if (this.currentSearch) {
-      this.router.navigate(['collateral-appraisal'], {
+      this.router.navigate(['batch-apprisal'], {
         queryParams: {
           search: this.currentSearch,
         },
@@ -360,7 +366,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
           const searchVal = '*' + args.value + '*';
           this.globalSearchVal = searchVal;
           this.globalSearchValModel = args.value;
-          this.router.navigate(['collateral-appraisal'], {
+          this.router.navigate(['batch-apprisal'], {
             queryParams: {
               searchByTown: searchVal,
             },
@@ -370,10 +376,10 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
         }
         this.globalSearchVal = '';
         this.globalSearchValModel = '';
-        this.router.navigate(['collateral-appraisal'], {});
+        this.router.navigate(['batch-apprisal'], {});
         this.loadAll();
       } else {
-        this.router.navigate(['collateral-appraisal']);
+        this.router.navigate(['batch-apprisal']);
         this.loadAll();
       }
     }

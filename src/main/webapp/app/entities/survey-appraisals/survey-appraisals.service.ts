@@ -146,6 +146,16 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
 
+  public searchNew(req?: any, src?: string): Observable<HttpResponse<any>> {
+    console.log('req', req);
+    const options = createRequestOption(req);
+    console.log('options', options);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals/officer-type/' + src, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+
   public filterBySurveyor(req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http
