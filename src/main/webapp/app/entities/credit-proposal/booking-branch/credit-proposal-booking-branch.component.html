@@ -1,6 +1,6 @@
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <mat-label>Booking Branchs</mat-label>
       <mat-select [value]="creditProposal.internalId" (selectionChange)="select($event)">
         <mat-option value="">Please Select</mat-option>
@@ -8,6 +8,8 @@
           {{ item.organizationName }}
         </mat-option>
       </mat-select>
+    </mat-form-field>
+  </div>
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <div class="fontsebled row">
@@ -18,5 +20,3 @@
         </div>
       </div>
     </section>
-  </mat-form-field>
-</div>

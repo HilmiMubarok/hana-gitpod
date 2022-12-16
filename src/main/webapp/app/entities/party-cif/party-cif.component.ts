@@ -184,7 +184,11 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
   public cifNumber: any;
   updateFromHobis() {
-    this.cifNumber = this.expandedElement.customerNumber;
-    this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {});
+    this.cifNumber = this.expandedElement?.customerId;
+    this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
+      for (let i = 0; i < this.partyCifs.length; i++) {
+        this.partyCifs[i] = res.body;
+      }
+    });
   }
 }
