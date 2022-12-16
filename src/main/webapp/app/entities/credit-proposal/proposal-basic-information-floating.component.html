@@ -37,17 +37,17 @@
             <div class="col-md-6" style="padding: 10px">
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-combobox
-                cssClass="e-outline"
-                placeholder="Proposal Type"
-                (change)="setSubmenu($event.itemData)"
-                [(ngModel)]="creditProposal.attributes.proposalType"
-                placeholder="Please select proposal type"
-                [dataSource]="proposalType"
-                fields="{text:'text', value:'id'}"
-                required
-                [disabled]="disabledProptype()"
-              >
-              </ejs-combobox>
+                  cssClass="e-outline"
+                  placeholder="Proposal Type"
+                  (change)="setSubmenu($event.itemData)"
+                  [(ngModel)]="creditProposal.attributes.proposalType"
+                  placeholder="Please select proposal type"
+                  [dataSource]="proposalType"
+                  fields="{text:'text', value:'id'}"
+                  required
+                  [disabled]="disabledProptype()"
+                >
+                </ejs-combobox>
               </section>
 
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -59,7 +59,6 @@
                   </div>
                 </div>
               </section>
-              >>>>>>> Stashed changes
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox

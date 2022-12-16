@@ -464,6 +464,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;
+      this.applicationProduct.attributes['kurs'] = res.body[0]?.factor;
       if (this.preCurent === '') {
         if (value === 'IDR') {
           this.conCcy = true;

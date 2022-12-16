@@ -206,9 +206,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   fungsiSuminit() {
     // alert('ok');
     let result: number;
-    let limit: number;
+    let dolar: number;
     // limit = 0;
     result = 0;
+    dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
@@ -216,91 +217,96 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < dataFilter.length; i++) {
-          if (dataFilter[i].attributes.initialLimit !== undefined) {
-            result = result + Number(dataFilter[i].attributes.initialLimit);
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.initialLimit);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    // console.log('ini', result);
-    // return result;
-    this.totallimt = result;
-    return result;
+    return result + dolar;
   }
-
-  // fungsiCoba() {
-  //   let result: number;
-  //   let limit: number;
-  //   // limit = 0;
-  //   result = 0;
-
-  //   const dataFilter = this.creditProposal.products.filter(
-  //     obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-  //   );
-
-  //   if (dataFilter.length > 0) {
-  //     const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-  //     if (filterUsd.length === 0) {
-  //       for (let i = 0; i < dataFilter.length; i++) {
-  //         if (dataFilter[i].attributes.initialLimit !== undefined) {
-  //           result = result + Number(dataFilter[i].attributes.initialLimit);
-  //         }
-  //       }
-  //     }
-  //   }
-  //   // console.log('ini', result);
-  //   return result.toLocaleString('en-US');
-  // }
 
   fungsiSumchange() {
     let result: number;
+    let dolar: number;
+    // limit = 0;
     result = 0;
-    let change: number;
-    // change = 0;
-
-    const filterSubLimit = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
-
-    if (filterSubLimit.length > 0) {
-      const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < filterSubLimit.length; i++) {
-          if (filterSubLimit[i].attributes.changes !== undefined) {
-            result = result + Number(filterSubLimit[i].attributes.changes);
-          }
-        }
-      }
-    }
-    this.totallimt = result;
-    return result;
-  }
-
-  public fungsiSumOS() {
-    let result: number;
-    result = 0;
-    let os: number;
-    os = 0;
+    dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
     if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.outstanding !== undefined) {
-          if (dataFilter[i].attributes.currency === 'USD') {
-            os = Number(dataFilter[i].attributes.outstanding) * Number(dataFilter[i].attributes.kurs);
-            result = result + os;
-          } else {
-            result = result + Number(dataFilter[i].attributes.outstanding);
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.initialLimit);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    return result;
+    return result + dolar;
+  }
+
+  public fungsiSumOS() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.outstanding);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 
   fungsiSumavailable() {
@@ -319,29 +325,37 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   fungsiSumcredit() {
     let result: number;
+    let dolar: number;
+    // limit = 0;
     result = 0;
-    let plafond: number;
-    plafond = 0;
+    dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
     if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.totalPlafond !== undefined) {
-          if (dataFilter[i].attributes.currency === 'USD') {
-            plafond = Number(dataFilter[i].attributes.totalPlafond) * Number(dataFilter[i].attributes.kurs);
-            result = result + plafond;
-          } else {
-            result = result + Number(dataFilter[i].attributes.totalPlafond);
-            // console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            console.log('dolar', filterUsd[i].attributes.totalPlafond);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-
-    return result;
+    return result + dolar;
   }
 
   print() {
