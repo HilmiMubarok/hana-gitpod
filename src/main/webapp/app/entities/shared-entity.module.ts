@@ -298,6 +298,7 @@ import { CreditProposalOtherCovenantDialogHistoryComponent } from './credit-prop
 import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-proposal/convenant-history/other-covenant/edit/credit-proposal-other-covenant-edit.component';
 import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail-dialog.component';
 import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-branch/credit-proposal-booking-branch.component';
+import { PartyCifCustomerInfoPostalAddressWarehouseComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-warehouse.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -531,6 +532,7 @@ import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBookingBranchComponent,
+    PartyCifCustomerInfoPostalAddressWarehouseComponent,
 
     // === Previous === //
 
@@ -844,6 +846,7 @@ import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBookingBranchComponent,
+    PartyCifCustomerInfoPostalAddressWarehouseComponent,
 
     // === Previous === //
 
