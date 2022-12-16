@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataParty" class="w-100" [hidden]="isViewMode == false">
+<table mat-table [dataSource]="dataParty" class="w-100" *ngIf="isViewMode === true">
   <ng-container matColumnDef="no">
     <th mat-header-cell *matHeaderCellDef>No</th>
     <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
@@ -61,24 +61,6 @@
     <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'dd-MM-yyyy' }}</td>
   </ng-container>
-  <ng-container matColumnDef="action" *ngIf="isViewMode === false">
-    <th mat-header-cell *matHeaderCellDef>Action</th>
-    <td mat-cell *matCellDef="let element">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="onDelete(element)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </section>
-    </td>
-  </ng-container>
 
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
@@ -88,7 +70,7 @@
 </table>
 
 <div class="table-responsive">
-  <table mat-table [dataSource]="dataParty" class="w-100" [hidden]="isViewMode == true">
+  <table mat-table [dataSource]="dataParty" class="w-100" *ngIf="isViewMode === false">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
       <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
@@ -151,7 +133,7 @@
       <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
       <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'dd-MM-yyyy' }}</td>
     </ng-container>
-    <ng-container matColumnDef="action" *ngIf="isViewMode === false">
+    <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
         <button *ngIf="element.attributes.hobbies !== true" mat-icon-button (click)="openDialog(element)">

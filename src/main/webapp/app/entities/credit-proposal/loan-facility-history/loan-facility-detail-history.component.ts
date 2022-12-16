@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
 
@@ -11,6 +12,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
+  public parsedAttribute;
 
   @Input() isViewMode: Boolean = false;
 
@@ -55,6 +57,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
     this.applicationProduct.attributes = new ApplicationProductAttribute();
   }
   ngOnInit(): void {
+    this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.removeTagRemaks();
     this.setCurrency();
   }
@@ -87,7 +90,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
     // limit = 0;
     result = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.parsedAttribute.previousHistory.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -113,7 +116,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
   //   // limit = 0;
   //   result = 0;
 
-  //   const dataFilter = this.creditProposal.products.filter(
+  //   const dataFilter = this.parsedAttribute.previousHistory.products.filter(
   //     obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
   //   );
 
@@ -137,7 +140,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
     let change: number;
     // change = 0;
 
-    const filterSubLimit = this.creditProposal.products.filter(
+    const filterSubLimit = this.parsedAttribute.previousHistory.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -161,7 +164,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
     let os: number;
     os = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.parsedAttribute.previousHistory.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -200,7 +203,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
     let plafond: number;
     plafond = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.parsedAttribute.previousHistory.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -233,6 +236,6 @@ export class LoanFacilityDetailHistoryComponent implements OnInit {
 
   // setCurrency
   setCurrency() {
-    this.ccy = this.creditProposal.products[0].attributes.currency;
+    this.ccy = this.parsedAttribute.previousHistory.products[0].attributes.currency;
   }
 }
