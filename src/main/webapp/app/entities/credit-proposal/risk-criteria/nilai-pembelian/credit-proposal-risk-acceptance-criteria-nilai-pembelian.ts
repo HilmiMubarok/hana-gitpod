@@ -26,7 +26,7 @@ export class CreditProposalRacNilaiPembelianComponent {
     this._item = item;
   }
 
-  public displayColumns: string[] = ['no', 'NilaiPembelian', 'FacilityType', 'JenisJaminan', 'KeteranganJaminan', 'action'];
+  public displayColumns: string[] = ['no', 'NilaiPembelian', 'JenisJaminan', 'KeteranganJaminan', 'action'];
 
   public Ca: string;
   public creditApplication: object = ['Yes', 'No'];
@@ -51,7 +51,7 @@ export class CreditProposalRacNilaiPembelianComponent {
       const nilaiRac: INilaiRac = new NilaiRac();
       nilaiRac.lovBelow = {};
       nilaiRac.lovBelow['nilaiPembelian'] = '';
-      nilaiRac.lovBelow['facilityType'] = '';
+
       nilaiRac.lovBelow['jenisJaminan'] = '';
       nilaiRac.lovBelow['keteranganJaminan'] = '';
 

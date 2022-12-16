@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { Observable } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { IDocumentNode } from '../document-node/document-node.model';
 
 interface IObject {
   [key: string]: any;
@@ -13,6 +14,11 @@ export class StorageService {
   public resourceUrl: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+  }
+
+  public update(bucket: string, body: object, parameters: object): Observable<HttpResponse<IDocumentNode[]>> {
+    const params = this.params(parameters);
+    return this.http.post<IDocumentNode[]>(`${this.resourceUrl}/${bucket}/object/update`, body, { observe: 'response', params });
   }
 
   public upload(bucket: string, formData: FormData): Observable<HttpResponse<Object>> {

@@ -1,12 +1,7 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {
-  DOCUMENT_TYPE_COLLATERAL_MACHINE,
-  DOCUMENT_TYPE_COLLATERAL_PROPERTY,
-  DOCUMENT_TYPE_COLLATERAL_VEHICLE,
-  DOCUMENT_TYPE_APPRAISAL,
-} from 'app/shared/constants/base.constants';
+import { DOCUMENT_TYPE_APPRAISAL } from 'app/shared/constants/base.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { ICollateral } from '../collateral/collateral.model';
 import { StorageService } from '../storage/storage.service';
@@ -15,7 +10,6 @@ import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
-import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -64,14 +58,8 @@ export class DocumentUploadDialogComponent implements OnInit {
       document.getElementById('appraisal').style.display = 'none';
       this.object = this.data.collateral;
       this.setCertificateType();
-      // if (this.object.collateralTypeId === 'VEHICLE') {
-      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_VEHICLE);
-      // } else if (this.object.collateralTypeId === 'PROPERTY' || this.object.collateralTypeId === 'REALESTATE') {
-      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_PROPERTY);
-      // } else if (this.object.collateralTypeId === 'MACHINE') {
-      //   this.documentTypes = Object.keys(DOCUMENT_TYPE_COLLATERAL_MACHINE);
-      // }
     }
+
     if (this.data.appraisal) {
       document.getElementById('collateral').style.display = 'none';
       this.object = this.data.appraisal;
