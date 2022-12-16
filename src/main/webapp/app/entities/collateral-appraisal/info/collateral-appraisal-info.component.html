@@ -198,6 +198,7 @@
   <div class="e-card-content">
     <section class="mt-3">
       <ejs-numerictextbox
+        id="myReset"
         cssClass="e-outline"
         placeholder="Total Plafond"
         floatLabelType="Auto"
@@ -205,6 +206,7 @@
         format="IDR 0,"
         min="0"
         [disabled]="!isEnablePlafond"
+        value="totalPlafond"
       >
       </ejs-numerictextbox>
     </section>
