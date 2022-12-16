@@ -96,7 +96,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
     this.aplicationProducts = item.products;
 
     for (let i = 0; i < this.aplicationProducts.length; i++) {
-      console.log('test', this.creditProposal.products[i].attributes.discountProposal);
+      console.log('test', item.products[i].attributes['subLimit']);
       this.aplicationProducts[i].attributes.ftp = '0%';
       this.aplicationProducts[i].attributes.ckpn = '0%';
       this.aplicationProducts[i].attributes.industrySpread = '0%';
@@ -116,6 +116,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
         ' ' +
         item.products[i].attributes['interestRatePeriodType'];
     }
+    this.printElement();
   }
 
   /* public dataBound(args: any) {

@@ -20,7 +20,10 @@
     </ng-container>
     <ng-container matColumnDef="sublimit">
       <th mat-header-cell *matHeaderCellDef>Sublimit</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.subLimitFun }}</td>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.attributes.subLimit === 'true' || element.attributes.subLimit === true; else elseBlock">Yes</span
+        ><ng-template #elseBlock>No</ng-template>
+      </td>
     </ng-container>
     <ng-container matColumnDef="ccy">
       <th mat-header-cell *matHeaderCellDef>CCY</th>
