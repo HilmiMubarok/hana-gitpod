@@ -139,22 +139,11 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
     { id: '9BANDARLAMPUNG', description: 'Bandar Lampung' },
     { id: '10DENPASAR', description: 'Denpasar' },
   ];
-  public wilayahKotaFields: Object = { text: 'description', value: 'id' };
+  public wilayahKotaFields: Object = { text: 'facilityName', value: 'id' };
   public wilayahKotaInternalValue?: string;
   public wilayahKotaExternalValue?: string;
-  public teamReviewer = [
-    { id: '1ANI', description: 'Ani' },
-    { id: '2BUDI', description: 'Budi' },
-    { id: '3CIKA', description: 'Cika' },
-    { id: '4DODI', description: 'Dodi' },
-    { id: '5ERI', description: 'Eri' },
-    { id: '6FONY', description: 'Fony' },
-    { id: '7GILANG', description: 'Gilang' },
-    { id: '8HERU', description: 'Heru' },
-    { id: '9IJAL', description: 'Ijal' },
-    { id: '10KIKI', description: 'Kiki' },
-  ];
-  public teamReviewerFields: Object = { text: 'description', value: 'id' };
+  public teamReviewer: any[];
+  public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
   public teamReviewerValue: string;
   public officerAppraisal = [
     { id: '1ZUKI', description: 'Zuki' },
@@ -215,16 +204,9 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
 
   public surveyCompanyId: any;
   ngOnInit(): void {
-    this.stateBoundaryService.queryFilterBy({ size: 9999, idBoundaryType: 112 }).subscribe(res => {
-      this.cities = res.body;
-    });
-
-    this.surveyorService.query({ size: 9999 }).subscribe(res => {
-      this.surveyors = res.body;
-    });
-
     this.loadPositionRM();
     this.loadSurveyBatchKjjp();
+    this.loadWilayah();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -245,7 +227,6 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
           if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
             this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
           } else {
-            console.log('visit', changes.statusAppraisal.currentValue[i].createdDate);
             this.visitDate = changes.statusAppraisal.currentValue[i].createdDate;
           }
         }
@@ -408,18 +389,7 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
       { id: '10DENPASAR', description: 'Denpasar' },
     ];
     this.teamReviewerValue = '';
-    this.teamReviewer = [
-      { id: '1ANI', description: 'Ani' },
-      { id: '2BUDI', description: 'Budi' },
-      { id: '3CIKA', description: 'Cika' },
-      { id: '4DODI', description: 'Dodi' },
-      { id: '5ERI', description: 'Eri' },
-      { id: '6FONY', description: 'Fony' },
-      { id: '7GILANG', description: 'Gilang' },
-      { id: '8HERU', description: 'Heru' },
-      { id: '9IJAL', description: 'Ijal' },
-      { id: '10KIKI', description: 'Kiki' },
-    ];
+
     this.officerAppraisalValue = '';
     this.officerAppraisal = [
       { id: '1ZUKI', description: 'Zuki' },
@@ -464,12 +434,42 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
         { id: '10DENPASAR', description: 'Denpasar' },
       ];
     }
+
     this.outputKJPPIndependent.emit(args['value']);
     this.cdr.detectChanges();
   }
 
+  private loadWilayah(): void {
+    this.internalService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.cities = res.body;
+      });
+  }
+
   public selectWilayahKota(args: ChangeEventArgs): void {
     this.outputWilayahKota.emit(args['value']);
+
+    this.positionService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idInternal: args['value'],
+      })
+      .subscribe(res => {
+        const teamLeader = [];
+        for (let i = 0; i < res.body.length; i++) {
+          if (res.body[i].positionTypeDescription === 'Team Leader') {
+            teamLeader.push(res.body[i]);
+          }
+        }
+
+        this.teamReviewer = teamLeader;
+      });
+
     this.cdr.detectChanges();
   }
 
@@ -486,7 +486,6 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
     this.surveyBatchService.find(this.collateralAppraisal.surveyBatchId).subscribe(res => {
       this.partnerService.find(res.body.surveyCompanyId).subscribe(ress => {
         this.kjppValue = ress.body.name;
-        console.log('ressss', this.kjppValue);
       });
     });
   }
