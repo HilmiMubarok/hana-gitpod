@@ -184,7 +184,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public conditionOpinion() {
     // Opinion Condition in loan commite approval
-    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL') {
+    if (
+      this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
+      this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+      this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
+    ) {
       // Manipulation in Label
       this.nameLabel = 'Approved Status';
       // Manipulation in radio button
@@ -222,7 +226,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
       this.creditProposalItem.statusId === 'CP_CHECKER' ||
       this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-      this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'
+      this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
+      this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
     ) {
       this.disabledOpinion = false;
     } else {
