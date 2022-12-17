@@ -9,7 +9,7 @@ import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
+import { GEO_BOUNDARY_TYPE, OFFERING_LETTER_SURVEY_BATCH } from 'app/shared/constants/base.constants';
 import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { CreditProposal, ICreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -28,8 +28,8 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
-  selector: 'jhi-collateral-appraisal-process-material',
-  templateUrl: './collateral-appraisal-process-material.component.html',
+  selector: 'jhi-collateral-appraisal-material-external',
+  templateUrl: './collateral-appraisal-material-external.component.html',
   styleUrls: ['../credit-proposal/credit-proposal-list.css'],
   animations: [
     trigger('detailExpand', [
@@ -50,7 +50,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
     ]),
   ],
 })
-export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
+export class CollateralAppraisalMaterialExternalComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
   public displayedColumns: string[] = [
     'no',
     'appraisalNumber',
@@ -71,6 +71,7 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
   public filterData: {
     [key: string]: Object;
   }[] = [];
+  public subMenu: object[];
   public globalSearchValModel: string;
   public collateralAppraisalStatusCodes: IOptionNode[] = [
     {
@@ -90,32 +91,12 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
       label: 'Return To Admin',
     },
     {
-      id: 'ASSIGNED',
-      label: 'Assigned',
+      id: 'APPROVAL_TL',
+      label: 'Approval Team Leader',
     },
     {
-      id: 'VISITED',
-      label: 'Visited',
-    },
-    {
-      id: 'REPORTED',
-      label: 'Reported',
-    },
-    {
-      id: 'RETURN_TO_OFFICER',
-      label: 'Return To Officer',
-    },
-    {
-      id: 'APPROVAL',
-      label: 'Approval',
-    },
-    {
-      id: 'APPEAL',
-      label: 'Appeal',
-    },
-    {
-      id: 'APPROVED',
-      label: 'Approved',
+      id: 'APPROVE',
+      label: 'Approve',
     },
   ];
   constructor(
@@ -141,77 +122,40 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
   }
 
   ngOnInit(): void {
+    this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
+    this.filterStatusCode();
     this.loadCity();
     this.loadAll();
-    this.filterStatusCode();
-    this.filterStatusCodeProcess();
   }
 
-  public urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
-  public urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
-  public urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
-  public urlRequestAppraisal = this.router.url === '/collateral-appraisal';
-  public urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
+  public urlAppraisalExternal = this.router.url === '/batch-apprisal';
 
-  public filterStatusCodeProcess() {
-    if (this.urlAppraisalProcess) {
+  public filterStatusCode() {
+    if (this.urlAppraisalExternal) {
       this.collateralAppraisalStatusCodes = [
         {
-          id: 'ASSIGNED',
-          label: 'Assigned',
+          id: 'ASSIGNMENT',
+          label: ' Assignment',
         },
         {
-          id: 'VISITED',
-          label: 'Visited',
-        },
-        {
-          id: 'RETURN_TO_OFFICER',
-          label: 'Return To Officer',
+          id: 'RETURN_TO_ADMIN',
+          label: 'Return To Admin',
         },
         {
           id: 'APPROVAL_TL',
           label: 'Approval Team Leader',
         },
         {
-          id: 'APPROVAL_DEPT_HEAD',
-          label: 'Approval Dept Head',
-        },
-        {
-          id: 'APPROVAL_DH',
-          label: 'Approval Div Head',
-        },
-        {
-          id: 'APPROVED',
+          id: 'APPROVE',
           label: 'Approve',
         },
       ];
     }
-    if (this.isSurveyor()) {
-      if (this.account.authorities.length <= 2) {
-        // delete reported if user logged in is surveyor
-        this.collateralAppraisalStatusCodes = this.collateralAppraisalStatusCodes.filter(item => item.id !== 'REPORTED');
-      }
-    }
   }
-  public filterStatusCode() {
-    if (this.urlAppraisalInternal) {
-      this.collateralAppraisalStatusCodes = [
-        {
-          id: 'ASSIGNMENT',
-          label: 'Assignment',
-        },
-      ];
-    }
-  }
-
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
       this.creditProposal = res.body[0];
     });
-  }
-
-  public isSurveyor(): any {
-    return this.account.authorities.includes('ROLE_SURVEYOR');
   }
 
   private checkLogin() {
@@ -228,16 +172,18 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
 
     if (this.clickedChip !== '') {
       this.surveyAppraisalService
-        .getBySurveyorByStatus({
+        .queryFilterBy({
           page: this.page,
-          statusId: this.clickedChip,
+          idStatus: this.clickedChip,
           size: this.itemsPerPage,
+          apprOfficer: 'External',
           sort: this.sortData(),
         })
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
+      return;
     }
 
     if (this.currentSearch && this.currentSearch !== '') {
@@ -249,23 +195,12 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
             size: this.itemsPerPage,
             sort: ['id,desc'],
           },
-          'Internal'
+          'External'
         )
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      // this.surveyAppraisalService
-      //   .searchBySurveyor({
-      //     page: this.page,
-      //     query: this.currentSearch,
-      //     size: this.itemsPerPage,
-      //     sort: ['id,desc'],
-      //   })
-      //   .subscribe({
-      //     next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-      //     error: (res: HttpErrorResponse) => this.onError(res.message),
-      //   });
       return;
     }
 
@@ -274,57 +209,30 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
         .searchNew(
           {
             page: this.page,
-            query: this.currentSearch,
+            query: this.globalSearchVal,
             size: this.itemsPerPage,
             sort: ['id,desc'],
           },
-          'Internal'
+          'External'
         )
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      // this.surveyAppraisalService
-      //   .searchBySurveyor({
-      //     page: this.page,
-      //     query: this.globalSearchVal,
-      //     size: this.itemsPerPage,
-      //     sort: ['id,desc'],
-      //   })
-      //   .subscribe({
-      //     next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-      //     error: (res: HttpErrorResponse) => this.onError(res.message),
-      //   });
       return;
     }
 
-    if (this.urlAppraisalInternal) {
+    if (this.urlAppraisalExternal) {
       this.surveyAppraisalService
-        .filterBySurveyor({
+        .queryUrlAppraisalExternalNew({
           page: this.page,
-          idStatus: STATUS.ASSIGNMENT,
           size: this.itemsPerPage,
-          sort: this.sortData(),
+          sort: ['id,desc'],
         })
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      return;
-    }
-
-    if (this.clickedChip === '') {
-      this.surveyAppraisalService
-        .getBySurveyor({
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
     }
   }
 
@@ -441,7 +349,7 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
 
   public doSearch(args: any = null): void {
     if (this.currentSearch) {
-      this.router.navigate(['collateral-appraisal-process'], {
+      this.router.navigate(['batch-apprisal'], {
         queryParams: {
           search: this.currentSearch,
         },
@@ -458,7 +366,7 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
           const searchVal = '*' + args.value + '*';
           this.globalSearchVal = searchVal;
           this.globalSearchValModel = args.value;
-          this.router.navigate(['collateral-appraisal-process'], {
+          this.router.navigate(['batch-apprisal'], {
             queryParams: {
               searchByTown: searchVal,
             },
@@ -468,10 +376,10 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
         }
         this.globalSearchVal = '';
         this.globalSearchValModel = '';
-        this.router.navigate(['collateral-appraisal-process'], {});
+        this.router.navigate(['batch-apprisal'], {});
         this.loadAll();
       } else {
-        this.router.navigate(['collateral-appraisal-process']);
+        this.router.navigate(['batch-apprisal']);
         this.loadAll();
       }
     }
@@ -479,5 +387,10 @@ export class CollateralAppraisalProcessMaterialComponent extends AbstractEntityM
 
   public goToEdit(): void {
     this.router.navigate(['./collateral-appraisal/new']);
+  }
+
+  public routeSubMenu(menu: object): void {
+    // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['./batch-apprisal/' + menu['id']]);
   }
 }

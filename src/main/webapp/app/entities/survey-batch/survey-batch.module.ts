@@ -19,6 +19,7 @@ import { SurveyBatchCollateralAppraisalPersonViewComponent } from './person/surv
 import { SurveyBatchCollateralAppraisalPartyGroupViewComponent } from './group/survey-batch-collateral-appraisal-party-group-view.component';
 import { SurveyBatchPostalAddressViewComponent } from './address/survey-batch-postal-address-view.component';
 import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-batch-collateral-info.component';
+import { CollateralAppraisalMaterialExternalComponent } from './collateral-appraisal-material-external.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
@@ -40,6 +41,7 @@ import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-bat
     SurveyBatchCollateralAppraisalPartyGroupViewComponent,
     SurveyBatchPostalAddressViewComponent,
     SurveyBatchCollateralInfoComponent,
+    CollateralAppraisalMaterialExternalComponent,
   ],
   entryComponents: [
     SurveyBatchComponent,
@@ -51,6 +53,7 @@ import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-bat
     SurveyBatchCollateralAppraisalPartyGroupViewComponent,
     SurveyBatchPostalAddressViewComponent,
     SurveyBatchCollateralInfoComponent,
+    CollateralAppraisalMaterialExternalComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
