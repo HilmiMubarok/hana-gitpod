@@ -72,7 +72,7 @@
               <div *ngIf="collateralProp.propertyType === 'BUILDING'">
                 <ejs-numerictextbox
                   cssClass="e-outline"
-                  [value]="this.collateralProp.imbArea * this.collateralProp.propertyMarketValuePerMeter"
+                  [value]="this.countTotalArea() * this.collateralProp.propertyMarketValuePerMeter"
                   placeholder="Market
                   Value"
                   floatLabelType="auto"
@@ -118,10 +118,44 @@
               >
               </ejs-numerictextbox>
               <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Market Value IMB Per Meter</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValueIMBPerMeter" />
-            </mat-form-field> -->
+                <mat-label>Market Value IMB Per Meter</mat-label>
+                <input matInput type="number" [(ngModel)]="collateralProp.imbArea" />
+              </mat-form-field> -->
             </section>
+            <div class="mt-3" *ngIf="collateralProp.propertyType === 'LAND'">
+              <ejs-numerictextbox
+                cssClass="e-outline"
+                [(ngModel)]="collateralProp.imbArea"
+                placeholder="Market Value IMB"
+                floatLabelType="auto"
+                format="IDR 0,"
+                min="0"
+                required
+                hidden
+              >
+              </ejs-numerictextbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
+                <mat-label>pi</mat-label>
+                <input matInput type="number" [(ngModel)]="collateralProp.imbArea" />
+              </mat-form-field> -->
+            </div>
+            <div class="mt-3" *ngIf="collateralProp.propertyType === 'BUILDING'">
+              <ejs-numerictextbox
+                cssClass="e-outline"
+                [(ngModel)]="collateralProp.imbArea"
+                placeholder="Market Value IMB"
+                floatLabelType="auto"
+                format="IDR 0,"
+                min="0"
+                required
+                disabled
+              >
+              </ejs-numerictextbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
+                <mat-label>pi</mat-label>
+                <input matInput type="number" [(ngModel)]="collateralProp.imbArea" />
+              </mat-form-field> -->
+            </div>
             <section class="mt-3">
               <ejs-numerictextbox
                 cssClass="e-outline"
