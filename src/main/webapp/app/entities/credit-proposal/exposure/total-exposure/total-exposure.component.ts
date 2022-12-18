@@ -11,6 +11,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-total-exposure',
@@ -18,6 +19,8 @@ import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
 export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges {
+  public parsedAttr;
+  public dataSource;
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -241,6 +244,19 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+    if (this.parsedAttr.previousHistory) {
+      console.log('true');
+      this.dataSource = this.parsedAttr.previousHistory.products;
+    } else {
+      console.log('false');
+      this.dataSource = this.creditProposal.products;
+    }
+
+    console.log('dataSource', {
+      dataSource: this.dataSource,
+      parsed: this.parsedAttr,
+    });
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();
@@ -268,32 +284,32 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   fungsiSumTotalDebiturCashLoan() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
+    for (let i = 0; i < this.dataSource.length; i++) {
       // cashloan
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'WCI') {
-        this.totalWcl = this.totalWcl + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
+        this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.initialLimit);
       }
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'DL') {
-        this.totalDl = this.totalDl + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'DL') {
+        this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.initialLimit);
       }
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'MML') {
-        this.totalMML = this.totalMML + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'MML') {
+        this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.initialLimit);
       }
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'FL') {
-        this.totalFL = this.totalFL + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'FL') {
+        this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.initialLimit);
       }
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'IL') {
-        this.totalIL = this.totalIL + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'IL') {
+        this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.initialLimit);
       }
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'OD') {
-        this.totalOD = this.totalOD + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'OD') {
+        this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.initialLimit);
       }
 
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'BG') {
-        this.totalBG = this.totalBG + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'BG') {
+        this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.initialLimit);
       }
-      if (this._creditProposal.products[i].attributes['facilityType'] === 'LC') {
-        this.totalLC = this.totalLC + Number(this._creditProposal.products[i].attributes.initialLimit);
+      if (this.dataSource[i].attributes['facilityType'] === 'LC') {
+        this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.initialLimit);
       }
     }
   }
@@ -306,15 +322,17 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     const datafilter = this.creditProposal.products.filter(
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
+    console.log('SUMINIT', this.dataSource);
 
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.initialLimit === undefined) {
-          // console.log('masuk limit');
-          // console.log('initial limit', this._creditProposal.products[i].attributes.initialLimit);
-        } else {
-          this.init = this.init + Number(this._creditProposal.products[i].attributes.initialLimit);
-        }
+    if (this.dataSource.length > 0) {
+      for (let i = 0; i < this.dataSource.length; i++) {
+        // if (this.dataSource[i].attributes.initialLimit === undefined) {
+        //   // console.log('masuk limit');
+        //   // console.log('initial limit', this.dataSource[i].attributes.initialLimit);
+        // } else {
+        //   this.init = this.init + Number(this.dataSource[i].attributes.initialLimit);
+        // }
+        this.init = this.init + Number(this.dataSource[i].attributes.initialLimit);
       }
     }
   }
@@ -323,13 +341,13 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     const datafilter = this.creditProposal.products.filter(
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.changes === undefined) {
+    if (this.dataSource.length > 0) {
+      for (let i = 0; i < this.dataSource.length; i++) {
+        if (this.dataSource[i].attributes.changes === undefined) {
           // console.log('masuk');
         } else {
-          this.change = this.change + Number(this._creditProposal.products[i].attributes.changes);
-          // console.log(this._creditProposal.products[i].attributes.changes);
+          this.change = this.change + Number(this.dataSource[i].attributes.changes);
+          // console.log(this.dataSource[i].attributes.changes);
         }
       }
     }
@@ -339,25 +357,25 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
 
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.outstanding === undefined) {
+    if (this.dataSource.length > 0) {
+      for (let i = 0; i < this.dataSource.length; i++) {
+        if (this.dataSource[i].attributes.outstanding === undefined) {
           // console.log('masuk');
         } else {
-          this.os = this.os + Number(this._creditProposal.products[i].attributes.outstanding);
-          // console.log(this._creditProposal.products[i].attributes.outstanding);
+          this.os = this.os + Number(this.dataSource[i].attributes.outstanding);
+          // console.log(this.dataSource[i].attributes.outstanding);
         }
       }
     }
   }
   fungsiSumavailable() {
-    for (let i = 0; i < this._creditProposal.products.length; i++) {
-      if (this._creditProposal.products[i].attributes.availableLimit === undefined) {
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if (this.dataSource[i].attributes.availableLimit === undefined) {
         // console.log('tidak masuk available');
       } else {
-        this.available = this.available + Number(this._creditProposal.products[i].attributes.availableLimit);
+        this.available = this.available + Number(this.dataSource[i].attributes.availableLimit);
         // console.log('ada available');
-        // console.log(this._creditProposal.products[i].attributes.availableLimit);
+        // console.log(this.dataSource[i].attributes.availableLimit);
       }
     }
   }

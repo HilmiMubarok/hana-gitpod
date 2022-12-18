@@ -233,7 +233,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
               this.collateralAppraisalService.update(this.arrayCollateral[i]).subscribe(result => {
                 flag++;
                 if (flag === this.arrayCollateral.length) {
-                  this.router.navigate(['./batch-apprisal']);
+                  this.router.navigate(['./batch-apprisal/survey-batch']);
                   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
                 }
               });

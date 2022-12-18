@@ -77,6 +77,17 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }
 
+  public queryUrlAppraisalExternalNew(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/request-appraisals/external', {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
   public queryUrlAppraisalProcess(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
     const options = createRequestOption(req);
     return this.http
@@ -131,6 +142,16 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
     const options = createRequestOption(req);
     return this.http
       .get<any[]>(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals/by-surveyor', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+
+  public searchNew(req?: any, src?: string): Observable<HttpResponse<any>> {
+    console.log('req', req);
+    const options = createRequestOption(req);
+    console.log('options', options);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/_search/survey-appraisals/officer-type/' + src, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }

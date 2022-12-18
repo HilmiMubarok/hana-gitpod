@@ -1236,6 +1236,10 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
 export const OFFERING_LETTER_SURVEY_BATCH: object[] = [
   {
     id: '',
+    label: 'Appraisal Distribution External',
+  },
+  {
+    id: 'offering-letter',
     label: 'Offering Letter',
   },
   {
