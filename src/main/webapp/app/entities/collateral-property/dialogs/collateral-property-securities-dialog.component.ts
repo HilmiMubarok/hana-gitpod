@@ -50,6 +50,11 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   public filteredOptionsMVImbPs: Observable<IUom[]>;
   public MVImbPsCcy: IUom;
 
+  public myControlQuantity = new FormControl();
+  public optionsQuantity: IUom[];
+  public filteredOptionsQuantity: Observable<IUom[]>;
+  public qty: IUom;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -150,6 +155,25 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     return this.optionsMVImbPs.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
+  filteredQuantity() {
+    this.filteredOptionsQuantity = this.myControlQuantity.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterQuantity(name as string) : this.optionsQuantity.slice();
+      })
+    );
+  }
+
+  displayFnQuantity(quantity: IUom): string {
+    return quantity && quantity.id ? quantity.id : '';
+  }
+
+  private _filterQuantity(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsQuantity.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
     if (data.attributes.province) {
       data.attributes.province = parseInt(data.attributes.province, 10);
@@ -248,7 +272,9 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.areaMeasure = res.body;
+        this.optionsQuantity = res.body;
+        this.filteredQuantity();
+        this.qty = this.optionsQuantity.find(obj => (obj.id = this.collateralProperty.attributes.quantitySizeUomId));
       });
   }
 
@@ -295,6 +321,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
       this.myControlMVImb.disable();
       this.myControlMVImbPs.disable();
+      this.myControlQuantity.disable();
     }
   }
 
@@ -310,5 +337,13 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
 
   public getMVImbPsCcy() {
     this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
+  }
+
+  public getQty() {
+    this.collateralProperty.attributes.quantitySizeUomId = this.qty.id;
+  }
+
+  public sliceText(text: string) {
+    return text.slice(5);
   }
 }
