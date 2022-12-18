@@ -26,6 +26,8 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import { FormControl } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'jhi-collateral-property-personal-property-dialog',
@@ -38,6 +40,16 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
   guaranteeType: any;
   debitBlock: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
+
+  public myControlMVImb = new FormControl();
+  public optionsMVImb: IUom[];
+  public filteredOptionsMVImb: Observable<IUom[]>;
+  public MVImbCcy: IUom;
+
+  public myControlMVImbPs = new FormControl();
+  public optionsMVImbPs: IUom[];
+  public filteredOptionsMVImbPs: Observable<IUom[]>;
+  public MVImbPsCcy: IUom;
 
   @Input()
   get collateralPropertyExternal() {
@@ -99,6 +111,47 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
+    this.cekDataSource();
+  }
+
+  filteredMVImb() {
+    console.log('ini options ', this.optionsMVImb);
+    this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImb(name as string) : this.optionsMVImb.slice();
+      })
+    );
+  }
+
+  displayFnMVImb(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVImb(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredMVImbPs() {
+    console.log('ini options ', this.optionsMVImbPs);
+    this.filteredOptionsMVImbPs = this.myControlMVImbPs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImbPs(name as string) : this.optionsMVImbPs.slice();
+      })
+    );
+  }
+
+  displayFnMVImbPs(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVImbPs(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImbPs.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -182,7 +235,12 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.optionsMVImb = res.body;
+        this.filteredMVImb();
+        this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
+        this.optionsMVImbPs = res.body;
+        this.filteredMVImbPs();
+        this.MVImbPsCcy = this.optionsMVImbPs.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
       });
   }
 
@@ -237,6 +295,13 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     return false;
   }
 
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlMVImb.disable();
+      this.myControlMVImbPs.disable();
+    }
+  }
+
   public loadUomService() {
     this.uomService.query({ size: 9999 }).subscribe(res => {
       console.log(res.body);
@@ -257,5 +322,13 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
     });
+  }
+
+  public getMVImbCcy() {
+    this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
+  }
+
+  public getMVImbPsCcy() {
+    this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
   }
 }

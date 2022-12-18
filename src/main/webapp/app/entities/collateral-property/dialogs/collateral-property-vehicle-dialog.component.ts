@@ -26,6 +26,8 @@ import {
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { map, Observable, startWith } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'jhi-collateral-property-vehicle-dialog',
@@ -40,6 +42,16 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   public branceManagement: any;
   public branchesNames: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
+
+  public myControl = new FormControl();
+  public options: IUom[];
+  public filteredOptions: Observable<IUom[]>;
+  public Ccy: IUom;
+
+  public myControlMVImb = new FormControl();
+  public optionsMVImb: IUom[];
+  public filteredOptionsMVImb: Observable<IUom[]>;
+  public MVImbCcy: IUom;
 
   @Input()
   get collateralPropertyExternal() {
@@ -99,6 +111,46 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     this.setManagementBrance();
     this.setBranches();
     this.setCertyficateType();
+    this.cekDataSource();
+  }
+
+  filtered() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filter(name as string) : this.options.slice();
+      })
+    );
+  }
+
+  displayFn(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filter(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.options.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredMVImb() {
+    console.log('ini options ', this.optionsMVImb);
+    this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImb(name as string) : this.optionsMVImb.slice();
+      })
+    );
+  }
+
+  displayFnMVImb(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVImb(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -182,7 +234,12 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.options = res.body;
+        this.filtered();
+        this.Ccy = this.options.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
+        this.optionsMVImb = res.body;
+        this.filteredMVImb();
+        this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
       });
   }
 
@@ -236,6 +293,14 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     }
     return false;
   }
+
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlMVImb.disable();
+      this.myControl.disable();
+    }
+  }
+
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
       this.branceManagement = res.body;
@@ -253,5 +318,13 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
     });
+  }
+
+  public getCcy() {
+    this.collateralProperty.attributes.marketValueCcy = this.Ccy.id;
+  }
+
+  public getMVImbCcy() {
+    this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
   }
 }

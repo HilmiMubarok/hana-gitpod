@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -28,6 +29,7 @@ import {
   GUARANTEE_BIS_COL_DETAIL_TYPE,
   MANAGEMENT_BRANCH,
 } from 'app/shared/constants/base.constants';
+import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-property-letter-guaranty',
   templateUrl: './collateral-property-letter-guaranty.component.html',
@@ -40,6 +42,21 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   debitBlock: any;
   public guaranteeBisColDetailType: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
+
+  public myControl = new FormControl();
+  public options: IUom[];
+  public filteredOptions: Observable<IUom[]>;
+  public Ccy: IUom;
+
+  public myControlApr = new FormControl();
+  public optionsApr: IUom[];
+  public filteredOptionsApr: Observable<IUom[]>;
+  public CcyApr: IUom;
+
+  public myControlCurrency = new FormControl();
+  public optionsCurrency: IUom[];
+  public filteredOptionsCurrency: Observable<IUom[]>;
+  public amountCcy: IUom;
 
   @Input()
   get collateralPropertyExternal() {
@@ -106,6 +123,65 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setManagementBrance();
     this.setBranches();
     this.setGurantee();
+    this.cekDataSource();
+  }
+
+  filtered() {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filter(name as string) : this.options.slice();
+      })
+    );
+  }
+
+  displayFn(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filter(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.options.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredApr() {
+    this.filteredOptionsApr = this.myControlApr.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterApr(name as string) : this.optionsApr.slice();
+      })
+    );
+  }
+
+  displayFnApr(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterApr(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsApr.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredCurrency() {
+    console.log('ini options ', this.optionsCurrency);
+    this.filteredOptionsCurrency = this.myControlCurrency.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterCurrency(name as string) : this.optionsCurrency.slice();
+      })
+    );
+  }
+
+  displayFnCurrency(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterCurrency(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsCurrency.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -189,7 +265,15 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.options = res.body;
+        this.filtered();
+        this.Ccy = this.options.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
+        this.optionsCurrency = res.body;
+        this.filteredCurrency();
+        this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.attributes.amountUomId);
+        this.optionsApr = res.body;
+        this.filteredApr();
+        this.CcyApr = this.optionsApr.find(obj => obj.id === this.collateralProperty.attributes.approvedCreditLineCcy);
       });
   }
 
@@ -244,6 +328,14 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     return false;
   }
 
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControl.disable();
+      this.myControlApr.disable();
+      this.myControlCurrency.disable();
+    }
+  }
+
   // setValue
   setValueChar() {
     if (this.collateralProperty.attributes.charCollateral === '1') {
@@ -270,5 +362,17 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
       this.guarantes = res.body;
       this.guaranteeCovere = this.guarantes.forEach(element => element.label);
     });
+  }
+
+  public getCcy() {
+    this.collateralProperty.attributes.marketValueCcy = this.Ccy.id;
+  }
+
+  public getCcyApr() {
+    this.collateralProperty.attributes.approvedCreditLineCcy = this.CcyApr.id;
+  }
+
+  public getAmountCcy() {
+    this.collateralProperty.attributes.amountUomId = this.amountCcy.id;
   }
 }
