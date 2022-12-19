@@ -429,7 +429,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   // }
 
   public print() {
-    console.log(this.creditProposalData.products);
+    console.log(this.applicationProduct.attributes['initialLimit']);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
