@@ -138,9 +138,9 @@
 
               <div style="margin-left: 15px; margin-top: 12px">
                 <b style="font-weight: 600; color: white; width: 90px" class="col-3">USD</b>
-                <div style="color: white; width: 90px">$ 12</div>
-                <div style="color: white; width: 90px">$ 12</div>
-                <div style="color: white; width: 90px">$ 12</div>
+                <div style="color: white; width: 300px">USD {{ totalPlafonUSD | number }}</div>
+                <div style="color: white; width: 300px">USD {{ countOSUSD | number }}</div>
+                <div style="color: white; width: 130px">USD {{ availableLimitUSD | number }}</div>
               </div>
             </div>
           </div>
@@ -153,16 +153,17 @@
             <div>
               <div style="margin-left: 19px">
                 <b style="font-weight: 600; color: white; width: 90px">Avg IDR</b>
-                <div style="color: white; width: 90px">IDR 12</div>
-                <div style="color: white; width: 90px">IDR 12</div>
-                <div style="color: white; width: 90px">IDR 12</div>
+                <div style="color: white; width: 300px">IDR {{ totalPlafonAVG | number }}</div>
+                <div style="color: white; width: 300px">IDR {{ countOSAVG | number }}</div>
+                <div style="color: white; width: 300px">IDR {{ availabelLimitArrayAVG | number }}</div>
               </div>
 
               <div style="margin-left: 19px; margin-top: 12px">
                 <b style="font-weight: 600; color: white; width: 90px">Avg USD</b>
-                <div style="color: white; width: 90px">$ 12</div>
-                <div style="color: white; width: 90px">$ 12</div>
-                <div style="color: white; width: 90px">$ 12</div>
+
+                <div style="color: white; width: 300px">USD {{ totalPlafonUSDAVG | number }}</div>
+                <div style="color: white; width: 300px">USD {{ countOSUSDAVG | number }}</div>
+                <div style="color: white; width: 300px">USD {{ availableLimitUSDAVG | number }}</div>
               </div>
             </div>
           </div>
