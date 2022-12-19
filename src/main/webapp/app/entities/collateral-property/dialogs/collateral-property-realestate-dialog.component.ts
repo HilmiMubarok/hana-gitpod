@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -26,6 +27,7 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-property-realestate-dialog',
   templateUrl: './collateral-property-realestate-dialog.component.html',
@@ -38,6 +40,26 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   debitBlock: any;
   public branchesNames: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
+
+  public myControlMVImb = new FormControl();
+  public optionsMVImb: IUom[];
+  public filteredOptionsMVImb: Observable<IUom[]>;
+  public MVImbCcy: IUom;
+
+  public myControlMVPs = new FormControl();
+  public optionsMVPs: IUom[];
+  public filteredOptionsMVPs: Observable<IUom[]>;
+  public MVPsCcy: IUom;
+
+  public myControlMVEx = new FormControl();
+  public optionsMVEx: IUom[];
+  public filteredOptionsMVEx: Observable<IUom[]>;
+  public MVExCcy: IUom;
+
+  public myControlMVTk = new FormControl();
+  public optionsMVTk: IUom[];
+  public filteredOptionsMVTk: Observable<IUom[]>;
+  public MVTkCcy: IUom;
 
   @Input()
   get collateralPropertyExternal() {
@@ -98,6 +120,85 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     this.setCertyficateType();
     this.setManagementBrance();
     this.setBranches();
+    this.cekDataSource();
+  }
+
+  filteredMVImb() {
+    console.log('ini options ', this.optionsMVImb);
+    this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImb(name as string) : this.optionsMVImb.slice();
+      })
+    );
+  }
+
+  displayFnMVImb(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVImb(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredMVPs() {
+    this.filteredOptionsMVPs = this.myControlMVPs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVPs(name as string) : this.optionsMVPs.slice();
+      })
+    );
+  }
+
+  displayFnMVPs(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVPs(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVPs.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredMVEx() {
+    console.log('ini options ', this.optionsMVEx);
+    this.filteredOptionsMVEx = this.myControlMVEx.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVEx(name as string) : this.optionsMVEx.slice();
+      })
+    );
+  }
+
+  displayFnMVEx(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVEx(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVEx.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredMVTk() {
+    this.filteredOptionsMVTk = this.myControlMVTk.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVTk(name as string) : this.optionsMVTk.slice();
+      })
+    );
+  }
+
+  displayFnMVTk(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVTk(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVTk.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -181,7 +282,18 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.optionsMVImb = res.body;
+        this.filteredMVImb();
+        this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
+        this.optionsMVPs = res.body;
+        this.filteredMVPs();
+        this.MVPsCcy = this.optionsMVPs.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
+        this.optionsMVEx = res.body;
+        this.filteredMVEx();
+        this.MVExCcy = this.optionsMVEx.find(obj => obj.id === this.collateralPropertyExternal.attributes.marketValueCcy);
+        this.optionsMVTk = res.body;
+        this.filteredMVTk();
+        this.MVTkCcy = this.optionsMVTk.find(obj => obj.id === this.collateralProperty.attributes.marketValueTkCcy);
       });
   }
 
@@ -236,6 +348,15 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     return false;
   }
 
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlMVImb.disable();
+      this.myControlMVEx.disable();
+      this.myControlMVPs.disable();
+      this.myControlMVTk.disable();
+    }
+  }
+
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
       this.branceManagement = res.body;
@@ -252,5 +373,22 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
     });
+  }
+
+  public getMVImbCcy() {
+    this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
+  }
+
+  public getMVPsCcy() {
+    this.collateralProperty.attributes.marketValueCcy = this.MVPsCcy.id;
+  }
+
+  public getMVExCcy() {
+    this.collateralPropertyExternal.attributes.marketValueCcy = this.MVExCcy.id;
+  }
+
+  public getMVTkCcy() {
+    console.log('this.mk tk', this.MVTkCcy);
+    this.collateralProperty.attributes.marketValueTkCcy = this.MVTkCcy.id;
   }
 }

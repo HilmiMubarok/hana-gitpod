@@ -186,10 +186,23 @@
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ccy</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.marketValueCcy" [disabled]="dataSource()">
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVPs"
+            [matAutocomplete]="autoMvPs"
+            [(ngModel)]="MVPsCcy"
+            (ngModelChange)="getMVPsCcy()"
+          />
+          <mat-autocomplete #autoMvPs="matAutocomplete" [displayWith]="displayFnMVPs">
+            <mat-option *ngFor="let option of filteredOptionsMVPs | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -212,10 +225,23 @@
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ccy</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.marketValueImbCcy" [disabled]="dataSource()">
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVImb"
+            [matAutocomplete]="autoImb"
+            [(ngModel)]="MVImbCcy"
+            (ngModelChange)="getMVImbCcy()"
+          />
+          <mat-autocomplete #autoImb="matAutocomplete" [displayWith]="displayFnMVImb">
+            <mat-option *ngFor="let option of filteredOptionsMVImb | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueImbCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -238,10 +264,23 @@
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ccy</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.marketValueUomId" [disabled]="dataSource()">
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVTk"
+            [matAutocomplete]="autoMvTk"
+            [(ngModel)]="MVTkCcy"
+            (ngModelChange)="getMVTkCcy()"
+          />
+          <mat-autocomplete #autoMvTk="matAutocomplete" [displayWith]="displayFnMVTk">
+            <mat-option *ngFor="let option of filteredOptionsMVTk | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueUomId" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -286,10 +325,23 @@
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ccy</mat-label>
-          <mat-select [(ngModel)]="collateralPropertyExternal.attributes.marketValueCcy" [disabled]="dataSource()">
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVEx"
+            [matAutocomplete]="autoMvEx"
+            [(ngModel)]="MVExCcy"
+            (ngModelChange)="getMVExCcy()"
+          />
+          <mat-autocomplete #autoMvEx="matAutocomplete" [displayWith]="displayFnMVEx">
+            <mat-option *ngFor="let option of filteredOptionsMVEx | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralPropertyExternal.attributes.marketValueCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>

@@ -67,6 +67,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.initializeCountry();
+    this.cekDataSource();
   }
 
   filteredCountry() {
@@ -181,7 +182,12 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   public initializeCity(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: this.postalAddress.provinceId })
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['city'],
+        idParent: this.postalAddress.provinceId,
+      })
       .subscribe(res => {
         this.optionsCity = res.body;
         this.filteredCity();
@@ -191,7 +197,12 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   public initializeDistrict(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: this.postalAddress.cityId })
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['district'],
+        idParent: this.postalAddress.cityId,
+      })
       .subscribe(res => {
         this.optionsDistrict = res.body;
         this.filteredDistrict();
@@ -201,7 +212,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   public initializeVillage(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.postalAddress.districtId })
+      .queryFilterBy({ page: 0, size: 9999, idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.postalAddress.districtId })
       .subscribe(res => {
         this.optionsVillage = res.body;
         this.filteredVillage();
@@ -211,7 +222,12 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   public initializeProvince(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['province'], idParent: this.postalAddress.countryId })
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        idParent: this.postalAddress.countryId,
+      })
       .subscribe(res => {
         this.optionsProvince = res.body;
         this.filteredProvince();
@@ -227,7 +243,8 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     this.stateBoundaryService
       .queryFilterBy({
         idBoundaryType: GEO_BOUNDARY_TYPE['country'],
-        size: 250,
+        page: 0,
+        size: 9999,
       })
       .subscribe(res => {
         this.optionsCountry = res.body;
@@ -265,7 +282,17 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     return false;
   }
 
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlCountry.disable();
+      this.myControlProvince.disable();
+      this.myControlCity.disable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+    }
+  }
+
   print() {
-    console.log(this.postalAddress);
+    console.log(this.collateral);
   }
 }

@@ -39,10 +39,17 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public myControlCurrency = new FormControl();
   public optionsCurrency: IUom[];
   public filteredOptionsCurrency: Observable<IUom[]>;
+  public amountCcy: IUom;
+
+  public myControlMVImb = new FormControl();
+  public optionsMVImb: IUom[];
+  public filteredOptionsMVImb: Observable<IUom[]>;
+  public MVImbCcy: IUom;
 
   public myControlQuantity = new FormControl();
   public optionsQuantity: IUom[];
   public filteredOptionsQuantity: Observable<IUom[]>;
+  public qty: IUom;
 
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
@@ -111,6 +118,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.setManagementBrance();
     this.setBranches();
     this.setDebitBlock();
+    this.cekDataSource();
   }
 
   filteredCurrency() {
@@ -120,6 +128,17 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
       map(value => {
         const name = typeof value === 'string' ? value : value?.description;
         return name ? this._filterCurrency(name as string) : this.optionsCurrency.slice();
+      })
+    );
+  }
+
+  filteredMVImb() {
+    console.log('ini options ', this.optionsMVImb);
+    this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImb(name as string) : this.optionsMVImb.slice();
       })
     );
   }
@@ -135,7 +154,11 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   displayFnCurrency(curency: IUom): string {
-    return curency && curency.description ? curency.description : '';
+    return curency && curency.id ? curency.id : '';
+  }
+
+  displayFnMVImb(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
   }
 
   displayFnQuantity(quantity: IUom): string {
@@ -144,8 +167,12 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
 
   private _filterCurrency(description: string): IUom[] {
     const filterValue = description.toLowerCase();
-    console.log('ini option', this.optionsCurrency);
     return this.optionsCurrency.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  private _filterMVImb(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   private _filterQuantity(description: string): IUom[] {
@@ -244,8 +271,12 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
       })
       .subscribe(res => {
         this.optionsCurrency = res.body;
+        this.optionsMVImb = res.body;
         // this.options = this.findIndex(this.options);
         this.filteredCurrency();
+        this.filteredMVImb();
+        this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.attributes.amountCcy);
+        this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
       });
   }
 
@@ -259,6 +290,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
       .subscribe(res => {
         this.optionsQuantity = res.body;
         this.filteredQuantity();
+        this.qty = this.optionsQuantity.find(obj => (obj.abbreviation = this.collateralProperty.attributes.quantitySizeUomId));
       });
   }
 
@@ -301,6 +333,14 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     return false;
   }
 
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlMVImb.disable();
+      this.myControlCurrency.disable();
+      this.myControlQuantity.disable();
+    }
+  }
+
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
       this.branceManagement = res.body;
@@ -317,5 +357,17 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.partyCifService.getDebitBlock().subscribe(res => {
       this.debitBlock = res.body;
     });
+  }
+
+  public getAmountCcy() {
+    this.collateralProperty.attributes.amountCcy = this.amountCcy.id;
+  }
+
+  public getMVImbCcy() {
+    this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
+  }
+
+  public getQty() {
+    this.collateralProperty.attributes.quantitySizeUomId = this.qty.abbreviation;
   }
 }

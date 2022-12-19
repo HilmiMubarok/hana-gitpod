@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -26,6 +27,7 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import { map, Observable, startWith } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-property-securities-dialog',
   templateUrl: './collateral-property-securities-dialog.component.html',
@@ -37,6 +39,21 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   guaranteeType: any;
   debitBlock: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
+
+  public myControlMVImb = new FormControl();
+  public optionsMVImb: IUom[];
+  public filteredOptionsMVImb: Observable<IUom[]>;
+  public MVImbCcy: IUom;
+
+  public myControlMVImbPs = new FormControl();
+  public optionsMVImbPs: IUom[];
+  public filteredOptionsMVImbPs: Observable<IUom[]>;
+  public MVImbPsCcy: IUom;
+
+  public myControlQuantity = new FormControl();
+  public optionsQuantity: IUom[];
+  public filteredOptionsQuantity: Observable<IUom[]>;
+  public qty: IUom;
 
   @Input()
   get collateralPropertyExternal() {
@@ -95,6 +112,66 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.loadProvince();
     this.collateral.collateralTypeId;
     this.setManagementBrance();
+    this.cekDataSource();
+  }
+
+  filteredMVImb() {
+    console.log('ini options ', this.optionsMVImb);
+    this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImb(name as string) : this.optionsMVImb.slice();
+      })
+    );
+  }
+
+  displayFnMVImb(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVImb(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredMVImbPs() {
+    console.log('ini options ', this.optionsMVImbPs);
+    this.filteredOptionsMVImbPs = this.myControlMVImbPs.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVImbPs(name as string) : this.optionsMVImbPs.slice();
+      })
+    );
+  }
+
+  displayFnMVImbPs(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVImbPs(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVImbPs.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  filteredQuantity() {
+    this.filteredOptionsQuantity = this.myControlQuantity.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterQuantity(name as string) : this.optionsQuantity.slice();
+      })
+    );
+  }
+
+  displayFnQuantity(quantity: IUom): string {
+    return quantity && quantity.id ? quantity.id : '';
+  }
+
+  private _filterQuantity(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsQuantity.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
@@ -178,7 +255,12 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.currencies = res.body;
+        this.optionsMVImb = res.body;
+        this.filteredMVImb();
+        this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
+        this.optionsMVImbPs = res.body;
+        this.filteredMVImbPs();
+        this.MVImbPsCcy = this.optionsMVImbPs.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
       });
   }
 
@@ -190,7 +272,9 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.areaMeasure = res.body;
+        this.optionsQuantity = res.body;
+        this.filteredQuantity();
+        this.qty = this.optionsQuantity.find(obj => (obj.id = this.collateralProperty.attributes.quantitySizeUomId));
       });
   }
 
@@ -233,9 +317,33 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     return false;
   }
 
+  public cekDataSource() {
+    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlMVImb.disable();
+      this.myControlMVImbPs.disable();
+      this.myControlQuantity.disable();
+    }
+  }
+
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
       this.branceManagement = res.body;
     });
+  }
+
+  public getMVImbCcy() {
+    this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
+  }
+
+  public getMVImbPsCcy() {
+    this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
+  }
+
+  public getQty() {
+    this.collateralProperty.attributes.quantitySizeUomId = this.qty.id;
+  }
+
+  public sliceText(text: string) {
+    return text.slice(5);
   }
 }
