@@ -284,7 +284,8 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   }
 
   public addRow(): void {
-    this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
+    const newRow = { date: '', debit: 0, fqDebit: 0, credit: 0, fqCredit: 0, lowest: 0, highest: 0, balance: 0, isEdit: true };
+    this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, newRow];
   }
 
   public save(): void {

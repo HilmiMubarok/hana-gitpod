@@ -186,42 +186,28 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     this.totalLandArea = total;
   }
 
-  public countTotalArea(): void {
+  public countTotalArea(element: ICollateralProperty): number {
     let total: number;
     total = 0;
 
-    if (this.collateralProperties.length > 0) {
-      for (let i = 0; i < this.collateralProperties.length; i++) {
-        const item: ICollateralProperty = this.collateralProperties[i];
-        total = total + item.imbArea;
+    if (element.propertyType === CollateralPropertyType.BUILDING) {
+      if (lodash.has(element.attributes, 'floors')) {
+        const floors: object[] = JSON.parse(element.attributes['floors']);
+        if (floors.length > 0) {
+          for (let i = 0; i < floors.length; i++) {
+            const floor: object = floors[i];
+            total = total + parseInt(floor['area'], 10);
+          }
+        }
       }
     }
 
-    this.totalLandArea = total;
+    if (element.propertyType === CollateralPropertyType.LAND) {
+      return element.landSizePerCertificate;
+    }
+
+    return total;
   }
-
-  // public countTotalArea(element: ICollateralProperty): number {
-  //   let total: number;
-  //   total = 0;
-
-  //   if (element.propertyType === CollateralPropertyType.BUILDING) {
-  //     if (lodash.has(element.attributes, 'floors')) {
-  //       const floors: object[] = JSON.parse(element.attributes['floors']);
-  //       if (floors.length > 0) {
-  //         for (let i = 0; i < floors.length; i++) {
-  //           const floor: object = floors[i];
-  //           total = total + parseInt(floor['area'], 10);
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   if (element.propertyType === CollateralPropertyType.LAND) {
-  //     return element.landSizePerCertificate;
-  //   }
-
-  //   return total;
-  // }
 
   public reloadData(): void {
     this.loadData(this.collateral);
@@ -276,17 +262,18 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     }
     return 0;
   }
-  public fnCountTotalLiquidbuil(param: ICollateralProperty[] = null): number {
+  public fnCountTotalLiquidBuil(param: ICollateralProperty[] = null): number {
     if (param.length > 0 && param) {
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValuePerMeter && param[i].imbArea && param[i].propertyPercentageTataKota / 100) {
-          result = result + param[i].propertyMarketValuePerMeter * param[i].imbArea * (param[i].propertyPercentageTataKota / 100);
+        if (param[i].propertyMarketValuePerMeter && this.countTotalArea(param[i]) && param[i].propertyPercentage / 100) {
+          result = result + param[i].propertyMarketValuePerMeter * this.countTotalArea(param[i]) * (param[i].propertyPercentage / 100);
         }
       }
       return result;
     }
+
     return 0;
   }
 
@@ -309,13 +296,14 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueIMBPerMeter && param[i].imbArea && param[i].propertyPercentageTataKota / 100) {
-          result = result + param[i].propertyMarketValueIMBPerMeter * param[i].imbArea * (param[i].propertyPercentageTataKota / 100);
+        if (param[i].propertyMarketValueIMBPerMeter && param[i].imbArea && param[i].propertyPercentageIMB / 100) {
+          result = result + param[i].propertyMarketValueIMBPerMeter * param[i].imbArea * (param[i].propertyPercentageIMB / 100);
         }
       }
 
       return result;
     }
+
     return 0;
   }
 
@@ -339,8 +327,10 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueTataKotaPerMeter && param[i].imbArea && param[i].propertyPercentageTataKota / 100) {
-          result = result + param[i].propertyMarketValueTataKotaPerMeter * param[i].imbArea * (param[i].propertyPercentageTataKota / 100);
+        if (param[i].propertyMarketValueTataKotaPerMeter && this.countTotalArea(param[i]) && param[i].propertyPercentageTataKota / 100) {
+          result =
+            result +
+            param[i].propertyMarketValueTataKotaPerMeter * this.countTotalArea(param[i]) * (param[i].propertyPercentageTataKota / 100);
         }
       }
       return result;
@@ -369,7 +359,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       result = 0;
       for (let i = 0; i < param.length; i++) {
         if (param[i].propertyMarketValueTataKotaPerMeter) {
-          result = result + param[i].propertyMarketValueTataKotaPerMeter * param[i].imbArea;
+          result = result + param[i].propertyMarketValueTataKotaPerMeter * this.countTotalArea(param[i]);
         }
       }
 
@@ -396,7 +386,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       let result: number;
       result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValueIMBPerMeter) {
+        if (param[i].propertyMarketValueIMBPerMeter && param[i].imbArea) {
           result = result + param[i].propertyMarketValueIMBPerMeter * param[i].imbArea;
         }
       }
@@ -420,15 +410,14 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   }
 
   public fnCountTotalMVbuil(param: ICollateralProperty[] = null): number {
-    let result: number;
-    result = 0;
     if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
       for (let i = 0; i < param.length; i++) {
-        if (param[i].propertyMarketValuePerMeter && param[i].imbArea) {
-          result = result + param[i].propertyMarketValuePerMeter * param[i].imbArea;
+        if (param[i].propertyMarketValuePerMeter && this.countTotalArea(param[i])) {
+          result = result + param[i].propertyMarketValuePerMeter * this.countTotalArea(param[i]);
         }
       }
-
       return result;
     }
     return 0;
