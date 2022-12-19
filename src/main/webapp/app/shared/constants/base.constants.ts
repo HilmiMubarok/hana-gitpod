@@ -1,5 +1,10 @@
 import { IEJOptionNode, IOptionNode } from '../model/option-node.model';
 
+export enum PARTY_TYPE {
+  PERSON = 'PERSON',
+  PARTYGROUP = 'PARTY_GROUP',
+}
+
 export enum CUSTOMER_TYPE {
   PERSONAL = 'PERSONAL',
   CORPORATE = 'CORPORATE',
