@@ -444,6 +444,22 @@
       <jhi-covenant-temp [creditProposalItem]="creditProposal"> </jhi-covenant-temp>
     </div>
 
+    <!-- Trade Checking  -->
+    <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval'">
+      <div *ngIf="selectedMenu === 'trade-checking'">
+        <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
+        <jhi-credit-proposal-trade-checking-remarks [creditProposal]="creditProposal" [saveWord]="saveWord">
+        </jhi-credit-proposal-trade-checking-remarks>
+      </div>
+    </div>
+    <!-- Repayment Capability  -->
+
+    <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval'">
+      <div *ngIf="selectedMenu === 'repayment-capability'">
+        <jhi-credit-proposal-repayment-capability [creditProposal]="creditProposal"> </jhi-credit-proposal-repayment-capability>
+      </div>
+    </div>
+
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
       </jhi-button-generate-compliance>
