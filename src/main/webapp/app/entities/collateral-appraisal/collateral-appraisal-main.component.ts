@@ -250,6 +250,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public jpProgress;
   public jpOther;
 
+  public isRedirectToBucket: Boolean = true;
+
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -409,9 +411,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.surveyAppraisal = ev;
   }
 
-  private saveProcess(): void {
+  private saveProcess(isRedirectToBucket: Boolean = this.isRedirectToBucket): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
-      this.router.navigate(['./collateral-appraisal']);
+      this.getTasks();
+      isRedirectToBucket
+        ? this.router.navigate(['/collateral-appraisal'])
+        : this.router
+            .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+            .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
     });
   }
 
@@ -795,6 +802,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       kjpp: true,
     };
     if (this.surveyAppraisal.apprOfficer === 'Internal') {
+      this.isRedirectToBucket = false;
       if (!this.surveyAppraisal.surveyorArea) {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;

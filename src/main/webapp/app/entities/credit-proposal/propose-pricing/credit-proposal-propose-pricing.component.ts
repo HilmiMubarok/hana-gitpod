@@ -6,10 +6,9 @@ import { retry, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 
-import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
-import { Browser } from '@syncfusion/ej2-base';
 import { ListOfValueIndustryService } from '../list-of-value-industry.service';
 import { IListOfValueIndustry } from '../list-of-value-industry.model';
+import { CreditProposalService } from '../credit-proposal.service';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
@@ -56,7 +55,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public chartData2: Object[] = [];
   dashboardChartData: any[] = [];
 
-  constructor(private actRoute: ActivatedRoute, public listOfIndustryService: ListOfValueIndustryService) {
+  constructor(
+    private actRoute: ActivatedRoute,
+    public listOfIndustryService: ListOfValueIndustryService,
+    public creditProposalService: CreditProposalService
+  ) {
     this.countOS = 0;
     this.availableLimit = 0;
     this.totalPlafon = 0;
@@ -91,30 +94,77 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.setValue(creditProposal);
   }
 
+  public availabelLimitArrayUSD = [];
+  public OSArrayUSD = [];
+  public plafontArrayUSD = [];
+  public availableLimitUSD: number;
+  public countOSUSD: number;
+  public totalPlafonUSD: number;
+
+  public availabelLimitArrayAVG: number;
+  public countOSAVG: number;
+  public totalPlafonAVG: number;
+
+  public availableLimitUSDAVG: number;
+  public countOSUSDAVG: number;
+  public totalPlafonUSDAVG: number;
   setValue(creditProposal: any) {
     for (let i = 0; i < creditProposal.products.length; i++) {
-      if (creditProposal.products[i].attributes.availableLimit !== undefined) {
-        this.availabelLimitArray.push(creditProposal.products[i].attributes.availableLimit);
-      } else {
-        this.availabelLimitArray = [];
-      }
+      if (creditProposal.products[i].attributes.currency === 'IDR') {
+        if (creditProposal.products[i].attributes.availableLimit !== undefined) {
+          this.availabelLimitArray.push(creditProposal.products[i].attributes.availableLimit);
+        } else {
+          this.availabelLimitArray = [];
+        }
 
-      if (creditProposal.products[i].attributes.os !== undefined) {
-        this.OSArray.push(creditProposal.products[i].attributes.os);
-      } else {
-        this.OSArray = [];
-      }
+        if (creditProposal.products[i].attributes.outstanding !== undefined) {
+          this.OSArray.push(creditProposal.products[i].attributes.outstanding);
+        } else {
+          this.OSArray = [];
+        }
 
-      if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
-        this.plafontArray.push(creditProposal.products[i].attributes.totalPlafond);
-      } else {
-        this.plafontArray = [];
+        if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
+          this.plafontArray.push(creditProposal.products[i].attributes.totalPlafond);
+        } else {
+          this.plafontArray = [];
+        }
+      } else if (creditProposal.products[i].attributes.currency === 'USD') {
+        if (creditProposal.products[i].attributes.availableLimit !== undefined) {
+          this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit);
+        } else {
+          this.availabelLimitArrayUSD = [];
+        }
+
+        if (creditProposal.products[i].attributes.outstanding !== undefined) {
+          this.OSArrayUSD.push(creditProposal.products[i].attributes.outstanding);
+        } else {
+          this.OSArrayUSD = [];
+        }
+
+        if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
+          this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond);
+        } else {
+          this.plafontArrayUSD = [];
+        }
       }
     }
 
     this.availableLimit = this.availabelLimitArray.length === 0 ? 0 : this.availabelLimitArray.reduce((a, b) => Number(a) + Number(b));
     this.countOS = this.OSArray.length === 0 ? 0 : this.OSArray.reduce((a, b) => Number(a) + Number(b));
     this.totalPlafon = this.plafontArray.length === 0 ? 0 : this.plafontArray.reduce((a, b) => Number(a) + Number(b));
+
+    this.availableLimitUSD =
+      this.availabelLimitArrayUSD.length === 0 ? 0 : this.availabelLimitArrayUSD.reduce((a, b) => Number(a) + Number(b));
+    this.countOSUSD = this.OSArrayUSD.length === 0 ? 0 : this.OSArrayUSD.reduce((a, b) => Number(a) + Number(b));
+    this.totalPlafonUSD = this.plafontArrayUSD.length === 0 ? 0 : this.plafontArrayUSD.reduce((a, b) => Number(a) + Number(b));
+
+    this.availabelLimitArrayAVG = this.availableLimit / this.availabelLimitArray.length;
+    this.countOSAVG = this.countOS / this.OSArray.length;
+    this.totalPlafonAVG = this.totalPlafon / this.plafontArray.length;
+
+    this.availableLimitUSDAVG = this.availableLimitUSD / this.availabelLimitArrayUSD.length;
+    this.countOSUSDAVG = this.countOSUSD / this.OSArrayUSD.length;
+    this.totalPlafonUSDAVG = this.totalPlafonUSD / this.plafontArrayUSD.length;
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }, { text: 'CUSTOMER PROFITABILITY' }];
@@ -193,6 +243,16 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       interval: 2,
       labelFormat: '{value}%',
     }; */
+
+    this.defaultCurrency();
+  }
+  public defaultCurrencyData: string;
+  defaultCurrency() {
+    const setDate = new Date().toISOString().split('T')[0];
+
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.defaultCurrencyData = res.body[0]?.factor;
+    });
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWordMinio) {

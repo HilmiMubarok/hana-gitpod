@@ -94,7 +94,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>CCY</mat-label>
             <!-- <input matInput type="text" maxlength="3" [(ngModel)]="bankAccAnalyst.ccy" required /> -->
-            <mat-select [(ngModel)]="bankAccAnalyst.ccy" name="selccy" required>
+            <mat-select [(ngModel)]="bankAccAnalyst.ccy" name="selccy" (ngModelChange)="changeCurency($event)" required>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of ccy" [value]="item">
                 {{ item }}
@@ -124,6 +124,7 @@
               [ngModel]="bankAccAnalyst.convert | number: '1.0-0'"
               (ngModelChange)="bankAccAnalyst.convert = numberInputChanged($event)"
               required
+              disabled
             />
             <mat-error *ngIf="validEqToIDR.hasError('required')">Eq To IDR is Required</mat-error>
           </mat-form-field>
