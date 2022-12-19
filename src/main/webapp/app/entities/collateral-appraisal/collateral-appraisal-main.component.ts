@@ -273,7 +273,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
           } else {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
           }
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
         } else {
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
         }
