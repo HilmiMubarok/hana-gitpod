@@ -51,7 +51,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
   ],
 })
 export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
-  public displayedColumns: string[] = [
+  /* public displayedColumns: string[] = [
     'no',
     'appraisalNumber',
     'cif',
@@ -61,7 +61,10 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     'collateralType',
     'status',
     'action',
-  ];
+  ]; */
+  
+  public displayedColumns: string[] = [];
+  
   public account: Account;
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
@@ -138,6 +141,33 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.clickedChip = '';
     this.iconTimeline = faTimeline;
     this.currentSearch = null;
+	
+	if(this.router.url === '/collateral-appraisal-distribution-internal') {
+	  this.displayedColumns = [
+		'no',
+		'appraisalNumber',
+		'cif',
+		'customerName',
+		'customerType',
+		'createdDate',
+		'collateralType',
+		'status',
+		'action',
+	  ];
+	}else {
+	  this.displayedColumns = [
+		'no',
+		'appraisalNumber',
+		'appraisalType',
+		'cif',
+		'customerName',
+		'customerType',
+		'createdDate',
+		'collateralType',
+		'status',
+		'action',
+	  ];
+	}
   }
 
   ngOnInit(): void {
