@@ -18,7 +18,7 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Bentuk Badan Usaha</mat-label>
-            <input matInput type="text" disabled />
+            <input matInput type="text" [value]="item.companyType" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
@@ -46,19 +46,19 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>NPWP</mat-label>
-            <input matInput type="text" [value]="item.npwp" disabled />
+            <input matInput type="text" [value]="item.taxIdNumber" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>No Akta Pendirian</mat-label>
-            <input matInput type="text" [value]="item.deedOfEstablishNo" disabled />
+            <input matInput type="text" [value]="itemx.organizationLegal.deedEstablishNum" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tanggal Akta</mat-label>
-            <input matInput type="text" [value]="item.fiscalDate | formatMediumDate" disabled />
+            <input matInput type="text" [value]="itemx.organizationLegal.deedEstablishDate | formatMediumDate" disabled />
           </mat-form-field>
         </section>
       </div>

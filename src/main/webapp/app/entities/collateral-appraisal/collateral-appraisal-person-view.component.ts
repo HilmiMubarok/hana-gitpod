@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
+import { PartyCifService } from '../party-cif/party-cif.service';
 import { IPerson, Person } from '../person/person.model';
 import { PersonService } from '../person/person.service';
 
@@ -12,29 +14,20 @@ import { PersonService } from '../person/person.service';
 export class CollateralAppraisalPersonViewComponent implements OnChanges, OnInit {
   @Input()
   public id: string;
+  @Input() collateralAppraisal;
 
   public tipeNasabah: string;
   public accNo: string;
-  public _person: IPerson;
-  public itemCP: ICreditProposal;
-  public item: IPerson;
 
-  @Input()
-  get person() {
-    return this._person;
-  }
+  public item: IPartyCif;
 
-  set person(data: IPerson) {
-    this._person = data;
-  }
-
-  constructor(private personService: PersonService, private creditProposalService: CreditProposalService) {
+  constructor(private partyCifService: PartyCifService) {
     this.tipeNasabah = 'individu';
-    this.item = new Person();
-    this.itemCP = new CreditProposal();
+    this.item = new PartyCif();
   }
   ngOnInit(): void {
     this.loadData();
+    console.log(this.item);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,12 +37,9 @@ export class CollateralAppraisalPersonViewComponent implements OnChanges, OnInit
   }
 
   private loadData(): void {
-    this.personService.find(this.id).subscribe(res => {
+    this.partyCifService.find(this.id).subscribe(res => {
       this.item = res.body;
-    });
-
-    this.creditProposalService.findByCif(this.id).subscribe(res => {
-      this.itemCP = res.body;
+      console.log('cek', this.item);
     });
   }
 }

@@ -26,12 +26,13 @@
         <jhi-collateral-appraisal-person-view
           mode="view"
           [collateralAppraisal]="collateralAppraisal"
-          [id]="surveyAppraisal.cif.partyId"
+          [id]="surveyAppraisal.cif.id"
           *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
         >
         </jhi-collateral-appraisal-person-view>
         <jhi-collateral-appraisal-party-group-view
           mode="view"
+          [partyId]="surveyAppraisal.cif.partyId"
           [collateralAppraisal]="collateralAppraisal"
           [id]="surveyAppraisal.cif.id"
           *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"

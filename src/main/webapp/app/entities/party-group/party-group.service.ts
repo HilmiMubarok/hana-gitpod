@@ -5,11 +5,13 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IPartyGroup } from './party-group.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
 @Injectable({ providedIn: 'root' })
 export class PartyGroupService extends AbstractEntityService<IPartyGroup> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/mastercontrol/api/party-groups');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/party-groups');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('api/_search/party-groups');
   }
 

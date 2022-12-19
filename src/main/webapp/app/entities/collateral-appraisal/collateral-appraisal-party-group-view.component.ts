@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { DebtorData, IDebtorData } from '../debtor-data/debtor-data.model';
 import { DebtorDataService } from '../debtor-data/debtor-data.service';
 import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
@@ -14,11 +14,10 @@ import { ICollateralAppraisal } from './collateral-appraisal.model';
   templateUrl: './collateral-appraisal-party-group-view.component.html',
   styleUrls: ['./collateral-appraisal-party-group-view.css'],
 })
-export class CollateralAppraisalPartyGroupViewComponent implements OnChanges {
+export class CollateralAppraisalPartyGroupViewComponent implements OnChanges, OnInit {
   @Input() collateralAppraisal;
-
-  public a: any;
-  public b: any;
+  @Input()
+  public partyId: string;
 
   @Input()
   public id: string;
@@ -33,24 +32,26 @@ export class CollateralAppraisalPartyGroupViewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['id']) {
-      // console.log("changed", {
-      //   appraisal: this.collateralAppraisal,
-      //   id : this.id
-      // })
-      this.loadDataParty(this.id);
-      this.loadData(this.id);
+      this.loadData();
+    }
+    if (changes['partyId']) {
+      this.loadDataParty();
     }
   }
+  ngOnInit(): void {
+    this.loadData();
+    this.loadDataParty();
+  }
 
-  private loadData(id: string): void {
-    this.partyCifService.find(id).subscribe(res => {
+  private loadData(): void {
+    this.partyCifService.find(this.id).subscribe(res => {
       this.itemx = res.body;
-
+      console.log('cek2', this.itemx);
       // this.a = res.body.debtorData.pep
     });
   }
-  private loadDataParty(id: string): void {
-    this.partyGroupService.find(id).subscribe(res => {
+  private loadDataParty(): void {
+    this.partyGroupService.find(this.partyId).subscribe(res => {
       this.item = res.body;
       console.log('cek', this.item);
     });
