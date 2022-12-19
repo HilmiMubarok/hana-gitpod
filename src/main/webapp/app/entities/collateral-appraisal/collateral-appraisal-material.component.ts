@@ -122,12 +122,12 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     },
   ];
 
-  public urlReportInqury: string;
-  public urlReportApproval: string;
-  public urlAppraisalProcess: string;
-  public urlRequestAppraisal: string;
-  public urlAppraisalExternal: string;
-  public urlAppraisalInternal: string;
+  public urlReportInqury: boolean;
+  public urlReportApproval: boolean;
+  public urlAppraisalProcess: boolean;
+  public urlRequestAppraisal: boolean;
+  public urlAppraisalExternal: boolean;
+  public urlAppraisalInternal: boolean;
 
   constructor(
     protected _snackBar: MatSnackBar,
