@@ -51,20 +51,8 @@ import { STATUS } from 'app/shared/constants/status.constants';
   ],
 })
 export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
-  /* public displayedColumns: string[] = [
-    'no',
-    'appraisalNumber',
-    'cif',
-    'customerName',
-    'customerType',
-    'createdDate',
-    'collateralType',
-    'status',
-    'action',
-  ]; */
-  
   public displayedColumns: string[] = [];
-  
+
   public account: Account;
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
@@ -149,40 +137,40 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.clickedChip = '';
     this.iconTimeline = faTimeline;
     this.currentSearch = null;
-	
-	this.urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
-	this.urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
-	this.urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
-	this.urlRequestAppraisal = this.router.url === '/collateral-appraisal';
-	this.urlAppraisalExternal = this.router.url === '/batch-apprisal';
-	this.urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
-	
-	if(this.router.url === '/collateral-appraisal-distribution-internal') {
-	  this.displayedColumns = [
-		'no',
-		'appraisalNumber',
-		'cif',
-		'customerName',
-		'customerType',
-		'createdDate',
-		'collateralType',
-		'status',
-		'action',
-	  ];
-	}else {
-	  this.displayedColumns = [
-		'no',
-		'appraisalNumber',
-		'appraisalType',
-		'cif',
-		'customerName',
-		'customerType',
-		'createdDate',
-		'collateralType',
-		'status',
-		'action',
-	  ];
-	}
+
+    // this.urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
+    // this.urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
+    // this.urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
+    // this.urlRequestAppraisal = this.router.url === '/collateral-appraisal';
+    // this.urlAppraisalExternal = this.router.url === '/batch-apprisal';
+    // this.urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
+
+    if (this.router.url === '/collateral-appraisal-distribution-internal') {
+      this.displayedColumns = [
+        'no',
+        'appraisalNumber',
+        'cif',
+        'customerName',
+        'customerType',
+        'createdDate',
+        'collateralType',
+        'status',
+        'action',
+      ];
+    } else {
+      this.displayedColumns = [
+        'no',
+        'appraisalNumber',
+        'appraisalType',
+        'cif',
+        'customerName',
+        'customerType',
+        'createdDate',
+        'collateralType',
+        'status',
+        'action',
+      ];
+    }
   }
 
   ngOnInit(): void {

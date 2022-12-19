@@ -14,7 +14,7 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
+import { COLLATERAL_TYPE, SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -41,6 +41,7 @@ import { Cif, ICif } from '../cif/cif.model';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-survey-batch-edit',
@@ -194,13 +195,34 @@ export class SurveyBatchEditComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
-      this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
-      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Warning',
+        detail: 'Dont forget to save data on this page',
+      });
+      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], {
+        queryParams: {
+          subroute: menu['id'],
+        },
+      });
     }
   }
 
   public routeSubMenu(menu: object): void {
     this.ceckData(menu);
+  }
+
+  private async getCollateralProperty(_idCollateral: number, _idPropertyType: string): Promise<ICollateralProperty[]> {
+    return (
+      await firstValueFrom(
+        this.collateralPropertyService.queryFilterBy({
+          page: 0,
+          size: 9999,
+          idCollateral: _idCollateral,
+          idPropertyType: _idPropertyType,
+        })
+      )
+    ).body;
   }
 
   public checkCompletedData(node: IOptionNode): boolean {
@@ -325,7 +347,60 @@ export class SurveyBatchEditComponent implements OnInit {
     return false;
   }
 
+  private async getBucketName(): Promise<object> {
+    return (await firstValueFrom(this.storageService.getBucketName())).body;
+  }
+
+  private async getDocument(_key: string): Promise<Object[]> {
+    const predicate: Object = {
+      key: _key,
+    };
+    return (await firstValueFrom(this.storageService.getObjects(this.bucket, predicate))).body;
+  }
+
   private async initialize(): Promise<void> {
+    this.bucket = this.getBucketName()['bucket'];
+
+    let key: string;
+    key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
+
+    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
+
+    key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
+    this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
+
+    this.collateralAppraisalService.totalDataComparison = await this.getCollateralProperty(
+      this.collateralAppraisal.collateralId,
+      CollateralPropertyType.COMPARISON
+    );
+
+    key = `/appraisals/${this.collateralAppraisal.id}/document-lainnya`;
+    this.collateralAppraisalService.totalDataDocumentLainya = await this.getDocument(key);
+
+    key = `/appraisals/${this.collateralAppraisal.id}/document-colateral`;
+    this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
+
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
+      this.collateralAppraisalService.totalDataDetailLand = await this.getCollateralProperty(
+        this.collateralAppraisal.collateralId,
+        CollateralPropertyType.LAND
+      );
+    }
+
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      this.collateralAppraisalService.totalDataDetailVehicle = await this.getCollateralProperty(
+        this.collateralAppraisal.collateralId,
+        CollateralPropertyType.VEHICLE
+      );
+    }
+
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      this.collateralAppraisalService.totalDataDetailMachine = await this.getCollateralProperty(
+        this.collateralAppraisal.collateralId,
+        CollateralPropertyType.MACHINE
+      );
+    }
+
     this.currentAccount = await firstValueFrom(this.accountService.identity());
     this.accountAuthorities = this.currentAccount.authorities;
     if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
@@ -374,7 +449,9 @@ export class SurveyBatchEditComponent implements OnInit {
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: { processTask: task },
+      data: {
+        processTask: task,
+      },
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
