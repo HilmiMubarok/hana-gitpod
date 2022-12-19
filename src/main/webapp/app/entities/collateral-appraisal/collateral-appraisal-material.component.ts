@@ -121,6 +121,14 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       label: 'Approve',
     },
   ];
+
+  public urlReportInqury: string;
+  public urlReportApproval: string;
+  public urlAppraisalProcess: string;
+  public urlRequestAppraisal: string;
+  public urlAppraisalExternal: string;
+  public urlAppraisalInternal: string;
+
   constructor(
     protected _snackBar: MatSnackBar,
     protected stateBoundaryService: StateBoundaryService,
@@ -141,6 +149,13 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.clickedChip = '';
     this.iconTimeline = faTimeline;
     this.currentSearch = null;
+	
+	this.urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
+	this.urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
+	this.urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
+	this.urlRequestAppraisal = this.router.url === '/collateral-appraisal';
+	this.urlAppraisalExternal = this.router.url === '/batch-apprisal';
+	this.urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
 	
 	if(this.router.url === '/collateral-appraisal-distribution-internal') {
 	  this.displayedColumns = [
@@ -175,13 +190,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.loadCity();
     this.loadAll();
   }
-
-  public urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
-  public urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
-  public urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
-  public urlRequestAppraisal = this.router.url === '/collateral-appraisal';
-  public urlAppraisalExternal = this.router.url === '/batch-apprisal';
-  public urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
 
   public filterStatusCode() {
     if (this.urlRequestAppraisal) {
