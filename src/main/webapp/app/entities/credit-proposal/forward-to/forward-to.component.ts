@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationRole, IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
 import { IPosition } from 'app/entities/position/position.model';
@@ -13,14 +13,24 @@ import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
   templateUrl: './forward-to.component.html',
 })
 export class ForwardToComponent implements OnChanges {
-  constructor(private positionService: PositionService, public applicationRoleService: ApplicationRoleService, private router: Router) {
-    this.applicationRole = new ApplicationRole();
-  }
   public applicationRoleId;
   public applicationRole: IApplicationRole;
   public applicationRoles: IApplicationRole[];
   public position: IPosition[];
   public _creditProposal: ICreditProposal = new CreditProposal();
+  public clickedMenu: string;
+  public parentPath = this.router.url.split('/')[1];
+
+  hide: boolean;
+  constructor(
+    private positionService: PositionService,
+    public applicationRoleService: ApplicationRoleService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute
+  ) {
+    this.applicationRole = new ApplicationRole();
+    this.hiddenField();
+  }
 
   // send applicationRole data to parent
 
@@ -133,5 +143,11 @@ export class ForwardToComponent implements OnChanges {
     }
 
     console.log('INI APPS ROLE', this.applicationRole);
+  }
+
+  public hiddenField() {
+    if (this.parentPath === 'cp-status-approval') {
+      this.hide = true;
+    }
   }
 }
