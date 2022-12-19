@@ -49,6 +49,8 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   set collateral(item: ICollateral) {
     this._collateral = item;
   }
+  @Input()
+  public collateralApprAddress: Boolean = false;
 
   private _collateral: ICollateral;
   public country: IStateBoundary;
@@ -290,9 +292,12 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
       this.myControlDistrict.disable();
       this.myControlVillage.disable();
     }
-  }
-
-  print() {
-    console.log(this.collateral);
+    if (this.collateralApprAddress === true) {
+      this.myControlCountry.disable();
+      this.myControlProvince.disable();
+      this.myControlCity.disable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+    }
   }
 }
