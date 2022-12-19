@@ -85,7 +85,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     }
   }
 
-  public openDialog(element: IDocumentChecklistDebtorData = null): void {
+  public openDialog(element: IDocumentChecklistDebtorData = null, view: string): void {
     const predicate = { width: '80vw', data: {} };
     predicate.data['view'] = false;
     predicate.data['partyId'] = this.partyCif.partyId;
@@ -93,9 +93,10 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     predicate.data['files'] = this.files;
     if (element) {
       predicate.data['documentChecklist'] = element;
-      predicate.data['view'] = true;
+      predicate.data['view'] = view;
     } else {
       predicate.data['documentChecklist'] = new DocumentChecklistDebtorData();
+      predicate.data['view'] = view;
     }
 
     const dialogRef = this.dialog.open(DebtorDataDocumentChecklistDialogComponent, predicate);

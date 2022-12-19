@@ -52,11 +52,10 @@ import { STATUS } from 'app/shared/constants/status.constants';
 })
 export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterialComponent<ISurveyAppraisals> implements OnInit {
   public displayedColumns: string[] = [];
-
+  public displayedColumnsExpand: string[] = [];
   public account: Account;
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
-  public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public iconTimeline: any;
   public filterData: {
@@ -110,12 +109,12 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     },
   ];
 
-  public urlReportInqury: string;
-  public urlReportApproval: string;
-  public urlAppraisalProcess: string;
-  public urlRequestAppraisal: string;
-  public urlAppraisalExternal: string;
-  public urlAppraisalInternal: string;
+  public urlReportInqury: boolean;
+  public urlReportApproval: boolean;
+  public urlAppraisalProcess: boolean;
+  public urlRequestAppraisal: boolean;
+  public urlAppraisalExternal: boolean;
+  public urlAppraisalInternal: boolean;
 
   constructor(
     protected _snackBar: MatSnackBar,
@@ -138,12 +137,12 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.iconTimeline = faTimeline;
     this.currentSearch = null;
 
-    // this.urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
-    // this.urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
-    // this.urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
-    // this.urlRequestAppraisal = this.router.url === '/collateral-appraisal';
-    // this.urlAppraisalExternal = this.router.url === '/batch-apprisal';
-    // this.urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
+    this.urlReportInqury = this.router.url === '/collateral-appraisal-result-inqury';
+    this.urlReportApproval = this.router.url === '/collateral-appraisal-report-approval';
+    this.urlAppraisalProcess = this.router.url === '/collateral-appraisal-process';
+    this.urlRequestAppraisal = this.router.url === '/collateral-appraisal';
+    this.urlAppraisalExternal = this.router.url === '/batch-apprisal';
+    this.urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
 
     if (this.router.url === '/collateral-appraisal-distribution-internal') {
       this.displayedColumns = [
@@ -171,6 +170,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
         'action',
       ];
     }
+
+    this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
   ngOnInit(): void {
