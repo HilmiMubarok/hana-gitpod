@@ -1,5 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {
+  IPartyPostalAddressWarehouse,
+  PartyPostalAddressWarehouse,
+} from 'app/entities/party-postal-address/party-postal-address-warehouse.model';
 import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { PartyPostalAddressService } from 'app/entities/party-postal-address/party-postal-address.service';
 import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
@@ -19,7 +23,7 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
 
   public domicileLocation: IPartyPostalAddress;
   public primaryLocation: IPartyPostalAddress;
-  public warehouseLocation: IPartyPostalAddress;
+  public warehouseLocation: IPartyPostalAddressWarehouse;
   public purposeTypes: IPurposeType[];
 
   @Input()
@@ -48,10 +52,16 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
         lodash.find(param, function (o) {
           return o.purposeTypeId === PURPOSE_TYPE.DOMICILE.toString();
         }) || new PartyPostalAddress();
-      this.warehouseLocation =
-        lodash.find(param, function (o) {
-          return o.purposeTypeId === PURPOSE_TYPE.WAREHOUSE;
-        }) || new PartyPostalAddress();
+      // this.warehouseLocation =
+      //   lodash.find(param, function (o) {
+      //     return o.purposeTypeId === PURPOSE_TYPE.WAREHOUSE;
+      //   }) || new PartyPostalAddress();
+      this.warehouseLocation = this.partyCif.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+      if (this.warehouseLocation === undefined) {
+        this.warehouseLocation = new PartyPostalAddressWarehouse();
+        this.warehouseLocation.purposeTypeId = PURPOSE_TYPE.WAREHOUSE;
+        this.partyCif.addresses.push(this.warehouseLocation);
+      }
     }
   }
 }
