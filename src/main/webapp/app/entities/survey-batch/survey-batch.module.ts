@@ -20,10 +20,13 @@ import { SurveyBatchCollateralAppraisalPartyGroupViewComponent } from './group/s
 import { SurveyBatchPostalAddressViewComponent } from './address/survey-batch-postal-address-view.component';
 import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-batch-collateral-info.component';
 import { CollateralAppraisalMaterialExternalComponent } from './collateral-appraisal-material-external.component';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { SurveyBatchEditComponent } from './survey-batch-edit.component';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
   declarations: [
+    SurveyBatchEditComponent,
     SurveyBatchComponent,
     SurveyBatchDetailComponent,
     SurveyBatchUpdateComponent,
