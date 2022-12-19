@@ -79,8 +79,8 @@
       <div class="text-end w-100 mt-3" *ngIf="clickedChip !== ''">
         You search data with status <span class="text-capitalize fw-bold">{{ clickedChip | lowercase }}</span>
       </div>
-
-	  <section *ngIf="urlAppraisalInternal">
+	  
+	  <section [hidden]="urlReportInqury" *ngIf="urlAppraisalInternal">
 		<table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
 		  <ng-container matColumnDef="no">
 			<th mat-header-cell *matHeaderCellDef class="text-center">No</th>
@@ -469,8 +469,6 @@
 		  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
 		</table>
 	  </section>
-
-	  
       
       <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>

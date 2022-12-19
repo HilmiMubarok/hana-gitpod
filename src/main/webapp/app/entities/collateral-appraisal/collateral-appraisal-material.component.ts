@@ -64,11 +64,12 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   ]; */
   
   public displayedColumns: string[] = [];
+  public displayedColumnsExpand : any;
+  // public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   
   public account: Account;
   public creditProposal: ICreditProposal;
   public globalSearchVal: string;
-  public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public iconTimeline: any;
   public filterData: {
@@ -183,6 +184,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 		'action',
 	  ];
 	}
+	
+	this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
   ngOnInit(): void {
