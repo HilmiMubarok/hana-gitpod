@@ -1,0 +1,49 @@
+import { IPurposeType } from 'app/entities/purpose-type/purpose-type.model';
+
+export interface IPostalAddressWharehouse {
+  address1?: string;
+  address2?: string;
+  latitude?: number;
+  longitude?: number;
+  contactTypeDescription?: string;
+  contactTypeId?: string;
+  purposes?: IPurposeType[];
+  countryDescription?: string;
+  countryId?: number;
+  provinceDescription?: string;
+  provinceId?: number;
+  postalCode?: string;
+  cityDescription?: string;
+  cityId?: number;
+  districtDescription?: string;
+  districtId?: number;
+  villageDescription?: string;
+  villageId?: number;
+  rt?: string;
+  rw?: string;
+}
+
+export class PostalAddressWarehouse implements IPostalAddressWharehouse {
+  constructor(
+    public address1?: string,
+    public address2?: string,
+    public latitude?: number,
+    public longitude?: number,
+    public contactTypeDescription?: string,
+    public contactTypeId?: string,
+    public purposes?: IPurposeType[],
+    public countryDescription?: string,
+    public countryId?: number,
+    public provinceDescription?: string,
+    public provinceId?: number,
+    public postalCode?: string,
+    public cityDescription?: string,
+    public cityId?: number,
+    public districtDescription?: string,
+    public districtId?: number,
+    public villageDescription?: string,
+    public villageId?: number,
+    public rt?: string,
+    public rw?: string
+  ) {}
+}
