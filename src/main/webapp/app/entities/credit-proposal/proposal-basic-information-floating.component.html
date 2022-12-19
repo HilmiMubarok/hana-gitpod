@@ -273,12 +273,9 @@
               <div *ngIf="clickedMenu === 'summary'">
                 <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'" [saveWord]="saveWord">
                 </jhi-credit-proposal-tab-summary>
-                <!-- <jhi-credit-proposal-opinion-history [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
-              </jhi-credit-proposal-opinion-history> -->
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
-              <!-- [saveWordMinio]="saveWord" -->
-              <!-- [saveWordConditionOpinion]="saveWordConditionOpinion" -->
+
               <div *ngIf="clickedMenu === 'opinion'">
                 <jhi-credit-proposal-opinion-history #creditProposalOpinionHistoryComponent [creditProposalItem]="creditProposal">
                 </jhi-credit-proposal-opinion-history>

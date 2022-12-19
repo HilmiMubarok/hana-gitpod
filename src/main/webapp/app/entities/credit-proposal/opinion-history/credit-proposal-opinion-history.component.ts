@@ -30,16 +30,13 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./opinion-history.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges {
+export class CreditProposalOpinionHistoryComponent implements OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor_container_condition')
   public container_condition: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
-  @Input() saveWordMinio;
-  @Input() saveWordConditionOpinion;
-  @Input() cp: ICreditProposal;
 
   public _creditProposalItem: ICreditProposal;
   public notes: any;
@@ -58,13 +55,16 @@ export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges 
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-    // this.refresh();
+
     // if (this.creditProposalItem.notes.length > 0) {
-    //   this.notes = lodash.cloneDeep(this.creditProposalItem.notes);
     //   for (let i = 0; i < this.notes.length; i++) {
     //     this.notes[i].message = this.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
-    //     this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
+    //      this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
     //     this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+    //     this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation
+    //       ? this.creditProposalItem.attributes['tempLoggedInRecomendation']
+    //       : '';
+    //      this.creditProposalItem.attributes['tempLoggedInRecomendation']=this.notes[i].recomendation;
     //   }
     // }
   }
@@ -100,31 +100,12 @@ export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges 
     private creditProposalService: CreditProposalService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.refresh();
-    this.getContainer();
-    this.getContainerCondition();
-  }
-
   public currentAccount: any;
 
   ngOnInit(): void {
     this.getLogin();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-      this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-      this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
-      this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-      if (this.creditProposalItem.notes.length > 0) {
-        for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
-          if (this.creditProposalItem.notes[i].userId === this.currentAccount.login) {
-            this.creditProposalItem.attributes['tempLoggedInNotes'] = this.creditProposalItem.notes[i].message;
-            this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.creditProposalItem.notes[i].recomendation;
-            this.creditProposalItem.attributes['tempLoggedInCondition'] = this.creditProposalItem.notes[i].condition;
-          }
-        }
-      }
-    });
+    this.refresh();
+
     this.bucket = 'hana';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
@@ -156,21 +137,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges 
         creditProposalItem: this.creditProposalItem,
       },
     };
-
     const dialogRef = this.dialog.open(CreditProposalDialogOpinionHistoryComponent, predicate);
-  }
-  public recomend: any;
-  refresh() {
-    this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-      if (res.body.notes.length > 0) {
-        this.notes = res.body.notes;
-        for (let i = 0; i < this.notes.length; i++) {
-          this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-          this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
-        }
-      }
-      console.log('rekomendasi', this.creditProposalItem.attributes['tempLoggedInRecomendation']);
-    });
   }
 
   // Word Save
@@ -222,12 +189,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges 
       console.log('ini paste');
     }
   }
+  public obj: any;
   private getContainer(): void {
-    const obj = {
+    this.obj = {
       key: this.getKey,
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.bucket, this.obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -246,6 +214,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges 
             });
         }
       });
+    this.refresh();
   }
   myFunction(value: string) {
     console.log('cek value', value);
@@ -339,5 +308,27 @@ export class CreditProposalOpinionHistoryComponent implements OnInit, OnChanges 
   onCreateCondition(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+
+  public refresh() {
+    this.accountService.identity().subscribe(account => {
+      this.currentAccount = account;
+      this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+      this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
+      this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+
+      this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
+        this.notes = res.body.notes;
+
+        if (this.notes.length > 0) {
+          for (let i = 0; i < this.notes.length; i++) {
+            this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+            if (this.notes[i].userId === this.currentAccount.login) {
+              this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
+            }
+          }
+        }
+      });
+    });
   }
 }
