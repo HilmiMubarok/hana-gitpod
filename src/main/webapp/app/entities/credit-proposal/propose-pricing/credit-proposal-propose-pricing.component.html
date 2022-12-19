@@ -63,9 +63,10 @@
                 matInput
                 currencyMask
                 type="text"
-                [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+                [value]="defaultCurrencyData"
                 [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
                 min="0"
+                disabled
               />
             </mat-form-field>
           </div>
@@ -75,7 +76,7 @@
             <div class="col-3">USD to IDR</div>
             <div class="col-md-auto">:</div>
             <div class="col col-lg-2">
-              {{ creditProposal.attributes['purposePricing'].usdToIdr }}
+              {{ defaultCurrencyData }}
             </div>
           </div>
         </section>

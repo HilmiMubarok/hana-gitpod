@@ -6,10 +6,9 @@ import { retry, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 
-import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
-import { Browser } from '@syncfusion/ej2-base';
 import { ListOfValueIndustryService } from '../list-of-value-industry.service';
 import { IListOfValueIndustry } from '../list-of-value-industry.model';
+import { CreditProposalService } from '../credit-proposal.service';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
@@ -56,7 +55,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public chartData2: Object[] = [];
   dashboardChartData: any[] = [];
 
-  constructor(private actRoute: ActivatedRoute, public listOfIndustryService: ListOfValueIndustryService) {
+  constructor(
+    private actRoute: ActivatedRoute,
+    public listOfIndustryService: ListOfValueIndustryService,
+    public creditProposalService: CreditProposalService
+  ) {
     this.countOS = 0;
     this.availableLimit = 0;
     this.totalPlafon = 0;
@@ -193,6 +196,16 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       interval: 2,
       labelFormat: '{value}%',
     }; */
+
+    this.defaultCurrency();
+  }
+  public defaultCurrencyData: string;
+  defaultCurrency() {
+    const setDate = new Date().toISOString().split('T')[0];
+
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.defaultCurrencyData = res.body[0]?.factor;
+    });
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWordMinio) {
