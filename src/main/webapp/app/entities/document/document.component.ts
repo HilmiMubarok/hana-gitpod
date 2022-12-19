@@ -69,6 +69,46 @@ export class DocumentComponent implements OnChanges {
     });
   }
 
+  public edit(element: object) {
+    const predicate: object = {
+      width: '80vw',
+      data: {
+        collateral: null,
+        appraisal: null,
+        bucket: this.bucket,
+        view: 'edit',
+        obj: element,
+      },
+    };
+
+    if (this.collateral) {
+      predicate['data']['collateral'] = this.collateral;
+    }
+
+    if (this.appraisal) {
+      predicate['data']['appraisal'] = this.appraisal;
+    }
+
+    predicate['data']['documents'] = this.documents;
+
+    const dialogRef = this.dialog.open(DocumentUploadDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        if (this.collateral) {
+          if (this.collateral.id) {
+            this.getFiles('collateral', this.collateral.id);
+          }
+        }
+
+        if (this.appraisal) {
+          if (this.appraisal.id) {
+            this.getFiles('appraisal', this.appraisal.id);
+          }
+        }
+      }
+    });
+  }
+
   public view(object: object): void {
     const predicate: object = {
       width: '80vw',
@@ -109,6 +149,7 @@ export class DocumentComponent implements OnChanges {
         collateral: null,
         appraisal: null,
         bucket: this.bucket,
+        view: 'add',
       },
     };
 

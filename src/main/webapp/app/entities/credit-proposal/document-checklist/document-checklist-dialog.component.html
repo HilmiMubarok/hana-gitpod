@@ -1,15 +1,15 @@
 <div class="style-close">
   <button class="button-close" mat-button mat-dialog-close>X</button>
 </div>
-<div *ngIf="view === false">
-  <h2 mat-dialog-title>ADD / EDIT DOCUMENT CHECKLIST</h2>
+
+<div *ngIf="view === 'add'">
+  <h2 mat-dialog-title>ADD DOCUMENT CHECKLIST</h2>
   <mat-dialog-content>
     <div class="row">
       <div class="col-6">
         <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
-
         <div class="row">
           <ngx-dropzone-preview
             class="col-6"
@@ -22,7 +22,7 @@
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
-                *ngIf="f.type === 'image/jpeg'"
+                *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
               ></ngx-dropzone-image-preview>
             </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
@@ -40,14 +40,165 @@
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
               <img src="../../../../content/images/power-point.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Category type</mat-label>
+                <mat-select [(ngModel)]="documentChecklist.documentType" name="documentType">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option
+                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other']"
+                    [value]="item"
+                  >
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Document Name</mat-label>
+                <input matInput type="text" [(ngModel)]="documentChecklist.document" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="documentChecklist.status" name="status">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Date</mat-label>
+                <input [matDatepicker]="date" matInput type="text" [(ngModel)]="documentChecklist.dueDate" />
+                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
 
-            <ngx-dropzone-label *ngIf="f.url !== undefined">
-              <img [src]="f.url" width="100%" height="100%" />
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Category</mat-label>
+                <mat-select [(ngModel)]="documentChecklist.category" name="category">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of ['A', 'B', 'C']" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Remarks</mat-label>
+                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="save()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="view === 'edit'">
+  <h2 mat-dialog-title>EDIT DOCUMENT CHECKLIST</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-6">
+        <ngx-dropzone>
+          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+        </ngx-dropzone>
+        <div class="row">
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let item of documentChecklist.files"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label>
+              <img
+                width="150px"
+                [src]="item.url"
+                *ngIf="
+                  item.key.split('.')[1] === 'png' ||
+                  item.key.split('.')[1] === 'jpg' ||
+                  item.key.split('.')[1] === 'jpeg' ||
+                  item.key.split('.')[1] === 'gif'
+                "
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/excel.png"
+                *ngIf="
+                  item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  item['metaData']['Value'] === 'application/vnd.ms-excel'
+                "
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/word.png"
+                *ngIf="
+                  item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                "
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/pdf.png"
+                *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/power-point.jpg"
+                *ngIf="
+                  item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                "
+              />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
       </div>
-
       <div class="col-6">
         <div class="row">
           <div class="col-12">
@@ -57,7 +208,7 @@
                 <mat-select [disabled]="view" [(ngModel)]="documentChecklist.documentType" name="documentType">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
-                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Aggrement', 'Other']"
+                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other']"
                     [value]="item"
                   >
                     {{ item }}
@@ -82,7 +233,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [disabled]="view" [(ngModel)]="documentChecklist.status" name="status">
+                <mat-select [(ngModel)]="documentChecklist.status" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -95,7 +246,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="date" matInput type="text" [(ngModel)]="documentChecklist.dueDate" [disabled]="view" />
+                <input [matDatepicker]="date" matInput type="text" [(ngModel)]="documentChecklist.dueDate" />
                 <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
                 <mat-datepicker #date disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -121,7 +272,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" [disabled]="view" />
+                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" />
               </mat-form-field>
             </div>
           </div>
@@ -130,12 +281,12 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button *ngIf="!view" (click)="save()">Save</button>
+    <button mat-button (click)="edit()">Save</button>
     <button mat-button mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </div>
 
-<div *ngIf="view === true">
+<div *ngIf="view === 'view'">
   <h2 mat-dialog-title>Detail Document</h2>
   <mat-dialog-content align="center">
     <table class="table">
@@ -162,7 +313,15 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img [src]="item.url" *ngIf="item.key.split('.')[1] === 'png' || item.key.split('.')[1] === 'jpg'" />
+        <img
+          *ngIf="
+            item.key.split('.')[1] === 'png' ||
+            item.key.split('.')[1] === 'jpg' ||
+            item.key.split('.')[1] === 'jpeg' ||
+            item.key.split('.')[1] === 'gif'
+          "
+          [src]="item.url"
+        />
 
         <img
           (click)="donwload(item.url)"

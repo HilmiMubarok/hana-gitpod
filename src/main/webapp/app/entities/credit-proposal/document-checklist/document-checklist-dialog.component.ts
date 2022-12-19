@@ -8,6 +8,7 @@ import moment from 'moment';
 import { ICreditProposal } from '../credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
+import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -42,13 +43,13 @@ export class DocumentChecklistDialogComponent implements OnInit {
   public files: any;
   public object: ICreditProposal;
   public key: string;
-  public view: boolean;
+  public view: string;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       creditProposal: ICreditProposal;
       documentChecklist: any;
-      view: boolean;
+      view: string;
       files: any;
       bucket: string;
     },
@@ -59,7 +60,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
   ) {
     this.view = this.data.view;
     this.view ? (this.documentChecklist = this.data.documentChecklist) : (this.documentChecklist = new DocumentChecklist());
-    this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
+    this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
   }
@@ -105,6 +106,26 @@ export class DocumentChecklistDialogComponent implements OnInit {
           this._dialog.close(this.documentChecklist);
         });
       });
+    }
+  }
+
+  public edit(): void {
+    const files: IDocumentNode[] = this.documentChecklist['files'];
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file: IDocumentNode = files[i];
+        this.accountService.identity().subscribe(resAccount => {
+          file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
+          file.tags['status'] = this.documentChecklist.status;
+          file.tags['remarks'] = this.documentChecklist.remarks;
+
+          file.tags['createdBy'] = resAccount.login;
+        });
+
+        this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
+          this._dialog.close(res);
+        });
+      }
     }
   }
 

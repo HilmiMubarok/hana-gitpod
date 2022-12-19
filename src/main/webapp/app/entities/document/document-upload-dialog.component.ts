@@ -10,6 +10,7 @@ import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { IDocumentNode } from '../document-node/document-node.model';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -31,6 +32,8 @@ export class DocumentUploadDialogComponent implements OnInit {
   public collateralView: boolean;
 
   public documents: string;
+  public view: string;
+  public folder: object;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -39,6 +42,8 @@ export class DocumentUploadDialogComponent implements OnInit {
       collateral: ICollateral;
       bucket: string;
       documents: string;
+      view: string;
+      obj: object;
     },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentUploadDialogComponent>,
@@ -51,17 +56,22 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.file = null;
     this.bucket = this.data.bucket;
     this.documents = this.data.documents;
+    this.view = this.data.view;
+    this.folder = this.data.obj;
+    console.log('obj d', this.folder);
   }
+  public collateralOrAppraisal: string;
 
   ngOnInit(): void {
     if (this.data.collateral) {
-      document.getElementById('appraisal').style.display = 'none';
+      this.collateralOrAppraisal = 'collateral';
       this.object = this.data.collateral;
       this.setCertificateType();
     }
 
     if (this.data.appraisal) {
-      document.getElementById('collateral').style.display = 'none';
+      this.collateralOrAppraisal = 'appraisal';
+
       this.object = this.data.appraisal;
       this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
@@ -153,6 +163,54 @@ export class DocumentUploadDialogComponent implements OnInit {
         });
       } else {
         this._dialog.close();
+      }
+    });
+  }
+
+  public edit(): void {
+    if (!this.folder['date']) {
+      this._snackBar.open('Pilih tanggal dokumen', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!this.folder['files'][0]['tags']['docType']) {
+      this._snackBar.open('Pilih dokumen jaminan', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!this.folder['files'][0]['tags']['docNo']) {
+      this._snackBar.open('Masukan nomor dokumen', null, {
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      return;
+    }
+
+    this.accountService.identity().subscribe(resAccount => {
+      const promises: Array<any> = new Array<any>();
+
+      const files: IDocumentNode[] = this.folder['files'];
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file: IDocumentNode = files[i];
+          file.tags['docDate'] = this.folder['files'][0]['tags']['docDate'];
+          file.tags['docType'] = this.folder['files'][0]['tags']['docType'];
+          file.tags['docNo'] = this.folder['files'][0]['tags']['docNo'];
+          file.tags['folder'] = this.folder['files'][0]['tags']['docNo'];
+          file.tags['createdBy'] = resAccount.login;
+          this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
+            this._dialog.close(res);
+          });
+        }
       }
     });
   }
