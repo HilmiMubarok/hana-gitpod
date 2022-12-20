@@ -149,7 +149,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   private checkReturnStatusDescription(data: ICreditProposal[]) {
 	if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
-        data[i].statusDescription = data[i].statusDescription.substring(0,2) === 'Ol' ? data[i].statusDescription.substring(3,data[i].statusDescription.length - 3) : data[i].statusDescription;
+        data[i].statusDescription = data[i].statusDescription.substring(0,2) === 'Ol' ? data[i].statusDescription.substring(3,data[i].statusDescription.length) : data[i].statusDescription;
 	  }
 	}
 	return data;
