@@ -152,6 +152,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         data[i].statusDescription = data[i].statusDescription.substring(0,2) === 'Ol' ? data[i].statusDescription.substring(3,data[i].statusDescription.length - 3) : data[i].statusDescription;
 	  }
 	}
+	return data;
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
