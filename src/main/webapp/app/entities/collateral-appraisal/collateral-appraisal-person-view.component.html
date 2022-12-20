@@ -19,13 +19,13 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>First Name</mat-label>
-            <input matInput type="text" [value]="item.customerPerson.firstName" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.firstName" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Last Name</mat-label>
-            <input matInput type="text" [value]="item.customerPerson.lastName" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.lastName" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
@@ -45,25 +45,25 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tempat Lahir</mat-label>
-            <input matInput type="text" [value]="item.customerPerson.pob" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.pob" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tanggal Lahir</mat-label>
-            <input matInput type="text" [value]="item.customerPerson.dob | formatMediumDate" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.dob | formatMediumDate" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>NIK</mat-label>
-            <input matInput type="text" [value]="item.customerPerson.personalIdNumber" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.personalIdNumber" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>NPWP</mat-label>
-            <input matInput type="text" [value]="item.customerPerson.taxIdNumber" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.taxIdNumber" disabled />
           </mat-form-field>
         </section>
       </div>
