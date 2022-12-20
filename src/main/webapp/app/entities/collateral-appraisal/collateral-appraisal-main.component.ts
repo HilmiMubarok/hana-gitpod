@@ -81,6 +81,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public parentPath = this.router.url.split('/')[1];
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -413,11 +414,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private saveProcess(isRedirectToBucket: Boolean = this.isRedirectToBucket): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
       this.getTasks();
-      isRedirectToBucket
-        ? this.router.navigate(['/collateral-appraisal'])
-        : this.router
-            .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-            .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+      isRedirectToBucket ? this.router.navigate(['/collateral-appraisal']) : console.log('');
+
+      // : this.router
+      //     .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+      //     .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
     });
   }
 
