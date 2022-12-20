@@ -33,7 +33,7 @@ export class DocumentDialogDialogV2Component implements OnInit {
   }
 
   public donwload(event: any) {
-    this.reportUtilService.viewFile(event);
+    this.reportUtilService.downloadFileBYName(event);
   }
 
   public save(): void {
