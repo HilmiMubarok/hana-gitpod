@@ -154,7 +154,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 	}
   }
 
-  private initDataForMatTable(data: any, headers: HttpHeaders) {
+  initDataForMatTable(data: any, headers: HttpHeaders) {
 	let forCheckedItems = [];
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
