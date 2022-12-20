@@ -77,30 +77,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   @Output() jpOther = new EventEmitter<Boolean>();
   public branch?: string;
   public bmRm?: string;
-  public segmentProductFields: Object = { text: 'description', value: 'id' };
-  public segmentProduct = [
-    {
-      id: '1SME',
-      description: 'SME',
-    },
-    {
-      id: '2CORPORATEBANK',
-      description: 'Corporate Bank',
-    },
-    {
-      id: '3COMMERCIALBANK',
-      description: 'Commercial Bank',
-    },
-    {
-      id: '4KOREANDESK',
-      description: 'Korean Desk',
-    },
-    {
-      id: '5ENTERPRISEBANKING',
-      description: 'Enterprise Banking',
-    },
-  ];
-  public segmentProductValue?: string;
   public totalPlafond?: number;
   public noRequestAppraisal?: string;
   public jenisObject?: string;
