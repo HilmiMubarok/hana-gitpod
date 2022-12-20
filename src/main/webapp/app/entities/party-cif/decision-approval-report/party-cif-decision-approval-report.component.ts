@@ -78,7 +78,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   ];
 
   public iconTimeline: any;
-  public isShow: boolean = false;
+  public isShow = false;
   public title: string;
   public id: string;
   public page: number;

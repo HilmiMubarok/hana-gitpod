@@ -59,8 +59,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   public displayColumn: string[] = [
     'no',
-    'namegroup',
     'facilityType',
+    'availableLimit',
     'initialLimit',
     'change',
     'os',
