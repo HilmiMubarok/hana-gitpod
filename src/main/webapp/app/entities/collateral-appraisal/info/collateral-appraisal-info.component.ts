@@ -1,5 +1,4 @@
 import { Component, ChangeDetectorRef, OnChanges, SimpleChanges, Input, Output, EventEmitter, OnInit } from '@angular/core';
-// import { Component, ChangeDetectorRef, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-layouts';
 import { AccountService } from 'app/core/auth/account.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
@@ -27,7 +26,6 @@ import { PartnerService } from 'app/entities/partner/partner.service';
   styleUrls: ['./collateral-appraisal-info.css'],
 })
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
-  // export class CollateralAppraisalInfoComponent implements OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
   public branches;
@@ -49,7 +47,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   set collateralAppraisal(item: ICollateralAppraisal) {
-    console.log('appraisal', item);
     this._collateralAPpraisal = item;
   }
 
@@ -67,14 +64,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
-    // this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
-  @Output() outputKJPPIndependent = new EventEmitter();
   @Output() outputWilayahKota = new EventEmitter();
   @Output() outputTeamReviewer = new EventEmitter();
-  @Output() outputOfficerAppraisal = new EventEmitter();
 
   @Output() jpRenewal = new EventEmitter<Boolean>();
   @Output() jpNew = new EventEmitter<Boolean>();
@@ -111,48 +105,12 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public noRequestAppraisal?: string;
   public jenisObject?: string;
   public tipeOfficerAppraisalValue?: string;
-  public kjppIndependentAppraisal = [
-    {
-      id: '1KJPP',
-      description: 'KJPP',
-    },
-    {
-      id: '2INDEPENDENT',
-      description: 'Independent',
-    },
-  ];
-  public kjppIndependentAppraisalFields: Object = { text: 'description', value: 'id' };
-  public kjppIndependentAppraisalValue?: string;
-  public wilayahKota = [
-    { id: '1JAKARTA', description: 'Jakarta' },
-    { id: '2BANDUNG', description: 'Bandung' },
-    { id: '3YOGYAKARTA', description: 'Yogyakarta' },
-    { id: '4SEMARANG', description: 'Semarang' },
-    { id: '5SURABAYA', description: 'Surabaya' },
-    { id: '6MEDAN', description: 'Medan' },
-    { id: '7PALEMBANG', description: 'Palembang' },
-    { id: '8PEKANBARU', description: 'Pekan Baru' },
-    { id: '9BANDARLAMPUNG', description: 'Bandar Lampung' },
-    { id: '10DENPASAR', description: 'Denpasar' },
-  ];
   public wilayahKotaFields: Object = { text: 'facilityName', value: 'id' };
   public wilayahKotaInternalValue?: string;
   public wilayahKotaExternalValue?: string;
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
   public teamReviewerValue: string;
-  public officerAppraisal = [
-    { id: '1ZUKI', description: 'Zuki' },
-    { id: '2YANI', description: 'Yani' },
-    { id: '3XAVI', description: 'Xavi' },
-    { id: '4WILI', description: 'Wili' },
-    { id: '5VICTOR', description: 'Victor' },
-    { id: '6UMI', description: 'Umi' },
-    { id: '7TIKA', description: 'Tika' },
-    { id: '8SUBI', description: 'Subi' },
-    { id: '9ROMI', description: 'Romi' },
-    { id: '10QUENY', description: 'Queny' },
-  ];
   public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
   public officerAppraisalValue?: string;
   public approvalDate: string;
@@ -208,6 +166,10 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.loadSurveyBatchKjjp();
     this.loadBranchNew();
     this.loadWilayah();
+
+    this.surveyorService.query({ size: 9999 }).subscribe(res => {
+      this.surveyors = res.body;
+    });
   }
 
   private loadWilayah(): void {
@@ -240,18 +202,23 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyAppraisal.totalPlafond = null;
     this.surveyAppraisal.tglJatuhTempo = null;
   }
+
   public setNew(ev) {
     this.jpNew.emit(ev.checked);
   }
+
   public setAdditional(ev) {
     this.jpAdditional.emit(ev.checked);
   }
+
   public setProgress(ev) {
     this.jpProgress.emit(ev.checked);
   }
+
   public setOther(ev) {
     this.jpOther.emit(ev.checked);
   }
+
   ngOnChanges(changes: SimpleChanges) {
     this.jpRenewal.emit(this.surveyAppraisal.jpRenewal);
     this.jpNew.emit(this.surveyAppraisal.jpNew);
@@ -264,11 +231,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.outputTipeOfficerAppraisal.emit(this.surveyAppraisal.apprOfficer);
       }
     }
-    if (changes['collateralAppraisal']) {
-      // if (this.surveyAppraisal.rm.partyId) {
-      //   this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
-      // }
-    }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
       for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
@@ -276,7 +238,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
           if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
             this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
           } else {
-            console.log('visit', changes.statusAppraisal.currentValue[i].createdDate);
             this.visitDate = changes.statusAppraisal.currentValue[i].createdDate;
           }
         }
@@ -353,8 +314,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       this.positionRM = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
-
-      console.log('PosRM', this.positionRM);
     });
   }
 
@@ -403,13 +362,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public selectBranch(event: any): void {
     const value: string = event['value'];
     if (value) {
-      console.log('value', value);
-      console.log('branches', this.branches);
       const branch = lodash.find(this.branches, function (o) {
         return o.id === value;
       });
-
-      console.log('branch', branch);
       this.loadInternalInformationBranch(branch.parentId);
     }
   }
@@ -418,7 +373,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.segments = [];
     this.regionals = [];
     this.loadInternalById(parentId).then(res4 => {
-      // this.rmRegional = res4;
       this.loadRegional(res4.parentId.toString()).then(res5 => {
         this.loadInternalById(res4.parentId.toString()).then(res6 => {
           this.rmSegment = res6;
@@ -465,78 +419,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     }
   }
 
-  public selectTipeOfficerAppraisal(args: ChangeEventArgs): void {
-    this.clearDefaultSelection();
-    this.outputTipeOfficerAppraisal.emit(args['value']);
-    this.cdr.detectChanges();
-  }
-
-  private clearDefaultSelection(): void {
-    this.kjppIndependentAppraisalValue = '';
-    this.wilayahKotaInternalValue = '';
-    this.wilayahKotaExternalValue = '';
-    this.wilayahKota = [
-      { id: '1JAKARTA', description: 'Jakarta' },
-      { id: '2BANDUNG', description: 'Bandung' },
-      { id: '3YOGYAKARTA', description: 'Yogyakarta' },
-      { id: '4SEMARANG', description: 'Semarang' },
-      { id: '5SURABAYA', description: 'Surabaya' },
-      { id: '6MEDAN', description: 'Medan' },
-      { id: '7PALEMBANG', description: 'Palembang' },
-      { id: '8PEKANBARU', description: 'Pekan Baru' },
-      { id: '9BANDARLAMPUNG', description: 'Bandar Lampung' },
-      { id: '10DENPASAR', description: 'Denpasar' },
-    ];
-    this.teamReviewerValue = '';
-
-    this.officerAppraisalValue = '';
-    this.officerAppraisal = [
-      { id: '1ZUKI', description: 'Zuki' },
-      { id: '2YANI', description: 'Yani' },
-      { id: '3XAVI', description: 'Xavi' },
-      { id: '4WILI', description: 'Wili' },
-      { id: '5VICTOR', description: 'Victor' },
-      { id: '6UMI', description: 'Umi' },
-      { id: '7TIKA', description: 'Tika' },
-      { id: '8SUBI', description: 'Subi' },
-      { id: '9ROMI', description: 'Romi' },
-      { id: '10QUENY', description: 'Queny' },
-    ];
-    this.cdr.detectChanges();
-  }
-
-  public selectKJPPIndependent(args: ChangeEventArgs): void {
-    if (args['value'] === '2INDEPENDENT') {
-      this.wilayahKota = [
-        { id: '1MANADO', description: 'Manado' },
-        { id: '2PALU', description: 'Palu' },
-        { id: '3GORONTALO', description: 'Gorontalo' },
-        { id: '4PANGKALPINANG', description: 'Pangkal Pinang' },
-        { id: '5TEGAL', description: 'Tegal' },
-        { id: '6MAGELANG', description: 'Magelang' },
-        { id: '7MAKASAR', description: 'Makasar' },
-        { id: '8PEKALONGAN', description: 'Pekalongan' },
-        { id: '9PONTIANAK', description: 'Pontianak' },
-        { id: '10BANJARMASIN', description: 'Banjarmasin' },
-      ];
-    } else {
-      this.wilayahKota = [
-        { id: '1JAKARTA', description: 'Jakarta' },
-        { id: '2BANDUNG', description: 'Bandung' },
-        { id: '3YOGYAKARTA', description: 'Yogyakarta' },
-        { id: '4SEMARANG', description: 'Semarang' },
-        { id: '5SURABAYA', description: 'Surabaya' },
-        { id: '6MEDAN', description: 'Medan' },
-        { id: '7PALEMBANG', description: 'Palembang' },
-        { id: '8PEKANBARU', description: 'Pekan Baru' },
-        { id: '9BANDARLAMPUNG', description: 'Bandar Lampung' },
-        { id: '10DENPASAR', description: 'Denpasar' },
-      ];
-    }
-    this.outputKJPPIndependent.emit(args['value']);
-    this.cdr.detectChanges();
-  }
-
   public selectWilayahKota(args: ChangeEventArgs): void {
     this.outputWilayahKota.emit(args['value']);
     this.positionService
@@ -562,13 +444,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.outputTeamReviewer.emit(args['value']);
   }
 
-  public selectOfficerAppraisal(args: ChangeEventArgs): void {
-    this.outputOfficerAppraisal.emit(args['value']);
-  }
-
   private checkLogin() {
     this.accountService.identity().subscribe(account => {
-      console.log('account', account);
       if (account) {
         this.account = account;
 
