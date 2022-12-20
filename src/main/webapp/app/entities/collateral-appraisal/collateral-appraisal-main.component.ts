@@ -800,6 +800,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       officerAppraisal: true,
       kjpp: true,
     };
+
     if (this.surveyAppraisal.apprOfficer === 'Internal') {
       this.isRedirectToBucket = false;
       if (!this.surveyAppraisal.surveyorArea) {
@@ -810,20 +811,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
-    } else {
-      if (!this.kjppIndependentAppraisalValue) {
-        this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-        mustValidateOnAssignment.kjpp = false;
-      }
-      if (!this.teamReviewerValue) {
-        this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-        mustValidateOnAssignment.officerAppraisal = false;
-      }
-      if (!this.wilayahKotaExternalValue) {
-        this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-        mustValidateOnAssignment.wilayah = false;
-      }
     }
+    // else {
+    //   if (!this.kjppIndependentAppraisalValue) {
+    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
+    //     mustValidateOnAssignment.kjpp = false;
+    //   }
+    //   if (!this.teamReviewerValue) {
+    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
+    //     mustValidateOnAssignment.officerAppraisal = false;
+    //   }
+    //   if (!this.wilayahKotaExternalValue) {
+    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
+    //     mustValidateOnAssignment.wilayah = false;
+    //   }
+    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
