@@ -80,7 +80,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     });
   }
 
-  public openDialog(element: IDocumentChecklist = null): void {
+  public openDialog(element: IDocumentChecklist = null, view: string): void {
     const predicate = { width: '80vw', data: {} };
     predicate.data['view'] = false;
     predicate.data['creditProposal'] = this.creditProposal;
@@ -88,9 +88,10 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     predicate.data['files'] = this.files;
     if (element) {
       predicate.data['documentChecklist'] = element;
-      predicate.data['view'] = true;
+      predicate.data['view'] = view;
     } else {
       predicate.data['documentChecklist'] = new DocumentChecklist();
+      predicate.data['view'] = view;
     }
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogComponent, predicate);

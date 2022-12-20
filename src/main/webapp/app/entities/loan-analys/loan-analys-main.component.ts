@@ -124,11 +124,19 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-        this.subMenu = SUBMENU_LOAN_ANALYS;
+        this.subMenu = [
+          ...SUBMENU_LOAN_ANALYS,
+          { id: 'repayment-capability', text: 'Repayment Capability' },
+          { id: 'trade-checking', text: 'Trade Checking' },
+        ];
         break;
 
       case 'la-approval':
-        this.subMenu = SUBMENU_LOAN_ANALYS_LA_APPROVAL;
+        this.subMenu = [
+          ...SUBMENU_LOAN_ANALYS_LA_APPROVAL,
+          { id: 'repayment-capability', text: 'Repayment Capability' },
+          { id: 'trade-checking', text: 'Trade Checking' },
+        ];
         break;
 
       case 'la-approval-inquiry':
@@ -139,7 +147,6 @@ export class LoanAnalysMainComponent implements OnInit {
           { id: 'compare-data', text: 'Compare Data' },
         ];
         break;
-
       case 'dar-final':
         this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
         break;
@@ -369,6 +376,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+    // copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
 
     return copyCreditProposal;
   }

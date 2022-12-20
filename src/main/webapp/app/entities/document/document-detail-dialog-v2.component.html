@@ -18,7 +18,15 @@
   </table>
   <ul class="list-image">
     <li *ngFor="let item of folder['files']">
-      <img [src]="item.url" *ngIf="item.key.split('.')[1] === 'png' || item.key.split('.')[1] === 'jpg'" />
+      <img
+        [src]="item.url"
+        *ngIf="
+          item.key.split('.')[1] === 'png' ||
+          item.key.split('.')[1] === 'jpg' ||
+          item.key.split('.')[1] === 'jpeg' ||
+          item.key.split('.')[1] === 'gif'
+        "
+      />
 
       <img
         (click)="donwload(item.url)"
@@ -60,7 +68,3 @@
     </li>
   </ul>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Close</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>

@@ -30,7 +30,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   // export class CollateralAppraisalInfoComponent implements OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-  public branchs: IInternal[];
+  public branches;
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -41,6 +41,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public _collateralAPpraisal: ICollateralAppraisal;
   public account: Account;
   public kjppValue: any;
+  public disableRmInfo: boolean;
 
   @Input()
   get collateralAppraisal() {
@@ -66,7 +67,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
-    this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
+    // this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -134,22 +135,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     { id: '9BANDARLAMPUNG', description: 'Bandar Lampung' },
     { id: '10DENPASAR', description: 'Denpasar' },
   ];
-  public wilayahKotaFields: Object = { text: 'description', value: 'id' };
+  public wilayahKotaFields: Object = { text: 'facilityName', value: 'id' };
   public wilayahKotaInternalValue?: string;
   public wilayahKotaExternalValue?: string;
-  public teamReviewer = [
-    { id: '1ANI', description: 'Ani' },
-    { id: '2BUDI', description: 'Budi' },
-    { id: '3CIKA', description: 'Cika' },
-    { id: '4DODI', description: 'Dodi' },
-    { id: '5ERI', description: 'Eri' },
-    { id: '6FONY', description: 'Fony' },
-    { id: '7GILANG', description: 'Gilang' },
-    { id: '8HERU', description: 'Heru' },
-    { id: '9IJAL', description: 'Ijal' },
-    { id: '10KIKI', description: 'Kiki' },
-  ];
-  public teamReviewerFields: Object = { text: 'description', value: 'id' };
+
+  public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
   public teamReviewerValue: string;
   public officerAppraisal = [
     { id: '1ZUKI', description: 'Zuki' },
@@ -185,6 +175,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public internals: IInternal[];
   public surveyors: ISurveyor[];
 
+  public teamReviewer: any[];
+
   constructor(
     private cdr: ChangeDetectorRef,
     private accountService: AccountService,
@@ -209,17 +201,24 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
-    this.stateBoundaryService.queryFilterBy({ size: 9999, idBoundaryType: 112 }).subscribe(res => {
-      this.cities = res.body;
-    });
 
-    this.surveyorService.query({ size: 9999 }).subscribe(res => {
-      this.surveyors = res.body;
-    });
     this.loadPositionRM();
 
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
+    this.loadBranchNew();
+    this.loadWilayah();
+  }
+
+  private loadWilayah(): void {
+    this.internalService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.cities = res.body;
+      });
   }
 
   public setRenewal(ev) {
@@ -266,9 +265,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       }
     }
     if (changes['collateralAppraisal']) {
-      if (this.surveyAppraisal.rm.partyId) {
-        this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
-      }
+      // if (this.surveyAppraisal.rm.partyId) {
+      //   this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
+      // }
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
@@ -286,7 +285,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   private loadInternalInformationRM(partyId: string): void {
-    this.branchs = [];
+    this.branches = [];
     this.segments = [];
     this.regionals = [];
     this.findPositionByIdParty(partyId).then((res: IPosition) => {
@@ -354,6 +353,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       this.positionRM = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
+
+      console.log('PosRM', this.positionRM);
     });
   }
 
@@ -375,8 +376,54 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branchs = res.body;
+        this.branches = res.body;
         resolve();
+      });
+    });
+  }
+
+  private loadBranchNew(): void {
+    const tmpBranch = [];
+    this.internalService
+      .query({
+        page: 0,
+        size: 999,
+      })
+      .subscribe(response => {
+        for (let a = 0; a < response.body.length; a++) {
+          if (response.body[a].internalTypeId === 'BRANCH') {
+            tmpBranch.push(response.body[a]);
+          }
+        }
+        this.branches = tmpBranch;
+        this.loadSegment();
+      });
+  }
+
+  public selectBranch(event: any): void {
+    const value: string = event['value'];
+    if (value) {
+      console.log('value', value);
+      console.log('branches', this.branches);
+      const branch = lodash.find(this.branches, function (o) {
+        return o.id === value;
+      });
+
+      console.log('branch', branch);
+      this.loadInternalInformationBranch(branch.parentId);
+    }
+  }
+
+  private loadInternalInformationBranch(parentId): void {
+    this.segments = [];
+    this.regionals = [];
+    this.loadInternalById(parentId).then(res4 => {
+      // this.rmRegional = res4;
+      this.loadRegional(res4.parentId.toString()).then(res5 => {
+        this.loadInternalById(res4.parentId.toString()).then(res6 => {
+          this.rmSegment = res6;
+          this.loadSegment();
+        });
       });
     });
   }
@@ -441,18 +488,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       { id: '10DENPASAR', description: 'Denpasar' },
     ];
     this.teamReviewerValue = '';
-    this.teamReviewer = [
-      { id: '1ANI', description: 'Ani' },
-      { id: '2BUDI', description: 'Budi' },
-      { id: '3CIKA', description: 'Cika' },
-      { id: '4DODI', description: 'Dodi' },
-      { id: '5ERI', description: 'Eri' },
-      { id: '6FONY', description: 'Fony' },
-      { id: '7GILANG', description: 'Gilang' },
-      { id: '8HERU', description: 'Heru' },
-      { id: '9IJAL', description: 'Ijal' },
-      { id: '10KIKI', description: 'Kiki' },
-    ];
+
     this.officerAppraisalValue = '';
     this.officerAppraisal = [
       { id: '1ZUKI', description: 'Zuki' },
@@ -503,6 +539,22 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public selectWilayahKota(args: ChangeEventArgs): void {
     this.outputWilayahKota.emit(args['value']);
+    this.positionService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idInternal: args['value'],
+      })
+      .subscribe(res => {
+        const teamLeader = [];
+        for (let i = 0; i < res.body.length; i++) {
+          if (res.body[i].positionTypeDescription === 'Team Leader') {
+            teamLeader.push(res.body[i]);
+          }
+        }
+
+        this.teamReviewer = teamLeader;
+      });
     this.cdr.detectChanges();
   }
 
@@ -516,8 +568,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   private checkLogin() {
     this.accountService.identity().subscribe(account => {
+      console.log('account', account);
       if (account) {
         this.account = account;
+
+        this.disableRmInfo = this.account.login === 'admin' ? false : true;
       }
     });
   }
@@ -529,7 +584,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyBatchService.find(this.collateralAppraisal.surveyBatchId).subscribe(res => {
       this.partnerService.find(res.body.surveyCompanyId).subscribe(ress => {
         this.kjppValue = ress.body.name;
-        console.log('ressss', this.kjppValue);
       });
     });
   }

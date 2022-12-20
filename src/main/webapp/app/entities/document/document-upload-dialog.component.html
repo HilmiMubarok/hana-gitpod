@@ -1,88 +1,211 @@
-<h2 mat-dialog-title>Upload Document</h2>
-<mat-dialog-content>
-  <div class="row">
-    <div class="col-6">
-      <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
-        <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
-      </ngx-dropzone>
+<div *ngIf="view === 'add'">
+  <h2 mat-dialog-title>Add Document</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-6">
+        <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
+          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+        </ngx-dropzone>
 
-      <div class="row">
-        <ngx-dropzone-preview
-          class="col-6"
-          ngProjectAs="ngx-dropzone-preview"
-          *ngFor="let f of files"
-          [removable]="true"
-          (removed)="onRemove(f)"
-        >
-          <ngx-dropzone-label *ngIf="f.url === undefined">
-            <ngx-dropzone-image-preview
-              ngProjectAs="ngx-dropzone-image-preview"
-              [file]="f"
-              *ngIf="f.type === 'image/jpeg'"
-            ></ngx-dropzone-image-preview>
-          </ngx-dropzone-label>
-          <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
-            <img src="../../../content/images/excel.png" width="100%" height="100%" />
-          </ngx-dropzone-label>
+        <div class="row">
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let f of files"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label *ngIf="f.url === undefined">
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-image-preview"
+                [file]="f"
+                *ngIf="f.type === 'image/jpeg'"
+              ></ngx-dropzone-image-preview>
+            </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
+              <img src="../../../content/images/excel.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
 
-          <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
-            <img src="../../../content/images/word.png" width="100%" height="100%" />
-          </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+              <img src="../../../content/images/word.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
 
-          <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
-            <img src="../../../content/images/pdf.png" width="100%" height="100%" />
-          </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+              <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
 
-          <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
-            <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
-          </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
+              <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
 
-          <ngx-dropzone-label *ngIf="f.url !== undefined">
-            <img [src]="f.url" width="100%" height="100%" />
-          </ngx-dropzone-label>
-        </ngx-dropzone-preview>
+            <ngx-dropzone-label *ngIf="f.url !== undefined">
+              <img [src]="f.url" width="100%" height="100%" />
+            </ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Issued Date</mat-label>
+            <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+            <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+            <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- <div *ngIf="collateralView"> -->
+        <div class="form-group" *ngIf="collateralOrAppraisal === 'collateral'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Collateral</mat-label>
+            <mat-select [(ngModel)]="document.documentType">
+              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- </div> -->
+        <!-- <div *ngIf="!collateralView"> -->
+        <div class="form-group" *ngIf="collateralOrAppraisal === 'appraisal'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Dokumen Collateral</mat-label>
+            <mat-select [(ngModel)]="document.documentType">
+              <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+              <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- </div> -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Name</mat-label>
+            <input matInput type="text" [(ngModel)]="document.documentNumber" />
+          </mat-form-field>
+        </div>
       </div>
     </div>
-    <div class="col-6">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Document Issued Date</mat-label>
-          <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
-          <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
-          <mat-datepicker #documentDate disabled="false"></mat-datepicker>
-        </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="save()">Save</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="view === 'edit'">
+  <h2 mat-dialog-title>Upload Document</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-6">
+        <ngx-dropzone disabled>
+          <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+        </ngx-dropzone>
+
+        <div class="row">
+          <ngx-dropzone-preview
+            class="col-6"
+            ngProjectAs="ngx-dropzone-preview"
+            *ngFor="let item of folder.files"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label>
+              <img
+                width="150px"
+                [src]="item.url"
+                *ngIf="
+                  item.key.split('.')[1] === 'png' ||
+                  item.key.split('.')[1] === 'jpg' ||
+                  item.key.split('.')[1] === 'gif' ||
+                  item.key.split('.')[1] === 'jpeg'
+                "
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/excel.png"
+                *ngIf="
+                  item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+                  item['metaData']['Value'] === 'application/vnd.ms-excel'
+                "
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/word.png"
+                *ngIf="
+                  item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                "
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/pdf.png"
+                *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
+              />
+
+              <img
+                (click)="donwload(item.url)"
+                width="150px"
+                src="../../../content/images/power-point.jpg"
+                *ngIf="
+                  item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+                "
+              />
+            </ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </div>
       </div>
-      <!-- <div *ngIf="collateralView"> -->
-      <div class="form-group" id="collateral">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Document Collateral</mat-label>
-          <mat-select [(ngModel)]="document.documentType">
-            <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <!-- </div> -->
-      <!-- <div *ngIf="!collateralView"> -->
-      <div class="form-group" id="appraisal">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Dokumen Collateral</mat-label>
-          <mat-select [(ngModel)]="document.documentType">
-            <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
-            <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <!-- </div> -->
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Document Name</mat-label>
-          <input matInput type="text" [(ngModel)]="document.documentNumber" />
-        </mat-form-field>
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Issued Date</mat-label>
+            <input
+              [value]="folder['files'][0]['tags']['docDate'] | formatMediumDate"
+              [matDatepicker]="documentDate"
+              matInput
+              type="text"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+            <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- <div *ngIf="collateralView"> -->
+        <div class="form-group" *ngIf="collateralOrAppraisal === 'collateral'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Collateral</mat-label>
+            <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
+              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- </div> -->
+        <!-- <div *ngIf="!collateralView"> -->
+        <div class="form-group" *ngIf="collateralOrAppraisal === 'appraisal'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Dokumen Collateral</mat-label>
+            <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
+              <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+              <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- </div> -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Document Name</mat-label>
+            <input matInput type="text" [(ngModel)]="folder['files'][0]['tags']['docNo']" />
+          </mat-form-field>
+        </div>
       </div>
     </div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="edit()">Save</button>
+  </mat-dialog-actions>
+</div>

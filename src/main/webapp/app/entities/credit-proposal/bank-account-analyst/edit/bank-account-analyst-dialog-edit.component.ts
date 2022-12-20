@@ -7,33 +7,12 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from '../bank-account-analyst.model';
 import lodash from 'lodash';
 import * as _moment from 'moment';
-import { default as _rollupMoment, Moment } from 'moment';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepicker } from '@angular/material/datepicker';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import moment from 'moment';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { CreditProposalService } from '../../credit-proposal.service';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
   templateUrl: './bank-account-analyst-dialog-edit.component.html',
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
-  //   styleUrls: ['././bank-account-analyst-dialog.component.css'],
 })
 export class CreditProposalBankAccountAnalystDialogEditComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI'];
@@ -56,11 +35,18 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   public validFqDb = new FormControl('', [Validators.required]);
   public validCredit = new FormControl('', [Validators.required]);
   public validLowest = new FormControl('', [Validators.required]);
-  moment = _rollupMoment || _moment;
+  public applicationProduct: IApplicationProduct;
+  public curen: string;
+  public setData: string;
+  public currencyName: number;
+  public preCurent = '';
+  public logoCcy;
+  public conCcy = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; edit: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogEditComponent>,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public creditProposalService: CreditProposalService
   ) {
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     this.bankAccAnalyst1 = lodash.cloneDeep(this.data.bankAccountAnalyst);
@@ -70,7 +56,6 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     this.edit = this.data.edit;
     this.creditProposal = this.data.creditProposal;
   }
-  date = new FormControl(moment());
 
   public onRemove(index: number): void {
     const copyAttr: IBankAccountAnalystDetail[] = this.bankAccAnalyst.detail;
@@ -306,16 +291,56 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
-  chosenYearHandler(normalizedYear: Moment) {
-    const ctrlValue = this.date.value;
-    ctrlValue.year(normalizedYear.year());
-    this.date.setValue(ctrlValue);
+  public curdIdr: number;
+  getCurs() {
+    this.setData = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+      this.curdIdr = res.body[0]?.factor;
+      // this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] * this.curdIdr;
+      // this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] * this.curdIdr;
+      // this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] * this.curdIdr;
+    });
   }
 
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonth.month());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+  public changeCurency(value: string) {
+    this.curen = value;
+    this.setData = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.bankAccAnalyst.convert = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR', thousands: ',', decimal: ',', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = false;
+          this.logoCcy = {};
+          // this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] / this.currencyName;
+          // this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] / this.currencyName;
+          // this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
   }
 }

@@ -1,9 +1,11 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
 import { FormControl, Validators } from '@angular/forms';
+import { CreditProposalService } from '../credit-proposal.service';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
@@ -14,9 +16,11 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public banks: string[] = ['BCA', 'CIMB NIAGA', 'OCBC NISP', 'PANIN', 'PERMATA', 'MANDIRI'];
   public displayedColumns: string[] = ['date', 'debit', 'fqDebit', 'credit', 'fqCredit', 'lowest', 'highest', 'balance', 'action'];
   public creditProposal: ICreditProposal;
+  public applicationProduct: IApplicationProduct;
   public bankAccAnalyst: IBankAccountAnalyst;
   public view: boolean;
   public ccy: string[] = ['IDR', 'USD'];
+  public curen: string;
 
   public validBankControl = new FormControl('', [Validators.required]);
   public validAccountNo = new FormControl('', [Validators.required]);
@@ -30,10 +34,22 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validFqDb = new FormControl('', [Validators.required]);
   public validCredit = new FormControl('', [Validators.required]);
   public validLowest = new FormControl('', [Validators.required]);
+  public setData: string;
+  public currencyName: number;
+  public preCurent = '';
+  public logoCcy;
+  public conCcy = false;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; view: boolean },
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      creditProposal: ICreditProposal;
+      bankAccountAnalyst: IBankAccountAnalyst;
+      view: boolean;
+    },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogComponent>,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public creditProposalService: CreditProposalService
   ) {
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     if (this.bankAccAnalyst.detail.length === 0) {
@@ -278,5 +294,57 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+  public curdIdr: number;
+  getCurs() {
+    this.setData = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+      this.curdIdr = res.body[0]?.factor;
+      // this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] * this.curdIdr;
+      // this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] * this.curdIdr;
+      // this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] * this.curdIdr;
+    });
+  }
+
+  public changeCurency(value: string) {
+    this.curen = value;
+    this.setData = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.bankAccAnalyst.convert = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR', thousands: ',', decimal: ',', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = false;
+          this.logoCcy = {};
+          // this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] / this.currencyName;
+          // this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] / this.currencyName;
+          // this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
   }
 }

@@ -102,6 +102,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
       this.getContainer();
     });
+    this.approvalShow();
   }
   onDocumentChange() {
     this.container.restrictEditing = true;
@@ -172,8 +173,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
     // 67 is the character code for 'C'
-    console.log('keycode', keyCode);
-    console.log('isCtrlKey', isCtrlKey);
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
@@ -342,7 +341,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   public onDelete(data: IObj) {
     this.storageService.deleteFile(this.BUCKET, data.key).subscribe(res => {
-      console.log('ini res', res);
       this.getFile(this._item.id);
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File ' + data.fileName + ' Delete Successfully' });
 
@@ -369,6 +367,15 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
         resolve(reader.result);
       };
     });
+  }
+
+  // showhide component using menu
+  public distribution: any;
+  public approvalShow() {
+    const dataCommponent = sessionStorage.getItem('appName');
+    if (dataCommponent !== 'Loan Analysis') {
+      this.distribution = 'none';
+    }
   }
 }
 
