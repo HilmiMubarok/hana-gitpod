@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -49,16 +50,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public iconTimeline: any;
   public statusCodesData: Object[] = [];
   public statusCodesDataRes: Object[] = [];
-  // public statusCodesDataLineUp: string[] = [
-  //   'CP_DRAFT',
-  //   'CP_RETURN_TO_RM',
-  //   'CP_APPROVAL_SME_HEAD',
-  //   'CP_APPROVAL_BM',
-  //   'CP_APPROVAL_SDH',
-  //   'CP_APPROVAL_DH',
-  //   'CP_CANCEL',
-  //   'CP_REJECT',
-  // ];
   public account: Account;
   public isRoleRM: boolean;
   public activeRoute: string;
@@ -94,16 +85,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.kagebunshinNoJutsu();
   }
 
-  // private sortStatusCodesData(): void {
-  //   for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
-  //     for (let j = 0; j < this.statusCodesDataRes.length; j++) {
-  //       if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
-  //         this.statusCodesData.push(this.statusCodesDataRes[j]);
-  //       }
-  //     }
-  //   }
-  // }
-
   private loadStatusChip(): void {
     this.creditProposalService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
@@ -114,7 +95,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
           this.statusCodesData[i]['label'] = 'Return To Credit Proposal (BU)';
         }
       }
-      // this.sortStatusCodesData();
     });
   }
 
@@ -166,6 +146,29 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
+  private checkReturnStatusDescription(data: ICreditProposal) {
+	if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        data[i].statusDescription = data[i].statusDescription.substring(0,2) === 'Ol' ? data[i].statusDescription.substring(3,data[i].statusDescription.length - 3) : data[i].statusDescription;
+	  }
+	}
+  }
+
+  private initDataForMatTable(data: any, headers: HttpHeaders) {
+	let forCheckedItems = [];
+    forCheckedItems = this.addIdx(data.body);
+    forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
+
+    this.items = new MatTableDataSource(forCheckedItems);
+    if (!this.items) {
+      this.items.paginator = this.paginator;
+    }
+    this.items.sort = this.sort;
+    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSize = this.paginator.pageSize;
+    this.loading = false;
+  }
+
   private loadAll(): void {
     this.loading = true;
     const dynamicURL: string = this.applicationConfigService.getEndpointFor(
@@ -176,9 +179,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         .queryFilterBy({
           page: this.page,
           idStatus: this.convertStatus(this.clickedChip['id']),
-          // idStatus: this.clickedChip['id'],
           size: this.itemsPerPage,
-          // sort: this.sortData(),
           sort: ['id,desc'],
         })
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
@@ -208,7 +209,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     }
 
     this.creditProposalService
-      // .query({
       .queryDynamicURL(
         {
           page: this.page,
