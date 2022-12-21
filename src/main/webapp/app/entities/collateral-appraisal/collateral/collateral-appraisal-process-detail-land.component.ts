@@ -224,7 +224,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     }
   }
   gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
       return true;
     }
     return false;
