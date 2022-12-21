@@ -22,13 +22,13 @@ import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.servi
 import { PartnerService } from 'app/entities/partner/partner.service';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
- templateUrl: './collateral-appraisal-info.component.html',
+  templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-   public branchs: IInternal[];
+  public branchs: IInternal[];
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -335,16 +335,16 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       });
   }
 
-  public selectBranch(event: any): void {
-    const value: string = event['value'];
-    if (value) {
-      const branch = lodash.find(this.branchs, function (o) {
+  // public selectBranch(event: any): void {
+  //   const value: string = event['value'];
+  //   if (value) {
+  //     const branch = lodash.find(this.branchs, function (o) {
 
-        return o.id === value;
-      });
-      this.loadInternalInformationBranch(branch.parentId);
-    }
-  }
+  //       return o.id === value;
+  //     });
+  //     this.loadInternalInformationBranch(branch.parentId);
+  //   }
+  // }
 
   private loadInternalInformationBranch(parentId): void {
     this.segments = [];

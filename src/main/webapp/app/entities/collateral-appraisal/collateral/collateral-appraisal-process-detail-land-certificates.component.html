@@ -104,13 +104,7 @@
     </div>
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Total Land Area</mat-label>
-      <input
-        matInput
-        type="text"
-        [value]="countTotalLandArea(collateral.truncatedArea, getTotalArea()) | number: '1.0-0'"
-        disabled
-        [disabled]="gakbisa()"
-      />
+      <input matInput type="text" [value]="countTotalLandArea(collateral.truncatedArea, getTotalArea()) | number: '1.0-0'" disabled />
     </mat-form-field>
   </div>
 
