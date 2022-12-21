@@ -416,11 +416,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private saveProcess(isRedirectToBucket: Boolean = this.isRedirectToBucket): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
       this.getTasks();
-      isRedirectToBucket
-        ? this.router.navigate(['/batch-apprisal/process'])
-        : this.router
-            .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-            .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+      this.router.navigate(['/collateral-appraisal']);
     });
   }
 
