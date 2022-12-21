@@ -843,6 +843,11 @@ export class SurveyBatchEditComponent implements OnInit {
       this.checkMustValidatedOnVisited() && resolve('Visited Validated');
     });
   }
+  public validateApprovalTL(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidatedOnApprovalTL() && resolve('Assignment Validated');
+    });
+  }
 
   public checkMachineMarketValue() {
     const machine = this.collateralAppraisalService.totalDataDetailMachine;
@@ -868,6 +873,19 @@ export class SurveyBatchEditComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  public checkMustValidatedOnApprovalTL() {
+    const mustValidateOnTL = {
+      jenisObject: true,
+      jenisPermohonan: true,
+      documentCollateral: true,
+      documentLainnya: true,
+      picDebtor: true,
+      picPhone: true,
+    };
+
+    return this._validateProcess(mustValidateOnTL);
   }
 
   public checkMustValidatedOnVisited() {
@@ -1001,6 +1019,8 @@ export class SurveyBatchEditComponent implements OnInit {
           this.validateVisited().then(() => resolve(true));
           break;
         case STATUS.APPROVAL_TL:
+          this.validateApprovalTL().then(() => resolve(true));
+          break;
         case STATUS.APPROVAL_DEPT_HEAD:
         case STATUS.APPROVAL_DH:
           this.validateVisited().then(() => resolve(true));

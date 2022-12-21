@@ -83,7 +83,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public tipeOfficerAppraisalValue?: string;
   public wilayahKotaFields: Object = { text: 'facilityName', value: 'id' };
   public wilayahKotaInternalValue?: string;
-  public wilayahKotaExternalValue?: string;
+  public wilayahKotaExternalValue: any;
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
   public teamReviewerValue: string;
@@ -105,7 +105,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public isEnableKhususPerpanjanganSub?: boolean;
   public isEnablePlafond?: boolean;
   public isEnablePermohonan?: boolean;
-  public cities: IStateBoundary[];
+  public cities: any[];
   public internals: IInternal[];
   public surveyors: ISurveyor[];
 
@@ -149,13 +149,22 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   private loadWilayah(): void {
+    const citiesData = [];
     this.internalService
       .query({
         page: 0,
         size: 9999,
       })
       .subscribe(res => {
-        this.cities = res.body;
+        for (let i = 0; i < res.body.length; i++) {
+          citiesData.push({ facilityName: res.body[i].facilityName, id: res.body[i].id });
+
+          if (Number(citiesData[i].id) === Number(this.surveyAppraisal.surveyorArea)) {
+            this.wilayahKotaExternalValue = citiesData[i];
+          }
+        }
+
+        this.cities = citiesData;
       });
   }
 
@@ -396,6 +405,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   public selectWilayahKota(args: ChangeEventArgs): void {
+    console.log('dasss', args['value'], args['itemData'].id);
     this.outputWilayahKota.emit(args['value']);
     this.positionService
       .queryFilterBy({
@@ -411,12 +421,18 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
           }
         }
 
+        //  this.surveyAppraisal.teamLeadId =
+
         this.teamReviewer = teamLeader;
       });
     this.cdr.detectChanges();
+    this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
+    this.surveyAppraisal.teamLeadId = args['itemData'].id;
+    this.surveyAppraisal.teamLeadName = args['itemData'].internalName;
+    this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
     this.outputTeamReviewer.emit(args['value']);
   }
 
