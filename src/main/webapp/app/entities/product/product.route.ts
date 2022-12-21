@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } from '@angular/router';
-
-import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { IProduct, Product } from './product.model';
 import { ProductService } from './product.service';
-import { ProductComponent } from './product.component';
-import { ProductDetailComponent } from './product-detail.component';
-import { ProductUpdateComponent } from './product-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class ProductResolve implements Resolve<IProduct> {
@@ -59,54 +53,4 @@ export class ProductResolve implements Resolve<IProduct> {
   }
 }
 
-export const productRoute: Routes = [
-  {
-    path: '',
-    component: ProductComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.product.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: ProductDetailComponent,
-    resolve: {
-      product: ProductResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.product.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: ProductUpdateComponent,
-    resolve: {
-      content: ProductResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.product.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: ProductUpdateComponent,
-    resolve: {
-      content: ProductResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.product.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+export const productRoute: Routes = [];
