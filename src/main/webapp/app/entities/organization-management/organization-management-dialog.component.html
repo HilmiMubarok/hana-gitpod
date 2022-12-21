@@ -52,7 +52,15 @@
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>nominal of shares</mat-label>
-              <input matInput type="number" [(ngModel)]="organizationManagement.attributes.nomShares" [disabled]="dataSource()" />
+              <input
+                matInput
+                currencyMask
+                type="text"
+                class="nominal"
+                [(ngModel)]="organizationManagement.attributes.stockNominal"
+                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                [disabled]="dataSource()"
+              />
             </mat-form-field>
           </div>
         </div>
