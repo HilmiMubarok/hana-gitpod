@@ -133,7 +133,7 @@
   </mat-card-actions>
 </mat-card>
 
-<mat-card [hidden]="collateral === null">
+<mat-card *ngIf="collateral !== null">
   <mat-card-header>
     <mat-card-subtitle class="fw-bold">
       <button mat-raised-button class="text-uppercase" (click)="openDocument(null)">Back</button>
@@ -141,13 +141,6 @@
     >
   </mat-card-header>
   <mat-card-content>
-    <jhi-document [collateral]="collateral"></jhi-document>
-  </mat-card-content>
-
-  <mat-card-header>
-    <mat-card-subtitle class="fw-bold"> Additional Document</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <jhi-document [appraisal]="collateralAppraisal"></jhi-document>
+    <jhi-document [document]="'document-collateral'" [collateral]="collateral"></jhi-document>
   </mat-card-content>
 </mat-card>
