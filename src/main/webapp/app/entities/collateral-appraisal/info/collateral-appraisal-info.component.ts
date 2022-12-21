@@ -228,7 +228,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   private loadInternalInformationRM(partyId: string): void {
-    this.branchs = [];
+    this.branches = [];
     this.segments = [];
     this.regionals = [];
     this.findPositionByIdParty(partyId).then((res: IPosition) => {
@@ -317,7 +317,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branchs = res.body;
+        this.branches = res.body;
         resolve();
       });
     });
@@ -336,7 +336,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
             tmpBranch.push(response.body[a]);
           }
         }
-        this.branchs = tmpBranch;
+        this.branches = tmpBranch;
         this.loadSegment();
       });
   }
