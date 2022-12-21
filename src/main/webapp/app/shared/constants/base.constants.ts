@@ -1062,7 +1062,7 @@ export const SUBMENU_LOAN_ANALYS_LA_KOMITE: object[] = [
   },
   {
     id: 'covenant',
-    text: 'Convenant & Document Checklist',
+    text: 'Covenant & Document Checklist',
   },
   {
     id: 'facility-mapping',
@@ -1089,7 +1089,7 @@ export const SUBMENU_LOAN_ANALYS_CC_CHECKING: object[] = [
   },
   {
     id: 'convenant-tbo',
-    text: 'Convenant & Document Checklist',
+    text: 'Covenant & Document Checklist',
   },
 ];
 
@@ -1111,8 +1111,8 @@ export const SUBMENU_LOAN_ANALYS_CC_REVIEW: object[] = [
     text: 'Loan Facility Detail',
   },
   {
-    id: 'convenant-tbo',
-    text: 'Convenant & Document Checklist',
+    id: 'covenant',
+    text: 'Covenant & Document Checklist',
   },
 ];
 
@@ -1135,7 +1135,7 @@ export const SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING: object[] = [
   },
   {
     id: 'convenant-tbo',
-    text: 'Convenant & Document Checklist',
+    text: 'Covenant & Document Checklist',
   },
 ];
 
