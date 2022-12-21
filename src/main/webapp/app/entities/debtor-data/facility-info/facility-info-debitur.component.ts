@@ -16,6 +16,7 @@ export class FacilityInfoDebiturComponent {
   public dataPartySlik: IPartySlik[];
   public _data = [];
   public _dataGroup = [];
+  public aYear: any;
 
   public displayColumns: string[] = [
     'no',
@@ -38,7 +39,12 @@ export class FacilityInfoDebiturComponent {
 
   set data(object: any[]) {
     this._data = object;
-    console.log('data', this.data);
+
+    for (let i = 0; i < this._data.length; i++) {
+      const date1 = new Date(this._data[0].FXFIG_TRX_DT);
+      const date2 = new Date(this._data[0].FILN10_TOT_EXP_IL);
+      this.aYear = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
+    }
   }
 
   @Input()
@@ -49,7 +55,6 @@ export class FacilityInfoDebiturComponent {
   set dataGroup(object: any[]) {
     this._dataGroup = object;
     this.data = this.dataGroup;
-    console.log('dataGroup', this.dataGroup);
   }
 
   constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {}

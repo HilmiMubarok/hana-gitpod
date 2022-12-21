@@ -5,6 +5,7 @@ import { IOrganizationManagement } from './organization-management.model';
 @Component({
   selector: 'jhi-organization-management-dialog',
   templateUrl: './organization-management-dialog.component.html',
+  styleUrls: ['./organization-management.style.scss'],
 })
 export class OrganizationManagementDialogComponent {
   public organizationManagement: IOrganizationManagement;
