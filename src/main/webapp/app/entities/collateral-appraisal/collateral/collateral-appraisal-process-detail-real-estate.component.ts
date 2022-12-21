@@ -195,7 +195,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     console.log(this.items);
   }
   gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
     return false;

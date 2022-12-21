@@ -51,7 +51,7 @@ export class CollateralAppraisalValuationLandDialogComponent implements OnChange
     result = result + this.collateralProperties.propertyMarketValueTataKotaPerMeter * this.collateralProperties.landSizePerCertificate;
   }
   gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
     return false;
