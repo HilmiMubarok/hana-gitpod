@@ -54,7 +54,6 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
 
     dialogRef.afterClosed().subscribe(res => {
       this.onAddToGrid(res);
-      console.log('Test', res);
     });
   }
 
