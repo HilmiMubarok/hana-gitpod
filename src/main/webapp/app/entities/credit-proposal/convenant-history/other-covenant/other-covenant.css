@@ -174,11 +174,10 @@ th {
   height: 80px;
 }
 
-.custom-dialog-container .mat-dialog-container {
+/* .custom-dialog-container .mat-dialog-container {
   overflow-y: hidden;
-}
+} */
 
 .mat-dialog-content {
-  overflow: hidden;
   width: 80vw;
 }
