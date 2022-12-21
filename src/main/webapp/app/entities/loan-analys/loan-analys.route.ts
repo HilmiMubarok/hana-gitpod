@@ -36,6 +36,7 @@ import lodash from 'lodash';
 import { ComplienceRecommendation } from './compliance/complience.model';
 import { OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 import { RejectReason } from '../credit-proposal/forward-to/reject-to.model';
+import { LegalLendingLimit } from '../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -278,6 +279,11 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['rejectReason'] = new RejectReason();
             } else {
               creditProposal.body.attributes['rejectReason'] = JSON.parse(creditProposal.body.attributes['rejectReason']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'legalLendingLimit')) {
+              creditProposal.body.attributes['legalLendingLimit'] = new LegalLendingLimit();
+            } else {
+              creditProposal.body.attributes['legalLendingLimit'] = JSON.parse(creditProposal.body.attributes['legalLendingLimit']);
             }
 
             if (creditProposal.body.prospectOrganization) {
