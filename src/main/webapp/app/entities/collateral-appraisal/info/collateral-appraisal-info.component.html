@@ -11,7 +11,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RM Name</mat-label>
-            <mat-select [(ngModel)]="surveyAppraisal.rm.partyName" [disabled]="disableRmInfo">
+            <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of positionRM" [value]="item.id">
                 {{ item.employeeFirstName }} {{ item.employeeLastName }}
@@ -22,9 +22,9 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Branchs</mat-label>
-            <mat-select (selectionChange)="selectBranch($event)" [(ngModel)]="rmBranch.id" [disabled]="disableRmInfo">
+            <mat-select [(ngModel)]="rmBranch.id" disabled>
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of branches" [value]="item.id">
+              <mat-option *ngFor="let item of branchs" [value]="item.id">
                 {{ item.organizationName }}
               </mat-option>
             </mat-select>
@@ -36,7 +36,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Regional</mat-label>
-            <mat-select [(ngModel)]="rmRegional.id" [disabled]="disableRmInfo">
+            <mat-select [(ngModel)]="rmRegional.id" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of regionals" [value]="item.id">
                 {{ item.organizationName }}
@@ -47,7 +47,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Segments</mat-label>
-            <mat-select [(ngModel)]="rmSegment.id" [disabled]="disableRmInfo">
+            <mat-select [(ngModel)]="rmSegment.id" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of segments" [value]="item.id">
                 {{ item.organizationName }}
