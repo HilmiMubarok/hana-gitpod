@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralAppraisal } from './collateral-appraisal.model';
@@ -8,11 +9,12 @@ import { ICollateralAppraisal } from './collateral-appraisal.model';
   templateUrl: './collateral-info.component.html',
   styleUrls: ['./collateral-info.css'],
 })
-export class CollateralInfoComponent {
+export class CollateralInfoComponent implements OnInit {
   public status: any;
   private _collateral: ICollateral;
   public disabledOpt = true;
   public hiddenOpt = true;
+  public type: string;
 
   @Input()
   get collateral() {
@@ -33,6 +35,9 @@ export class CollateralInfoComponent {
   constructor() {
     this.status = STATUS;
     this.propertySelectionMenu = '';
+  }
+  ngOnInit(): void {
+    console.log('type', this.type);
   }
 
   public onSelectionMenuProperty(data: string): void {

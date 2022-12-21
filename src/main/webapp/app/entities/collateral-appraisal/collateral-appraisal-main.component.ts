@@ -82,6 +82,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
+  public type: string;
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -180,6 +181,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
+      this.type = params['type'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.queryParams.subscribe(params => {
@@ -414,11 +416,42 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private saveProcess(isRedirectToBucket: Boolean = this.isRedirectToBucket): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
       this.getTasks();
-      isRedirectToBucket ? this.router.navigate(['/collateral-appraisal']) : console.log('');
-
-      // : this.router
-      //     .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-      //     .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+      if (this.type) {
+        if (this.type === 'process') {
+          isRedirectToBucket
+            ? this.router.navigate(['/batch-apprisal/process'])
+            : this.router
+                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+        }
+        if (this.type === 'approval') {
+          isRedirectToBucket
+            ? this.router.navigate(['/batch-apprisal/approval'])
+            : this.router
+                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+        }
+        if (this.type === 'internal') {
+          isRedirectToBucket
+            ? this.router.navigate(['/batch-apprisal/internal'])
+            : this.router
+                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+        }
+        if (this.type === 'external') {
+          isRedirectToBucket
+            ? this.router.navigate(['/batch-apprisal'])
+            : this.router
+                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+        }
+      } else if (this.type === undefined) {
+        isRedirectToBucket
+          ? this.router.navigate(['/collateral-appraisal'])
+          : this.router
+              .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+              .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
+      }
     });
   }
 

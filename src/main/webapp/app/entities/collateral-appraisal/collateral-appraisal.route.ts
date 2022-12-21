@@ -153,6 +153,18 @@ export const CollateralAppraisalRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':id/edit/:type',
+    component: CollateralAppraisalMainComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/edit/:customerId/:customerType',
     component: CollateralAppraisalMainComponent,
     resolve: {

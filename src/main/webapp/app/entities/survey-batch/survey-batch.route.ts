@@ -197,6 +197,11 @@ export const surveyBatchRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':id/edit/:type',
+    component: SurveyBatchEditComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: 'survey-batch',
     component: SurveyBatchAppraisalComponent,
     resolve: {

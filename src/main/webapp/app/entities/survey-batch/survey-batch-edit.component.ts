@@ -96,6 +96,7 @@ export class SurveyBatchEditComponent implements OnInit {
 
   public collateralProp: ICollateralProperty;
   private id: number;
+  public type: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   private currentAccount: Account;
   public accountAuthorities?: Object[];
@@ -174,6 +175,7 @@ export class SurveyBatchEditComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
+      this.type = params['type'];
     });
 
     this.activatedRoute.queryParams.subscribe(params => {
@@ -190,6 +192,7 @@ export class SurveyBatchEditComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
+    console.log('ini type', this.type);
   }
 
   public ceckData(menu: object) {
@@ -200,7 +203,7 @@ export class SurveyBatchEditComponent implements OnInit {
         summary: 'Warning',
         detail: 'Dont forget to save data on this page',
       });
-      this.router.navigate(['/collateral-appraisal', this.id, 'edit'], {
+      this.router.navigate(['/collateral-appraisal', this.id, 'edit', this.type], {
         queryParams: {
           subroute: menu['id'],
         },
