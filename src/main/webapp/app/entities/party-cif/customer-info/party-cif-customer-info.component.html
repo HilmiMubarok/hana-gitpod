@@ -42,7 +42,8 @@
     <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-postal-address [partyPostalAddress]="primaryLocation"> </jhi-party-cif-customer-info-postal-address>
+    <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="primaryLocation">
+    </jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>
 
@@ -51,10 +52,8 @@
     <mat-card-subtitle class="fw-bold">Domicilie Address</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <jhi-party-cif-customer-info-postal-address
-      [disabled]="false"
-      [partyPostalAddress]="domicileLocation"
-    ></jhi-party-cif-customer-info-postal-address>
+    <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="domicileLocation">
+    </jhi-party-cif-customer-info-postal-address>
   </mat-card-content>
 </mat-card>
 
@@ -69,7 +68,8 @@
       [partyPostalAddress]="warehouseLocation"
       [addresses]="partyCif.addresses"
       [partyCif]="partyCif"
-    ></jhi-party-cif-customer-info-postal-address-warehouse>
+    >
+    </jhi-party-cif-customer-info-postal-address-warehouse>
   </mat-card-content>
 </mat-card>
 
