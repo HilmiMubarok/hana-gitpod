@@ -28,7 +28,7 @@ import { PartnerService } from 'app/entities/partner/partner.service';
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-  public branches;
+  public branchs: IInternal[];
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -344,15 +344,16 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       });
   }
 
-  public selectBranch(event: any): void {
-    const value: string = event['value'];
-    if (value) {
-      const branch = lodash.find(this.branches, function (o) {
-        return o.id === value;
-      });
-      this.loadInternalInformationBranch(branch.parentId);
-    }
-  }
+  // public selectBranch(event: any): void {
+  //   const value: string = event['value'];
+  //   if (value) {
+  //     const branch = lodash.find(this.branchs, function (o) {
+
+  //       return o.id === value;
+  //     });
+  //     this.loadInternalInformationBranch(branch.parentId);
+  //   }
+  // }
 
   private loadInternalInformationBranch(parentId): void {
     this.segments = [];
