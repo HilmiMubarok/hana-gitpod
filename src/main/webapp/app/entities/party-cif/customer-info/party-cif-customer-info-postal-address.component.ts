@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPurposeType } from 'app/entities/purpose-type/purpose-type.model';
 import { PurposeTypeService } from 'app/entities/purpose-type/purpose-type.service';
-import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
+import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
@@ -30,7 +30,8 @@ export class PartyCifCustomerInfoPostalAddressComponent
   public postalAdress: IPartyPostalAddress;
   public generalLocation: IPartyPostalAddress;
 
-  @Input() isWarehouse: Boolean = false;
+  @Input()
+  public disabled: Boolean = false;
 
   @Input()
   get partyPostalAddress() {
@@ -47,6 +48,10 @@ export class PartyCifCustomerInfoPostalAddressComponent
     private purposeTypeService: PurposeTypeService
   ) {
     super();
+    this.country = [];
+    this.provinces = [];
+    this.cities = [];
+    this.districts = [];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,6 +66,18 @@ export class PartyCifCustomerInfoPostalAddressComponent
   ngOnInit(): void {
     this.loadPurposeType();
     this.loadCountry();
+  }
+
+  public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
+    if (param.length > 0) {
+      for (let i = 0; i < param.length; i++) {
+        const item: IStateBoundary = param[i];
+        if (item.id === id) {
+          return item;
+        }
+      }
+    }
+    return new StateBoundary();
   }
 
   private loadPurposeType(): void {
@@ -79,13 +96,14 @@ export class PartyCifCustomerInfoPostalAddressComponent
       .queryFilterBy({
         idBoundaryType: GEO_BOUNDARY_TYPE['country'],
         size: 9999,
+        page: 0,
       })
       .subscribe(res => {
         this.country = res.body;
       });
   }
 
-  private loadProvince(idCountry: number = null): void {
+  public loadProvince(idCountry: number = null): void {
     if (idCountry) {
       const predicate: object = {
         idBoundaryType: GEO_BOUNDARY_TYPE['province'],
@@ -100,7 +118,7 @@ export class PartyCifCustomerInfoPostalAddressComponent
     }
   }
 
-  private loadCity(idProvince: number = null): void {
+  public loadCity(idProvince: number = null): void {
     if (idProvince) {
       const predicate: object = {
         idBoundaryType: GEO_BOUNDARY_TYPE['city'],
@@ -113,7 +131,7 @@ export class PartyCifCustomerInfoPostalAddressComponent
     }
   }
 
-  private loadDistrict(idCity: number = null): void {
+  public loadDistrict(idCity: number = null): void {
     if (idCity) {
       const predicate: object = {
         idBoundaryType: GEO_BOUNDARY_TYPE['district'],
@@ -126,7 +144,7 @@ export class PartyCifCustomerInfoPostalAddressComponent
     }
   }
 
-  private loadVillage(idDistrict: number = null): void {
+  public loadVillage(idDistrict: number = null): void {
     if (idDistrict) {
       const predicate: object = {
         idBoundaryType: GEO_BOUNDARY_TYPE['village'],
