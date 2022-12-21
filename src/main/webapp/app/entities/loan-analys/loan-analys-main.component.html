@@ -372,15 +372,10 @@
             creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
             creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
           " [jhifilter]="creditProposal.attributes.proposalType"></jhi-repayment-spreadsheet> -->
-        <jhi-repayment-spreadsheet
-          [creditProposalItem]="creditProposal"
-          *ngIf="
+            <jhi-repayment-spreadsheet [creditProposalItem]="creditProposal" *ngIf="
             creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
             creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-          "
-          [jhifilter]="creditProposal.attributes.proposalType"
-          [saveWordMinio]="saveWord"
-        >
+          " [jhifilter]="creditProposal.attributes.proposalType" [saveWordMinio]="saveWord">
         </jhi-repayment-spreadsheet>
         <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
       </div>
