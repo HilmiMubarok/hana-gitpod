@@ -248,7 +248,7 @@ export class CollateralBuildingDetailDialogComponent {
     }
   }
   gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
     return false;

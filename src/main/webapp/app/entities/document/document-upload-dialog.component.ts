@@ -229,7 +229,7 @@ export class DocumentUploadDialogComponent implements OnInit {
     });
   }
   // gakbisa() {
-  //   if (this.object.statusId === STATUS.APPROVE) {
+  //   if (this.object.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
   //     return true;
   //   }
   //   return false;
