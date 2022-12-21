@@ -739,6 +739,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.validateVisited().then(() => resolve(true));
           break;
         case STATUS.APPROVAL_TL:
+          this.validateApprovalTL().then(() => resolve(true));
+          break;
         case STATUS.APPROVAL_DEPT_HEAD:
         case STATUS.APPROVAL_DH:
           this.validateVisited().then(() => resolve(true));
@@ -747,6 +749,19 @@ export class CollateralAppraisalMainComponent implements OnInit {
           resolve(true);
       }
     });
+  }
+
+  public checkMustValidatedOnApprovalTL() {
+    const mustValidateOnTL = {
+      jenisObject: true,
+      jenisPermohonan: true,
+      documentCollateral: true,
+      documentLainnya: true,
+      picDebtor: true,
+      picPhone: true,
+    };
+
+    return this._validateProcess(mustValidateOnTL);
   }
 
   public checkMustValidatedOnDraft() {
@@ -1025,6 +1040,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public validateAssignment(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.checkMustValidatedOnAssignment() && resolve('Assignment Validated');
+    });
+  }
+
+  public validateApprovalTL(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidatedOnApprovalTL() && resolve('Assignment Validated');
     });
   }
 

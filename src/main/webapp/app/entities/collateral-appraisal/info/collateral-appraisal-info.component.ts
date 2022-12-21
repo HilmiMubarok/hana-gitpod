@@ -28,7 +28,7 @@ import { PartnerService } from 'app/entities/partner/partner.service';
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-  public branchs: IInternal[];
+  public branches;
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -83,7 +83,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public tipeOfficerAppraisalValue?: string;
   public wilayahKotaFields: Object = { text: 'facilityName', value: 'id' };
   public wilayahKotaInternalValue?: string;
-  public wilayahKotaExternalValue?: string;
+  public wilayahKotaExternalValue: any;
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
   public teamReviewerValue: string;
@@ -105,7 +105,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public isEnableKhususPerpanjanganSub?: boolean;
   public isEnablePlafond?: boolean;
   public isEnablePermohonan?: boolean;
-  public cities: IStateBoundary[];
+  public cities: any[];
   public internals: IInternal[];
   public surveyors: ISurveyor[];
 
@@ -156,6 +156,12 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       })
       .subscribe(res => {
         this.cities = res.body;
+
+        for (let i = 0; i < res.body.length; i++) {
+          if (Number(res.body[i].id) === Number(this.surveyAppraisal.surveyorArea)) {
+            this.wilayahKotaExternalValue = res.body[i];
+          }
+        }
       });
   }
 
@@ -335,16 +341,15 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       });
   }
 
-  // public selectBranch(event: any): void {
-  //   const value: string = event['value'];
-  //   if (value) {
-  //     const branch = lodash.find(this.branchs, function (o) {
-
-  //       return o.id === value;
-  //     });
-  //     this.loadInternalInformationBranch(branch.parentId);
-  //   }
-  // }
+  public selectBranch(event: any): void {
+    const value: string = event['value'];
+    if (value) {
+      const branch = lodash.find(this.branches, function (o) {
+        return o.id === value;
+      });
+      this.loadInternalInformationBranch(branch.parentId);
+    }
+  }
 
   private loadInternalInformationBranch(parentId): void {
     this.segments = [];
@@ -415,9 +420,12 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.teamReviewer = teamLeader;
       });
     this.cdr.detectChanges();
+    console.log('args', args);
+    this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
+    console.log('argsss', args);
     this.outputTeamReviewer.emit(args['value']);
   }
 
