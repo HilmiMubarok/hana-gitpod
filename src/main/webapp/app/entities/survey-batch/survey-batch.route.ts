@@ -137,7 +137,14 @@ export const surveyBatchRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: SurveyBatchEditComponent,
+    component: SurveyBatchUpdateComponent,
+    resolve: {
+      content: SurveyBatchResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
     canActivate: [UserRouteAccessService],
   },
   {
