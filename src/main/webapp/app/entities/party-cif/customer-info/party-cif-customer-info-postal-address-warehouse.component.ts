@@ -267,7 +267,7 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
 
   public initializeCity(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: this.partyPostalAddress.address.provinceId })
+      .queryFilterBy({ size: 999, idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: this.partyPostalAddress.address.provinceId })
       .subscribe(res => {
         this.optionsCity = res.body;
         this.filteredCity();
@@ -277,7 +277,7 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
 
   public initializeDistrict(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: this.partyPostalAddress.address.cityId })
+      .queryFilterBy({ size: 999, idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: this.partyPostalAddress.address.cityId })
       .subscribe(res => {
         this.optionsDistrict = res.body;
         this.filteredDistrict();
@@ -287,7 +287,7 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
 
   public initializeVillage(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.partyPostalAddress.address.districtId })
+      .queryFilterBy({ size: 999, idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.partyPostalAddress.address.districtId })
       .subscribe(res => {
         this.optionsVillage = res.body;
         this.filteredVillage();
@@ -297,7 +297,7 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
 
   public initializeProvince(): void {
     this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['province'], idParent: this.partyPostalAddress.address.countryId })
+      .queryFilterBy({ size: 999, idBoundaryType: GEO_BOUNDARY_TYPE['province'], idParent: this.partyPostalAddress.address.countryId })
       .subscribe(res => {
         this.optionsProvince = res.body;
         this.filteredProvince();

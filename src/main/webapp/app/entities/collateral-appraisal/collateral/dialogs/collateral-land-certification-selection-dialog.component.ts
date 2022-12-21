@@ -33,7 +33,7 @@ export class CollateralLandCertificationDialogComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
   gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
       return true;
     }
     return false;
