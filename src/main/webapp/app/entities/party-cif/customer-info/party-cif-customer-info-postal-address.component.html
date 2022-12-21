@@ -18,7 +18,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Country</mat-label>
         <mat-select [(ngModel)]="partyPostalAddress.address.countryId" [disabled]="!isWarehouse">
-          <mat-option *ngFor="let item of country" [value]="item.code">{{ item.description }} </mat-option>
+          <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
     </div>

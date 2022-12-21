@@ -9,6 +9,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
 import { IDocumentNode } from 'app/entities/document-node/document-node.model';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -53,6 +54,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
       files: any;
       bucket: string;
     },
+    public reportUtilService: ReportUtilService,
     private _dialog: MatDialogRef<DocumentChecklistDialogComponent>,
     private storageService: StorageService,
     private messageService: MessageService,
@@ -135,5 +137,9 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
   public onRemove(event: any) {
     this.file.splice(this.files.indexOf(event), 1);
+  }
+
+  public donwload(event: any) {
+    this.reportUtilService.downloadFileBYName(event);
   }
 }

@@ -299,6 +299,14 @@ import { CreditProposalOtherCovenantEditHistoryComponent } from './credit-propos
 import { ProposePricingLoanFacilityDetailDialogComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail-dialog.component';
 import { CreditProposalBookingBranchComponent } from './credit-proposal/booking-branch/credit-proposal-booking-branch.component';
 import { PartyCifCustomerInfoPostalAddressWarehouseComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-warehouse.component';
+import { CreditProposalRepaymentCapabilityComponent } from './credit-proposal/repayment-capability/credit-proposal-repayment-capability.component';
+import { TradeCheckingComponent } from './credit-proposal/trade-checking/credit-proposal-trade-checking.component';
+import { CreditProposalTradeCheckingBuyersComponent } from './credit-proposal/trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
+import { CreditProposalTradeCheckingBuyersDialogComponent } from './credit-proposal/trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
+import { CreditProposalTradeCheckingSupplierComponent } from './credit-proposal/trade-checking/supplier/credit-proposal-trade-checking-supplier.component';
+import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './credit-proposal/trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
+import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './credit-proposal/trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
+import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-proposal/trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -648,7 +656,17 @@ import { PartyCifCustomerInfoPostalAddressWarehouseComponent } from './party-cif
     // Dialog
     CreditProposalOtherCovenantDialogHistoryComponent,
     CreditProposalOtherCovenantEditHistoryComponent,
-    ProposePricingLoanFacilityDetailDialogComponent
+    ProposePricingLoanFacilityDetailDialogComponent,
+    // Repayment Capability
+    CreditProposalRepaymentCapabilityComponent,
+    // Trade Checking
+    TradeCheckingComponent,
+    CreditProposalTradeCheckingBuyersComponent,
+    CreditProposalTradeCheckingBuyersDialogComponent,
+    CreditProposalTradeCheckingBuyersDialogEditComponent,
+    CreditProposalTradeCheckingSupplierComponent,
+    CreditProposalTradeCheckingSupplierDialogComponent,
+    CreditProposalTradeCheckingSupplierDialogEditComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -963,6 +981,16 @@ import { PartyCifCustomerInfoPostalAddressWarehouseComponent } from './party-cif
     CreditProposalOtherCovenantDialogHistoryComponent,
     CreditProposalOtherCovenantEditHistoryComponent,
     ProposePricingLoanFacilityDetailDialogComponent,
+    // Repayment Capability
+    CreditProposalRepaymentCapabilityComponent,
+    // Trade Checking
+    TradeCheckingComponent,
+    CreditProposalTradeCheckingBuyersComponent,
+    CreditProposalTradeCheckingBuyersDialogComponent,
+    CreditProposalTradeCheckingBuyersDialogEditComponent,
+    CreditProposalTradeCheckingSupplierComponent,
+    CreditProposalTradeCheckingSupplierDialogComponent,
+    CreditProposalTradeCheckingSupplierDialogEditComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

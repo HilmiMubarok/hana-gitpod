@@ -1,18 +1,35 @@
 <div class="row">
   <div class="col-12">
-    <div class="form-group">
-      <ejs-textbox
-        placeholder="address1"
-        [(ngModel)]="postalAddress.address1"
-        cssClass="e-outline"
-        rows="3"
-        [multiline]="true"
-        floatLabelType="Auto"
-        [maxlength]="100"
-        [disabled]="dataSource()"
-      >
-      </ejs-textbox>
-      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    <div *ngIf="collateralApprAddress !== true">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="address1"
+          [(ngModel)]="postalAddress.address1"
+          cssClass="e-outline"
+          rows="3"
+          [multiline]="true"
+          floatLabelType="Auto"
+          [maxlength]="100"
+          [disabled]="dataSource()"
+        >
+        </ejs-textbox>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </div>
+    </div>
+    <div *ngIf="collateralApprAddress === true">
+      <div class="form-group">
+        <ejs-textbox
+          placeholder="address1"
+          [(ngModel)]="postalAddress.address1"
+          cssClass="e-outline"
+          rows="3"
+          [multiline]="true"
+          floatLabelType="Auto"
+          [maxlength]="100"
+          disabled
+        >
+        </ejs-textbox>
+      </div>
     </div>
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
@@ -132,12 +149,22 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Kode Pos</mat-label>
-        <input matInput type="text" [(ngModel)]="postalAddress.postalCode" [disabled]="dataSource()" />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+    <div *ngIf="collateralApprAddress !== true">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Kode Pos</mat-label>
+          <input matInput type="text" [(ngModel)]="postalAddress.postalCode" [disabled]="dataSource()" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div *ngIf="collateralApprAddress === true">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Kode Pos</mat-label>
+          <input matInput type="text" [(ngModel)]="postalAddress.postalCode" disabled />
+        </mat-form-field>
+      </div>
     </div>
   </div>
 </div>

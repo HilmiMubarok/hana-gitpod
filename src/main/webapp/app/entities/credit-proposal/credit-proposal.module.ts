@@ -14,7 +14,6 @@ import { CreditProposalListComponent } from './credit-proposal-list.component';
 import { CreditProposalTabCollateralInfoListComponent } from './collateral/credit-proposal-tab-collateral-info-list.component';
 import { ProposalBasicInformationComponent } from './proposal-basic-information.component';
 import { CreditProposalCollateralInfoDialogComponent } from './collateral-info/dialog/credit-proposal-collateral-info-dialog.component';
-import { CreditProposalRepaymentCapabilityComponent } from './repayment-capability/credit-proposal-repayment-capability.component';
 import { CreditProposalApprovalTabSummaryComponent } from './credit-proposal-approval-tab-summary.component';
 import { CreditProposalListSlikSummaryListComponent } from './credit-proposal-slik-summary-list.component';
 import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik-summary-detail.component';
@@ -31,7 +30,6 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-chec
 import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
-import { TradeCheckingComponent } from './trade-checking/credit-proposal-trade-checking.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
 import { CreditProposalMappingFacilityComponent } from './loan-facility/mapping/mapping-facility.component';
@@ -49,20 +47,12 @@ import { ForwardToComponent } from './forward-to/forward-to.component';
     ProposalBasicInformationComponent,
     CreditProposalLoanFacilityDialogComponent,
     CreditProposalCollateralInfoDialogComponent,
-    CreditProposalRepaymentCapabilityComponent,
     CreditProposalApprovalTabSummaryComponent,
     CreditProposalListSlikSummaryListComponent,
     CreditProposalSlikSummaryDetailComponent,
     CreditProposalTabRepaymentCapabilityComponent,
     CreditProposalApprovalListComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
-    TradeCheckingComponent,
-    CreditProposalTradeCheckingBuyersComponent,
-    CreditProposalTradeCheckingBuyersDialogComponent,
-    CreditProposalTradeCheckingBuyersDialogEditComponent,
-    CreditProposalTradeCheckingSupplierComponent,
-    CreditProposalTradeCheckingSupplierDialogComponent,
-    CreditProposalTradeCheckingSupplierDialogEditComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,

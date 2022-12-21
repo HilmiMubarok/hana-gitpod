@@ -78,7 +78,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   ];
 
   public iconTimeline: any;
-  public isShow: boolean;
+  public isShow = false;
   public title: string;
   public id: string;
   public page: number;
@@ -126,9 +126,9 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
         this.statusCodesData.push(res.body[i]);
-        this.isShow = true;
+        // this.isShow = true;
         if (i <= 1) {
-          this.isShow = false;
+          // this.isShow = false;
         }
       }
       // this.sortStatusCodesData();
@@ -139,7 +139,7 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
     for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
       const passObj = this.statusCodesDataLineUp[i];
       this.statusCodesData.push(passObj);
-      this.isShow = true;
+      // this.isShow = true;
     }
 
     // this.loadStatusChip();
@@ -271,6 +271,9 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
             data[i]['addressF'] = data[i].addresses[k].address.address1;
           }
         }
+
+		// data[i].statusDescription = 'Complete';
+		data[i].statusDescription = data[i].statusCode === 'OL_COMPLETE' ? 'Complete' : data[i].statusDescription;
       }
     }
     return data;

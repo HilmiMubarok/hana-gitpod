@@ -46,8 +46,11 @@
             </div>
           </div>
           <div class="e-card-content">
-            <jhi-postal-address-view [collateralAppraisal]="collateralAppraisal" [item]="postalAddress" mode="view">
-            </jhi-postal-address-view>
+            <jhi-postal-address-view-custom
+              [collateral]="collateral"
+              [postalAddress]="collateral.collateralAddress"
+              [collateralApprAddress]="true"
+            ></jhi-postal-address-view-custom>
           </div>
         </div>
       </div>

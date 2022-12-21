@@ -149,6 +149,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
   }
 
   public donwload(event: any) {
-    this.reportUtilService.viewFile(event);
+    this.reportUtilService.downloadFileBYName(event);
   }
 }
