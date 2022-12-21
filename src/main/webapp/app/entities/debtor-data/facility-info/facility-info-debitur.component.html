@@ -43,7 +43,7 @@
   </ng-container>
   <ng-container matColumnDef="lastKol">
     <th mat-header-cell *matHeaderCellDef>MaturityDate</th>
-    <td mat-cell *matCellDef="let element">{{ element.FILN10_TOT_EXP_IL | date: 'medium' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.FILN10_TOT_EXP_IL | date: 'yyyy/MM/dd' }}</td>
   </ng-container>
 
   <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
