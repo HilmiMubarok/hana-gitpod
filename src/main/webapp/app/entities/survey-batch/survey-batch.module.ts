@@ -22,6 +22,13 @@ import { SurveyBatchCollateralInfoComponent } from './collateral-info/survey-bat
 import { CollateralAppraisalMaterialExternalComponent } from './collateral-appraisal-material-external.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { SurveyBatchEditComponent } from './survey-batch-edit.component';
+import { CollateralAppraisalMaterialInternalComponent } from './collateral-appraisal-material-internal.component';
+import { CollateralAppraisalMaterialProcessComponent } from './collateral-appraisal-material-process.component';
+import { CollateralAppraisalMaterialApprovalComponent } from './collateral-appraisal-material-approval.component';
+import { CollateralAppraisalMaterialInquiryComponent } from './collateral-appraisal-material-inquiry.component';
+import { SurveyBatchEditInternalComponent } from './survey-batch-edit-internal.component';
+import { SurveyBatchEditApprovalComponent } from './survey-batch-edit-approval.component';
+import { SurveyBatchEditProcessComponent } from './survey-batch-edit-process.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
@@ -45,6 +52,13 @@ import { SurveyBatchEditComponent } from './survey-batch-edit.component';
     SurveyBatchPostalAddressViewComponent,
     SurveyBatchCollateralInfoComponent,
     CollateralAppraisalMaterialExternalComponent,
+    CollateralAppraisalMaterialInternalComponent,
+    CollateralAppraisalMaterialProcessComponent,
+    CollateralAppraisalMaterialApprovalComponent,
+    CollateralAppraisalMaterialInquiryComponent,
+    SurveyBatchEditInternalComponent,
+    SurveyBatchEditApprovalComponent,
+    SurveyBatchEditProcessComponent,
   ],
   entryComponents: [
     SurveyBatchComponent,
@@ -57,6 +71,9 @@ import { SurveyBatchEditComponent } from './survey-batch-edit.component';
     SurveyBatchPostalAddressViewComponent,
     SurveyBatchCollateralInfoComponent,
     CollateralAppraisalMaterialExternalComponent,
+    CollateralAppraisalMaterialInternalComponent,
+    CollateralAppraisalMaterialProcessComponent,
+    CollateralAppraisalMaterialApprovalComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

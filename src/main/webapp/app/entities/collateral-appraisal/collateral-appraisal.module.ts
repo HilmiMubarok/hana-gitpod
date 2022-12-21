@@ -15,13 +15,10 @@ import { CollateralAppraisalDataNasabahComponent } from './addSelect/collateral-
 import { CollateralAppraisalListComponent } from './addSelect/collateral-appraisal-list.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral/collateral-appraisal-process-detail-real-estate.component';
-import { CollateralInfoComponent } from './collateral-info.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralVehicleDialogComponent } from './collateral/dialogs/collateral-vehicle-dialog.component';
 import { CollateralLandDialogComponent } from './collateral/dialogs/collateral-land-dialog.component';
 import { CollateralMachineDialogComponent } from './collateral/dialogs/collateral-machine-dialog.component';
-import { CollateralAppraisalValuationComponent } from './valuation/collateral-appraisal-valuation.component';
-import { CollateralAppraisalValuationMachineComponent } from './valuation/details/collateral-appraisal-valuation-machine.component';
 import { CollateralAppraisalValuationMachineDialogComponent } from './valuation/dialogs/collateral-appraisal-valuation-machine-dialog.component';
 import { CollateralAppraisalPartyGroupViewComponent } from './collateral-appraisal-party-group-view.component';
 import { CollateralAppraisalValuationPropertyComponent } from './valuation/details/collateral-appraisal-valuation-property.component';
@@ -34,8 +31,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral/collateral-appraisal-process-detail-land.component';
 import { DialogCollateralAppraisalCifComponent } from './addSelect/dialog-collateral-appraisal-cif.component';
 import { CollateralAppraisalForwardToComponent } from './summary/forward-to/collateral-appraisal-forward-to.component';
-import { ReportIndependentCollateralComponent } from './report-independent/report-independent-collateral.component';
-
+import { CollateralAppraisalValuationMachineComponent } from './valuation/details/collateral-appraisal-valuation-machine.component';
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(CollateralAppraisalRoute)],
   declarations: [
@@ -54,32 +50,23 @@ import { ReportIndependentCollateralComponent } from './report-independent/repor
     CollateralVehicleDialogComponent,
     CollateralAppraisalValuationVehicleDialogComponent,
     CollateralAppraisalMainComponent,
-    CollateralInfoComponent,
     CollateralMachineDialogComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
-    CollateralAppraisalValuationComponent,
-    CollateralAppraisalValuationMachineComponent,
     CollateralAppraisalValuationMachineDialogComponent,
     // CollateralAppraisalPartyGroupViewComponent,
-    CollateralAppraisalValuationPropertyComponent,
     CollateralAppraisalValuationPropertyDialogComponent,
-    CollateralAppraisalValuationLandDialogComponent,
-    CollateralAppraisalValuationVehicleComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
     DialogCollateralAppraisalCifComponent,
     CollateralAppraisalForwardToComponent,
-    ReportIndependentCollateralComponent,
   ],
   entryComponents: [
     CollateralAppraisalComponent,
     CollateralAppraisalUpdateComponent,
-    CollateralInfoComponent,
     CollateralAppraisalDetailProcessRealEstateComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
-    CollateralAppraisalValuationMachineComponent,
-    ReportIndependentCollateralComponent,
+
     // CollateralAppraisalPartyGroupViewComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

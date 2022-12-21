@@ -2,12 +2,13 @@
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
-        <div class="e-card-header-title">Collateral Appraisal {{ type }}</div>
+        <div class="e-card-header-title">Collateral Appraisal</div>
       </div>
     </div>
     <div class="e-card-content">
-      <div [hidden]="clickedMenu !== 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="clickedMenu === 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-info
+          *ngIf="surveyAppraisal"
           [statusAppraisal]="timeLineStatus"
           [surveyAppraisal]="surveyAppraisal"
           [accountAuthorities]="accountAuthorities"
@@ -46,11 +47,8 @@
             </div>
           </div>
           <div class="e-card-content">
-            <jhi-postal-address-view-custom
-              [collateral]="collateral"
-              [postalAddress]="collateral.collateralAddress"
-              [collateralApprAddress]="true"
-            ></jhi-postal-address-view-custom>
+            <jhi-postal-address-view [collateralAppraisal]="collateralAppraisal" [item]="postalAddress" mode="view">
+            </jhi-postal-address-view>
           </div>
         </div>
       </div>

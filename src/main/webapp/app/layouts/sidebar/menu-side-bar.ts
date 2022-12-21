@@ -85,20 +85,20 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       {
         name: 'Appraisal Distribution Internal',
         iconname: 'minus',
-        route: 'collateral-appraisal-distribution-internal',
+        route: 'batch-apprisal/internal',
       },
       {
         name: 'Appraisal Process',
         iconname: 'minus',
-        route: 'collateral-appraisal-process',
+        route: 'batch-apprisal/process',
       },
       {
         name: 'Appraisal Report Approval',
         iconname: 'minus',
-        route: 'collateral-appraisal-report-approval',
+        route: 'batch-apprisal/approval',
       },
       {
-        name: 'Appraisal Result Inqury',
+        name: 'Appraisal Result Inquiry',
         iconname: 'minus',
         route: 'collateral-appraisal-result-inqury',
       },

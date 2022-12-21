@@ -81,6 +81,8 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public parentPath = this.router.url.split('/')[1];
+  public type: string;
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -179,6 +181,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
+      this.type = params['type'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.queryParams.subscribe(params => {
@@ -414,7 +417,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
       this.getTasks();
       isRedirectToBucket
-        ? this.router.navigate(['/collateral-appraisal'])
+        ? this.router.navigate(['/batch-apprisal/process'])
         : this.router
             .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
             .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));

@@ -306,6 +306,12 @@ import { CreditProposalTradeCheckingSupplierComponent } from './credit-proposal/
 import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './credit-proposal/trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
 import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './credit-proposal/trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-proposal/trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
+import { ReportIndependentCollateralComponent } from './collateral-appraisal/report-independent/report-independent-collateral.component';
+import { CollateralAppraisalValuationComponent } from './collateral-appraisal/valuation/collateral-appraisal-valuation.component';
+import { CollateralAppraisalValuationMachineComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-machine.component';
+import { CollateralAppraisalValuationLandDialogComponent } from './collateral-appraisal/valuation/dialogs/collateral-appraisal-valuation-land-dialog.component';
+import { CollateralAppraisalValuationVehicleComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-vehicle.component';
+import { CollateralAppraisalValuationPropertyComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -582,7 +588,6 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-pro
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralAppraisalPartyGroupViewComponent,
-    // CollateralInfoComponent,
     AssignToComponent,
     PositionReportingStructureViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
@@ -665,6 +670,13 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-pro
     CreditProposalTradeCheckingSupplierComponent,
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
+    CollateralInfoComponent,
+    ReportIndependentCollateralComponent,
+    CollateralAppraisalValuationComponent,
+    CollateralAppraisalValuationMachineComponent,
+    CollateralAppraisalValuationLandDialogComponent,
+    CollateralAppraisalValuationVehicleComponent,
+    CollateralAppraisalValuationPropertyComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -906,7 +918,6 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-pro
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
-    // CollateralInfoComponent,
     AssignToComponent,
     DebtorDataSlikUploadComponent,
     LoanAnalysGenerateDarComponent,
@@ -988,6 +999,13 @@ import { CreditProposalTradeCheckingSupplierDialogComponent } from './credit-pro
     CreditProposalTradeCheckingSupplierComponent,
     CreditProposalTradeCheckingSupplierDialogComponent,
     CreditProposalTradeCheckingSupplierDialogEditComponent,
+    CollateralInfoComponent,
+    ReportIndependentCollateralComponent,
+    CollateralAppraisalValuationComponent,
+    CollateralAppraisalValuationMachineComponent,
+    CollateralAppraisalValuationLandDialogComponent,
+    CollateralAppraisalValuationVehicleComponent,
+    CollateralAppraisalValuationPropertyComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
