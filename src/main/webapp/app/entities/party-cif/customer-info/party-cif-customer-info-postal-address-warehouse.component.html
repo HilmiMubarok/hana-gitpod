@@ -11,7 +11,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Address</mat-label>
-        <input matInput type="text" [(ngModel)]="address1" (ngModelChange)="addressChange()" [disabled]="!isWarehouse" />
+        <input matInput type="text" [(ngModel)]="address1" (ngModelChange)="addressChange()" />
       </mat-form-field>
     </div>
 
@@ -162,7 +162,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RT</mat-label>
-            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="!isWarehouse" />
+            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" />
           </mat-form-field>
         </div>
       </div>
@@ -170,14 +170,14 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RW</mat-label>
-            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="!isWarehouse" />
+            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" />
           </mat-form-field>
         </div>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kode Pos</mat-label>
-          <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" [disabled]="!isWarehouse" />
+          <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" />
         </mat-form-field>
       </div>
     </div>
