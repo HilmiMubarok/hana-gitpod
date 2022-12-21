@@ -10,9 +10,6 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { IGoodIdentification, GoodIdentification } from './good-identification.model';
 import { GoodIdentificationService } from './good-identification.service';
-import { GoodIdentificationComponent } from './good-identification.component';
-import { GoodIdentificationDetailComponent } from './good-identification-detail.component';
-import { GoodIdentificationUpdateComponent } from './good-identification-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class GoodIdentificationResolve implements Resolve<IGoodIdentification> {
@@ -59,54 +56,4 @@ export class GoodIdentificationResolve implements Resolve<IGoodIdentification> {
   }
 }
 
-export const goodIdentificationRoute: Routes = [
-  {
-    path: '',
-    component: GoodIdentificationComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.goodIdentification.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: GoodIdentificationDetailComponent,
-    resolve: {
-      goodIdentification: GoodIdentificationResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.goodIdentification.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: GoodIdentificationUpdateComponent,
-    resolve: {
-      content: GoodIdentificationResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.goodIdentification.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: GoodIdentificationUpdateComponent,
-    resolve: {
-      content: GoodIdentificationResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.goodIdentification.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+export const goodIdentificationRoute: Routes = [];
