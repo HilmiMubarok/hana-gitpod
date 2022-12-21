@@ -28,7 +28,7 @@ import { PartnerService } from 'app/entities/partner/partner.service';
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-   public branchs: IInternal[];
+  public branches;
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -121,6 +121,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     private surveyBatchService: SurveyBatchService,
     private partnerService: PartnerService
   ) {
+    this.surveyAppraisal = new SurveyAppraisals();
     this.internals = [];
     this.rmRegional = new Internal();
     this.rmPosition = new Position();
@@ -134,6 +135,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
+
+    this.loadPositionRM();
 
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
@@ -200,15 +203,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.jpOther.emit(this.surveyAppraisal.jpOther);
 
     if (changes['collateralAppraisal']) {
-      if (this.surveyAppraisal.rm.partyId) {
-        this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
-        this.loadPositionRM();
-      }
-    }
-     if (changes['surveyAppraisal']) {
-      if (this.surveyAppraisal.rm.partyId) {
-        this.loadPositionRM();
-        this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
+      if (this.surveyAppraisal.apprOfficer) {
+        this.outputTipeOfficerAppraisal.emit(this.surveyAppraisal.apprOfficer);
       }
     }
 
@@ -226,7 +222,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   private loadInternalInformationRM(partyId: string): void {
-    this.branchs = [];
+    this.branches = [];
     this.segments = [];
     this.regionals = [];
     this.findPositionByIdParty(partyId).then((res: IPosition) => {
@@ -315,7 +311,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branchs = res.body;
+        this.branches = res.body;
         resolve();
       });
     });
@@ -334,20 +330,20 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
             tmpBranch.push(response.body[a]);
           }
         }
-        this.branchs = tmpBranch;
+        this.branches = tmpBranch;
         this.loadSegment();
       });
   }
 
-  // public selectBranch(event: any): void {
-  //   const value: string = event['value'];
-  //   if (value) {
-  //     const branch = lodash.find(this.branchs, function (o) {
-  //       return o.id === value;
-  //     });
-  //     this.loadInternalInformationBranch(branch.parentId);
-  //   }
-  // }
+  public selectBranch(event: any): void {
+    const value: string = event['value'];
+    if (value) {
+      const branch = lodash.find(this.branches, function (o) {
+        return o.id === value;
+      });
+      this.loadInternalInformationBranch(branch.parentId);
+    }
+  }
 
   private loadInternalInformationBranch(parentId): void {
     this.segments = [];
