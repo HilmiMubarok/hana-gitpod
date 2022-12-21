@@ -24,7 +24,7 @@
             <mat-label>Branchs</mat-label>
             <mat-select (selectionChange)="selectBranch($event)" [(ngModel)]="rmBranch.id" disabled>
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of branches" [value]="item.id">
+              <mat-option *ngFor="let item of branchs" [value]="item.id">
                 {{ item.organizationName }}
               </mat-option>
             </mat-select>
