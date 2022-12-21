@@ -1,18 +1,15 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-subtitle class="fw-bold">RM Info</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+<mat-accordion multi>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="fw-bold"> RM Info </mat-panel-title>
+    </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-rm-info [partyCif]="partyCif"></jhi-party-cif-customer-info-rm-info>
-    <!-- <jhi-no-record-found *ngIf="!partyCif.rm" moduleName="RM and Branch Info"></jhi-no-record-found> -->
-  </mat-card-content>
-</mat-card>
+  </mat-expansion-panel>
 
-<mat-card class="mt-4">
-  <mat-card-header>
-    <mat-card-subtitle class="fw-bold">Customer Info</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="fw-bold"> Customer Info </mat-panel-title>
+    </mat-expansion-panel-header>
     <div>
       This customer type is <span class="fw-bold">{{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
     </div>
@@ -34,44 +31,32 @@
     ></jhi-party-cif-customer-info-party-group>
     <jhi-party-cif-customer-info-debtor-data [customerType]="partyCif.customerType" [partyCif]="partyCif" mode="edit">
     </jhi-party-cif-customer-info-debtor-data>
-  </mat-card-content>
-</mat-card>
+  </mat-expansion-panel>
 
-<mat-card class="mt-4">
-  <mat-card-header>
-    <mat-card-subtitle class="fw-bold">Address Info</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="fw-bold"> Address Info </mat-panel-title>
+    </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="primaryLocation">
     </jhi-party-cif-customer-info-postal-address>
-  </mat-card-content>
-</mat-card>
+  </mat-expansion-panel>
 
-<mat-card class="mt-4">
-  <mat-card-header>
-    <mat-card-subtitle class="fw-bold">Domicilie Address</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="fw-bold"> Domicilie Address </mat-panel-title>
+    </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="domicileLocation">
     </jhi-party-cif-customer-info-postal-address>
-  </mat-card-content>
-</mat-card>
+  </mat-expansion-panel>
 
-<mat-card class="mt-4" *ngIf="partyCif.customerType === 'CORPORATE'">
-  <mat-card-header>
-    <mat-card-subtitle class="fw-bold">Warehouse Address</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <jhi-party-cif-customer-info-postal-address-warehouse
-      [warehouseAddress]="'warehouseAddress'"
-      [disabled]="true"
-      [partyPostalAddress]="warehouseLocation"
-      [addresses]="partyCif.addresses"
-      [partyCif]="partyCif"
-    >
-    </jhi-party-cif-customer-info-postal-address-warehouse>
-  </mat-card-content>
-</mat-card>
+  <mat-expansion-panel *ngIf="partyCif.customerType === 'CORPORATE'" expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="fw-bold"> Warehouse Address </mat-panel-title>
+    </mat-expansion-panel-header>
+    <jhi-party-cif-customer-info-postal-address [disabled]="false" [partyPostalAddress]="warehouseLocation">
+    </jhi-party-cif-customer-info-postal-address>
+  </mat-expansion-panel>
+</mat-accordion>
 
 <mat-card class="mt-4" *ngIf="partyCif.customerPerson">
   <mat-card-header>
