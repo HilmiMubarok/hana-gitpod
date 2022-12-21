@@ -546,8 +546,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.creditProposal.attributes['remarksFinancialStatement']
     );
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
-    // note : buat legal lending dicomment dulu on progress
-    // copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
+    copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
 
     return copyCreditProposal;
   }

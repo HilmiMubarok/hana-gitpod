@@ -27,44 +27,52 @@
           item.key.split('.')[1] === 'gif'
         "
       />
-
-      <img
-        (click)="donwload(item.url)"
-        width="300px"
-        src="../../../content/images/excel.png"
+      <div
         *ngIf="
           item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
           item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
           item['metaData']['Value'] === 'application/vnd.ms-excel'
         "
-      />
+        style="width: 300px"
+      >
+        <img width="300px" src="../../../content/images/excel.png" />
+        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
 
-      <img
-        (click)="donwload(item.url)"
-        width="300px"
-        src="../../../content/images/word.png"
+      <div
         *ngIf="
           item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
           item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         "
-      />
+      >
+        <img width="300px" src="../../../content/images/word.png" />
+        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
 
-      <img
-        (click)="donwload(item.url)"
-        width="300px"
-        src="../../../content/images/pdf.png"
-        *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
-      />
+      <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
+        <img width="300px" src="../../../content/images/pdf.png" />
 
-      <img
-        (click)="donwload(item.url)"
-        width="300px"
-        src="../../../content/images/power-point.jpg"
+        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
+
+      <div
         *ngIf="
           item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
           item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
         "
-      />
+      >
+        <img width="300px" src="../../../content/images/power-point.jpg" />
+
+        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+        </div>
+      </div>
     </li>
   </ul>
 </mat-dialog-content>

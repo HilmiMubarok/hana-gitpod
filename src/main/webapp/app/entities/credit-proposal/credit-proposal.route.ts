@@ -50,6 +50,7 @@ import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-a
 import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
 import { FinancialState } from './repayment-spreadsheet/remarks/financial-statement-remarks.model';
 import { RejectReason } from './forward-to/reject-to.model';
+import { LegalLendingLimit } from './exposure/legal-lending/legal-lending-limit.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -340,6 +341,11 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['rejectReason'] = new RejectReason();
             } else {
               creditProposal.body.attributes['rejectReason'] = JSON.parse(creditProposal.body.attributes['rejectReason']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'legalLendingLimit')) {
+              creditProposal.body.attributes['legalLendingLimit'] = new LegalLendingLimit();
+            } else {
+              creditProposal.body.attributes['legalLendingLimit'] = JSON.parse(creditProposal.body.attributes['legalLendingLimit']);
             }
 
             if (creditProposal.body.prospectOrganization) {
