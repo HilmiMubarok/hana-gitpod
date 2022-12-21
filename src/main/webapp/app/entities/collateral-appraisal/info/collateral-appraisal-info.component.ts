@@ -22,13 +22,13 @@ import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.servi
 import { PartnerService } from 'app/entities/partner/partner.service';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
- templateUrl: './collateral-appraisal-info.component.html',
+  templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-   public branchs: IInternal[];
+  public branches;
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -222,7 +222,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   private loadInternalInformationRM(partyId: string): void {
-    this.branchs = [];
+    this.branches = [];
     this.segments = [];
     this.regionals = [];
     this.findPositionByIdParty(partyId).then((res: IPosition) => {
@@ -311,7 +311,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branchs = res.body;
+        this.branches = res.body;
         resolve();
       });
     });
@@ -330,7 +330,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
             tmpBranch.push(response.body[a]);
           }
         }
-        this.branchs = tmpBranch;
+        this.branches = tmpBranch;
         this.loadSegment();
       });
   }
@@ -338,8 +338,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public selectBranch(event: any): void {
     const value: string = event['value'];
     if (value) {
-      const branch = lodash.find(this.branchs, function (o) {
-
+      const branch = lodash.find(this.branches, function (o) {
         return o.id === value;
       });
       this.loadInternalInformationBranch(branch.parentId);
