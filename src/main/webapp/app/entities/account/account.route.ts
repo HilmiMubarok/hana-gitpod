@@ -10,9 +10,6 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { IAccount, Account } from './account.model';
 import { AccountService } from './account.service';
-import { AccountComponent } from './account.component';
-import { AccountDetailComponent } from './account-detail.component';
-import { AccountUpdateComponent } from './account-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class AccountResolve implements Resolve<IAccount> {
@@ -63,54 +60,4 @@ export class AccountResolve implements Resolve<IAccount> {
   }
 }
 
-export const accountRoute: Routes = [
-  {
-    path: '',
-    component: AccountComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.account.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: AccountDetailComponent,
-    resolve: {
-      account: AccountResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.account.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: AccountUpdateComponent,
-    resolve: {
-      content: AccountResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.account.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: AccountUpdateComponent,
-    resolve: {
-      content: AccountResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.account.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+export const accountRoute: Routes = [];

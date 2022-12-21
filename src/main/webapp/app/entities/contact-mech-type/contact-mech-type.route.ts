@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } from '@angular/router';
-
-import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { IContactMechType, ContactMechType } from './contact-mech-type.model';
 import { ContactMechTypeService } from './contact-mech-type.service';
-import { ContactMechTypeComponent } from './contact-mech-type.component';
-import { ContactMechTypeDetailComponent } from './contact-mech-type-detail.component';
-import { ContactMechTypeUpdateComponent } from './contact-mech-type-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class ContactMechTypeResolve implements Resolve<IContactMechType> {
@@ -55,54 +48,4 @@ export class ContactMechTypeResolve implements Resolve<IContactMechType> {
   }
 }
 
-export const contactMechTypeRoute: Routes = [
-  {
-    path: '',
-    component: ContactMechTypeComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.contactMechType.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: ContactMechTypeDetailComponent,
-    resolve: {
-      contactMechType: ContactMechTypeResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.contactMechType.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: ContactMechTypeUpdateComponent,
-    resolve: {
-      content: ContactMechTypeResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.contactMechType.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: ContactMechTypeUpdateComponent,
-    resolve: {
-      content: ContactMechTypeResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.contactMechType.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+export const contactMechTypeRoute: Routes = [];

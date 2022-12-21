@@ -13,7 +13,8 @@ import { DebtorDataSlikTransferService } from './debtor-data-silk-upload/debtor-
 import _ from 'lodash';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
-  templateUrl: './debtor-data-slik-summary-debitur.component.html'
+  templateUrl: './debtor-data-slik-summary-debitur.component.html',
+  styleUrls: ['./debtor-data-slik-summary-debitur.scss'],
 })
 export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> {
   public loading: boolean;
