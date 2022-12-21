@@ -181,7 +181,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
     this.showPreview(evt.target.files?.item(0));
   }
   gakbisa() {
-    if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
     return false;
