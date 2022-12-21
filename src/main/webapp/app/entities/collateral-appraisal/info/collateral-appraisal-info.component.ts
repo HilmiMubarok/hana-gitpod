@@ -86,7 +86,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public wilayahKotaExternalValue: any;
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
-  public teamReviewerValue: string;
+
   public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
   public officerAppraisalValue?: string;
   public approvalDate: string;
@@ -159,7 +159,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
         for (let i = 0; i < res.body.length; i++) {
           if (Number(res.body[i].id) === Number(this.surveyAppraisal.surveyorArea)) {
-            this.wilayahKotaExternalValue = res.body[i];
+            this.wilayahKotaExternalValue = res.body[i].id;
           }
         }
       });
@@ -413,19 +413,20 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         const teamLeader = [];
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].positionTypeDescription === 'Team Leader') {
-            teamLeader.push(res.body[i]);
+            teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
           }
         }
 
         this.teamReviewer = teamLeader;
       });
     this.cdr.detectChanges();
-    console.log('args', args);
     this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
-    console.log('argsss', args);
+    this.surveyAppraisal.teamLeadId = args['itemData'].id;
+    this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
+    this.surveyAppraisal.teamLeadName = args['itemData'].employeeFirstName;
     this.outputTeamReviewer.emit(args['value']);
   }
 
