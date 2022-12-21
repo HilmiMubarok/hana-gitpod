@@ -416,42 +416,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private saveProcess(isRedirectToBucket: Boolean = this.isRedirectToBucket): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
       this.getTasks();
-      if (this.type) {
-        if (this.type === 'process') {
-          isRedirectToBucket
-            ? this.router.navigate(['/batch-apprisal/process'])
-            : this.router
-                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
-        }
-        if (this.type === 'approval') {
-          isRedirectToBucket
-            ? this.router.navigate(['/batch-apprisal/approval'])
-            : this.router
-                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
-        }
-        if (this.type === 'internal') {
-          isRedirectToBucket
-            ? this.router.navigate(['/batch-apprisal/internal'])
-            : this.router
-                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
-        }
-        if (this.type === 'external') {
-          isRedirectToBucket
-            ? this.router.navigate(['/batch-apprisal'])
-            : this.router
-                .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-                .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
-        }
-      } else if (this.type === undefined) {
-        isRedirectToBucket
-          ? this.router.navigate(['/collateral-appraisal'])
-          : this.router
-              .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
-              .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
-      }
+      isRedirectToBucket
+        ? this.router.navigate(['/batch-apprisal/process'])
+        : this.router
+            .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+            .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
     });
   }
 

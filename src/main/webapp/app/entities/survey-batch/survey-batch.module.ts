@@ -26,6 +26,9 @@ import { CollateralAppraisalMaterialInternalComponent } from './collateral-appra
 import { CollateralAppraisalMaterialProcessComponent } from './collateral-appraisal-material-process.component';
 import { CollateralAppraisalMaterialApprovalComponent } from './collateral-appraisal-material-approval.component';
 import { CollateralAppraisalMaterialInquiryComponent } from './collateral-appraisal-material-inquiry.component';
+import { SurveyBatchEditInternalComponent } from './survey-batch-edit-internal.component';
+import { SurveyBatchEditApprovalComponent } from './survey-batch-edit-approval.component';
+import { SurveyBatchEditProcessComponent } from './survey-batch-edit-process.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(surveyBatchRoute)],
@@ -53,6 +56,9 @@ import { CollateralAppraisalMaterialInquiryComponent } from './collateral-apprai
     CollateralAppraisalMaterialProcessComponent,
     CollateralAppraisalMaterialApprovalComponent,
     CollateralAppraisalMaterialInquiryComponent,
+    SurveyBatchEditInternalComponent,
+    SurveyBatchEditApprovalComponent,
+    SurveyBatchEditProcessComponent,
   ],
   entryComponents: [
     SurveyBatchComponent,

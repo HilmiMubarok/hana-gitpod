@@ -26,6 +26,9 @@ import { CollateralAppraisalMaterialInternalComponent } from './collateral-appra
 import { CollateralAppraisalMaterialProcessComponent } from './collateral-appraisal-material-process.component';
 import { CollateralAppraisalMaterialApprovalComponent } from './collateral-appraisal-material-approval.component';
 import { CollateralAppraisalMaterialInquiryComponent } from './collateral-appraisal-material-inquiry.component';
+import { SurveyBatchEditInternalComponent } from './survey-batch-edit-internal.component';
+import { SurveyBatchEditProcessComponent } from './survey-batch-edit-process.component';
+import { SurveyBatchEditApprovalComponent } from './survey-batch-edit-approval.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -197,8 +200,18 @@ export const surveyBatchRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit/:type',
-    component: SurveyBatchEditComponent,
+    path: ':id/edit-internal',
+    component: SurveyBatchEditInternalComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit-process',
+    component: SurveyBatchEditProcessComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit-approval',
+    component: SurveyBatchEditApprovalComponent,
     canActivate: [UserRouteAccessService],
   },
   {

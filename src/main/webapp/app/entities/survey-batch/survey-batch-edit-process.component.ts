@@ -44,10 +44,10 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
-  selector: 'jhi-survey-batch-edit',
-  templateUrl: './survey-batch-edit.component.html',
+  selector: 'jhi-survey-batch-edit-process',
+  templateUrl: './survey-batch-edit-process.component.html',
 })
-export class SurveyBatchEditComponent implements OnInit {
+export class SurveyBatchEditProcessComponent implements OnInit {
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -200,7 +200,7 @@ export class SurveyBatchEditComponent implements OnInit {
         summary: 'Warning',
         detail: 'Dont forget to save data on this page',
       });
-      this.router.navigate(['/batch-apprisal', this.id, 'edit'], {
+      this.router.navigate(['/batch-apprisal', this.id, 'edit-process'], {
         queryParams: {
           subroute: menu['id'],
         },
@@ -1033,7 +1033,7 @@ export class SurveyBatchEditComponent implements OnInit {
 
   private saveProcess(): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
-      this.router.navigate(['./batch-apprisal']);
+      this.router.navigate(['./batch-apprisal/process']);
     });
   }
 
