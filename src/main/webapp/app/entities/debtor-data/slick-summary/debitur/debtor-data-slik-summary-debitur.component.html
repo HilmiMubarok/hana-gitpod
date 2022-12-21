@@ -1,56 +1,56 @@
 <div *ngIf="mode === 'edit'">
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()">Upload</button>
-  <table mat-table [dataSource]="dataPartySlik" class="w-100 mat-table-scroll">
+  <table mat-table [dataSource]="dataPartySlik" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
       <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
     </ng-container>
     <ng-container matColumnDef="bank">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-bank-fixed-column-width">Bank</th>
+      <th mat-header-cell *matHeaderCellDef>Bank</th>
       <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
     </ng-container>
     <ng-container matColumnDef="limit">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-number-fixed-column-width">Limit</th>
+      <th mat-header-cell *matHeaderCellDef>Limit</th>
       <td mat-cell *matCellDef="let element">{{ element.limit | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="os">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-number-fixed-column-width">O/S</th>
+      <th mat-header-cell *matHeaderCellDef>O/S</th>
       <td mat-cell *matCellDef="let element">{{ element.outstanding | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="facilityType">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Facility Type</th>
+      <th mat-header-cell *matHeaderCellDef>Facility Type</th>
       <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
     </ng-container>
     <ng-container matColumnDef="rate">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Rate</th>
+      <th mat-header-cell *matHeaderCellDef>Rate</th>
       <td mat-cell *matCellDef="let element">{{ element.rate | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="period">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Period</th>
+      <th mat-header-cell *matHeaderCellDef>Period</th>
       <td mat-cell *matCellDef="let element">{{ element.period }}</td>
     </ng-container>
     <ng-container matColumnDef="collateralType">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Collateral Type</th>
+      <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
       <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
     </ng-container>
     <ng-container matColumnDef="collateralValue">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-number-fixed-column-width">Collateral IDR Mio</th>
+      <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
       <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}</td>
     </ng-container>
     <ng-container matColumnDef="tenor">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Tenor</th>
+      <th mat-header-cell *matHeaderCellDef>Tenor</th>
       <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
     </ng-container>
     <ng-container matColumnDef="lastKol">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Last Collectablility</th>
+      <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
       <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
     </ng-container>
     <ng-container matColumnDef="worseKol">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Worst Collectability</th>
+      <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
       <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
     </ng-container>
     <ng-container matColumnDef="restructureWay">
-      <th mat-header-cell *matHeaderCellDef class="mat-column-fixed-column-width">Restructure Way</th>
+      <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
       <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
     </ng-container>
     <ng-container matColumnDef="action">
