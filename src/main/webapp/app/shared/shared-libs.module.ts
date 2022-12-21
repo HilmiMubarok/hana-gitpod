@@ -142,6 +142,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   providers: [
@@ -246,6 +247,7 @@ import { MatChipsModule } from '@angular/material/chips';
     TranslateModule,
 
     // angular material
+    MatTreeModule,
     MatChipsModule,
     MatIconModule,
     MatCardModule,

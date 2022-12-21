@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } from '@angular/router';
-
-import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
 
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { ICommEvent, CommEvent } from './comm-event.model';
 import { CommEventService } from './comm-event.service';
-import { CommEventComponent } from './comm-event.component';
-import { CommEventDetailComponent } from './comm-event-detail.component';
-import { CommEventUpdateComponent } from './comm-event-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class CommEventResolve implements Resolve<ICommEvent> {
@@ -71,54 +65,4 @@ export class CommEventResolve implements Resolve<ICommEvent> {
   }
 }
 
-export const commEventRoute: Routes = [
-  {
-    path: '',
-    component: CommEventComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.commEvent.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: CommEventDetailComponent,
-    resolve: {
-      commEvent: CommEventResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.commEvent.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: CommEventUpdateComponent,
-    resolve: {
-      content: CommEventResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.commEvent.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: CommEventUpdateComponent,
-    resolve: {
-      content: CommEventResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.commEvent.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+export const commEventRoute: Routes = [];

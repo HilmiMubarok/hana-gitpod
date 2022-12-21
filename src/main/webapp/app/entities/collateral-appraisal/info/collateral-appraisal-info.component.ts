@@ -20,6 +20,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { Account } from 'app/core/auth/account.model';
 import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.service';
 import { PartnerService } from 'app/entities/partner/partner.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
@@ -28,7 +29,7 @@ import { PartnerService } from 'app/entities/partner/partner.service';
 export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public segments: IInternal[];
   public regionals: IInternal[];
-  public branches;
+  public branchs: IInternal[];
   public positionRM: IPosition[];
   public rmSegment: IInternal;
   public rmRegional: IInternal;
@@ -64,6 +65,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
+    console.log('idnama', this.rmPosition);
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -83,10 +85,10 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   public tipeOfficerAppraisalValue?: string;
   public wilayahKotaFields: Object = { text: 'facilityName', value: 'id' };
   public wilayahKotaInternalValue?: string;
-  public wilayahKotaExternalValue?: string;
+  public wilayahKotaExternalValue: number;
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
-  public teamReviewerValue: string;
+
   public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
   public officerAppraisalValue?: string;
   public approvalDate: string;
@@ -121,7 +123,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     private surveyBatchService: SurveyBatchService,
     private partnerService: PartnerService
   ) {
-    this.surveyAppraisal = new SurveyAppraisals();
     this.internals = [];
     this.rmRegional = new Internal();
     this.rmPosition = new Position();
@@ -135,8 +136,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
-
-    this.loadPositionRM();
 
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
@@ -156,6 +155,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       })
       .subscribe(res => {
         this.cities = res.body;
+        for (let i = 0; i < res.body.length; i++) {
+          if (Number(res.body[i].id) === Number(this.surveyAppraisal.surveyorArea)) {
+            this.wilayahKotaExternalValue = res.body[i].id;
+          }
+        }
       });
   }
 
@@ -203,8 +207,15 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.jpOther.emit(this.surveyAppraisal.jpOther);
 
     if (changes['collateralAppraisal']) {
-      if (this.surveyAppraisal.apprOfficer) {
-        this.outputTipeOfficerAppraisal.emit(this.surveyAppraisal.apprOfficer);
+      if (this.surveyAppraisal.rm.partyId) {
+        this.loadPositionRM();
+        this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
+      }
+    }
+    if (changes['surveyAppraisal']) {
+      if (this.surveyAppraisal.rm.partyId) {
+        this.loadPositionRM();
+        this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
     }
 
@@ -222,7 +233,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   private loadInternalInformationRM(partyId: string): void {
-    this.branches = [];
+    this.branchs = [];
     this.segments = [];
     this.regionals = [];
     this.findPositionByIdParty(partyId).then((res: IPosition) => {
@@ -311,7 +322,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branches = res.body;
+        this.branchs = res.body;
         resolve();
       });
     });
@@ -330,20 +341,20 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
             tmpBranch.push(response.body[a]);
           }
         }
-        this.branches = tmpBranch;
+        this.branchs = tmpBranch;
         this.loadSegment();
       });
   }
 
-  public selectBranch(event: any): void {
-    const value: string = event['value'];
-    if (value) {
-      const branch = lodash.find(this.branches, function (o) {
-        return o.id === value;
-      });
-      this.loadInternalInformationBranch(branch.parentId);
-    }
-  }
+  // public selectBranch(event: any): void {
+  //   const value: string = event['value'];
+  //   if (value) {
+  //     const branch = lodash.find(this.branchs, function (o) {
+  //       return o.id === value;
+  //     });
+  //     this.loadInternalInformationBranch(branch.parentId);
+  //   }
+  // }
 
   private loadInternalInformationBranch(parentId): void {
     this.segments = [];
@@ -407,16 +418,20 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         const teamLeader = [];
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].positionTypeDescription === 'Team Leader') {
-            teamLeader.push(res.body[i]);
+            teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
           }
         }
 
         this.teamReviewer = teamLeader;
       });
     this.cdr.detectChanges();
+    this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
+    this.surveyAppraisal.teamLeadId = args['itemData'].id;
+    this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
+    this.surveyAppraisal.teamLeadName = args['itemData'].employeeFirstName;
     this.outputTeamReviewer.emit(args['value']);
   }
 

@@ -126,7 +126,7 @@
         <div class="col-8">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Quantity Size</mat-label>
-            <input matInput type="number" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
+            <input matInput currencyMask [options]="logoCcy" type="text" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
         </div>

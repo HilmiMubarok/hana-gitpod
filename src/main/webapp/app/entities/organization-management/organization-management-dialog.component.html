@@ -26,7 +26,15 @@
   </mat-card>
   <mat-card class="mt-5">
     <mat-card-header>
-      <mat-card-subtitle>Position</mat-card-subtitle>
+      <div *ngIf="managementType === 'SHAREHOLDER'">
+        <mat-card-subtitle></mat-card-subtitle>
+      </div>
+      <div *ngIf="managementType === 'CONTROL_PERSON'">
+        <mat-card-subtitle></mat-card-subtitle>
+      </div>
+      <div *ngIf="managementType === ' MANAGEMENT_DATA'">
+        <mat-card-subtitle>Position</mat-card-subtitle>
+      </div>
     </mat-card-header>
     <mat-card-content>
       <div class="row">
@@ -52,7 +60,15 @@
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>nominal of shares</mat-label>
-              <input matInput type="number" [(ngModel)]="organizationManagement.attributes.nomShares" [disabled]="dataSource()" />
+              <input
+                matInput
+                currencyMask
+                type="text"
+                class="nominal"
+                [(ngModel)]="organizationManagement.attributes.stockNominal"
+                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                [disabled]="dataSource()"
+              />
             </mat-form-field>
           </div>
         </div>

@@ -160,11 +160,11 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       this.displayedColumns = [
         'no',
         'appraisalNumber',
-        'appraisalType',
         'cif',
         'customerName',
         'customerType',
         'createdDate',
+        'appraisalType',
         'collateralType',
         'status',
         'action',

@@ -70,6 +70,5 @@ export class FacilityInfoCifComponent implements OnInit {
         }
       }
     }
-    console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
   }
 }

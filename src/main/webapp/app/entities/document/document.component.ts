@@ -273,7 +273,7 @@ export class DocumentComponent implements OnChanges {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
   // gakbisa() {
-  //   if (this.appraisal.statusId === STATUS.APPROVE ) {
+  //   if (this.appraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE ) {
   //     return true;
   //   }
   //   return false;

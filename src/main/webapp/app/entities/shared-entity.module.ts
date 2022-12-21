@@ -61,7 +61,6 @@ import { UomTypeViewComponent } from './uom-type/uom-type-view.component';
 import { UomConversionViewComponent } from './uom-conversion/uom-conversion-view.component';
 import { TaxTypeViewComponent } from './tax-type/tax-type-view.component';
 import { FeatureApplicableViewComponent } from './feature-applicable/feature-applicable-view.component';
-import { GoodIdentificationViewComponent } from './good-identification/good-identification-view.component';
 import { IdentificationTypeViewComponent } from './identification-type/identification-type-view.component';
 import { SettlementTypeViewComponent } from './settlement-type/settlement-type-view.component';
 import { SettlementViewComponent } from './settlement/settlement-view.component';
@@ -389,7 +388,6 @@ import { CollateralAppraisalValuationPropertyComponent } from './collateral-appr
     UomConversionViewComponent,
     TaxTypeViewComponent,
     FeatureApplicableViewComponent,
-    GoodIdentificationViewComponent,
     IdentificationTypeViewComponent,
     SettlementTypeViewComponent,
     SettlementViewComponent,
@@ -722,7 +720,6 @@ import { CollateralAppraisalValuationPropertyComponent } from './collateral-appr
     UomConversionViewComponent, // Remove Me
     TaxTypeViewComponent, // Remove Me
     FeatureApplicableViewComponent, // Remove Me
-    GoodIdentificationViewComponent, // Remove Me
     IdentificationTypeViewComponent, // Remove Me
     SettlementTypeViewComponent, // Remove Me
     SettlementViewComponent, // Remove Me
