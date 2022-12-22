@@ -317,6 +317,7 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collat
 import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
+import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -355,6 +356,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
   declarations: [
     ...entityDialogModule,
     ...entityTemplate,
+    PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -689,6 +691,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
+    PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent, //add
