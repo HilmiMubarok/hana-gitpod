@@ -191,8 +191,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           SlikBody.limit = res.body[y].limit == null ? 0 : Number(res.body[y].limit.toString().replace(/\./g, ''));
           SlikBody.rate = res.body[y].rate == null ? 0 : Number(res.body[y].rate.toString().replace(' %', ''));
           SlikBody.tenor = res.body[y].tenor == null ? 0 : Number(res.body[y].tenor.toString().replace(' bulan', ''));
-          SlikBody.outstanding = res.body[y].outstanding == null ? 0 : Number(res.body[y].outstanding);
-          SlikBody.collateralIdrMio = res.body[y].collateralIdrMio == null ? 0 : Number(res.body[y].collateralIdrMio);
+          SlikBody.outstanding = res.body[y].outstanding == null ? 0 : Number(res.body[y].outstanding.toString().replace(/\./g, ''));
+          SlikBody.collateralIdrMio = res.body[y].collateralIdrMio == null ? 0 : Number(res.body[y].collateralIdrMio.toString().replace(/\./g, ''));
           SlikBody.restructureFrequency = res.body[y].restructureFrequency == null ? 0 : Number(res.body[y].frekuensiRestrukturasi);
           SlikBody.arrearsFrequency = res.body[y].arrearsFrequency == null ? 0 : Number(res.body[y].frekuensiTunggakan);
           SlikBody.arrearsBase = res.body[y].arrearsBase == null ? 0 : Number(res.body[y].tunggakanPokok);
@@ -202,12 +202,10 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           SlikBody.worstCollectability = res.body[y].worstCollectability == null ? 0 : Number(res.body[y].kolTerburuk.substring(0,1));
           SlikBody.collateralType = res.body[y].collateralType == null ? '' : res.body[y].collateralType;
           SlikBody.facilityType = 0;
-          // res.body[y].attributes = {};
 
           const findPeriod = this.bulan.find((obj) => obj.name === res.body[y].period.substring(3,6));
           SlikBody.period = findPeriod.id;
 
-          // this.partySlik.push(res.body[y]);
           this.dataPartySlik = lodash.concat(this.dataPartySlik,SlikBody);
         }
 
