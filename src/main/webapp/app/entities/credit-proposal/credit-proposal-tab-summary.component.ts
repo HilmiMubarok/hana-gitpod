@@ -21,6 +21,7 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { CreditProposalService } from './credit-proposal.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
@@ -53,8 +54,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
-  private bucket: string;
-
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
@@ -66,12 +65,25 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   }
   set sourceComponent(item: any) {
     this.viewButton = item;
+
+    // this.storageService.getBucketName().subscribe(res => {
+    //   this.storageService
+    //     .getObjects(res.body['bucket'], {
+    //       key: `/credit_proposal/remark/summary/${this.item.id}/sfdt`,
+    //       // credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt
+    //     })
+    //     .subscribe((result: any) => {
+    // this.getContainer();
+    //       // this.creditProposalService.getContainer(); = result.body;
+    //     });
+    // });
   }
 
   constructor(
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
+    private creditProposalService: CreditProposalService,
     protected applicationConfigService: ApplicationConfigService,
     private actRoute: ActivatedRoute,
     protected messageService: MessageService,
@@ -83,6 +95,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
     this.getBucketNameSummary().then(res => {
       this.BUCKET = res['body']['bucket'];
+      this.getContainer();
       this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
         this.paramId = params['id'];
       });
@@ -92,11 +105,12 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       } else {
         console.warn('Param id not found');
       }
+      console.log('word', this.getBucketNameSummary);
+      console.log('word1', this.BUCKET);
 
       this.onRefresh();
     });
 
-    this.bucket = 'hana';
     this.actRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
@@ -104,13 +118,13 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     });
     this.approvalShow();
   }
+
   onDocumentChange() {
     this.container.restrictEditing = true;
 
     this.getOpiniObj();
   }
   public getOpiniObj() {
-    this.bucket = 'hana';
     this.actRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
@@ -143,7 +157,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       key: this.getKey,
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -206,7 +220,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -218,7 +232,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
 
