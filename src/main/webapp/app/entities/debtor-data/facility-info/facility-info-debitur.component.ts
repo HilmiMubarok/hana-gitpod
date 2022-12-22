@@ -17,6 +17,7 @@ export class FacilityInfoDebiturComponent {
   public _data = [];
   public _dataGroup = [];
   public aYear: any;
+  public availLimit: any;
 
   public displayColumns: string[] = [
     'no',
@@ -41,9 +42,11 @@ export class FacilityInfoDebiturComponent {
     this._data = object;
 
     for (let i = 0; i < this._data.length; i++) {
-      const date1 = new Date(this._data[0].FXFIG_TRX_DT);
-      const date2 = new Date(this._data[0].FILN10_TOT_EXP_IL);
+      const date1 = new Date(this._data[i].FXFIG_TRX_DT);
+      const date2 = new Date(this._data[i].FILN10_TOT_EXP_IL);
       this.aYear = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
+      const availLimit = this._data[i].LNB_BASE_LON_JAN + this._data[i].FILN10_CONTRACT_AMT;
+      this.availLimit = availLimit.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   }
 
@@ -58,4 +61,14 @@ export class FacilityInfoDebiturComponent {
   }
 
   constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {}
+
+  public facility: string;
+
+  public showElement() {
+    if (this.data[0].FILN11_COM_NM === 'CURRENT DEPOSITS') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
