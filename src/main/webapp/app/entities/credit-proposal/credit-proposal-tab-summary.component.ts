@@ -114,7 +114,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     this.actRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      // this.getContainer();
     });
     this.approvalShow();
   }
