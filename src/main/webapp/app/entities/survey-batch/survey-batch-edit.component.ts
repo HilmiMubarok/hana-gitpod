@@ -200,7 +200,7 @@ export class SurveyBatchEditComponent implements OnInit {
         summary: 'Warning',
         detail: 'Dont forget to save data on this page',
       });
-      this.router.navigate(['/batch-apprisal', this.id, 'edit'], {
+      this.router.navigate(['/batch-apprisal', this.id, 'edit-external'], {
         queryParams: {
           subroute: menu['id'],
         },
