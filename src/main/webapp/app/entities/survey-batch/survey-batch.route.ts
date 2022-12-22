@@ -22,6 +22,13 @@ import { CollateralAppraisalResolve } from '../collateral-appraisal/collateral-a
 import { SurveyBatchCollateralAppraisalMainComponent } from './survey-batch-collateral-appraisal-main.component';
 import { CollateralAppraisalMaterialExternalComponent } from './collateral-appraisal-material-external.component';
 import { SurveyBatchEditComponent } from './survey-batch-edit.component';
+import { CollateralAppraisalMaterialInternalComponent } from './collateral-appraisal-material-internal.component';
+import { CollateralAppraisalMaterialProcessComponent } from './collateral-appraisal-material-process.component';
+import { CollateralAppraisalMaterialApprovalComponent } from './collateral-appraisal-material-approval.component';
+import { CollateralAppraisalMaterialInquiryComponent } from './collateral-appraisal-material-inquiry.component';
+import { SurveyBatchEditInternalComponent } from './survey-batch-edit-internal.component';
+import { SurveyBatchEditProcessComponent } from './survey-batch-edit-process.component';
+import { SurveyBatchEditApprovalComponent } from './survey-batch-edit-approval.component';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyBatchResolve implements Resolve<ISurveyBatch> {
@@ -64,6 +71,58 @@ export const surveyBatchRoute: Routes = [
   {
     path: '',
     component: CollateralAppraisalMaterialExternalComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'internal',
+    component: CollateralAppraisalMaterialInternalComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'process',
+    component: CollateralAppraisalMaterialProcessComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'approval',
+    component: CollateralAppraisalMaterialApprovalComponent,
+    resolve: {
+      pagingParams: JhiResolvePagingParams,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      defaultSort: 'id,asc',
+      pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'inquiry',
+    component: CollateralAppraisalMaterialInquiryComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
@@ -145,6 +204,26 @@ export const surveyBatchRoute: Routes = [
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.surveyBatch.home.title',
     },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit-external',
+    component: SurveyBatchEditComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit-internal',
+    component: SurveyBatchEditInternalComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit-process',
+    component: SurveyBatchEditProcessComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit-approval',
+    component: SurveyBatchEditApprovalComponent,
     canActivate: [UserRouteAccessService],
   },
   {

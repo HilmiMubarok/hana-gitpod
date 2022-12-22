@@ -26,8 +26,8 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'jhi-party-cif-customer-info-person',
-  templateUrl: './party-cif-customer-info-person.component.html',
+  selector: 'jhi-party-cif-customer-management',
+  templateUrl: './party-cif-customer-management.component.html',
   styleUrls: ['../party-cif.style.scss'],
   providers: [
     // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
@@ -42,7 +42,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageComponent<IPerson> implements OnInit {
+export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageComponent<IPerson> implements OnInit {
   private _person: IPerson;
   private _organization: IOrganizationManagement;
   private _spouse: string;
@@ -51,6 +51,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   date = new FormControl(moment());
 
+  public separate: string;
   @Input()
   get person() {
     return this._person;
@@ -97,6 +98,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   }
 
   ngOnInit(): void {
+    this.test();
     this.convrtDate();
     this.menghilang();
   }
@@ -114,13 +116,16 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     }
     return true;
   }
-  public spouseCustomer() {
-    if (this.spouse === 'spouse') {
-      return true;
-    }
-    return false;
-  }
 
+  public test() {
+    if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
+      this.separate = '';
+    } else if (this.debtorData.separateAssetAggrement === false && this.debtorData.separateAssetAggrement !== undefined) {
+      this.separate = 'N/A';
+    } else {
+      this.separate = '';
+    }
+  }
   public convrtDate() {
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];

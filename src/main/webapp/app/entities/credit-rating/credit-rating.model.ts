@@ -19,6 +19,7 @@ export interface ICreditRating {
   snpDate?: Date;
   fitchDate?: Date;
   moodysDate?: Date;
+  attributes?: any;
 }
 
 // export class CreditRating implements ICreditRating {
@@ -56,7 +57,8 @@ export class CreditRating implements ICreditRating {
     public pefindoDate?: Date,
     public snpDate?: Date,
     public fitchDate?: Date,
-    public moodysDate?: Date
+    public moodysDate?: Date,
+    public attributes?: any
   ) {
     this.internalMaxLLL = 0;
     this.equityPosition = '0';

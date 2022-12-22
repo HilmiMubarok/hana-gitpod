@@ -25,6 +25,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   public rmRegional: IInternal;
   public rmBranch: IInternal;
   public rmPosition: IPosition;
+  public positionRms1 = 0;
 
   // private _person: IPerson;
   private _partyCif: IPartyCif;
@@ -60,7 +61,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadPositionRM();
-    console.log('rm name', this.partyCif);
   }
 
   // protected initialOnChange(changes: SimpleChanges): void {
@@ -85,9 +85,10 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
         return o.employeeFirstName === tempName;
       });
 
-      this.loadInternalInformationRM(this.positionRMS.partyId);
-      // console.log('ini position', this.positionRM);
-      // console.log('ini positionRMS', this.positionRMS);
+      if (this.positionRMS?.partyId !== undefined || this.positionRMS?.partyId !== null) {
+        this.positionRms1 = this.positionRMS?.id;
+        this.loadInternalInformationRM(this.positionRMS?.partyId);
+      }
     });
   }
 
@@ -97,7 +98,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];
-            console.log('ini rm position', this.rmPosition);
 
             resolve(this.rmPosition);
           } else {
@@ -160,9 +160,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
             });
           } else {
             if (!res2.parentId) {
-              // this.rmBranch = res2;
-              // this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
                 if (res4.parentId) {
                   this.rmRegional = res4;
@@ -173,34 +170,15 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
                     });
                   });
                 }
-                // });
               });
             }
           }
-          console.log('res', res2);
         });
       } else {
         if (!res) {
-          this.loadInternalById(res.internalId).then((res2: IInternal) => {
-            if (res2.parentId) {
-              this.rmBranch = res2;
-              this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-                this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-                  if (res4.parentId) {
-                    this.rmRegional = res4;
-                    this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                      this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                        this.rmSegment = res6;
-                        this.loadSegment();
-                      });
-                    });
-                  }
-                });
-              });
-            }
-
-            console.log('res', res2);
-          });
+          this.branchs = [];
+          this.segments = [];
+          this.regionals = [];
         }
       }
     });

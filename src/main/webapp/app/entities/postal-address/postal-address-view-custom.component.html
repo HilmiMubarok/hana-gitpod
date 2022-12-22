@@ -149,20 +149,12 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <div *ngIf="collateralApprAddress !== true">
+    <div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kode Pos</mat-label>
           <input matInput type="text" [(ngModel)]="postalAddress.postalCode" [disabled]="dataSource()" />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
-      </div>
-    </div>
-    <div *ngIf="collateralApprAddress === true">
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Kode Pos</mat-label>
-          <input matInput type="text" [(ngModel)]="postalAddress.postalCode" disabled />
         </mat-form-field>
       </div>
     </div>

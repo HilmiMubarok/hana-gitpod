@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Appraisal Distribution External</p>
+          <p class="e-card-sub-title">Appraisal Distribution Process</p>
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@
           <td mat-cell *matCellDef="let element" class="text-center">
             <a
               href="javascript:void();"
-              [routerLink]="['/batch-apprisal/', element.id, 'edit-external']"
+              [routerLink]="['/batch-apprisal', element.id, 'edit-process']"
               mat-icon-button
               (click)="$event.stopPropagation()"
             >
@@ -287,9 +287,9 @@
       >
       </mat-paginator>
     </div>
-    <!--<div class="d-flex justify-content-center mb-3 mt-3">
+    <div class="d-flex justify-content-center mb-3 mt-3">
       <button class="button-info" (click)="goToEdit()">Add Request Appraisal</button>
-    </div>-->
+    </div>
     <mat-sidenav-container [hasBackdrop]="true">
       <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
         <div class="p-3" style="padding-top: 90px !important">

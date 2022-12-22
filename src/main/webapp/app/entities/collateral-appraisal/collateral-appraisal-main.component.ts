@@ -81,6 +81,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  public parentPath = this.router.url.split('/')[1];
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -394,7 +395,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
@@ -739,8 +740,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.validateVisited().then(() => resolve(true));
           break;
         case STATUS.APPROVAL_TL:
-          this.validateApprovalTL().then(() => resolve(true));
-          break;
         case STATUS.APPROVAL_DEPT_HEAD:
         case STATUS.APPROVAL_DH:
           this.validateVisited().then(() => resolve(true));
@@ -749,19 +748,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
           resolve(true);
       }
     });
-  }
-
-  public checkMustValidatedOnApprovalTL() {
-    const mustValidateOnTL = {
-      jenisObject: true,
-      jenisPermohonan: true,
-      documentCollateral: true,
-      documentLainnya: true,
-      picDebtor: true,
-      picPhone: true,
-    };
-
-    return this._validateProcess(mustValidateOnTL);
   }
 
   public checkMustValidatedOnDraft() {
@@ -815,7 +801,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       officerAppraisal: true,
       kjpp: true,
     };
-
     if (this.surveyAppraisal.apprOfficer === 'Internal') {
       this.isRedirectToBucket = false;
       if (!this.surveyAppraisal.surveyorArea) {
@@ -826,21 +811,20 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
+    } else {
+      if (!this.kjppIndependentAppraisalValue) {
+        this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
+        mustValidateOnAssignment.kjpp = false;
+      }
+      if (!this.teamReviewerValue) {
+        this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
+        mustValidateOnAssignment.officerAppraisal = false;
+      }
+      if (!this.wilayahKotaExternalValue) {
+        this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
+        mustValidateOnAssignment.wilayah = false;
+      }
     }
-    // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1040,12 +1024,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public validateAssignment(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.checkMustValidatedOnAssignment() && resolve('Assignment Validated');
-    });
-  }
-
-  public validateApprovalTL(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.checkMustValidatedOnApprovalTL() && resolve('Assignment Validated');
     });
   }
 

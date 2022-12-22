@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
+import { IOrganizationManagement } from '../organization-management/organization-management.model';
 import { IStateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
 import { IPostalAddress } from './postal-address.model';
@@ -33,6 +34,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   public filteredOptionsVillage: Observable<IStateBoundary[]>;
 
   private _postalAddress: IPostalAddress;
+  private _organization: IOrganizationManagement;
 
   @Input()
   get postalAddress(): IPostalAddress {
@@ -40,6 +42,14 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   }
   set postalAddress(param: IPostalAddress) {
     this._postalAddress = param;
+  }
+
+  @Input()
+  get organization(): IOrganizationManagement {
+    return this._postalAddress;
+  }
+  set organization(param: IOrganizationManagement) {
+    this._organization = param;
   }
 
   @Input()
@@ -281,11 +291,24 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
       return true;
     }
+    if (this.collateralApprAddress === true) {
+      return true;
+    }
+    if (this._organization?.dataSource === 'h' || this._organization?.dataSource === 'H') {
+      return true;
+    }
     return false;
   }
 
   public cekDataSource() {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+      this.myControlCountry.disable();
+      this.myControlProvince.disable();
+      this.myControlCity.disable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+    }
+    if (this._organization?.dataSource === 'h' || this._organization?.dataSource === 'H') {
       this.myControlCountry.disable();
       this.myControlProvince.disable();
       this.myControlCity.disable();
