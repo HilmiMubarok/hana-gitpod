@@ -88,7 +88,8 @@
       <mat-card-subtitle>Postal Address</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-postal-address-view-custom [postalAddress]="organizationManagement.postalAddress"> </jhi-postal-address-view-custom>
+      <jhi-postal-address-view-custom [organization]="organizationManagement" [postalAddress]="organizationManagement.postalAddress">
+      </jhi-postal-address-view-custom>
     </mat-card-content>
   </mat-card>
 </mat-dialog-content>

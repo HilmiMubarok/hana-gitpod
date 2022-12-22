@@ -82,7 +82,6 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 })
 export class CollateralAppraisalMainComponent implements OnInit {
   public parentPath = this.router.url.split('/')[1];
-  public type: string;
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -181,7 +180,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
-      this.type = params['type'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.queryParams.subscribe(params => {
@@ -252,6 +250,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public jpAdditional;
   public jpProgress;
   public jpOther;
+
+  public isRedirectToBucket: Boolean = true;
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {
@@ -395,7 +395,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
@@ -411,10 +411,14 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.surveyAppraisal = ev;
   }
 
-  private saveProcess(): void {
+  private saveProcess(isRedirectToBucket: Boolean = this.isRedirectToBucket): void {
     this.collateralAppraisalProcessService.processTask(this.resProcess).subscribe(res => {
       this.getTasks();
-      this.router.navigate(['/collateral-appraisal']);
+      isRedirectToBucket
+        ? this.router.navigate(['/collateral-appraisal'])
+        : this.router
+            .navigateByUrl('/collateral-appraisal', { skipLocationChange: true })
+            .then(() => this.router.navigate(['/collateral-appraisal', this.id, 'edit']));
     });
   }
 
@@ -736,8 +740,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.validateVisited().then(() => resolve(true));
           break;
         case STATUS.APPROVAL_TL:
-          this.validateApprovalTL().then(() => resolve(true));
-          break;
         case STATUS.APPROVAL_DEPT_HEAD:
         case STATUS.APPROVAL_DH:
           this.validateVisited().then(() => resolve(true));
@@ -746,19 +748,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
           resolve(true);
       }
     });
-  }
-
-  public checkMustValidatedOnApprovalTL() {
-    const mustValidateOnTL = {
-      jenisObject: true,
-      jenisPermohonan: true,
-      documentCollateral: true,
-      documentLainnya: true,
-      picDebtor: true,
-      picPhone: true,
-    };
-
-    return this._validateProcess(mustValidateOnTL);
   }
 
   public checkMustValidatedOnDraft() {
@@ -812,8 +801,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       officerAppraisal: true,
       kjpp: true,
     };
-
     if (this.surveyAppraisal.apprOfficer === 'Internal') {
+      this.isRedirectToBucket = false;
       if (!this.surveyAppraisal.surveyorArea) {
         this._showNotification('error', 'Masukkan Wilayah/Kota terlebih dahulu');
         mustValidateOnAssignment.wilayah = false;
@@ -822,21 +811,20 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
+    } else {
+      if (!this.kjppIndependentAppraisalValue) {
+        this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
+        mustValidateOnAssignment.kjpp = false;
+      }
+      if (!this.teamReviewerValue) {
+        this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
+        mustValidateOnAssignment.officerAppraisal = false;
+      }
+      if (!this.wilayahKotaExternalValue) {
+        this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
+        mustValidateOnAssignment.wilayah = false;
+      }
     }
-    // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1036,12 +1024,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public validateAssignment(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.checkMustValidatedOnAssignment() && resolve('Assignment Validated');
-    });
-  }
-
-  public validateApprovalTL(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.checkMustValidatedOnApprovalTL() && resolve('Assignment Validated');
     });
   }
 

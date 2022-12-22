@@ -312,6 +312,10 @@ import { CollateralAppraisalValuationMachineComponent } from './collateral-appra
 import { CollateralAppraisalValuationLandDialogComponent } from './collateral-appraisal/valuation/dialogs/collateral-appraisal-valuation-land-dialog.component';
 import { CollateralAppraisalValuationVehicleComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-vehicle.component';
 import { CollateralAppraisalValuationPropertyComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
+import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
+import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
+import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -677,6 +681,10 @@ import { CollateralAppraisalValuationPropertyComponent } from './collateral-appr
     CollateralAppraisalValuationLandDialogComponent,
     CollateralAppraisalValuationVehicleComponent,
     CollateralAppraisalValuationPropertyComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessLandCertificatesComponent,
+    CollateralAppraisalDetailProcessLandComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1006,6 +1014,10 @@ import { CollateralAppraisalValuationPropertyComponent } from './collateral-appr
     CollateralAppraisalValuationLandDialogComponent,
     CollateralAppraisalValuationVehicleComponent,
     CollateralAppraisalValuationPropertyComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessLandCertificatesComponent,
+    CollateralAppraisalDetailProcessLandComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
