@@ -38,7 +38,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public industry: string;
   public loading = false;
   public listOfIndustry: IListOfValueIndustry[];
-  public industryList = [];
+  public industryList: string[] = [];
 
   @Input()
   get creditProposalItem() {
@@ -91,7 +91,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.creditRatings.idrMioLLL = Number(this.creditRatings.internalMaxLLL) * Number(this.creditRatings.equityPosition);
     return Number(this.creditRatings.internalMaxLLL) * Number(this.creditRatings.equityPosition);
   }
-
+  public industrys: string;
   ngOnInit() {
     if (this.creditProposalItem !== undefined) {
       this.creditRatingService
@@ -109,21 +109,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
           }
         });
     } else {
-      this.creditRatingService
-        .queryFilterBy({
-          idParty: this.partyCif.partyId,
-          page: 0,
-          size: 10,
-          sort: ['id', 'desc'],
-        })
-        .subscribe((res: any) => {
-          if (res.body.length < 1) {
-            this.creditRatings = new CreditRating();
-          } else {
-            this.creditRatings = res.body[0];
-          }
-        });
+      this.creditRatings = this.partyCif.creditRatings[0];
+      this.industrys = this.partyCif.creditRatings[0].attributes['industry'];
     }
+
     this.getApplicationOption();
     this.getListIndustry();
   }
@@ -160,7 +149,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
 
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
-      console.log('res body', res);
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'EQUITY_POSITION_AS_VALUE') {
           this.equityPosition = res.body[i].value;
@@ -177,20 +165,15 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     });
   }
 
-  public getListIndustry() {
-    this.listOfIndustryService.query().subscribe((res: any) => {
-      this.listOfIndustry = res.body;
-      for (let i = 0; i < res.body.length; i++) {
-        this.industryList.push(res.body[i].label);
-      }
-    });
+  public changeEvent(event: any) {
+    this.partyCif.creditRatings[0].attributes['industry'] = event.itemData['text'];
   }
 
-  public selectIndustry(event: any) {
-    for (let i = 0; i < this.listOfIndustry.length; i++) {
-      if (this.listOfIndustry[i].label === event.itemData.value) {
-        this.creditProposalItem.attributes['purposePricing'].industry = event.itemData.value;
+  public getListIndustry() {
+    this.listOfIndustryService.query().subscribe((res: any) => {
+      for (let i = 0; i < res.body.length; i++) {
+        this.industryList = [...this.industryList, res.body[i].label];
       }
-    }
+    });
   }
 }
