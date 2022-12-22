@@ -51,7 +51,6 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   date = new FormControl(moment());
 
-  public separate: string;
   @Input()
   get person() {
     return this._person;
@@ -98,7 +97,6 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   }
 
   ngOnInit(): void {
-    this.test();
     this.convrtDate();
     this.menghilang();
   }
@@ -123,20 +121,9 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     return false;
   }
 
-  public test() {
-    if (this.debtorData.separateAssetAggrement === true && this.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = '';
-    } else if (this.debtorData.separateAssetAggrement === false && this.debtorData.separateAssetAggrement !== undefined) {
-      this.separate = 'N/A';
-    } else {
-      this.separate = '';
-    }
-  }
   public convrtDate() {
     const fullYear = new Date(this.person.dob);
-    console.log('checj', fullYear);
     const year = fullYear.toISOString().split('T')[0];
-    console.log('test', year);
   }
 
   public dataSource() {
