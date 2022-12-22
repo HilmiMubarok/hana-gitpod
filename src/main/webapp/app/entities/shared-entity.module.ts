@@ -643,9 +643,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
     // Take over after -> Collateral
     CollateralTabLoanAfterDialogHistoryComponent,
     CollateralTabLoanAfterHistoryComponent,
-
     PostalAddressJurisdictionCountryComponent,
-
     // === CONVENAT HISTORY === //
     CreditProposalTabCovenantHistoryComponent,
     // Above
