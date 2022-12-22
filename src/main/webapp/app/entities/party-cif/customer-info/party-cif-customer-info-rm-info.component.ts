@@ -61,7 +61,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loadPositionRM();
-    
   }
 
   // protected initialOnChange(changes: SimpleChanges): void {
@@ -90,7 +89,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
         this.positionRms1 = this.positionRMS?.id;
         this.loadInternalInformationRM(this.positionRMS?.partyId);
       }
-      
     });
   }
 
@@ -162,7 +160,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
             });
           } else {
             if (!res2.parentId) {
-
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
                 if (res4.parentId) {
                   this.rmRegional = res4;
@@ -173,18 +170,15 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
                     });
                   });
                 }
-                
               });
             }
           }
-          
         });
       } else {
         if (!res) {
           this.branchs = [];
           this.segments = [];
           this.regionals = [];
-          
         }
       }
     });
