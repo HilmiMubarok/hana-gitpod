@@ -207,6 +207,11 @@ export const surveyBatchRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':id/edit-external',
+    component: SurveyBatchEditComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/edit-internal',
     component: SurveyBatchEditInternalComponent,
     canActivate: [UserRouteAccessService],
