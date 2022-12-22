@@ -287,12 +287,12 @@
             <div class="col">
               <ejs-dropdownlist
                 cssClass="e-outline"
-                (change)="selectIndustry($event)"
-                id="dropdownlistdata"
-                #dropdownlistdata
                 [dataSource]="industryList"
                 placeholder="Sector Industry"
+                (change)="changeEvent($event)"
+                [(value)]="industrys"
                 floatLabelType="Auto"
+                [fields]="fields"
               >
               </ejs-dropdownlist>
             </div>

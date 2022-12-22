@@ -245,6 +245,14 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     }; */
 
     this.defaultCurrency();
+    this.creditRatingCondition();
+  }
+  public creditRatingCondition() {
+    if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
+      if (this.creditProposal.attributes['purposePricing'].industry === '') {
+        this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
+      }
+    }
   }
   public defaultCurrencyData: string;
   defaultCurrency() {
