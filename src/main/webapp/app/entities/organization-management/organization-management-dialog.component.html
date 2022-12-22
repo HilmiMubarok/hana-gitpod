@@ -11,8 +11,13 @@
     </mat-card-header>
     <mat-card-content>
       <ng-container *ngIf="organizationManagement.person">
-        <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person" mode="edit">
-        </jhi-party-cif-customer-info-person>
+        <!-- <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person"  [spouse]="'spouse'" mode="edit">
+        </jhi-party-cif-customer-info-person> -->
+        <jhi-party-cif-customer-management
+          [organization]="organizationManagement"
+          [person]="organizationManagement.person"
+          mode="edit"
+        ></jhi-party-cif-customer-management>
       </ng-container>
       <ng-container *ngIf="!organizationManagement.person">
         <jhi-party-cif-customer-info-party-group
@@ -26,10 +31,7 @@
   </mat-card>
   <mat-card class="mt-5">
     <mat-card-header>
-      <div *ngIf="managementType === 'SHAREHOLDER'">
-        <mat-card-subtitle></mat-card-subtitle>
-      </div>
-      <div *ngIf="managementType === 'CONTROL_PERSON'">
+      <div *ngIf="managementType !== 'MANAGEMENT_DATA'">
         <mat-card-subtitle></mat-card-subtitle>
       </div>
       <div *ngIf="managementType === ' MANAGEMENT_DATA'">

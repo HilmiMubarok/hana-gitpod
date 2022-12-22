@@ -312,6 +312,7 @@ import { CollateralAppraisalValuationMachineComponent } from './collateral-appra
 import { CollateralAppraisalValuationLandDialogComponent } from './collateral-appraisal/valuation/dialogs/collateral-appraisal-valuation-land-dialog.component';
 import { CollateralAppraisalValuationVehicleComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-vehicle.component';
 import { CollateralAppraisalValuationPropertyComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
+import { PartyCifCustomerManagementComponent } from './party-cif/customer-info/party-cif-customer-management.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -352,6 +353,7 @@ import { CollateralAppraisalValuationPropertyComponent } from './collateral-appr
     ...entityTemplate,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
+    PartyCifCustomerManagementComponent,
     OrganizationManagementListComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
@@ -683,6 +685,7 @@ import { CollateralAppraisalValuationPropertyComponent } from './collateral-appr
     ...entityTemplate,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
+    PartyCifCustomerManagementComponent, //add
     OrganizationManagementListComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
