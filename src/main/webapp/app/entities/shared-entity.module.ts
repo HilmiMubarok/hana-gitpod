@@ -312,6 +312,7 @@ import { CollateralAppraisalValuationMachineComponent } from './collateral-appra
 import { CollateralAppraisalValuationLandDialogComponent } from './collateral-appraisal/valuation/dialogs/collateral-appraisal-valuation-land-dialog.component';
 import { CollateralAppraisalValuationVehicleComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-vehicle.component';
 import { CollateralAppraisalValuationPropertyComponent } from './collateral-appraisal/valuation/details/collateral-appraisal-valuation-property.component';
+import { PartyCifCustomerManagementComponent } from './party-cif/customer-info/party-cif-customer-management.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
@@ -356,6 +357,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
     ...entityTemplate,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
+    PartyCifCustomerManagementComponent,
     OrganizationManagementListComponent,
     PersonEmployeeViewComponent,
     CollateralUpdateComponent,
@@ -691,6 +693,7 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
     ...entityTemplate,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
+    PartyCifCustomerManagementComponent, //add
     OrganizationManagementListComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me

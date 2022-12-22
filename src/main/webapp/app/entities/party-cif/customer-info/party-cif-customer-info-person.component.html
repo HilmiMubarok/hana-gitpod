@@ -74,12 +74,12 @@
         <input matInput type="text" [(ngModel)]="person.cellPhone1" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
-    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Handphone Number 3</mat-label>
-        <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
+        <mat-label>Phone Number 1</mat-label>
+        <input matInput type="text" [(ngModel)]="person.cellPhone2" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
-    </div> -->
+    </div>
   </div>
   <!-- RIGHT SIDE -->
   <!-- [(ngModel)]="person.dob" -->
@@ -107,19 +107,18 @@
         </mat-hint>
       </mat-form-field>
     </div>
-    <!-- <div class="form-group">
-      <mat-form-field class="w-100" appearan ce="outline">
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Place of Birth</mat-label>
         <input matInput type="text" [(ngModel)]="person.pob" [disabled]="spouseData()" />
       </mat-form-field>
-    </div> -->
-
-    <!-- <div class="form-group" *ngIf="spouse !== 'spouse'">
+    </div>
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput type="text" [(ngModel)]="person.personalEmail" [disabled]="true" />
       </mat-form-field>
-    </div> -->
+    </div>
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Expiry Date</mat-label>
@@ -160,13 +159,6 @@
 
     <div class="form-group" *ngIf="spouse !== 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Phone Number 1</mat-label>
-        <input matInput type="text" [(ngModel)]="person.cellPhone2" [maxlength]="50" [disabled]="true" />
-      </mat-form-field>
-    </div>
-
-    <div class="form-group" *ngIf="spouse !== 'spouse'">
-      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Phone Number 2</mat-label>
         <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
@@ -180,7 +172,7 @@
         <div *ngIf="spouseCustomer()">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Separate Asset Agreement</mat-label>
-            <input matInput type="text" [value]="separate" disabled />
+            <input matInput type="text" id="myInput" [(ngModel)]="debtorData.separateAssetAggrementDesc" />
           </mat-form-field>
         </div>
       </div>
