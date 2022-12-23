@@ -9,6 +9,8 @@ import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { CollateralMachineDialogComponent } from './dialogs/collateral-machine-dialog.component';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-mesin',
   templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
@@ -24,17 +26,25 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   public collateralAppraisal: ICollateralAppraisal;
   public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
   public items: ICollateralProperty[];
+  public account: Account;
+  // public gakBisa: boolean;
+  // public hiddenRmAdmin: boolean;
+  public hiddenRmAdmin: boolean;
   constructor(
     public dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
     private eventManager: EventManager,
-    private collateralAppraisalService: CollateralAppraisalService
+    private collateralAppraisalService: CollateralAppraisalService,
+    private accountService: AccountService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralId'] && changes['collateralAppraisalId']) {
       this.getData();
     }
+    this.checkLogin();
+    this.hiddenTombol();
+    // console.log('hiddenAdmin', this.hiddenRmAdmin);
   }
 
   private getData(): void {
@@ -85,6 +95,42 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
+
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }

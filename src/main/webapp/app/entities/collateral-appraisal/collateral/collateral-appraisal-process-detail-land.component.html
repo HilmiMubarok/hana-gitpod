@@ -28,7 +28,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="$event.stopPropagation(); delete(element)">
-            <mat-icon [hidden]="gakbisa()">delete_forever</mat-icon>
+            <mat-icon [hidden]="gakbisa()" [hidden]="hiddenRmAdmin">delete_forever</mat-icon>
           </button>
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
@@ -61,12 +61,15 @@
                   <mat-list-item
                     role="listitem"
                     *ngFor="let item of parsingSelectionCertificates(element.attributes?.selectionCertificates)"
-                    >Certificate Number: {{ item.certNumber }}</mat-list-item
+                  >
+                    Certificate Number: {{ item.certNumber }}</mat-list-item
                   >
                 </mat-list>
               </mat-card-content>
               <mat-card-actions align="right">
-                <button mat-button [disabled]="gakbisa()" (click)="openDialogCertificate(expandedElement)">ADD CERTIFICATE</button>
+                <button mat-button [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" (click)="openDialogCertificate(expandedElement)">
+                  ADD CERTIFICATE
+                </button>
               </mat-card-actions>
             </mat-card>
           </div>
@@ -100,7 +103,7 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right">
-    <button mat-button [disabled]="gakbisa()" (click)="openDialog()">ADD NEW LAND INFO</button>
+    <button mat-button [hidden]="gakbisa()" [hidden]="hiddenRmAdmin" (click)="openDialog()">ADD NEW LAND INFO</button>
   </mat-card-actions>
 </mat-card>
 <mat-card>
@@ -117,6 +120,7 @@
           floatLabelType="Auto"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-textbox>
       </div>
       <div class="form-group">
@@ -130,6 +134,7 @@
           popupHeight="220px"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         >
         </ejs-dropdownlist>
       </div>
@@ -144,6 +149,7 @@
           popupHeight="220px"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         >
         </ejs-dropdownlist>
       </div>
@@ -158,6 +164,7 @@
           min="0"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-numerictextbox>
       </div>
       <div class="form-group">
@@ -171,6 +178,7 @@
           min="0"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-numerictextbox>
       </div>
       <div class="form-group">
@@ -182,7 +190,9 @@
           floatLabelType="Auto"
           required
           [disabled]="gakbisa()"
-        ></ejs-textbox>
+          [disabled]="hiddenRmAdmin"
+        >
+        </ejs-textbox>
       </div>
     </div>
     <!-- RIGHT SIDE -->
@@ -196,7 +206,9 @@
           floatLabelType="Auto"
           required
           [disabled]="gakbisa()"
-        ></ejs-textbox>
+          [disabled]="hiddenRmAdmin"
+        >
+        </ejs-textbox>
       </div>
       <div class="form-group">
         <ejs-dropdownlist
@@ -209,6 +221,7 @@
           popupHeight="220px"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         >
         </ejs-dropdownlist>
         <!-- <ejs-textbox
@@ -241,6 +254,7 @@
           popupHeight="220px"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         >
         </ejs-dropdownlist>
       </div>
@@ -255,6 +269,7 @@
           popupHeight="220px"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         >
         </ejs-dropdownlist>
       </div>
@@ -273,6 +288,7 @@
       <div class="col">
         <mat-checkbox
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
           [checked]="collateral.attributes?.buildingHousingComplex === 'yes'"
           (change)="changeBuildingFacility($event, 'housingComplex')"
           >Housing Complex</mat-checkbox
@@ -281,6 +297,7 @@
       <div class="col">
         <mat-checkbox
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
           [checked]="collateral.attributes?.buildingLooseSettlement === 'yes'"
           (change)="changeBuildingFacility($event, 'looseSettlement')"
           >Loose Settlement</mat-checkbox
@@ -289,6 +306,7 @@
       <div class="col">
         <mat-checkbox
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
           [checked]="collateral.attributes?.buildingOfficeComplex === 'yes'"
           (change)="changeBuildingFacility($event, 'officeComplex')"
           >Office Complex</mat-checkbox
@@ -297,6 +315,7 @@
       <div class="col">
         <mat-checkbox
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
           [checked]="collateral.attributes?.buildingCommercialArea === 'yes'"
           (change)="changeBuildingFacility($event, 'commercialArea')"
           >Commercial Area</mat-checkbox
@@ -305,6 +324,7 @@
       <div class="col">
         <mat-checkbox
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
           [checked]="collateral.attributes?.buildingWareHousingArea === 'yes'"
           (change)="changeBuildingFacility($event, 'warehousingArea')"
           >WareHousing Area</mat-checkbox
@@ -326,6 +346,7 @@
           [(ngModel)]="collateral.leftSide"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -345,6 +366,7 @@
           [(ngModel)]="collateral.rightSide"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -367,6 +389,7 @@
           [(ngModel)]="collateral.frontSide"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">
@@ -386,6 +409,7 @@
           [(ngModel)]="collateral.backSide"
           required
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-textbox>
 
         <!-- <mat-form-field class="w-100" appearance="outline">

@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { clippingParents } from '@popperjs/core';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-collateral-building-floor-dialog',
@@ -21,6 +23,9 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
   public collateralProp: ICollateralProperty = new CollateralProperty();
   public displayedColumns: string[] = ['no', 'floor', 'area', 'action'];
   collateralAppraisal: ICollateralAppraisal;
+
+  public account: Account;
+  public hiddenRmAdmin: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -29,7 +34,8 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
     },
     private _snackBar: MatSnackBar,
     private _dialog: MatDialogRef<CollateralBuildingFloorDialogComponent>,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    private accountService: AccountService
   ) {
     this.collateralProp = this.data.collateralProperty;
     this.floor.area = 0;
@@ -39,6 +45,8 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.floors.data = JSON.parse(this.collateralProp.attributes['floors']);
+    this.checkLogin();
+    this.hiddenTombol();
   }
 
   public addFloor(): void {
@@ -89,5 +97,40 @@ export class CollateralBuildingFloorDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }

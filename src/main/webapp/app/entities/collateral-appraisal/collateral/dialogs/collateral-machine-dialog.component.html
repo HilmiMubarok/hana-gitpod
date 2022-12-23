@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="sub-header">Machine Detail</h2>
+<h2 mat-dialog-title class="sub-header">Machine Details</h2>
 <mat-dialog-content>
   <mat-card class="card">
     <mat-card-content>
@@ -13,7 +13,9 @@
               [(ngModel)]="collateralProp.machineName"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Machine Name</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineName" required/>
@@ -28,7 +30,9 @@
               [(ngModel)]="collateralProp.machineDocType"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tipe Document</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineDocType" required/>
@@ -43,7 +47,9 @@
               [(ngModel)]="collateralProp.machineDocNum"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>No Document</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineDocNum" required/>
@@ -60,7 +66,9 @@
               floatLabelType="Auto"
               required
               [disabled]="gakbisa()"
-            ></ejs-datepicker>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tanggal</mat-label>
               <input [matDatepicker]="machineDate" matInput type="text" [(ngModel)]="collateralProp.machineDate"
@@ -78,7 +86,9 @@
               floatLabelType="Auto"
               required
               [disabled]="gakbisa()"
-            ></ejs-datepicker>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>From</mat-label>
               <input [matDatepicker]="machineDateFrom" matInput type="text" [(ngModel)]="collateralProp.machineDateFrom"
@@ -98,7 +108,9 @@
               min="0"
               required
               [disabled]="gakbisa()"
-            ></ejs-numerictextbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Amount</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineAmount" required/>
@@ -122,7 +134,9 @@
               [(ngModel)]="collateralProp.machineMerk"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Merek Mesin</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineMerk" required/>
@@ -137,7 +151,9 @@
               [(ngModel)]="collateralProp.machineMadeBy"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Buatan</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineMadeBy" required/>
@@ -152,7 +168,9 @@
               [(ngModel)]="collateralProp.machineYear"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tahun</mat-label>
               <input matInput type="number" [(ngModel)]="collateralProp.machineYear" required/>
@@ -167,7 +185,9 @@
               [(ngModel)]="collateralProp.machineModelType"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Type Model</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineModelType" />
@@ -185,7 +205,9 @@
               [(ngModel)]="collateralProp.machineType"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Jenis</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineType" required/>
@@ -201,6 +223,7 @@
               type="date"
               required
               [disabled]="gakbisa()"
+              [disabled]="hiddenRmAdmin"
             ></ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>MFG Date</mat-label>
@@ -218,7 +241,9 @@
               [(ngModel)]="collateralProp.machineSpec"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Spesifikasi</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineSpec" required/>
@@ -233,7 +258,9 @@
               [(ngModel)]="collateralProp.machineCondition"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Kondisi</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineCondition" required/>
@@ -248,7 +275,9 @@
               [(ngModel)]="collateralProp.machineNotes"
               required
               [disabled]="gakbisa()"
-            ></ejs-textbox>
+              [disabled]="hiddenRmAdmin"
+            >
+            </ejs-textbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
               <mat-label>Keterangan</mat-label>
               <input matInput type="text" [(ngModel)]="collateralProp.machineNotes" required/>
@@ -261,5 +290,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button [disabled]="gakbisa()" (click)="save()">Save</button>
+  <button mat-button [disabled]="gakbisa()" (click)="save()" [disabled]="hiddenRmAdmin">Save</button>
 </mat-dialog-actions>

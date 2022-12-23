@@ -16,6 +16,8 @@ import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
   templateUrl: './collateral-appraisal-process-detail-land.component.html',
@@ -85,7 +87,8 @@ export class CollateralAppraisalDetailProcessLandComponent
     private dialog: MatDialog,
     protected _snackbar: MatSnackBar,
     protected collateralPropertyService: CollateralPropertyService,
-    private collateralAppraisalService: CollateralAppraisalService
+    private collateralAppraisalService: CollateralAppraisalService,
+    private accountService: AccountService
   ) {
     super(_snackbar, collateralPropertyService);
     this.page = 0;
@@ -98,7 +101,13 @@ export class CollateralAppraisalDetailProcessLandComponent
     if (changes['collateral']) {
       this.loadAll(this.collateral.id);
     }
+
+    this.checkLogin();
+    this.hiddenTombol();
   }
+
+  public account: Account;
+  public hiddenRmAdmin: boolean;
 
   private loadAll(_collateralId: number): void {
     this.collateralPropertyService
@@ -228,5 +237,40 @@ export class CollateralAppraisalDetailProcessLandComponent
       return true;
     }
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }

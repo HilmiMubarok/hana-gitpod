@@ -5,19 +5,24 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-collateral-vehicle-dialog',
   templateUrl: './collateral-vehicle-dialog.component.html',
   styleUrls: ['./collateral-dialog.css'],
 })
-export class CollateralVehicleDialogComponent {
+export class CollateralVehicleDialogComponent implements OnInit {
   public collateralProp: ICollateralProperty;
   public collateralAppraisal: ICollateralAppraisal;
+  public account: Account;
+  public hiddenRmAdmin: boolean;
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     private _dialog: MatDialogRef<CollateralVehicleDialogComponent>,
     private _snackBar: MatSnackBar,
+    private accountService: AccountService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralAppraisal: ICollateralAppraisal;
@@ -27,6 +32,12 @@ export class CollateralVehicleDialogComponent {
     this.collateralProp = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
+
+  ngOnInit(): void {
+    this.checkLogin();
+    this.hiddenTombol();
+  }
+
   public close(): void {
     this._dialog.close(this.collateralProp);
   }
@@ -210,5 +221,41 @@ export class CollateralVehicleDialogComponent {
       return true;
     }
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+      console.log('account-mesin', this.account);
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }
