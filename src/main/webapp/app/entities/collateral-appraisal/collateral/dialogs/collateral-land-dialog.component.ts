@@ -1,30 +1,41 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-collateral-land-dialog',
   templateUrl: './collateral-land-dialog.component.html',
   styleUrls: ['./collateral-dialog.css'],
 })
-export class CollateralLandDialogComponent {
+export class CollateralLandDialogComponent implements OnInit {
   public collateralAppraisal: ICollateralAppraisal;
   public collateralLandAttribute: ICollateralLandAttribute;
   private collateral: ICollateral;
+  public account: Account;
+  public hiddenRmAdmin: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { collateralAppraisal: ICollateralAppraisal; collateralLandAttribute: ICollateralLandAttribute; collateral: ICollateral },
     private _dialog: MatDialogRef<CollateralLandDialogComponent>,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private accountService: AccountService
   ) {
     this.collateralLandAttribute = this.data.collateralLandAttribute;
     this.collateral = this.data.collateral;
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
+
+  ngOnInit(): void {
+    this.checkLogin();
+    this.hiddenTombol();
+  }
+
   public cancel(): void {
     this._dialog.close(this.collateral);
   }
@@ -57,5 +68,40 @@ export class CollateralLandDialogComponent {
       return true;
     }
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }

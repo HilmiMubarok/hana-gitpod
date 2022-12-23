@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
@@ -8,13 +8,15 @@ import { SurveyAppraisalsService } from '../../../survey-appraisals/survey-appra
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
   templateUrl: './collateral-building-detail-dialog.component.html',
   styleUrls: ['./collateral-dialog.css'],
 })
-export class CollateralBuildingDetailDialogComponent {
+export class CollateralBuildingDetailDialogComponent implements OnInit {
   public collateralAppraisal: ICollateralAppraisal;
   public collateralProp: ICollateralProperty;
   public constructionData: any[];
@@ -24,6 +26,8 @@ export class CollateralBuildingDetailDialogComponent {
   public ceilingData: any[];
   public roofTrussData: any[];
   public roofData: any[];
+  public account: Account;
+  public hiddenRmAdmin: boolean;
   /* public constructionData: Observable<any>;
   public foundationData: Observable<any>;
   public wallData: Observable<any>;
@@ -37,11 +41,17 @@ export class CollateralBuildingDetailDialogComponent {
     private _dialog: MatDialogRef<CollateralBuildingDetailDialogComponent>,
     private collateralPropertyService: CollateralPropertyService,
     private surveyAppraisalsService: SurveyAppraisalsService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private accountService: AccountService
   ) {
     this.collateralProp = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
     this.getLov();
+  }
+
+  ngOnInit(): void {
+    this.checkLogin();
+    this.hiddenTombol();
   }
 
   private getLov(): void {
@@ -252,5 +262,40 @@ export class CollateralBuildingDetailDialogComponent {
       return true;
     }
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }

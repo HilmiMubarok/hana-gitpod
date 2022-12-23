@@ -17,13 +17,17 @@ import {
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-above-grid-history',
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridHistoryComponent implements OnChanges, OnInit {
+export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -45,6 +49,8 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit {
     'action',
   ];
 
+  public parsedData: any;
+  public dataItem: ICollateral[];
   private bindingTypeVal: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -69,21 +75,41 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit {
   @Input() isViewMode;
 
   constructor(
+    protected _snackbar: MatSnackBar,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService
   ) {
+    super(_snackbar, collateralService);
+    this.itemsPerPage = 10;
+    this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }
   ngOnInit(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
     this.isViewMode && this.displayedColumns.pop();
 
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.dataItem = res.body;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -94,6 +120,9 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
         }
+      }
+      if (this.creditProposal.cif) {
+        this.loadByPartyId(this.creditProposal.cif.partyId);
       }
     }
   }

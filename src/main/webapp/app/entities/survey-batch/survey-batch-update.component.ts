@@ -82,7 +82,6 @@ export class SurveyBatchUpdateComponent extends AbstractEntityMaterialComponent<
     this.surveyCompanyId = this.activatedRoute.snapshot.data.content.surveyCompanyId;
     console.log('this.surveyCompanyId', this.surveyCompanyId);
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log('this.id', this.id);
 
     this.loadAll();
   }

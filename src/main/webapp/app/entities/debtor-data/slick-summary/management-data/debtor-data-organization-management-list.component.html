@@ -166,8 +166,11 @@
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <mat-card class="w-100 mx-auto">
                 <mat-card-content>
-                  <jhi-debtor-data-slik-summary-debitur [mode]="mode" [partySlik]="element['partySliks']">
-                  </jhi-debtor-data-slik-summary-debitur>
+                  <jhi-debtor-data-slik-summary-debitur
+                    [partyCif]="partyCif"
+                    [mode]="mode"
+                    [partySlik]="element['partySliks']"
+                  ></jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
               </mat-card>
             </div>
@@ -260,8 +263,11 @@
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <mat-card class="w-100 mx-auto">
                 <mat-card-content>
-                  <jhi-debtor-data-slik-summary-debitur [mode]="mode" [partySlik]="element['partySliks']">
-                  </jhi-debtor-data-slik-summary-debitur>
+                  <jhi-debtor-data-slik-summary-debitur
+                    [partyCif]="partyCif"
+                    [mode]="mode"
+                    [partySlik]="element['partySliks']"
+                  ></jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
               </mat-card>
             </div>

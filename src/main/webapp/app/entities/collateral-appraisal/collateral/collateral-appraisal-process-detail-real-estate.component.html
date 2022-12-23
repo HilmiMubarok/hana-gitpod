@@ -10,13 +10,15 @@
     *ngIf="selectedMenuId === 'certificate-info'"
     [collateral]="collateral"
     [collateralAppraisal]="collateralAppraisal"
-  ></jhi-collateral-appraisal-process-detail-land-certificates>
+  >
+  </jhi-collateral-appraisal-process-detail-land-certificates>
 
   <jhi-collateral-appraisal-process-detail-land
     *ngIf="selectedMenuId === 'land-condition'"
     [collateralAppraisal]="collateralAppraisal"
     [collateral]="collateral"
-  ></jhi-collateral-appraisal-process-detail-land>
+  >
+  </jhi-collateral-appraisal-process-detail-land>
 
   <mat-card *ngIf="selectedMenuId === 'building-condition'">
     <mat-card-header>
@@ -98,7 +100,7 @@
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button (click)="deleteBuilding(element)">
-                <mat-icon [hidden]="gakbisa()">delete_forever</mat-icon>
+                <mat-icon [hidden]="gakbisa()" [hidden]="hiddenRmAdmin">delete_forever</mat-icon>
               </button>
             </td>
           </ng-container>
@@ -112,7 +114,7 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="d-flex justify-content-end mb-3 mt-3">
-        <button mat-button [hidden]="gakbisa()" (click)="openDialogBuilding()">Add</button>
+        <button mat-button [hidden]="gakbisa()" [hidden]="hiddenRmAdmin" (click)="openDialogBuilding()">Add Real Estate</button>
       </div>
     </mat-card-actions>
   </mat-card>

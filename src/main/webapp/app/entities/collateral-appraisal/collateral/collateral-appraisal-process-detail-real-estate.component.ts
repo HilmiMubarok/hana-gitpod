@@ -12,6 +12,8 @@ import { CollateralAttribute, ICollateral } from 'app/entities/collateral/collat
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
   templateUrl: './collateral-appraisal-process-detail-real-estate.component.html',
@@ -36,6 +38,8 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
 
   public totalLandArea: Number = 0;
   public displayedColumns: string[] = ['no', 'buildingSpec', 'floors', 'physicalArea', 'action'];
+  public account: Account;
+  public hiddenRmAdmin: boolean;
 
   public items: ICollateralProperty[] = new Array<ICollateralProperty>();
   public selectedMenuId = 'land-condition';
@@ -60,7 +64,11 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     delay: 0,
   };
 
-  constructor(public dialog: MatDialog, private collateralPropertyService: CollateralPropertyService) {}
+  constructor(
+    public dialog: MatDialog,
+    private collateralPropertyService: CollateralPropertyService,
+    private accountService: AccountService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral'] && changes['collateralAppraisalId']) {
@@ -68,6 +76,9 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       this.setAttribute();
       this.actionSelectionMenuProperty.emit(this.selectedMenuId);
     }
+
+    this.checkLogin();
+    this.hiddenTombol();
   }
 
   private setAttribute(): void {
@@ -199,5 +210,40 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       return true;
     }
     return false;
+  }
+
+  private hiddenTombol() {
+    if (this.isRm() || this.isAdminAppraisal()) {
+      if (this.account.authorities.length <= 2) {
+        if (
+          this.collateralAppraisal.statusId === STATUS.ASSIGNED ||
+          this.collateralAppraisal.statusId === STATUS.RETURN_TO_OFFICER ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+          this.collateralAppraisal.statusId === STATUS.VISITED ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+          this.collateralAppraisal.statusId === STATUS.APPROVAL_DH
+        ) {
+          this.hiddenRmAdmin = true;
+        }
+      }
+    }
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.hiddenRmAdmin = true;
+    }
+  }
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  public isAdminAppraisal(): any {
+    return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
   }
 }

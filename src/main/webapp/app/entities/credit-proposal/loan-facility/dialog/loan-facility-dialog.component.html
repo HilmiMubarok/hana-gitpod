@@ -41,7 +41,11 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Application Type</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['applicationType']" name="facilityType">
+            <mat-select
+              [(ngModel)]="applicationProduct.attributes['applicationType']"
+              name="facilityType"
+              (selectionChange)="applicationTypeChange($event)"
+            >
               <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
             </mat-select>
           </mat-form-field>
@@ -94,7 +98,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Type</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['loanType']">
+            <mat-select [(ngModel)]="applicationProduct.attributes['loanType']" [disabled]="statusFacilityDisabled">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of lovLoanType" [value]="item">
                 {{ item }}
@@ -333,10 +337,16 @@
             <mat-label>Initial Limit</mat-label>
             <div *ngIf="conCcy; then thenBlock; else elseBlock"></div>
             <ng-template #thenBlock
-              ><input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [options]="logoCcy"
+              ><input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['initialLimit']"
+                [options]="logoCcy"
+                [disabled]="statusFacilityDisabled"
             /></ng-template>
             <ng-template #elseBlock>
-              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [disabled]="statusFacilityDisabled" />
             </ng-template>
           </mat-form-field>
         </div>
@@ -356,10 +366,17 @@
             <mat-label>Outstanding</mat-label>
             <div *ngIf="conCcy; then a; else b"></div>
             <ng-template #a>
-              <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" [options]="logoCcy" />
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['outstanding']"
+                [options]="logoCcy"
+                [disabled]="statusFacilityDisabled"
+              />
             </ng-template>
             <ng-template #b>
-              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" [disabled]="statusFacilityDisabled" />
             </ng-template>
           </mat-form-field>
         </div>

@@ -12,7 +12,9 @@
           [(ngModel)]="collateralProp.buildingSpec"
           required
           [disabled]="gakbisa()"
-        ></ejs-textbox>
+          [disabled]="hiddenRmAdmin"
+        >
+        </ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Building</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProp.buildingSpec" required/>
@@ -27,6 +29,7 @@
           <mat-label>Construction</mat-label>
           <mat-select
             [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
             (selectionChange)="onSelectConstruction($event)"
             [(ngModel)]="collateralProp.construction"
             required
@@ -54,6 +57,7 @@
           <mat-label>Foundation</mat-label>
           <mat-select
             [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
             (selectionChange)="onSelectFoundation($event)"
             [(ngModel)]="collateralProp.foundation"
             required
@@ -74,7 +78,13 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Wall</mat-label>
-          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectWall($event)" [(ngModel)]="collateralProp.wall" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
+            (selectionChange)="onSelectWall($event)"
+            [(ngModel)]="collateralProp.wall"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of wallData" [value]="item.id">
               {{ item.label }}
@@ -90,7 +100,13 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Flooring</mat-label>
-          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectFlooring($event)" [(ngModel)]="collateralProp.flooring" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
+            (selectionChange)="onSelectFlooring($event)"
+            [(ngModel)]="collateralProp.flooring"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of flooringData" [value]="item.id">
               {{ item.label }}
@@ -106,7 +122,13 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Ceiling</mat-label>
-          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectCeiling($event)" [(ngModel)]="collateralProp.ceiling" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
+            (selectionChange)="onSelectCeiling($event)"
+            [(ngModel)]="collateralProp.ceiling"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of ceilingData" [value]="item.id">
               {{ item.label }}
@@ -125,7 +147,13 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof Truss</mat-label>
-          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectRoofTruss($event)" [(ngModel)]="collateralProp.roofTruss" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
+            (selectionChange)="onSelectRoofTruss($event)"
+            [(ngModel)]="collateralProp.roofTruss"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofTrussData" [value]="item.id">
               {{ item.label }}
@@ -141,7 +169,13 @@
       <section class="mt-2">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Roof</mat-label>
-          <mat-select [disabled]="gakbisa()" (selectionChange)="onSelectRoof($event)" [(ngModel)]="collateralProp.roof" required>
+          <mat-select
+            [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
+            (selectionChange)="onSelectRoof($event)"
+            [(ngModel)]="collateralProp.roof"
+            required
+          >
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of roofData" [value]="item.id">
               {{ item.label }}
@@ -162,6 +196,7 @@
           floatLabelType="Always"
           [(ngModel)]="collateralProp.imb"
           [disabled]="gakbisa()"
+          [disabled]="hiddenRmAdmin"
         ></ejs-textbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB</mat-label>
@@ -171,7 +206,15 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Date</mat-label>
-          <input [disabled]="gakbisa()" [matDatepicker]="imbDate" matInput type="text" [(ngModel)]="collateralProp.imbDate" disabled />
+          <input
+            [disabled]="gakbisa()"
+            [disabled]="hiddenRmAdmin"
+            [matDatepicker]="imbDate"
+            matInput
+            type="text"
+            [(ngModel)]="collateralProp.imbDate"
+            disabled
+          />
           <mat-datepicker-toggle matSuffix [for]="imbDate"></mat-datepicker-toggle>
           <mat-datepicker #imbDate disabled="false" [disabled]="gakbisa()"></mat-datepicker>
         </mat-form-field>
@@ -186,7 +229,9 @@
           format="0,"
           min="0"
           [disabled]="gakbisa()"
-        ></ejs-numerictextbox>
+          [disabled]="hiddenRmAdmin"
+        >
+        </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>Total Storey</mat-label>
           <input matInput type="text" [(ngModel)]="collateralProp.storeyTtl" />
@@ -202,7 +247,9 @@
           format="0,"
           min="0"
           [disabled]="gakbisa()"
-        ></ejs-numerictextbox>
+          [disabled]="hiddenRmAdmin"
+        >
+        </ejs-numerictextbox>
         <!-- <mat-form-field class="w-100" appearance="outline">
           <mat-label>IMB Area</mat-label>
           <input matInput type="number" [(ngModel)]="collateralProp.imbArea" required/>
@@ -213,5 +260,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button [disabled]="gakbisa()" (click)="save()">Save</button>
+  <button mat-button [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" (click)="save()">Save</button>
 </mat-dialog-actions>

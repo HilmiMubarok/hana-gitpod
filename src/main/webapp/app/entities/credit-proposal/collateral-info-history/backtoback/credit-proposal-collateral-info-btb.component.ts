@@ -16,6 +16,8 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { CollateralInfoDialogBTBHistoryComponent } from './dialog-credit-proposal-collateral-info-btb.component';
 import { IEmptyField } from './empty-field.model';
 import lodash from 'lodash';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-collateral-info-btb-history',
@@ -37,6 +39,8 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   ];
 
   public collateralProperties: ICollateralProperty[];
+  public parsedData: any;
+  public dataItem: ICollateral[];
   public totalMVInt: number;
   public totalLVInt: number;
   public isChecked: boolean;
@@ -61,7 +65,8 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -69,10 +74,26 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
+
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.dataItem = res.body;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -82,6 +103,9 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
+          if (this.creditProposal.cif) {
+            this.loadByPartyId(this.creditProposal.cif.partyId);
+          }
         }
       }
     }

@@ -161,7 +161,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         sort: ['id,desc'],
       })
       .subscribe({
-        next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<IPartyCif[]>) => {
+          console.log('ress', res), this.initDataForMatTable(res, res.headers);
+        },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
@@ -176,9 +178,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       },
     };
     if (element) {
-      // if (!lodash.has(element.attributes, 'os')) {
-      //   element.attributes['os'] = '';
-      // }
       if (!lodash.has(element.attributes, 'name')) {
         element.attributes['name'] = '';
       }
@@ -188,18 +187,14 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       if (!lodash.has(element.attributes, 'facilityType')) {
         element.attributes['facilityType'] = '';
       }
-      // if (!lodash.has(element.attributes, 'lastCollectablility')) {
-      //   element.attributes['lastCollectablility'] = '';
-      // }
       predicate.data['partySlik'] = element;
     }
     const dialogRef = this.dialog.open(DebtorDataSlikSummaryDebiturDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.loading = true;
-        // this.savePartySlik(res);
-        // this.dataPartySlik = lodash.unionBy([res], this.dataPartySlik, 'id');
         this.dataPartySlik[index] = res;
+        this.partyCif.sliks = this.dataPartySlik;
         this.loading = false;
       }
     });
@@ -257,6 +252,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           const partySlik: IPartySlik = this.mapperIPDFSlikToPartySlik(item);
           this.savePartySlik(partySlik);
           this.dataPartySlik = lodash.concat(this.dataPartySlik, partySlik);
+          this.partyCif.sliks = this.dataPartySlik;
         }
 
         if (this.partyCif) {
