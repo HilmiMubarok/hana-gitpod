@@ -10,6 +10,9 @@ export interface IReportIndependent {
   marketValue?: Number;
   remark?: String;
   reportDate?: String;
+  apprReportNum?: String;
+  apprDate?: Date;
+  reviewedBy?: String;
 }
 
 export class ReportIndependent implements IReportIndependent {
@@ -24,6 +27,9 @@ export class ReportIndependent implements IReportIndependent {
     public quantity?: string,
     public marketValue?: number,
     public remark?: string,
-    public reportDate?: string
+    public reportDate?: string,
+	public apprReportNum?: string,
+	public apprDate?: Date,
+	public reviewedBy?: String
   ) {}
 }
