@@ -24,7 +24,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
   public saveWord: Boolean = false;
-  private bucket = 'hana';
+  private bucket: string;
   private key: string = 'credit_proposal/financial_analysis';
   private updateKey: string = '';
   private paramsId: string;
@@ -35,7 +35,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   public _creditProposalItem: ICreditProposal;
 
-  constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {}
+  constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {
+    this.bucket = '';
+  }
 
   mockData: ICalculator[] = [
     {
@@ -116,7 +118,20 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
   }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   ngOnInit(): void {
+    this.getBucket().then(res => {
+      // console.log("cekk", this.bucket);
+    });
     const predicateIdd: Object = {
       key: `/cif/${this.creditProposalItem.cif.partyId}/financial_analysis/`,
     };
