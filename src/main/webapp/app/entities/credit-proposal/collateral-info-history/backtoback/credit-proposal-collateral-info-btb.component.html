@@ -16,7 +16,7 @@
       </section>
     </div>
     <div class="table-responsive-material">
-      <table mat-table [dataSource]="creditProposal.collaterals" class="w-100">
+      <table mat-table [dataSource]="parsedData.previousHistroy.collaterals" class="w-100">
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef>No</th>
           <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -57,7 +57,7 @@
         </ng-container>
         <ng-container matColumnDef="collateralStatus">
           <th mat-header-cell *matHeaderCellDef>Collateral Status</th>
-          <td mat-cell *matCellDef="let element">-</td>
+          <td mat-cell *matCellDef="let element">{{ element.statusId }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="crossCollateral">

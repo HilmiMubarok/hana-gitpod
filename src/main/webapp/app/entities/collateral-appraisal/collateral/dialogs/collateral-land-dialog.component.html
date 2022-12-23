@@ -29,6 +29,7 @@
               <mat-label>Date of Issue</mat-label>
               <input
                 [disabled]="gakbisa()"
+                [disabled]="hiddenRmAdmin"
                 [matDatepicker]="dateOfIssue"
                 matInput
                 type="text"
@@ -36,7 +37,7 @@
                 disabled
               />
               <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
-              <mat-datepicker #dateOfIssue disabled="false" [disabled]="gakbisa()"></mat-datepicker>
+              <mat-datepicker #dateOfIssue disabled="false" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
             </mat-form-field>
           </section>
           <section class="mt-2">
@@ -44,6 +45,7 @@
               <mat-label>Due Date</mat-label>
               <input
                 [disabled]="gakbisa()"
+                [disabled]="hiddenRmAdmin"
                 [matDatepicker]="dueDate"
                 matInput
                 type="text"
@@ -51,7 +53,7 @@
                 disabled
               />
               <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
-              <mat-datepicker #dueDate disabled="false" [disabled]="gakbisa()"></mat-datepicker>
+              <mat-datepicker #dueDate disabled="false" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
             </mat-form-field>
           </section>
           <section class="mt-2">
@@ -63,6 +65,7 @@
                 [ngModel]="collateralLandAttribute.certArea | number: '1.0-0'"
                 (ngModelChange)="collateralLandAttribute.certArea = numberInputChanged($event)"
                 [disabled]="gakbisa()"
+                [disabled]="hiddenRmAdmin"
               />
 
               <!-- <input matInput type="number" [(ngModel)]="collateralProp.landSizePerCertificate" /> -->
@@ -75,5 +78,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()" [disabled]="gakbisa()">Save</button>
+  <button mat-button (click)="save()" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin">Save</button>
 </mat-dialog-actions>
