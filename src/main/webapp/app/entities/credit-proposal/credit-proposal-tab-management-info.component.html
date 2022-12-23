@@ -48,7 +48,16 @@
               </section>
             </div>
           </div>
-          <ejs-grid [dataSource]="data" allowTextWrap="true">
+           <div class="row my-3">
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA">
+            </jhi-organization-management-list>
+            <div class="my-5"></div>
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER"> </jhi-organization-management-list>
+            <div class="my-5"></div>
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON">
+            </jhi-organization-management-list>
+          </div>
+          <!-- <ejs-grid [dataSource]="data" allowTextWrap="true">
             <e-columns>
               <e-column field="indexNum" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
               <e-column
@@ -83,7 +92,7 @@
               <e-column field="age" headerText="Age" width="110" headerTextAlign="center" textAlign="left"> </e-column>
               <e-column field="join" headerText="Join Company Since" width="180" headerTextAlign="center" textAlign="Right"> </e-column>
             </e-columns>
-          </ejs-grid>
+          </ejs-grid> -->
 
           <div class="row my-3">
             <div class="col">
