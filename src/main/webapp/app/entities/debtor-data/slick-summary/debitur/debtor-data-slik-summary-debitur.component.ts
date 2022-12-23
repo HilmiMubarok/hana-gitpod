@@ -113,7 +113,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         sort: ['id,desc'],
       })
       .subscribe({
-        next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+        next: (res: HttpResponse<IPartyCif[]>) => {console.log('ress',res),this.initDataForMatTable(res, res.headers)},
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
@@ -155,6 +155,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           // this.savePartySlik(res);
           // this.dataPartySlik = lodash.unionBy([res], this.dataPartySlik, 'id');
           this.dataPartySlik[index] = res;
+          this.partyCif.sliks = this.dataPartySlik
           this.loading = false;
         }
       });
@@ -207,6 +208,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           SlikBody.period = findPeriod.id;
 
           this.dataPartySlik = lodash.concat(this.dataPartySlik,SlikBody);
+          this.partyCif.sliks = this.dataPartySlik
         }
 
         if (this.partyCif) {

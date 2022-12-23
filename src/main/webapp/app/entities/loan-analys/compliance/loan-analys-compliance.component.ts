@@ -1,16 +1,30 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+} from '@syncfusion/ej2-angular-documenteditor';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { PositionService } from 'app/entities/position/position.service';
 import { IComplienceReccomendation } from './complience.model';
-
+import { StorageService } from 'app/entities/storage/storage.service';
+import { takeUntil, Subject } from 'rxjs';
 @Component({
   selector: 'jhi-loan-analys-compliance',
   templateUrl: './loan-analys-compliance.component.html',
   styleUrls: ['./compliance-recommendation.css'],
+  providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysComplianceComponent implements OnInit {
+export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
   public regulation: string;
   public value: string;
   public criteria: string;
@@ -22,6 +36,16 @@ export class LoanAnalysComplianceComponent implements OnInit {
   public analystRecommendation: string;
   public route: any;
   public view: boolean;
+  public _word: boolean;
+
+  @Input()
+  get word() {
+    return this._word;
+  }
+
+  set word(item: boolean) {
+    this._word = item;
+  }
 
   @Input()
   get creditProposal() {
@@ -35,13 +59,19 @@ export class LoanAnalysComplianceComponent implements OnInit {
     protected creditProposalService: CreditProposalService,
     protected positionService: PositionService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
+    public storageService: StorageService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
     this.view = false;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['word'].currentValue === true) {
+      this.triggeredSave();
+    }
   }
 
   public onSelect(value: string, data: any): void {
@@ -186,6 +216,8 @@ export class LoanAnalysComplianceComponent implements OnInit {
     this.disabledOffering();
     this.remaksCondition();
     this.conditionDisableCompliance();
+
+    this.getContainer();
   }
 
   public test() {}
@@ -215,6 +247,7 @@ export class LoanAnalysComplianceComponent implements OnInit {
       this.creditProposal.attributes['complienceReccomendation'].analystRecommendation = '';
     }
   }
+  private fileGet: File;
 
   public disabledOffering() {
     this.route = this.activatedRoute.snapshot.data['offeringLetter'];
@@ -241,6 +274,95 @@ export class LoanAnalysComplianceComponent implements OnInit {
       this.disabledCompliance = true;
     } else {
       this.disabledCompliance = false;
+    }
+  }
+
+  onCreate(): void {
+    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
+    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+
+  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
+    const keyCode: string = args.event.key;
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
+    // 67 is the character code for 'C'
+
+    if (isCtrlKey && keyCode === '86') {
+      // To prevent copy operation set isHandled to true
+      args.isHandled = true;
+    }
+  }
+
+  private ngUnsubscribe = new Subject();
+
+  public bucket: string;
+
+  public getKey: string;
+
+  private getContainer(): void {
+    const obj = {
+      key: 'singgle-assign/compliance-recommendation/' + this.creditProposal.id + '/' + 'sfdt',
+    };
+    this.storageService.getBucketName().subscribe((bukcc: any) => {
+      this.storageService
+        .getObjects(bukcc.body.bucket, obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(response => {
+          if (response.body.length > 0) {
+            this.storageService
+              .fileBlob(response.body[response.body.length - 1]['url'])
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(res => {
+                this.fileGet = new File([res.body], 'singgle-assign-' + this.creditProposal.id + '-loan-analys-compile-.sfdt');
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                  const contents: string = e.target.result;
+                  docEditor.open(contents);
+                };
+                fileReader.readAsText(this.fileGet);
+              });
+          }
+        });
+    });
+  }
+
+  public triggeredSave(): void {
+    const paramsId = this.creditProposal.id;
+
+    const key = 'singgle-assign/compliance-recommendation';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'singgle-assign-' + paramsId + '-loan-analys-compile-' + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.getBucketName().subscribe((res: any) => {
+          this.storageService.uploadMeta(res.body.bucket, formData, metaData).subscribe();
+        });
+      });
+
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'singgle-assign-' + paramsId + '-loan-analys-compile-' + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+        this.storageService.getBucketName().subscribe((res: any) => {
+          this.storageService.uploadMeta(res.body.bucket, formData, metaData).subscribe();
+        });
+      });
     }
   }
 }

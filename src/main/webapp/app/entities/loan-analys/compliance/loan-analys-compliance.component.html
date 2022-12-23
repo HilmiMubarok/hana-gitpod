@@ -74,13 +74,18 @@
           <div class="e-card-header-caption">
             <div class="e-card-header-title">ANALYST RECOMMENDATION</div>
 
-            <ejs-richtexteditor
-              [toolbarSettings]="tools"
-              [(ngModel)]="creditProposal.attributes['complienceReccomendation'].analystRecommendation"
-              [readonly]="view"
-              [readonly]="disabledCompliance"
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="true"
+              [enableLocalPaste]="true"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
             >
-            </ejs-richtexteditor>
+            </ejs-documenteditorcontainer>
           </div>
         </div>
       </div>
