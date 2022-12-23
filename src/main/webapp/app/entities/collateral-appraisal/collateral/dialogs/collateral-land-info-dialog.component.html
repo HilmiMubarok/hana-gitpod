@@ -7,7 +7,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Object Name</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProperty.description" [disabled]="gakbisa()" />
+              <input matInput type="text" [(ngModel)]="collateralProperty.description" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -19,6 +19,7 @@
                 [(ngModel)]="collateralProperty.landSizePerCertificate"
                 (ngModelChange)="collateralProperty.landSizePerCertificate = numberInputChanged($event)"
                 [disabled]="gakbisa()"
+                [disabled]="hiddenRmAdmin"
               />
             </mat-form-field>
           </div>
@@ -29,5 +30,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button [disabled]="gakbisa()" (click)="save()">Save</button>
+  <button mat-button [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" (click)="save()">Save</button>
 </mat-dialog-actions>
