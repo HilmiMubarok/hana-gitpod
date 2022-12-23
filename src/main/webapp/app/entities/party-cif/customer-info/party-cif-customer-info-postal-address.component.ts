@@ -66,6 +66,7 @@ export class PartyCifCustomerInfoPostalAddressComponent
   ngOnInit(): void {
     this.loadPurposeType();
     this.loadCountry();
+    console.log(this.partyPostalAddress);
   }
 
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {

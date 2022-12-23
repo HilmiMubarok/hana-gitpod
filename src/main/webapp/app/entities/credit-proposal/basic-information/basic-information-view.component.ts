@@ -5,6 +5,7 @@ import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
@@ -18,6 +19,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   public data = [];
   public watchList;
   public route: any;
+  public partyCif: IPartyCif;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -51,7 +53,7 @@ export class ProposalBasicInformationViewComponent implements OnInit {
 
   public postalAdresss: IPartyPostalAddress;
   public generalLocation: IPartyPostalAddress;
-
+  public domicileLocation: IPartyPostalAddress;
   public gridCreditProposal: any = [];
   public dialogVisibility = false;
   // Sample level code to handle the button click action
@@ -67,13 +69,14 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
+    console.log('this adresess ', this.creditProposal.addresses);
     this.data = this.creditProposal.attributes['basicInformation'].coborowed;
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
 
     this.generalLocation = this.creditProposal.addresses.find(function (e) {
-      return e.purposeTypeId === 'GENERAL_LOCATION';
+      return e.purposeTypeId === 'DOMICILE_LOCATION';
     });
 
     this.watchListChange();

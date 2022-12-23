@@ -8,7 +8,7 @@ import { Person, IPerson } from '../person/person.model';
 import { PersonService } from '../person/person.service';
 import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
-import { CODE } from 'app/shared/constants/base.constants';
+import { CODE, GENDER, MARITAL_STATUS } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
 import { PartyTypeService } from 'app/entities/party-type/party-type.service';
@@ -56,12 +56,13 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   @Output()
   public selectMaritalStatus: EventEmitter<IOptionNode> = new EventEmitter<IOptionNode>();
+  public selectGenders: EventEmitter<IOptionNode> = new EventEmitter<IOptionNode>();
 
   readonly CODE: typeof CODE = CODE;
   public maxDate: Date = new Date();
   public fields: Object = { text: 'description', value: 'id' };
   public fieldsOptionNode: Object = { text: 'label', value: 'id' };
-
+  public disabled: boolean;
   public bloodTypes: IOptionNode[];
   public maritalStatuses: IOptionNode[];
   public genders: IOptionNode[];
@@ -84,13 +85,17 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   postalAddressId: number;
   religionTypeId: string;
   workTypeId: string;
-
+  public umkmClassification: any;
+  public categoryDebtor: any;
+  public maritalStatusess: any;
+  public genderss: any;
+  public gendersss = ['Laki - Laki', 'Perempuan'];
   public collectabilityStatusData = ['1', '2', '3', '4', '5'];
   // public CollecStatus: string = 'Canada';
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
-  public report = ['Green', 'Yellow/Early Warning Debtor', 'Red/Wa'];
+  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -110,7 +115,12 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     public account: AccountService
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
-    (this.collectabilityStatus = COLLECTABILITY_STATUS), (this.item = new Person());
+    (this.collectabilityStatus = COLLECTABILITY_STATUS),
+      (this.item = new Person()),
+      (this.genderss = GENDER),
+      (this.maritalStatusess = MARITAL_STATUS),
+      (this.categoryDebtor = CATEGORY_DEBTOR),
+      (this.umkmClassification = UMKM_CLASSIFICATION);
   }
 
   ngOnInit(): void {
@@ -131,8 +141,18 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     if (this._deptorData.debtorData.collectabilityStatus === null) {
       this.deptorData.debtorData.collectabilityStatus = '1';
     }
+    console.log('item', this.item);
+    console.log('deptor Data', this.deptorData);
+    console.log(this.genders);
   }
-
+  public countAge(): number {
+    let age: number;
+    age = 0;
+    if (this.item.dob) {
+      age = moment().diff(moment(this.item.dob), 'year');
+    }
+    return age;
+  }
   menghilang() {
     if (this.item.firstName === null) {
       this.item.firstName = '';
@@ -189,6 +209,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   public updateModel(): void {
     this.selectMaritalStatus.emit(_.find(this.maritalStatuses, { id: this.item.maritalStatus }));
+    this.selectGenders.emit(_.find(this.genders, { id: this.item.gender }));
   }
 
   initialize() {
@@ -206,5 +227,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   itemKey() {
     return this.item.id;
+  }
+  currencyInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return Number(num);
   }
 }

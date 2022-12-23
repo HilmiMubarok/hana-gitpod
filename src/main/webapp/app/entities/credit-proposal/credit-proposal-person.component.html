@@ -32,31 +32,6 @@
                   <ejs-radiobutton disabled label="Corporate" [(ngModel)]="deptorData.partyTypeId" [value]="'CORPORATE'"> </ejs-radiobutton>
                   <!-- </div> -->
                 </div>
-
-                <div class="col-6">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
-                      disabled
-                      class="mb-2 mt-2"
-                      [(ngModel)]="item.gender"
-                      name="gender"
-                      [value]="item.id"
-                      placeholder="Gender"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-dropdownlist>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Gender</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ item.gender }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
               </div>
               <div class="row my-3">
                 <div class="col">
@@ -183,7 +158,7 @@
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Alias Name</div>
+                      <div class="col-4">NPWP</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
                         {{ item.taxIdNumber }}
@@ -230,7 +205,7 @@
                       <div class="col-4">Handphone Number 1</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.debtorData.relationWithHanar }}
+                        {{ item.cellPhone1 }}
                       </div>
                     </div>
                   </section>
@@ -239,23 +214,19 @@
               <div class="row my-3">
                 <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      [(ngModel)]="deptorData.attributes['basicInformation'].pic"
-                      disabled
-                      name="pic"
-                      id="pic"
-                      placeholder="PIC"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-textbox>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Gender</mat-label>
+                      <mat-select [(ngModel)]="item.gender" disabled>
+                        <mat-option *ngFor="let item of genderss | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">PIC</div>
+                      <div class="col-4">Gender</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].pic }}
+                        {{ item.gender }}
                       </div>
                     </div>
                   </section>
@@ -329,32 +300,32 @@
                 </div>
               </div>
               <div class="row my-3">
-                <div class="col">
+                <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-datepicker
-                      disabled
-                      [(ngModel)]="item.thruDate"
-                      cssClass="e-outline"
+                      [(ngModel)]="item.idExpiryDate"
                       placeholder="ID Expire Date"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                    ></ejs-datepicker>
+                      disabled
+                    >
+                    </ejs-datepicker>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">ID Expire Date</div>
+                      <div class="col-6">ID Expire Date</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.thruDate }}
+                        {{ item.idExpiryDate }}
                       </div>
                     </div>
                   </section>
                 </div>
-                <div class="col">
+                <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [value]="item.pob | formatMediumDate"
+                      [value]="item.pob"
                       name="placeOfBirth"
                       id="placeOfBirth"
                       placeholder="Place of Birth"
@@ -375,16 +346,19 @@
                 </div>
               </div>
               <div class="row my-3">
-                <div class="col">
+                <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-datepicker
-                      disabled
-                      cssClass="e-outline"
-                      [value]="item.dob | formatMediumDate"
+                      [(ngModel)]="item.dob"
                       placeholder="Date Of Birth"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                    ></ejs-datepicker>
+                      [disabled]="true"
+                    >
+                    </ejs-datepicker>
+                    <mat-hint align="start"
+                      ><strong>{{ countAge() }} years old</strong>
+                    </mat-hint>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
@@ -392,70 +366,16 @@
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
                         {{ item.dob }}
+                        <strong>{{ countAge() }} years old</strong>
                       </div>
                     </div>
                   </section>
                 </div>
-                <div class="col">
-                  <div class="col-6">
-                    <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                      <ejs-textbox
-                        [(ngModel)]="deptorData.attributes['basicInformation'].fax"
-                        disabled
-                        placeholder="FAX"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                      >
-                      </ejs-textbox>
-                    </section>
-                    <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                      <div class="fontsebled row">
-                        <div class="col-4">FAX</div>
-                        <div class="col-md-auto">:</div>
-                        <div class="col col-lg-4">
-                          {{ deptorData.attributes['basicInformation'].fax }}
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-2">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox disabled [(ngModel)]="item.age" placeholder="Age" cssClass="e-outline" floatLabelType="Auto">
-                    </ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Age</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ item.age }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="col-4">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox disabled placeholder="Month" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Month</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ '' }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="col-3">
+                <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [multiline]="true"
-                      [value]="item.createdDate | formatMediumDate"
+                      [value]="deptorData.debtorData.customerSince | date: 'yyyy/MM/dd'"
                       placeholder="Existing Customer Since"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -467,21 +387,7 @@
                       <div class="col-4">Existing Customer Since</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.createdDate | formatMediumDate }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="col-3">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox disabled placeholder="Year" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Year</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ '' }}
+                        {{ deptorData.debtorData.customerSince | date: 'yyyy/MM/dd' }}
                       </div>
                     </div>
                   </section>
@@ -490,14 +396,58 @@
               <div class="row my-3">
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
+                    <ejs-textbox
                       disabled
-                      class="mb-2 mt-2"
-                      [(ngModel)]="item.maritalStatus"
-                      placeholder="Marital Status"
+                      [value]="item.pob"
+                      name="placeOfBirth"
+                      id="placeOfBirth"
+                      placeholder="Place of Birth"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                    ></ejs-dropdownlist>
+                    >
+                    </ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Place of Birth</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ item.pob }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-datepicker
+                      [(ngModel)]="deptorData.debtorData.debtorSince"
+                      placeholder="Existing Debtor Since"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      disabled
+                    >
+                    </ejs-datepicker>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-6">Existing Debtor Since</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.debtorSince }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Marital Status</mat-label>
+                      <mat-select [(ngModel)]="item.maritalStatus" disabled>
+                        <mat-option *ngFor="let item of maritalStatusess | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
@@ -509,41 +459,26 @@
                     </div>
                   </section>
                 </div>
-                <div class="col-3">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
+                <div class="col-6">
+                  <!-- <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-datepicker
                       disabled
-                      [multiline]="true"
-                      [value]="item.createdDate | formatMediumDate"
+                      [value]="deptorData.debtorData.debtorSince | date: 'yyyy/MM/dd'"
                       placeholder="Existing Debtor Since"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-textbox>
+                    </ejs-datepicker>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Existing Debtor Since</div>
+                      <div class="col-6">Existing Debtor Since</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.createdDate | formatMediumDate }}
+                        {{ deptorData.debtorData.debtorSince }}
                       </div>
                     </div>
-                  </section>
-                </div>
-                <div class="col-3">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox disabled placeholder="Year" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Year</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ '' }}
-                      </div>
-                    </div>
-                  </section>
+                  </section> -->
                 </div>
               </div>
               <div class="row my-3">
@@ -551,7 +486,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.attributes['basicInformation'].lineOfBusiness"
+                      [(ngModel)]="deptorData.debtorData.attributes['lobName']"
                       placeholder="Line of Business"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -563,7 +498,7 @@
                       <div class="col-4">Line of Business</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].lineOfBusiness }}
+                        {{ deptorData.debtorData.attributes['lobName'] }}
                       </div>
                     </div>
                   </section>
@@ -572,8 +507,8 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.attributes['basicInformation'].accountNummbUsd"
-                      placeholder="Account Number (USD)"
+                      [(ngModel)]="deptorData.debtorData.attributes['lobCode']"
+                      placeholder="Line of Business Code"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
@@ -581,10 +516,10 @@
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Account Number (USD)</div>
+                      <div class="col-4">Line of Business Code</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].accountNummbUsd }}
+                        {{ deptorData.debtorData.attributes['lobCode'] }}
                       </div>
                     </div>
                   </section>
@@ -595,7 +530,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.attributes['basicInformation'].codeLbu"
+                      [(ngModel)]="deptorData.debtorData.gnrlBankReportCode"
                       placeholder="Kode LBU"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -607,7 +542,7 @@
                       <div class="col-4">Kode LBU</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].codeLbu }}
+                        {{ deptorData.debtorData.gnrlBankReportCode }}
                       </div>
                     </div>
                   </section>
@@ -616,7 +551,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="item.abbreviation"
+                      [(ngModel)]="deptorData.debtorData.accountNumberIDR"
                       placeholder="Account Number (IDR)"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -628,7 +563,7 @@
                       <div class="col-4">Account Number (IDR)</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.abbreviation }}
+                        {{ deptorData.debtorData.accountNumberIDR }}
                       </div>
                     </div>
                   </section>
@@ -639,7 +574,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.attributes['basicInformation'].lbuRemark"
+                      [(ngModel)]="deptorData.debtorData.gnrlBankReport"
                       placeholder="LBU Remark"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -652,17 +587,17 @@
                       <div class="col-4">LBU Remark</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].lbuRemark }}
+                        {{ deptorData.debtorData.gnrlBankReport }}
                       </div>
                     </div>
                   </section>
                 </div>
-                <!-- <div class="col">
+                <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="item.creditRating"
-                      placeholder="Credit Scoring"
+                      [(ngModel)]="deptorData.debtorData.accountNumberUSD"
+                      placeholder="Account Number (USD)"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
@@ -670,14 +605,14 @@
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Credit Scoring</div>
+                      <div class="col-4">Account Number (USD)</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.creditRating }}
+                        {{ deptorData.debtorData.accountNumberUSD }}
                       </div>
                     </div>
                   </section>
-                </div> -->
+                </div>
               </div>
 
               <div class="row my-3">
@@ -685,7 +620,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.attributes['basicInformation'].sidCode"
+                      [(ngModel)]="deptorData.debtorData.custInfoSystemCode"
                       placeholder="SID Code"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -697,7 +632,7 @@
                       <div class="col-4">SID Code</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].sidCode }}
+                        {{ deptorData.debtorData.custInfoSystemCode }}
                       </div>
                     </div>
                   </section>
@@ -706,7 +641,7 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.attributes['basicInformation'].sid"
+                      [(ngModel)]="deptorData.debtorData.custInfoSystemName"
                       placeholder="SID"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -718,7 +653,7 @@
                       <div class="col-4">SID</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].sid }}
+                        {{ deptorData.debtorData.custInfoSystemName }}
                       </div>
                     </div>
                   </section>
@@ -733,7 +668,6 @@
                 </div>
                 <div class="col-2">
                   <ejs-radiobutton
-                    disabled
                     [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
                     [value]="'New'"
                     name="customer"
@@ -743,7 +677,6 @@
                 </div>
                 <div class="col-2">
                   <ejs-radiobutton
-                    disabled
                     [(ngModel)]="deptorData.attributes['basicInformation'].customerStatus"
                     [value]="'Existing'"
                     name="customer"
@@ -754,21 +687,20 @@
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-dropdownlist
-                      class="mb-2 mt-2"
-                      [(ngModel)]="deptorData.attributes['basicInformation'].categoryDebitur"
-                      [dataSource]="categoryDebitur"
-                      placeholder="Category Debitur"
+                      [dataSource]="callReportCategoryData"
+                      [(ngModel)]="deptorData.debtorData.callReportCategory"
+                      placeholder="Call Report Category"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      disabled
-                    ></ejs-dropdownlist>
+                    >
+                    </ejs-dropdownlist>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Category Debitur</div>
+                      <div class="col-4">Call Report Category</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].categoryDebitur }}
+                        {{ deptorData.debtorData.callReportCategory }}
                       </div>
                     </div>
                   </section>
@@ -778,7 +710,7 @@
                 <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-numerictextbox
-                      [(ngModel)]="deptorData.debtorData.annualSales"
+                      [ngModel]="deptorData.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
                       placeholder="Penjualan Tahunan"
                       cssClass="e-outline"
                       floatLabelType="Auto"
@@ -800,6 +732,139 @@
                 </div>
                 <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      cssClass="e-outline"
+                      [(ngModel)]="deptorData.debtorData.correspondenceAddressDesc"
+                      placeholder="Correspondence Address"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      disabled
+                    >
+                    </ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Correspondence Address</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.correspondenceAddressDesc }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Klasifikasi UMKM</mat-label>
+                      <mat-select [(ngModel)]="deptorData.debtorData.umkmClassification" [disabled]="true">
+                        <mat-option value="">Please Select</mat-option>
+                        <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Klasifikiasi UMKM</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.umkmClassification }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-dropdownlist
+                      [dataSource]="collectabilityStatusData"
+                      [(ngModel)]="deptorData.debtorData.collectabilityStatus"
+                      placeholder="Collectability Status"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      disabled
+                    >
+                    </ejs-dropdownlist>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Collectability Status</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.collectabilityStatus }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Modal Disetor</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        [ngModel]="deptorData.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
+                        (ngModelChange)="deptorData.debtorData.depositCapital = currencyInputChanged($event)"
+                      />
+                    </mat-form-field>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Modal Disetor</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.depositCapital }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      [(ngModel)]="deptorData.debtorData.pep"
+                      placeholder="PEP"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      disabled
+                    >
+                    </ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">PEP</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.pep }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Category Debitur</mat-label>
+                      <mat-select [(ngModel)]="deptorData.debtorData.umkmCategory" [disabled]="true">
+                        <mat-option value="">Please Select</mat-option>
+                        <mat-option *ngFor="let item of categoryDebtor | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Category Debitur</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ deptorData.debtorData.umkmCategory }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-6">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-dropdownlist
                       [dataSource]="ifcRiskCategoryData"
                       [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
@@ -815,96 +880,6 @@
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
                         {{ deptorData.debtorData.ifcRiskCategory }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
-                      [dataSource]="collectabilityStatusData"
-                      [(ngModel)]="deptorData.debtorData.collectabilityStatus"
-                      placeholder="Collectability Status"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-dropdownlist>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Collectability Status</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.debtorData.collectabilityStatus }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="col">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
-                      [dataSource]="umkm"
-                      [(ngModel)]="deptorData.attributes['basicInformation'].umkm"
-                      placeholder="Klasifikiasi UMKM"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      disabled
-                    >
-                    </ejs-dropdownlist>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Klasifikiasi UMKM</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].umkm }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-6">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
-                      [dataSource]="report"
-                      [(ngModel)]="deptorData.attributes['basicInformation'].report"
-                      placeholder="Call Report Category"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      disabled
-                    >
-                    </ejs-dropdownlist>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">Call Report Category</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.attributes['basicInformation'].report }}
-                      </div>
-                    </div>
-                  </section>
-                </div>
-                <div class="col-6">
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
-                      disabled
-                      [(ngModel)]="deptorData.debtorData.pep"
-                      placeholder="PEP"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-textbox>
-                  </section>
-                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <div class="fontsebled row">
-                      <div class="col-4">PEP</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.debtorData.pep }}
                       </div>
                     </div>
                   </section>
