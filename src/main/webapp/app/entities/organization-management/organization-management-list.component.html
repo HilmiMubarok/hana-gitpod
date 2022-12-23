@@ -73,7 +73,7 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right">
+  <mat-card-actions align="right" [hidden]="view">
     <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new management data</button>
   </mat-card-actions>
 </mat-card>
@@ -158,7 +158,7 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right">
+  <mat-card-actions align="right" [hidden]="view">
     <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new shareholder</button>
   </mat-card-actions>
 </mat-card>
@@ -225,7 +225,7 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right">
+  <mat-card-actions align="right" [hidden]="view">
     <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new control person</button>
   </mat-card-actions>
 </mat-card>
