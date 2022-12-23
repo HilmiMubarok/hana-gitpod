@@ -694,7 +694,7 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
-    PartyCifCustomerManagementComponent, //add
+    PartyCifCustomerManagementComponent,
     OrganizationManagementListComponent,
     DocumentComponent,
     PersonEmployeeViewComponent, // Remove Me
