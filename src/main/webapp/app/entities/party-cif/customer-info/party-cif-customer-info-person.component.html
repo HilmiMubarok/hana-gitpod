@@ -163,6 +163,12 @@
         <input matInput type="text" [(ngModel)]="person.cellPhone3" [maxlength]="50" [disabled]="true" />
       </mat-form-field>
     </div>
+    <div class="form-group" *ngIf="spouse !== 'spouse'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Home Phone Number</mat-label>
+        <input matInput type="text" [(ngModel)]="person.homePhone" [maxlength]="50" [disabled]="true" />
+      </mat-form-field>
+    </div>
     <div class="form-group">
       <!-- <mat-form-field class="w-100" appearance="outline">
         <mat-label>Handphone Number 3</mat-label>
