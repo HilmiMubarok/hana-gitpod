@@ -30,6 +30,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public rateType: string;
   public dateIndex: number;
   public facilityType: string;
+  public statusFacilityValue: string;
+  public statusFacilityDisabled: boolean;
   @Input()
   get collateral() {
     return this._collateral;
@@ -222,6 +224,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
   // public typeListControl = new FormControl(this.listOfValue.applicationTypeList['New']);
   ngOnInit(): void {
+    this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
 
@@ -544,7 +547,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public datacoba = '';
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
-      console.log('res body', res);
       for (let i = 0; i < res.body.length; i++) {
         // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_USD
         if (res.body[i].id === 'LATE_PAYMENT_FEE_USD') {
@@ -613,7 +615,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
           }
         }
       }
-      console.log('latepayment', this.applicationProduct.attributes['latePaymentFee']);
     });
     // this.getObligation();
   }
@@ -636,7 +637,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.applicationProduct.attributes['facilityType'] === 'IL' ||
         this.applicationProduct.attributes['facilityType'] === 'OD'
       ) {
-        console.log('ini facility', this.applicationProduct.attributes['facilityType']);
         // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
         this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationCashLoan;
       }
@@ -644,7 +644,26 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationNonCashLoan;
       }
     }
-    console.log('cash loan', this.applicationProduct.attributes['earlyRepaymentPenalty']);
-    console.log('cash non loan', this.obligationNonCashLoan);
+  }
+
+  public applicationTypeChange(event: any) {
+    this.statusFacilityValue = event.value;
+    if (this.statusFacilityValue === 'Existing') {
+      this.myControl.disable();
+      this.statusFacilityDisabled = true;
+    } else {
+      this.myControl.enable();
+      this.statusFacilityDisabled = false;
+    }
+  }
+
+  cekApplicationType() {
+    if (this.applicationProduct.attributes['applicationType'] === 'Existing') {
+      this.myControl.disable();
+      this.statusFacilityDisabled = true;
+    } else {
+      this.myControl.enable();
+      this.statusFacilityDisabled = false;
+    }
   }
 }
