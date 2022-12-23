@@ -251,4 +251,16 @@ export const surveyBatchRoute: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: ':id/editNew/:idParent',
+    component: SurveyBatchCollateralAppraisalMainComponent,
+    resolve: {
+      content: CollateralAppraisalResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.collateralAppraisal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
 ];
