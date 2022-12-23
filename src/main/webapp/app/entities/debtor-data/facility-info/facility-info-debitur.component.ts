@@ -16,7 +16,6 @@ export class FacilityInfoDebiturComponent {
   public dataPartySlik: IPartySlik[];
   public _data = [];
   public _dataGroup = [];
-  public aYear: any;
   public availLimit: any;
 
   public displayColumns: string[] = [
@@ -32,6 +31,7 @@ export class FacilityInfoDebiturComponent {
     'tenor',
     'lastKol',
   ];
+  public aYear: any = [];
 
   @Input()
   get data() {
@@ -44,9 +44,7 @@ export class FacilityInfoDebiturComponent {
     for (let i = 0; i < this._data.length; i++) {
       const date1 = new Date(this._data[i].FXFIG_TRX_DT);
       const date2 = new Date(this._data[i].FILN10_TOT_EXP_IL);
-      this.aYear = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
-      const availLimit = this._data[i].LNB_BASE_LON_JAN + this._data[i].FILN10_CONTRACT_AMT;
-      this.availLimit = availLimit.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      this.aYear[i] = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
     }
   }
 
