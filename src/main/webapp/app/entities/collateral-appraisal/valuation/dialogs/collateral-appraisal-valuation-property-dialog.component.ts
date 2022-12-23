@@ -47,7 +47,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
   public getMarketValueImbBuilding() {
     this.collateralProp.propertyMarketValue = this.collateralProp.imbArea * this.collateralProp.propertyMarketValuePerMeter;
   }
-
+ 
   public totalArea: number;
   public countTotalArea(): number {
     this.totalArea = 0;
@@ -66,6 +66,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
 
     return this.totalArea;
   }
+
   gakbisa() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;

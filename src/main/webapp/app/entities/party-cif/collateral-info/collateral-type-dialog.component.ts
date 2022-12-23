@@ -9,16 +9,47 @@ import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE } from 'app/shared/co
 import { OptionNode } from 'app/shared/model/option-node.model';
 import { STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { FormControl } from '@angular/forms';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 @Component({
   selector: 'jhi-collateral-type-dialog',
   templateUrl: './collateral-type-dialog.component.html',
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public _collateral: ICollateral;
   public _disabledOpt: any;
   public _hiddenOpt = true;
   public collateralStatus: any;
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
   @Input()
   get collateral() {
     return this._collateral;
