@@ -17,6 +17,8 @@ import {
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
 import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-bellow-grid-history',
@@ -45,7 +47,9 @@ export class BellowGridHistoryComponent implements OnChanges, OnInit {
     'action',
   ];
 
+  public parsedData: any;
   private bindingTypeVal: any;
+  public dataItem: ICollateral[];
   public hitungMV = [];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -71,7 +75,8 @@ export class BellowGridHistoryComponent implements OnChanges, OnInit {
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService
   ) {
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.collateralProperties = [];
@@ -80,7 +85,27 @@ export class BellowGridHistoryComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
+
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+
     this.isViewMode && this.displayedColumns.pop();
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.dataItem = res.body;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,6 +115,9 @@ export class BellowGridHistoryComponent implements OnChanges, OnInit {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
+          if (this.creditProposal.cif) {
+            this.loadByPartyId(this.creditProposal.cif.partyId);
+          }
         }
       }
     }
@@ -164,8 +192,66 @@ export class BellowGridHistoryComponent implements OnChanges, OnInit {
       }
     });
   }
-  countKJJPLV(element: ICollateral) {
-    throw new Error('Method not implemented.');
+  countKJJPLV(collateral: ICollateral) {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    result = 0;
+
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    } else if (
+      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    }
+    return result;
   }
 
   countKJJPMV(collateral: ICollateral) {

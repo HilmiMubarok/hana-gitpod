@@ -292,13 +292,8 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Certificates Due Date</mat-label>
-                <input [matDatepicker]="dueDate" matInput type="text" [(ngModel)]="properties.dueDate" disabled />
-                <mat-datepicker #dueDate disabled="false"></mat-datepicker>
-                <mat-datepicker-toggle matSuffix [for]="dueDate" disabled="true"></mat-datepicker-toggle>
-                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-              </mat-form-field>
+              <mat-label>Certificates Due Date</mat-label>
+              <div [innerHTML]="getCertificateDueDate()"></div>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -512,28 +507,6 @@
         </div>
 
         <div class="col-6">
-          <!-- <div class="form-group">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Binding Type</mat-label>
-                <mat-select [(ngModel)]="binding.bindingType" name="facilityType ">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <div class="fontsebled row">
-                <div class="col-4">Binding Type</div>
-                <div class="col-md-auto">:</div>
-                <div class="col">
-                  {{ binding.bindingType }}
-                </div>
-              </div>
-            </section>
-          </div> -->
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
@@ -582,7 +555,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Binding Type</mat-label>
-                  <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" [disabled]="dataSource()">
+                  <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType">
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of bindingTypesHobies | keyvalue" [value]="item.key">
                       {{ item.value }}
@@ -620,7 +593,8 @@
   </mat-card>
   <div>
     <mat-label>Mapping to Facility</mat-label>
-    <jhi-mapping-facility (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-facility>
+    <jhi-mapping-facility [creditProposal]="creditProposal" (outputCreditProposalMappingData)="getCreditProposalMappingData($event)">
+    </jhi-mapping-facility>
   </div>
   <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
 </mat-dialog-content>
