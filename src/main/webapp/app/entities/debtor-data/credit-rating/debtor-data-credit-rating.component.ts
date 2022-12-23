@@ -61,7 +61,7 @@ export class DebtorDataCreditRatingViewComponent extends AbstractEntityBaseViewC
 
   parse() {
     this.partyCif.creditRatings[0].idrMioLLL =
-      Number(this.partyCif.creditRatings[0].internalMaxLLL) * Number(this.partyCif.creditRatings[0].equityPosition);
-    return Number(this.partyCif.creditRatings[0].internalMaxLLL) * Number(this.partyCif.creditRatings[0].equityPosition);
+      (Number(this.partyCif.creditRatings[0].equityPosition) * Number(this.partyCif.creditRatings[0].internalMaxLLL)) / 100;
+    return (Number(this.partyCif.creditRatings[0].equityPosition) * Number(this.partyCif.creditRatings[0].internalMaxLLL)) / 100;
   }
 }
