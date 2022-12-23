@@ -4,29 +4,33 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Complete Name</mat-label>
-        <input matInput type="text" [(ngModel)]="person.firstName" disabled />
+        <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Number</mat-label>
-        <input matInput type="text" [(ngModel)]="person.personalIdNumber" disabled />
+        <input matInput type="text" [(ngModel)]="person.personalIdNumber" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Identity Type</mat-label>
-          <input matInput type="text" [(ngModel)]="person.personalIdType" disabled />
+          <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="dataSource()" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Gender</mat-label>
-        <mat-select [(ngModel)]="person.gender" disabled>
+        <mat-select [(ngModel)]="person.gender" [disabled]="dataSource()">
           <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
         </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
   </div>
@@ -36,26 +40,29 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date of Birth</mat-label>
-        <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" />
-        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-        <mat-datepicker #dob></mat-datepicker>
+        <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" [disabled]="dataSource()" />
+        <mat-datepicker-toggle matSuffix [for]="dob" [disabled]="dataSource()"></mat-datepicker-toggle>
+        <mat-datepicker #dob [disabled]="dataSource()"></mat-datepicker>
         <mat-hint align="start"
           ><strong>{{ countAge() }} years old</strong>
         </mat-hint>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>ID Expiry Date</mat-label>
-        <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" disabled [disabled]="spouseData()" />
-        <mat-datepicker-toggle matSuffix [for]="idExpiryDate"></mat-datepicker-toggle>
-        <mat-datepicker #idExpiryDate disabled="true"></mat-datepicker>
+        <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" [disabled]="dataSource()" />
+        <mat-datepicker-toggle matSuffix [for]="idExpiryDate" [disabled]="dataSource()"></mat-datepicker-toggle>
+        <mat-datepicker #idExpiryDate [disabled]="dataSource()"></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>NPWP</mat-label>
-        <input matInput type="text" [(ngModel)]="person.taxIdNumber" disabled />
+        <input matInput type="text" [(ngModel)]="person.taxIdNumber" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
   </div>
