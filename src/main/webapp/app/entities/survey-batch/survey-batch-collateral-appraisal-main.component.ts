@@ -73,6 +73,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   }
 
   private id: number;
+  private idParent: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   private currentAccount: Account;
   public accountAuthorities?: Object[];
@@ -101,6 +102,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
+      this.idParent = params['idParent'];
     });
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.queryParams.subscribe(params => {
@@ -269,12 +271,12 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
             }
           } else {
             this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-              this.router.navigate(['./collateral-appraisal']);
+              this.router.navigate(['./batch-apprisal/', this.idParent, 'edit']);
             });
           }
         } else {
           this.collateralAppraisalProcessService.processTask(_res).subscribe(res => {
-            this.router.navigate(['./collateral-appraisal']);
+            this.router.navigate(['./batch-apprisal/', this.idParent, 'edit']);
           });
         }
       }
@@ -544,7 +546,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
 
   public routeSubMenu(menu: object): void {
     console.log('menu', menu);
-    this.router.navigate(['/batch-apprisal', this.id, 'editNew'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['/batch-apprisal', this.id, 'editNew', this.idParent], { queryParams: { subroute: menu['id'] } });
   }
   // public routeSubMenu(menu: object): void {
   //   const routeHelper =
