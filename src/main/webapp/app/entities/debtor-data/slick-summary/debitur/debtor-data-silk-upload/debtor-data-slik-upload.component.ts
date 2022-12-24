@@ -22,6 +22,7 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   public documentTypes: any;
   public multiple: Boolean = false;
   public indeks = 0;
+  public mode: 'add' | 'view'
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { cif: string },
@@ -32,6 +33,7 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   ) {
     this.document = new Document();
     this.file = null;
+
   }
 
   ngOnInit(): void {
@@ -83,7 +85,8 @@ export class DebtorDataSlikUploadComponent implements OnInit {
             verticalPosition: 'top',
             duration: 3000,
           });
-          this._dialog.close(res);
+         
+          this._dialog.close({resData: res, file: this.files});
         }
       });
     }
