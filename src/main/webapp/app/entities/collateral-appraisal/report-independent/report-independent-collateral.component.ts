@@ -60,9 +60,11 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
       console.log('result', result);
       this.mData = result.body.attributes;
       this.mData.remark = result.body.remark;
-      // this.mData.reportDate = result.body.repor
       this.mData.marketValue = result.body.collateral.marketValue;
-      // this.mData.reportDate = result.body.reportDate;
+      this.mData.apprReportNum = result.body.apprReportNum;
+      this.mData.apprDate = result.body.apprDate;
+      this.mData.reportDate = result.body.reportDate;
+      this.mData.reviewedBy = result.body.reviewedBy;
     });
   }
 

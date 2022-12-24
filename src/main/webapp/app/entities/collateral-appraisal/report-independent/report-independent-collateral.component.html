@@ -15,7 +15,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Report No</mat-label>
-              <input matInput type="text" [disabled]="true" />
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.apprReportNum" />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -30,7 +30,7 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Date</mat-label>
               <!-- [(ngModel)]="partner.fromDate"  -->
-              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" />
+              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [(ngModel)]="mData.apprDate" />
               <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
               <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
               <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -41,7 +41,7 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Report Date</mat-label>
                 <!-- [(ngModel)]="partner.fromDate"  -->
-                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" />
+                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [(ngModel)]="mData.reportDate" />
                 <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -51,7 +51,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Review By</mat-label>
-              <input matInput type="text" [disabled]="true" />
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.reviewedBy" />
             </mat-form-field>
           </div>
         </div>

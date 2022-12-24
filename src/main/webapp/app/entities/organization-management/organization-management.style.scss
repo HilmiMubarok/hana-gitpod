@@ -8,3 +8,23 @@
 .nominal {
   text-align: left !important;
 }
+.close.mat-button {
+  width: 10px;
+}
+
+.button-close {
+  margin-left: auto;
+  opacity: 0.5;
+  width: 15px;
+}
+
+.button-close:hover {
+  color: white;
+  background-color: rgb(195, 35, 35);
+  opacity: 1;
+  width: 15px;
+}
+
+.style-close {
+  text-align: right;
+}

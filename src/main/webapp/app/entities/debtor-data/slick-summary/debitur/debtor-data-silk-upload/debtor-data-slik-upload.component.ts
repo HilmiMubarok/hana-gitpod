@@ -5,9 +5,11 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Document, IDocument } from '../../../../document/document.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
+import { IPDFSlik, PDFSlik } from 'app/shared/ocr/pdf-slik.model';
+import { PDFService } from 'app/shared/ocr/pdf.service';
 
 @Component({
   selector: 'jhi-debtor-data-slik-upload',
@@ -24,16 +26,17 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   public indeks = 0;
   public mode: 'add' | 'view'
 
+  private partyId: string;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { cif: string },
+    @Inject(MAT_DIALOG_DATA) public data: { cif: string; partyId: string },
     private _dialog: MatDialogRef<DebtorDataSlikUploadComponent>,
     private _snackBar: MatSnackBar,
-    private accountService: AccountService,
-    protected http?: HttpClient
+    private pdfService: PDFService
   ) {
     this.document = new Document();
     this.file = null;
-
+    this.partyId = this.data.partyId;
   }
 
   ngOnInit(): void {
@@ -53,16 +56,11 @@ export class DebtorDataSlikUploadComponent implements OnInit {
     return res;
   }
 
-  update(entity: any, params?: any): Observable<HttpResponse<any>> {
-    const options = createRequestOption(params);
-    return this.http
-      .post<any>('/services/ocr/api/pdf/extractText/' + this.data.cif, entity, { observe: 'response', params: options })
-      .pipe(map((res: HttpResponse<any>) => this.convertDateFromServer(res)))
-      .pipe(map((res: HttpResponse<any>) => this.preLoadItem(res)));
+  private async update(entity: any): Promise<IPDFSlik[]> {
+    return (await firstValueFrom(this.pdfService.extractSlikFromFile(entity, {}, this.partyId))).body;
   }
 
-  public save(): void {
-    console.log('this.files', this.files);
+  public async save(): Promise<void> {
     let flag = 0;
     if (this.files.length === 0) {
       this._snackBar.open('Choose file for upload', null, {
@@ -75,20 +73,17 @@ export class DebtorDataSlikUploadComponent implements OnInit {
     for (let i = 0; i < this.files.length; i++) {
       const formData = new FormData();
       formData.append('file', this.files[i]);
-      console.log('formData', formData);
-      this.update(formData).subscribe(res => {
-        console.log('res', res);
-        flag++;
-        if (flag === this.files.length) {
-          this._snackBar.open('Upload Berhasil', null, {
-            horizontalPosition: 'right',
-            verticalPosition: 'top',
-            duration: 3000,
-          });
-         
-          this._dialog.close({resData: res, file: this.files});
-        }
-      });
+      const result: IPDFSlik[] = await this.update(formData);
+      flag++;
+      if (flag === this.files.length) {
+        this._snackBar.open('Upload Berhasil', null, {
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        this._dialog.close({data: result, files: this.files});
+      }
+      return;
     }
   }
 
@@ -102,7 +97,7 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   }
 
   onNoClick(): void {
-    console.log("click");
+    console.log('click');
     this._dialog.close();
   }
 }

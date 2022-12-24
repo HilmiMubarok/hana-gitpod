@@ -1,6 +1,7 @@
 export enum MICROSERVICENAME {
   LOS = 'services/los',
   MASTERCONTROL = 'services/mastercontrol',
+  OCR = 'services/ocr',
 }
 
 export const MINIMUM_COMPARISON_DATA = 3;

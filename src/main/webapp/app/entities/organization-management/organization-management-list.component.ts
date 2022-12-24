@@ -1,7 +1,8 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { OrganizationManagementDialogComponent } from './organization-management-dialog.component';
 import {
@@ -16,7 +17,10 @@ import { OrganizationManagementService } from './organization-management.service
   selector: 'jhi-organization-management-list',
   templateUrl: './organization-management-list.component.html',
 })
-export class OrganizationManagementListComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+export class OrganizationManagementListComponent
+  extends AbstractEntityMaterialComponent<IOrganizationManagement>
+  implements OnChanges, OnInit
+{
   @Input() public cif: string;
   @Input() public managementType: string;
 
@@ -29,11 +33,13 @@ export class OrganizationManagementListComponent extends AbstractEntityMaterialC
   }
 
   public displayedColumns: string[];
-
+  public pacth: any;
+  public view: boolean;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 10;
@@ -47,6 +53,9 @@ export class OrganizationManagementListComponent extends AbstractEntityMaterialC
       this.loadDataBy(this.cif, this.managementType);
       this.defineDisplayedColumns(this.managementType);
     }
+  }
+  ngOnInit(): void {
+    this.removefield();
   }
 
   private defineDisplayedColumns(param: string) {
@@ -87,7 +96,12 @@ export class OrganizationManagementListComponent extends AbstractEntityMaterialC
       param.attributes = new OrganizationManagementAttributeShareholder();
     }
   }
-
+  public removefield() {
+    this.pacth = this.router.url.split('/')[1];
+    if (this.pacth === 'credit-proposal-status') {
+      this.view = true;
+    }
+  }
   public openDialog(param: IOrganizationManagement = null): void {
     let orgMgm: IOrganizationManagement;
     orgMgm = new OrganizationManagement();

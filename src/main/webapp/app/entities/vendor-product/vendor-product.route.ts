@@ -10,9 +10,6 @@ import { map, mergeMap } from 'rxjs/operators';
 
 import { IVendorProduct, VendorProduct } from './vendor-product.model';
 import { VendorProductService } from './vendor-product.service';
-import { VendorProductComponent } from './vendor-product.component';
-import { VendorProductDetailComponent } from './vendor-product-detail.component';
-import { VendorProductUpdateComponent } from './vendor-product-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class VendorProductResolve implements Resolve<IVendorProduct> {
@@ -63,54 +60,4 @@ export class VendorProductResolve implements Resolve<IVendorProduct> {
   }
 }
 
-export const vendorProductRoute: Routes = [
-  {
-    path: '',
-    component: VendorProductComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
-      pageTitle: 'losgwApp.vendorProduct.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: VendorProductDetailComponent,
-    resolve: {
-      vendorProduct: VendorProductResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.vendorProduct.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: VendorProductUpdateComponent,
-    resolve: {
-      content: VendorProductResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.vendorProduct.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: VendorProductUpdateComponent,
-    resolve: {
-      content: VendorProductResolve,
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'losgwApp.vendorProduct.home.title',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-];
+export const vendorProductRoute: Routes = [];
