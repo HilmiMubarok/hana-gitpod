@@ -83,13 +83,13 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
 
   parse() {
-    this.creditRatings.idrMioLLL = (Number(this.creditRatings.equityPosition) * Number(this.creditRatings.internalMaxLLL)) / 100;
-    return (Number(this.creditRatings.equityPosition) * Number(this.creditRatings.internalMaxLLL)) / 100;
+    this.creditRatings.idrMioLLL = Number(this.creditRatings.equityPosition) * (Number(this.creditRatings.internalMaxLLL) / 100);
+    return Number(this.creditRatings.equityPosition) * (Number(this.creditRatings.internalMaxLLL) / 100);
   }
 
   parseCif() {
-    this.creditRatings.idrMioLLL = (Number(this.creditRatings.equityPosition) * Number(this.creditRatings.internalMaxLLL)) / 100;
-    return (Number(this.creditRatings.equityPosition) * Number(this.creditRatings.internalMaxLLL)) / 100;
+    this.creditRatings.idrMioLLL = Number(this.creditRatings.equityPosition) * (Number(this.creditRatings.internalMaxLLL) / 100);
+    return Number(this.creditRatings.equityPosition) * (Number(this.creditRatings.internalMaxLLL) / 100);
   }
   public industrys: string;
   ngOnInit() {
