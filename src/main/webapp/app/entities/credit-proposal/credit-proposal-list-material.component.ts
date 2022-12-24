@@ -118,16 +118,15 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     return _status;
   }
 
-  public chipClick(option: Object): void {
+  public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
-      this.clickedChip = '';
+      this.clickedChip = {
+        id: '',
+        label: '',
+      };
     } else {
-      if (option['id'] === 'CP_DRAFT') {
-        this.clickedChip = { id: 'DRAFT', label: 'Draft' };
-      } else {
-        this.clickedChip = option;
-      }
+      this.clickedChip = option;
     }
     this.loadAll();
   }
@@ -147,16 +146,19 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   private checkReturnStatusDescription(data: ICreditProposal[]) {
-	if (data.length > 0) {
+    if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
-        data[i].statusDescription = data[i].statusDescription.substring(0,2) === 'Ol' ? data[i].statusDescription.substring(3,data[i].statusDescription.length) : data[i].statusDescription;
-	  }
-	}
-	return data;
+        data[i].statusDescription =
+          data[i].statusDescription.substring(0, 2) === 'Ol'
+            ? data[i].statusDescription.substring(3, data[i].statusDescription.length)
+            : data[i].statusDescription;
+      }
+    }
+    return data;
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
-	let forCheckedItems = [];
+    let forCheckedItems = [];
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
