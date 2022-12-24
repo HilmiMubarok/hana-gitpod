@@ -204,7 +204,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       this.storageService.getBucketName().subscribe((response: any) => {
    
         this.storageService.getObjects(response.body.bucket, predicate).subscribe((res:any) => {
-        console.log('ikeh', res.body)
+      
        for (let i = 0; i < res.body.length; i++) {
             if (res.body[i].tags.managementType === this.managementType) {
               this.folders.push(res.body[i])
