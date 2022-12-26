@@ -9,16 +9,16 @@ export interface IPostalAddress {
   contactTypeDescription?: string;
   contactTypeId?: string;
   purposes?: IPurposeType[];
-  countryDescription?: string;
+  countryName?: string;
   countryId?: number;
-  provinceDescription?: string;
+  provinceName?: string;
   provinceId?: number;
   postalCode?: string;
-  cityDescription?: string;
+  cityName?: string;
   cityId?: number;
-  districtDescription?: string;
+  districtName?: string;
   districtId?: number;
-  villageDescription?: string;
+  villageName?: string;
   villageId?: number;
   rt?: string;
   rw?: string;
@@ -34,16 +34,16 @@ export class PostalAddress implements IPostalAddress {
     public contactTypeDescription?: string,
     public contactTypeId?: string,
     public purposes?: IPurposeType[],
-    public countryDescription?: string,
+    public countryName?: string,
     public countryId?: number,
-    public provinceDescription?: string,
+    public provinceName?: string,
     public provinceId?: number,
     public postalCode?: string,
-    public cityDescription?: string,
+    public cityName?: string,
     public cityId?: number,
-    public districtDescription?: string,
+    public districtName?: string,
     public districtId?: number,
-    public villageDescription?: string,
+    public villageName?: string,
     public villageId?: number,
     public rt?: string,
     public rw?: string
