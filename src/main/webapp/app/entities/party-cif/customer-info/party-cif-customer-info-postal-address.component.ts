@@ -11,9 +11,8 @@ import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
   templateUrl: './party-cif-customer-info-postal-address.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressComponent
-  extends AbstractEntityViewPageComponent<IPartyPostalAddress>
-  implements OnInit, OnChanges
+// export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> implements OnInit, OnChanges
+export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress>
 {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
@@ -46,18 +45,18 @@ export class PartyCifCustomerInfoPostalAddressComponent
     this.districts = [];
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  /* ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyPostalAddress']) {
       this.loadProvince(this.partyPostalAddress.address.countryId);
       this.loadCity(this.partyPostalAddress.address.provinceId);
       this.loadDistrict(this.partyPostalAddress.address.cityId);
       this.loadVillage(this.partyPostalAddress.address.districtId);
     }
-  }
+  } */
 
-  ngOnInit(): void {
+  /* ngOnInit(): void {
     this.loadCountry();
-  }
+  } */
 
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
     if (param.length > 0) {

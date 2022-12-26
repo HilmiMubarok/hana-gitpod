@@ -46,6 +46,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 @Component({
   selector: 'jhi-survey-batch-edit-process',
   templateUrl: './survey-batch-edit-process.component.html',
+  styleUrls: ['./survey-batch-edit.css'],
 })
 export class SurveyBatchEditProcessComponent implements OnInit {
   public wilayahKotaExternalValue?: string;

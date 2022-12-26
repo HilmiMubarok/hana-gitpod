@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 
 @Component({
   selector: 'jhi-total-exposure',
@@ -124,8 +125,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
               parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN10_ROLL_GAP_GB;
-              parsed.Provision = source[y].PROVISION_FEE + source[y].PROVISION_FEE_TYPE;
-              parsed.AdminFee = source[y].ADMIN_FEE + source[y].ADMIN_FEE_TYPE;
+              parsed.Provision = source[y].PROVISION_FEE_TYPE + source[y].PROVISION_FEE;
+              parsed.AdminFee = source[y].ADMIN_FEE_TYPE + source[y].ADMIN_FEE;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
@@ -400,7 +401,38 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.ccy = this.creditProposal.products[0].attributes.currency;
   }
 
-  print() {
-    // console.log('item nih', this._creditProposal);
+  public getCurrency1(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+      return 'IDR';
+    }
+
+    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+      return 'USD';
+    }
+    return '';
+  }
+
+  public getCurrency2(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+      return '%p.a';
+    }
+    return '';
+  }
+  public getCurrency3(element: IApplicationProduct) {
+    if (element.attributes.adminFeeRateAmountType === 'Amount IDR') {
+      return 'IDR';
+    }
+
+    if (element.attributes.adminFeeRateAmountType === 'Amount USD') {
+      return 'USD';
+    }
+    return '';
+  }
+
+  public getCurrency4(element: IApplicationProduct) {
+    if (element.attributes.adminFeeRateAmountType === '%p.a') {
+      return '%p.a';
+    }
+    return '';
   }
 }

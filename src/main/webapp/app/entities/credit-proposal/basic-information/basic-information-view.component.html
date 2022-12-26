@@ -62,8 +62,30 @@
       <jhi-party-cif-customer-info-postal-address
         [disabled]="true"
         [partyPostalAddress]="generalLocation"
-        [partyCif]="partyCif"
       ></jhi-party-cif-customer-info-postal-address>
+    </div>
+  </div>
+</div>
+<div [hidden]="view">
+  <div *ngIf="creditProposal.partyTypeId !== 'PERSON'">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Warehouse Address</div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <jhi-party-cif-customer-info-postal-address
+          [disabled]="true"
+          [partyPostalAddress]="warehouseLocation"
+        ></jhi-party-cif-customer-info-postal-address>
+        <!-- <jhi-party-cif-customer-info-postal-address-warehouse
+          [disabled]="true"
+          [partyPostalAddress]="warehouseLocation"
+          [partyCif]="partyCif"
+        >
+        </jhi-party-cif-customer-info-postal-address-warehouse> -->
+      </div>
     </div>
   </div>
 </div>

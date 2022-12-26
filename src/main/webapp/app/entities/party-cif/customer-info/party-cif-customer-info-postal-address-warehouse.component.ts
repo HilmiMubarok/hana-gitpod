@@ -100,7 +100,6 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
     this._domicileAddress = data;
   }
 
-
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -109,7 +108,6 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
   set partyCif(data: IPartyCif) {
     this._partyCif = data;
   }
-  
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -124,14 +122,12 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
       this.prepareView();
       this.searchwareHouse();
     }
-
   }
 
   ngOnInit(): void {
-    
     this.loadPurposeType();
     this.initializeCountry();
-    
+
     this.purposeType = this.partyCif.addresses[this.index].purposeTypeId;
     this.address1 = this.partyCif.addresses[this.index].address.address1;
 

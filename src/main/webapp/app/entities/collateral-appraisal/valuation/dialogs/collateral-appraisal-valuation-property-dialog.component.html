@@ -178,7 +178,7 @@
               <div *ngIf="collateralProp.propertyType === 'BUILDING'">
                 <ejs-numerictextbox
                   cssClass="e-outline"
-                  [value]="this.collateralProp.imbArea * this.collateralProp.propertyMarketValueIMBPerMeter"
+                  [value]="calTotalmarketIMB()"
                   [(ngModel)]="collateralProp.propertyMarketValueIMB"
                   placeholder="Market Value (MV) IMB"
                   floatLabelType="auto"
@@ -271,7 +271,7 @@
               <div *ngIf="collateralProp.propertyType === 'BUILDING'">
                 <ejs-numerictextbox
                   cssClass="e-outline"
-                  [value]="this.countTotalArea() * this.collateralProp.propertyMarketValueTataKotaPerMeter"
+                  [value]="calTotalmarketTataKota()"
                   [(ngModel)]="collateralProp.propertyMarketValueTataKota"
                   placeholder="Market Value Tata Kota"
                   floatLabelType="auto"
