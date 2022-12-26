@@ -23,6 +23,9 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CreditProposalService } from '../credit-proposal.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
@@ -41,12 +44,15 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
   public notes: any;
 
-  private bucket: string;
+  private BUCKET_OPINION: string;
+  private BUCKET_CONDITION: string;
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
+  private paramId: string;
   private getKey: string;
   private fileGet: File;
   private userId: any;
+  public resourceUrl: string;
 
   @Input()
   get creditProposalItem() {
@@ -55,18 +61,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-
-    // if (this.creditProposalItem.notes.length > 0) {
-    //   for (let i = 0; i < this.notes.length; i++) {
-    //     this.notes[i].message = this.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
-    //      this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
-    //     this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-    //     this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation
-    //       ? this.creditProposalItem.attributes['tempLoggedInRecomendation']
-    //       : '';
-    //      this.creditProposalItem.attributes['tempLoggedInRecomendation']=this.notes[i].recomendation;
-    //   }
-    // }
   }
 
   public tools: ToolbarModule = {
@@ -97,30 +91,34 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     protected router: Router,
     private storageService: StorageService,
     private changeDetectorRefs: ChangeDetectorRef,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private http: HttpClient,
+    private applicationConfigService: ApplicationConfigService
   ) {}
 
   public currentAccount: any;
 
   ngOnInit(): void {
-    this.getLogin();
-    this.refresh();
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/opinion-history/opinion/' + this.paramsIdGet + '/' + this.userId + '/sfdt';
+    this.getLogin();
+    this.getWordOpinion();
+    this.getWordCondition();
+    this.refresh();
+  }
+
+  public getWordOpinion() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET_OPINION = val.body['bucket'];
       this.getContainer();
     });
-    this.getContainer();
+  }
 
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/opinion-history/condition/' + this.paramsIdGet + '/' + this.userId + '/sfdt';
+  public getWordCondition() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET_CONDITION = val.body['bucket'];
       this.getContainerCondition();
     });
-    this.getContainerCondition();
   }
 
   public getLogin() {
@@ -161,7 +159,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET_OPINION, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -173,7 +171,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET_OPINION, formData, metaData).subscribe();
     });
   }
 
@@ -191,11 +189,15 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
   public obj: any;
   private getContainer(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
     this.obj = {
-      key: this.getKey,
+      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, this.obj)
+      .getObjects(this.BUCKET_OPINION, this.obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -221,7 +223,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   onCreate(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
@@ -239,14 +240,14 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion' + '-condition' + fileType + '.docs';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion' + '-condition-' + fileType + '.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET_CONDITION, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -258,7 +259,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET_CONDITION, formData, metaData).subscribe();
     });
   }
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -281,7 +282,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.BUCKET_CONDITION, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -291,7 +292,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion' + 'condition-sfdt.sfdt'
+                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion-' + 'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -306,7 +307,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   onCreateCondition(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 

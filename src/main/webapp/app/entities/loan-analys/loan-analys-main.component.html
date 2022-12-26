@@ -414,14 +414,10 @@
       </div>
 
       <!-- opinion -->
+      <!-- [saveWordOpinionCondition]="saveWordOpinionCondition"
+      [saveWordMinio]="saveWord" -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion
-          [saveWordOpinionCondition]="saveWordOpinionCondition"
-          [saveWordMinio]="saveWord"
-          [creditProposalItem]="creditProposal"
-          [cp]="cp"
-        >
-        </jhi-loan-analys-opinion>
+        <jhi-loan-analys-opinion #loanAnalysOpinionComponent [creditProposalItem]="creditProposal" [cp]="cp"> </jhi-loan-analys-opinion>
       </div>
 
       <!-- compare data -->
@@ -431,6 +427,9 @@
 
       <div *ngIf="selectedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
+        <div *ngIf="parentPath === 'cc-review'">
+          <jhi-loan-analys-opinion #loanAnalysOpinionComponent [creditProposalItem]="creditProposal" [cp]="cp"> </jhi-loan-analys-opinion>
+        </div>
       </div>
     </div>
 

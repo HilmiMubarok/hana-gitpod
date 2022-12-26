@@ -417,7 +417,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
+  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string, positionVal: string): INotes {
     let note: INotes = new Notes();
 
     return (note = {
@@ -426,6 +426,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       createDate: new Date(),
       recomendation: recomendationVal,
       condition: conditionVal,
+      positionUserId: positionVal,
     });
   }
 
@@ -470,6 +471,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
             copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
             copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
             tempHelper = tempHelper + 1;
           }
         }
@@ -480,6 +482,7 @@ export class ProposalBasicInformationComponent implements OnInit {
               copyCreditProposal.attributes['tempLoggedInNotes'],
               copyCreditProposal.attributes['tempLoggedInRecomendation'],
               copyCreditProposal.attributes['tempLoggedInCondition'],
+              copyCreditProposal.attributes['positionLogin'],
               this.currentAccount.login
             )
           );
@@ -490,6 +493,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             copyCreditProposal.attributes['tempLoggedInNotes'],
             copyCreditProposal.attributes['tempLoggedInRecomendation'],
             copyCreditProposal.attributes['tempLoggedInCondition'],
+            copyCreditProposal.attributes['positionLogin'],
             this.currentAccount.login
           )
         );
@@ -497,6 +501,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
       delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
       delete copyCreditProposal.attributes['tempLoggedInCondition'];
+      delete copyCreditProposal.attributes['positionLogin'];
     }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);

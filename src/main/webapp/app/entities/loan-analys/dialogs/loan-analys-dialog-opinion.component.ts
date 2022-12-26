@@ -6,13 +6,16 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
   selector: 'jhi-loan-analys-dialog-opinion',
   templateUrl: './loan-analys-dialog-opinion.component.html',
   styleUrls: ['./loan-analys-dialog-opinion.css'],
 })
-export class LoanAnalysDialogOpinionComponent {
+export class LoanAnalysDialogOpinionComponent implements OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
 
@@ -33,15 +36,18 @@ export class LoanAnalysDialogOpinionComponent {
   public valueRadioRecommend: any;
 
   creditProposalItem: ICreditProposal;
+  public recommendation: any;
 
-  private bucket: string;
   private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
-  private getKey: string;
   private fileGet: File;
   public userId: any;
   public getObj: any;
-
+  public positionUserId: any;
+  public resourceUrl: string;
+  private BUCKET_OPINION: string;
+  private BUCKET_CONDITION: string;
+  private KEY_OPINION = 'credit_proposal/remark/opinion-history/opinion';
+  private KEY_CONDITION = 'credit_proposal/remark/opinion-history/condition';
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dataNotes: {
@@ -52,90 +58,143 @@ export class LoanAnalysDialogOpinionComponent {
     protected router: Router,
     private storageService: StorageService,
     protected activatedRoute: ActivatedRoute,
-    public accountService: AccountService
+    public accountService: AccountService,
+    private http: HttpClient,
+    private applicationConfigService: ApplicationConfigService
   ) {
     this.notes = this.dataNotes.notes;
     this.creditProposalItem = this.dataNotes.item;
+
+    // this.getLogin();
     this.conditionOpinion();
-    this.getLogin();
-    console.log('this is login', this.userId);
+  }
+  ngOnInit(): void {
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    this.getWordOpinion();
+    this.getWordCondition();
+
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.paramsIdGet = params['id'];
+    //   this.getKeyCondition =
+    //     'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt';
+    //   // this.getContainer();
+    // });
   }
 
-  public getLogin() {
-    this.accountService.identity().subscribe(account => {
-      this.userId = account.login;
-    });
-  }
-  public recommendation: any;
   public conditionOpinion() {
-    for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
-      this.recommendation = this.notes.recomendation;
-      if (
-        this.recommendation === 'Approved as Propose' ||
-        this.recommendation === 'Approved With Condition' ||
-        this.recommendation === 'Not Approved'
-      ) {
-        this.nameLabel = 'Approved';
-        this.radioButtonPurpose = 'Approved as Propose';
-        this.radioButtonCondition = 'Approved With Condition';
-        this.radioButtonNotRecommend = 'Not Approved';
-        this.valueRadioPurpose = 'Approved as Propose';
-        this.valueRadioCondition = 'Approved With Condition';
-        this.valueRadioRecommend = 'Not Approved';
-      }
-      if (
-        this.recommendation === 'Recommend as propose' ||
-        this.recommendation === 'Recommend With Condition' ||
-        this.recommendation === 'Not Recommend'
-      ) {
-        this.nameLabel = 'Recomendation';
-        this.radioButtonPurpose = 'Recommend as Propose';
-        this.radioButtonCondition = 'Recommend With Condition';
-        this.radioButtonNotRecommend = 'Not Recommend';
-
-        this.valueRadioPurpose = 'Recommend as propose';
-        this.valueRadioCondition = 'Recommend With Condition';
-        this.valueRadioRecommend = 'Not Recommend';
+    // Opinion Condition in loan commite approval
+    if (this.creditProposalItem.notes.length) {
+      for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
+        this.recommendation = this.creditProposalItem.notes[i].recomendation;
+        if (
+          this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
+          this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+          this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
+        ) {
+          if (this.recommendation === 'Approved as Propose') {
+            this.nameLabel = 'Approved Status';
+            this.radioButtonPurpose = 'Approved as Propose';
+            this.valueRadioPurpose = 'Approved as Propose';
+          } else if (this.recommendation === 'Approved With Condition') {
+            this.nameLabel = 'Approved Status';
+            this.radioButtonCondition = 'Approved With Condition';
+            this.valueRadioCondition = 'Approved With Condition';
+          } else {
+            this.nameLabel = 'Approved Status';
+            this.radioButtonNotRecommend = 'Not Approved';
+            this.valueRadioRecommend = 'Not Approved';
+          }
+        } else {
+          if (this.recommendation === 'Recommend as Propose') {
+            this.nameLabel = 'Recomendation';
+            this.radioButtonPurpose = 'Recommend as Propose';
+            this.valueRadioPurpose = 'Recommend as propose';
+          } else if (this.recommendation === 'Recommend With Condition') {
+            this.nameLabel = 'Recomendation';
+            this.radioButtonCondition = 'Recommend With Condition';
+            this.valueRadioCondition = 'Recommend With Condition';
+          } else {
+            this.nameLabel = 'Recomendation';
+            this.radioButtonNotRecommend = 'Not Recommend';
+            this.valueRadioRecommend = 'Not Recommend';
+          }
+        }
       }
     }
+    // if (
+    //   this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
+    //   this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+    //   this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
+    // ) {
+    //   // Manipulation in Label
+    //   this.nameLabel = 'Approved Status';
+    //   // Manipulation in radio button
+    //   this.radioButtonPurpose = 'Approved as Propose';
+    //   this.radioButtonCondition = 'Approved With Condition';
+    //   this.radioButtonNotRecommend = 'Not Approved';
+    //   // Manipulation in value
+    //   this.valueRadioPurpose = 'Approved as Propose';
+    //   this.valueRadioCondition = 'Approved With Condition';
+    //   this.valueRadioRecommend = 'Not Approved';
+    // } else {
+    //   // if outside the conditions url loan commite approval
+    //   this.nameLabel = 'Recomendation';
+    //   this.radioButtonPurpose = 'Recommend as Propose';
+    //   this.radioButtonCondition = 'Recommend With Condition';
+    //   this.radioButtonNotRecommend = 'Not Recommend';
+
+    //   this.valueRadioPurpose = 'Recommend as propose';
+    //   this.valueRadioCondition = 'Recommend With Condition';
+    //   this.valueRadioRecommend = 'Not Recommend';
+    // }
   }
-  // console.log('tes',this.getKey.split('/')[6]);
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-
-    this.getOpiniObj();
+    // this.getWordOpinion();
   }
 
   onDocumentChanges() {
     this.container_condition.restrictEditing = true;
-    this.getConditionObj();
+    // this.getContainerCondition();
   }
 
-  public getConditionObj() {
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.userId + '/sfdt';
-      this.getContainerCondition();
-    });
-  }
-
-  public getOpiniObj() {
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.userId + '/sfdt';
+  public getWordOpinion() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET_OPINION = val.body['bucket'];
       this.getContainer();
     });
   }
 
+  public getWordCondition() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET_CONDITION = val.body['bucket'];
+      this.getContainerCondition();
+    });
+  }
+  // public getOpiniObj() {
+  //   this.activatedRoute.params.subscribe(params => {
+  //     this.paramsIdGet = params['id'];
+  //     this.getKeyOpinion =
+  //       'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt';
+  //     this.getContainer();
+  //   });
+  // }
+  // public getConditionObj() {
+  //   this.activatedRoute.params.subscribe(params => {
+  //     this.paramsIdGet = params['id'];
+  //     this.getKeyCondition =
+  //       'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt';
+  //     this.getContainerCondition();
+  //   });
+  // }
+
   private getContainer(): void {
-    this.getObj = {
+    const obj = {
       key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, this.getObj)
+      .getObjects(this.BUCKET_OPINION, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -161,11 +220,11 @@ export class LoanAnalysDialogOpinionComponent {
   }
 
   private getContainerCondition(): void {
-    const getObj = {
+    const obj = {
       key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, getObj)
+      .getObjects(this.BUCKET_CONDITION, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -175,7 +234,7 @@ export class LoanAnalysDialogOpinionComponent {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.creditProposalItem.id + '-' + this.notes.userId + '-opinion' + 'condition-sfdt.sfdt'
+                'credit-proposal-remark-' + this.creditProposalItem.id + '-' + this.notes.userId + '-opinion-' + 'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
