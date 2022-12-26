@@ -81,8 +81,6 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
   public initVillage: number;
 
   @Input() isWarehouse: Boolean = false;
-  @Input()
-  public disabled: Boolean = false;
 
   @Input()
   get partyPostalAddress() {
@@ -352,96 +350,87 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
         this.purposeTypes = res.body;
       });
   }
-  public cekDataSource() {
-    if (this.disabled === true) {
-      this.myControlCountry.disable();
-      this.myControlProvince.disable();
-      this.myControlCity.disable();
-      this.myControlDistrict.disable();
-      this.myControlVillage.disable();
-    }
 
-    // private loadCountry(): void {
-    //   this.stateBoundaryService
-    //     .queryFilterBy({
-    //       idBoundaryType: GEO_BOUNDARY_TYPE['country'],
-    //       size: 9999,
-    //     })
-    //     .subscribe(res => {
-    //       this.country = res.body;
-    //     });
-    // }
+  // private loadCountry(): void {
+  //   this.stateBoundaryService
+  //     .queryFilterBy({
+  //       idBoundaryType: GEO_BOUNDARY_TYPE['country'],
+  //       size: 9999,
+  //     })
+  //     .subscribe(res => {
+  //       this.country = res.body;
+  //     });
+  // }
 
-    // loadProvince(): void {
-    //   const idCountry = this.partyPostalAddress.address.countryId;
-    //   if (idCountry) {
-    //     const predicate: object = {
-    //       idBoundaryType: GEO_BOUNDARY_TYPE['province'],
-    //       page: 0,
-    //       size: 9999,
-    //       idParent: idCountry,
-    //     };
+  // loadProvince(): void {
+  //   const idCountry = this.partyPostalAddress.address.countryId;
+  //   if (idCountry) {
+  //     const predicate: object = {
+  //       idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+  //       page: 0,
+  //       size: 9999,
+  //       idParent: idCountry,
+  //     };
 
-    //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-    //       this.provinces = res.body;
-    //     });
-    //   }
-    // }
+  //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+  //       this.provinces = res.body;
+  //     });
+  //   }
+  // }
 
-    // loadCity(): void {
-    //   const idProvince = this.partyPostalAddress.address.provinceId;
-    //   if (idProvince) {
-    //     const predicate: object = {
-    //       idBoundaryType: GEO_BOUNDARY_TYPE['city'],
-    //       size: 9999,
-    //       idParent: idProvince,
-    //     };
-    //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-    //       this.cities = res.body;
-    //     });
-    //   }
-    // }
+  // loadCity(): void {
+  //   const idProvince = this.partyPostalAddress.address.provinceId;
+  //   if (idProvince) {
+  //     const predicate: object = {
+  //       idBoundaryType: GEO_BOUNDARY_TYPE['city'],
+  //       size: 9999,
+  //       idParent: idProvince,
+  //     };
+  //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+  //       this.cities = res.body;
+  //     });
+  //   }
+  // }
 
-    // loadDistrict(): void {
-    //   const idCity = this.partyPostalAddress.address.cityId;
-    //   if (idCity) {
-    //     const predicate: object = {
-    //       idBoundaryType: GEO_BOUNDARY_TYPE['district'],
-    //       size: 9999,
-    //       idParent: idCity,
-    //     };
-    //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-    //       this.districts = res.body;
-    //     });
-    //   }
-    // }
+  // loadDistrict(): void {
+  //   const idCity = this.partyPostalAddress.address.cityId;
+  //   if (idCity) {
+  //     const predicate: object = {
+  //       idBoundaryType: GEO_BOUNDARY_TYPE['district'],
+  //       size: 9999,
+  //       idParent: idCity,
+  //     };
+  //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+  //       this.districts = res.body;
+  //     });
+  //   }
+  // }
 
-    // loadVillage(): void {
-    //   const idDistrict = this.partyPostalAddress.address.districtId;
-    //   if (idDistrict) {
-    //     const predicate: object = {
-    //       idBoundaryType: GEO_BOUNDARY_TYPE['village'],
-    //       size: 9999,
-    //       idParent: idDistrict,
-    //     };
-    //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-    //       this.villages = res.body;
-    //     });
-    //   }
-    // }
+  // loadVillage(): void {
+  //   const idDistrict = this.partyPostalAddress.address.districtId;
+  //   if (idDistrict) {
+  //     const predicate: object = {
+  //       idBoundaryType: GEO_BOUNDARY_TYPE['village'],
+  //       size: 9999,
+  //       idParent: idDistrict,
+  //     };
+  //     this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+  //       this.villages = res.body;
+  //     });
+  //   }
+  // }
 
-    //
-    // public warehouseAddressData() {
-    //   if (this.warehouseAddress === 'warehouseAddress') {
-    //     return false;
-    //   }
-    //   return true;
-    // }
+  //
+  // public warehouseAddressData() {
+  //   if (this.warehouseAddress === 'warehouseAddress') {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
-    // print() {
-    //   console.log({
-    //     postaladdress: this.addresses,
-    //   });
-    // }
-  }
+  // print() {
+  //   console.log({
+  //     postaladdress: this.addresses,
+  //   });
+  // }
 }

@@ -11,7 +11,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Address</mat-label>
-        <input matInput type="text" [(ngModel)]="address1" (ngModelChange)="addressChange()" [disabled]="disabled" />
+        <input matInput type="text" [(ngModel)]="address1" (ngModelChange)="addressChange()" />
       </mat-form-field>
     </div>
 
@@ -25,9 +25,8 @@
           [matAutocomplete]="auto"
           [(ngModel)]="country"
           (ngModelChange)="getValueCountry()"
-          [disabled]="disabled"
         />
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCounrtry" [disabled]="disabled">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCounrtry">
           <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option">
             {{ option.description }}
           </mat-option>
@@ -57,9 +56,8 @@
           [matAutocomplete]="autoP"
           [(ngModel)]="province"
           (ngModelChange)="getValueProvince()"
-          [disabled]="disabled"
         />
-        <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProvince" [disabled]="disabled">
+        <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProvince">
           <mat-option *ngFor="let option of filteredOptionsProvince | async" [value]="option">
             {{ option.description }}
           </mat-option>
@@ -86,9 +84,8 @@
           [matAutocomplete]="autoC"
           [(ngModel)]="cities"
           (ngModelChange)="getValueCity()"
-          [disabled]="disabled"
         />
-        <mat-autocomplete #autoC="matAutocomplete" [displayWith]="displayFnCity" [disabled]="disabled">
+        <mat-autocomplete #autoC="matAutocomplete" [displayWith]="displayFnCity">
           <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
             {{ option.description }}
           </mat-option>
@@ -143,9 +140,8 @@
           [matAutocomplete]="autoE"
           [(ngModel)]="villages"
           (ngModelChange)="getIdVillage()"
-          [disabled]="disabled"
         />
-        <mat-autocomplete #autoE="matAutocomplete" [displayWith]="displayFnVillage" [disabled]="disabled">
+        <mat-autocomplete #autoE="matAutocomplete" [displayWith]="displayFnVillage">
           <mat-option *ngFor="let option of filteredOptionsVillage | async" [value]="option">
             {{ option.description }}
           </mat-option>
@@ -166,7 +162,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RT</mat-label>
-            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" [disabled]="disabled" />
+            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rt" />
           </mat-form-field>
         </div>
       </div>
@@ -174,14 +170,14 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RW</mat-label>
-            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" [disabled]="disabled" />
+            <input matInput type="text" [(ngModel)]="partyPostalAddress.address.rw" />
           </mat-form-field>
         </div>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kode Pos</mat-label>
-          <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" [disabled]="disabled" />
+          <input matInput type="text" [(ngModel)]="partyPostalAddress.address.postalCode" />
         </mat-form-field>
       </div>
     </div>
