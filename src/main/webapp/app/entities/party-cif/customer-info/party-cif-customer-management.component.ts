@@ -61,7 +61,6 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
 
   set person(data: IPerson) {
     this._person = data;
-    console.log('cek daya', this._person[0].cifNumber);
   }
 
   @Input()
@@ -72,7 +71,6 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
   set organization(data: IOrganizationManagement) {
     this._organization = data;
     this.managementType = data.organizationManagementTypeDescription;
-    console.log('cej', this.managementType);
   }
 
   @Input()
