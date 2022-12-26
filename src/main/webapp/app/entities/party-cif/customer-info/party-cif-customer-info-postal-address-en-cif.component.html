@@ -3,13 +3,13 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Address</mat-label>
-        <input matInput type="text" [(ngModel)]="partyCif.addresses.address.address1"/>
+        <input matInput type="text" [(ngModel)]="partyCif.addresses.address[index].address1"/>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Country</mat-label>
-        <mat-select (selectionChange)="loadProvince($event.value)" [(ngModel)]="partyCif.addresses.address.countryId">
+        <mat-select (selectionChange)="loadProvince($event.value)" [(ngModel)]="partyCif.addresses.address[index].countryId">
           <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
         </mat-select>
       </mat-form-field>
@@ -17,13 +17,13 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Province</mat-label>
-        <mat-select (selectionChange)="loadCity($event.value)" [(ngModel)]="partyCif.addresses.address.provinceId">
+        <mat-select (selectionChange)="loadCity($event.value)" [(ngModel)]="partyCif.addresses.address[index].provinceId">
           <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
-        <mat-hint align="end" *ngIf="!partyCif.addresses.address.countryId">Select country to get list of province </mat-hint>
-        <mat-hint align="end" *ngIf="partyCif.addresses.address.countryId"
+        <mat-hint align="end" *ngIf="!partyCif.addresses.address[index].countryId">Select country to get list of province </mat-hint>
+        <mat-hint align="end" *ngIf="partyCif.addresses.address[index].countryId"
           >List province of country
-          <strong>{{ findStateBoundary(partyCif.addresses.address.countryId, country).description | lowercase }}</strong>
+          <strong>{{ findStateBoundary(partyCif.addresses.address[index].countryId, country).description | lowercase }}</strong>
         </mat-hint>
       </mat-form-field>
     </div>
@@ -33,23 +33,23 @@
         <mat-select (selectionChange)="loadDistrict($event.value)" [(ngModel)]="partyCif.addresses.cityId">
           <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
-        <mat-hint align="end" *ngIf="!partyCif.addresses.address.provinceId">Select province to get list of city </mat-hint>
-        <mat-hint align="end" *ngIf="partyCif.addresses.address.provinceId"
+        <mat-hint align="end" *ngIf="!partyCif.addresses.address[index].provinceId">Select province to get list of city </mat-hint>
+        <mat-hint align="end" *ngIf="partyCif.addresses.address[index].provinceId"
           >List city of province
-          <strong>{{ findStateBoundary(partyCif.addresses.address.provinceId, provinces).description | lowercase }}</strong>
+          <strong>{{ findStateBoundary(partyCif.addresses.address[index].provinceId, provinces).description | lowercase }}</strong>
         </mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>District</mat-label>
-        <mat-select (selectionChange)="loadVillage($event.value)" [(ngModel)]="partyCif.addresses.districtId">
+        <mat-select (selectionChange)="loadVillage($event.value)" [(ngModel)]="partyCif.addresses[index].districtId">
           <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
-        <mat-hint align="end" *ngIf="!partyCif.addresses.address.cityId">Select city to get list of district </mat-hint>
-        <mat-hint align="end" *ngIf="partyCif.addresses.address.cityId"
+        <mat-hint align="end" *ngIf="!partyCif.addresses.address[index].cityId">Select city to get list of district </mat-hint>
+        <mat-hint align="end" *ngIf="partyCif.addresses.address[index].cityId"
           >List district of city
-          <strong>{{ findStateBoundary(partyCif.addresses.address.cityId, cities).description | lowercase }}</strong>
+          <strong>{{ findStateBoundary(partyCif.addresses.address[index].cityId, cities).description | lowercase }}</strong>
         </mat-hint>
       </mat-form-field>
     </div>
@@ -59,10 +59,10 @@
         <mat-select [(ngModel)]="partyCif.addresses.villageId">
           <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
-        <mat-hint align="end" *ngIf="!partyCif.addresses.address.districtId">Select district to get list of village </mat-hint>
-        <mat-hint align="end" *ngIf="partyCif.addresses.address.districtId"
+        <mat-hint align="end" *ngIf="!partyCif.addresses.address[index]districtId">Select district to get list of village </mat-hint>
+        <mat-hint align="end" *ngIf="partyCif.addresses.address[index].districtId"
           >List village of district
-          <strong>{{ findStateBoundary(partyCif.addresses.address.districtId, districts).description | lowercase }}</strong>
+          <strong>{{ findStateBoundary(partyCif.addresses[index].address.districtId, districts).description | lowercase }}</strong>
         </mat-hint>
       </mat-form-field>
     </div>
@@ -71,7 +71,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RT</mat-label>
-            <input matInput type="text" [(ngModel)]="partyCif.addresses.address.rt" />
+            <input matInput type="text" [(ngModel)]="partyCif.addresses.address[index].rt" />
           </mat-form-field>
         </div>
       </div>
@@ -79,14 +79,14 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>RW</mat-label>
-            <input matInput type="text" [(ngModel)]="partyCif.addresses.address.rw" />
+            <input matInput type="text" [(ngModel)]="partyCif.addresses.address[index].rw" />
           </mat-form-field>
         </div>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Kode Pos</mat-label>
-          <input matInput type="text" [(ngModel)]="partyCif.addresses.address.postalCode" />
+          <input matInput type="text" [(ngModel)]="partyCif.addresses.address[index].postalCode" />
         </mat-form-field>
       </div>
     </div>

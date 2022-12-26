@@ -4,6 +4,7 @@ import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
+import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import { IPartyCif, PartyCif } from '../party-cif.model';
 
 @Component({
@@ -20,7 +21,9 @@ export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
   public cities: IStateBoundary[];
 
   private _partyCif: IPartyCif = new PartyCif();
-  
+
+  public index: number;
+
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -29,10 +32,11 @@ export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
   set partyCif(data: IPartyCif) {
     this._partyCif = data;
 
-	this.loadProvince(this._partyCif.addresses.countryId);
-	this.loadCity(this._partyCif.addresses.provinceId);
-	this.loadDistrict(this._partyCif.addresses.cityId);
-	this.loadVillage(this._partyCif.addresses.districtId);
+	this.index = this.partyCif.addresses.findIndex(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+	this.loadProvince(this._partyCif.addresses.address[this.index].countryId);
+	this.loadCity(this._partyCif.addresses.address[this.index].provinceId);
+	this.loadDistrict(this._partyCif.addresses.address[this.index].cityId);
+	this.loadVillage(this._partyCif.addresses.address[this.index].districtId);
   }
 
   constructor(
