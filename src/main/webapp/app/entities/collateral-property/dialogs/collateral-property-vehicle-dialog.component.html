@@ -133,7 +133,7 @@
         <div class="col-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Qty</mat-label>
-            <input
+            <!-- <input
               type="text"
               matInput
               [formControl]="myControlQuantity"
@@ -145,13 +145,13 @@
               <mat-option *ngFor="let option of filteredOptionsQuantity | async" [value]="option">
                 {{ sliceText(option.id) }} - {{ option.description }}
               </mat-option>
-            </mat-autocomplete>
-            <!-- <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
+            </mat-autocomplete> -->
+            <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
                 {{ item.abbreviation }} - {{ item.description }}
               </mat-option>
-            </mat-select> -->
+            </mat-select>
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
         </div>

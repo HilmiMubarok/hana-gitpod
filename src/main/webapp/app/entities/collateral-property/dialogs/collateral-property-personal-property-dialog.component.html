@@ -181,9 +181,9 @@
           matInput
           type="text"
           [(ngModel)]="collateralProperty.appraisalDateInternal"
-          disabled
+          [disabled]="dataSource()"
         />
-        <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateInternal" [disabled]="dataSource()"> </mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateInternal"> </mat-datepicker-toggle>
         <mat-datepicker #personalPropertyAppraisalDateInternal></mat-datepicker>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
@@ -282,10 +282,9 @@
           matInput
           type="text"
           [(ngModel)]="collateralProperty.appraisalDateExternal"
-          disabled
+          [disabled]="dataSource()"
         />
-        <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateIndependent" [disabled]="dataSource()">
-        </mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="personalPropertyAppraisalDateIndependent"> </mat-datepicker-toggle>
         <mat-datepicker #personalPropertyAppraisalDateIndependent></mat-datepicker>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
