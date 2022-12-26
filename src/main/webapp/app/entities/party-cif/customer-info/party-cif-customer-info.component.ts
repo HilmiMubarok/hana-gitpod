@@ -11,7 +11,7 @@ import { IPurposeType } from 'app/entities/purpose-type/purpose-type.model';
 import { PurposeTypeService } from 'app/entities/purpose-type/purpose-type.service';
 import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
-import { IPartyCif } from '../party-cif.model';
+import { IPartyCif, PartyCif } from '../party-cif.model';
 
 @Component({
   selector: 'jhi-party-cif-customer-info',
@@ -19,7 +19,7 @@ import { IPartyCif } from '../party-cif.model';
   styleUrls: ['../party-cif.style.scss'],
 })
 export class PartyCifCustomerInfoComponent implements OnChanges {
-  private _partyCif: IPartyCif = new PartyCif();
+  private _partyCIf: IPartyCif = new PartyCif();
 
   public domicileLocation: IPartyPostalAddress;
   public primaryLocation: IPartyPostalAddress;

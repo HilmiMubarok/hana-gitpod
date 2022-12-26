@@ -4,16 +4,14 @@ import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
-import { IPartyCif, PartyCif } from '../../party-cif.model';
+import { IPartyCif, PartyCif } from '../party-cif.model';
 
 @Component({
   selector: 'jhi-party-cif-customer-info-postal-address-en-cif',
   templateUrl: './party-cif-customer-info-postal-address-en-cif.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressEnCifComponent
-  extends AbstractEntityViewPageComponent<IPartyPostalAddress>
-  implements OnInit, OnChanges
+export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
 {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
@@ -30,27 +28,22 @@ export class PartyCifCustomerInfoPostalAddressEnCifComponent
 
   set partyCif(data: IPartyCif) {
     this._partyCif = data;
+
+	this.loadProvince(this._partyCif.address.countryId);
+	this.loadCity(this._partyCif.address.provinceId);
+	this.loadDistrict(this._partyCif.address.cityId);
+	this.loadVillage(this._partyCif.address.districtId);
   }
 
   constructor(
     protected activatedRoute: ActivatedRoute,
-    private stateBoundaryService: StateBoundaryService,
-    private purposeTypeService: PurposeTypeService
+    private stateBoundaryService: StateBoundaryService
   ) {
     super();
     this.country = [];
     this.provinces = [];
     this.cities = [];
     this.districts = [];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyPostalAddress']) {
-      this.loadProvince(this.partyPostalAddress.address.countryId);
-      this.loadCity(this.partyPostalAddress.address.provinceId);
-      this.loadDistrict(this.partyPostalAddress.address.cityId);
-      this.loadVillage(this.partyPostalAddress.address.districtId);
-    }
   }
 
   ngOnInit(): void {

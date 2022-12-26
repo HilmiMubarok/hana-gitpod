@@ -37,8 +37,7 @@ export class PartyCifCustomerInfoPostalAddressComponent
 
   constructor(
     protected activatedRoute: ActivatedRoute,
-    private stateBoundaryService: StateBoundaryService,
-    private purposeTypeService: PurposeTypeService
+    private stateBoundaryService: StateBoundaryService
   ) {
     super();
     this.country = [];
