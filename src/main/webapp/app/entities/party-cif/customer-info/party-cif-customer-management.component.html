@@ -1,6 +1,13 @@
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
+    <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>CIF Number</mat-label>
+        <input matInput type="text" [(ngModel)]="organization.cifNumber" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Complete Name</mat-label>
@@ -37,6 +44,13 @@
   <!-- RIGHT SIDE -->
   <!-- [(ngModel)]="person.dob" -->
   <div class="col-6">
+    <div class="form-group" *ngIf="managementType === 'CONTROL_PERSON'">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Place of Birth</mat-label>
+        <input matInput type="text" [(ngModel)]="person.pob" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date of Birth</mat-label>
