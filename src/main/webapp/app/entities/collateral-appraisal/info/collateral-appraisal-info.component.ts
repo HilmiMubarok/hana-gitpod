@@ -446,8 +446,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   }
 
   public isRm(): any {
-    console.log('role', this.account);
+    return this.account.authorities.includes('ROLE_RM');
   }
+
   public loadSurveyBatchKjjp(): void {
     this.surveyBatchService.find(this.collateralAppraisal.surveyBatchId).subscribe(res => {
       this.partnerService.find(res.body.surveyCompanyId).subscribe(ress => {
