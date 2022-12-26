@@ -8,24 +8,20 @@
     <td mat-cell *matCellDef="let element">{{ element.LNB_BASE_AGR_REF_NO }}</td>
   </ng-container>
   <ng-container matColumnDef="limit">
-    <th mat-header-cell *matHeaderCellDef>Facility Type</th>
+    <th mat-header-cell *matHeaderCellDef style="width: 150px">Facility Type</th>
     <td mat-cell *matCellDef="let element">{{ element.FILN11_COM_NM }}</td>
   </ng-container>
   <ng-container matColumnDef="os">
     <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
-    <td mat-cell *matCellDef="let element">
-      <input matInput disabled type="number" [value]="0" />
-    </td>
+    <td mat-cell *matCellDef="let element">0</td>
   </ng-container>
   <ng-container matColumnDef="facilityType">
     <th mat-header-cell *matHeaderCellDef>Available Limit</th>
-    <td mat-cell *matCellDef="let element">
-      {{ (element.LNB_BASE_LON_JAN | number: '1.0-0') + (element.FILN10_CONTRACT_AMT | number: '1.0-0') }}
-    </td>
+    <td mat-cell *matCellDef="let i = index" [innerHTML]="availLimit[i]"></td>
   </ng-container>
   <ng-container matColumnDef="rate">
     <th mat-header-cell *matHeaderCellDef>CCY</th>
-    <td mat-cell *matCellDef="let element">{{ element.LNB_BASE_LON_CCY }}</td>
+    <td mat-cell *matCellDef="let element" style="width: 20px">{{ element.LNB_BASE_LON_CCY }}</td>
   </ng-container>
   <ng-container matColumnDef="period">
     <th mat-header-cell *matHeaderCellDef>Credit Limit</th>
@@ -38,7 +34,7 @@
   <ng-container matColumnDef="collateralValue">
     <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.FILN11_FIX_FLT_GB }}.{{ element.FILN10_ROLL_GAP_GB }}+{{ element.FILN11_SPREAD_RT }}
+      {{ element.FILN11_FIX_FLT_GB }}-{{ element.FIX_FLT_GB_NM }}/{{ element.FILN10_ROLL_GAP_GB_NM }}+{{ element.FILN11_SPREAD_RT }}
     </td>
   </ng-container>
   <ng-container matColumnDef="tenor">
@@ -62,7 +58,6 @@
 <mat-card *ngIf="loading" id="material-loading-bar">
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
-
 <mat-card>
   <mat-paginator showFirstLastButtons ngClass="transparant"> </mat-paginator>
 </mat-card>
