@@ -43,7 +43,6 @@ export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
     protected activatedRoute: ActivatedRoute,
     private stateBoundaryService: StateBoundaryService
   ) {
-    super();
     this.country = [];
     this.provinces = [];
     this.cities = [];
