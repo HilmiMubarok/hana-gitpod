@@ -130,26 +130,25 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   ngOnInit(): void {
     this.getBucket().then(res => {
-      // console.log("cekk", this.bucket);
-    });
-    const predicateIdd: Object = {
-      key: `/cif/${this.creditProposalItem.cif.partyId}/financial_analysis/`,
-    };
+      const predicateIdd: Object = {
+        key: `/cif/${this.creditProposalItem.cif.partyId}/financial_analysis/`,
+      };
 
-    const cpTemplate: Object = {
-      key: `/credit_proposal/financial_analysis/${this.creditProposalItem.id}/`,
-    };
+      const cpTemplate: Object = {
+        key: `/credit_proposal/financial_analysis/${this.creditProposalItem.id}/`,
+      };
 
-    this.storageService.getObjects(this.bucket, cpTemplate).subscribe((resIdd: any) => {
-      if (resIdd.body.length > 0) {
-        this.getFile(resIdd.body[0].url, true);
-      } else {
-        this.storageService.getObjects(this.bucket, predicateIdd).subscribe((resTemp: any) => {
-          if (resTemp.body.length > 0) {
-            this.getFile(resTemp.body[0].url, true);
-          }
-        });
-      }
+      this.storageService.getObjects(this.bucket, cpTemplate).subscribe((resIdd: any) => {
+        if (resIdd.body.length > 0) {
+          this.getFile(resIdd.body[0].url, true);
+        } else {
+          this.storageService.getObjects(this.bucket, predicateIdd).subscribe((resTemp: any) => {
+            if (resTemp.body.length > 0) {
+              this.getFile(resTemp.body[0].url, true);
+            }
+          });
+        }
+      });
     });
 
     this.selectedMenu = 'UPLOAD';
@@ -223,11 +222,11 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   dataSourceChange(evt: DataSourceChangedEventArgs): void {
-    console.log(evt);
+    
   }
 
   beforeCellRender(args: CellRenderEventArgs): void {
-    console.log(args);
+    
     // if (this.spreadsheetObj.sheets.length > 1) {
     //   const data = this.spreadsheetObj.sheets.map((item: any) =>
     //     item.properties.name === 'Dashboard'

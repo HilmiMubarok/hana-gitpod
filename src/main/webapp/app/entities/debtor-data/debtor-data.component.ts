@@ -53,7 +53,7 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
   };
 
   private accountService: AccountService;
-  private messageService: MessageService;
+  // private messageService: MessageService;
 
   public generate(): void {
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
@@ -70,7 +70,7 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
         key: `/template/financial_analysis/${keyValue}`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
-        console.log('body', res.body);
+        // console.log('body', res.body);
         this.getFile(res.body[0].url);
       });
     });
@@ -99,7 +99,8 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
     // { text: 'CUSTOMER PROFITABILITY & CROSS SELLING FACTOR' },
   ];
 
-  private bucket = 'hana';
+  // private bucket = 'hana';
+  private bucket: string;
   private key: string = `/cif/${this.partyId}/financial-document`;
   private updateKey: string = '';
   private paramsId: string;
@@ -108,22 +109,31 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
 
   private fileBeforeOpen: File = null;
 
-  constructor(private storageService: StorageService, private actRoute: ActivatedRoute) {
+  constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {
     this.proposalType = PROPOSAL_TYPE;
+    this.bucket = '';
+  }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
   }
 
   public coba: any = [];
   ngOnInit(): void {
-    const predicate: Object = {
-      key: `/cif/${this.partyId.partyId}/financial_analysis/`,
-    };
-    this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
-      console.log('res', res);
-      // this.source.push(res.body[0].tags);
-      // console.log('body', res.body);
-      if (res.body.length > 0) {
-        this.getFile(res.body[0].url);
-      }
+    this.getBucket().then(res => {
+      const predicate: Object = {
+        key: `/cif/${this.partyId.partyId}/financial_analysis/`,
+      };
+      this.storageService.getObjects(this.bucket, predicate).subscribe((resObj: any) => {
+        if (resObj.body.length > 0) {
+          this.getFile(resObj.body[0].url);
+        }
+      });
     });
   }
 
@@ -137,8 +147,8 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-    console.log('filter', this.jhifilter);
+    // console.log('changes', changes);
+    // console.log('filter', this.jhifilter);
 
     if (changes?.jhifilter?.currentValue !== changes?.jhifilter?.previousValue) {
       // this.getUpdatekey();
@@ -151,7 +161,6 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
     // args.fileName = 'template_repayment_capability';
     // args.saveType = 'Xlsx';
     // args.needBlobData = true;
-    console.log(args);
     // if want to save data to minio when event save
     // this.storeFile();
   }
@@ -182,9 +191,7 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
             detail: 'Save Success',
           });
         });
-      } else {
-        console.warn('Spreadsheet Load from server');
-      }
+      } 
     }
   }
 
@@ -198,12 +205,12 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
     formData.append('file', this.fileBeforeOpen);
 
     this.storageService.uploadMeta('hana', formData, metaData).subscribe(res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 
   created(): void {
-    console.log('cek', this.updateKey);
+    // console.log('cek', this.updateKey);
     if (this.paramsId) {
       this.storageService
         .getObjects(this.bucket, {
@@ -239,7 +246,7 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
       .fileBlob(urlFile)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log('cek1');
+        // console.log('cek1');
         const file = new File([res.body], 'template_repayment_capability.xlsx');
 
         const metaData = {
@@ -271,8 +278,8 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   dataSourceChange(evt: DataSourceChangedEventArgs): void {
-    console.log(evt);
-    console.log('dataaa', evt?.data);
+    // console.log(evt);
+    // console.log('dataaa', evt?.data);
   }
 
   beforeCellRender(args: CellRenderEventArgs): void {
