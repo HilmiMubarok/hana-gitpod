@@ -320,6 +320,8 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
 import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
 import { PartyCifCustomerInfoPostalAddressEnCifComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif.component';
 import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
+import { CollateralAppraisalNewInfoComponent } from './collateral-appraisal/addSelect/collateral-appraisal-info.component';
+import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/type-dialog-appraisal.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -690,7 +692,9 @@ import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debit
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
-    DebtorDataViewUploadComponent
+    DebtorDataViewUploadComponent,
+    CollateralAppraisalNewInfoComponent,
+    TypeDialogAppraisalComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1027,7 +1031,9 @@ import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debit
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
-    DebtorDataViewUploadComponent
+    DebtorDataViewUploadComponent,
+    CollateralAppraisalNewInfoComponent,
+    TypeDialogAppraisalComponent
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

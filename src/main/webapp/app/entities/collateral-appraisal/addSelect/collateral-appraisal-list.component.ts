@@ -205,16 +205,20 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   // When onDetailClick, onCifSelected triggered after onDetailClick -- Because if clicked just a little bit outside element then 2 function fir
 
   public onDetailClick(section: string, data: any): void {
+    this.showDetail = data;
     if (section === 'collateral') {
       this.collateral = data;
+      this.partyId = this.showDetail.partyId;
     }
 
     if (section === 'cif') {
-      this.showDetail = data;
+   
 
       this.partyId = this.showDetail.partyId;
+     
     }
     this.loadPartyPostalAddress(this.partyId, section);
+ 
   }
 
   public onOverlayClick(): void {
