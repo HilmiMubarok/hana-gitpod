@@ -62,12 +62,12 @@
   </div>
   <ejs-grid #grid [dataSource]="collateralsData">
     <e-columns>
-      <e-column field="id" headerText="" textAlign="center">
+      <e-column field="id" headerText="" textAlign="Left">
         <ng-template #template let-data>
           <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
         </ng-template>
       </e-column>
-      <e-column field="indexNum" headerText="No" textAlign="Right"></e-column>
+      <e-column field="indexNum" headerText="No" textAlign="Left"></e-column>
       <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="Right"></e-column>
       <e-column field="collateralAddress.address1" headerText="Alamat Jaminan" textAlign="Left"></e-column>
       <e-column field="collateralAddress.cityName" headerText="Kota" textAlign="Left"></e-column>

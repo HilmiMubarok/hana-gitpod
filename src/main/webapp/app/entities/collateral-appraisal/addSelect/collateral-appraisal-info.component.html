@@ -1,0 +1,34 @@
+<div class="e-card mb-3">
+    <div class="e-card-header mb-1">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Collateral Info</div>
+        <div class="e-card-sub-title"></div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <mat-card-subtitle>General Info</mat-card-subtitle>
+  
+      <jhi-type-dialog-appraisal
+        [collateral]="collateral"
+      ></jhi-type-dialog-appraisal>
+
+        <ejs-textbox
+          [(ngModel)]="collateral.picName"
+          name="picName"
+          placeholder="PIC Debtor"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          disabled
+        ></ejs-textbox>
+
+        <ejs-textbox
+          [(ngModel)]="collateral.picPhone"
+          name="picPhone"
+          placeholder="PIC Phone"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          disabled
+        ></ejs-textbox>
+
+    </div>
+  </div>

@@ -59,3 +59,11 @@
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+td.e-rowcell.e-templatecell{
+  width: 20px;
+}
+
+.e-grid .e-gridheader tr th:first-child {
+  width: 20px;
+}
