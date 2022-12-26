@@ -16,7 +16,7 @@ import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-total-exposure',
   templateUrl: './total-exposure.component.html',
-  styleUrls: ['../../css/credit-proposal-basic-information.css'],
+  styleUrls: ['../../loan-facility/grid/loan.scss'],
 })
 export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges {
   public parsedAttr;
@@ -71,6 +71,20 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'firstDisbursmentDate',
     'tenor',
   ];
+  public displayColumns: string[] = [
+    'no',
+    'namegroup',
+    'facilityType',
+    'initialLimit',
+    'change',
+    'os',
+    'totalPlatfond',
+    'interet',
+    'provision',
+    'adminFee',
+    'firstDisbursmentDate',
+    'tenor',
+  ];
 
   public numericFormatOptions: Object = { format: 'N' };
 
@@ -110,8 +124,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
               parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN10_ROLL_GAP_GB;
-              parsed.Provision = source[y].FILN22_FEE_AMT;
-              parsed.AdminFee = source[y].FILN22_FEE_AMT;
+              parsed.Provision = source[y].PROVISION_FEE + source[y].PROVISION_FEE_TYPE;
+              parsed.AdminFee = source[y].ADMIN_FEE + source[y].ADMIN_FEE_TYPE;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
