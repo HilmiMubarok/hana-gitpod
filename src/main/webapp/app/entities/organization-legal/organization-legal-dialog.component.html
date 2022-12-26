@@ -15,6 +15,7 @@
             [matDatepicker]="deedEstablishDate"
             [(ngModel)]="organizationLegal.deedEstablishDate"
             matInput
+            [formControl]="date"
             type="text"
             disabled
             [disabled]="dataSource()"
