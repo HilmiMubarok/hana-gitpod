@@ -48,6 +48,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
   }
 
   private groupByFolder(param: any[]): void {
+    this.folders = []
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)
