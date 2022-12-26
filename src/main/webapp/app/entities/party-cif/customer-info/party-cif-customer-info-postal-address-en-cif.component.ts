@@ -33,10 +33,10 @@ export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
     this._partyCif = data;
 
 	this.index = this.partyCif.addresses.findIndex(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
-	this.loadProvince(this._partyCif.addresses.address[this.index].countryId);
-	this.loadCity(this._partyCif.addresses.address[this.index].provinceId);
-	this.loadDistrict(this._partyCif.addresses.address[this.index].cityId);
-	this.loadVillage(this._partyCif.addresses.address[this.index].districtId);
+	this.loadProvince(this._partyCif.addresses[this.index].address.countryId);
+	this.loadCity(this._partyCif.addresses[this.index].address.provinceId);
+	this.loadDistrict(this._partyCif.addresses[this.index].address.cityId);
+	this.loadVillage(this._partyCif.addresses[this.index].address.districtId);
   }
 
   constructor(
