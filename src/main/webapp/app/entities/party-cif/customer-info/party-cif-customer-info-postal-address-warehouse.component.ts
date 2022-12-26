@@ -125,8 +125,6 @@ export class PartyCifCustomerInfoPostalAddressWarehouseComponent
   }
 
   ngOnInit(): void {
-    this.cekDataSource();
-
     this.loadPurposeType();
     this.initializeCountry();
 
