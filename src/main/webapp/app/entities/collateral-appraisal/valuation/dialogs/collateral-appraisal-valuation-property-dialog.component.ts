@@ -1,4 +1,4 @@
-import { Component, Inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -11,7 +11,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
   templateUrl: './collateral-appraisal-valuation-property-dialog.component.html',
   styleUrls: ['../collateral-appraisal-valuation.scss'],
 })
-export class CollateralAppraisalValuationPropertyDialogComponent implements OnChanges {
+export class CollateralAppraisalValuationPropertyDialogComponent implements OnChanges, OnInit {
   public collateralProp: ICollateralProperty;
   public collateralAppraisal: ICollateralAppraisal;
   constructor(
@@ -21,6 +21,11 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
   ) {
     this.collateralProp = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
+  }
+  ngOnInit(): void {
+    this.calTotalmarket();
+    this.calTotalmarketIMB();
+    this.calTotalmarketTataKota();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -72,5 +77,17 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
       return true;
     }
     return false;
+  }
+  public calTotalmarket(): Number {
+    this.collateralProp.propertyMarketValue = this.collateralProp.propertyMarketValuePerMeter * this.countTotalArea();
+    return this.collateralProp.propertyMarketValue;
+  }
+  public calTotalmarketIMB(): Number {
+    this.collateralProp.propertyMarketValueIMB = this.collateralProp.propertyMarketValueIMBPerMeter * this.collateralProp.imbArea;
+    return this.collateralProp.propertyMarketValueIMB;
+  }
+  public calTotalmarketTataKota(): Number {
+    this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * this.countTotalArea();
+    return this.collateralProp.propertyMarketValueTataKota;
   }
 }
