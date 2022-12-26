@@ -58,6 +58,18 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.loadCountry();
   } */
 
+  public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
+    if (param.length > 0) {
+      for (let i = 0; i < param.length; i++) {
+        const item: IStateBoundary = param[i];
+        if (item.id === id) {
+          return item;
+        }
+      }
+    }
+    return new StateBoundary();
+  }
+
   private loadCountry(): void {
     this.stateBoundaryService
       .queryFilterBy({

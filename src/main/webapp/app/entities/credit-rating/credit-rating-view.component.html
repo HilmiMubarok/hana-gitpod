@@ -44,10 +44,11 @@
                   </ejs-textbox> -->
               <ejs-datepicker
                 cssClass="e-outline"
-                type="date"
+                type="text"
                 placeholder="Equity Position as of (Date)"
                 floatLabelType="Auto"
                 [(ngModel)]="creditRatings.equityPositionDate"
+                format="yyyy/MM/dd"
                 disabled="true"
               >
               </ejs-datepicker>
@@ -261,7 +262,7 @@
                 placeholder="Equity Position as of (Date)"
                 floatLabelType="Auto"
                 [(ngModel)]="creditRatings.equityPositionDate"
-                format="dd-MM-yyyy"
+                format="yyyy/MM/dd"
                 disabled="true"
               >
               </ejs-datepicker>

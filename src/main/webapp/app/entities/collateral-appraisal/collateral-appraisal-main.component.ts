@@ -23,7 +23,7 @@ import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey
 import { PartyPostalAddressService } from '../party-postal-address/party-postal-address.service';
 import { IPostalAddress, PostalAddress } from '../postal-address/postal-address.model';
 import lodash from 'lodash';
-import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
+import { IPartyPostalAddress, PartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
@@ -143,7 +143,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public tasks: IProcessTask[] = new Array<IProcessTask>();
   private currentAccount: Account;
   public accountAuthorities?: Object[];
-  public postalAddress: IPostalAddress;
+  public postalAddress: IPartyPostalAddress;
 
   public creditProposal: ICreditProposal;
   public subMenu: object[];
@@ -177,7 +177,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
   ) {
-    this.postalAddress = new PostalAddress();
+    this.postalAddress = new PartyPostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -308,12 +308,9 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private loadPartyPostalAddress(partyId: string): void {
     this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
       if (res.body.length > 0) {
-        const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
+        this.postalAddress = lodash.find(res.body, function (o) {
           return o.purposeTypeId === 'PRIMARY_LOCATION';
         });
-        if (partyPostalAddress) {
-          this.postalAddress = partyPostalAddress.address;
-        }
       }
     });
   }

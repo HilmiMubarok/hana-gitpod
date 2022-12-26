@@ -88,7 +88,11 @@
     </div>
   </div>
   <div class="e-card-content">
-    <jhi-postal-address-view [item]="collateral.collateralAddress" mode="view"></jhi-postal-address-view>
+    <jhi-postal-address-view-custom
+      [collateral]="collateral"
+      [postalAddress]="collateral.collateralAddress"
+      [collateralApprAddress]="true"
+    ></jhi-postal-address-view-custom>
   </div>
 </div>
 
@@ -102,7 +106,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-document [document]="'document-collateral'" [collateral]="collateral"></jhi-document>
+        <jhi-document [document]="'document-collateral'" [status]="appraisal.statusId" [collateral]="collateral"></jhi-document>
       </div>
     </div>
 
@@ -114,7 +118,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-document [document]="'document-lainnya'" [appraisal]="appraisal"></jhi-document>
+        <jhi-document [document]="'document-lainnya'" [appraisal]="appraisal" [status]="appraisal.statusId"></jhi-document>
       </div>
     </div>
 
