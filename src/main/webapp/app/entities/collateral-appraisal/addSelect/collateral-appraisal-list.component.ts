@@ -1,4 +1,3 @@
-// import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,11 +38,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   @Input() cifNumber: string;
   public cifType?: string;
 
-  private partyCif?: IPartyCif[];
-  public partyCifData: Observable<{
-    result: any[];
-    count: number;
-  }>;
   private collateral?: ICollateral;
   private collateralsData?: any[];
   public dataSelectedCheckbox?: ICollateral[] = [];
@@ -63,7 +57,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   public paginatorLength: number;
   public paginatorPageSize: number;
-  public partyCifs: any;
   public surveyAppraisalTemplate: ISurveyAppraisals;
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
@@ -83,7 +76,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
-    this.partyCifs = [];
     this.showDetail = null;
 
     this.page = 0;
@@ -136,13 +128,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   private initialize(): void {
-    const passPartyCifData = {
-      result: [],
-      count: 0,
-    };
-
     this.showCollateral = false;
-    this.partyCifData = of(passPartyCifData);
     this.dataSelectedCheckbox = [];
   }
 
@@ -152,10 +138,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   private getPartyCif(): void {
     this.loading = true;
-    const passPartyCifData = {
-      result: [],
-      count: 0,
-    };
 
     const predicate = {
       page: this.page,
@@ -164,9 +146,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     };
 
     this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
+	  // filter login vs res rm
       this.initDataForMatTable(res, res.headers);
-      this.partyCif = res.body;
-      this.partyCifData = of(passPartyCifData);
     });
   }
 
@@ -203,11 +184,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           };
 
           const dialogRef = this.dialog.open(DialogCollateralAppraisalCifComponent, predicate);
-          dialogRef.afterClosed().subscribe(response => {
-            if (response) {
-              // this.creditProposal.attributes['shareHolder'] = [...this.creditProposal.attributes['shareHolder'], res];
-            }
-          });
+          dialogRef.afterClosed().subscribe();
           this.postalAddress = partyPostalAddress.address;
         }
       }
@@ -219,7 +196,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public onCifSelected(args: RowSelectEventArgs) {
     this.showCollateral = true;
 
-    // this.collateralsData = args.data['collaterals'];
     this.collateralsData = args.data['collaterals'].slice(0);
     for (let i = 0; i < this.collateralsData.length; i++) {
       this.collateralsData['indexNum'] = i + 1;
@@ -271,7 +247,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Appraisal Officer Type' });
     } else {
       const createSurveyAppraisalPromises = [];
-      this.partyCifs['appraisals'] = [];
       this.InternalExternal = [];
 
       for (let i = 0; i < this.statusChecked.length; i++) {
@@ -281,13 +256,11 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       for (let e = 0; e < this.statusChecked.length; e++) {
         for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
           const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
-          // const surveyAppraisal: ISurveyAppraisals = new SurveyAppraisals();
 
           surveyAppraisal.partyId =
             this.selectedPartyCif.customerType === 'PERSONAL'
               ? this.selectedPartyCif.customerPerson.id
               : this.selectedPartyCif.customerOrganization.id;
-          // surveyAppraisal.applicationId = this.selectedPartyCif.id;
           surveyAppraisal.applicationId = null;
           surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
           surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
@@ -295,9 +268,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           surveyAppraisal.apprOfficer = this.InternalExternal[e];
 
           createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
-          /* this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
-          this.router.navigate(['./collateral-appraisal']);
-        }); */
         }
       }
 
