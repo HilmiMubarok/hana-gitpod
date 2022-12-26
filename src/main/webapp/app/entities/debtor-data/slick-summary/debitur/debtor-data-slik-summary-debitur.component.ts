@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IPartySlik, PartySlik } from 'app/entities/party-slik/party-slik.model';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
-import lodash from 'lodash';
+import lodash, { result } from 'lodash';
 import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data-slik-summary-debitur-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
@@ -13,18 +13,34 @@ import { DebtorDataSlikTransferService } from './debtor-data-silk-upload/debtor-
 import _ from 'lodash';
 import { IPDFSlik } from 'app/shared/ocr/pdf-slik.model';
 import { firstValueFrom } from 'rxjs';
+import { Document, DocumentMetaData, IDocument} from 'app/entities/document/document.model'; 
+import moment from 'moment';
+import { StorageService } from 'app/entities/storage/storage.service'; 
+import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
   styleUrls: ['./debtor-data-slik-summary-debitur.scss'],
 })
-export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> {
+export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterialComponent<IPartySlik> implements OnInit {
   public loading: boolean;
   public dataPartySlik: IPartySlik[];
+  public folders= []
 
   private _partyCif: IPartyCif;
   private _partyCifDM: string;
   private _partyId: string;
+  private _managementType: string
+  public bucket: string
+
+  @Input()
+  get managementType(){
+    return this._managementType
+  }
+
+  set managementType(ob: string){
+    this._managementType = ob
+  }
 
   @Input()
   get partyCif() {
@@ -135,7 +151,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     public partySlikService: PartySlikService,
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    public TransferService: DebtorDataSlikTransferService
+    public TransferService: DebtorDataSlikTransferService,
+    private storageService: StorageService
   ) {
     super(_snackBar, partySlikService);
     this.loading = false;
@@ -146,11 +163,22 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.dataPartySlik = [];
   }
 
-  // ngOnInit(): void {
-  //   this.loadDataBy();
+  ngOnInit(): void {
+    // this.loadDataBy();
+    this.getFiles()
 
-  //   console.log("cif", this.partyCif);
-  // }
+    this.getBucket()
+  
+  }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
 
   public loadDataBy(): void {
     this.partySlikService
@@ -161,11 +189,82 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         sort: ['id,desc'],
       })
       .subscribe({
-        next: (res: HttpResponse<IPartyCif[]>) => {
-          console.log('ress', res), this.initDataForMatTable(res, res.headers);
-        },
+        next: (res: HttpResponse<IPartyCif[]>) => {this.initDataForMatTable(res, res.headers)},
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+
+ 
+
+  private getFiles(): void {
+    this.folders = []
+      const predicate: Object = {
+        key: `/party-cif/${this.partyCif.id}/document`,
+      };
+      this.storageService.getBucketName().subscribe((response: any) => {
+   
+        this.storageService.getObjects(response.body.bucket, predicate).subscribe((res:any) => {
+      
+       for (let i = 0; i < res.body.length; i++) {
+            if (res.body[i].tags.managementType === this.managementType) {
+              this.folders.push(res.body[i])
+            }
+        
+       }
+        
+        });
+      });
+      
+    
+  }
+
+  public viewDialog(){
+      const predicate: object = {
+        width: '80vw',
+        data: this.folders,
+      };
+      this.getFiles()
+      const dialogRef = this.dialog.open(DebtorDataViewUploadComponent, predicate);
+      dialogRef.afterClosed().subscribe();
+    
+  }
+
+
+  private doUpload(frmData: FormData, metaData: object): Promise<void> {
+
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe((response :any)=> { 
+     
+      this.storageService.uploadMeta(String(response.body.bucket), frmData, metaData).subscribe({
+        next: res => resolve(),
+        error: err => reject(),
+      });
+    })
+    });
+  }
+  
+
+  public uploadData(file:File[]) {
+
+    const promises: Array<any> = new Array<any>();
+    for (let i = 0; i < file.length; i++) {
+      const metaData = {
+        folder: '',
+        objectName: '',
+        entityId: 0,
+        managementType: ''
+      };
+      const files = file[i].name.replace('&', '');
+      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+      metaData.folder = files;
+      metaData.objectName = `/party-cif/${this.partyCif.id}/document/-${currentDate}-${files}`;
+      metaData.entityId = this.partyCif.id;
+      metaData.managementType =  this.managementType;
+      const formData = new FormData();
+      formData.append('file', file[i]);
+    
+      promises.push(this.doUpload(formData, metaData));
+    }
   }
 
   public openDialog(element: IPartySlik = null, index: number): void {
@@ -228,27 +327,31 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     return partySlik;
   }
-
+  public resData: IPDFSlik[]
   public openDialogUpload(): void {
     const predicate: object = {
       width: '80vw',
       data: {
         partyId: this.partyId,
         cif: this.partyCif !== undefined ? this.partyCif.customerNumber : this.partyCifDM,
+      
       },
     };
-
+   
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
-    dialogRef.afterClosed().subscribe((res: IPDFSlik[]) => {
+    dialogRef.afterClosed().subscribe((response: any) => {
+      this.resData = response.data
       if (this.dataPartySlik.length > 0 && this.dataPartySlik.length <= 1) {
         if (this.dataPartySlik[0].id === undefined) {
           this.dataPartySlik = [];
         }
       }
 
-      if (res) {
-        for (let y = 0; y < res.length; y++) {
-          const item = res[y];
+      if (this.resData) {
+        this.uploadData(response.files)
+        this.getFiles()
+        for (let y = 0; y < this.resData.length; y++) {
+          const item = this.resData[y];
           const partySlik: IPartySlik = this.mapperIPDFSlikToPartySlik(item);
           this.savePartySlik(partySlik);
           this.dataPartySlik = lodash.concat(this.dataPartySlik, partySlik);

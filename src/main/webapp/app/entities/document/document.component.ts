@@ -182,6 +182,7 @@ export class DocumentComponent implements OnChanges {
   }
 
   private groupByFolder(param: Object[]): void {
+    this.folders = []
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)

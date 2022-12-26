@@ -318,6 +318,10 @@ import { CollateralAppraisalDetailProcessRealEstateComponent } from './collatera
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
+import { PartyCifCustomerInfoPostalAddressEnCifComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif.component';
+import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
+import { CollateralAppraisalNewInfoComponent } from './collateral-appraisal/addSelect/collateral-appraisal-info.component';
+import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/type-dialog-appraisal.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -357,6 +361,7 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
+	PartyCifCustomerInfoPostalAddressEnCifComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -687,11 +692,15 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
+    DebtorDataViewUploadComponent,
+    CollateralAppraisalNewInfoComponent,
+    TypeDialogAppraisalComponent
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
+	PartyCifCustomerInfoPostalAddressEnCifComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -1022,6 +1031,9 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
+    DebtorDataViewUploadComponent,
+    CollateralAppraisalNewInfoComponent,
+    TypeDialogAppraisalComponent
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

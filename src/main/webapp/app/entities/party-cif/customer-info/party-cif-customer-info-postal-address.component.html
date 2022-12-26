@@ -1,13 +1,5 @@
 <div class="row mt-3">
   <div class="col-12">
-    <!-- <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Purpose Type</mat-label>
-        <mat-select [(ngModel)]="partyPostalAddress.purposeTypeId" [disabled]="!isWarehouse">
-          <mat-option *ngFor="let item of purposeTypes" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Address</mat-label>
@@ -17,17 +9,29 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Country</mat-label>
-        <mat-select (selectionChange)="loadProvince($event.value)" [(ngModel)]="partyPostalAddress.address.countryId" [disabled]="disabled">
-          <mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
-        </mat-select>
+		<input matInput type="text" [(ngModel)]="partyPostalAddress.address.countryName" [disabled]="disabled" />
+		<!--<section *ngIf="disabled">
+		  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.countryName" [disabled]="disabled" />
+		</section>
+		<section *ngIf="!disabled">
+		  <mat-select (selectionChange)="loadProvince($event.value)" [(ngModel)]="partyPostalAddress.address.countryId" [disabled]="disabled">
+			<mat-option *ngFor="let item of country" [value]="item.id || item.code">{{ item.description }} </mat-option>
+		  </mat-select>
+		</section>-->
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Province</mat-label>
-        <mat-select (selectionChange)="loadCity($event.value)" [(ngModel)]="partyPostalAddress.address.provinceId" [disabled]="disabled">
-          <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select>
+		<input matInput type="text" [(ngModel)]="partyPostalAddress.address.provinceName" [disabled]="disabled" />
+		<!--<section *ngIf="disabled">
+		  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.provinceName" [disabled]="disabled" />
+		</section>
+		<section *ngIf="!disabled">
+		  <mat-select (selectionChange)="loadCity($event.value)" [(ngModel)]="partyPostalAddress.address.provinceId" [disabled]="disabled">
+			<mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
+          </mat-select>
+		</section>-->
         <mat-hint align="end" *ngIf="!partyPostalAddress.address.countryId">Select country to get list of province </mat-hint>
         <mat-hint align="end" *ngIf="partyPostalAddress.address.countryId"
           >List province of country
@@ -38,9 +42,15 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>City</mat-label>
-        <mat-select (selectionChange)="loadDistrict($event.value)" [(ngModel)]="partyPostalAddress.address.cityId" [disabled]="disabled">
-          <mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select>
+		<input matInput type="text" [(ngModel)]="partyPostalAddress.address.cityName" [disabled]="disabled" />
+		<!--<section *ngIf="disabled">
+		  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.cityName" [disabled]="disabled" />
+		</section>
+		<section *ngIf="!disabled">
+          <mat-select (selectionChange)="loadDistrict($event.value)" [(ngModel)]="partyPostalAddress.address.cityId" [disabled]="disabled">
+			<mat-option *ngFor="let item of cities" [value]="item.id">{{ item.description }} </mat-option>
+          </mat-select>
+		</section>-->
         <mat-hint align="end" *ngIf="!partyPostalAddress.address.provinceId">Select province to get list of city </mat-hint>
         <mat-hint align="end" *ngIf="partyPostalAddress.address.provinceId"
           >List city of province
@@ -51,9 +61,15 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>District</mat-label>
-        <mat-select (selectionChange)="loadVillage($event.value)" [(ngModel)]="partyPostalAddress.address.districtId" [disabled]="disabled">
-          <mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select>
+		<input matInput type="text" [(ngModel)]="partyPostalAddress.address.districtName" [disabled]="disabled" />
+		<!--<section *ngIf="disabled">
+		  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.districtName" [disabled]="disabled" />
+		</section>
+		<section *ngIf="!disabled">
+          <mat-select (selectionChange)="loadVillage($event.value)" [(ngModel)]="partyPostalAddress.address.districtId" [disabled]="disabled">
+			<mat-option *ngFor="let item of districts" [value]="item.id">{{ item.description }} </mat-option>
+          </mat-select>
+		</section>-->
         <mat-hint align="end" *ngIf="!partyPostalAddress.address.cityId">Select city to get list of district </mat-hint>
         <mat-hint align="end" *ngIf="partyPostalAddress.address.cityId"
           >List district of city
@@ -64,9 +80,15 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Village</mat-label>
-        <mat-select [(ngModel)]="partyPostalAddress.address.villageId" [disabled]="disabled">
-          <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select>
+		<input matInput type="text" [(ngModel)]="partyPostalAddress.address.villageName" [disabled]="disabled" />
+		<!--<section *ngIf="disabled">
+		  <input matInput type="text" [(ngModel)]="partyPostalAddress.address.villageName" [disabled]="disabled" />
+		</section>
+		<section *ngIf="!disabled">
+          <mat-select [(ngModel)]="partyPostalAddress.address.villageId" [disabled]="disabled">
+			<mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
+          </mat-select>
+		</section>-->
         <mat-hint align="end" *ngIf="!partyPostalAddress.address.districtId">Select district to get list of village </mat-hint>
         <mat-hint align="end" *ngIf="partyPostalAddress.address.districtId"
           >List village of district

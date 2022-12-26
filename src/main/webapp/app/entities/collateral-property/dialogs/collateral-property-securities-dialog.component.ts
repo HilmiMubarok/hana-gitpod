@@ -272,6 +272,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
+        this.areaMeasure = res.body;
         this.optionsQuantity = res.body;
         this.filteredQuantity();
         this.qty = this.optionsQuantity.find(obj => (obj.id = this.collateralProperty.attributes.quantitySizeUomId));
@@ -327,6 +328,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
 
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
+      console.log('ini management branch', res.body);
       this.branceManagement = res.body;
     });
   }

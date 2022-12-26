@@ -6,6 +6,11 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import {
+  IPartyPostalAddressWarehouse,
+  PartyPostalAddressWarehouse,
+} from 'app/entities/party-postal-address/party-postal-address-warehouse.model';
+import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
@@ -51,9 +56,9 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.ejDialog.hide();
   }
 
+  public warehouseLocation: IPartyPostalAddressWarehouse;
   public postalAdresss: IPartyPostalAddress;
   public generalLocation: IPartyPostalAddress;
-  public domicileLocation: IPartyPostalAddress;
   public gridCreditProposal: any = [];
   public dialogVisibility = false;
   // Sample level code to handle the button click action
@@ -78,6 +83,15 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.generalLocation = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'DOMICILE_LOCATION';
     });
+    this.warehouseLocation = this.creditProposal.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+    if (this.warehouseLocation === undefined) {
+      this.warehouseLocation = new PartyPostalAddressWarehouse();
+      this.warehouseLocation.purposeTypeId = PURPOSE_TYPE.WAREHOUSE;
+    } else {
+      this.warehouseLocation = this.creditProposal.addresses.find(function (e) {
+        return e.purposeTypeId === 'WAREHOUSE_LOCATION';
+      });
+    }
 
     this.watchListChange();
     this.hiddenData();

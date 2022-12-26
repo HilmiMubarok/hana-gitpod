@@ -559,7 +559,7 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
       {
         name: 'Appraisal Process',
         iconname: 'minus',
-        route: 'collateral-appraisal-process',
+        route: 'batch-apprisal/process',
       },
       {
         name: 'Appraisal Result Inqury',
@@ -791,7 +791,7 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
       {
         name: 'Appraisal Report Approval',
         iconname: 'minus',
-        route: 'collateral-appraisal-report-approval',
+        route: 'batch-apprisal/approval',
       },
       {
         name: 'Appraisal Result Inqury',
@@ -1028,7 +1028,7 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
       {
         name: 'Appraisal Distribution Internal',
         iconname: 'minus',
-        route: 'collateral-appraisal-distribution-internal',
+        route: 'batch-apprisal/internal',
       },
       {
         name: 'Appraisal Result Inqury',

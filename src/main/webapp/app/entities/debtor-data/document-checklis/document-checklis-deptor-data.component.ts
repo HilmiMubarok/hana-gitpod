@@ -43,6 +43,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   }
 
   private groupByFolder(param: any[]): void {
+    this.folders = []
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)
