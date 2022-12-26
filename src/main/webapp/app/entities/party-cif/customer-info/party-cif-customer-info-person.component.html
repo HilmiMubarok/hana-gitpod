@@ -87,7 +87,7 @@
     <div class="form-group" *ngIf="spouse === 'spouse'">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Date of Birth</mat-label>
-        <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" />
+        <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="person.dob" disabled />
         <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
         <mat-datepicker #dob></mat-datepicker>
         <mat-hint align="start"
@@ -178,7 +178,7 @@
         <div *ngIf="spouseCustomer()">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Separate Asset Agreement</mat-label>
-            <input matInput type="text" id="myInput" [(ngModel)]="debtorData.separateAssetAggrementDesc" />
+            <input matInput type="text" id="myInput" [(ngModel)]="debtorData.separateAssetAggrementDesc" [disabled]="true" />
           </mat-form-field>
         </div>
       </div>
