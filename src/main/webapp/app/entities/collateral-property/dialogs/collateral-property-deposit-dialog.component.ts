@@ -122,7 +122,6 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   filteredCurrency() {
-    console.log('ini options ', this.optionsCurrency);
     this.filteredOptionsCurrency = this.myControlCurrency.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -133,7 +132,6 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   filteredMVImb() {
-    console.log('ini options ', this.optionsMVImb);
     this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -144,6 +142,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   filteredQuantity() {
+    console.log('ini options ', this.optionsQuantity);
     this.filteredOptionsQuantity = this.myControlQuantity.valueChanges.pipe(
       startWith(''),
       map(value => {

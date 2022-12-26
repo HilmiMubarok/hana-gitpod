@@ -318,6 +318,8 @@ import { CollateralAppraisalDetailProcessRealEstateComponent } from './collatera
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
+import { PartyCifCustomerInfoPostalAddressEnCifComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif.component';
+import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -357,6 +359,7 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
+	PartyCifCustomerInfoPostalAddressEnCifComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -687,11 +690,13 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
+    DebtorDataViewUploadComponent
   ],
   exports: [
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
+	PartyCifCustomerInfoPostalAddressEnCifComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -1022,6 +1027,7 @@ import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessLandCertificatesComponent,
     CollateralAppraisalDetailProcessLandComponent,
+    DebtorDataViewUploadComponent
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

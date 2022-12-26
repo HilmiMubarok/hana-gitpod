@@ -1,19 +1,18 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
+import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
+import { IPartyCif, PartyCif } from '../party-cif.model';
 
 @Component({
-  selector: 'jhi-party-cif-customer-info-postal-address',
-  templateUrl: './party-cif-customer-info-postal-address.component.html',
+  selector: 'jhi-party-cif-customer-info-postal-address-en-cif',
+  templateUrl: './party-cif-customer-info-postal-address-en-cif.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressComponent
-  extends AbstractEntityViewPageComponent<IPartyPostalAddress>
-  implements OnInit, OnChanges
+export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
 {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
@@ -21,38 +20,33 @@ export class PartyCifCustomerInfoPostalAddressComponent
   public villages: IStateBoundary[];
   public cities: IStateBoundary[];
 
-  private _partyPostalAddresses = new PartyPostalAddress();
+  private _partyCif: IPartyCif = new PartyCif();
+
+  public index: number;
 
   @Input()
-  public disabled: Boolean = false;
-
-  @Input()
-  get partyPostalAddress() {
-    return this._partyPostalAddresses;
+  get partyCif() {
+    return this._partyCif;
   }
 
-  set partyPostalAddress(data: IPartyPostalAddress) {
-    this._partyPostalAddresses = data;
+  set partyCif(data: IPartyCif) {
+    this._partyCif = data;
+
+	this.index = this.partyCif.addresses.findIndex(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+	this.loadProvince(this._partyCif.addresses[this.index].address.countryId);
+	this.loadCity(this._partyCif.addresses[this.index].address.provinceId);
+	this.loadDistrict(this._partyCif.addresses[this.index].address.cityId);
+	this.loadVillage(this._partyCif.addresses[this.index].address.districtId);
   }
 
   constructor(
     protected activatedRoute: ActivatedRoute,
     private stateBoundaryService: StateBoundaryService
   ) {
-    super();
     this.country = [];
     this.provinces = [];
     this.cities = [];
     this.districts = [];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyPostalAddress']) {
-      this.loadProvince(this.partyPostalAddress.address.countryId);
-      this.loadCity(this.partyPostalAddress.address.provinceId);
-      this.loadDistrict(this.partyPostalAddress.address.cityId);
-      this.loadVillage(this.partyPostalAddress.address.districtId);
-    }
   }
 
   ngOnInit(): void {

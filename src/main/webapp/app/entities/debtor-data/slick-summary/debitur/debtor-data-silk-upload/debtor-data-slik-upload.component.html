@@ -5,7 +5,7 @@
       <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
         <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
       </ngx-dropzone>
-
+    <!-- notes from ismoyo saya di sini hanya membuat code unutk menampilkan icon yang di buat oleh programer sebelumnya -->
       <div class="row">
         <ngx-dropzone-preview
           class="col-6"
@@ -15,7 +15,26 @@
           (removed)="onRemove(f)"
         >
           <ngx-dropzone-label *ngIf="f.url === undefined">
-            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"></ngx-dropzone-image-preview>
+            <ngx-dropzone-image-preview
+              ngProjectAs="ngx-dropzone-image-preview"
+              [file]="f"
+              *ngIf="f.type === 'image/jpeg'"
+            ></ngx-dropzone-image-preview>
+          </ngx-dropzone-label>
+          <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
+            <img src="../../../content/images/excel.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+            <img src="../../../content/images/word.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
+            <img src="../../../content/images/pdf.png" width="100%" height="100%" />
+          </ngx-dropzone-label>
+
+          <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
+            <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
           </ngx-dropzone-label>
 
           <ngx-dropzone-label *ngIf="f.url !== undefined">
