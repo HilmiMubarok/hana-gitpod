@@ -381,13 +381,16 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
+  public saveDoc: boolean;
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
+        this.saveDoc = true;
         this.saveApplicationRole();
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
+        this.saveDoc = true;
         this.saveApplicationRole();
       });
     }
