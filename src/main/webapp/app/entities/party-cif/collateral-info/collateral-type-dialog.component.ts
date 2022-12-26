@@ -7,7 +7,7 @@ import { CashCollateralService } from 'app/entities/cash-collateral/cash-collate
 import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE } from 'app/shared/constants/base.constants';
 import { OptionNode } from 'app/shared/model/option-node.model';
-import { STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { PARIPASU_STATUS, STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -48,6 +48,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public _disabledOpt: any;
   public _hiddenOpt = true;
   public collateralStatus: any;
+  public paripasuStatus: any;
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   @Input()
@@ -77,6 +78,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralStatus = STATUS_COLLATERAL;
+    this.paripasuStatus = PARIPASU_STATUS;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
