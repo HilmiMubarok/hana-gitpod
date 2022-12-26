@@ -288,9 +288,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.optionsQuantity = res.body;
-        this.filteredQuantity();
-        this.qty = this.optionsQuantity.find(obj => (obj.abbreviation = this.collateralProperty.attributes.quantitySizeUomId));
+        this.areaMeasure = res.body;
       });
   }
 
