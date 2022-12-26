@@ -224,7 +224,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   public initializeVillage(): void {
     this.stateBoundaryService
-      .queryFilterBy({ page: 0, size: 9999, idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.postalAddress.districtId })
+      .queryFilterBy({ page: 0, size: 50, idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.postalAddress.districtId })
       .subscribe(res => {
         this.optionsVillage = res.body;
         this.filteredVillage();
