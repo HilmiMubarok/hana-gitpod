@@ -318,6 +318,7 @@ import { CollateralAppraisalDetailProcessRealEstateComponent } from './collatera
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
+import { PartyCifCustomerInfoPostalAddressEnCifComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif.component';
 import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 @NgModule({
   imports: [
@@ -358,6 +359,7 @@ import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debit
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
+	PartyCifCustomerInfoPostalAddressEnCifComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -694,6 +696,7 @@ import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debit
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
+	PartyCifCustomerInfoPostalAddressEnCifComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,

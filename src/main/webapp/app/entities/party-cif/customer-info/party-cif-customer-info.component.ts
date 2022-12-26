@@ -19,7 +19,7 @@ import { IPartyCif } from '../party-cif.model';
   styleUrls: ['../party-cif.style.scss'],
 })
 export class PartyCifCustomerInfoComponent implements OnChanges {
-  private _partyCIf: IPartyCif;
+  private _partyCif: IPartyCif = new PartyCif();
 
   public domicileLocation: IPartyPostalAddress;
   public primaryLocation: IPartyPostalAddress;
@@ -52,10 +52,6 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
         lodash.find(param, function (o) {
           return o.purposeTypeId === PURPOSE_TYPE.DOMICILE.toString();
         }) || new PartyPostalAddress();
-      // this.warehouseLocation =
-      //   lodash.find(param, function (o) {
-      //     return o.purposeTypeId === PURPOSE_TYPE.WAREHOUSE;
-      //   }) || new PartyPostalAddress();
       this.warehouseLocation = this.partyCif.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
       if (this.warehouseLocation === undefined) {
         this.warehouseLocation = new PartyPostalAddressWarehouse();
