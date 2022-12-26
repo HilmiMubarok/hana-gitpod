@@ -30,9 +30,18 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialog(element)">
-              <mat-icon>remove_red_eye</mat-icon>
-            </button>
+            <section
+              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <button mat-icon-button (click)="openDialog(element)">
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+            </section>
+
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <button mat-icon-button hidden (click)="openDialog(element)">
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+            </section>
           </td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
