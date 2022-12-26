@@ -29,10 +29,10 @@ export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
   set partyCif(data: IPartyCif) {
     this._partyCif = data;
 
-	this.loadProvince(this._partyCif.address.countryId);
-	this.loadCity(this._partyCif.address.provinceId);
-	this.loadDistrict(this._partyCif.address.cityId);
-	this.loadVillage(this._partyCif.address.districtId);
+	this.loadProvince(this._partyCif.addresses.countryId);
+	this.loadCity(this._partyCif.addresses.provinceId);
+	this.loadDistrict(this._partyCif.addresses.cityId);
+	this.loadVillage(this._partyCif.addresses.districtId);
   }
 
   constructor(
