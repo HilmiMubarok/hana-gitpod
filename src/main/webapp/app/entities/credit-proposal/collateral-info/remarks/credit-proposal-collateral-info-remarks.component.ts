@@ -38,7 +38,9 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
   private getKey: string;
   private fileGet: File;
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {}
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
+    this.bucket = '';
+  }
   @Input() saveWord: any;
 
   @Input()
@@ -50,15 +52,26 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
     this._creditProposal = item;
   }
 
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   ngOnInit(): void {
     this.removeTagRemaks();
     this.pathremove();
 
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/collateral-info/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
   }
 

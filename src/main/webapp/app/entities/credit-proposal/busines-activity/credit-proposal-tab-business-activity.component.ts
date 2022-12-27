@@ -121,7 +121,9 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     private storageService: StorageService
-  ) {}
+  ) {
+    this.bucket = '';
+  }
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
@@ -159,13 +161,24 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     }
   }
 
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   ngOnInit() {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
       this.key1 = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
 
     this.selectedMenu = 'BUSINESS ACTIVITY';
