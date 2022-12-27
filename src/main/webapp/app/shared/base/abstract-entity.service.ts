@@ -23,6 +23,7 @@ export class AbstractEntityService<T> {
   protected resouceGridRetrive: string;
   protected resourceLovUrl: string;
   protected resourceUrlBrance: string;
+  protected loanAnalysisPath: string;
 
   constructor(protected http?: HttpClient) {
     this.lastReadCache = new Date();

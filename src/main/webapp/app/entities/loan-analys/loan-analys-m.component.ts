@@ -184,9 +184,13 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   private loadAll(): void {
     this.loading = true;
-    const dynamicURL: string = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute)
-    );
+    /* const dynamicURL: string = this.applicationConfigService.getEndpointFor(
+      MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute);
+    ); */
+	const menu = this.convertStatusActivateRoute(this.activeRoute);
+	if (menu === 'loan-analys-and-approval-monitoring') {
+	  menu = 'la-approval';
+	}
     if (this.clickedChip['id'] !== '') {
       this.loanAnalysService
         .queryFilterBy({
@@ -221,8 +225,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       return;
     }
 
-    this.loanAnalysService
-      // .query({
+    /* this.loanAnalysService
       .queryDynamicURL(
         {
           page: this.page,
@@ -230,6 +233,22 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           sort: this.sortData(),
         },
         dynamicURL
+      )
+      .subscribe({
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      }); */
+	  
+	  this.loanAnalysService
+      .queryByMenu({
+        {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        },
+        menu
       )
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {

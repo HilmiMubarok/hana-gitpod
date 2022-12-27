@@ -1,25 +1,17 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
-import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-party-cif-customer-info-postal-address',
   templateUrl: './party-cif-customer-info-postal-address.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-// export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> implements OnInit, OnChanges
 export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress>
 {
-  public country: IStateBoundary[];
-  public provinces: IStateBoundary[];
-  public districts: IStateBoundary[];
-  public villages: IStateBoundary[];
-  public cities: IStateBoundary[];
-
   private _partyPostalAddresses = new PartyPostalAddress();
 
   @Input()
@@ -39,24 +31,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     private stateBoundaryService: StateBoundaryService
   ) {
     super();
-    this.country = [];
-    this.provinces = [];
-    this.cities = [];
-    this.districts = [];
   }
-
-  /* ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyPostalAddress']) {
-      this.loadProvince(this.partyPostalAddress.address.countryId);
-      this.loadCity(this.partyPostalAddress.address.provinceId);
-      this.loadDistrict(this.partyPostalAddress.address.cityId);
-      this.loadVillage(this.partyPostalAddress.address.districtId);
-    }
-  } */
-
-  /* ngOnInit(): void {
-    this.loadCountry();
-  } */
 
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
     if (param.length > 0) {
@@ -68,71 +43,5 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
       }
     }
     return new StateBoundary();
-  }
-
-  private loadCountry(): void {
-    this.stateBoundaryService
-      .queryFilterBy({
-        idBoundaryType: GEO_BOUNDARY_TYPE['country'],
-        size: 9999,
-        page: 0,
-      })
-      .subscribe(res => {
-        this.country = res.body;
-      });
-  }
-
-  public loadProvince(idCountry: number = null): void {
-    if (idCountry) {
-      const predicate: object = {
-        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
-        page: 0,
-        size: 9999,
-        idParent: idCountry,
-      };
-
-      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-        this.provinces = res.body;
-      });
-    }
-  }
-
-  public loadCity(idProvince: number = null): void {
-    if (idProvince) {
-      const predicate: object = {
-        idBoundaryType: GEO_BOUNDARY_TYPE['city'],
-        size: 9999,
-        idParent: idProvince,
-      };
-      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-        this.cities = res.body;
-      });
-    }
-  }
-
-  public loadDistrict(idCity: number = null): void {
-    if (idCity) {
-      const predicate: object = {
-        idBoundaryType: GEO_BOUNDARY_TYPE['district'],
-        size: 9999,
-        idParent: idCity,
-      };
-      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-        this.districts = res.body;
-      });
-    }
-  }
-
-  public loadVillage(idDistrict: number = null): void {
-    if (idDistrict) {
-      const predicate: object = {
-        idBoundaryType: GEO_BOUNDARY_TYPE['village'],
-        size: 9999,
-        idParent: idDistrict,
-      };
-      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-        this.villages = res.body;
-      });
-    }
   }
 }

@@ -13,7 +13,6 @@ import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
-  private loanAnalysisPath: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/credit-proposals');
@@ -69,6 +68,15 @@ export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
     if (entity.prospectOrganization) {
       console.log('xxx');
     }
+  }
+  
+  public queryByMenu(req?: any, menu?: string): Observable<HttpResponse<ICreditProposal[]>> {
+    const options = createRequestOption(req);
+	const url = this.loanAnalysisPath + menu;
+    return this.http
+      .get<ICreditProposal[]>(url, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
   }
 
   public findByCif(cif: string): Observable<HttpResponse<ICreditProposal>> {

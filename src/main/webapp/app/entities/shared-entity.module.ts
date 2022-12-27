@@ -318,7 +318,7 @@ import { CollateralAppraisalDetailProcessRealEstateComponent } from './collatera
 import { CollateralAppraisalDetailProcessLandComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { PartyCifCustomerInfoPostalAddressComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address.component';
-import { PartyCifCustomerInfoPostalAddressEnCifComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif.component';
+import { PartyCifCustomerInfoPostalAddressEnCifWhComponent } from './party-cif/customer-info/party-cif-customer-info-postal-address-en-cif-wh.component';
 import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 import { CollateralAppraisalNewInfoComponent } from './collateral-appraisal/addSelect/collateral-appraisal-info.component';
 import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/type-dialog-appraisal.component';
@@ -361,7 +361,7 @@ import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/t
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
-	PartyCifCustomerInfoPostalAddressEnCifComponent,
+	PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
@@ -700,7 +700,7 @@ import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/t
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
-	PartyCifCustomerInfoPostalAddressEnCifComponent,
+	PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,

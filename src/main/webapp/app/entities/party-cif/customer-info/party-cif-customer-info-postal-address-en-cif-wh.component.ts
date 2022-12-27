@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -8,11 +8,11 @@ import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import { IPartyCif, PartyCif } from '../party-cif.model';
 
 @Component({
-  selector: 'jhi-party-cif-customer-info-postal-address-en-cif',
-  templateUrl: './party-cif-customer-info-postal-address-en-cif.component.html',
+  selector: 'jhi-party-cif-customer-info-postal-address-en-cif-wh',
+  templateUrl: './party-cif-customer-info-postal-address-en-cif-wh.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressEnCifComponent implements OnInit
+export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
 {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
