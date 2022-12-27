@@ -44,8 +44,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
   public notes: any;
 
-  private BUCKET_OPINION: string;
-  private BUCKET_CONDITION: string;
+  private BUCKET: string;
+
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private paramId: string;
@@ -90,7 +90,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     private storageService: StorageService,
-    private changeDetectorRefs: ChangeDetectorRef,
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService
@@ -102,21 +101,14 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
     this.getLogin();
-    this.getWordOpinion();
-    this.getWordCondition();
+    this.getWord();
     this.refresh();
   }
 
-  public getWordOpinion() {
+  public getWord() {
     this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_OPINION = val.body['bucket'];
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
-    });
-  }
-
-  public getWordCondition() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_CONDITION = val.body['bucket'];
       this.getContainerCondition();
     });
   }
@@ -159,7 +151,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_OPINION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -171,7 +163,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_OPINION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
 
@@ -197,7 +189,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_OPINION, this.obj)
+      .getObjects(this.BUCKET, this.obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -247,7 +239,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_CONDITION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -259,7 +251,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_CONDITION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -282,7 +274,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_CONDITION, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
