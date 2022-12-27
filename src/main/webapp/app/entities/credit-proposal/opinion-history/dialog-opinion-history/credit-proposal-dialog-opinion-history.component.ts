@@ -42,8 +42,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
   private getObj: any;
   private paramId: string;
   public resourceUrl: string;
-  private BUCKET_OPINION: string;
-  private BUCKET_CONDITION: string;
+  private BUCKET: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -65,8 +64,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getLogin();
-    this.getWordOpinion();
-    this.getWordCondition();
+    this.getWord();
   }
 
   public getLogin() {
@@ -77,34 +75,26 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-
-    this.getWordOpinion();
   }
 
   onDocumentChanges() {
     this.container_condition.restrictEditing = true;
-    this.getWordCondition();
   }
 
-  public getWordOpinion() {
+  public getWord() {
     this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_OPINION = val.body['bucket'];
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
-    });
-  }
-
-  public getWordCondition() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_CONDITION = val.body['bucket'];
       this.getContainerCondition();
     });
   }
+
   private getContainer(): void {
     this.getObj = {
       key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_OPINION, this.getObj)
+      .getObjects(this.BUCKET, this.getObj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -134,7 +124,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
       key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_CONDITION, getObj)
+      .getObjects(this.BUCKET, getObj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
