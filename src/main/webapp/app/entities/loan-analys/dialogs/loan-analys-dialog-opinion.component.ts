@@ -44,10 +44,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
   public getObj: any;
   public positionUserId: any;
   public resourceUrl: string;
-  private BUCKET_OPINION: string;
-  private BUCKET_CONDITION: string;
-  private KEY_OPINION = 'credit_proposal/remark/opinion-history/opinion';
-  private KEY_CONDITION = 'credit_proposal/remark/opinion-history/condition';
+  private BUCKET: string;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dataNotes: {
@@ -66,12 +63,11 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
     this.creditProposalItem = this.dataNotes.item;
 
     // this.getLogin();
-    this.conditionOpinion();
   }
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.getWordOpinion();
-    this.getWordCondition();
+    this.conditionOpinion();
+    this.getWord();
 
     // this.activatedRoute.params.subscribe(params => {
     //   this.paramsIdGet = params['id'];
@@ -159,16 +155,10 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
     // this.getContainerCondition();
   }
 
-  public getWordOpinion() {
+  public getWord() {
     this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_OPINION = val.body['bucket'];
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
-    });
-  }
-
-  public getWordCondition() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_CONDITION = val.body['bucket'];
       this.getContainerCondition();
     });
   }
@@ -194,7 +184,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
       key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_OPINION, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -224,7 +214,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
       key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_CONDITION, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
