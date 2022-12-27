@@ -19,7 +19,7 @@ import {
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IProduct } from 'app/entities/product/product.model';
-
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -45,6 +45,19 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public collaterallInfo: any;
   public collateralProductRelations: any;
   public creditProposaldata: any;
+  public hobbiesT = true;
+
+  length: number;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
+
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
+
+  pageEvent: PageEvent;
 
   public displayColumns: string[] = [
     'no',
@@ -77,7 +90,21 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.visibleDialog = false;
   }
 
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.length = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+  }
+
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    }
+  }
+
   ngOnInit(): void {
+    console.log('credit proposal', this.creditProposal.products);
     this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
@@ -89,10 +116,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         this.dataParty.push(this.creditProposal.products[i]);
+        console.log('data party 1', this.dataParty);
       }
     } else {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         this.dataParty.push(this.creditProposal.products[i]);
+        console.log('data party 2', this.dataParty);
       }
       this.creditProposal.attributes['loanHobbies'] = 'false';
       this.partyCifService
@@ -129,10 +158,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   dataFunc(response: any) {
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
       const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-     
+
       const dataParty = [];
       for (let i = 0; i < cpFacility.length; i++) {
-        const aYear = []
+        const aYear = [];
         const date2 = new Date(cpFacility[i].FILN10_TOT_EXP_IL);
         const date1 = new Date(cpFacility[i].FXFIG_TRX_DT);
         aYear.push(Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)));
@@ -146,7 +175,15 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           changes: '0',
           commitedLine: 'false',
           currency: cpFacility[i].LNB_BASE_LON_CCY,
-          currentInterestRate:  cpFacility[i].FILN10_ROLL_GAP +' '+ cpFacility[i].FILN10_ROLL_GAP_GB_NM +' '+' '+ cpFacility[i].FIX_FLT_GB_NM +' '+ cpFacility[i].FILN11_SPREAD_RT,
+          currentInterestRate:
+            cpFacility[i].FILN10_ROLL_GAP +
+            ' ' +
+            cpFacility[i].FILN10_ROLL_GAP_GB_NM +
+            ' ' +
+            ' ' +
+            cpFacility[i].FIX_FLT_GB_NM +
+            ' ' +
+            cpFacility[i].FILN11_SPREAD_RT,
           dateOS: '2022-11-24T10:57:14.435Z',
           disbursementCondition: '',
           facilityType: cpFacility[i].FILN11_COM_NM,
@@ -185,7 +222,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           totalPlafond: '0',
           totalRate: '0',
           hobbies: true,
-          loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO
+          loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO,
         };
 
         dataParty.push(data);
@@ -218,6 +255,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             };
 
             this.dataParty = [...this.dataParty, this.applicationProduct];
+            this.length = this.dataParty.length;
           }
 
           this.creditProposal.attributes['loanHobbies'] = 'true';
