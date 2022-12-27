@@ -132,7 +132,7 @@
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number) }}
+        {{  element.attributes.currentInterestRate  }}
       </td>
     </ng-container>
     <ng-container matColumnDef="provisionAmount">

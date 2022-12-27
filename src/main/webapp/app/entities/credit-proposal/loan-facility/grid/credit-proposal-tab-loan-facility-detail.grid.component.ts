@@ -20,6 +20,7 @@ import {
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IProduct } from 'app/entities/product/product.model';
 
+
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
@@ -128,9 +129,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   dataFunc(response: any) {
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
       const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-
+     
       const dataParty = [];
       for (let i = 0; i < cpFacility.length; i++) {
+        const aYear = []
+        const date2 = new Date(cpFacility[i].FILN10_TOT_EXP_IL);
+        const date1 = new Date(cpFacility[i].FXFIG_TRX_DT);
+        aYear.push(Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)));
         const data = {
           adminFee: '0',
           adminFeeRateAmountType: '',
@@ -141,27 +146,27 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           changes: '0',
           commitedLine: 'false',
           currency: cpFacility[i].LNB_BASE_LON_CCY,
-          currentInterestRate: '',
+          currentInterestRate:  cpFacility[i].FILN10_ROLL_GAP +' '+ cpFacility[i].FILN10_ROLL_GAP_GB_NM +' '+' '+ cpFacility[i].FIX_FLT_GB_NM +' '+ cpFacility[i].FILN11_SPREAD_RT,
           dateOS: '2022-11-24T10:57:14.435Z',
           disbursementCondition: '',
-          facilityType: '',
+          facilityType: cpFacility[i].FILN11_COM_NM,
           gracePeriod: '0',
-          gracePeriodType: '',
+          gracePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB,
           indexFacilityMain: '',
           indexRate: '0',
           initialLimit: '0',
           installmentMethod: 'Maturity Repayment',
           instalmentEstimation: '0',
-          interestRatePeriod: '',
+          interestRatePeriod: cpFacility[i].FILN10_ROLL_GAP,
           interestRatePeriodType: 'Month',
-          interestRateType: '',
+          interestRateType: cpFacility[i].FIX_FLT_GB_NM,
           keterangan: '',
           kurs: '0',
           loanPurpose: '',
-          loanType: '',
-          maturity: '2022-11-24T10:57:14.435Z',
+          loanType: cpFacility[i].FILN11_COM_NM,
+          maturity: aYear[i],
           maturityDate: '2022-11-24T10:57:14.435Z',
-          maturityPeriodType: '',
+          maturityPeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
           memoDate: '2022-11-24T10:57:14.435Z',
           memoNo: '',
           nomorUrutFasilitas: '2',
@@ -180,6 +185,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           totalPlafond: '0',
           totalRate: '0',
           hobbies: true,
+          loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO
         };
 
         dataParty.push(data);

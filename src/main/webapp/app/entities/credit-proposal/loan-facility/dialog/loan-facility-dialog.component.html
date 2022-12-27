@@ -9,7 +9,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Account</mat-label>
-            <input matInput type="text" disabled />
+            <input [(ngModel)]="applicationProduct.attributes['loanAccount']" matInput type="text" disabled />
           </mat-form-field>
         </div>
       </section>
@@ -17,7 +17,7 @@
         <div class="fontsebled row py-1">
           <div class="col-3">Loan Account</div>
           <div class="col-md-auto">:</div>
-          <div class="col"></div>
+          <div class="col">{{applicationProduct.attributes['loanAccount']}}</div>
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
