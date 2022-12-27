@@ -211,7 +211,7 @@
         </ejs-textbox>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
+        <!--<ejs-dropdownlist
           #ddPropoertyUsage
           floatLabelType="Auto"
           [dataSource]="listOfValues.position"
@@ -224,7 +224,7 @@
           [disabled]="hiddenRmAdmin"
         >
         </ejs-dropdownlist>
-        <!-- <ejs-textbox
+         <ejs-textbox
           [(ngModel)]="collateral.landPosition"
           name="landPosition"
           placeholder="Land Position"
@@ -250,7 +250,7 @@
           [dataSource]="listOfValues.direction"
           [(ngModel)]="collateral.facingDirection"
           cssClass="e-outline"
-          placeholder="Facing in a Certain Direction"
+          placeholder="Cardinal Direction"
           popupHeight="220px"
           required
           [disabled]="gakbisa()"
