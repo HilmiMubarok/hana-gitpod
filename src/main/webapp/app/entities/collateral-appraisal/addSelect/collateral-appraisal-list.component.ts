@@ -28,6 +28,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogCollateralAppraisalCifComponent } from './dialog-collateral-appraisal-cif.component';
 import { MessageService } from 'primeng/api';
 
+import { AccountService } from 'app/core/auth/account.service';
+
 @Component({
   selector: 'jhi-collateral-appraisal-list',
   templateUrl: './collateral-appraisal-list.component.html',
@@ -72,7 +74,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected surveyAppraisalsService: SurveyAppraisalsService,
     protected activatedRoute: ActivatedRoute,
     protected _snackBar: MatSnackBar,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+	protected accountService: AccountService,
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -146,8 +149,17 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     };
 
     this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
-	  // filter login vs res rm
-      this.initDataForMatTable(res, res.headers);
+	  let filteredData = [];
+	  this.accountService.identity().subscribe(account => {
+		filteredData = lodash.filter(res, function(item){
+		  return item.rm.userLogin === account.login;
+		});
+	  });
+	  if (filteredData.length > 0) {
+		this.initDataForMatTable(res, res.headers);
+	  } else {
+		this.messageService.add({ severity: 'info', summary: 'Data Tidak Ada', detail: 'Cif ini tidak terdaftar atas RM yang login' });
+	  }
     });
   }
 
@@ -176,7 +188,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             width: '80vw',
             data: {
               collateral: this.collateral,
-              partyId: this.showDetail.partyId,
+              partyId: this.showDetail.customerNumber,
               dialogSection: section,
               customerType: this.showDetail.customerType,
               postalAddress: partyPostalAddress.address,
@@ -212,13 +224,11 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     }
 
     if (section === 'cif') {
-   
-
-      this.partyId = this.showDetail.partyId;
-     
+	  this.partyId = this.showDetail.partyId;
     }
+
     this.loadPartyPostalAddress(this.partyId, section);
- 
+
   }
 
   public onOverlayClick(): void {
