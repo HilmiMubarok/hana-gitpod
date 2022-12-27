@@ -29,7 +29,7 @@ import { CreditProposalService } from './credit-proposal.service';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
+export class CreditProposalTabSummaryComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   public state: string;
   public dialogVisible: false;
@@ -39,9 +39,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   public paramId: string;
 
   private resourceUrl: string;
-  // private BUCKET = 'hana';
   private BUCKET: string;
-  private KEY = 'credit_proposal/summary';
+  private KEY = 'credit_proposal/remark/summary';
 
   public fileTypeSelected: string;
   public fileTypeList: string[] = ['Word', 'Pdf'];
@@ -65,18 +64,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   }
   set sourceComponent(item: any) {
     this.viewButton = item;
-
-    // this.storageService.getBucketName().subscribe(res => {
-    //   this.storageService
-    //     .getObjects(res.body['bucket'], {
-    //       key: `/credit_proposal/remark/summary/${this.item.id}/sfdt`,
-    //       // credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt
-    //     })
-    //     .subscribe((result: any) => {
-    // this.getContainer();
-    //       // this.creditProposalService.getContainer(); = result.body;
-    //     });
-    // });
   }
 
   constructor(
@@ -93,50 +80,14 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
-    this.getBucketNameSummary().then(res => {
-      this.BUCKET = res['body']['bucket'];
+    this.getBucketNameSummary();
+    this.triggeredSave();
+  }
+
+  public getBucketNameSummary() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
-      this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-        this.paramId = params['id'];
-      });
-
-      if (this.paramId) {
-        this.KEY += `/${this.paramId}`;
-      } else {
-        console.warn('Param id not found');
-      }
-      console.log('word', this.getBucketNameSummary);
-      console.log('word1', this.BUCKET);
-
-      this.onRefresh();
-    });
-
-    this.actRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
-      // this.getContainer();
-    });
-    this.approvalShow();
-  }
-
-  onDocumentChange() {
-    this.container.restrictEditing = true;
-
-    this.getOpiniObj();
-  }
-  public getOpiniObj() {
-    this.actRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/summary/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
-    });
-  }
-
-  private getBucketNameSummary(): Promise<Object> {
-    return new Promise<Object>((resolve, reject) => {
-      this.http.get<Object>(this.resourceUrl + '/bucket', { observe: 'response' }).subscribe(response => {
-        resolve(response);
-      });
     });
   }
 
@@ -151,15 +102,20 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   attributes: any;
 
-  // Remark Minio
   private getContainer(): void {
+    let paramsId = '';
+    this.actRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
     const obj = {
-      key: this.getKey,
+      key: 'credit_proposal/remark/summary/' + paramsId + '/' + 'sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
+        console.log('abednege', obj);
+
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
@@ -190,13 +146,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
-      // console.log('ini paste');
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.saveWord === true) {
-      this.triggeredSave();
     }
   }
 

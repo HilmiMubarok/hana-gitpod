@@ -972,6 +972,63 @@ export const SUBMENU_LOAN_CP: object[] = [
   },
 ];
 
+export const SUBMENU_LOAN_DAR: object[] = [
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'dar-convenant',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+];
+
 export const SUBMENU_LOAN_ANALYS_LA_ANALYST: object[] = [
   ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
   {
@@ -1006,7 +1063,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
   },
-  ...SUBMENU_LOAN_CP,
+  ...SUBMENU_LOAN_DAR,
   {
     id: 'opinion',
     text: 'Opinion',
@@ -1030,13 +1087,13 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
   },
-  ...SUBMENU_LOAN_CP,
+  ...SUBMENU_LOAN_DAR,
   {
     id: 'opinion',
     text: 'Opinion',
   },
   {
-    id: 'convenant-tbo',
+    id: 'covenant',
     text: 'Convenant & Document Checklist',
   },
   {
@@ -1088,7 +1145,7 @@ export const SUBMENU_LOAN_ANALYS_CC_CHECKING: object[] = [
     text: 'Loan Facility Detail',
   },
   {
-    id: 'convenant-tbo',
+    id: 'dar-convenant',
     text: 'Covenant & Document Checklist',
   },
 ];
@@ -1111,7 +1168,7 @@ export const SUBMENU_LOAN_ANALYS_CC_REVIEW: object[] = [
     text: 'Loan Facility Detail',
   },
   {
-    id: 'covenant',
+    id: 'dar-convenant',
     text: 'Covenant & Document Checklist',
   },
 ];

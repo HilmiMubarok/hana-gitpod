@@ -2,7 +2,7 @@
   <table
     mat-table
     id="tblOtherCovenant"
-    *ngIf="creditProposalItem && !loading && isViewMode === false"
+    *ngIf="creditProposalItem && !loading"
     [dataSource]="creditProposalItem.attributes['convenant'].otherCovenant"
     class="w-100"
   >
@@ -49,7 +49,7 @@
   <mat-card *ngIf="loading" id="material-loading-bar">
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
-  <div align="right" class="mt-2">
+  <div align="right" class="mt-2" *ngIf="isViewMode === false">
     <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
   </div>
 </div>

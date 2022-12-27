@@ -34,6 +34,7 @@ import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
 import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
+import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -51,6 +52,10 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   creditProposalOpinionHistoryComponent: CreditProposalOpinionHistoryComponent;
 
+  @ViewChild('CreditProposalTabSummaryComponent', {
+    static: false,
+  })
+  CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -577,6 +582,11 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.creditProposalOpinionHistoryComponent.refresh();
           }
 
+          if (this.CreditProposalTabSummaryComponent) {
+            this.CreditProposalTabSummaryComponent.triggeredSave();
+            // this.CreditProposalTabSummaryComponent.triggeredSave();
+          }
+
           if (source === 'process') {
             this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
               this.router.navigate([this.router.url.split('/')[1]]);
@@ -602,6 +612,9 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.creditProposalOpinionHistoryComponent.triggeredSave();
             this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
             this.creditProposalOpinionHistoryComponent.refresh();
+          }
+          if (this.CreditProposalTabSummaryComponent) {
+            this.CreditProposalTabSummaryComponent.triggeredSave();
           }
 
           if (source === 'process') {
