@@ -271,7 +271,7 @@
               </div>
 
               <div *ngIf="clickedMenu === 'summary'">
-                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'" [saveWord]="saveWord">
+                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'" #CreditProposalTabSummaryComponent>
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
