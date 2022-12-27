@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 
 @Component({
@@ -13,7 +14,7 @@ export class DialogCollateralAppraisalCifComponent {
   public partyId: string;
   public dialogSection: string;
   public customerType: string;
-  public postalAddress: IPostalAddress;
+  public postalAddress: IPartyPostalAddress;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -22,7 +23,7 @@ export class DialogCollateralAppraisalCifComponent {
       partyId: string;
       dialogSection: string;
       customerType: string;
-      postalAddress: IPostalAddress;
+      postalAddress: IPartyPostalAddress;
     },
     private _dialog: MatDialogRef<DialogCollateralAppraisalCifComponent>
   ) {
