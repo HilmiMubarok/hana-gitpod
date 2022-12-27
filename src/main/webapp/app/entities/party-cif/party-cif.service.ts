@@ -81,4 +81,11 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   public getMyFacilityBusinessGroup(cif: string): Observable<HttpResponse<IDebtorData[]>> {
     return this.http.get<IDebtorData[]>(`${this.resourceUrl}/facility-my-business-group/${cif}`, { observe: 'response' });
   }
+  public getGroupCollateral(cif: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceUrl}/collateral-my-business-group/${cif}`, { observe: 'response' });
+  }
+
+  public getBusinessGroup(cif: string): Observable<HttpResponse<IDebtorData[]>> {
+    return this.http.get<IDebtorData[]>(`${this.resourceUrl}/my-business-group-cif/${cif}`, { observe: 'response' });
+  }
 }
