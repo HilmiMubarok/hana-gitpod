@@ -139,7 +139,7 @@
         <jhi-report-independent-collateral></jhi-report-independent-collateral>
       </div>
     </div>
-    <div class="e-card-actions mx-auto mb-5 mt-3">
+    <div class="e-card-actions mx-auto mb-5 mt-3" *ngIf="collateralAppraisal.statusId !== 'COMPLETE'">
       <button
         style="margin-right: 25px"
         mat-raised-button
