@@ -11,7 +11,6 @@ import {
   PartyPostalAddressWarehouse,
 } from 'app/entities/party-postal-address/party-postal-address-warehouse.model';
 import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
-import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
@@ -72,9 +71,10 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.ejDialog.hide();
   };
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private partyCifService: PartyCifService) {}
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
+    console.log('this adresess ', this.creditProposal.addresses);
     this.data = this.creditProposal.attributes['basicInformation'].coborowed;
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
@@ -95,7 +95,6 @@ export class ProposalBasicInformationViewComponent implements OnInit {
 
     this.watchListChange();
     this.hiddenData();
-    this.setBusinessGroup();
   }
 
   watchListChange() {
@@ -120,12 +119,5 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     } else {
       this.view = false;
     }
-  }
-
-  public setBusinessGroup() {
-    const cifNumber = this.creditProposal?.customerNumber;
-    this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
-      this.gridCreditProposal = res.body;
-    });
   }
 }
