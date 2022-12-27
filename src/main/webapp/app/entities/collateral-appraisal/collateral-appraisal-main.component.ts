@@ -379,10 +379,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     console.log('data detail', data);
     if (data.apprOfficer === 'External') {
       console.log('datanya external');
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      if (this.collateralAppraisal.statusId === 'DRAFT' || this.collateralAppraisal.statusId === 'RETURN_TO_RM') {
+        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
+      } else {
+        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      }
       console.log('submenu', this.subMenu);
     }
   }
+
   public addNewCriteria(data: IScoreCard[]): void {
     this.collateralAppraisal.attributes['scoreCard'] = data;
   }
