@@ -2,8 +2,6 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
-import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
@@ -58,23 +56,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public valueRadioCondition: any;
   public valueRadioRecommend: any;
   public resourceUrl: string;
-  private getKeyOpinion: string;
   private fileGet: File;
   public currentAccount: any;
 
-  private BUCKET_OPINION: string;
-  private BUCKET_CONDITION: string;
+  private BUCKET: string;
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
-  private paramId: string;
   public userId: string;
   public accountLogin: any;
   public positionUserId: string;
   public obj: any;
   public InternalId: any;
-  private getKey: string;
-  private KEY_OPINION = 'credit_proposal/remark/opinion-history/opinion';
-  private KEY_CONDITION = 'credit_proposal/remark/opinion-history/condition';
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -120,8 +112,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getDataNotes();
     if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
-      this.getWordOpinion();
-      this.getWordCondition();
+      this.getWord();
       this.refresh();
     }
 
@@ -132,16 +123,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
   }
 
-  public getWordOpinion() {
+  public getWord() {
     this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_OPINION = val.body['bucket'];
+      console.log('val', val);
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
-    });
-  }
-
-  public getWordCondition() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET_CONDITION = val.body['bucket'];
       this.getContainerCondition();
     });
   }
@@ -216,12 +202,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    this.getWordCondition();
+    this.getWord();
   }
 
   onDocumentChanges() {
     this.container_condition.restrictEditing = true;
-    this.getWordOpinion();
+    this.getWord();
   }
 
   public disabledOpinion: boolean;
@@ -268,7 +254,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_OPINION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -280,7 +266,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_OPINION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -304,7 +290,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_OPINION, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         console.log('abednege', obj);
@@ -357,7 +343,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_CONDITION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -369,7 +355,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET_CONDITION, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -392,7 +378,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.userId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.BUCKET_CONDITION, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
