@@ -3,10 +3,9 @@ import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
 import lodash from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
-import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-retrive',
@@ -101,19 +100,6 @@ export class RetriveComponent extends AbstractEntityMaterialComponent<ICreditPro
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
-  }
-
-  initDataForMatTable(data: any, headers: HttpHeaders) {
-    let customItem = [];
-    customItem = this.addIdx(data.body);
-
-    this.items = new MatTableDataSource(customItem);
-    if (!this.items) {
-      this.items.paginator = this.paginator;
-    }
-    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
-    this.paginatorPageSize = this.paginator.pageSize;
-    this.loading = false;
   }
 
   // currency convert
