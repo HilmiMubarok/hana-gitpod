@@ -183,7 +183,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
         const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
           return o.purposeTypeId === 'PRIMARY_LOCATION';
         });
-        console.log('partypostal', partyPostalAddress);
         if (partyPostalAddress) {
           const predicate = {
             height: '100%',
