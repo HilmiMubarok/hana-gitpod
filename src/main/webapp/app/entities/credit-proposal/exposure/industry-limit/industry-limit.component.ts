@@ -51,14 +51,52 @@ export class IndustryLimitComponent implements OnInit {
     this.applicationOption();
     this.industryLimit();
     this.totalAmmountFunc();
+  
+    this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond
+ 
+  }
+
+
+  public fungsiSumOS() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.outstanding);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 
   public totalAmmountFunc() {
     const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
 
-    this.purposeAmmount = creditLimit;
 
-    this.remainingAfterCp = this.remainingBalance - creditLimit;
+    this.remainingAfterCp = this.remainingBalance - this.creditProposal.attributes['facilityDetail'].totalPlafond;
 
     if (this.remainingAfterCp > 0) {
       this.status = 'Comply';
@@ -77,6 +115,7 @@ export class IndustryLimitComponent implements OnInit {
     });
   }
 
+
   public industryLimit() {
     this.listOfValueIndustryService.query().subscribe((response: any) => {
       // this.listOfIndustry = res.body;
@@ -86,8 +125,8 @@ export class IndustryLimitComponent implements OnInit {
           this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
             this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
-            this.industryLimitExposure = res.body.industryLimitExposure;
-            this.limitNominal = res.body.limitNominal;
+            this.industryLimitExposure = res.body.industryLimitExposure
+            this.limitNominal =  this.fungsiSumOS() * res.body.industryLimitExposure;
           });
         }
       }
