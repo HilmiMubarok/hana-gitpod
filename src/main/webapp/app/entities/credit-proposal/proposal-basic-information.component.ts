@@ -452,6 +452,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
+          this.saveWord = false;
           console.log('ini app role', this.cp);
         });
       });
@@ -459,6 +460,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.applicationRoleService.create(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
+          this.saveWord = false;
           console.log('ini app role', this.cp);
         });
       });
@@ -569,6 +571,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         detail: 'Please Select Proposal Type',
       });
     } else {
+      this.saveWord = true;
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
@@ -600,6 +603,7 @@ export class ProposalBasicInformationComponent implements OnInit {
               summary: 'Success',
               detail: 'Save Success',
             });
+            this.saveWord = false;
           }
         });
       } else {
@@ -630,12 +634,12 @@ export class ProposalBasicInformationComponent implements OnInit {
               summary: 'Success',
               detail: 'Save Success',
             });
+            this.saveWord = false;
           }
         });
       }
     }
 
-    this.saveWord = true;
     // this.saveWordConditionOpinion = true;
   }
 

@@ -45,7 +45,9 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     private storageService: StorageService // protected parseLinks: ParseLinks, // protected accoutService: AccountService, // protected activateRoute: ActivatedRoute, // protected dataUtils: BaseDataUtils, // protected router: Router, // protected eventManager: EventManager, // protected messageService: MessageService, // protected confirmationService: ConfirmationService
-  ) {}
+  ) {
+    this.bucket = '';
+  }
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
 
@@ -204,12 +206,23 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   ngOnInit(): void {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/customer-prafitability/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
     this.item.attributes['tabCustomer'].totalLoanProvision = this.totalLoan();
     this.item.attributes['tabCustomer'].totalDepositInsurancePremium = this.totalLoanDeposit();
