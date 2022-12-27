@@ -4,11 +4,11 @@ import { dataCovenantAbove } from '../convenant.constant';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-credit-proposal-tab-covenant-above',
+  selector: 'jhi-covenant-dar-above',
   templateUrl: './credit-proposal-covenant-above.component.html',
   styleUrls: ['../back-to-back/covenant-backtoback.css'],
 })
-export class CreditProposalCovenantAboveComponent implements OnInit {
+export class DarCovenantAboveComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;
@@ -61,7 +61,5 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
         this.statusValue[i] = 'Applied';
       }
     }
-
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 }

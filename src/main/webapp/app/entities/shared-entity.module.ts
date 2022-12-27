@@ -322,6 +322,9 @@ import { PartyCifCustomerInfoPostalAddressEnCifWhComponent } from './party-cif/c
 import { DebtorDataViewUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 import { CollateralAppraisalNewInfoComponent } from './collateral-appraisal/addSelect/collateral-appraisal-info.component';
 import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/type-dialog-appraisal.component';
+import { DarCovenantAboveComponent } from './loan-analys/dar-final/convenant/above/credit-proposal-covenant-above.component';
+import { DarCovenantBackToBackDepositComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-deposit.component';
+import { DarCovenantBackToBackGeneralComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-general.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -694,7 +697,10 @@ import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/t
     CollateralAppraisalDetailProcessLandComponent,
     DebtorDataViewUploadComponent,
     CollateralAppraisalNewInfoComponent,
-    TypeDialogAppraisalComponent
+    TypeDialogAppraisalComponent,
+    DarCovenantAboveComponent,
+    DarCovenantBackToBackDepositComponent,
+    DarCovenantBackToBackGeneralComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1033,7 +1039,10 @@ import { TypeDialogAppraisalComponent } from './collateral-appraisal/addSelect/t
     CollateralAppraisalDetailProcessLandComponent,
     DebtorDataViewUploadComponent,
     CollateralAppraisalNewInfoComponent,
-    TypeDialogAppraisalComponent
+    TypeDialogAppraisalComponent,
+    DarCovenantAboveComponent,
+    DarCovenantBackToBackDepositComponent,
+    DarCovenantBackToBackGeneralComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,5 +1,4 @@
 <ejs-menu
-  *ngIf="isViewMode === false"
   [enableScrolling]="true"
   cssClass="e-rounded-menu e-custom-scroll"
   [items]="menuItems"
@@ -18,8 +17,7 @@
           </div>
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-above [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-above>
+              <jhi-covenant-dar-above [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem"> </jhi-covenant-dar-above>
             </div>
           </div>
 
@@ -30,12 +28,12 @@
           </div>
           <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'">
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-back-to-back-general [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-back-to-back-general>
+              <jhi-dar-covenant-back-to-back-general [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+              </jhi-dar-covenant-back-to-back-general>
             </div>
             <div class="card-content">
-              <jhi-credit-proposal-tab-covenant-back-to-back-deposit [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-              </jhi-credit-proposal-tab-covenant-back-to-back-deposit>
+              <jhi-dar-covenant-back-to-back-deposit [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+              </jhi-dar-covenant-back-to-back-deposit>
             </div>
           </div>
         </div>

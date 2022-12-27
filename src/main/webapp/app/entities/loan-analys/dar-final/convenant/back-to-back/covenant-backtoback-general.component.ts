@@ -4,11 +4,11 @@ import { dataCovenantBackToBackGeneral } from '../convenant.constant';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-credit-proposal-tab-covenant-back-to-back-general',
+  selector: 'jhi-dar-covenant-back-to-back-general',
   templateUrl: './covenant-backtoback-general.component.html',
   styleUrls: ['./covenant-backtoback.css'],
 })
-export class CovenantBackToBackGeneralComponent implements OnInit {
+export class DarCovenantBackToBackGeneralComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;
