@@ -74,7 +74,7 @@ export class LoanAnalysService extends AbstractEntityService<ICreditProposal> {
   
   public queryByMenu(req?: any, menu?: string): Observable<HttpResponse<ICreditProposal[]>> {
     const options = createRequestOption(req);
-	const url = this.loanAnalysisPath + menu;
+	const url = this.loanAnalysisPath + '/' + menu;
     return this.http
       .get<ICreditProposal[]>(url, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
