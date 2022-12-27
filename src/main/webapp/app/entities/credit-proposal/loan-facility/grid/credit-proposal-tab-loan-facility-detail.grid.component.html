@@ -42,7 +42,7 @@
   <ng-container matColumnDef="interestrate">
     <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number) }}
+      {{ applicationProduct.attributes['interestRateType'] }}
     </td>
   </ng-container>
   <ng-container matColumnDef="provisionAmount">
@@ -130,9 +130,20 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="interestrate">
-      <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
+      <th mat-header-cell *matHeaderCellDef>Interest</th>
       <td mat-cell *matCellDef="let element">
-        {{  element.attributes.currentInterestRate  }}
+        <div *ngIf="element.attributes.hobbies">
+          {{ element.attributes.currentInterestRate }}
+        </div>
+        <div *ngIf="!element.attributes.hobbies">
+          {{
+            element.attributes.interestRateType +
+              ' ' +
+              element.attributes.interestRatePeriod +
+              ' ' +
+              element.attributes.interestRatePeriodType
+          }}
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="provisionAmount">
