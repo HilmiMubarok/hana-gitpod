@@ -4,13 +4,16 @@ import { CreditProposalService } from '../credit-proposal.service';
 import lodash from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-retrive',
   templateUrl: './retrive.component.html',
   styleUrls: ['./retrive.css'],
 })
-export class RetriveComponent implements OnInit {
+export class RetriveComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
   public displayColumns: string[] = ['year', 'amountcode', 'accountname', 'currency', 'amount1'];
   public listOfValue: any;
   public showHide = false;
@@ -30,19 +33,13 @@ export class RetriveComponent implements OnInit {
   public retriveData: any;
   currenyIdr: any;
   public _partyId: string;
-  public page = 0;
-  public size = 10;
-  public pageSize = 10;
   public idrCurrency = 'IDR';
   isLoading = false;
   totalRows = 0;
   pageSizeOptions: number[] = [10, 20, 30];
   public enabledLoadMore: boolean;
 
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
-
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+  dataSource: MatTableDataSource<object[]>;
 
   @Input()
   get creditProposalItem() {
@@ -62,7 +59,11 @@ export class RetriveComponent implements OnInit {
     this._partyId = item;
   }
 
-  constructor(protected creditProposalService: CreditProposalService) {}
+  constructor(protected creditProposalService: CreditProposalService, protected _snackBar: MatSnackBar) {
+    super(_snackBar, creditProposalService);
+    this.page = 0;
+    this.itemsPerPage = 10;
+  }
   ngOnInit(): void {
     this.getListCurrency();
     this.getRetriveDataHobis();
@@ -89,9 +90,30 @@ export class RetriveComponent implements OnInit {
   getRetriveDataHobis() {
     this.cifId =
       this.creditProposalItem?.customerNumber === undefined ? this.partyId.customerNumber : this.creditProposalItem.customerNumber;
-    this.creditProposalService.getListRetrive(this.cifId, this.page, this.size).subscribe(res => {
-      this.retriveData = res.body;
-    });
+    this.creditProposalService
+      .getListRetrive(this.cifId, {
+        page: this.page,
+        size: this.itemsPerPage,
+      })
+      .subscribe({
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+  }
+
+  initDataForMatTable(data: any, headers: HttpHeaders) {
+    let customItem = [];
+    customItem = this.addIdx(data.body);
+
+    this.items = new MatTableDataSource(customItem);
+    if (!this.items) {
+      this.items.paginator = this.paginator;
+    }
+    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSize = this.paginator.pageSize;
+    this.loading = false;
   }
 
   // currency convert
@@ -117,21 +139,16 @@ export class RetriveComponent implements OnInit {
     });
   }
 
-  // pagination
-  pageChanged(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.page = event.pageIndex;
-    this.getRetriveDataHobis();
-  }
-
   generateRetrive() {
     this.cifId =
       this.creditProposalItem?.customerNumber === undefined ? this.partyId.customerNumber : this.creditProposalItem.customerNumber;
     this.creditProposalService.getRetriveData(this.cifId).subscribe(res => {
-      this.dataRetrive = JSON.parse(res.body.debtorData.attributes.finAnalysis);
-      this.saveCPData = res.body.debtorData.attributes['finAnalysis'];
-      this.creditProposalItem.attributes['retriveData'].retrive = lodash.clone(this.saveCPData);
+      this.dataRetrive = res.body;
       this.retriveData = new MatTableDataSource(this.dataRetrive);
     });
+  }
+
+  protected postLoadDataLazy(): void {
+    this.getRetriveDataHobis();
   }
 }
