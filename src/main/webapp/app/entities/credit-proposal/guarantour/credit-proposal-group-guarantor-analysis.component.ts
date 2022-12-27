@@ -29,7 +29,9 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
-  constructor(private router: Router, protected activatedRoute: ActivatedRoute, private storageService: StorageService) {}
+  constructor(private router: Router, protected activatedRoute: ActivatedRoute, private storageService: StorageService) {
+    this.bucket = '';
+  }
   @Input() saveWordMinio: any;
   @Input()
   get creditProposalItem() {
@@ -43,14 +45,25 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   ngOnInit() {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/guarantor/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
-    this.getContainer();
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWordMinio) {
