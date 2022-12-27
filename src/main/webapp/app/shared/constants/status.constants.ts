@@ -29,3 +29,7 @@ export enum STATUS_COLLATERAL {
   TO_BE_RELEASED = 'TO BE RELEASED',
   CANCEL = 'CANCEL',
 }
+export enum PARIPASU_STATUS {
+  N = 'NO',
+  Y = 'YES',
+}

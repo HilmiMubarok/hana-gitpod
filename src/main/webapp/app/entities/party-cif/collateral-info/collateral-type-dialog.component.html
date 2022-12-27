@@ -153,12 +153,13 @@
   <div class="form-group">
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Cross Collateral Status</mat-label>
-      <mat-select name="status" [(ngModel)]="collateral.attributes.crossStatus" [disabled]="gakbisa()">
+      <mat-select name="status" [(ngModel)]="collateral.attributes.crossStatus" [disabled]="dataSource()">
         <mat-option value="">- Please Select -</mat-option>
-        <mat-option value="yes">Yes</mat-option>
-        <mat-option value="no">No</mat-option>
+        <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key">
+          {{ item.value }}
+        </mat-option>
       </mat-select>
-      <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
     </mat-form-field>
   </div>
 </div>

@@ -5,45 +5,53 @@ export interface IPostalAddressWharehouse {
   address2?: string;
   latitude?: number;
   longitude?: number;
+  description?: string;
   contactTypeDescription?: string;
+  attributes?: any;
   contactTypeId?: string;
   purposes?: IPurposeType[];
-  countryDescription?: string;
+  countryName?: string;
   countryId?: number;
-  provinceDescription?: string;
+  provinceName?: string;
   provinceId?: number;
   postalCode?: string;
-  cityDescription?: string;
+  cityName?: string;
   cityId?: number;
-  districtDescription?: string;
+  districtName?: string;
   districtId?: number;
-  villageDescription?: string;
+  villageName?: string;
+  villageCode?: string;
   villageId?: number;
   rt?: string;
   rw?: string;
+  countryBoundaryId?: string;
 }
 
 export class PostalAddressWarehouse implements IPostalAddressWharehouse {
   constructor(
     public address1?: string,
     public address2?: string,
+    public description?: string,
     public latitude?: number,
     public longitude?: number,
+    public attributes?: any,
     public contactTypeDescription?: string,
     public contactTypeId?: string,
     public purposes?: IPurposeType[],
-    public countryDescription?: string,
+    public countryName?: string,
     public countryId?: number,
-    public provinceDescription?: string,
+    public provinceName?: string,
     public provinceId?: number,
     public postalCode?: string,
-    public cityDescription?: string,
+    public cityName?: string,
     public cityId?: number,
-    public districtDescription?: string,
+    public districtName?: string,
     public districtId?: number,
-    public villageDescription?: string,
+    public villageName?: string,
+    public villageCode?: string,
     public villageId?: number,
     public rt?: string,
-    public rw?: string
+    public rw?: string,
+    public countryBoundaryId?: string
   ) {}
 }

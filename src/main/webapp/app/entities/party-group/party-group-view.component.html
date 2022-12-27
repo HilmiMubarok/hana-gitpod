@@ -238,15 +238,13 @@
               <div class="row my-3">
                 <div class="col">
                   <!-- <div class="form-space"> -->
-                  <ejs-dropdownlist
-                    [(ngModel)]="item.prospectOrganization.lineOfBusinessId"
+                  <ejs-textbox
+                    [(ngModel)]="item.debtorData.attributes['lobName']"
                     disabled
                     cssClass="e-outline"
                     floatLabelType="Auto"
-                    id="ddlelement"
-                    [dataSource]="data"
                     placeholder="Line Of Business"
-                  ></ejs-dropdownlist>
+                  ></ejs-textbox>
                 </div>
                 <div class="col-6">
                   <ejs-textbox
@@ -396,22 +394,23 @@
               <div class="row my-3">
                 <div class="col-6">
                   <!-- <div class="form-space"> -->
-                  <ejs-textbox
+                  <ejs-dropdownlist
+                    [dataSource]="callReportCategoryData"
                     [(ngModel)]="item.debtorData.callReportCategory"
                     placeholder="Call Report Category"
-                    floatLabelType="Auto"
                     cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                    floatLabelType="Auto"
+                  ></ejs-dropdownlist>
                 </div>
                 <div class="col-6">
-                  <ejs-textbox
+                  <ejs-dropdownlist
+                    [dataSource]="ifcRiskCategoryData"
                     [(ngModel)]="item.debtorData.ifcRiskCategory"
                     placeholder="IFC & Risk Category"
-                    floatLabelType="Auto"
                     cssClass="e-outline"
+                    floatLabelType="Auto"
                   >
-                  </ejs-textbox>
+                  </ejs-dropdownlist>
                 </div>
               </div>
 
