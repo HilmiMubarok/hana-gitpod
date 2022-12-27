@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { createRequestOption } from 'app/core/request/request-util';
+import { map, tap } from 'rxjs/operators';
 import moment from 'moment';
 
 @Injectable({ providedIn: 'root' })

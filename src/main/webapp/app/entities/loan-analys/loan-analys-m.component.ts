@@ -242,7 +242,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       }); */
 	  
 	  this.loanAnalysService
-      .queryByMenu({
+      .queryByMenu(
         {
           page: this.page,
           size: this.itemsPerPage,
