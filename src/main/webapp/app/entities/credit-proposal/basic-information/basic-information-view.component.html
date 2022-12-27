@@ -175,10 +175,10 @@
         <div class="e-card-content">
           <ejs-grid [dataSource]="gridCreditProposal" [allowPaging]="true">
             <e-columns>
-              <e-column field="" headerText="Cif" width="120"></e-column>
-              <e-column field="prospectPerson.name" headerText="Company Name" format="C2" width="90"></e-column>
-              <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
-              <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
+              <e-column field="customerCIF" headerText="Cif" width="90" id="getCif"></e-column>
+              <e-column field="customerName" headerText="Company Name" width="120"></e-column>
+              <!-- <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
+              <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column> -->
             </e-columns>
           </ejs-grid>
         </div>
