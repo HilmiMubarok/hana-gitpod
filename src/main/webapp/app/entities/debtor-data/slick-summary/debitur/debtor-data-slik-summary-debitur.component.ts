@@ -332,7 +332,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     const predicate: object = {
       width: '80vw',
       data: {
-        partyId: this.partyId,
+        partyId: this._partyId,
         cif: this.partyCif !== undefined ? this.partyCif.customerNumber : this.partyCifDM,
       
       },
