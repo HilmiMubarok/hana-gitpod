@@ -25,9 +25,18 @@
       <button mat-icon-button (click)="openDialog(element)">
         <mat-icon>remove_red_eye</mat-icon>
       </button>
-      <button mat-icon-button (click)="onDelete(element)">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div align="right" class="mt-5">
+          <button mat-icon-button (click)="onDelete(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <button mat-icon-button hidden (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </section>
     </td>
   </ng-container>
 

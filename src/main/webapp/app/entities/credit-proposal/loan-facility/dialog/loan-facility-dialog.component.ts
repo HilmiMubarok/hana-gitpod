@@ -518,7 +518,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public parentPath = this.router.url.split('/')[1];
 
   public hiddenFieldInOffering() {
-    if (this.parentPath === 'finalize') {
+    if (this.parentPath !== 'finalize') {
       this.textBoxHidden = false;
       this.paymentIDR = true;
     }
@@ -533,7 +533,24 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (this.parentPath === 'confirmation') {
       this.status = true;
     }
-    if (this.parentPath === 'credit-proposal-status' || this.parentPath === 'cp-status-approval') {
+    if (
+      this.parentPath === 'credit-proposal-status' ||
+      this.parentPath === 'cp-status-approval' ||
+      this.parentPath === 'la-distribution' ||
+      this.parentPath === 'la-analyst' ||
+      this.parentPath === 'la-SME-CRC' ||
+      this.parentPath === 'la-approval' ||
+      this.parentPath === 'la-approval-inquiry' ||
+      this.parentPath === 'dar-final' ||
+      this.parentPath === 'dar-checker' ||
+      this.parentPath === 'loan-committee-approval' ||
+      this.parentPath === 'dar-notif' ||
+      this.parentPath === 'cc-distribution' ||
+      this.parentPath === 'cc-checking' ||
+      this.parentPath === 'cc-review' ||
+      this.parentPath === 'cc-inquiry' ||
+      this.parentPath === 'loan-analys-and-approval-monitoring'
+    ) {
       this.textBoxHidden = true;
     }
   }
