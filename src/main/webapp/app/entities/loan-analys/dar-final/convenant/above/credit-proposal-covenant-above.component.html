@@ -9,21 +9,20 @@
           [dataSource]="status"
           placeholder="Select a Status"
           cssClass="e-outline"
-          [readonly]="true"
+          [disabled]="true"
           [value]="statusValue[data.id]"
         >
         </ejs-dropdownlist>
       </ng-template>
     </e-column>
-    <!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+    <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
       <ng-template #template let-data>
         <ejs-textbox
           [multiline]="true"
           (keyup)="onKeyUpEvent('deviation', $event, data)"
           [(ngModel)]="deviation[data.id]"
-          [disabled]="statusValue[data.id] == 'Applied'"
+          [disabled]="true"
           cssClass="e-outline"
-          [readonly]="statusValue[data.id] !== 'Applied'"
         >
         </ejs-textbox>
       </ng-template>
@@ -34,13 +33,12 @@
           [multiline]="true"
           (keyup)="onKeyUpEvent('justification', $event, data)"
           [(ngModel)]="justification[data.id]"
-          [disabled]="statusValue[data.id] == 'Applied'"
+          [disabled]="true"
           cssClass="e-outline"
-          [readonly]="statusValue[data.id] !== 'Applied'"
         >
         </ejs-textbox>
       </ng-template>
-    </e-column> -->
+    </e-column>
   </e-columns>
 </ejs-grid>
 

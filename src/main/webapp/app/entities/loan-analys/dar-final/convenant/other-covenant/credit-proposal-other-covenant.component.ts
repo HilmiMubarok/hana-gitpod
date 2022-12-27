@@ -17,7 +17,7 @@ export class OtherCovenantTempComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
 
   ngOnInit() {
-    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+    this.isViewMode ? this.displayColumns.pop() : null;
     this.isOtherDeviation && this.displayColumns.pop();
     this.isOtherDeviation && this.filterOtherDeviation();
   }

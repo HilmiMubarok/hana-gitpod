@@ -4,11 +4,11 @@ import { dataCovenantBackToBackDeposit } from '../convenant.constant';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-credit-proposal-tab-covenant-back-to-back-deposit',
+  selector: 'jhi-dar-covenant-back-to-back-deposit',
   templateUrl: './covenant-backtoback-deposit.component.html',
   styleUrls: ['./covenant-backtoback.css'],
 })
-export class CovenantBackToBackDepositComponent implements OnInit {
+export class DarCovenantBackToBackDepositComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;
