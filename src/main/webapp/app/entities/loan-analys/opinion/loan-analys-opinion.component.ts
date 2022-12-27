@@ -67,6 +67,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public positionUserId: string;
   public obj: any;
   public InternalId: any;
+  public positionLogin: any;
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -110,7 +111,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.getDataNotes();
+    this.getLogin();
+    this.filterPositionLogin();
     if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
       this.getWord();
       this.refresh();
@@ -132,7 +134,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     });
   }
 
-  public getDataNotes() {
+  public getLogin() {
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
       this.userId = this.creditProposalItem.attributes['userId'];
     } else {
@@ -414,6 +416,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       });
     });
   }
+  public filterPositionLogin() {
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionLogin = posisi.body;
+      for (let i = 0; i < this.positionLogin.length; i++) {
+        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
+      }
+    });
+  }
+
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
       this.notes = res.body.notes;
