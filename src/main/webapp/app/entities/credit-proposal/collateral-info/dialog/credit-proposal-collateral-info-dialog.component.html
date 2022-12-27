@@ -258,17 +258,17 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Okupansi</mat-label>
-                <input matInput type="text" value="-" disabled />
+                <mat-label>Occupancy</mat-label>
+                <input matInput type="text" [(ngModel)]="collateral.occupancy" disabled />
               </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-4">Okupansi</div>
+              <div class="col-4">Occupancy</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ '-' }}
+                {{ collateral.occupancy }}
               </div>
             </div>
           </section>
@@ -276,7 +276,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Ownership</mat-label>
-                <input matInput type="text" value="-" disabled />
+                <input matInput type="text" [(ngModel)]="collateral.collateralOwner" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -285,7 +285,7 @@
               <div class="col-4">Ownership</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ '-' }}
+                {{ collateral.collateralOwner }}
               </div>
             </div>
           </section>

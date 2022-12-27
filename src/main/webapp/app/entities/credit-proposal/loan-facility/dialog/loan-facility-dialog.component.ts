@@ -664,8 +664,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public applicationTypeChange(event: any) {
+    console.log(event.value);
     this.statusFacilityValue = event.value;
-    if (this.statusFacilityValue === 'Existing') {
+    if (this.statusFacilityValue === 'Existing' || this.statusFacilityValue === 'Renewal' || this.statusFacilityValue === 'Renewal') {
       this.myControl.disable();
       this.statusFacilityDisabled = true;
     } else {
