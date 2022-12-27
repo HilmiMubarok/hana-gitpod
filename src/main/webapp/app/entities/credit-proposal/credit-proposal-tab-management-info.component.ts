@@ -15,6 +15,9 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from '../storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
@@ -32,12 +35,13 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public documentEditor: DocumentEditorComponent;
 
   private ngUnsubscribe = new Subject();
-  private bucket: string;
+
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
+  private BUCKET: string;
 
-  @Input() saveWord: any;
+  // @Input() saveWord: any;
   @Input()
   creditProposalItem: ICreditProposal = new CreditProposal();
   public dataItem: ICreditProposal = new CreditProposal();
@@ -49,6 +53,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public Managemet: string;
   public value: string;
   public newMessage: string;
+  public resourceUrl: string;
 
   // address: string;
 
@@ -142,32 +147,37 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     // private storageService: StorageService
     protected actRoute: ActivatedRoute,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private http: HttpClient,
+    private applicationConfigService: ApplicationConfigService
   ) {
     this.dataItem;
   }
 
   ngOnInit(): void {
-    this.bucket = 'hana';
-    this.actRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
-    });
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+
+    // this.bucket = BUCKET;
+    // this.actRoute.params.subscribe(params => {
+    //   this.paramsIdGet = params['id'];
+    //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
+    //   this.getContainer();
+    // });
 
     if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
       for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
         this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
       }
     }
+    this.getWord();
 
     this.matrixRemoveTag();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.saveWord === true) {
-      this.triggeredSave();
-    }
+    // if (this.saveWord === true) {
+    //   this.triggeredSave();
+    // }
 
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
@@ -214,12 +224,61 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     });
   }
 
+  // WORD
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+      this.getContainer();
+    });
+  }
+  public triggeredSave(): void {
+    let paramsId = '';
+    this.actRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/management-info';
+    //  key: 'credit_proposal/remark/management-info/' + paramsId + this.creditProposalItem.attributes.proposalType + '/' + '/sfdt',
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + fileType + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
+
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-' + fileType + '.sfdt';
+      // const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/management-info-' + fileType + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
+  }
+
   private getContainer(): void {
+    let paramsId = '';
+    this.actRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
     const obj = {
-      key: this.getKey,
+      key: 'credit_proposal/remark/management-info/' + paramsId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -227,10 +286,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-hana/credit_proposal/remark/m-info-sfdt.sfdt'
-              );
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-sfdt.sfdt');
+
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
                 const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -259,42 +316,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       args.isHandled = true;
       // console.log('ini paste');
     }
-  }
-
-  public triggeredSave(): void {
-    let paramsId = '';
-    this.actRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const key = 'credit_proposal/remark/m-info';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/m-info-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
-
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/m-info-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
   }
 
   public onSelect(value: string, dataMgn: any) {
