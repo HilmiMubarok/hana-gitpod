@@ -35,6 +35,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
 import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
+import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -56,6 +57,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
+
+      @ViewChild('creditProposaTabManagementInfoComponent', {
+    static: false,
+  })
+  creditProposaTabManagementInfoComponent: CreditProposaTabManagementInfoComponent;
+
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -452,6 +459,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
+          this.saveWord = false;
           console.log('ini app role', this.cp);
         });
       });
@@ -459,6 +467,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.applicationRoleService.create(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
+          this.saveWord = false;
           console.log('ini app role', this.cp);
         });
       });
@@ -569,6 +578,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         detail: 'Please Select Proposal Type',
       });
     } else {
+      this.saveWord = true;
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
@@ -584,8 +594,11 @@ export class ProposalBasicInformationComponent implements OnInit {
 
           if (this.CreditProposalTabSummaryComponent) {
             this.CreditProposalTabSummaryComponent.triggeredSave();
-            // this.CreditProposalTabSummaryComponent.triggeredSave();
           }
+          if (this.creditProposaTabManagementInfoComponent) {
+            this.creditProposaTabManagementInfoComponent.triggeredSave();
+          }
+
 
           if (source === 'process') {
             this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
@@ -600,6 +613,7 @@ export class ProposalBasicInformationComponent implements OnInit {
               summary: 'Success',
               detail: 'Save Success',
             });
+            this.saveWord = false;
           }
         });
       } else {
@@ -616,6 +630,10 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.CreditProposalTabSummaryComponent) {
             this.CreditProposalTabSummaryComponent.triggeredSave();
           }
+          if (this.creditProposaTabManagementInfoComponent) {
+            this.creditProposaTabManagementInfoComponent.triggeredSave();
+          }
+
 
           if (source === 'process') {
             this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
@@ -630,12 +648,12 @@ export class ProposalBasicInformationComponent implements OnInit {
               summary: 'Success',
               detail: 'Save Success',
             });
+            this.saveWord = false;
           }
         });
       }
     }
 
-    this.saveWord = true;
     // this.saveWordConditionOpinion = true;
   }
 
