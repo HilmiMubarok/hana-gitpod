@@ -57,7 +57,7 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   }
 
   private async update(entity: any): Promise<IPDFSlik[]> {
-    return (await firstValueFrom(this.pdfService.extractSlikFromFile(entity, {}, this.partyId))).body;
+    return (await firstValueFrom(this.pdfService.extractSlikFromFile(entity, {}, this.data.cif))).body;
   }
 
   public async save(): Promise<void> {
