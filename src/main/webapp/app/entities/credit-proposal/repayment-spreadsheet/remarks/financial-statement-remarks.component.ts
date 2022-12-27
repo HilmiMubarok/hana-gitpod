@@ -45,19 +45,33 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
     protected creditProposalService: CreditProposalService,
     protected router: Router,
     private storageService: StorageService
-  ) {}
+  ) {
+    this.bucket = '';
+  }
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   ngOnInit() {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/financial-statement/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
-    this.getContainer();
+    // this.getContainer();
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWordMinio) {

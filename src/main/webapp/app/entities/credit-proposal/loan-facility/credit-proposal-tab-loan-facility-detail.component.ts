@@ -79,14 +79,26 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   constructor(protected actRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+    this.bucket = '';
+  }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
   }
 
   ngOnInit(): void {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.actRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/loan-facility/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
 
     this.removeTagRemaks();
