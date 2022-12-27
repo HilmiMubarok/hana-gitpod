@@ -45,7 +45,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public collaterallInfo: any;
   public collateralProductRelations: any;
   public creditProposaldata: any;
-  public hobbiesT = true;
 
   length: number;
   pageSize = 10;
