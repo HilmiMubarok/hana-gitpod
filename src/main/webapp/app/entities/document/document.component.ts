@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, EventEmitter, Output, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
@@ -23,6 +23,9 @@ export class DocumentComponent implements OnChanges {
 
   @Input()
   public document: ICollateralAppraisal;
+
+  @Input()
+  public status: string;
 
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   public files: Object[];
@@ -182,7 +185,7 @@ export class DocumentComponent implements OnChanges {
   }
 
   private groupByFolder(param: Object[]): void {
-    this.folders = []
+    this.folders = [];
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)
@@ -273,10 +276,10 @@ export class DocumentComponent implements OnChanges {
   public validateDocument() {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
-  // gakbisa() {
-  //   if (this.appraisal.statusId === STATUS.APPROVE ) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  gakbisa() {
+    if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
+  }
 }
