@@ -12,6 +12,12 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 })
 export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress>
 {
+  public country: IStateBoundary[];
+  public provinces: IStateBoundary[];
+  public districts: IStateBoundary[];
+  public villages: IStateBoundary[];
+  public cities: IStateBoundary[];
+
   private _partyPostalAddresses = new PartyPostalAddress();
 
   @Input()
@@ -31,6 +37,10 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     private stateBoundaryService: StateBoundaryService
   ) {
     super();
+	this.country = [];
+    this.provinces = [];
+    this.cities = [];
+    this.districts = [];
   }
 
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
