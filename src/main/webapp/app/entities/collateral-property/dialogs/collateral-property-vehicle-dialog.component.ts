@@ -59,6 +59,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   public qty: IUom;
 
   @Input() public officerName;
+  @Input() public branchId;
 
   @Input()
   get collateralPropertyExternal() {
@@ -123,6 +124,9 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   }
 
   public cekData() {
+    if (this.collateralProperty.attributes.branch === undefined) {
+      this.collateralProperty.attributes.branch = this.branchId;
+    }
     if (this.collateralProperty.attributes.managementBranch === undefined) {
       this.collateralProperty.attributes.managementBranch = '01';
     }

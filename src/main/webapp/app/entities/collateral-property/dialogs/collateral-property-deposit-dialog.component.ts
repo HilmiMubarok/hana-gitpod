@@ -59,6 +59,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   debitBlock: any;
 
   @Input() public officerName;
+  @Input() public branchId;
 
   @Input()
   get collateralPropertyExternal() {
@@ -125,6 +126,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   cekData() {
+    console.log('branch id ', this.branchId);
     if (this.collateralProperty.attributes.accountOfficer === undefined) {
       this.collateralProperty.attributes.accountOfficer = this.officerName;
     }

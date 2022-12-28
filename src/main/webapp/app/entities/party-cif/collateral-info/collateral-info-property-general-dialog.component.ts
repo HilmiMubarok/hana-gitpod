@@ -16,11 +16,13 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
   public partyCifData: IPartyCif;
+  public branchId: string;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateral: ICollateral;
       partyCif: IPartyCif;
+      rmBranchId: string;
     },
     private _dialog: MatDialogRef<PartyCifCollateralInfoPropertyGeneralDialogComponent>,
     protected collateralPropertyService: CollateralPropertyService
@@ -29,11 +31,12 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
     this.partyCifData = this.data.partyCif;
     this.collateralProperty = null;
     this.collateralPropertyExternal = null;
+    this.branchId = this.data.rmBranchId;
   }
 
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
-    console.log('party cif', this.partyCifData.rm.name);
+    console.log('id Branch', this.branchId);
   }
 
   private loadByCollateral(collateralId: number): void {

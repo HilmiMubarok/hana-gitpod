@@ -12,6 +12,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   >
   </jhi-collateral-property-realestate-dialog>
   <jhi-collateral-property-deposit-dialog
@@ -20,6 +21,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-deposit-dialog>
   <jhi-collateral-property-other-dialog
     *ngIf="collateral.collateralTypeId === 'OTHER' && collateralPropertyExternal && collateralProperty"
@@ -27,6 +29,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-other-dialog>
   <jhi-collateral-property-securities-dialog
     *ngIf="collateral.collateralTypeId === 'SECURITIES' && collateralPropertyExternal && collateralProperty"
@@ -34,6 +37,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-securities-dialog>
   <jhi-collateral-property-letter-guaranty
     *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY' && collateralPropertyExternal && collateralProperty"
@@ -41,6 +45,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-letter-guaranty>
   <jhi-collateral-property-personal-property-dialog
     *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY' && collateralPropertyExternal && collateralProperty"
@@ -48,6 +53,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-personal-property-dialog>
   <jhi-collateral-property-machine-dialog
     *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralPropertyExternal && collateralProperty"
@@ -55,6 +61,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-machine-dialog>
   <jhi-collateral-property-vehicle-dialog
     *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralPropertyExternal && collateralProperty"
@@ -62,6 +69,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-vehicle-dialog>
   <jhi-collateral-property-general-dialog-template
     *ngIf="collateral.collateralTypeId === 'CASH' && collateralPropertyExternal && collateralProperty"
@@ -69,6 +77,7 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
     [officerName]="partyCifData.rm.name"
+    [branchId]="branchId"
   ></jhi-collateral-property-general-dialog-template>
   <jhi-paripasu-collateral></jhi-paripasu-collateral>
   <mat-dialog-actions align="center">
