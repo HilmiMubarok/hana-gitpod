@@ -19,7 +19,7 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { CollateralAppraisalProcessService } from '../collateral-appraisal/collateral-appraisal-process.service';
-import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
+import { CollateralAppraisal, ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
@@ -29,7 +29,7 @@ import { CreditProposalService } from '../credit-proposal/credit-proposal.servic
 import { PartyPostalAddressService } from '../party-postal-address/party-postal-address.service';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 import { StorageService } from '../storage/storage.service';
-import { ISurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
+import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import lodash from 'lodash';
 import { AccountService } from 'app/core/auth/account.service';
@@ -173,6 +173,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService
   ) {
+    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -185,6 +186,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         this.clickedMenu = 'appraisal-info';
       }
     });
+    this.surveyAppraisal = new SurveyAppraisals();
   }
 
   ngOnInit(): void {
@@ -769,7 +771,9 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     return this._validateProcess(mustValidateOnAssignment);
   }
-
+  public onAssignTo(ev) {
+    this.surveyAppraisal = ev;
+  }
   private _showNotification(severity: string, message: string): void {
     // capitalize first letter for summary
     const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
@@ -1038,9 +1042,23 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     });
   }
 
+  // private preSave(): ISurveyAppraisals {
+  //   const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+  //   copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+  //   copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+  //   if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
+  //     copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
+  //       copySurveyAppraisal.collateral.attributes['landCertificates']
+  //     );
+  //   } else {
+  //     copySurveyAppraisal.collateral.attributes['landCertificates'];
+  //   }
+  //   return copySurveyAppraisal;
+  // }
+
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.surveyAppraisal.attributes['scoreCard']);
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
