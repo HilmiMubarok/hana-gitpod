@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollateralPropertyMarketValueDialogComponent } from 'app/entities/collateral-property/collateral-property-market-value-dialog.component';
@@ -42,7 +42,7 @@ import { PageEvent } from '@angular/material/paginator';
     ]),
   ],
 })
-export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges {
+export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
   @Input() public partyId: string;
   public selectedCollateral: ICollateral;
   public document: boolean;
@@ -104,10 +104,15 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.document = false;
     this.collateral = null;
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyId']) {
       this.loadByPartyId(this.partyId);
     }
+  }
+
+  ngOnInit() {
+    console.log('party cif dari parent', this.partyCif);
   }
 
   public openDocument(element: any) {
@@ -149,7 +154,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public openDialogPropertyGeneral(element: ICollateral): void {
     const dialogRef = this.dialog.open(PartyCifCollateralInfoPropertyGeneralDialogComponent, {
       width: '80vw',
-      data: { collateral: element },
+      data: { collateral: element, partyCif: this.partyCif },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralProperty[]) => {
       if (res && res.length > 0) {

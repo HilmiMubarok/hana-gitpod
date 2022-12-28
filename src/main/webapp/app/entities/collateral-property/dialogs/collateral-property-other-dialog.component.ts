@@ -52,6 +52,8 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   public filteredOptionsMVImbPs: Observable<IUom[]>;
   public MVImbPsCcy: IUom;
 
+  @Input() public officerName;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -117,6 +119,10 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   public cekData() {
     if (this.collateralProperty.attributes.managementBranch === undefined) {
       this.collateralProperty.attributes.managementBranch = '01';
+    }
+
+    if (this.collateralProperty.attributes.accountOfficer === undefined) {
+      this.collateralProperty.attributes.accountOfficer = this.officerName;
     }
   }
 

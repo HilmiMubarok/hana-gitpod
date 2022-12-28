@@ -56,6 +56,8 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   public qty: IUom;
   public branchesNames: any;
 
+  @Input() public officerName;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -121,6 +123,9 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   public cekData() {
     if (this.collateralProperty.attributes.managementBranch === undefined) {
       this.collateralProperty.attributes.managementBranch = '01';
+    }
+    if (this.collateralProperty.attributes.accountOfficer === undefined) {
+      this.collateralProperty.attributes.accountOfficer = this.officerName;
     }
   }
 

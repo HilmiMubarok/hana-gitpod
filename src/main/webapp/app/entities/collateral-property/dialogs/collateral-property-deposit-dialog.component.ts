@@ -58,6 +58,8 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   guaranteeType: any;
   debitBlock: any;
 
+  @Input() public officerName;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -119,6 +121,13 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.setBranches();
     this.setDebitBlock();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  cekData() {
+    if (this.collateralProperty.attributes.accountOfficer === undefined) {
+      this.collateralProperty.attributes.accountOfficer = this.officerName;
+    }
   }
 
   filteredCurrency() {

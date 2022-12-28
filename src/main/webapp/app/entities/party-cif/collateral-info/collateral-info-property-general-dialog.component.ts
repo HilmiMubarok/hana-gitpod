@@ -5,6 +5,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import lodash from 'lodash';
+import { IPartyCif } from '../party-cif.model';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info-property-general-dialog',
@@ -14,21 +15,25 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public collateral: ICollateral;
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
+  public partyCifData: IPartyCif;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateral: ICollateral;
+      partyCif: IPartyCif;
     },
     private _dialog: MatDialogRef<PartyCifCollateralInfoPropertyGeneralDialogComponent>,
     protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateral = this.data.collateral;
+    this.partyCifData = this.data.partyCif;
     this.collateralProperty = null;
     this.collateralPropertyExternal = null;
   }
 
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
+    console.log('party cif', this.partyCifData.rm.name);
   }
 
   private loadByCollateral(collateralId: number): void {
