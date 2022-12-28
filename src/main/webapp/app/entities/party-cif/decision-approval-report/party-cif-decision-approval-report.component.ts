@@ -272,8 +272,8 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
           }
         }
 
-		// data[i].statusDescription = 'Complete';
-		data[i].statusDescription = data[i].statusCode === 'OL_COMPLETE' ? 'Complete' : data[i].statusDescription;
+        // data[i].statusDescription = 'Complete';
+        data[i].statusDescription = data[i].statusCode === 'OL_COMPLETE' ? 'Complete' : data[i].statusDescription;
       }
     }
     return data;
@@ -333,8 +333,8 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   }
 
   public navigateToDarChecker(id): void {
-    const path = 'dar-checker';
-    this.router.navigate([path + '/' + id + '/single-assign']);
+    const path = 'confirmation';
+    this.router.navigate([path + '/' + id + '/edit']);
   }
 
   getText(value: any) {

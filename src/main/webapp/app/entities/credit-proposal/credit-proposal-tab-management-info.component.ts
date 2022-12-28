@@ -18,6 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
@@ -46,9 +47,11 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   creditProposalItem: ICreditProposal = new CreditProposal();
   public dataItem: ICreditProposal = new CreditProposal();
   private _Info: ICreditProposal[];
-  private _organizationLegal: IOrganizationLegal[];
+  public organizationLegal: IOrganizationLegal[];
 
   public data: any = [];
+  public deeedNumber: any;
+  public deedDate: any;
 
   public Managemet: string;
   public value: string;
@@ -63,6 +66,13 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   set item(item: ICreditProposal) {
     this.creditProposalItem = item;
+  }
+  @Input()
+  get dataSource() {
+    return this.organizationLegal;
+  }
+  set dataSource(param: IOrganizationLegal[]) {
+    this.organizationLegal = param;
   }
 
   // atribut
@@ -149,7 +159,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     private router: Router,
     private storageService: StorageService,
     private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private partyCifService: PartyCifService
   ) {
     this.dataItem;
   }
@@ -163,6 +174,13 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
     //   this.getContainer();
     // });
+    console.log('cobe', this.dataSource);
+
+    this.actRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
+      this.getContainer();
+    });
 
     if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
       for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
@@ -172,6 +190,33 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.getWord();
 
     this.matrixRemoveTag();
+    this.getPartyCif();
+    this.getPartyCifDate();
+  }
+
+  public getPartyCif() {
+    this.partyCifService
+      .queryFilterBy({
+        idParty: this.creditProposalItem.cif.partyId,
+        page: 0,
+        size: 9999,
+        sort: ['id,desc'],
+      })
+      .subscribe((res: any) => {
+        this.loadDataByNumber(this.partyCifService.findPartyId(res.body[0]));
+      });
+  }
+  public getPartyCifDate() {
+    this.partyCifService
+      .queryFilterBy({
+        idParty: this.creditProposalItem.cif.partyId,
+        page: 0,
+        size: 9999,
+        sort: ['id,desc'],
+      })
+      .subscribe((res: any) => {
+        this.loadDataByDate(this.partyCifService.findPartyId(res.body[0]));
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -190,17 +235,38 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   getPerson(): void {
     this.creditProposalService.loadCacheAll().subscribe((res: ICreditProposal[]) => {
       this._Info = res || [];
-      // console.log('response data', res);
       this.setData();
     });
   }
 
-  getOrganizationLegal(): void {
+  public getOrganizationLegal(): void {
     this.organizationLegalService.loadCacheAll().subscribe((res: IOrganizationLegal[]) => {
-      this._organizationLegal = res || [];
-      console.log('legal ', res);
+      this.organizationLegal = res || [];
+
       this.setData();
     });
+  }
+  public loadDataByNumber(_idOrganization: string = null): void {
+    this.organizationLegalService
+      .queryFilterBy({
+        idOrganization: _idOrganization,
+        page: 0,
+        sort: ['id,desc'],
+      })
+      .subscribe((res: any) => {
+        this.deeedNumber = res.body[0].deedRecentChangeNumber;
+      });
+  }
+  public loadDataByDate(_idOrganization: string = null): void {
+    this.organizationLegalService
+      .queryFilterBy({
+        idOrganization: _idOrganization,
+        page: 0,
+        sort: ['id,desc'],
+      })
+      .subscribe((res: any) => {
+        this.deedDate = res.body[0].deedRecentChangeDate;
+      });
   }
 
   setData() {

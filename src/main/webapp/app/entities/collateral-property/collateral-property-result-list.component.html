@@ -26,13 +26,13 @@
   <ng-container matColumnDef="marketValue">
     <th mat-header-cell *matHeaderCellDef>Market Value</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.totalMarketValue }}
+      {{ element.totalMarketValue | currency: 'IDR' }}
     </td>
   </ng-container>
   <ng-container matColumnDef="liquidationValue">
     <th mat-header-cell *matHeaderCellDef>Liquidation Value</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.totalLiquidationValue }}
+      {{ element.totalLiquidationValue | currency: 'IDR' }}
     </td>
   </ng-container>
   <ng-container matColumnDef="action">

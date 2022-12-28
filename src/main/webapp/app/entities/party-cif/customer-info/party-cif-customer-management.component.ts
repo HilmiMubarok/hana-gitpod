@@ -52,7 +52,7 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
   date = new FormControl(moment());
 
   public separate: string;
-  public managementType: string;
+  public _managementType: string;
 
   @Input()
   get person() {
@@ -64,13 +64,21 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
   }
 
   @Input()
+  get managementType() {
+    return this._managementType;
+  }
+
+  set managementType(item: string) {
+    this._managementType = item;
+  }
+
+  @Input()
   get organization() {
     return this._organization;
   }
 
   set organization(data: IOrganizationManagement) {
     this._organization = data;
-    this.managementType = data.organizationManagementTypeDescription;
   }
 
   @Input()

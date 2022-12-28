@@ -6,11 +6,12 @@
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
-            <e-breadcrumb-item text="Edit"
-              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}">
+            <e-breadcrumb-item text="Edit" url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}">
             </e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ getTextMenu() }} {{ titleMenu }}"
-              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ clickedMenu }}">
+            <e-breadcrumb-item
+              text="{{ getTextMenu() }} {{ titleMenu }}"
+              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ clickedMenu }}"
+            >
             </e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
@@ -34,12 +35,18 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <section
-                *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-combobox cssClass="e-outline" placeholder="Proposal Type" (change)="setSubmenu($event.itemData)"
-                  [(ngModel)]="creditProposal.attributes.proposalType" placeholder="Please select proposal type"
-                  [dataSource]="proposalType" fields="{text:'text', value:'id'}" required
-                  [disabled]="disabledProptype()">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-combobox
+                  cssClass="e-outline"
+                  placeholder="Proposal Type"
+                  (change)="setSubmenu($event.itemData)"
+                  [(ngModel)]="creditProposal.attributes.proposalType"
+                  placeholder="Please select proposal type"
+                  [dataSource]="proposalType"
+                  fields="{text:'text', value:'id'}"
+                  required
+                  [disabled]="disabledProptype()"
+                >
                 </ejs-combobox>
               </section>
 
@@ -53,10 +60,14 @@
                 </div>
               </section>
               <div class="form-group">
-                <section
-                  *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox disabled [(ngModel)]="creditProposal.applicationNumber" placeholder="Proposal Number"
-                    cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="creditProposal.applicationNumber"
+                    placeholder="Proposal Number"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">
@@ -69,10 +80,14 @@
                 </section>
               </div>
               <div class="form-group">
-                <section
-                  *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox disabled [value]="creditProposal.createdDate | formatMediumDate"
-                    placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    disabled
+                    [value]="creditProposal.createdDate | formatMediumDate"
+                    placeholder="Proposal Date"
+                    cssClass="e-outline"
+                    floatLabelType="Always"
+                  ></ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">
@@ -87,11 +102,17 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <section
-                  *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-combobox cssClass="e-outline" placeholder="Segment" floatLabelType="Auto"
-                    [ngModel]="creditProposal.applicationTypeDescription" (change)="setSegmenTypes($event.itemData)"
-                    [dataSource]="segmentType" fields="{text:'text', value:'id'}" required>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    placeholder="Segment"
+                    floatLabelType="Auto"
+                    [ngModel]="creditProposal.applicationTypeDescription"
+                    (change)="setSegmenTypes($event.itemData)"
+                    [dataSource]="segmentType"
+                    fields="{text:'text', value:'id'}"
+                    required
+                  >
                   </ejs-combobox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -106,10 +127,14 @@
               </div>
 
               <div class="form-group">
-                <section
-                  *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
-                    placeholder="Referral" cssClass="e-outline" floatLabelType="Auto" required></ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
+                    placeholder="Referral"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    required
+                  ></ejs-textbox>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">
@@ -122,8 +147,7 @@
                 </section>
               </div>
 
-              <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal">
-              </jhi-credit-proposal-booking-branch>
+              <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
             </div>
           </div>
         </div>
@@ -136,44 +160,46 @@
             <div class="col-12">
               <!-- Ketika Ke proposal Type -->
               <div *ngIf="parentPath === 'credit-proposal-status'">
-                <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"
-                  *ngIf="clickedMenu === 'greater-15-bn' || clickedMenu === 'lower-equal-15-bn' || clickedMenu === 'back-to-back'">
+                <jhi-credit-proposal-basic-information
+                  [creditProposal]="creditProposal"
+                  *ngIf="clickedMenu === 'greater-15-bn' || clickedMenu === 'lower-equal-15-bn' || clickedMenu === 'back-to-back'"
+                >
                 </jhi-credit-proposal-basic-information>
               </div>
 
               <div *ngIf="clickedMenu === 'basic-information'">
-                <jhi-credit-proposal-basic-information [creditProposal]="creditProposal">
-                </jhi-credit-proposal-basic-information>
+                <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
               </div>
 
               <div *ngIf="parentPath === 'cp-status-approval'">
-                <div *ngIf="
+                <div
+                  *ngIf="
                     clickedMenu === 'credit-proposal-approval' ||
                     clickedMenu === 'greater-15-bn' ||
                     clickedMenu === 'lower-equal-15-bn' ||
                     clickedMenu === 'back-to-back'
-                  ">
-                  <jhi-credit-proposal-basic-information [creditProposal]="creditProposal">
-                  </jhi-credit-proposal-basic-information>
-                  <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist"
-                    [creditProposal]="creditProposal">
+                  "
+                >
+                  <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
+                  <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-tab-loan-facility-detail>
                   <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-loan-facility-detail-history>
-                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal">
-                  </jhi-credit-proposal-tab-exposure>
+                  <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
                   <jhi-credit-proposal-collateral-info *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-collateral-info>
-                  <jhi-collateral-info-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
-                  </jhi-collateral-info-history>
+                  <jhi-collateral-info-history *ngIf="isHistoryExist" [creditProposal]="creditProposal"> </jhi-collateral-info-history>
 
                   <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
               </div>
 
               <div *ngIf="clickedMenu === 'business-activity'">
-                <jhi-credit-proposal-busines-activity #creditProposalTabBusinessActivityComponent
-                  [creditProposalItem]="creditProposal" [projectAnalysis]="subMenuItems">
+                <jhi-credit-proposal-busines-activity
+                  #creditProposalTabBusinessActivityComponent
+                  [creditProposalItem]="creditProposal"
+                  [projectAnalysis]="subMenuItems"
+                >
                 </jhi-credit-proposal-busines-activity>
               </div>
 
@@ -181,19 +207,26 @@
                 <jhi-slik-summary [creditProposal]="creditProposal"></jhi-slik-summary>
               </div>
 
-              <jhi-credit-proposal-bank-account-analyst *ngIf="clickedMenu === 'bank-account-analyst'"
-                [creditProposal]="creditProposal">
+              <jhi-credit-proposal-bank-account-analyst *ngIf="clickedMenu === 'bank-account-analyst'" [creditProposal]="creditProposal">
               </jhi-credit-proposal-bank-account-analyst>
 
               <div *ngIf="clickedMenu === 'financial-statement'">
-                <jhi-repayment-spreadsheet [creditProposalItem]="creditProposal"
+                <jhi-repayment-spreadsheet
+                  [creditProposalItem]="creditProposal"
                   *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
-                  [jhifilter]="creditProposal.attributes.proposalType" [saveWordMinio]="saveWord">
+                  [jhifilter]="creditProposal.attributes.proposalType"
+                  [saveWordMinio]="saveWord"
+                >
                 </jhi-repayment-spreadsheet>
-                <jhi-repayment-spreadsheet [creditProposalItem]="creditProposal" *ngIf="
+                <jhi-repayment-spreadsheet
+                  [creditProposalItem]="creditProposal"
+                  *ngIf="
                     creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
                     creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-                  " [jhifilter]="creditProposal.attributes.proposalType" [saveWordMinio]="saveWord">
+                  "
+                  [jhifilter]="creditProposal.attributes.proposalType"
+                  [saveWordMinio]="saveWord"
+                >
                 </jhi-repayment-spreadsheet>
               </div>
 
@@ -207,47 +240,44 @@
             </div> -->
 
               <div *ngIf="clickedMenu === 'risk-acceptance-criteria'">
-                <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal">
-                </jhi-credit-proposal-risk-acceptance-criteria>
+                <jhi-credit-proposal-risk-acceptance-criteria [item]="creditProposal"> </jhi-credit-proposal-risk-acceptance-criteria>
               </div>
 
               <div *ngIf="clickedMenu === 'management-information'">
-                <jhi-credit-proposal-management-info #creditProposaTabManagementInfoComponent
-                  [creditProposalItem]="creditProposal">
+                <jhi-credit-proposal-management-info #creditProposaTabManagementInfoComponent [creditProposalItem]="creditProposal">
                 </jhi-credit-proposal-management-info>
               </div>
 
               <div *ngIf="clickedMenu === 'loan-facility-detail'">
-                <jhi-credit-proposal-tab-loan-facility-detail *ngIf="!isHistoryExist" [saveWord]="saveWord"
-                  [creditProposal]="creditProposal">
+                <jhi-credit-proposal-tab-loan-facility-detail
+                  *ngIf="!isHistoryExist"
+                  [saveWord]="saveWord"
+                  [creditProposal]="creditProposal"
+                >
                 </jhi-credit-proposal-tab-loan-facility-detail>
                 <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                 </jhi-loan-facility-detail-history>
               </div>
 
               <div *ngIf="clickedMenu === 'group-guarantour-analyst'">
-                <jhi-credit-proposal-group-guarantor-analysis [saveWordMinio]="saveWord"
-                  [creditProposalItem]="creditProposal">
+                <jhi-credit-proposal-group-guarantor-analysis [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
                 </jhi-credit-proposal-group-guarantor-analysis>
               </div>
 
               <div *ngIf="clickedMenu === 'trade-checking'">
-                <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal">
-                </jhi-credit-proposal-trade-checking>
-                <jhi-credit-proposal-trade-checking-remarks [creditProposal]="creditProposal" [saveWord]="saveWord">
+                <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
+                <jhi-credit-proposal-trade-checking-remarks #remaksComponent [creditProposal]="creditProposal">
                 </jhi-credit-proposal-trade-checking-remarks>
               </div>
 
               <div *ngIf="clickedMenu === 'summary'">
-                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'"
-                  #CreditProposalTabSummaryComponent>
+                <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'cp'" #CreditProposalTabSummaryComponent>
                 </jhi-credit-proposal-tab-summary>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
 
               <div *ngIf="clickedMenu === 'opinion'">
-                <jhi-credit-proposal-opinion-history #creditProposalOpinionHistoryComponent
-                  [creditProposalItem]="creditProposal">
+                <jhi-credit-proposal-opinion-history #creditProposalOpinionHistoryComponent [creditProposalItem]="creditProposal">
                 </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
@@ -267,8 +297,10 @@
                 <jhi-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"> </jhi-credit-rating-view>
               </div>
 
-              <jhi-credit-proposal-repayment-capability *ngIf="clickedMenu === 'repayment-capability'"
-                [creditProposal]="creditProposal"></jhi-credit-proposal-repayment-capability>
+              <jhi-credit-proposal-repayment-capability
+                *ngIf="clickedMenu === 'repayment-capability'"
+                [creditProposal]="creditProposal"
+              ></jhi-credit-proposal-repayment-capability>
 
               <div *ngIf="clickedMenu === 'propose-pricing'">
                 <jhi-credit-proposal-propose-pricing [saveWordMinio]="saveWord" [creditProposal]="creditProposal">
@@ -276,24 +308,29 @@
               </div>
 
               <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
-                <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal">
-                </jhi-credit-proposal-collateral-info>
+                <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
                 <jhi-credit-proposal-collateral-info-remarks [saveWord]="saveWord" [creditProposal]="creditProposal">
                 </jhi-credit-proposal-collateral-info-remarks>
               </div>
               <!-- <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info> -->
 
-              <jhi-collateral-info-history *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
-                [creditProposal]="creditProposal"></jhi-collateral-info-history>
+              <jhi-collateral-info-history
+                *ngIf="clickedMenu === 'collateral-info' && isHistoryExist"
+                [creditProposal]="creditProposal"
+              ></jhi-collateral-info-history>
             </div>
           </div>
           <div *ngIf="parentPath === 'cp-status-approval'">
-            <jhi-forward-to (forwardTo)="onForwardTo($event)" *ngIf="
+            <jhi-forward-to
+              (forwardTo)="onForwardTo($event)"
+              *ngIf="
                 creditProposal.statusId === 'CP_APPROVAL_SME_HEAD' ||
                 creditProposal.statusId === 'CP_APPROVAL_BM' ||
                 creditProposal.statusId === 'CP_APPROVAL_SDH' ||
                 creditProposal.statusId === 'CP_APPROVAL_DH'
-              " [creditProposal]="creditProposal">
+              "
+              [creditProposal]="creditProposal"
+            >
             </jhi-forward-to>
           </div>
         </div>
@@ -302,8 +339,13 @@
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <button style="margin-right: 25px" mat-raised-button *ngFor="let task of tasks" (click)="processTask(task)"
-        class="btn-lg text-uppercase">
+      <button
+        style="margin-right: 25px"
+        mat-raised-button
+        *ngFor="let task of tasks"
+        (click)="processTask(task)"
+        class="btn-lg text-uppercase"
+      >
         {{ task.caption }}
       </button>
       <button mat-raised-button class="btn-lg text-uppercase" (click)="save('default')">Save</button>
@@ -322,7 +364,14 @@
     </div>
   </mat-sidenav>
 </mat-sidenav-container>
-<button matTooltip="Click this for show sub menu of Credit Proposal" style="z-index: 1" class="btn-menu-floating"
-  (click)="drawer.toggle()" mat-fab color="warn" matTooltipPosition="before">
+<button
+  matTooltip="Click this for show sub menu of Credit Proposal"
+  style="z-index: 1"
+  class="btn-menu-floating"
+  (click)="drawer.toggle()"
+  mat-fab
+  color="warn"
+  matTooltipPosition="before"
+>
   <mat-icon>more_vert</mat-icon>
 </button>

@@ -171,7 +171,6 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   }
 
   filteredMVImb() {
-    console.log('ini options ', this.optionsMVImb);
     this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
       startWith(''),
       map(value => {

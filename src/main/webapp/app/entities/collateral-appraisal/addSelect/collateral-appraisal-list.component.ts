@@ -75,7 +75,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected activatedRoute: ActivatedRoute,
     protected _snackBar: MatSnackBar,
     protected messageService: MessageService,
-	protected accountService: AccountService,
+    protected accountService: AccountService
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -149,17 +149,21 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     };
 
     this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
-	  let filteredData = [];
+      this.initDataForMatTable(res, res.headers);
+      // Validation Kepemilikan Data - Start - Commented with wa group @28.12.2022 (Keys : Dwi)//
+      /* let filteredData = [];
 	  this.accountService.identity().subscribe(account => {
-		filteredData = lodash.filter(res, function(item: IPartyCif){
+		filteredData = lodash.filter(res.body, function (item: IPartyCif) {
 		  return item.rm.userLogin === account.login;
 		});
 	  });
 	  if (filteredData.length > 0) {
 		this.initDataForMatTable(res, res.headers);
 	  } else {
-		this.messageService.add({ severity: 'info', summary: 'Data Tidak Ada', detail: 'Cif ini tidak terdaftar atas RM yang login' });
-	  }
+		this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
+		this.loading = false;
+	  } */
+      // Validation Kepemilikan Data - End - Commented with wa group @28.12.2022 (Keys : Dwi)//
     });
   }
 
@@ -188,10 +192,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             width: '80vw',
             data: {
               collateral: this.collateral,
-              partyId: this.showDetail.customerNumber,
+              partyId: this.showDetail.id,
               dialogSection: section,
               customerType: this.showDetail.customerType,
-              postalAddress: partyPostalAddress.address,
+              postalAddress: partyPostalAddress,
             },
           };
 
@@ -224,11 +228,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     }
 
     if (section === 'cif') {
-	  this.partyId = this.showDetail.partyId;
+      this.partyId = this.showDetail.partyId;
     }
 
     this.loadPartyPostalAddress(this.partyId, section);
-
   }
 
   public onOverlayClick(): void {

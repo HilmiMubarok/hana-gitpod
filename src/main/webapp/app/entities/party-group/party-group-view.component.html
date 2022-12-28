@@ -75,7 +75,7 @@
                   </div>
                   <div class="my-3">
                     <ejs-textbox
-                      [(ngModel)]="item.deedEstablishNum"
+                      [(ngModel)]="item.legal.deedEstablishNum"
                       placeholder="Deed Of Established No"
                       disabled
                       floatLabelType="Auto"
@@ -90,7 +90,7 @@
                     <ejs-textbox
                       disabled
                       placeholder="Identity Type"
-                      [(ngModel)]="item.organizationIdType"
+                      [(ngModel)]="item.prospectOrganization.organizationIdType"
                       floatLabelType="Auto"
                       cssClass="e-outline"
                     >
@@ -99,7 +99,7 @@
                   <div class="my-3">
                     <ejs-textbox
                       placeholder="Identity Number"
-                      [(ngModel)]="item.organizationIdNumber"
+                      [(ngModel)]="item.prospectOrganization.organizationIdNumber"
                       floatLabelType="Auto"
                       disabled
                       cssClass="e-outline"

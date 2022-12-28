@@ -36,6 +36,7 @@ import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/cred
 import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
+import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -58,10 +59,15 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
 
-      @ViewChild('creditProposaTabManagementInfoComponent', {
+  @ViewChild('creditProposaTabManagementInfoComponent', {
     static: false,
   })
   creditProposaTabManagementInfoComponent: CreditProposaTabManagementInfoComponent;
+
+  @ViewChild('remaksComponent', {
+    static: false,
+  })
+  remaksComponent: RemarskComponent;
 
   private id: number;
   public clickedMenu: string;
@@ -598,7 +604,9 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-
+          if (this.remaksComponent) {
+            this.remaksComponent.triggeredSave();
+          }
 
           if (source === 'process') {
             this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
@@ -633,7 +641,9 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-
+          if (this.remaksComponent) {
+            this.remaksComponent.triggeredSave();
+          }
 
           if (source === 'process') {
             this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {

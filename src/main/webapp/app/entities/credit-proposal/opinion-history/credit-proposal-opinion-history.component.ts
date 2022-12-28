@@ -26,6 +26,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { PositionService } from 'app/entities/position/position.service';
 
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
@@ -53,6 +54,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private fileGet: File;
   private userId: any;
   public resourceUrl: string;
+  public positionLogin: any;
 
   @Input()
   get creditProposalItem() {
@@ -92,7 +94,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     private storageService: StorageService,
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private positionService: PositionService
   ) {}
 
   public currentAccount: any;
@@ -101,6 +104,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
     this.getLogin();
+    this.filterPositionLogin();
     this.getWord();
     this.refresh();
   }
@@ -302,9 +306,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
+  public filterPositionLogin() {
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionLogin = posisi.body;
+      for (let i = 0; i < this.positionLogin.length; i++) {
+        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
+      }
+    });
+  }
+
   public refresh() {
     this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
       this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
       this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
       this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
@@ -315,8 +327,12 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         if (this.notes.length > 0) {
           for (let i = 0; i < this.notes.length; i++) {
             this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-            if (this.notes[i].userId === this.currentAccount.login) {
+            if (this.notes[i].userId === account.login) {
+              this.creditProposalItem.notes[i].message = this.obj;
+              this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
               this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
+              this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
+              this.creditProposalItem.attributes['tempLoggedInCondition'] = this.notes[i].condition;
             }
           }
         }

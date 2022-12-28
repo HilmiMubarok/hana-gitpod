@@ -46,7 +46,9 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     private storageService: StorageService,
     protected activatedRoute: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.bucket = '';
+  }
 
   private bucket: string;
   private ngUnsubscribe = new Subject();
@@ -118,7 +120,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -130,16 +132,27 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+    });
+  }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
     });
   }
 
   ngOnInit(): void {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'appraisals/remark/keterangan-objek-jaminan/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
     });
   }
 

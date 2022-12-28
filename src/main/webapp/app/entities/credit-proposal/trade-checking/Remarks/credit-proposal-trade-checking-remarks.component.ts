@@ -13,6 +13,9 @@ import {
 
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { HttpClient } from '@angular/common/http';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-trade-checking-remarks',
@@ -20,7 +23,7 @@ import { takeUntil, Subject } from 'rxjs';
   styleUrls: ['../trade-checking.scss'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class RemarskComponent implements OnInit, OnChanges {
+export class RemarskComponent implements OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -42,21 +45,32 @@ export class RemarskComponent implements OnInit, OnChanges {
     protected creditProposalService: CreditProposalService,
     protected router: Router,
     protected activatedRoute: ActivatedRoute,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private http: HttpClient,
+    private applicationConfigService: ApplicationConfigService
   ) {}
 
-  private bucket: string;
+  private BUCKET: string;
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
+  public resourceUrl: string;
 
   private getContainer(): void {
+    // const obj = {
+    //   key: this.getKey,
+    // };
+
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
     const obj = {
-      key: this.getKey,
+      key: 'credit_proposal/remark/trade-checking/' + paramsId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -115,7 +129,7 @@ export class RemarskComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -127,37 +141,47 @@ export class RemarskComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
 
   ngOnInit() {
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt';
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    this.getWord();
+    // this.BUCKET = this.BUCKET;
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.paramsIdGet = params['id'];
+    //   this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt';
+    //   this.getContainer();
+    // });
+  }
+
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.saveWord === true) {
-      this.triggeredSave();
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (this.saveWord === true) {
+  //     this.triggeredSave();
+  //   }
+  // }
+
   onDocumentChange() {
     this.container.restrictEditing = true;
 
-    this.getTradeObj();
+    // this.getTradeObj();
   }
-  getTradeObj() {
-    this.bucket = 'hana';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
-    });
-  }
+  // getTradeObj() {
+  //   this.BUCKET = this.BUCKET;
+  //   this.activatedRoute.params.subscribe(params => {
+  //     this.paramsIdGet = params['id'];
+  //     this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt';
+  //     this.getContainer();
+  //   });
+  // }
   // public ststusId:Boolean
   // public x(){
   //   if(this.creditProposal.statusId==='DRAFT'){
