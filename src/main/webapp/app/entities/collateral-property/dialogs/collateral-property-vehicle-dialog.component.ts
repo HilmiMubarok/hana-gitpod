@@ -58,6 +58,9 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   public filteredOptionsQuantity: Observable<IUom[]>;
   public qty: IUom;
 
+  @Input() public officerName;
+  @Input() public branchId;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -117,6 +120,19 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     this.setBranches();
     this.setCertyficateType();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.branch === undefined) {
+      this.collateralProperty.attributes.branch = this.branchId;
+    }
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
+    if (this.collateralProperty.attributes.accountOfficer === undefined) {
+      this.collateralProperty.attributes.accountOfficer = this.officerName;
+    }
   }
 
   filtered() {
@@ -323,10 +339,12 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
 
   public cekDataSource() {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
-      this.myControlMVImb.disable();
-      this.myControl.disable();
       this.myControlQuantity.disable();
     }
+    this.collateralProperty.attributes.marketValueCcy = 'IDR';
+    this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
+    this.myControlMVImb.disable();
+    this.myControl.disable();
   }
 
   public setManagementBrance() {

@@ -64,12 +64,12 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
   }
 
   @Input()
-  get managementType(){
-    return this._managementType
+  get managementType() {
+    return this._managementType;
   }
 
-  set managementType(item: string){
-    this._managementType = item
+  set managementType(item: string) {
+    this._managementType = item;
   }
 
   @Input()

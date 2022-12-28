@@ -272,8 +272,8 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
           }
         }
 
-		// data[i].statusDescription = 'Complete';
-		data[i].statusDescription = data[i].statusCode === 'OL_COMPLETE' ? 'Complete' : data[i].statusDescription;
+        // data[i].statusDescription = 'Complete';
+        data[i].statusDescription = data[i].statusCode === 'OL_COMPLETE' ? 'Complete' : data[i].statusDescription;
       }
     }
     return data;
