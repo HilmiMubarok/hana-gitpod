@@ -12,6 +12,7 @@ import {
 } from 'app/entities/party-postal-address/party-postal-address-warehouse.model';
 import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
@@ -35,19 +36,29 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   }
 
   public addItem(event: any) {
+    const partyPostalAddress: IPartyPostalAddress = lodash.find(event[0].addresses, function (o) {
+      return o.purposeTypeId === 'PRIMARY_LOCATION';
+    });
+
+    const nomer = this.data.length + 1;
+
     if (event[0].customerPerson === null) {
       const dataSet = {
+        no: nomer,
         customerNumber: event[0].customerNumber,
         name: event[0].customerOrganization.name,
         taxIdNumber: event[0].customerOrganization.taxIdNumber,
+        address: partyPostalAddress.address.address1,
       };
 
       this.data = [...this.data, dataSet];
     } else {
       const dataSet = {
+        no: nomer,
         customerNumber: event[0].customerNumber,
         name: event[0].customerPerson.name,
         taxIdNumber: event[0].customerPerson.taxIdNumber,
+        address: partyPostalAddress.address.address1,
       };
 
       this.data = [...this.data, dataSet];

@@ -19,6 +19,8 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogBorrowerComponent } from './credit-proposal-dialog-borrower.component';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
@@ -57,6 +59,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public value: string;
   public newMessage: string;
   public resourceUrl: string;
+  public dataCoBorrower: any = [];
 
   // address: string;
 
@@ -151,7 +154,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   constructor(
     private creditProposalService: CreditProposalService,
-
+    public dialog: MatDialog,
     private organizationLegalService: OrganizationLegalService,
     // private actRoute: ActivatedRoute,
     // private storageService: StorageService
@@ -174,8 +177,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
     //   this.getContainer();
     // });
-    console.log('cobe', this.dataSource);
 
+    this.dataCoBorrower = this.creditProposalItem.attributes['basicInformation'].coborowed;
     this.actRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
@@ -402,5 +405,13 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         Management: this.Managemet,
       },
     ];
+  }
+
+  public openDialog(element: any): void {
+    const predicate = { width: '80vw', data: { item: element }, panelClass: 'custom-dialog-container' };
+
+    const dialogRef = this.dialog.open(DialogBorrowerComponent, predicate);
+    dialogRef.afterClosed().subscribe(() => {});
+    console.log('element', element);
   }
 }

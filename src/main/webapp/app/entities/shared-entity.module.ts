@@ -327,6 +327,7 @@ import { DarCovenantBackToBackDepositComponent } from './loan-analys/dar-final/c
 import { DarCovenantBackToBackGeneralComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-general.component';
 import { CollateralAppraisalForwardToComponent } from './collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
 
+import { DialogBorrowerComponent } from './credit-proposal/credit-proposal-dialog-borrower.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -704,6 +705,7 @@ import { CollateralAppraisalForwardToComponent } from './collateral-appraisal/su
     DarCovenantBackToBackDepositComponent,
     DarCovenantBackToBackGeneralComponent,
     CollateralAppraisalForwardToComponent,
+    DialogBorrowerComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1047,6 +1049,7 @@ import { CollateralAppraisalForwardToComponent } from './collateral-appraisal/su
     DarCovenantBackToBackDepositComponent,
     DarCovenantBackToBackGeneralComponent,
     CollateralAppraisalForwardToComponent,
+    DialogBorrowerComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
