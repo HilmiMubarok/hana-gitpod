@@ -20,7 +20,7 @@
               <div class="col-5">Date As Of</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ dateAsOf }}
+                {{  {{ dateAsOf | date  }} }}
               </div>
             </div>
           </section>
@@ -163,7 +163,7 @@
                 placeholder="Remaining Balance after this Proposal"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="'-' + purposeAmmount"
+                [value]="'-' + remainingAfterCpMinus"
                 disabled
               ></ejs-textbox>
             </div>
@@ -172,7 +172,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Remaining Balance after this Proposal</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">-{{ purposeAmmount }}</div>
+              <div class="col col-lg-2">-{{ remainingAfterCpMinus }}</div>
             </div>
           </section>
 
