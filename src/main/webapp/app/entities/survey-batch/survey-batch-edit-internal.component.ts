@@ -186,7 +186,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         this.clickedMenu = 'appraisal-info';
       }
     });
-    this.surveyAppraisal = new SurveyAppraisals();
   }
 
   ngOnInit(): void {
