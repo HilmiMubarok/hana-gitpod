@@ -1,0 +1,14 @@
+<!-- <div class="row my-3">
+  <div class="col">
+    <ejs-textbox placeholder="Based on Notarial Deed No">
+    </ejs-textbox>
+  </div>
+  <div class="col">
+    <ejs-datepicker placeholder="Date"> </ejs-datepicker>
+  </div>
+</div> -->
+<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+  <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA"> </jhi-organization-management-list>
+  <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON"> </jhi-organization-management-list>
+  <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER"> </jhi-organization-management-list>
+</cdk-virtual-scroll-viewport>
