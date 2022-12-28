@@ -190,10 +190,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     this.getOpiniObj();
   }
   public getOpiniObj() {
-    this.bucket = 'hana';
+    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/business-activity/' + this.creditProposalItem.id + '/' + '/sfdt';
+      this.getKey = 'credit_proposal/remark/business-activity/' + this.creditProposalItem.id + '/sfdt';
       this.getContainer();
     });
   }
@@ -292,7 +292,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
       });
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -304,7 +304,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
       });
     }
   }
@@ -329,7 +329,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
       });
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -341,7 +341,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
       });
     }
   }
