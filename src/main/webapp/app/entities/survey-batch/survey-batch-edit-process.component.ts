@@ -680,7 +680,9 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   private async loadCollateralAppraisal(id: number): Promise<void> {
     this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
   }
-
+  public onAssignTo(ev) {
+    this.surveyAppraisal = ev;
+  }
   public onSave(source: string): void {
     this.ketObjekJaminan = true;
     if (source === 'process') {

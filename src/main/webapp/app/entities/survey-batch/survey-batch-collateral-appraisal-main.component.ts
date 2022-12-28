@@ -327,7 +327,6 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     );
     return copySurveyAppraisal;
   }
-
   public onSave(): void {
     const copySurveyAppraisal: ISurveyAppraisals = this.preSave();
     if (copySurveyAppraisal.id) {
