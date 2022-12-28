@@ -97,6 +97,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.setMenu('');
     this.getCurrency();
+    // this.getInteres();
   }
 
   private getMyBusinessGroup(): void {
@@ -112,6 +113,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         const item: IDebtorData = param[i];
         if (lodash.has(item.attributes, 'cpFacility')) {
           const source = JSON.parse(item.attributes['cpFacility']);
+
           if (source) {
             for (let y = 0; y < source.length; y++) {
               const parsed = new CPFacilityTable();
@@ -124,9 +126,14 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN10_ROLL_GAP_GB;
-              parsed.Provision = source[y].PROVISION_FEE_TYPE + source[y].PROVISION_FEE;
-              parsed.AdminFee = source[y].ADMIN_FEE_TYPE + source[y].ADMIN_FEE;
+              parsed.InterestRate =
+                source[y].FILN10_ROLL_GAP +
+                // source[y].FILN10_ROLL_GAP_GB +
+                source[y].FILN11_FIX_FLT_GB +
+                // source[y].FIX_FLT_GB +
+                source[y].FILN11_SPREAD_RT;
+              parsed.Provision = source[y].FILN22_FEE_AMT;
+              parsed.AdminFee = source[y].FILN22_FEE_AMT;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
@@ -149,11 +156,35 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
-    console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
-    console.log('cash loan', this.totalDebiturCashLoanGroup);
-    console.log('non cash loan', this.totalDebiturNonCashLoanGroup);
+    // console.log('cp facilit', this.item.attributes['cpFacility']);
+    // console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
+    // console.log('cash loan', this.totalDebiturCashLoanGroup);
+    // console.log('non cash loan', this.totalDebiturNonCashLoanGroup);
     this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
   }
+
+  // private findCif(): void {
+  //   this.partyCifService.findCif(this.creditProposal.customerNumber).subscribe(res => {
+  //     this.filterGroupDebtor(res.body[0]);
+  //   });
+  // }
+  // private filterGroupDebtor(param: IDebtorData[]): void {
+  //   if (param.length > 0) {
+  //     let no = 0;
+  //     for (let i = 0; i < param.length; i++) {
+  //       const item: IDebtorData = param[i];
+  //       if (lodash.has(item.attributes, 'cpFacility')) {
+  //         const inter = JSON.parse(item.attributes['cpFacility']);
+  //         if (inter) {
+  //           for (let y = 0; y < inter.length; y++) {
+  //             const parset = new CPFacilityTable();
+  //             no = no + 1;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   format(format: any, value: any): string {
     const intl: Internationalization = new Internationalization();
@@ -435,4 +466,24 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
     return '';
   }
+  // public getInteres() {
+  //   this.partyCifService
+  //     .queryFilterBy({
+  //       idParty: this.creditProposal.cif.partyId,
+  //     })
+  //     .subscribe((res: any) => {
+  //       this.loadInteres(this.partyCifService.findPartyId(res.body[0]));
+  //     });
+  // }
+  // public inter: any;
+  // public loadInteres(_data: string = null): void {
+  //   this.partyCifService
+  //     .queryFilterBy({
+  //       data: _data,
+  //     })
+  //     .subscribe((res: any) => {
+  //       this.inter = res.body[0];
+  //       console.log('inters ', res);
+  //     });
+  // }
 }
