@@ -48,23 +48,13 @@
           <div class="form-group" *ngIf="managementType === 'MANAGEMENT_DATA'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Position</mat-label>
-              <mat-select name="posManagement" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of posManagement" [value]="item.label">
-                  {{ item.label }}
-                </mat-option>
-              </mat-select>
+              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()" />
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Pep</mat-label>
-              <mat-select name="pepStatus" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of pepStatus" [value]="item.id">
-                  {{ item.label }}
-                </mat-option>
-              </mat-select>
+              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()" />
             </mat-form-field>
           </div>
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
