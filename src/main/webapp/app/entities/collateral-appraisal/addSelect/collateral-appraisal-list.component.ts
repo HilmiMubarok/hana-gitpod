@@ -189,7 +189,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             width: '80vw',
             data: {
               collateral: this.collateral,
-              partyId: this.showDetail.customerNumber,
+              partyId: this.showDetail.id,
               dialogSection: section,
               customerType: this.showDetail.customerType,
               postalAddress: partyPostalAddress,

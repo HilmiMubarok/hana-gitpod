@@ -31,7 +31,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
   ) {
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
-  
   }
   ngOnInit(): void {
     this.remove();

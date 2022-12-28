@@ -2,7 +2,7 @@
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()">Upload</button>
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
   <div class="table-responsive-material">
-    <table mat-table [dataSource]="dataPartySlik" class="w-100">
+    <table mat-table [dataSource]="partySliks" class="w-100">
       <ng-container matColumnDef="no">
         <th mat-header-cell *matHeaderCellDef>No</th>
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -95,7 +95,7 @@
 </div>
 
 <div *ngIf="mode === 'view'">
-  <table mat-table [dataSource]="dataPartySlik" class="w-100">
+  <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
       <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>

@@ -84,11 +84,10 @@ export class DebtorDataOrganizationManagementListComponent
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
-    console.log('items', this.items);
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['cif'] && changes['managementType']) {
-      this.loadDataBy(this.cif, this.managementType);
+    if (changes['partyCif'] && changes['managementType']) {
+      this.loadDataBy(this.partyCif.customerNumber, this.managementType);
       this.defineDisplayedColumns(this.managementType);
     }
   }
@@ -110,28 +109,23 @@ export class DebtorDataOrganizationManagementListComponent
     if (cif && managementType) {
       this.organizationManagementService
         .queryFilterBy({
-          cifNumber: this.cif,
-          organizationManagementType: this.managementType,
+          cifNumber: cif,
+          organizationManagementType: managementType,
           page: this.page,
           size: this.itemsPerPage,
           sort: ['id,desc'],
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => (
-            (this.organizationManagementRes = res.body),
-            console.log('items', this.items),
-            console.log('data', this.organizationManagement),
-            console.log('dataRes', this.organizationManagementRes),
-            this.initDataForMatTable(res, res.headers)
+            (this.organizationManagementRes = res.body), this.initDataForMatTable(res, res.headers)
           ),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      console.log('items', this.items);
     }
   }
 
   protected postLoadDataLazy(): void {
-    this.loadDataBy(this.cif, this.managementType);
+    this.loadDataBy(this.partyCif.customerNumber, this.managementType);
   }
 
   private setAttribute(param: IOrganizationManagement): void {
@@ -164,12 +158,12 @@ export class DebtorDataOrganizationManagementListComponent
         if (res.id) {
           // update
           this.organizationManagementService.update(res).subscribe(rs => {
-            this.loadDataBy(this.cif, this.managementType);
+            this.loadDataBy(this.partyCif.customerNumber, this.managementType);
           });
         } else {
           // create
           this.organizationManagementService.create(res).subscribe(rs => {
-            this.loadDataBy(this.cif, this.managementType);
+            this.loadDataBy(this.partyCif.customerNumber, this.managementType);
           });
         }
       }
