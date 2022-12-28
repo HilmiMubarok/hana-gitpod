@@ -149,7 +149,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     };
 
     this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
-	  let filteredData = [];
+	  this.initDataForMatTable(res, res.headers);
+	  // Validation Kepemilikan Data - Start - Commented with wa group @28.12.2022 (Keys : Dwi)//
+	  /* let filteredData = [];
 	  this.accountService.identity().subscribe(account => {
 		filteredData = lodash.filter(res.body, function (item: IPartyCif) {
 		  return item.rm.userLogin === account.login;
@@ -160,7 +162,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 	  } else {
 		this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
 		this.loading = false;
-	  }
+	  } */
+	  // Validation Kepemilikan Data - End - Commented with wa group @28.12.2022 (Keys : Dwi)//
     });
   }
 
