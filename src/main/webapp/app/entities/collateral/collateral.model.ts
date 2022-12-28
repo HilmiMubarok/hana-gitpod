@@ -134,7 +134,7 @@ export interface ICollateral {
   issuerRating?: string;
   ratingDate?: Date;
   picName?: string;
-  picPhone?: number;
+  picPhone?: string;
   bankAccountNum?: string;
   truncatedArea?: number;
   publicFacilities?: number;
@@ -253,7 +253,7 @@ export class Collateral implements ICollateral {
     public issuerRating?: string,
     public ratingDate?: Date,
     public picName?: string,
-    public picPhone?: number,
+    public picPhone?: string,
     public bankAccountNum?: string,
     public truncatedArea?: number,
     public publicFacilities?: number,

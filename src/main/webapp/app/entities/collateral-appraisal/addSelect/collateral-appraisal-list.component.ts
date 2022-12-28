@@ -149,19 +149,18 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     };
 
     this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
-      // let filteredData = [];
-      this.initDataForMatTable(res, res.headers);
-      // this.accountService.identity().subscribe(account => {
-      //   filteredData = lodash.filter(res, function (item: IPartyCif) {
-      //     return item.rm.userLogin === account.login;
-      //   });
-      // });
-      // if (filteredData.length > 0) {
-      //   this.initDataForMatTable(res, res.headers);
-      // } else {
-      //   this.messageService.add({ severity: 'info', summary: 'Data Tidak Ada', detail: 'Cif ini tidak terdaftar atas RM yang login' });
-      //   this.loading = false;
-      // }
+	  let filteredData = [];
+	  this.accountService.identity().subscribe(account => {
+		filteredData = lodash.filter(res.body, function (item: IPartyCif) {
+		  return item.rm.userLogin === account.login;
+		});
+	  });
+	  if (filteredData.length > 0) {
+		this.initDataForMatTable(res, res.headers);
+	  } else {
+		this.messageService.add({ severity: 'info', summary: 'Data Tidak Ada', detail: 'Cif ini tidak terdaftar atas RM yang login' });
+		this.loading = false;
+	  }
     });
   }
 
@@ -190,7 +189,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             width: '80vw',
             data: {
               collateral: this.collateral,
-              partyId: this.showDetail.customerNumber,
+              partyId: this.showDetail.id,
               dialogSection: section,
               customerType: this.showDetail.customerType,
               postalAddress: partyPostalAddress,

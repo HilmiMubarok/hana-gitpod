@@ -2,7 +2,8 @@
   <button mat-button mat-dialog-close>X</button>
 </mat-card-actions>
 
-<h2 mat-dialog-title>ADD ORGANIZATION MANAGEMENT</h2>
+<h2 *ngIf="this.data.organizationManagement.id === undefined" mat-dialog-title>ADD ORGANIZATION MANAGEMENT</h2>
+<h2 *ngIf="this.data.organizationManagement.id !== undefined" mat-dialog-title>EDIT ORGANIZATION MANAGEMENT</h2>
 <mat-dialog-content>
   <mat-card>
     <mat-card-header>
@@ -18,6 +19,7 @@
         <!-- <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person"  [spouse]="'spouse'" mode="edit">
         </jhi-party-cif-customer-info-person> -->
         <jhi-party-cif-customer-management
+          [managementType]="managementType"
           [organization]="organizationManagement"
           [person]="organizationManagement.person"
           mode="edit"
@@ -48,13 +50,23 @@
           <div class="form-group" *ngIf="managementType === 'MANAGEMENT_DATA'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Position</mat-label>
-              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()" />
+              <mat-select name="posManagement" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of posManagement" [value]="item.label">
+                  {{ item.label }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Pep</mat-label>
-              <input matInput type="text" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()" />
+              <mat-select name="pepStatus" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of pepStatus" [value]="item.label">
+                  {{ item.label }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
