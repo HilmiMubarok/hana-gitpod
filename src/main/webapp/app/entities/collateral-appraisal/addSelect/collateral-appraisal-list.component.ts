@@ -150,7 +150,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
     this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
 	  // this.initDataForMatTable(res, res.headers);
-	  if (res.length > 0) {
+	  if (res) {
 		let filteredData = [];
 		this.accountService.identity().subscribe(account => {
 		  filteredData = lodash.filter(res, function (item: IPartyCif) {
