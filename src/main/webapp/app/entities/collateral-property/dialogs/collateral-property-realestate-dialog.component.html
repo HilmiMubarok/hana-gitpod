@@ -251,15 +251,8 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (Tata Kota)</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.propertyMarketValueTataKota"
-            [options]="logoCcy"
-            [disabled]="dataSource()"
-          />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueTataKota" [options]="logoCcy" />
+          <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
         </mat-form-field>
       </div>
       <div class="col-4">
@@ -273,7 +266,7 @@
             [(ngModel)]="MVTkCcy"
             (ngModelChange)="getMVTkCcy()"
           />
-          <mat-autocomplete #autoMvTk="matAutocomplete" [displayWith]="displayFnMVTk">
+          <mat-autocomplete #autoMvTk="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptionsMVTk | async" [value]="option">
               {{ option.abbreviation }} - {{ option.description }}
             </mat-option>
@@ -282,7 +275,7 @@
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
           </mat-select> -->
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
         </mat-form-field>
       </div>
     </div>
