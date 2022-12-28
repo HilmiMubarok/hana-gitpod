@@ -215,6 +215,12 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     });
   }
 
+    onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
+
   ngOnInit(): void {
     this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
