@@ -42,6 +42,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 
 @Component({
   selector: 'jhi-survey-batch-edit-internal',
@@ -678,8 +679,35 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     });
   }
 
+  private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
+    if (data.attributes === undefined || data.attributes === null) {
+      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['summary'] = {
+        keterangan: '',
+        marketbility: '',
+        returnNotes: '',
+      };
+    } else {
+      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
+        data.attributes['scoreCard'] = scoreCard;
+      } else {
+        data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
+      }
+      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
+        data.attributes['summary'] = {
+          keterangan: '',
+          marketbility: '',
+          returnNotes: '',
+        };
+      } else {
+        data.attributes['summary'] = JSON.parse(data.attributes['summary']);
+      }
+    }
+    return data;
+  }
+
   private async loadCollateralAppraisal(id: number): Promise<void> {
-    this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
+    this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
   }
 
   public onSave(source: string): void {
