@@ -39,10 +39,6 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     const partyPostalAddress: IPartyPostalAddress = lodash.find(event[0].addresses, function (o) {
       return o.purposeTypeId === 'PRIMARY_LOCATION';
     });
-    console.log('event', partyPostalAddress);
-    console.log('event2', this.data);
-    console.log('even3', event);
-    console.log('event4');
 
     const nomer = this.data.length + 1;
 

@@ -708,6 +708,7 @@ import { DialogBorrowerComponent } from './credit-proposal/credit-proposal-dialo
     DialogBorrowerComponent,
   ],
   exports: [
+    ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoPostalAddressEnCifWhComponent,
