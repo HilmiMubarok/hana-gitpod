@@ -709,7 +709,7 @@ import { CollateralAppraisalForwardToComponent } from './collateral-appraisal/su
     ...entityDialogModule,
     ...entityTemplate,
     PartyCifCustomerInfoPostalAddressComponent,
-	PartyCifCustomerInfoPostalAddressEnCifWhComponent,
+    PartyCifCustomerInfoPostalAddressEnCifWhComponent,
     PartyCifCustomerInfoPartyGroupComponent,
     PartyCifCustomerInfoPersonComponent,
     PartyCifCustomerManagementComponent,
