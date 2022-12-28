@@ -537,7 +537,12 @@
       >
         Generate SPPK
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase" *ngIf="creditProposal.statusId !== 'OL_FINALIZE'" (click)="onSave()">
+        Save
+      </button>
+      <button mat-raised-button class="btn-lg text-uppercase" *ngIf="creditProposal.statusId === 'OL_FINALIZE'" hidden (click)="onSave()">
+        Save
+      </button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

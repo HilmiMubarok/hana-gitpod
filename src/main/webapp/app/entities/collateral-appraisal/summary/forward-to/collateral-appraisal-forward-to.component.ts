@@ -45,6 +45,7 @@ export class CollateralAppraisalForwardToComponent implements OnInit {
     this.loadPosition(POSITION_TYPE.UH);
     this.loadPosition(POSITION_TYPE.TL);
     this.loadPosition(POSITION_TYPE.DEPT_HEAD);
+    this.disabledForwardTo();
   }
 
   constructor(
@@ -193,5 +194,25 @@ export class CollateralAppraisalForwardToComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public disabled: boolean;
+  public disabledForwardTo() {
+    if (
+      this.surveyAppraisal.statusId === STATUS.APPROVAL_TL ||
+      this.surveyAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+      this.surveyAppraisal.statusId === STATUS.APPROVAL_DH ||
+      this.surveyAppraisal.statusId === STATUS.APPROVE ||
+      this.surveyAppraisal.statusId === STATUS.COMPLETE ||
+      this.collateralAppraisal.statusId === STATUS.APPROVAL_TL ||
+      this.collateralAppraisal.statusId === STATUS.APPROVAL_DEPT_HEAD ||
+      this.collateralAppraisal.statusId === STATUS.APPROVAL_DH ||
+      this.collateralAppraisal.statusId === STATUS.APPROVE ||
+      this.collateralAppraisal.statusId === STATUS.COMPLETE
+    ) {
+      this.disabled = true;
+    } else {
+      this.disabled = false;
+    }
   }
 }

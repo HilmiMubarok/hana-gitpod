@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { PartyCifService } from '../party-cif/party-cif.service';
 import { IOrganizationManagement } from './organization-management.model';
 
 @Component({
@@ -15,6 +16,8 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public pacthh: any;
   public view: boolean;
   public viewes: boolean;
+  public pepStatus: any;
+  public posManagement: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -23,15 +26,17 @@ export class OrganizationManagementDialogComponent implements OnInit {
       managementType: string;
     },
     private router: Router,
-    private _dialog: MatDialogRef<OrganizationManagementDialogComponent>
+    private _dialog: MatDialogRef<OrganizationManagementDialogComponent>,
+    private partyCifService: PartyCifService
   ) {
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
-  
   }
   ngOnInit(): void {
     this.remove();
     this.removepacth();
+    this.setPep();
+    this.setPosition();
   }
 
   public dataSource() {
@@ -55,5 +60,17 @@ export class OrganizationManagementDialogComponent implements OnInit {
     if (this.pacthh === 'party-cif') {
       this.viewes = true;
     }
+  }
+
+  public setPep() {
+    this.partyCifService.getPep().subscribe(res => {
+      this.pepStatus = res.body;
+    });
+  }
+
+  public setPosition() {
+    this.partyCifService.getPositionManagement().subscribe(res => {
+      this.posManagement = res.body;
+    });
   }
 }
