@@ -63,7 +63,6 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
                 collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
               }
             }
-			console.log('collateralAppraisal @route : ', collateralAppraisal);
             return of(collateralAppraisal.body);
           } else {
             this.router.navigate(['404']);
