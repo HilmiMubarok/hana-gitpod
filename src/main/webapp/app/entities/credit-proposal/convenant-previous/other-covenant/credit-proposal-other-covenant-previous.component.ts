@@ -21,7 +21,7 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
     } else {
       this.dataSource = [];
     }
-    !this.isOtherDeviation && this.displayColumns.pop();
+    this.isOtherDeviation && this.displayColumns.pop();
     this.isOtherDeviation && this.filterOtherDeviation();
   }
 
@@ -51,7 +51,7 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
     }
   }
 
-  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification'];
+  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation'];
 
   constructor() {}
 }

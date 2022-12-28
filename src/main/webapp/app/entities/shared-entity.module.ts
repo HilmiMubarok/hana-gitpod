@@ -224,7 +224,8 @@ import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-pr
 import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from './credit-proposal/loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { ParipasuCollateralComponent } from './credit-proposal/collateral-info/paripasu-collateral/paripasu-collateral.component';
 import { DebtorDataOrganizationManagementListComponent } from './debtor-data/slick-summary/management-data/debtor-data-organization-management-list.component';
-import { LoanFacilityDetailGridPreviousComponent } from './credit-proposal/loan-facility-previous/grid/credit-proposal-tab-loan-facility-detail.grid.component';
+import { CreditProposalTabLoanFacilityDetailPreviousComponent } from './credit-proposal/loan-facility-previous/credit-proposal-tab-loan-facility-detail-previous.component';
+import { CreditProposalTabLoanFacilityDetailGridPreviousComponent } from './credit-proposal/loan-facility-previous/grid/credit-proposal-tab-loan-facility-detail.grid.component';
 import { CreditProposalCollateralInfoPreviousComponent } from './credit-proposal/collateral-info-previous/credit-proposal-collateral-info-previous.component';
 import { CreditProposalCollateralInfoBTPPreviousComponent } from './credit-proposal/collateral-info-previous/backtoback/credit-proposal-collateral-info-btb-previous.component';
 import { CreditProposalDeviationAbovePreviousComponent } from './credit-proposal/convenant-previous/above/deviation/credit-proposal-deviation-above-previous.component';
@@ -325,9 +326,7 @@ import { DarCovenantAboveComponent } from './loan-analys/dar-final/convenant/abo
 import { DarCovenantBackToBackDepositComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-deposit.component';
 import { DarCovenantBackToBackGeneralComponent } from './loan-analys/dar-final/convenant/back-to-back/covenant-backtoback-general.component';
 import { CollateralAppraisalForwardToComponent } from './collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
-import { BellowGridPreviousComponent } from './credit-proposal/collateral-info-previous/below-grid/below-grid-previous.component';
-import { AboveGridPreviousComponent } from './credit-proposal/collateral-info-previous/above-grid/above-grid-previous.component';
-import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-facility-previous/loan-facility-detail-previous.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -568,17 +567,12 @@ import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-faci
     // === Previous === //
 
     // Loan Facility Detail
-    LoanFacilityDetailPreviousComponent,
-    LoanFacilityDetailGridPreviousComponent,
+    CreditProposalTabLoanFacilityDetailPreviousComponent,
+    CreditProposalTabLoanFacilityDetailGridPreviousComponent,
 
     // Collateral Info
     CreditProposalCollateralInfoPreviousComponent,
     CreditProposalCollateralInfoBTPPreviousComponent,
-
-    // === BELOW === //
-    BellowGridPreviousComponent,
-    // === ABOVE === //
-    AboveGridPreviousComponent,
 
     //  ==== Previous Covenant Deviation ====  //
 
@@ -914,17 +908,12 @@ import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-faci
     // === Previous === //
 
     // Loan Facility Detail
-    LoanFacilityDetailPreviousComponent,
-    LoanFacilityDetailGridPreviousComponent,
+    CreditProposalTabLoanFacilityDetailPreviousComponent,
+    CreditProposalTabLoanFacilityDetailGridPreviousComponent,
 
     // Collateral Info
     CreditProposalCollateralInfoPreviousComponent,
     CreditProposalCollateralInfoBTPPreviousComponent,
-
-    // === BELOW === //
-    BellowGridPreviousComponent,
-    // === ABOVE === //
-    AboveGridPreviousComponent,
 
     //  ==== Previous Covenant Deviation ====  //
 

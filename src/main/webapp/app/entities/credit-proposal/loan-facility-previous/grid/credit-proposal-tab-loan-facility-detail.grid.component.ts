@@ -1,33 +1,25 @@
-import { Component, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
+import { Component, Input, OnInit } from '@angular/core';
+import { ICreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
   ApplicationProduct,
   ApplicationProductAttribute,
   IApplicationProductAttribute,
 } from '../../../application-product/application-product.model';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import lodash from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
+import { CreditProposalLoanFacilityDialogComponent } from '../../loan-facility/dialog/loan-facility-dialog.component';
 import { Router } from '@angular/router';
-import { CollateralAttribute } from 'app/entities/collateral/collateral.model';
-import {
-  CollateralProductRelation,
-  ICollateralProductRelation,
-} from 'app/entities/collateral-product-relation/collateral-product-relation.model';
-import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
-import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
-  selector: 'jhi-loan-facility-detail-grid-previous',
-  templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
+  selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid-previous',
+  templateUrl: './credit-proposal-tab-loan-facility-detail.grid-previous.component.html',
   styleUrls: ['./loan.scss'],
 })
-export class LoanFacilityDetailGridPreviousComponent implements OnInit {
-  @Output() newItemEvent = new EventEmitter<any[]>();
-  public dataParty = [];
-  public _creditProposal: ICreditProposal;
+export class CreditProposalTabLoanFacilityDetailGridPreviousComponent implements OnInit {
+  private _creditProposal: ICreditProposal;
+  public dataSource: any;
+  @Input() isOffering: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -57,6 +49,7 @@ export class LoanFacilityDetailGridPreviousComponent implements OnInit {
     'provisionAmount',
     'provisionCcy',
     'tenor',
+    'availableLimit',
     'maturityDate',
   ];
 
@@ -65,9 +58,8 @@ export class LoanFacilityDetailGridPreviousComponent implements OnInit {
   public numericFormatOptions: Object;
   public loading: boolean;
   public cloneData: any;
-  public parsedAttribute: any;
 
-  constructor(public partyCifService: PartyCifService, public dialog: MatDialog, public _router: Router) {
+  constructor(public dialog: MatDialog, public _router: Router) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
 
@@ -76,64 +68,20 @@ export class LoanFacilityDetailGridPreviousComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
-    this.partyCifFunc();
+    if (this.creditProposal.attributes['previousReturn']) {
+      this.dataSource = JSON.parse(this.creditProposal.attributes['previousReturn']).products;
+    } else if (this.isOffering) {
+      this.dataSource = JSON.parse(this.creditProposal.attributes['previousHistory']).products;
+    } else {
+      this.dataSource = [];
+    }
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
   }
-  partyCifFunc() {
-    for (let i = 0; i < this.parsedAttribute.previousReturn.products.length; i++) {
-      this.dataParty.push(this.parsedAttribute.previousReturn.products[i]);
-    }
-  }
-
-  public onSave(): void {
-    const appProduct: IApplicationProduct = this.applicationProduct;
-    let idx: number;
-    if (!this.applicationProduct.id) {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.uniqueKey === appProduct.uniqueKey;
-      });
-
-      if (idx === -1) {
-        const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-        copyApplicationProduct.applicationId = this.creditProposal.id;
-        this.dataParty = [...this.dataParty, this.applicationProduct];
-        this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-      } else {
-        this.creditProposal.products[idx] = appProduct;
-        this.dataParty[idx] = appProduct;
-      }
-    } else {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.id === appProduct.id;
-      });
-      this.creditProposal.products[idx] = appProduct;
-      this.dataParty[idx] = appProduct;
-    }
-  }
-
-  public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
-    this.dataParty = dataGrid;
-    this.creditProposal.products = dataGrid;
-    this.partyCifFunc();
-  }
 
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);
-  }
-
-  public printElement(element) {
-    let subLimit: string;
-    subLimit = '';
-    if (element === true || element === 'true') {
-      subLimit = 'Yes';
-    } else if (element === false || element === 'false') {
-      subLimit = 'No';
-    }
-    return subLimit;
   }
 }
