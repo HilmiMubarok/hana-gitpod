@@ -92,13 +92,9 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
 
   private loadStatusChip(): void {
     this.offeringLetterService.getStatus(this.activeRoute).subscribe(res => {
-      for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesData.push(res.body[i]);
-        this.isShow = true;
-        if (i <= 1) {
-          this.isShow = false;
-        }
-      }
+      this.statusCodesData = res.body;
+      // if only has one status, then hide the status chip
+      res.body.length < 2 ? (this.isShow = false) : (this.isShow = true);
     });
   }
 
