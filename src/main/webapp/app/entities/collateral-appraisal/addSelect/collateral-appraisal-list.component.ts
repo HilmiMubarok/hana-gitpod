@@ -158,7 +158,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 	  if (filteredData.length > 0) {
 		this.initDataForMatTable(res, res.headers);
 	  } else {
-		this.messageService.add({ severity: 'info', summary: 'Data Tidak Ada', detail: 'Cif ini tidak terdaftar atas RM yang login' });
+		this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
 		this.loading = false;
 	  }
     });

@@ -333,8 +333,8 @@ export class PartyCifDecisionApprovalReportComponent extends AbstractEntityMater
   }
 
   public navigateToDarChecker(id): void {
-    const path = 'dar-checker';
-    this.router.navigate([path + '/' + id + '/single-assign']);
+    const path = 'confirmation';
+    this.router.navigate([path + '/' + id + '/edit']);
   }
 
   getText(value: any) {
