@@ -91,7 +91,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Management Branch</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()">
+        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.label }} </mat-option>
         </mat-select>
@@ -102,7 +102,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branch</mat-label>
         <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" /> -->
-        <mat-select [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()">
+        <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
         </mat-select>
@@ -132,7 +132,7 @@
         <div class="col-8">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Quantity Size</mat-label>
-            <input matInput currencyMask type="text" [options]="logoCcy" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
+            <input matInput currencyMask type="text" [options]="logoCcy" [(ngModel)]="collateralProperty.total" disabled />
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
         </div>
@@ -164,8 +164,8 @@
           [(ngModel)]="collateralProperty.appraisalDateInternal"
           disabled
         />
-        <mat-datepicker-toggle matSuffix [for]="realestateAppraisalDateInternal"> </mat-datepicker-toggle>
-        <mat-datepicker #realestateAppraisalDateInternal [disabled]="dataSource()"></mat-datepicker>
+        <mat-datepicker-toggle matSuffix [for]="realestateAppraisalDateInternal" disabled> </mat-datepicker-toggle>
+        <mat-datepicker #realestateAppraisalDateInternal disabled></mat-datepicker>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -173,14 +173,7 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (Physic)</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.propertyMarketValue"
-            [options]="logoCcy"
-            [disabled]="dataSource()"
-          />
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -212,14 +205,7 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (IMB)</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.propertyMarketValueIMB"
-            [options]="logoCcy"
-            [disabled]="dataSource()"
-          />
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValueIMB" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -257,7 +243,7 @@
             type="text"
             [(ngModel)]="collateralProperty.propertyMarketValueTataKota"
             [options]="logoCcy"
-            [disabled]="dataSource()"
+            disabled
           />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
@@ -296,15 +282,15 @@
           [(ngModel)]="collateralProperty.appraisalDateExternal"
           disabled
         />
-        <mat-datepicker-toggle matSuffix [for]="realestateAppraisalDateIndependent"> </mat-datepicker-toggle>
-        <mat-datepicker #realestateAppraisalDateIndependent [disabled]="dataSource()"></mat-datepicker>
+        <mat-datepicker-toggle matSuffix [for]="realestateAppraisalDateIndependent" disabled> </mat-datepicker-toggle>
+        <mat-datepicker #realestateAppraisalDateIndependent disabled></mat-datepicker>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Instituion of Independent</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralPropertyExternal.externalName" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="collateralPropertyExternal.externalName" disabled />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -318,7 +304,7 @@
             type="text"
             [(ngModel)]="collateralPropertyExternal.propertyMarketValue"
             [options]="logoCcy"
-            [disabled]="dataSource()"
+            disabled
           />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
@@ -355,7 +341,7 @@
           matInput
           type="text"
           [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependent"
-          [disabled]="dataSource()"
+          disabled
           [options]="logoCcy"
         />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
@@ -364,7 +350,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Officer</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" disabled />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

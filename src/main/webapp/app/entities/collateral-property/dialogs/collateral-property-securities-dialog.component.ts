@@ -54,6 +54,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   public optionsQuantity: IUom[];
   public filteredOptionsQuantity: Observable<IUom[]>;
   public qty: IUom;
+  public branchesNames: any;
 
   @Input()
   get collateralPropertyExternal() {
@@ -113,6 +114,21 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.cekDataSource();
+    this.cekData();
+    this.setBranches();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+      console.log('vrk', this.branchesNames);
+    });
   }
 
   filteredMVImb() {

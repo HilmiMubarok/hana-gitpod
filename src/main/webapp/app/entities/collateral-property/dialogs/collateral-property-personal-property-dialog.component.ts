@@ -112,6 +112,13 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.setManagementBrance();
     this.setBranches();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
   }
 
   filteredMVImb() {

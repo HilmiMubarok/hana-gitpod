@@ -31,6 +31,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
   ngOnInit(): void {
     this.remove();
     this.removepacth();
+    console.log('organization management', this.organizationManagement);
   }
 
   public dataSource() {

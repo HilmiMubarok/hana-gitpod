@@ -198,7 +198,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   getOrganizationLegal(): void {
     this.organizationLegalService.loadCacheAll().subscribe((res: IOrganizationLegal[]) => {
       this._organizationLegal = res || [];
-
+      console.log('legal ', res);
       this.setData();
     });
   }

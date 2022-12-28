@@ -152,6 +152,13 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     this.setManagementBrance();
     this.setBranches();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
   }
 
   filteredMVImb() {
@@ -380,12 +387,14 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   }
 
   public cekDataSource() {
-    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
-      this.myControlMVImb.disable();
-      this.myControlMVEx.disable();
-      this.myControlMVPs.disable();
-      this.myControlMVTk.disable();
-    }
+    this.myControlMVTk.disable();
+    this.myControlMVImb.disable();
+    this.myControlMVEx.disable();
+    this.myControlMVPs.disable();
+    this.collateralProperty.attributes.marketValueTkCcy = 'IDR';
+    this.collateralProperty.attributes.marketValueCcy = 'IDR';
+    this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
+    this.collateralPropertyExternal.attributes.marketValueCcy = 'IDR';
   }
 
   public setManagementBrance() {

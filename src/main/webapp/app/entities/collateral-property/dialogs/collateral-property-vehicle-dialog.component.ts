@@ -117,6 +117,13 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
     this.setBranches();
     this.setCertyficateType();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
   }
 
   filtered() {
@@ -323,10 +330,12 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
 
   public cekDataSource() {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
-      this.myControlMVImb.disable();
-      this.myControl.disable();
       this.myControlQuantity.disable();
     }
+    this.collateralProperty.attributes.marketValueCcy = 'IDR';
+    this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
+    this.myControlMVImb.disable();
+    this.myControl.disable();
   }
 
   public setManagementBrance() {

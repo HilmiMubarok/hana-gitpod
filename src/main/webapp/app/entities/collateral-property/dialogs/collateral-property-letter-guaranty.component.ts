@@ -124,6 +124,13 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setBranches();
     this.setGurantee();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
   }
 
   filtered() {
