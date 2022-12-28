@@ -234,7 +234,7 @@
               <div *ngIf="clickedMenu === 'trade-checking'">
                 <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal">
                 </jhi-credit-proposal-trade-checking>
-                <jhi-credit-proposal-trade-checking-remarks [creditProposal]="creditProposal" [saveWord]="saveWord">
+                <jhi-credit-proposal-trade-checking-remarks #remaksComponent [creditProposal]="creditProposal">
                 </jhi-credit-proposal-trade-checking-remarks>
               </div>
 
