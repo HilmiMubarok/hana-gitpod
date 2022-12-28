@@ -14,7 +14,14 @@
           <div class="row my-3">
             <div class="col">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox placeholder="Based on Notarial Deed No" floatLabelType="Auto" cssClass="e-outline" disabled> </ejs-textbox>
+                <ejs-textbox
+                  placeholder="Based on Notarial Deed No"
+                  [(ngModel)]="deeedNumber"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row py-3">
@@ -28,13 +35,7 @@
             </div>
             <div class="col">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-datepicker
-                  placeholder="Date"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                  [(ngModel)]="creditProposalItem.attributes['managementInfo'].date"
-                  disabled
-                >
+                <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="deedDate" disabled>
                 </ejs-datepicker>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
