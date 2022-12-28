@@ -62,12 +62,13 @@
               <mat-card class="w-100 mx-auto">
                 <mat-card-content>
                   <jhi-debtor-data-slik-summary-debitur
-                  [managementType]="managementType"
+                    [managementType]="managementType"
                     [mode]="mode"
                     [partySlik]="element['partySliks']"
-                    [partyCif]="cif"
-                    [partyId]="element.person.id"
-                  ></jhi-debtor-data-slik-summary-debitur>
+                    [partyCif]="partyCif"
+                    [partyId]="element.person ? element.person.id : element.organization.id"
+                  >
+                  </jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
               </mat-card>
             </div>
@@ -168,11 +169,13 @@
               <mat-card class="w-100 mx-auto">
                 <mat-card-content>
                   <jhi-debtor-data-slik-summary-debitur
-                  [managementType]="managementType"
-                    [partyCif]="partyCif"
+                    [managementType]="managementType"
                     [mode]="mode"
                     [partySlik]="element['partySliks']"
-                  ></jhi-debtor-data-slik-summary-debitur>
+                    [partyCif]="partyCif"
+                    [partyId]="element.person ? element.person.id : element.organization.id"
+                  >
+                  </jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
               </mat-card>
             </div>
@@ -266,10 +269,11 @@
               <mat-card class="w-100 mx-auto">
                 <mat-card-content>
                   <jhi-debtor-data-slik-summary-debitur
-                  [managementType]="managementType"
+                    [managementType]="managementType"
                     [partyCif]="partyCif"
                     [mode]="mode"
                     [partySlik]="element['partySliks']"
+                    [partyId]="element.person ? element.person.id : element.organization.id"
                   ></jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
               </mat-card>

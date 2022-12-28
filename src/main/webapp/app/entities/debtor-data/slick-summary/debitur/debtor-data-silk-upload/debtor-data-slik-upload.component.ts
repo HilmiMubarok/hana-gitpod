@@ -24,7 +24,7 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   public documentTypes: any;
   public multiple: Boolean = false;
   public indeks = 0;
-  public mode: 'add' | 'view'
+  public mode: 'add' | 'view';
 
   private partyId: string;
 
@@ -81,14 +81,13 @@ export class DebtorDataSlikUploadComponent implements OnInit {
           verticalPosition: 'top',
           duration: 3000,
         });
-        this._dialog.close({data: result, files: this.files});
+        this._dialog.close({ data: result, files: this.files });
       }
       return;
     }
   }
 
   public onSelect(event: any) {
-    console.log('event', event.addedFiles);
     this.files.push(...event.addedFiles);
   }
 
@@ -97,7 +96,6 @@ export class DebtorDataSlikUploadComponent implements OnInit {
   }
 
   onNoClick(): void {
-    console.log('click');
     this._dialog.close();
   }
 }
