@@ -293,13 +293,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     });
   }
 
-    onDocumentChange() {
-    this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
-  }
-
-
   // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
@@ -321,7 +314,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + this.paramsIdGet + '-' + fileType + '.docs';
+      const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + fileType + '.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
       };
@@ -333,7 +326,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-'  + this.paramsIdGet  + '-management-info-' + fileType + '.sfdt';
+      const fileName = 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-' + fileType + '.sfdt';
       // const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/management-info-' + fileType + '.sfdt';
       const metaData = {
         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
@@ -362,7 +355,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet  + '-management-info-sfdt.sfdt');
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + '-' + this.paramsIdGet + '-' + '-management-info-sfdt.sfdt');
 
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {

@@ -100,12 +100,6 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
     }
   }
 
-    onDocumentChange() {
-    this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
-  }
-
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
