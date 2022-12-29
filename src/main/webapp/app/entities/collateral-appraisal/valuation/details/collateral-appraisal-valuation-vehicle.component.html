@@ -25,12 +25,12 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button [hidden]="gakbisa()" (click)="openDialog(element)">
+      <th mat-header-cell *matHeaderCellDef [hidden]="gakbisa()">Action</th>
+      <td mat-cell *matCellDef="let element" [hidden]="gakbisa()">
+        <button mat-icon-button (click)="openDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button [hidden]="gakbisa()" (click)="deleteVechile(element)">
+        <button mat-icon-button (click)="deleteVechile(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
