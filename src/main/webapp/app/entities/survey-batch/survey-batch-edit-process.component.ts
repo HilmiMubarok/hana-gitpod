@@ -42,7 +42,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalComparisonComponent } from '../collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalForwardToComponent } from '../collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
@@ -592,9 +592,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.timeLine();
   }
 
-  public addNewCriteria(data: IScoreCard[]): void {
-    this.collateralAppraisal.attributes['scoreCard'] = data;
-  }
+  // addNewCriteria saya commnet karena IScoreCard[] di hapus oleh anjar, saya gak tau perubahan konsep dari anjar, jadi silahkan tanya anjar - ismoyo
+  // public addNewCriteria(data: IScoreCard[]): void {
+  //   this.collateralAppraisal.attributes['scoreCard'] = data;
+  // }
 
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
@@ -826,35 +827,40 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     });
   }
 
-  private async loadCollateralAppraisal(id: number): Promise<void> {
-    this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
-    // if (this.collateralAppraisal.attributes === undefined || this.collateralAppraisal.attributes === null) {
-    //   this.collateralAppraisal.attributes['scoreCard'] = scoreCard;
-    //   this.collateralAppraisal.attributes['summary'] = {
-    //     keterangan: '',
-    //     marketbility: '',
-    //     returnNotes: '',
-    //   };
-    // } else {
-    //   if (!Object.prototype.hasOwnProperty.call(this.collateralAppraisal.attributes, 'scoreCard')) {
-    //     this.collateralAppraisal.attributes['scoreCard'] = scoreCard;
-    //   } else {
-    //     this.collateralAppraisal.attributes['scoreCard'] = JSON.parse(this.collateralAppraisal.attributes['scoreCard']);
-    //   }
-
-    //   if (!Object.prototype.hasOwnProperty.call(this.collateralAppraisal.attributes, 'summary')) {
-    //     this.collateralAppraisal.attributes['summary'] = {
-    //       keterangan: '',
-    //       marketbility: '',
-    //       returnNotes: '',
-    //     };
-    //   } else {
-    //     this.collateralAppraisal.attributes['summary'] = JSON.parse(this.collateralAppraisal.attributes['summary']);
-    //   }
-    // }
-    console.log('collateral appraisal', this.collateralAppraisal);
+  private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
+    if (data.attributes === undefined || data.attributes === null) {
+      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['summary'] = {
+        keterangan: '',
+        marketbility: '',
+        returnNotes: '',
+      };
+    } else {
+      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
+        data.attributes['scoreCard'] = scoreCard;
+      } else {
+        data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
+      }
+      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
+        data.attributes['summary'] = {
+          keterangan: '',
+          marketbility: '',
+          returnNotes: '',
+        };
+      } else {
+        data.attributes['summary'] = JSON.parse(data.attributes['summary']);
+      }
+    }
+    return data;
   }
 
+  private async loadCollateralAppraisal(id: number): Promise<void> {
+    this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
+  }
+
+  public onAssignTo(ev) {
+    this.surveyAppraisal = ev;
+  }
   public onSave(source: string): void {
     this.ketObjekJaminan = true;
     if (source === 'process') {

@@ -95,6 +95,22 @@ export class OfferingLetterMainComponent implements OnInit {
       }
     });
     this.getTitleUrl();
+    this.setTitleMenuByParentPath();
+  }
+
+  private setTitleMenuByParentPath() {
+    if (this.parentPath === 'distribution') {
+      this.title = 'Offering Letter Distribution';
+    }
+    if (this.parentPath === 'finalize') {
+      this.title = 'Offering Letter Finalize';
+    }
+    if (this.parentPath === 'review') {
+      this.title = 'Offering Letter Review';
+    }
+    if (this.parentPath === 'confirmation') {
+      this.title = 'Offering Letter Confirmation';
+    }
   }
 
   public onAssignTo(ev) {
