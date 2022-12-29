@@ -95,9 +95,9 @@ export class OfferingLetterMainComponent implements OnInit {
       }
     });
     this.getTitleUrl();
-	this.setTitleMenuByParentPath();
+    this.setTitleMenuByParentPath();
   }
-  
+
   private setTitleMenuByParentPath() {
     if (this.parentPath === 'distribution') {
       this.title = 'Offering Letter Distribution';
