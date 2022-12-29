@@ -293,6 +293,12 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     });
   }
 
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
+
   // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {

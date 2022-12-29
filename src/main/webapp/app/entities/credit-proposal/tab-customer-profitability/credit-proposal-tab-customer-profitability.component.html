@@ -17,7 +17,8 @@
                 <tr>
                   <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Revenue</th>
                   <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Current Year</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Avarage Loan Ballance 1 Year</th>
+                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Avarage Loan
+                    Ballance 1 Year</th>
                   <th colspan="1" align="center" style="vertical-align: middle; text-align: center">ROA</th>
                 </tr>
               </thead>
@@ -42,37 +43,38 @@
 
                 <td>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <td style="vertical-align: middle; text-align: center">
-                      <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
-                    </td>
-                  </section>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].avarage }}</p> -->
-                    <div class="fontsebled row">
-                      <div class="col-3">&nbsp;</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">
-                        {{ item.attributes['tabCustomer'].avarage }}
-                      </div>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
+                </td>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <!-- <p class="lable-form-title">&nbsp; :{{ item.attributes['tabCustomer'].avarage }}</p> -->
+                  <div class="fontsebled row">
+                    <div class="col-3">&nbsp;</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-2">
+                      {{ item.attributes['tabCustomer'].avarage }}
                     </div>
-                  </section>
+                  </div>
+                </section>
                 </td>
                 <td>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <td style="vertical-align: middle; text-align: center">
-                      <input [value]="item.attributes['tabCustomer'].roa" type="number" [value]="totalRoa()" [disabled]="true" />
-                    </td>
-                  </section>
-                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                    <!-- <p class="lable-form-title">&nbsp; :{{ roa }}</p> -->
-                    <div class="fontsebled row">
-                      <div class="col-3">&nbsp;</div>
-                      <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">
-                        {{ roa }}
-                      </div>
+                <td style="vertical-align: middle; text-align: center">
+                  <input [value]="item.attributes['tabCustomer'].roa" type="number" [value]="totalRoa()"
+                    [disabled]="true" />
+                </td>
+                </section>
+                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <!-- <p class="lable-form-title">&nbsp; :{{ roa }}</p> -->
+                  <div class="fontsebled row">
+                    <div class="col-3">&nbsp;</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-2">
+                      {{ roa }}
                     </div>
-                  </section>
+                  </div>
+                </section>
                 </td>
               </tr>
 
@@ -96,15 +98,12 @@
               </tr>
 
               <tr>
-                <td style="vertical-align: middle; text-align: center">Total(Interest income from loan + loan provision)</td>
+                <td style="vertical-align: middle; text-align: center">Total(Interest income from loan + loan provision)
+                </td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input
-                      [(ngModel)]="item.attributes['tabCustomer'].totalLoanProvision"
-                      type="number"
-                      [value]="totalLoan()"
-                      [disabled]="true"
-                    />
+                    <input [(ngModel)]="item.attributes['tabCustomer'].totalLoanProvision" type="number"
+                      [value]="totalLoan()" [disabled]="true" />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -158,15 +157,12 @@
               </tr>
 
               <tr>
-                <td style="vertical-align: middle; text-align: center">Total (Interest Income from deposit + Insurance Premium)</td>
+                <td style="vertical-align: middle; text-align: center">Total (Interest Income from deposit + Insurance
+                  Premium)</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input
-                      [(ngModel)]="item.attributes['tabCustomer'].totalDepositInsurancePremium"
-                      type="number"
-                      [value]="totalLoanDeposit()"
-                      [disabled]="true"
-                    />
+                    <input [(ngModel)]="item.attributes['tabCustomer'].totalDepositInsurancePremium" type="number"
+                      [value]="totalLoanDeposit()" [disabled]="true" />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -264,19 +260,15 @@
                 <ejs-grid [dataSource]="dataAttrPass">
                   <e-columns>
                     <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                    <e-column field="Parameter" headerText="Parameter" headerTextAlign="center" textAlign="left" width="30"></e-column>
+                    <e-column field="Parameter" headerText="Parameter" headerTextAlign="center" textAlign="left"
+                      width="30"></e-column>
                     <e-column headerText="Yes" textAlign="Center" width="10">
                       <div class="select">
                         <ng-template #template let-data>
                           <div class="d-flex justify-content-around">
                             <div class="mx-2">
-                              <ejs-radiobutton
-                                label="Yes"
-                                value="Yes"
-                                (change)="onSelect('Yes', data)"
-                                [checked]="data.value === 'Yes'"
-                                name="{{ data.No }}"
-                              ></ejs-radiobutton>
+                              <ejs-radiobutton label="Yes" value="Yes" (change)="onSelect('Yes', data)"
+                                [checked]="data.value === 'Yes'" name="{{ data.No }}"></ejs-radiobutton>
                             </div>
                           </div>
                         </ng-template>
@@ -287,13 +279,8 @@
                         <ng-template #template let-data>
                           <div class="d-flex justify-content-around">
                             <div class="mx-2">
-                              <ejs-radiobutton
-                                label="No"
-                                value="No"
-                                (change)="onSelect('No', data)"
-                                [checked]="data.value === 'No'"
-                                name="{{ data.No }}"
-                              ></ejs-radiobutton>
+                              <ejs-radiobutton label="No" value="No" (change)="onSelect('No', data)"
+                                [checked]="data.value === 'No'" name="{{ data.No }}"></ejs-radiobutton>
                             </div>
                           </div>
                         </ng-template>
@@ -302,13 +289,10 @@
                     <e-column headerText="Remarks" textAlign="Center" width="50">
                       <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
                       <ng-template #template let-data>
-                        <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                          <ejs-textbox
-                            (keyup)="onKeyUpEvent()"
-                            [(ngModel)]="remarks1[data.No - 1]"
-                            cssClass="e-outline"
-                            floatLabelType="auto"
-                          >
+                        <section
+                          *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                          <ejs-textbox (keyup)="onKeyUpEvent()" [(ngModel)]="remarks1[data.No - 1]" cssClass="e-outline"
+                            floatLabelType="auto">
                           </ejs-textbox>
                         </section>
                         <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -348,18 +332,18 @@
             </div>
           </div>
           <div class="e-card-content">
-            <ejs-documenteditorcontainer
-              #document_editor_container
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDown($event)"
-              (created)="onCreate()"
-            >
-            </ejs-documenteditorcontainer>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false"
+                height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
+                (keyDown)="onKeyDown($event)" (created)="onCreate()">
+              </ejs-documenteditorcontainer>
+            </section>
+            <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
+                height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
+                [isReadOnly]="true">
+              </ejs-documenteditorcontainer>
+            </section>
           </div>
         </div>
       </div>
