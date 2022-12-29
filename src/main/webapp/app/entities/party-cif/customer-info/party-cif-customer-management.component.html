@@ -8,12 +8,25 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Complete Name</mat-label>
-        <input matInput type="text" [(ngModel)]="person.name" [disabled]="dataSource()" />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" [(ngModel)]="person.firstName" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput type="text" [(ngModel)]="person.lastName" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
