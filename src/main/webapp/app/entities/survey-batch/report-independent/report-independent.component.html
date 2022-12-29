@@ -30,7 +30,7 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Date</mat-label>
               <!-- [(ngModel)]="partner.fromDate"  -->
-              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [(ngModel)]="mData.apprDate" />
+              <input matInput [matDatepicker]="pickerFromDate" [formControl]="date" [disabled]="true" [(ngModel)]="mData.apprDate" />
               <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
               <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
               <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -41,7 +41,7 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Report Date</mat-label>
                 <!-- [(ngModel)]="partner.fromDate"  -->
-                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [(ngModel)]="mData.reportDate" />
+                <input matInput [matDatepicker]="pickerFromDate" [formControl]="date" [disabled]="true" [(ngModel)]="mData.reportDate" />
                 <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFromDate></mat-datepicker>
