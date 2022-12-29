@@ -29,6 +29,18 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public industry: string;
   public Profitability = [];
   public saveWord: Boolean = false;
+  public normalRateIDRArr = [];
+  public discountProposalIDRArr = [];
+  public proposedRateIDRArr = [];
+  public normalRateUSDArr = [];
+  public discountProposalUSDArr = [];
+  public proposedRateUSDArr = [];
+  public normalRateIDR: any;
+  public discountProposalIDR: any;
+  public proposedRateIDR: any;
+  public normalRateUSD: any;
+  public discountProposalUSD: any;
+  public proposedRateUSD: any;
   @Input() saveWordMinio: any;
   @Input()
   get creditProposal() {
@@ -63,6 +75,12 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.countOS = 0;
     this.availableLimit = 0;
     this.totalPlafon = 0;
+    this.normalRateIDR = 0;
+    this.discountProposalIDR = 0;
+    this.proposedRateIDR = 0;
+    this.normalRateUSD = 0;
+    this.discountProposalUSD = 0;
+    this.proposedRateUSD = 0;
   }
 
   ngOnDestroy(): void {
@@ -108,6 +126,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public availableLimitUSDAVG: number;
   public countOSUSDAVG: number;
   public totalPlafonUSDAVG: number;
+
   setValue(creditProposal: any) {
     for (let i = 0; i < creditProposal.products.length; i++) {
       if (creditProposal.products[i].attributes.currency === 'IDR') {
@@ -128,6 +147,24 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         } else {
           this.plafontArray = [];
         }
+
+        if (creditProposal.products[i].attributes.normalRate !== undefined) {
+          this.normalRateIDRArr.push(creditProposal.products[i].attributes.normalRate);
+        } else {
+          this.normalRateIDRArr = [];
+        }
+
+        if (creditProposal.products[i].attributes.discountProposal !== undefined) {
+          this.discountProposalIDRArr.push(creditProposal.products[i].attributes.discountProposal);
+        } else {
+          this.discountProposalIDRArr = [];
+        }
+
+        if (creditProposal.products[i].attributes.proposedRate !== undefined) {
+          this.proposedRateIDRArr.push(creditProposal.products[i].attributes.proposedRate);
+        } else {
+          this.proposedRateIDRArr = [];
+        }
       } else if (creditProposal.products[i].attributes.currency === 'USD') {
         if (creditProposal.products[i].attributes.availableLimit !== undefined) {
           this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit);
@@ -145,6 +182,24 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
           this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond);
         } else {
           this.plafontArrayUSD = [];
+        }
+
+        if (creditProposal.products[i].attributes.normalRate !== undefined) {
+          this.normalRateUSDArr.push(creditProposal.products[i].attributes.normalRate);
+        } else {
+          this.normalRateUSDArr = [];
+        }
+
+        if (creditProposal.products[i].attributes.discountProposal !== undefined) {
+          this.discountProposalUSDArr.push(creditProposal.products[i].attributes.discountProposal);
+        } else {
+          this.discountProposalUSDArr = [];
+        }
+
+        if (creditProposal.products[i].attributes.proposedRate !== undefined) {
+          this.proposedRateUSDArr.push(creditProposal.products[i].attributes.proposedRate);
+        } else {
+          this.proposedRateUSDArr = [];
         }
       }
     }
@@ -165,6 +220,27 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.availableLimitUSDAVG = this.availableLimitUSD / this.availabelLimitArrayUSD.length;
     this.countOSUSDAVG = this.countOSUSD / this.OSArrayUSD.length;
     this.totalPlafonUSDAVG = this.totalPlafonUSD / this.plafontArrayUSD.length;
+
+    this.normalRateIDR = this.normalRateIDRArr.length === 0 ? 0 : this._getAverage(this.normalRateIDRArr);
+
+    this.proposedRateIDR = this.proposedRateIDRArr.length === 0 ? 0 : this._getAverage(this.proposedRateIDRArr);
+
+    this.discountProposalIDR = this.normalRateIDR - this.proposedRateIDR;
+
+    this.normalRateUSD = this.normalRateUSDArr.length === 0 ? 0 : this._getAverage(this.normalRateUSDArr);
+
+    this.proposedRateUSD = this.proposedRateUSDArr.length === 0 ? 0 : this._getAverage(this.proposedRateUSDArr);
+
+    // ? NOTES : Discount Proposal = NormalRate - proposedRate
+    this.discountProposalUSD = this.normalRateUSD - this.proposedRateUSD;
+  }
+
+  private _getAverage(data) {
+    let sum = 0;
+    for (let i = 0; i < data.length; i++) {
+      sum += parseFloat(data[i]);
+    }
+    return sum / data.length;
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'CALCULATOR' }, { text: 'DASHBOARD' }, { text: 'CUSTOMER PROFITABILITY' }];
