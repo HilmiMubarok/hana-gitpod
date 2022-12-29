@@ -69,7 +69,11 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   public routeSubMenu(menu: object): void {
-    this.router.navigate(['/party-cif', this.id, 'detail'], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate(['/party-cif', this.id, 'detail'], {
+      queryParams: {
+        subroute: menu['id'],
+      },
+    });
   }
 
   public preSave() {
@@ -90,39 +94,15 @@ export class PartyCifDetailComponent implements OnInit {
     return copyPartyCif;
   }
 
-  private updateSliks(slik: IPartySlik): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.partySlikService.update(slik).subscribe(res => {
-        resolve();
-      });
-    });
-  }
-
-  private createSliks(slik: IPartySlik): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.partySlikService.create(slik).subscribe(res => {
-        resolve();
-      });
-    });
-  }
-
   public save() {
     this.arrSliks = lodash.concat(this.arrSliks, this.TransferService.getparam());
     const removeundefined = lodash.remove(this.arrSliks, function (n) {
       return n === undefined;
     });
 
-    console.log('sliks', this.arrSliks);
-
     this.partyCif.sliks = lodash.concat(this.partyCif.sliks, this.arrSliks);
 
-    // console.log("sliks",this.TransferService.getSliks());
-
-    // console.log("collateral info", this.partyCif.collaterals);
-
     this.partyCifService.update(this.preSave()).subscribe(res => {
-      // console.log("ini presave", this.preSave());
-
       if (this.collateralInfo.length > 0) {
         for (let i = 0; i < this.collateralInfo.length; i++) {
           this.collateralService.save(this.collateralInfo[i]);
@@ -131,23 +111,10 @@ export class PartyCifDetailComponent implements OnInit {
           }
         }
       }
-      const createSliksPromises = [];
-      const updateSliksPromises = [];
-      for (let i = 0; i < this.partyCif.sliks.length; i++) {
-        if (this.partyCif.sliks[i].id) {
-          updateSliksPromises.push(this.updateSliks(this.partyCif.sliks[i]));
-        } else {
-          createSliksPromises.push(this.createSliks(this.partyCif.sliks[i]));
-        }
-      }
-      Promise.all(updateSliksPromises).then(results => {
-        Promise.all(createSliksPromises).then(results2 => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-        });
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
       });
     });
   }

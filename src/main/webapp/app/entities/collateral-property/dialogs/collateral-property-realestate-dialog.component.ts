@@ -92,6 +92,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
 
+  @Input() public officerName;
+  @Input() public branchId;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -152,6 +155,19 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
     this.setManagementBrance();
     this.setBranches();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.branch === undefined) {
+      this.collateralProperty.attributes.branch = this.branchId;
+    }
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
+    if (this.collateralProperty.attributes.accountOfficer === undefined) {
+      this.collateralProperty.attributes.accountOfficer = this.officerName;
+    }
   }
 
   filteredMVImb() {
@@ -379,12 +395,12 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   }
 
   public cekDataSource() {
-    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
-      this.myControlMVImb.disable();
-      this.myControlMVEx.disable();
-      this.myControlMVPs.disable();
-      this.myControlMVTk.disable();
-    }
+    this.myControlMVImb.disable();
+    this.myControlMVEx.disable();
+    this.myControlMVPs.disable();
+    this.collateralProperty.attributes.marketValueCcy = 'IDR';
+    this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
+    this.collateralPropertyExternal.attributes.marketValueCcy = 'IDR';
   }
 
   public setManagementBrance() {

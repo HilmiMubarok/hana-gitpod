@@ -174,4 +174,10 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     }
     return false;
   }
+  gakbisa2() {
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      return false;
+    }
+    return true;
+  }
 }

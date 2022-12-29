@@ -42,7 +42,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 
 @Component({
   selector: 'jhi-survey-batch-edit-internal',
@@ -449,6 +449,10 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     this.timeLine();
   }
 
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
+
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
@@ -707,7 +711,36 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   }
 
   private async loadCollateralAppraisal(id: number): Promise<void> {
+
     this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
+
+    // this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
+    // if (this.collateralAppraisal.attributes === undefined || this.collateralAppraisal.attributes === null) {
+    //   this.collateralAppraisal.attributes['scoreCard'] = scoreCard;
+    //   this.collateralAppraisal.attributes['summary'] = {
+    //     keterangan: '',
+    //     marketbility: '',
+    //     returnNotes: '',
+    //   };
+    // } else {
+    //   if (!Object.prototype.hasOwnProperty.call(this.collateralAppraisal.attributes, 'scoreCard')) {
+    //     this.collateralAppraisal.attributes['scoreCard'] = scoreCard;
+    //   } else {
+    //     this.collateralAppraisal.attributes['scoreCard'] = JSON.parse(this.collateralAppraisal.attributes['scoreCard']);
+    //   }
+
+    //   if (!Object.prototype.hasOwnProperty.call(this.collateralAppraisal.attributes, 'summary')) {
+    //     this.collateralAppraisal.attributes['summary'] = {
+    //       keterangan: '',
+    //       marketbility: '',
+    //       returnNotes: '',
+    //     };
+    //   } else {
+    //     this.collateralAppraisal.attributes['summary'] = JSON.parse(this.collateralAppraisal.attributes['summary']);
+    //   }
+    // }
+    console.log('collateral appraisal', this.collateralAppraisal);
+
   }
 
   public onSave(source: string): void {

@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
+            <e-breadcrumb-item text="{{ title }}" url="{{ parentPath }}/{{ getText(value) }}"> </e-breadcrumb-item>
             <e-breadcrumb-item text="Edit" url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}">
             </e-breadcrumb-item>
             <e-breadcrumb-item
@@ -20,7 +20,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">{{ appName }}</p>
+          <p class="e-card-sub-title">{{ title }}</p>
         </div>
       </div>
     </div>

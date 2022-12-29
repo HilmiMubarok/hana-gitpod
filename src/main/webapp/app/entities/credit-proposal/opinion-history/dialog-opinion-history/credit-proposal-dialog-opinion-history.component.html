@@ -19,16 +19,23 @@
         <p class="e-card-sub-title">Recomendation</p>
         <div class="d-flex justify-content-around">
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend as propose"
-              label="Recommend as propose"></ejs-radiobutton>
+            <ejs-radiobutton
+              disabled
+              [(ngModel)]="notes.recomendation"
+              value="Recommend as propose"
+              label="Recommend as propose"
+            ></ejs-radiobutton>
           </div>
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend With Condition"
-              label="Recommend With Condition"></ejs-radiobutton>
+            <ejs-radiobutton
+              disabled
+              [(ngModel)]="notes.recomendation"
+              value="Recommend With Condition"
+              label="Recommend With Condition"
+            ></ejs-radiobutton>
           </div>
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend">
-            </ejs-radiobutton>
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend"> </ejs-radiobutton>
           </div>
         </div>
       </div>
@@ -58,9 +65,16 @@
     <mat-card>
       <p class="mb-5">
         <mat-card-subtitle>Opinion</mat-card-subtitle>
-        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
-          height="30vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
-          [isReadOnly]="true">
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="30vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        >
         </ejs-documenteditorcontainer>
       </p>
     </mat-card>
@@ -68,9 +82,16 @@
     <mat-card>
       <p class="mb-5">
         <mat-card-subtitle>Condition </mat-card-subtitle>
-        <ejs-documenteditorcontainer #document_editor_container_condition [enableToolbar]="false"
-          [enableLocalPaste]="false" height="30vh" style="display: block" (documentChange)="onDocumentChanges()"
-          [enableEditor]="false" [isReadOnly]="true">
+        <ejs-documenteditorcontainer
+          #document_editor_container_condition
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="30vh"
+          style="display: block"
+          (documentChange)="onDocumentChanges()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        >
         </ejs-documenteditorcontainer>
       </p>
     </mat-card>

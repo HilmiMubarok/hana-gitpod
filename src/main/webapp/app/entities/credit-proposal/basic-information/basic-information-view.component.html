@@ -59,9 +59,11 @@
       </div>
     </div>
     <div class="e-card-content">
+      <!-- <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view> -->
       <jhi-party-cif-customer-info-postal-address
         [disabled]="true"
         [partyPostalAddress]="generalLocation"
+        [partyCif]="partyCif"
       ></jhi-party-cif-customer-info-postal-address>
     </div>
   </div>
@@ -75,10 +77,8 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-party-cif-customer-info-postal-address
-          [disabled]="true"
-          [partyPostalAddress]="warehouseLocation"
-        ></jhi-party-cif-customer-info-postal-address>
+        <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="warehouseLocation">
+        </jhi-party-cif-customer-info-postal-address>
         <!-- <jhi-party-cif-customer-info-postal-address-warehouse
           [disabled]="true"
           [partyPostalAddress]="warehouseLocation"
@@ -195,9 +195,11 @@
         <div class="e-card-content">
           <ejs-grid [dataSource]="data" [allowPaging]="true">
             <e-columns>
+              <e-column field="no" headerText="No" width="30"></e-column>
               <e-column field="customerNumber" headerText="Cif" width="120"></e-column>
               <e-column field="name" headerText="Company Name" format="C2" width="90"></e-column>
               <e-column field="taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
+              <e-column field="address" headerText="Address" width="120"></e-column>
             </e-columns>
           </ejs-grid>
         </div>

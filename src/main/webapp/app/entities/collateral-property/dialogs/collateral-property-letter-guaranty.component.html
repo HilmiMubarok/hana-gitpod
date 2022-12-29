@@ -184,7 +184,7 @@
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Management Branch</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()">
+        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.label }} </mat-option>
         </mat-select>
@@ -289,7 +289,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Officer</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" disabled />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -315,7 +315,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branch</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()">
+        <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
         </mat-select>

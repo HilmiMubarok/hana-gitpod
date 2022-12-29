@@ -58,6 +58,9 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   public filteredOptionsCurrency: Observable<IUom[]>;
   public amountCcy: IUom;
 
+  @Input() public officerName;
+  @Input() public branchId;
+
   @Input()
   get collateralPropertyExternal() {
     return this._collateralPropertyExternal;
@@ -124,6 +127,19 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setBranches();
     this.setGurantee();
     this.cekDataSource();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateralProperty.attributes.branch === undefined) {
+      this.collateralProperty.attributes.branch = this.branchId;
+    }
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
+    }
+    if (this.collateralProperty.attributes.accountOfficer === undefined) {
+      this.collateralProperty.attributes.accountOfficer = this.officerName;
+    }
   }
 
   filtered() {

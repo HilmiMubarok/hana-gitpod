@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
+import { StringIterator } from 'lodash';
 
 @Component({
   selector: 'jhi-dialog-collateral-appraisal-cif',
@@ -15,6 +16,7 @@ export class DialogCollateralAppraisalCifComponent {
   public dialogSection: string;
   public customerType: string;
   public postalAddress: IPartyPostalAddress;
+  public partyIds: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -24,6 +26,7 @@ export class DialogCollateralAppraisalCifComponent {
       dialogSection: string;
       customerType: string;
       postalAddress: IPartyPostalAddress;
+      partyIds: string;
     },
     private _dialog: MatDialogRef<DialogCollateralAppraisalCifComponent>
   ) {
@@ -32,5 +35,6 @@ export class DialogCollateralAppraisalCifComponent {
     this.dialogSection = this.data.dialogSection;
     this.customerType = this.data.customerType;
     this.postalAddress = this.data.postalAddress;
+    this.partyIds = this.data.partyIds;
   }
 }

@@ -76,6 +76,7 @@
 
       <div *ngIf="clickedMenu === 'negative-collateral'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-negative-collateral
+          *ngIf="collateralAppraisal"
           [collateralAppraisal]="collateralAppraisal"
           [item]="collateralAppraisal.attributes['scoreCard']"
           (criteriaEvent)="addNewCriteria($event)"

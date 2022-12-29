@@ -54,7 +54,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private fileGet: File;
   private userId: any;
   public resourceUrl: string;
-  public positionLogin:any;
+  public positionLogin: any;
 
   @Input()
   get creditProposalItem() {
@@ -306,7 +306,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
- public filterPositionLogin() {
+  public filterPositionLogin() {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
@@ -314,7 +314,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       }
     });
   }
-
 
   public refresh() {
     this.accountService.identity().subscribe(account => {

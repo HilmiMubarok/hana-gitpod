@@ -10,7 +10,9 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ICollateral } from '../collateral/collateral.model';
+import { CollateralAttribute, ICollateral } from '../collateral/collateral.model';
+import lodash from 'lodash';
+import { scoreCard } from './negative/score-card.constant';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
@@ -94,5 +96,41 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
 
   public setCollateralProperty(collateralProperty: ICollateralProperty[]): void {
     this.collateralPropertyChange.next(collateralProperty);
+  }
+
+  public mapper(param: ICollateralAppraisal): ICollateralAppraisal {
+    if (!param.collateral.attributes) {
+      param.collateral.attributes = new CollateralAttribute();
+    }
+
+    if (!lodash.has(param.attributes, 'jenisObject')) {
+      param.attributes['jenisObject'] = '';
+    }
+
+    if (param.attributes === undefined || param.attributes === null) {
+      param.attributes['scoreCard'] = scoreCard;
+      param.attributes['summary'] = {
+        keterangan: '',
+        marketbility: '',
+        returnNotes: '',
+      };
+    } else {
+      if (!Object.prototype.hasOwnProperty.call(param.attributes, 'scoreCard')) {
+        param.attributes['scoreCard'] = scoreCard;
+      } else {
+        param.attributes['scoreCard'] = JSON.parse(param.attributes['scoreCard']);
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(param.attributes, 'summary')) {
+        param.attributes['summary'] = {
+          keterangan: '',
+          marketbility: '',
+          returnNotes: '',
+        };
+      } else {
+        param.attributes['summary'] = JSON.parse(param.attributes['summary']);
+      }
+    }
+    return param;
   }
 }

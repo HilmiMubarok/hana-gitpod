@@ -18,60 +18,64 @@
   </table>
   <ul class="list-image">
     <li *ngFor="let item of folder">
-      <img
-        [src]="item.url"
-        *ngIf="
-          item.key.split('.')[1] === 'png' ||
-          item.key.split('.')[1] === 'jpg' ||
-          item.key.split('.')[1] === 'jpeg' ||
-          item.key.split('.')[1] === 'gif'
-        "
-      />
-      <div
-        *ngIf="
-          item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-          item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-          item['metaData']['Value'] === 'application/vnd.ms-excel'
-        "
-        style="width: 300px"
-      >
-        <img width="300px" src="../../../content/images/excel.png" />
-        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+      <div style="background-color: #d9d9d9; height: 400px; border-radius: 60px">
+        <img
+          [src]="item.url"
+          *ngIf="
+            item.key.split('.')[1] === 'png' ||
+            item.key.split('.')[1] === 'jpg' ||
+            item.key.split('.')[1] === 'jpeg' ||
+            item.key.split('.')[1] === 'gif'
+          "
+        />
+        <div
+          *ngIf="
+            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+            item['metaData']['Value'] === 'application/vnd.ms-excel'
+          "
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/excel.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+          </div>
         </div>
-      </div>
 
-      <div
-        *ngIf="
-          item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-          item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        "
-      >
-        <img width="300px" src="../../../content/images/word.png" />
-        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+        <div
+          *ngIf="
+            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          "
+        >
+          <img width="300px" src="../../../content/images/word.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+          </div>
         </div>
-      </div>
 
-      <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
-        <img width="300px" src="../../../content/images/pdf.png" />
+        <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
+          <img width="300px" src="../../../content/images/pdf.png" />
 
-        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+          </div>
         </div>
-      </div>
 
-      <div
-        *ngIf="
-          item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-          item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-        "
-      >
-        <img width="300px" src="../../../content/images/power-point.jpg" />
+        <div
+          *ngIf="
+            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+          "
+        >
+          <img width="300px" src="../../../content/images/power-point.jpg" />
 
-        <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-          <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+          </div>
         </div>
+
+        Nama File: {{ item.tags.folder }}
       </div>
     </li>
   </ul>
