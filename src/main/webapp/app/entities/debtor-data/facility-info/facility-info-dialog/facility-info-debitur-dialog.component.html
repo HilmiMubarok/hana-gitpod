@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>EDIT FACILITY INFO</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Available Limit</mat-label>
+        <input
+          matInput
+          currencyMask
+          type="text"
+          [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+          [(ngModel)]="data['AVAILABLE_LIMIT']"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="save()">SAVE</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>
