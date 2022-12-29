@@ -22,15 +22,32 @@
   </div>
   <div class="e-card-content">
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false"
-        height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
-        (keyDown)="onKeyDown($event)" (created)="onCreate()">
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="true"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+      >
       </ejs-documenteditorcontainer>
     </section>
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
-        height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
-        [isReadOnly]="true">
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="false"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+        (documentChange)="onDocumentChange()"
+      >
       </ejs-documenteditorcontainer>
     </section>
     <!-- <ejs-richtexteditor
@@ -50,24 +67,24 @@
   <div class="e-card-content">
     <div *ngIf="viewButton === 'cp'">
       <div class="form-space" id="viewButton" style="display: flex">
-        <ejs-dropdownlist [dataSource]="fileTypeList" [(value)]="fileTypeSelected" cssClass="e-outline"
-          floatLabelType="Auto" placeholder="file template"></ejs-dropdownlist>
+        <ejs-dropdownlist
+          [dataSource]="fileTypeList"
+          [(value)]="fileTypeSelected"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          placeholder="file template"
+        ></ejs-dropdownlist>
         <button ejs-button class="btn-info" (click)="generate($event)">Generate</button>
       </div>
     </div>
     <div class="form-group">
       <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowResizing]="true">
         <e-columns>
-          <e-column field="indexNum" headerText="No" headerTextAlign="center" width="90" textAlign="center"
-            weight="bold"></e-column>
-          <e-column field="fileName" headerText="File Name" headerTextAlign="center" width="140" textAlign="left">
-          </e-column>
-          <e-column field="tags.createDate" headerText="Date" headerTextAlign="center" width="120" textAlign="left">
-          </e-column>
-          <e-column field="tags.createBy" headerText="Created By" headerTextAlign="center" width="120"
-            textAlign="right"> </e-column>
-          <e-column field="sizeFile" headerText="Size File" headerTextAlign="center" width="90" textAlign="left">
-          </e-column>
+          <e-column field="indexNum" headerText="No" headerTextAlign="center" width="90" textAlign="center" weight="bold"></e-column>
+          <e-column field="fileName" headerText="File Name" headerTextAlign="center" width="140" textAlign="left"> </e-column>
+          <e-column field="tags.createDate" headerText="Date" headerTextAlign="center" width="120" textAlign="left"> </e-column>
+          <e-column field="tags.createBy" headerText="Created By" headerTextAlign="center" width="120" textAlign="right"> </e-column>
+          <e-column field="sizeFile" headerText="Size File" headerTextAlign="center" width="90" textAlign="left"> </e-column>
           <e-column headerText="Action" width="100" headerTextAlign="center" textAlign="center">
             <ng-template #template let-data>
               <button pButton type="button" (click)="onEdit(data)" class="flat-button">

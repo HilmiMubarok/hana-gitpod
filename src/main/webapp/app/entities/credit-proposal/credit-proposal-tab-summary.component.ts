@@ -102,13 +102,6 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 
   attributes: any;
 
-
-   onDocumentChange() {
-    this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
-  }
-
   private getContainer(): void {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {

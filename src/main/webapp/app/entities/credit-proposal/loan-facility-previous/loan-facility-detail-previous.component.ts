@@ -1,19 +1,21 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'jhi-credit-proposal-tab-loan-facility-detail-previous',
-  templateUrl: './credit-proposal-tab-loan-facility-detail-previous.component.html',
-  styleUrls: ['../loan-facility/grid/loan.scss', '../loan-facility/credit-proposal-tab-loan-facility-detail.css'],
+  selector: 'jhi-loan-facility-detail-previous',
+  templateUrl: './loan-facility-detail-previous.component.html',
+  styleUrls: ['./grid/loan.scss', './credit-proposal-tab-loan-facility-detail.css'],
 })
-export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnInit {
+export class LoanFacilityDetailPreviousComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
+  public parsedAttribute;
 
-  @Input() isOffering: Boolean = false;
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -21,15 +23,7 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
-    if (item.attributes['previousReturn']) {
-      this.dataSource = JSON.parse(item.attributes['previousReturn']).products;
-    } else if (this.isOffering) {
-      this.dataSource = JSON.parse(item.attributes['previousHistory']).products;
-    } else {
-      this.dataSource = [];
-    }
   }
-
   public applicationProduct: IApplicationProduct;
   public totalInitialLimit?: number;
   public totalChanges?: number;
@@ -50,7 +44,6 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
   public change2 = 0;
   public newMessage: string;
   public ccy: string;
-  public dataSource;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -59,22 +52,47 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
     this.outCreditProposal.emit(this._creditProposal);
   }
 
-  constructor(protected actRoute: ActivatedRoute) {
+  constructor() {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
   }
-
   ngOnInit(): void {
-    this.actRoute.params.subscribe(params => {});
-
+    this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
+    this.removeTagRemaks();
     this.setCurrency();
   }
 
+  public tools: object = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Indent',
+      'Outdent',
+      'SuperScript',
+      'SubScript',
+      'Alignments',
+      'CreateLink',
+    ],
+  };
+
   fungsiSuminit() {
+    // alert('ok');
     let result: number;
+    let limit: number;
+    // limit = 0;
     result = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.parsedAttribute.previousReturn.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
@@ -86,15 +104,45 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
         }
       }
     }
+    // console.log('ini', result);
+    // return result;
     this.totallimt = result;
     return result;
   }
 
+  // fungsiCoba() {
+  //   let result: number;
+  //   let limit: number;
+  //   // limit = 0;
+  //   result = 0;
+
+  //   const dataFilter = this.parsedAttribute.previousReturn.products.filter(
+  //     obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+  //   );
+
+  //   if (dataFilter.length > 0) {
+  //     const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+  //     if (filterUsd.length === 0) {
+  //       for (let i = 0; i < dataFilter.length; i++) {
+  //         if (dataFilter[i].attributes.initialLimit !== undefined) {
+  //           result = result + Number(dataFilter[i].attributes.initialLimit);
+  //         }
+  //       }
+  //     }
+  //   }
+  //   // console.log('ini', result);
+  //   return result.toLocaleString('en-US');
+  // }
+
   fungsiSumchange() {
     let result: number;
     result = 0;
+    let change: number;
+    // change = 0;
 
-    const filterSubLimit = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const filterSubLimit = this.parsedAttribute.previousReturn.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
 
     if (filterSubLimit.length > 0) {
       const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
@@ -110,13 +158,15 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
     return result;
   }
 
-  public fungsiSumOS() {
+  fungsiSumOS() {
     let result: number;
     result = 0;
     let os: number;
     os = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.parsedAttribute.previousReturn.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
 
     if (dataFilter.length > 0) {
       for (let i = 0; i < dataFilter.length; i++) {
@@ -153,7 +203,9 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
     let plafond: number;
     plafond = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.parsedAttribute.previousReturn.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
 
     if (dataFilter.length > 0) {
       for (let i = 0; i < dataFilter.length; i++) {
@@ -163,6 +215,7 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
             result = result + plafond;
           } else {
             result = result + Number(dataFilter[i].attributes.totalPlafond);
+            // console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
           }
         }
       }
@@ -170,8 +223,19 @@ export class CreditProposalTabLoanFacilityDetailPreviousComponent implements OnI
 
     return result;
   }
+
+  print() {
+    console.log(this._creditProposal);
+  }
+
+  // matrix reove tag
+  removeTagRemaks() {
+    this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
+    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
+  }
+
   // setCurrency
   setCurrency() {
-    this.ccy = this.dataSource[0].attributes.currency;
+    this.ccy = this.parsedAttribute.previousReturn.products[0].attributes.currency;
   }
 }

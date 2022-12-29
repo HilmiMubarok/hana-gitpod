@@ -100,12 +100,6 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
     }
   }
 
-    onDocumentChange() {
-    this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
-  }
-
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
@@ -130,7 +124,7 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -142,7 +136,7 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
   }
   private getContainer(): void {

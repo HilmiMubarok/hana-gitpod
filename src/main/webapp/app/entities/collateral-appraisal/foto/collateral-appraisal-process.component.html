@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-12" style="display: grid; grid-gap: 10px; grid-template-columns: 50% 50%">
-        <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="true" (removed)="onRemove(f)">
+        <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="gakbisa2()" (removed)="onRemove(f)">
           <ngx-dropzone-label>
             <img [src]="f.url" />
             <p>Size File: {{ f.size / 1000 }} Kb</p>
