@@ -29,6 +29,7 @@ import { DialogCollateralAppraisalCifComponent } from './dialog-collateral-appra
 import { MessageService } from 'primeng/api';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { IPartyGroup } from 'app/entities/party-group/party-group.model';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -51,6 +52,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   private surveyAppraisals: ISurveyAppraisals[] = new Array<ISurveyAppraisals>();
 
   public showDetail: IPartyCif;
+  public showDetails: IPartyGroup;
   private selectedPartyCif: IPartyCif;
   public dialogSection: string;
   public showCollateral = false;
@@ -64,7 +66,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
   public statusChecked = [];
   public InternalExternal = [];
-
+  public partyIds?: string;
   constructor(
     public dialog: MatDialog,
     protected router: Router,
@@ -193,6 +195,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             data: {
               collateral: this.collateral,
               partyId: this.showDetail.id,
+              partyIds: this.showDetail.partyId,
               dialogSection: section,
               customerType: this.showDetail.customerType,
               postalAddress: partyPostalAddress,
