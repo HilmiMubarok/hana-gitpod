@@ -890,13 +890,19 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Pilih Jenis Permohonan Dahulu');
       mustValidateOnDraft.jenisPermohonan = false;
     }
+
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-      this._showNotification('error', 'Masukkan Document Collateral Dahulu');
-      mustValidateOnDraft.documentCollateral = false;
+      if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+        this._showNotification('error', 'Masukkan Document Collateral Dahulu');
+        mustValidateOnDraft.documentLainnya = false;
+      }
     }
+
     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-      this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
-      mustValidateOnDraft.documentLainnya = false;
+      if (this.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+        this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
+        mustValidateOnDraft.documentLainnya = false;
+      }
     }
     if (this.collateral.picName === undefined || this.collateral.picName === '' || !this.collateral.picName) {
       this._showNotification('error', 'Masukkan PIC Debtor Dahulu');
