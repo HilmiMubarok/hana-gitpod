@@ -193,6 +193,10 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       });
   }
 
+  protected postLoadDataLazy(): void {
+    this.loadDataBy();
+  }
+
   private getFiles(): void {
     this.folders = [];
     const predicate: Object = {
@@ -326,12 +330,20 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       if (this.resData) {
         this.uploadData(response.files);
         this.getFiles();
+
+        const listPartySlik: IPartySlik[] = [];
         for (let y = 0; y < this.resData.length; y++) {
           const item = this.resData[y];
           const partySlik: IPartySlik = this.mapperIPDFSlikToPartySlik(item);
-          this.savePartySlik(partySlik);
+          listPartySlik.push(partySlik);
         }
-        this.loadDataBy();
+        if (listPartySlik.length > 0) {
+          this.partySlikService.saveAll(listPartySlik).subscribe(res => {
+            this.loadDataBy();
+          });
+        } else {
+          this.loadDataBy();
+        }
         this.TransferService.setparam(this.partySliks);
       }
     });
