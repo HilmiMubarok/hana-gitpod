@@ -172,4 +172,9 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   public klik() {
     this.triggeredSave();
   }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
 }
