@@ -1,14 +1,25 @@
-<!-- <div class="row my-3">
-  <div class="col">
-    <ejs-textbox placeholder="Based on Notarial Deed No">
-    </ejs-textbox>
+<mat-dialog-content style="overflow-y: auto">
+  <div class="row my-3">
+    <div class="col">
+      <ejs-textbox
+        placeholder="Based on Notarial Deed No"
+        floatLabelType="Auto"
+        cssClass="e-outline"
+        [(ngModel)]="deeedDataNumber"
+        disabled
+      >
+      </ejs-textbox>
+    </div>
+    <div class="col">
+      <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="deedDataDate" disabled> </ejs-datepicker>
+    </div>
   </div>
-  <div class="col">
-    <ejs-datepicker placeholder="Date"> </ejs-datepicker>
+  <div class="my-5"></div>
+  <div class="row my-3">
+    <jhi-organization-management-list [cif]="data.item.customerNumber" managementType="MANAGEMENT_DATA"> </jhi-organization-management-list>
+    <div class="my-5"></div>
+    <jhi-organization-management-list [cif]="data.item.customerNumber" managementType="SHAREHOLDER"> </jhi-organization-management-list>
+    <div class="my-5"></div>
+    <jhi-organization-management-list [cif]="data.item.customerNumber" managementType="CONTROL_PERSON"> </jhi-organization-management-list>
   </div>
-</div> -->
-<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-  <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA"> </jhi-organization-management-list>
-  <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON"> </jhi-organization-management-list>
-  <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER"> </jhi-organization-management-list>
-</cdk-virtual-scroll-viewport>
+</mat-dialog-content>
