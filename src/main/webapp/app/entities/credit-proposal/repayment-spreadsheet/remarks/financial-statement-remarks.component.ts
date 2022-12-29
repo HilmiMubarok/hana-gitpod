@@ -120,7 +120,7 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -132,7 +132,7 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
   }
   private getContainer(): void {
