@@ -395,11 +395,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   }
 
   public cekDataSource() {
-    this.myControlMVTk.disable();
     this.myControlMVImb.disable();
     this.myControlMVEx.disable();
     this.myControlMVPs.disable();
-    this.collateralProperty.attributes.marketValueTkCcy = 'IDR';
     this.collateralProperty.attributes.marketValueCcy = 'IDR';
     this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
     this.collateralPropertyExternal.attributes.marketValueCcy = 'IDR';

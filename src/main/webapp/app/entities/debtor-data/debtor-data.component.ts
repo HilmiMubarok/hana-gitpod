@@ -204,7 +204,7 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
     const formData = new FormData();
     formData.append('file', this.fileBeforeOpen);
 
-    this.storageService.uploadMeta('hana', formData, metaData).subscribe(res => {
+    this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe(res => {
       // console.log(res);
     });
   }

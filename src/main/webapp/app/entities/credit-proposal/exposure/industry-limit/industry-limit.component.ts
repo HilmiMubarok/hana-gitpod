@@ -20,6 +20,7 @@ export class IndustryLimitComponent implements OnInit {
   public remainingAfterCp: number;
   public status: string;
   public cpFaciity = [];
+  public remainingAfterCpMinus: number
 
   constructor(
     public applicationOptionService: ApplicationOptionService,
@@ -50,7 +51,7 @@ export class IndustryLimitComponent implements OnInit {
   ngOnInit(): void {
     this.applicationOption();
     this.industryLimit();
-    this.totalAmmountFunc();
+   
   
     this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond
  
@@ -92,19 +93,6 @@ export class IndustryLimitComponent implements OnInit {
     return result + dolar;
   }
 
-  public totalAmmountFunc() {
-    const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
-
-
-    this.remainingAfterCp = this.remainingBalance - this.creditProposal.attributes['facilityDetail'].totalPlafond;
-
-    if (this.remainingAfterCp > 0) {
-      this.status = 'Comply';
-    } else {
-      this.status = 'Breach The Limit';
-    }
-  }
-
   public applicationOption() {
     this.applicationOptionService.query().subscribe((res: any) => {
       for (let i = 0; i < res.body.length; i++) {
@@ -126,10 +114,28 @@ export class IndustryLimitComponent implements OnInit {
             this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
             this.industryLimitExposure = res.body.industryLimitExposure
-            this.limitNominal =  this.fungsiSumOS() * res.body.industryLimitExposure;
+            this.limitNominal =  Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
+
+            this.totalAmmountFunc(res.body.remainingBalance);
           });
         }
       }
     });
   }
+
+   public totalAmmountFunc(remaining: number) {
+    const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
+
+
+    this.remainingAfterCp = Number(remaining) - Number(this.creditProposal.attributes['facilityDetail'].totalPlafond);
+    this.remainingAfterCpMinus = Number(this.creditProposal.attributes['facilityDetail'].totalPlafond) - Number(remaining);
+   
+    if (this.remainingAfterCp > 0) {
+      this.status = 'Comply';
+    } else {
+      this.status = 'Breach The Limit';
+    }
+  }
 }
+
+
