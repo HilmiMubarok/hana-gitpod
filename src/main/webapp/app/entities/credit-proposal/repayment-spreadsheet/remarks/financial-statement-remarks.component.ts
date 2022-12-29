@@ -78,6 +78,13 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
       this.triggeredSave();
     }
   }
+
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
+
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;

@@ -148,6 +148,11 @@ export class CreditProposalTabSummaryComponent implements OnInit {
       args.isHandled = true;
     }
   }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
 
   public triggeredSave(): void {
     let paramsId = '';
