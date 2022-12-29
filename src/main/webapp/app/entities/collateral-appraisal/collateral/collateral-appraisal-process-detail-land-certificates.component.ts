@@ -96,8 +96,8 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     }
   }
 
-  public countTotalLandArea(val1: number | 0, val2: number | 0): number {
-    return val2 - val1;
+  public countTotalLandArea(val1: number | 0, val2: number | 0, val3: number | 0): number {
+    return val3 - val2 - val1;
   }
 
   public getTotalArea() {
