@@ -955,9 +955,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
     return this._validateProcess(mustValidateOnAssignment);
   }
-  public onAssignTo(ev) {
-    this.surveyAppraisal = ev;
-  }
+
   private _showNotification(severity: string, message: string): void {
     // capitalize first letter for summary
     const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
