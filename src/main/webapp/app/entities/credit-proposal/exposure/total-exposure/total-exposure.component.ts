@@ -6,7 +6,6 @@ import lodash from 'lodash';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { FakeFacilityService } from 'app/entities/credit-proposal/exposure/total-exposure/fake-facility-type.service';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
-// import { CPFacility, ICPFacility } from './cp-facility.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
@@ -115,6 +114,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
           if (source) {
             for (let y = 0; y < source.length; y++) {
               const parsed = new CPFacilityTable();
+			  const parsedAny = parsed;
               no = no + 1;
               parsed.no = no;
               parsed.GroupName = '';
@@ -131,7 +131,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
-			  parsed.Tenor = source[y].FXFIG_TRX_DT - source[y].FILN10_TOT_EXP_IL;
+			  parsed.Tenor = (Number(new Date(source[y].FILN10_TOT_EXP_IL)) - Number(new Date(source[y].FXFIG_TRX_DT))) / 3600;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
 
