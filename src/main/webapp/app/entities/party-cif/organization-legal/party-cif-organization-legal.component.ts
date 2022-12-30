@@ -8,6 +8,8 @@ import { PartyCifService } from '../party-cif.service';
 })
 export class PartyCifOrganizationLegalComponent {
   private _partyCif: IPartyCif;
+  public deedNumber: any;
+  public deedDates: any;
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -15,6 +17,8 @@ export class PartyCifOrganizationLegalComponent {
 
   set partyCif(param: IPartyCif) {
     this._partyCif = param;
+    this.deedNumber = this._partyCif.organizationLegal.deedEstablishNum;
+    this.deedDates = this._partyCif.organizationLegal.deedEstablishDate;
   }
 
   constructor(public partyCifService: PartyCifService) {}

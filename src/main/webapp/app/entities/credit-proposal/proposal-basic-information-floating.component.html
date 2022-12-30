@@ -308,9 +308,10 @@
               </div>
 
               <div *ngIf="clickedMenu === 'collateral-info' && !isHistoryExist">
-                <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
-                <jhi-credit-proposal-collateral-info-remarks [saveWord]="saveWord" [creditProposal]="creditProposal">
-                </jhi-credit-proposal-collateral-info-remarks>
+                <jhi-credit-proposal-collateral-info #creditProposalCollateralInfoComponent [creditProposal]="creditProposal">
+                </jhi-credit-proposal-collateral-info>
+                <!-- <jhi-credit-proposal-collateral-info-remarks [saveWord]="saveWord" [creditProposal]="creditProposal">
+                </jhi-credit-proposal-collateral-info-remarks> -->
               </div>
               <!-- <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info> -->
 

@@ -5,7 +5,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Deed Of Establishment No</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.deedEstablishNum" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="organizationLegal.deedEstablishNum" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -17,11 +17,11 @@
             matInput
             [formControl]="date"
             type="text"
-            disabled
+            [disabled]="dataSource()"
           />
           <mat-datepicker-toggle matSuffix [for]="deedEstablishDate"></mat-datepicker-toggle>
-          <mat-datepicker #deedEstablishDate [disabled]="dataSource()"></mat-datepicker>
-          <mat-hint align="end" [hidden]="!dataSource()"></mat-hint>
+          <mat-datepicker #deedEstablishDate [disabled]="true"></mat-datepicker>
+          <!-- <mat-hint align="end" [hidden]="!dataSource()"></mat-hint> -->
         </mat-form-field>
       </div>
     </div>
@@ -51,19 +51,19 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>SIUP</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.siupNumber" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="organizationLegal.siupNumber" [disabled]="dataSource()" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Deed of Establish Place</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.establishPlace" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="organizationLegal.establishPlace" [disabled]="dataSource()" />
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Deed of Establish Nota</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.establishNotary" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="organizationLegal.establishNotary" [disabled]="dataSource()" />
         </mat-form-field>
       </div>
     </div>

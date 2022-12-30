@@ -619,7 +619,7 @@ export const SUBMENU_PARTY_CIF: object[] = [
       },
       {
         id: 'retrive-info',
-        text: 'retrive',
+        text: 'retrieve',
       },
     ],
   },
