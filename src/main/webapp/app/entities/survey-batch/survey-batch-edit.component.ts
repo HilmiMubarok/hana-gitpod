@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
@@ -43,6 +43,7 @@ import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 
 @Component({
   selector: 'jhi-survey-batch-edit',
@@ -50,6 +51,10 @@ import { scoreCard } from '../collateral-appraisal/negative/score-card.constant'
   styleUrls: ['./survey-batch-edit.css'],
 })
 export class SurveyBatchEditComponent implements OnInit {
+  @ViewChild('collateralAppraisalSummaryComponent', {
+    static: false,
+  })
+  collateralAppraisalSummaryComponent: CollateralAppraisalSummaryComponent;
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -1089,7 +1094,13 @@ export class SurveyBatchEditComponent implements OnInit {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -1101,7 +1112,13 @@ export class SurveyBatchEditComponent implements OnInit {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
