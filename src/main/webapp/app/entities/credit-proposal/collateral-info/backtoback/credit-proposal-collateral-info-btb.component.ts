@@ -173,7 +173,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     const properties: ICollateralProperty[] = this.filterProperties(collateral);
     return this.creditProposalService.getCertificationDate(collateral, properties);
   }
-
+  @Input() cif: string;
   public getMarketability(): string {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];

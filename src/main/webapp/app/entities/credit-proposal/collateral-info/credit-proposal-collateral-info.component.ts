@@ -46,7 +46,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
   }
-
+  @Input() cif: string;
   public triggeredSave() {
     this.creditProposalCollateralInfoRemarksInfoComponent.triggeredSave();
     this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
