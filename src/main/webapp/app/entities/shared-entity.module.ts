@@ -329,6 +329,8 @@ import { DialogBorrowerComponent } from './credit-proposal/credit-proposal-dialo
 import { BellowGridPreviousComponent } from './credit-proposal/collateral-info-previous/below-grid/below-grid-previous.component';
 import { AboveGridPreviousComponent } from './credit-proposal/collateral-info-previous/above-grid/above-grid-previous.component';
 import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-facility-previous/loan-facility-detail-previous.component';
+import { CreditProposalCollateralInfoRemarksInformationComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks-information.component';
+import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks-checklist.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -499,6 +501,8 @@ import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-faci
     CreditProposalCollateralInfoRemarksComponent,
     CreditProposalOpinionHistoryComponent,
     CreditProposalDialogOpinionHistoryComponent,
+    CreditProposalCollateralInfoRemarksChecklistComponent,
+    CreditProposalCollateralInfoRemarksInformationComponent,
     CollateralPropertyListComponent,
     CustomerGroupListComponent,
     CreditProposalRiskAcceptanceCriteriaBelowComponent,
@@ -847,8 +851,10 @@ import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-faci
     CreditProposalCollateralInfoRemarksComponent, // Remove Me
     SurveyBatchViewComponent, // Remove Me
     CreditProposalOpinionHistoryComponent, // Remove Me
+    CreditProposalCollateralInfoRemarksChecklistComponent,
     CreditProposalDialogOpinionHistoryComponent, // Remove Me
     CollateralPropertyListComponent,
+    CreditProposalCollateralInfoRemarksInformationComponent,
     OrganizationManagementBusinessGroupComponent,
     CustomerGroupListComponent,
     CreditProposalRiskAcceptanceCriteriaBelowComponent, // Remove Me
