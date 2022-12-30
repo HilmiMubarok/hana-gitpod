@@ -109,6 +109,8 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.setBusinessGroup();
   }
 
+  public displayedColumns: string[] = ['no', 'customerNumber', 'name', 'taxIdNumber', 'address', 'action'];
+
   watchListChange() {
     if (
       this.creditProposal.attributes['basicInformation'].accountStatus.watchList === true ||
@@ -131,6 +133,12 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     } else {
       this.view = false;
     }
+  }
+
+  public onDelete(element: any) {
+    const dataGrid = this.data.filter(({ customerNumber }) => customerNumber !== element.customerNumber);
+    this.data = dataGrid;
+    this.creditProposal.attributes['basicInformation'].coborowed = dataGrid;
   }
 
   public setBusinessGroup() {

@@ -174,7 +174,5 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   }
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
   }
 }

@@ -15,12 +15,12 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
 
 @Component({
-  selector: 'jhi-credit-proposal-collateral-info-remarks',
-  templateUrl: './credit-proposal-collateral-info-remarks.component.html',
+  selector: 'jhi-credit-proposal-collateral-info-remarks-information',
+  templateUrl: './credit-proposal-collateral-info-remarks-information.component.html',
   styleUrls: ['../checklist/credit-proposal-collateral-info-checklist.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnChanges {
+export class CreditProposalCollateralInfoRemarksInformationComponent implements OnInit, OnChanges {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -31,6 +31,8 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
   public newMessage: string;
   public pacth: any;
   public view: boolean;
+
+  public menuName: any;
 
   private bucket: string;
   private ngUnsubscribe = new Subject();
@@ -68,7 +70,9 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
     this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/collateral-info/' + this.paramsIdGet + '/sfdt';
+
+      this.getKey = 'credit_proposal/remark/collateral-info/information/' + this.paramsIdGet + '/sfdt';
+
       this.getBucket().then(res => {
         this.getContainer();
       });
@@ -77,7 +81,7 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWord === true) {
-      this.triggeredSave();
+      //   this.triggeredSave();
     }
   }
   public tools: object = {
@@ -166,34 +170,37 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    const key = 'credit_proposal/remark/collateral-info';
+    let key: string;
+    this.getBucket().then(res => {
+      key = 'credit_proposal/remark/collateral-info/information/';
 
-    const timeStamp = Math.floor(Date.now() / 1000);
+      const timeStamp = Math.floor(Date.now() / 1000);
 
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-collateral-info-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
     });
   }
 }

@@ -89,18 +89,18 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
       this.getContainer();
-	  
-	  this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
-		this.paramId = params['id'];
-	  });
+
+      this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+        this.paramId = params['id'];
+      });
 
       if (this.paramId) {
-		this.KEYG += `/${this.paramId}`;
+        this.KEYG += `/${this.paramId}`;
       } else {
-		console.warn('Param id not found');
+        console.warn('Param id not found');
       }
 
-	  this.onRefresh();
+      this.onRefresh();
     });
   }
 
@@ -163,8 +163,6 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   }
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
   }
 
   public triggeredSave(): void {

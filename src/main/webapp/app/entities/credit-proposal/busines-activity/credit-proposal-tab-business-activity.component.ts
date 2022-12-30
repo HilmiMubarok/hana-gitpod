@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { ribbonClick } from '@syncfusion/ej2-angular-spreadsheet';
@@ -25,19 +25,58 @@ import { doc } from 'prettier';
   styleUrls: ['../css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalTabBusinessActivityComponent implements OnInit, OnChanges {
+export class CreditProposalTabBusinessActivityComponent implements OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
-  public key1: string;
 
   @ViewChild('document_editor_containers')
   public containers: DocumentEditorContainerComponent;
-  @ViewChild('document_editors')
-  public documentEditors: DocumentEditorComponent;
 
+  @Input()
+  get creditProposalItem() {
+    return this._item;
+  }
+  set creditProposalItem(item: ICreditProposal) {
+    this._item = item;
+  }
+
+  @Input()
+  get projectAnalysis() {
+    return this._projectAnalysis;
+  }
+  set projectAnalysis(item: any) {
+    this.selectedMenu = 'BUSINESS ACTIVITY';
+  }
+
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute,
+    private storageService: StorageService
+  ) {
+    this.bucket = '';
+  }
+
+  private bucket: string;
   private _creditProposalItem: ICreditProposal;
+
+  attributes: any;
+  public _item: ICreditProposal;
+  public _projectAnalysis: string;
+  
+  public creditProposaldata: ICreditProposal = new CreditProposal();
+  public value: string;
+  
+  private ngUnsubscribe = new Subject();
+  private paramsIdGet: string;
+  private getKey: string;
+  private getKeyPa: string;
+  private fileGet: File;
+
+  public parameter: string;
 
   public dataAttrPass = [
     {
@@ -77,18 +116,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     },
   ];
 
-  attributes: any;
-  public _item: ICreditProposal;
-  public _projectAnalysis: string;
-
-  @Input()
-  get creditProposalItem() {
-    return this._item;
-  }
-  set creditProposalItem(item: ICreditProposal) {
-    this._item = item;
-  }
-
   public tes() {
     if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
@@ -97,54 +124,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     }
   }
 
-  // @Input() public projectAnalysis: string;
-  @Input()
-  get projectAnalysis() {
-    return this._projectAnalysis;
-  }
-  set projectAnalysis(item: any) {
-    this.selectedMenu = 'BUSINESS ACTIVITY';
-  }
-
-  // @Input()
-  get item() {
-    return this._item;
-  }
-
-  set item(item: any) {
-    this._item = item;
-  }
-
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    protected positionService: PositionService,
-    private router: Router,
-    protected activatedRoute: ActivatedRoute,
-    private storageService: StorageService
-  ) {
-    this.bucket = '';
-  }
-
-  public creditProposaldata: ICreditProposal = new CreditProposal();
-  public value: string;
-
-  dataAttr: Object[];
-
-  public datax: any[];
-
-  private bucket: string;
-  private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
-  private getKey: string;
-  private fileGet: File;
-
   public onSelect(value: string, data: any): void {
     this.dataAttrPass[data.No - 1].value = value;
     this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
   }
-
-  public parameter: string;
-  public notesPa?: string;
 
   btnSave($event: any): void {
     this.creditProposalItem.attributes['businessActivity'].BusinessAct = [
@@ -153,12 +136,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
         parameter: this.parameter,
       },
     ];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this._item.attributes['businessActivity'].notesPa === undefined) {
-      this._item.attributes['businessActivity'].notesPa = '';
-    }
   }
 
   private getBucket(): Promise<void> {
@@ -171,30 +148,40 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
   }
 
   ngOnInit() {
-    this.bucket = ' ';
+	this.selectedMenu = 'BUSINESS ACTIVITY';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
-      this.key1 = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
+	  this.getKeyPa = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
       this.getBucket().then(res => {
         this.getContainer();
       });
     });
 
-    this.selectedMenu = 'BUSINESS ACTIVITY';
     this.tes();
   }
-  onDocumentChange() {
-    this.container.restrictEditing = true;
 
-    this.getOpiniObj();
+  public onDocumentChange() {
+    this.container.restrictEditing = true;
   }
+
+  public onDocumentChangePa() {
+    this.containers.restrictEditing = true;
+  }
+
   public getOpiniObj() {
-    this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/business-activity/' + this.creditProposalItem.id + '/sfdt';
       this.getContainer();
+    });
+  }
+
+  public getOpiniObjPa() {
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+	  this.getKey = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
+      this.getContainers();
     });
   }
 
@@ -222,13 +209,14 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
             });
         }
       });
-
-    const obj1 = {
-      key: this.key1,
+  }
+  
+  private getContainers(): void {
+    const obj = {
+      key: this.getKeyPa,
     };
-
     this.storageService
-      .getObjects(this.bucket, obj1)
+      .getObjects(this.bucket, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -250,13 +238,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
   }
 
   onCreate(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-  }
-
-  onCreates(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
-    this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+	this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -268,7 +251,72 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
-      console.log('ini paste');
+    }
+  }
+
+  public triggeredSaveAll(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/business-activity';
+	const keyPa = 'credit_proposal/remark/project-analysis';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	const docEditors = this.containers?.documentEditor as DocumentEditorComponent;
+
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+    }
+	
+	if (docEditors !== undefined) {
+      docEditors.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${keyPa}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+
+      docEditors.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${keyPa}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
     }
   }
 
@@ -349,6 +397,9 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit, OnCha
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+	if (this.selectedMenu === 'PROJECT ANALYSIS') {
+	  this.getContainers();
+	}
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'BUSINESS ACTIVITY' }, { text: 'PROJECT ANALYSIS' }];

@@ -81,8 +81,6 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {

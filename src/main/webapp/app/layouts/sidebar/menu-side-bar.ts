@@ -111,7 +111,7 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       {
         name: 'Credit Proposal',
         iconname: 'minus',
-        route: 'credit-proposal-status',
+        route: 'credit-proposal-status/v2',
       },
       {
         name: 'Credit Proposal Approval',

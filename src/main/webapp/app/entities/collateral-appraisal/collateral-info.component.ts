@@ -47,7 +47,11 @@ export class CollateralInfoComponent {
       this.appraisal.statusId !== STATUS.ASSIGNMENT &&
       this.appraisal.statusId !== STATUS.DRAFT &&
       this.appraisal.statusId !== STATUS.RETURNTORM &&
-      this.appraisal.statusId !== STATUS.RETURNTOADMIN
+      this.appraisal.statusId !== STATUS.RETURNTOADMIN &&
+      this.appraisal.statusId !== STATUS.APPROVE &&
+      this.appraisal.statusId !== STATUS.APPROVAL_TL &&
+      this.appraisal.statusId !== STATUS.APPROVAL_DEPT_HEAD &&
+      this.appraisal.statusId !== STATUS.APPROVAL_DH
     ) {
       return true;
     }

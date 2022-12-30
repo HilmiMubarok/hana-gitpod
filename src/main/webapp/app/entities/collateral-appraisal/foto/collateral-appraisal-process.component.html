@@ -30,10 +30,11 @@
         <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="gakbisa2()" (removed)="onRemove(f)">
           <ngx-dropzone-label>
             <img [src]="f.url" />
-            <p>Size File: {{ f.size / 1000 }} Kb</p>
-            <p>Type File: {{ f.metaData['Value'] }}</p>
-            <p>Upload By: {{ f.tags.uploadBy }}</p>
-            <p>Modified Date: {{ f.tags.createdDate }}</p>
+            <p>File Name: {{ f.name }}</p>
+            <p class="card-text">File Size: {{ f.size / 1000 }} Kb</p>
+            <p class="card-text">File Type: {{ f.metaData['Value'] }}</p>
+            <p class="card-text">Uploaded By: {{ f.tags.uploadBy }}</p>
+            <p class="card-text">Modified Date: {{ f.tags.createdDate }}</p>
           </ngx-dropzone-label>
         </ngx-dropzone-preview>
       </div>
