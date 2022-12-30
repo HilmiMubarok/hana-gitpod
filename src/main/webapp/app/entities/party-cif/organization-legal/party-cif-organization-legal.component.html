@@ -6,6 +6,8 @@
     <jhi-organization-legal-list
       *ngIf="partyCif.customerType === 'CORPORATE'"
       [organizationId]="partyCifService.findPartyId(partyCif)"
+      [deedNumber]="deedNumber"
+      [deedDates]="deedDates"
     ></jhi-organization-legal-list>
     <div *ngIf="partyCif.customerType !== 'CORPORATE'" class="alert-warning">You dont have a permission to see this module</div>
   </mat-card-content>
