@@ -84,92 +84,6 @@
           <tr mat-row *matRowDef="let row; columns: displayColumn"></tr>
         </table>
       </div>
-      <!-- <ejs-grid allowTextWrap="true" #grid [dataSource]="dataSource" [allowPaging]="true" [pageSettings]="" gridLines="both">
-        <e-columns>
-
-          <e-column
-            field="attributes.facilityType"
-            headerText="Facility Type"
-            headerTextAlign="center"
-            width="140"
-            textAlign="left"
-          ></e-column>
-         <e-column
-                  field="attributes.availableLimit"
-                  headerText="Available Limit "
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-
-          <e-column
-            field="attributes.initialLimit"
-            headerText="Initial Limit"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.changes"
-            headerText="Changes"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.outstanding"
-            headerText="O/S"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.totalPlafond"
-            headerText="Total Plafond"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-           <e-column
-                  field="attributes.rate"
-                  headerText="Interest Rate (%)"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-          <e-column
-            field="attributes.provitionFee"
-            headerText="Provision Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.adminFee"
-            headerText="Admin Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="frist"
-            headerText="First Disbursement Date"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column field="attributes.maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="right"></e-column>
-        </e-columns>
-      </ejs-grid> -->
       <div class="e-card-actions"></div>
       <div class="row">
         <div class="col-6">
@@ -268,22 +182,6 @@
           </section>
         </div>
       </div>
-      <div class="row">
-        <!-- <button (click)="print()">Print</button> -->
-        <!-- <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Available Limit"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="available"
-                    format="IDR 0,"
-                    min="0"
-                    readonly="true"
-                  ></ejs-numerictextbox>
-                </div>
-              </div> -->
-      </div>
     </div>
   </div>
 </div>
@@ -297,74 +195,6 @@
       </div>
     </div>
     <div class="e-card-content">
-      <!-- <ejs-grid allowTextWrap="true" #grid [dataSource]="myBusinessGroupCPFacility" [allowPaging]="true" [pageSettings]="" gridLines="both">
-        <e-columns>
-          <e-column field="no" headerText="No" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column field="GroupName" headerText="Group Name" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column field="LoanAccount" headerText="Loan Account" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column field="FacilityType" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column
-            field="InitialLimit"
-            headerText="Initial Limit"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="Changes"
-            headerText="Changes"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="OS"
-            headerText="O/S"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="TotalPlafond"
-            headerText="Total Plafond"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="Provision"
-            headerText="Provision Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="AdminFee"
-            headerText="Admin Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="FirstDisbursementDate"
-            headerText="First Disbursement Date"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-          ></e-column>
-          <e-column field="Tenor" headerText="Tenor" headerTextAlign="center" width="140" textAlign="right"></e-column>
-        </e-columns>
-      </ejs-grid> -->
       <div class="table-responsive">
         <table mat-table [dataSource]="myBusinessGroupCPFacility" class="w-100">
           <ng-container matColumnDef="no">
@@ -397,19 +227,16 @@
           </ng-container>
           <ng-container matColumnDef="interet">
             <th mat-header-cell *matHeaderCellDef class="text-center">Interest Rate</th>
-            <!-- <td mat-cell *matCellDef="let element">{{ element.InterestRate | currency: 'IDR ' }}</td> -->
             <td mat-cell *matCellDef="let element">
               {{ element.InterestRate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="provision">
             <th mat-header-cell *matHeaderCellDef class="text-center">Provision</th>
-            <!-- <td mat-cell *matCellDef="let element">{{ element.Provision | number }}</td> -->
             <td mat-cell *matCellDef="let element">{{ element.Provision }}</td>
           </ng-container>
           <ng-container matColumnDef="adminFee">
             <th mat-header-cell *matHeaderCellDef class="text-center">Admin Fee</th>
-            <!-- <td mat-cell *matCellDef="let element">{{ element.AdminFee | number }}</td> -->
             <td mat-cell *matCellDef="let element">{{ element.AdminFee }}</td>
           </ng-container>
           <ng-container matColumnDef="firstDisbursmentDate">
@@ -419,6 +246,7 @@
           <ng-container matColumnDef="tenor">
             <th mat-header-cell *matHeaderCellDef class="text-center">Tenor</th>
             <td mat-cell *matCellDef="let element">{{ element.Tenor }}</td>
+			{{ element.attributes.maturity + ' ' + element.attributes.maturityPeriodType }}
           </ng-container>
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
@@ -427,9 +255,6 @@
           <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
         </table>
       </div>
-
-      <div class="e-card-actions"></div>
-
       <div class="row">
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -523,20 +348,6 @@
             </div>
           </section>
         </div>
-      </div>
-      <div class="row">
-        <!-- <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Avilable Limit"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]=""
-                    format="IDR 0,"
-                    min="0"
-                  ></ejs-numerictextbox>
-                </div>
-              </div> -->
       </div>
     </div>
   </div>
