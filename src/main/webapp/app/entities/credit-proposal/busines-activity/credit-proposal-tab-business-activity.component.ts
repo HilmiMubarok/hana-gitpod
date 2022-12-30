@@ -303,7 +303,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         const fileType = 'word';
         const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
         const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+          objectName: `${keyPa}/${paramsId}/${fileType}/${fileName}`,
         };
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
@@ -315,7 +315,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         const fileType = 'sfdt';
         const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.sfdt';
         const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+          objectName: `${keyPa}/${paramsId}/${fileType}/${fileName}`,
         };
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
