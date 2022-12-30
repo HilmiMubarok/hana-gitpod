@@ -35,6 +35,7 @@ export class OrganizationManagementListComponent
   public displayedColumns: string[];
   public pacth: any;
   public view: boolean;
+  public elementData: IOrganizationManagement;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
@@ -136,5 +137,18 @@ export class OrganizationManagementListComponent
         }
       }
     });
+  }
+
+  public deleteData(element): void {
+    this.organizationManagementService.delete(element.id).subscribe(() => {
+      this.loadDataBy(this.cif, this.managementType);
+    });
+  }
+
+  public hiddenButton(element: IOrganizationManagement) {
+    if (element.dataSource === 'h' || element.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 }

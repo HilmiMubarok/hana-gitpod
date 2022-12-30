@@ -26,6 +26,8 @@ import { PartyCifBusinessGroupDialogComponent } from './party-cif/business-group
 import { DocumentDialogDialogV2Component } from './document/document-detail-dialog-v2.component';
 import { CollateralPropertyMachineDetailDialogComponent } from './collateral-property/dialogs/collateral-property-machine-detail-dialog.component';
 import { CollateralPropertyVehicleDetailDialogComponent } from './collateral-property/dialogs/collateral-property-vehicle-detail-dialog.component';
+import { FacilityInfoDebiturDialogComponent } from './debtor-data/facility-info/facility-info-dialog/facility-info-debitur-dialog.component';
+// import { FacilityInfoDebiturDialogComponent } from './debtor-data/facility-info/facility-info-dialog/facility-info-debitur-dialog.component';
 
 export const entityDialogModule: any[] = [
   CollateralPropertyMachineDialogComponent,
@@ -56,4 +58,5 @@ export const entityDialogModule: any[] = [
   CollateralPropertyPersonalPropertyDialogComponent,
   CollateralPropertyMachineDetailDialogComponent,
   CollateralPropertyVehicleDetailDialogComponent,
+  FacilityInfoDebiturDialogComponent,
 ];
