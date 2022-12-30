@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { HttpResponse } from '@angular/common/http';
@@ -64,6 +64,7 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from './collat
 import { CollateralAppraisalDetailProcessMesinComponent } from './collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalComparisonComponent } from './comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
+import { CollateralAppraisalSummaryComponent } from './summary/collateral-appraisal-summary.component';
 
 @Component({
   providers: [
@@ -81,6 +82,10 @@ import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './col
   styleUrls: ['./collateral-appraisal-main.css'],
 })
 export class CollateralAppraisalMainComponent implements OnInit {
+  @ViewChild('collateralAppraisalSummaryComponent', {
+    static: false,
+  })
+  collateralAppraisalSummaryComponent: CollateralAppraisalSummaryComponent;
   public parentPath = this.router.url.split('/')[1];
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
@@ -424,15 +429,27 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
         }
       });
     } else {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.saveProcess();
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
         }
       });
