@@ -33,8 +33,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   @ViewChild('document_editor_containers')
   public containers: DocumentEditorContainerComponent;
-  @ViewChild('document_editors')
-  public documentEditors: DocumentEditorComponent;
 
   @Input()
   get creditProposalItem() {
