@@ -159,8 +159,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
 
       const dataParty = [];
+      const aYear = [];
       for (let i = 0; i < cpFacility.length; i++) {
-        const aYear = [];
         const date2 = new Date(cpFacility[i].FILN10_TOT_EXP_IL);
         const date1 = new Date(cpFacility[i].FXFIG_TRX_DT);
         aYear.push(Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)));
@@ -174,15 +174,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           changes: '0',
           commitedLine: 'false',
           currency: cpFacility[i].LNB_BASE_LON_CCY,
-          currentInterestRate:
-            cpFacility[i].FILN10_ROLL_GAP +
-            ' ' +
-            cpFacility[i].FILN10_ROLL_GAP_GB_NM +
-            ' ' +
-            ' ' +
-            cpFacility[i].FIX_FLT_GB_NM +
-            ' ' +
-            cpFacility[i].FILN11_SPREAD_RT,
+          currentInterestRate: cpFacility[i].FILN11_SPREAD_RT,
           dateOS: '2022-11-24T10:57:14.435Z',
           disbursementCondition: '',
           facilityType: cpFacility[i].FILN11_COM_NM,
@@ -194,14 +186,14 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           installmentMethod: 'Maturity Repayment',
           instalmentEstimation: '0',
           interestRatePeriod: cpFacility[i].FILN10_ROLL_GAP,
-          interestRatePeriodType: 'Month',
+          interestRatePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
           interestRateType: cpFacility[i].FIX_FLT_GB_NM,
           keterangan: '',
           kurs: '0',
           loanPurpose: '',
           loanType: cpFacility[i].FILN11_COM_NM,
           maturity: aYear[i],
-          maturityDate: '2022-11-24T10:57:14.435Z',
+          maturityDate: cpFacility[i].FILN10_TOT_EXP_IL,
           maturityPeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
           memoDate: '2022-11-24T10:57:14.435Z',
           memoNo: '',

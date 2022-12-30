@@ -133,7 +133,15 @@
       <th mat-header-cell *matHeaderCellDef>Interest</th>
       <td mat-cell *matCellDef="let element">
         <div *ngIf="element.attributes.hobbies">
-          {{ element.attributes.currentInterestRate }}
+          {{
+            element.attributes.interestRatePeriod +
+              ' ' +
+              element.attributes.interestRatePeriodType +
+              ' ' +
+              element.attributes.interestRateType +
+              ' ' +
+              element.attributes.currentInterestRate
+          }}
         </div>
         <div *ngIf="!element.attributes.hobbies">
           {{
