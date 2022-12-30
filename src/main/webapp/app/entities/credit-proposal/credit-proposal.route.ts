@@ -51,6 +51,7 @@ import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
 import { FinancialState } from './repayment-spreadsheet/remarks/financial-statement-remarks.model';
 import { RejectReason } from './forward-to/reject-to.model';
 import { LegalLendingLimit } from './exposure/legal-lending/legal-lending-limit.model';
+import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -422,14 +423,17 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
 
 export const creditProposalRoute: Routes = [
   {
+    path: 'v2',
+    component: CreditProposalLoanApplicationComponent,
+    data: {
+      pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: '',
     component: CreditProposalListMaterialComponent,
-    resolve: {
-      pagingParams: JhiResolvePagingParams,
-    },
     data: {
-      authorities: ['ROLE_USER'],
-      defaultSort: 'id,asc',
       pageTitle: 'losgwApp.creditProposal.home.title',
     },
     canActivate: [UserRouteAccessService],
@@ -442,6 +446,14 @@ export const creditProposalRoute: Routes = [
     },
     data: {
       pageTitle: 'losgwApp.creditProposal.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'v2/:id/edit',
+    component: ProposalBasicInformationComponent,
+    resolve: {
+      content: CreditProposalResolve,
     },
     canActivate: [UserRouteAccessService],
   },

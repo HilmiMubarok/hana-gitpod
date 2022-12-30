@@ -29,15 +29,15 @@ export class LoanApplicationService extends AbstractEntityService<ILoanApplicati
   }
 
   protected convertDateArrayFromServer(res: HttpResponse<ILoanApplication[]>): HttpResponse<ILoanApplication[]> {
-    res.body.forEach((loanApplication: ILoanApplication) => {
-      const roles = loanApplication.roles;
-      Object.keys(roles).forEach((key: string) => {
-        const value = roles[key];
-        value['fromDate'] != null ? new Date(value['fromDate']) : null;
-        value['thruDate'] != null ? new Date(value['thruDate']) : null;
-        value['createdDate'] != null ? new Date(value['createdDate']) : null;
-      });
-    });
+    // res.body.forEach((loanApplication: ILoanApplication) => {
+    //   const roles = loanApplication.roles;
+    //   Object.keys(roles).forEach((key: string) => {
+    //     const value = roles[key];
+    //     value['fromDate'] != null ? new Date(value['fromDate']) : null;
+    //     value['thruDate'] != null ? new Date(value['thruDate']) : null;
+    //     value['createdDate'] != null ? new Date(value['createdDate']) : null;
+    //   });
+    // });
     return res;
   }
 

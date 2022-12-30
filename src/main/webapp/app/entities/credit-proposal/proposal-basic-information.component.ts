@@ -335,7 +335,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public routeSubMenu(menu: object): void {
     if (menu['id'] === ID_GREATER_15_BN) {
       this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
-      if (this.parentPath === 'credit-proposal-status') {
+      if (this.parentPath === 'credit-proposal-status/v2') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else {
         this.subMenu = [
@@ -371,7 +371,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
     if (menu['id'] === ID_BACK_TO_BACK) {
       this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
-      if (this.parentPath === 'credit-proposal-status') {
+      if (this.parentPath === 'credit-proposal-status/v2') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
       } else {
         this.subMenu = [
@@ -390,7 +390,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
 
-    this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([this.routeHelper + '/edit'], { queryParams: { subroute: menu['id'] } });
   }
 
   public previousState(): void {
