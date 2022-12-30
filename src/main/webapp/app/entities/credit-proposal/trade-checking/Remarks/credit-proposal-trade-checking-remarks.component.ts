@@ -31,7 +31,6 @@ export class RemarskComponent implements OnInit {
 
   private _creditProposal: ICreditProposal;
 
-  @Input() saveWord: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -58,10 +57,6 @@ export class RemarskComponent implements OnInit {
   public resourceUrl: string;
 
   private getContainer(): void {
-    // const obj = {
-    //   key: this.getKey,
-    // };
-
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -148,12 +143,6 @@ export class RemarskComponent implements OnInit {
   ngOnInit() {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getWord();
-    // this.BUCKET = this.BUCKET;
-    // this.activatedRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKey = 'credit_proposal/remark/trade-checking/' + this.paramsIdGet + '/sfdt';
-    //   this.getContainer();
-    // });
   }
 
   public getWord() {

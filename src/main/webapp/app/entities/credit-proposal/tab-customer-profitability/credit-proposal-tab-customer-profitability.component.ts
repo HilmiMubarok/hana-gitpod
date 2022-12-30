@@ -260,8 +260,6 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
   }
 
   public triggeredSave(): void {

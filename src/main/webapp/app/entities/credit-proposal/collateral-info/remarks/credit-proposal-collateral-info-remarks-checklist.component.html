@@ -6,18 +6,33 @@
           <div class="e-card-header-caption">
             <div class="e-card-header-title">REMARKS</div>
             <div class="e-card-sub-title"></div>
-            <ejs-documenteditorcontainer
-              #document_editor_container
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDown($event)"
-              (created)="onCreate()"
-            >
-            </ejs-documenteditorcontainer>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <ejs-documenteditorcontainer
+                #document_editor_container
+                [enableToolbar]="true"
+                [enableLocalPaste]="false"
+                height="100vh"
+                style="display: block"
+                [spellcheck]="false"
+                [enableSpellCheck]="false"
+                (keyDown)="onKeyDown($event)"
+                (created)="onCreate()"
+              >
+              </ejs-documenteditorcontainer>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <ejs-documenteditorcontainer
+                #document_editor_container
+                [enableToolbar]="false"
+                [enableLocalPaste]="false"
+                height="100vh"
+                style="display: block"
+                (documentChange)="onDocumentChange()"
+                [enableEditor]="false"
+                [isReadOnly]="true"
+              >
+              </ejs-documenteditorcontainer>
+            </section>
             <!-- <section
                 *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="creditProposal.attributes['collateralChecklist'].remarks">

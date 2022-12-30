@@ -87,7 +87,9 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
       });
     });
   }
-
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWord === true) {
       //   this.triggeredSave();

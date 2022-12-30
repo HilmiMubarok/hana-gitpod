@@ -217,7 +217,5 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
   }
   onDocumentChange() {
     this.container.restrictEditing = true;
-
-    this.getContainer();
   }
 }
