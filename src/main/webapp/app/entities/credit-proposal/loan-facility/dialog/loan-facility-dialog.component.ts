@@ -14,11 +14,36 @@ import { CreditProposalService } from '../../credit-proposal.service';
 import { IndexRateService } from '../../index-rate.service';
 import { Router } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 @Component({
   selector: 'jhi-loan-facility-dialog',
   templateUrl: './loan-facility-dialog.component.html',
   styleUrls: ['./dialog-facility.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
@@ -32,6 +57,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public facilityType: string;
   public statusFacilityValue: string;
   public statusFacilityDisabled: boolean;
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
+
   @Input()
   get collateral() {
     return this._collateral;

@@ -90,7 +90,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       });
     });
   }
-
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
   ngOnInit(): void {
     this.bucket = ' ';
     this.actRoute.params.subscribe(params => {

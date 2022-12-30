@@ -13,6 +13,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { CreditProposalService } from '../../credit-proposal.service';
 
 @Component({
   selector: 'jhi-total-exposure',
@@ -51,7 +52,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   constructor(
     protected _snackbar: MatSnackBar,
     protected partyCifService: PartyCifService,
-    protected fakeFacilityService: FakeFacilityService
+    protected fakeFacilityService: FakeFacilityService,
+    public creditProposalService: CreditProposalService
   ) {
     super(_snackbar, partyCifService);
     this.myBusinessGroup = [];
@@ -88,6 +90,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   ];
 
   public numericFormatOptions: Object = { format: 'N' };
+  public currencyMaster: any;
 
   // public data1: Object[] = [];
 
@@ -95,8 +98,10 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
+    this.defaultCurrency();
     this.setMenu('');
     this.getCurrency();
+
     // this.getInteres();
   }
 
@@ -137,6 +142,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
+              parsed.CCY = source[y].LNB_BASE_LON_CCY;
 
               if (parsed.LoanType === 'Cash Loan') {
                 this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
@@ -360,70 +366,289 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
   }
 
-  fungsiSumcredit() {
-    this.totalcredit = this.change + this.init;
-  }
-
   fungsiSuminit() {
-    const datafilter = this.creditProposal.products.filter(
-      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
-    );
-    console.log('SUMINIT', this.dataSource);
+    // alert('ok');
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
 
-    if (this.dataSource.length > 0) {
-      for (let i = 0; i < this.dataSource.length; i++) {
-        // if (this.dataSource[i].attributes.initialLimit === undefined) {
-        //   // console.log('masuk limit');
-        //   // console.log('initial limit', this.dataSource[i].attributes.initialLimit);
-        // } else {
-        //   this.init = this.init + Number(this.dataSource[i].attributes.initialLimit);
-        // }
-        this.init = this.init + Number(this.dataSource[i].attributes.initialLimit);
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.initialLimit);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
       }
     }
+    return result + dolar;
   }
 
   fungsiSumchange() {
-    const datafilter = this.creditProposal.products.filter(
-      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
-    );
-    if (this.dataSource.length > 0) {
-      for (let i = 0; i < this.dataSource.length; i++) {
-        if (this.dataSource[i].attributes.changes === undefined) {
-          // console.log('masuk');
-        } else {
-          this.change = this.change + Number(this.dataSource[i].attributes.changes);
-          // console.log(this.dataSource[i].attributes.changes);
-        }
-      }
-    }
-  }
-  fungsiSumOS() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
     const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
-    if (this.dataSource.length > 0) {
-      for (let i = 0; i < this.dataSource.length; i++) {
-        if (this.dataSource[i].attributes.outstanding === undefined) {
-          // console.log('masuk');
-        } else {
-          this.os = this.os + Number(this.dataSource[i].attributes.outstanding);
-          // console.log(this.dataSource[i].attributes.outstanding);
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.initialLimit);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
+          }
         }
       }
     }
+    return result + dolar;
   }
-  fungsiSumavailable() {
-    for (let i = 0; i < this.dataSource.length; i++) {
-      if (this.dataSource[i].attributes.availableLimit === undefined) {
-        // console.log('tidak masuk available');
-      } else {
-        this.available = this.available + Number(this.dataSource[i].attributes.availableLimit);
-        // console.log('ada available');
-        // console.log(this.dataSource[i].attributes.availableLimit);
+
+  public fungsiSumOS() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            // console.log("dolar", filterUsd[i].attributes.outstanding);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
       }
     }
+    return result + dolar;
+  }
+
+  fungsiSumavailable() {
+    let result: number;
+    result = 0;
+
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.availableLimit !== undefined) {
+          result = result + Number(this._creditProposal.products[i].attributes.availableLimit);
+        }
+      }
+    }
+    return result;
+  }
+
+  fungsiSumcredit() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            // console.log('dolar', filterUsd[i].attributes.totalPlafond);
+            // console.log("kurs ", filterUsd[i].attributes.kurs);
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  fungsiSumchangeGroub() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].Changes !== undefined) {
+          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+          result = result + Number(filterIdr[i].Changes);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].Changes !== undefined) {
+          // console.log("dolar", filterUsd[i].attributes.initialLimit);
+          // console.log("kurs ", filterUsd[i].attributes.kurs);
+          dolar = dolar + Number(filterUsd[i].Changes) * Number(this.currencyMaster);
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
+  fungsiSumcreditGroub() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].TotalPlafond !== undefined) {
+          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+
+          result = result + Number(filterIdr[i].TotalPlafond);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].TotalPlafond !== undefined) {
+          // console.log('dolar', filterUsd[i].attributes.totalPlafond);
+          // console.log("kurs ", filterUsd[i].attributes.kurs);
+          dolar = dolar + Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster);
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
+  fungsiSuminitGroub() {
+    // alert('ok');
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].InitialLimit !== undefined) {
+          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+          result = result + Number(filterIdr[i].InitialLimit);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterIdr[i].InitialLimit !== undefined) {
+          // console.log("dolar", filterUsd[i].attributes.initialLimit);
+          // console.log("kurs ", filterUsd[i].attributes.kurs);
+          dolar = dolar + Number(filterIdr[i].InitialLimit) * Number(this.currencyMaster);
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
+  public fungsiSumOSGroub() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].OS !== undefined) {
+          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
+          result = result + Number(filterIdr[i].OS);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].OS !== undefined) {
+          // console.log("dolar", filterUsd[i].attributes.outstanding);
+          // console.log("kurs ", filterUsd[i].attributes.kurs);
+          dolar = dolar + Number(filterUsd[i].OS) * Number(this.currencyMaster);
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
+  public defaultCurrency() {
+    const setDate = new Date().toISOString().split('T')[0];
+
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+    });
   }
 
   // currency code

@@ -41,6 +41,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   private resourceUrl: string;
   private BUCKET: string;
   private KEY = 'credit_proposal/remark/summary';
+  private KEYG = 'credit_proposal/summary';
 
   public fileTypeSelected: string;
   public fileTypeList: string[] = ['Word', 'Pdf'];
@@ -88,6 +89,18 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
       this.getContainer();
+	  
+	  this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
+		this.paramId = params['id'];
+	  });
+
+      if (this.paramId) {
+		this.KEYG += `/${this.paramId}`;
+      } else {
+		console.warn('Param id not found');
+      }
+
+	  this.onRefresh();
     });
   }
 
@@ -147,6 +160,11 @@ export class CreditProposalTabSummaryComponent implements OnInit {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
     }
+  }
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
   }
 
   public triggeredSave(): void {
@@ -237,7 +255,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 
   private onRefresh(): void {
     const obj = {
-      key: this.KEY,
+      key: this.KEYG,
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -265,7 +283,6 @@ export class CreditProposalTabSummaryComponent implements OnInit {
 
   public onEdit(data: IObj): void {
     if (data.fileName.slice(-3) === 'ocx') {
-      console.log('data.filename @editOrView : ', data.fileName);
       this.storageService
         .fileBlob(data.url)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -274,7 +291,6 @@ export class CreditProposalTabSummaryComponent implements OnInit {
           importedSaveAs(file, data.fileName);
         });
     } else {
-      console.log('data.filename @editOrView0 : ', data.fileName);
       this.storageService
         .fileBlob(data.url)
         .pipe(takeUntil(this.ngUnsubscribe))

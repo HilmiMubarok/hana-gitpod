@@ -31,39 +31,7 @@ export class CollateralAppraisalResolve implements Resolve<ICollateralAppraisal>
       return this.service.find(id).pipe(
         mergeMap((collateralAppraisal: HttpResponse<CollateralAppraisal>) => {
           if (collateralAppraisal.body) {
-            if (!collateralAppraisal.body.collateral.attributes) {
-              collateralAppraisal.body.collateral.attributes = new CollateralAttribute();
-            }
-
-            if (!lodash.has(collateralAppraisal.body.attributes, 'jenisObject')) {
-              collateralAppraisal.body.attributes['jenisObject'] = '';
-            }
-
-            if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
-              collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
-              collateralAppraisal.body.attributes['summary'] = {
-                keterangan: '',
-                marketbility: '',
-                returnNotes: '',
-              };
-            } else {
-              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'scoreCard')) {
-                collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
-              } else {
-                collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
-              }
-
-              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'summary')) {
-                collateralAppraisal.body.attributes['summary'] = {
-                  keterangan: '',
-                  marketbility: '',
-                  returnNotes: '',
-                };
-              } else {
-                collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
-              }
-            }
-            return of(collateralAppraisal.body);
+            return of(this.service.mapper(collateralAppraisal.body));
           } else {
             this.router.navigate(['404']);
             return EMPTY;
