@@ -165,12 +165,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public onDocumentChange() {
     this.container.restrictEditing = true;
-    this.getOpiniObj();
   }
 
   public onDocumentChangePa() {
     this.containers.restrictEditing = true;
-	this.getOpiniObjPa();
   }
 
   public getOpiniObj() {
