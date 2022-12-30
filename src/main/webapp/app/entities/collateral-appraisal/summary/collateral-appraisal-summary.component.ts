@@ -15,6 +15,10 @@ import {
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { HttpClient } from '@angular/common/http';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
@@ -32,6 +36,15 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
   private _item: ICreditProposal;
   public formatType?: string;
 
+  private BUCKET: string;
+
+  private ngUnsubscribe = new Subject();
+  private paramsIdGet: string;
+  private paramId: string;
+  private getKey: string;
+  private fileGet: File;
+  public resourceUrl: string;
+
   @Input('item')
   get item() {
     return this._item;
@@ -45,16 +58,10 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
     protected activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {
-    this.bucket = '';
-  }
-
-  private bucket: string;
-  private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
-  private getKey: string;
-  private fileGet: File;
+    private router: Router,
+    private http: HttpClient,
+    private applicationConfigService: ApplicationConfigService
+  ) {}
 
   onCreate(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
@@ -62,11 +69,15 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
   }
 
   private getContainer(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
     const obj = {
-      key: this.getKey,
+      key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -120,7 +131,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -132,34 +143,35 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
-
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+      this.getContainer();
     });
   }
 
   ngOnInit(): void {
-    this.bucket = ' ';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'appraisals/remark/keterangan-objek-jaminan/' + this.paramsIdGet + '/sfdt';
-      this.getBucket().then(res => {
-        this.getContainer();
-      });
-    });
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    this.getWord();
+
+    // this.BUCKET = ' ';
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.paramsIdGet = params['id'];
+    //   this.getKey = 'appraisals/remark/keterangan-objek-jaminan/' + this.paramsIdGet + '/sfdt';
+    //   this.getBUCKET().then(res => {
+    //     this.getContainer();
+    //   });
+    // });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.input === true) {
-      this.triggeredSave();
-    }
+    this.getWord();
+    // if (this.input === true) {
+    //   this.triggeredSave();
+    // }
   }
 
   // public tools: ToolbarModule = {
@@ -205,7 +217,5 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
   }
   onDocumentChange() {
     this.container.restrictEditing = true;
-
-    this.getContainer();
   }
 }

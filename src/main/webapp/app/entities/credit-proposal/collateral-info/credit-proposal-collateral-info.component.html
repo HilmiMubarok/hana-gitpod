@@ -13,6 +13,12 @@
     ></ejs-menu>
     <div [hidden]="selectedMenu === 'CHECKLIST'">
       <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
+      <jhi-credit-proposal-collateral-info-remarks-information
+        #creditProposalCollateralInfoRemarksInfoComponent
+        [saveWord]="saveWord"
+        [creditProposal]="creditProposal"
+      >
+      </jhi-credit-proposal-collateral-info-remarks-information>
     </div>
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
@@ -20,6 +26,12 @@
       <div class="card-content">
         <jhi-credit-proposal-collateral-info-checklist [hidden]="isViewMode == true" [creditProposal]="creditProposal">
         </jhi-credit-proposal-collateral-info-checklist>
+        <jhi-credit-proposal-collateral-info-remarks-checklist
+          #creditProposalCollateralInfoRemarksCheckComponent
+          [saveWord]="saveWord"
+          [creditProposal]="creditProposal"
+        >
+        </jhi-credit-proposal-collateral-info-remarks-checklist>
       </div>
     </div>
   </div>
@@ -27,6 +39,12 @@
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
   <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
+  <jhi-credit-proposal-collateral-info-remarks-information
+    #creditProposalCollateralInfoRemarksInfoComponent
+    [saveWord]="saveWord"
+    [creditProposal]="creditProposal"
+  >
+  </jhi-credit-proposal-collateral-info-remarks-information>
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
@@ -34,4 +52,10 @@
     [isViewMode]="isViewMode"
     [creditProposal]="creditProposal"
   ></jhi-credit-proposal-collateral-info-btb>
+  <jhi-credit-proposal-collateral-info-remarks-information
+    #creditProposalCollateralInfoRemarksInfoComponent
+    [saveWord]="saveWord"
+    [creditProposal]="creditProposal"
+  >
+  </jhi-credit-proposal-collateral-info-remarks-information>
 </div>

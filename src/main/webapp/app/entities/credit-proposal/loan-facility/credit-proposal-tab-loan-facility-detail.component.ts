@@ -13,6 +13,9 @@ import {
 import { StorageService } from 'app/entities/storage/storage.service';
 
 import { Subject, takeUntil } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail',
@@ -31,10 +34,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public documentEditor: DocumentEditorComponent;
 
   private ngUnsubscribe = new Subject();
-  private bucket: string;
+  private BUCKET: string;
   private paramsIdGet: string;
   private getKey: string;
   private fileGet: File;
+  public resourceUrl: string;
 
   @Input() saveWord: any;
 
@@ -76,34 +80,40 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     this.outCreditProposal.emit(this._creditProposal);
   }
 
-  constructor(protected actRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
+  constructor(
+    protected actRoute: ActivatedRoute,
+    private router: Router,
+    private storageService: StorageService,
+    private http: HttpClient,
+    private applicationConfigService: ApplicationConfigService
+  ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
-    this.bucket = '';
+    this.BUCKET = '';
   }
 
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
-  }
+  // private getBUCKET(): Promise<void> {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.storageService.getBUCKETName().subscribe(res => {
+  //       this.BUCKET = res.body['BUCKET'];
+  //       resolve();
+  //     });
+  //   });
+  // }
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
   }
   ngOnInit(): void {
-    this.bucket = ' ';
-    this.actRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/loan-facility/' + this.paramsIdGet + '/sfdt';
-      this.getBucket().then(res => {
-        this.getContainer();
-      });
-    });
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    this.getWord();
+    // this.BUCKET = ' ';
+    // this.actRoute.params.subscribe(params => {
+    //   this.paramsIdGet = params['id'];
+    //   this.getKey = 'credit_proposal/remark/loan-facility/' + this.paramsIdGet + '/sfdt';
+    //   this.getBUCKET().then(res => {
+    //     this.getContainer();
+    //   });
+    // });
 
     this.removeTagRemaks();
     this.setCurrency();
@@ -114,13 +124,22 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.triggeredSave();
     }
   }
-
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['BUCKET'];
+      this.getContainer();
+    });
+  }
   private getContainer(): void {
+    let paramsId = '';
+    this.actRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
     const obj = {
-      key: this.getKey,
+      key: 'credit_proposal/remark/management-info/' + paramsId + '/sfdt',
     };
     this.storageService
-      .getObjects(this.bucket, obj)
+      .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
@@ -182,7 +201,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -194,7 +213,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
 

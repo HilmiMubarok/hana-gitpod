@@ -35,6 +35,7 @@ import { CreditProposalMappingCollateralComponent } from './loan-facility/mappin
 import { CreditProposalMappingFacilityComponent } from './loan-facility/mapping/mapping-facility.component';
 import { CreditProposalApproveUserComponent } from './approve-user/approve-user.component';
 import { ForwardToComponent } from './forward-to/forward-to.component';
+import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -60,6 +61,7 @@ import { ForwardToComponent } from './forward-to/forward-to.component';
     CreditProposalMappingCollateralComponent,
     CreditProposalMappingFacilityComponent,
     CreditProposalApproveUserComponent,
+    CreditProposalLoanApplicationComponent,
     ForwardToComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],

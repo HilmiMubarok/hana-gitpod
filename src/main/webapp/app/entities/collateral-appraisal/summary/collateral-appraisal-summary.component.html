@@ -59,9 +59,9 @@
       <div class="row" style="width: 60vh">
         <div class="col-3">
           <ejs-radiobutton
-            [value]="'baik'"
+            value="baik"
             name="baik"
-            [(ngModel)]="item.attributes.summary.marketbility"
+            [(ngModel)]="item.attributes['summary'].marketbility"
             label="Baik"
             cssClass="e-primary"
             [disabled]="gakbisa()"
@@ -70,9 +70,9 @@
 
         <div class="col-3">
           <ejs-radiobutton
-            [value]="'cukup'"
+            value="cukup"
             name="cukup"
-            [(ngModel)]="item.attributes.summary.marketbility"
+            [(ngModel)]="item.attributes['summary'].marketbility"
             label="Cukup"
             cssClass="e-primary"
             [disabled]="gakbisa()"
@@ -82,12 +82,13 @@
         <div class="col-3">
           <ejs-radiobutton
             label="Kurang"
-            [value]="'kurang'"
+            value="kurang"
             name="markebility"
-            [(ngModel)]="item.attributes.summary.marketbility"
+            [(ngModel)]="item.attributes['summary'].marketbility"
             cssClass="e-primary"
             [disabled]="gakbisa()"
-          ></ejs-radiobutton>
+          >
+          </ejs-radiobutton>
         </div>
       </div>
     </div>
@@ -133,7 +134,7 @@
       </div>
     </div>
     <div class="e-card-content">
-      <ejs-documenteditorcontainer
+      <!-- <ejs-documenteditorcontainer
         #document_editor_container
         [enableToolbar]="true"
         [enableLocalPaste]="false"
@@ -143,6 +144,19 @@
         [enableSpellCheck]="false"
         (keyDown)="onKeyDown($event)"
         (created)="onCreate()"
+      >
+      </ejs-documenteditorcontainer> -->
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="false"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        [spellcheck]="false"
+        [enableSpellCheck]="false"
+        (keyDown)="onKeyDown($event)"
+        (created)="onCreate()"
+        (documentChange)="onDocumentChange()"
       >
       </ejs-documenteditorcontainer>
     </div>
@@ -158,9 +172,9 @@
       <div class="row" style="width: 60vh">
         <div class="col-3">
           <ejs-radiobutton
-            [value]="'baik'"
+            value="baik"
             name="baik"
-            [(ngModel)]="item.attributes.summary.marketbility"
+            [(ngModel)]="item.attributes['summary'].marketbility"
             label="Baik"
             cssClass="e-primary"
             disabled
@@ -169,9 +183,9 @@
 
         <div class="col-3">
           <ejs-radiobutton
-            [value]="'cukup'"
+            value="cukup"
             name="cukup"
-            [(ngModel)]="item.attributes.summary.marketbility"
+            [(ngModel)]="item.attributes['summary'].marketbility"
             label="Cukup"
             cssClass="e-primary"
             disabled
@@ -181,9 +195,9 @@
         <div class="col-3">
           <ejs-radiobutton
             label="Kurang"
-            [value]="'kurang'"
+            value="kurang"
             name="markebility"
-            [(ngModel)]="item.attributes.summary.marketbility"
+            [(ngModel)]="item.attributes['summary'].marketbility"
             cssClass="e-primary"
             disabled
           ></ejs-radiobutton>
@@ -192,21 +206,17 @@
     </div>
   </div>
 
-  <div class="e-card mb-3">
+  <!-- <div class="e-card mb-3">
     <div class="e-card-header mb-1">
       <div class="e-card-header-caption">
         <div class="e-card-header-title">Return Notes</div>
       </div>
     </div>
     <div class="e-card-content">
-      <ejs-richtexteditor
-        disabled
-        [(ngModel)]="item.attributes.summary.returnNotes"
-        id="rteTool"
-        [toolbarSettings]="tools"
-      ></ejs-richtexteditor>
+      <ejs-richtexteditor disabled [(ngModel)]="item.attributes.summary.returnNotes" id="rteTool"
+        [toolbarSettings]="tools"></ejs-richtexteditor>
     </div>
-  </div>
+  </div> -->
 
   <div class="e-card mb-3">
     <div class="e-card-header mb-1">

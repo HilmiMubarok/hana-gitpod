@@ -14,7 +14,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Ref No</mat-label>
-                <input matInput type="text" [(ngModel)]="collateral.attributes.refNo" disabled />
+                <input matInput type="text" [(ngModel)]="collateral.collateralNumber" disabled />
                 <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
               </mat-form-field>
             </div>
@@ -24,7 +24,7 @@
               <div class="col-4">Collateral Ref No</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.attributes.refNo }}
+                {{ collateral.collateralNumber }}
               </div>
             </div>
           </section>

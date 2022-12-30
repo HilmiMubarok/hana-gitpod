@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
@@ -51,6 +51,7 @@ import { DocumentComponent } from '../document/document.component';
 import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
+import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 
 @Component({
   providers: [
@@ -68,6 +69,10 @@ import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-ap
   styleUrls: ['./survey-batch-edit.css'],
 })
 export class SurveyBatchEditInternalComponent implements OnInit {
+  @ViewChild('collateralAppraisalSummaryComponent', {
+    static: false,
+  })
+  collateralAppraisalSummaryComponent: CollateralAppraisalSummaryComponent;
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -1287,7 +1292,13 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -1299,7 +1310,13 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',

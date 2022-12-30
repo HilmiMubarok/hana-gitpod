@@ -22,6 +22,9 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
     this.items = param;
   }
 
+  @Input() deedNumber;
+  @Input() deedDates;
+
   public displayedColumns: string[] = ['no', 'deedEstablishNo', 'deedEstablishDate', 'action'];
 
   constructor(protected organizationLegalService: OrganizationLegalService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -82,7 +85,11 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
 
     const dialogRef = this.dialog.open(OrganizationLegalDialogComponent, {
       width: '80vw',
-      data: { organizationLegal: value },
+      data: {
+        organizationLegal: value,
+        deedNumber: this.deedNumber,
+        deedDates: this.deedDates,
+      },
     });
     dialogRef.afterClosed().subscribe((res: IOrganizationLegal) => {
       if (res) {
@@ -99,5 +106,12 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
         }
       }
     });
+  }
+
+  public isFromH(element: IOrganizationLegal) {
+    if (element.dataSource === 'h' || element.dataSource === 'H') {
+      return true;
+    }
+    return false;
   }
 }
