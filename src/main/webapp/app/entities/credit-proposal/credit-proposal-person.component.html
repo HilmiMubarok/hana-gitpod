@@ -302,21 +302,21 @@
               <div class="row my-3">
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-datepicker
-                      [(ngModel)]="item.idExpiryDate"
+                    <ejs-textbox
+                      [value]="item.idExpiryDate | formatMediumDate"
                       placeholder="ID Expire Date"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                       disabled
                     >
-                    </ejs-datepicker>
+                    </ejs-textbox>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-6">ID Expire Date</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.idExpiryDate }}
+                        {{ item.idExpiryDate | formatMediumDate }}
                       </div>
                     </div>
                   </section>
@@ -348,24 +348,33 @@
               <div class="row my-3">
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-datepicker
-                      [(ngModel)]="item.dob"
+                    <ejs-textbox
+                      [value]="item.dob | formatMediumDate"
                       placeholder="Date Of Birth"
                       cssClass="e-outline"
-                      floatLabelType="Auto"
-                      [disabled]="true"
+                      floatLabelType="Always"
+                      disabled
                     >
-                    </ejs-datepicker>
+                    </ejs-textbox>
                     <mat-hint align="start"
                       ><strong>{{ countAge() }} years old</strong>
                     </mat-hint>
+                    <!-- <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Date Of Birth</mat-label>
+                      <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [(ngModel)]="item.dob" />
+                      <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                      <mat-datepicker #dob></mat-datepicker>
+                      <mat-hint align="start"
+                        ><strong>{{ countAge() }} years old</strong>
+                      </mat-hint>
+                    </mat-form-field> -->
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-4">Date Of Birth</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ item.dob }}
+                        {{ item.dob | formatMediumDate }}
                         <strong>{{ countAge() }} years old</strong>
                       </div>
                     </div>
@@ -419,21 +428,21 @@
                 </div>
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-datepicker
-                      [(ngModel)]="deptorData.debtorData.debtorSince"
+                    <ejs-textbox
+                      [value]="deptorData.debtorData.debtorSince | formatMediumDate"
                       placeholder="Existing Debtor Since"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                       disabled
                     >
-                    </ejs-datepicker>
+                    </ejs-textbox>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
                       <div class="col-6">Existing Debtor Since</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.debtorData.debtorSince }}
+                        {{ deptorData.debtorData.debtorSince | formatMediumDate }}
                       </div>
                     </div>
                   </section>

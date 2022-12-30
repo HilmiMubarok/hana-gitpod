@@ -13,6 +13,7 @@ export interface ICPFacilityTable {
   FirstDisbursementDate?: string;
   Tenor?: string;
   LoanType?: string;
+  CCY?: string;
 }
 
 export class CPFacilityTable implements ICPFacilityTable {

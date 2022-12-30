@@ -169,6 +169,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnInit(): void {
+    console.log('this', this.organizationLegal);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
     // this.bucket = BUCKET;
@@ -285,12 +286,15 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
           addresses: item.addresses.map(element => element.address.address1),
           managements: item.prospectOrganization,
           prospectOrganization: item.prospectOrganization.name ? item.prospectPerson.name : item.prospectOrganization.name,
-
-          // deedEstablishDate: item.legal.deedEstablishDate,
         },
-        // console.log('cek data', this.data)
       ];
     });
+  }
+
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
   }
 
   // WORD
@@ -408,7 +412,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   public openDialog(element: any): void {
-    const predicate = { width: '80vw', data: { item: element }, panelClass: 'custom-dialog-container' };
+    const predicate = { width: '120vw', data: { item: element, cp: this.creditProposalItem }, panelClass: 'custom-dialog-container' };
 
     const dialogRef = this.dialog.open(DialogBorrowerComponent, predicate);
     dialogRef.afterClosed().subscribe(() => {});

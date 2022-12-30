@@ -1093,7 +1093,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'covenant',
+    id: 'dar-convenant',
     text: 'Convenant & Document Checklist',
   },
   {

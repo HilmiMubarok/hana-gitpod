@@ -43,7 +43,18 @@
           <ng-container matColumnDef="interet">
             <th mat-header-cell *matHeaderCellDef class="text-center">Interest Rate</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number) }}
+              <div *ngIf="element.attributes.hobbies">
+                {{ element.attributes.currentInterestRate }}
+              </div>
+              <div *ngIf="!element.attributes.hobbies">
+                {{
+                  element.attributes.interestRateType +
+                    ' ' +
+                    element.attributes.interestRatePeriod +
+                    ' ' +
+                    element.attributes.interestRatePeriodType
+                }}
+              </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="provision">
@@ -169,7 +180,7 @@
                 placeholder="Sub Total Initial LImit (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="init"
+                [value]="fungsiSuminit()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -181,7 +192,7 @@
             <div class="fontsebled row">
               <div class="col-5">Sub Total Initial LImit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSuminit() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -192,7 +203,7 @@
                 placeholder="Sub Total Changes (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="change"
+                [value]="fungsiSumchange()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -204,7 +215,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Changes (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ change | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumchange() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -217,7 +228,7 @@
                 placeholder="SubTotal O/S (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="os"
+                [value]="fungsiSumOS()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -229,7 +240,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ os | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumOS() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -240,7 +251,7 @@
                 placeholder="Sub Total Plafond  (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalcredit"
+                [value]="fungsiSumcredit()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -252,7 +263,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalcredit | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumcredit() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -427,7 +438,7 @@
                 placeholder="Sub Total Initial LImit (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]=""
+                [value]="fungsiSuminitGroub()"
                 format="IDR 0,"
                 min="0"
                 disabled
@@ -438,7 +449,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Initial LImit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' }}</div>
+              <div class="col col-lg-2">{{ fungsiSuminitGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -449,7 +460,7 @@
                 placeholder="Sub Total Changes (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]=""
+                [value]="fungsiSumchangeGroub()"
                 format="IDR 0,"
                 min="0 "
                 disabled
@@ -461,7 +472,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Changes (IDR))</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumchangeGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -474,7 +485,7 @@
                 placeholder="SubTotal O/S (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]=""
+                [value]="fungsiSumOSGroub()"
                 format="IDR 0,"
                 min="0"
                 disabled
@@ -486,7 +497,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -497,7 +508,7 @@
                 placeholder="Sub Total Plafond (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalplafondgroup"
+                [value]="fungsiSumcreditGroub()"
                 format="IDR 0,"
                 min="0 "
                 disabled
@@ -508,7 +519,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalplafondgroup | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumcreditGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -574,7 +585,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="init"
+                [value]="fungsiSuminit() + fungsiSuminitGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -583,7 +594,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Exposure Initial Limit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSuminit() + fungsiSuminitGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -621,7 +632,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="change"
+                [value]="fungsiSumchange() + fungsiSumchangeGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -630,7 +641,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Exposure Changes (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ change | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumchange() + fungsiSumchangeGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -655,7 +666,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Group Cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturCashLoanGroup | number }}</div>
+              <div class="col col-lg-2">{{ totalDebiturCashLoanGroup | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -668,7 +679,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="os"
+                [value]="fungsiSumOS() + fungsiSumOSGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -677,7 +688,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total exposure O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ os | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumOS() + fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -715,7 +726,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalcredit"
+                [value]="fungsiSumcredit() + fungsiSumcreditGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -724,7 +735,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalcredit | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumcredit() + fungsiSumcreditGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -771,7 +782,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Group</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ grandTotalGroup }}</div>
+              <div class="col col-lg-2">{{ grandTotalGroup | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>

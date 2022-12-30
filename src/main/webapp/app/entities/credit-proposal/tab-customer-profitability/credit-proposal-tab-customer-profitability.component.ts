@@ -258,6 +258,12 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+    // this.getWord();
+    this.getContainer();
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
@@ -278,7 +284,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -290,7 +296,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta('hana', formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
     });
   }
   private getContainer(): void {

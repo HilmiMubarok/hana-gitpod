@@ -58,7 +58,7 @@
       ></tr>
     </table>
   </mat-card-content>
-  <section>
+  <section [hidden]="isDarChecker">
     <mat-card-actions align="right">
       <button mat-raised-button color="primary" (click)="openDialog()">ADD DOCUMENT</button>
     </mat-card-actions>
