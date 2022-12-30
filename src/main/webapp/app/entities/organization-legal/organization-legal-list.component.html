@@ -21,7 +21,7 @@
       <button mat-icon-button (click)="openDialog(element)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button (click)="openDialogDelete(element)">
+      <button mat-icon-button (click)="openDialogDelete(element)" [hidden]="isFromH(element)">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
