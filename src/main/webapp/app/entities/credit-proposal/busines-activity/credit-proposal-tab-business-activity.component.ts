@@ -33,8 +33,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   @ViewChild('document_editor_containers')
   public containers: DocumentEditorContainerComponent;
-  @ViewChild('document_editors')
-  public documentEditors: DocumentEditorComponent;
 
   @Input()
   get creditProposalItem() {
@@ -150,28 +148,25 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   ngOnInit() {
+	this.selectedMenu = 'BUSINESS ACTIVITY';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
 	  this.getKeyPa = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
       this.getBucket().then(res => {
         this.getContainer();
-		this.getContainers();
       });
     });
 
-    this.selectedMenu = 'BUSINESS ACTIVITY';
     this.tes();
   }
 
   public onDocumentChange() {
     this.container.restrictEditing = true;
-    this.getOpiniObj();
   }
 
   public onDocumentChangePa() {
     this.containers.restrictEditing = true;
-	this.getOpiniObjPa();
   }
 
   public getOpiniObj() {
@@ -402,6 +397,9 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+	if (this.selectedMenu === 'PROJECT ANALYSIS') {
+	  this.getContainers();
+	}
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'BUSINESS ACTIVITY' }, { text: 'PROJECT ANALYSIS' }];

@@ -35,7 +35,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public grandTotalGroup = 0;
 
   public myBusinessGroup: IDebtorData[];
-  // public myBusinessGroupCPFacility: ICPFacility[];
   public myBusinessGroupCPFacility: ICPFacilityTable[];
   public data: string[] = ['25% (Basic)', '30%(BUMN)', '10%(RelatedN Party)'];
   public menuItems: MenuItemModel[] = [];
@@ -92,17 +91,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public numericFormatOptions: Object = { format: 'N' };
   public currencyMaster: any;
 
-  // public data1: Object[] = [];
-
-  // public valueAccess = (field: string, data1: Object, column: Object) => data1[field] = this.format("$ ###.00", data1[field]);
-
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.defaultCurrency();
     this.setMenu('');
     this.getCurrency();
-
-    // this.getInteres();
   }
 
   private getMyBusinessGroup(): void {
@@ -133,14 +126,12 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
               parsed.InterestRate =
                 source[y].FILN10_ROLL_GAP +
-                // source[y].FILN10_ROLL_GAP_GB +
                 source[y].FILN11_FIX_FLT_GB +
-                // source[y].FIX_FLT_GB +
                 source[y].FILN11_SPREAD_RT;
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
-              parsed.Tenor = source[y].FILN10_TOT_EXP_IL;
+			  parsed.Tenor = source[y].FXFIG_TRX_DT - source[y].FILN10_TOT_EXP_IL;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
 
@@ -156,41 +147,13 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
                 return n === undefined;
               });
             }
+			console.log('this.myBusinessGroupCPFacility @parse group : ', this.myBusinessGroupCPFacility);
           }
-          // this.myBusinessGroupCPFacility.push(JSON.parse(item.attributes['cpFacility']));
-          // this.myBusinessGroupCPFacility.push(parsed);
         }
       }
     }
-    // console.log('cp facilit', this.item.attributes['cpFacility']);
-    // console.log('myBusinessGroupCPFacility', this.myBusinessGroupCPFacility);
-    // console.log('cash loan', this.totalDebiturCashLoanGroup);
-    // console.log('non cash loan', this.totalDebiturNonCashLoanGroup);
     this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
   }
-
-  // private findCif(): void {
-  //   this.partyCifService.findCif(this.creditProposal.customerNumber).subscribe(res => {
-  //     this.filterGroupDebtor(res.body[0]);
-  //   });
-  // }
-  // private filterGroupDebtor(param: IDebtorData[]): void {
-  //   if (param.length > 0) {
-  //     let no = 0;
-  //     for (let i = 0; i < param.length; i++) {
-  //       const item: IDebtorData = param[i];
-  //       if (lodash.has(item.attributes, 'cpFacility')) {
-  //         const inter = JSON.parse(item.attributes['cpFacility']);
-  //         if (inter) {
-  //           for (let y = 0; y < inter.length; y++) {
-  //             const parset = new CPFacilityTable();
-  //             no = no + 1;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
   format(format: any, value: any): string {
     const intl: Internationalization = new Internationalization();
@@ -278,14 +241,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this._creditProposal = item;
   }
 
-  @Input()
-  // get projectAnalysis() {
-  //   return this._exposure;
-  // }
-  // set projectAnalysis(item: any) {
-  //   this.selectedMenu = 'TOTAL EXPOSURE';
-  // }
-
   // @Input()
   get item() {
     return this._item;
@@ -298,17 +253,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   ngOnChanges(changes: SimpleChanges) {
     this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
     if (this.parsedAttr.previousHistory) {
-      console.log('true');
       this.dataSource = this.parsedAttr.previousHistory.products;
     } else {
-      console.log('false');
       this.dataSource = this.creditProposal.products;
     }
 
-    console.log('dataSource', {
-      dataSource: this.dataSource,
-      parsed: this.parsedAttr,
-    });
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();
@@ -331,7 +280,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   grandTotalDebitur() {
-    console.log(this.totalDebiturCashLoan, this.totalDebiturNonCashLoan);
     this.grandTotalDebitor = this.totalDebiturCashLoan + this.totalDebiturNonCashLoan;
   }
 
@@ -367,10 +315,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   fungsiSuminit() {
-    // alert('ok');
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -384,7 +330,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.initialLimit !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.initialLimit);
           }
         }
@@ -392,8 +337,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.initialLimit !== undefined) {
-            // console.log("dolar", filterUsd[i].attributes.initialLimit);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -405,7 +348,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   fungsiSumchange() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -419,7 +361,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.changes !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.changes);
           }
         }
@@ -427,8 +368,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.changes !== undefined) {
-            // console.log("dolar", filterUsd[i].attributes.initialLimit);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -440,7 +379,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public fungsiSumOS() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -454,7 +392,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.outstanding !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.outstanding);
           }
         }
@@ -462,8 +399,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.outstanding !== undefined) {
-            // console.log("dolar", filterUsd[i].attributes.outstanding);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -489,7 +424,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   fungsiSumcredit() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -503,7 +437,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.totalPlafond !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.totalPlafond);
           }
         }
@@ -511,8 +444,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            // console.log('dolar', filterUsd[i].attributes.totalPlafond);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -533,7 +464,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterIdr.length > 0) {
       for (let i = 0; i < filterIdr.length; i++) {
         if (filterIdr[i].Changes !== undefined) {
-          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
           result = result + Number(filterIdr[i].Changes);
         }
       }
@@ -541,8 +471,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].Changes !== undefined) {
-          // console.log("dolar", filterUsd[i].attributes.initialLimit);
-          // console.log("kurs ", filterUsd[i].attributes.kurs);
           dolar = dolar + Number(filterUsd[i].Changes) * Number(this.currencyMaster);
         }
       }
@@ -554,7 +482,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   fungsiSumcreditGroub() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -563,8 +490,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterIdr.length > 0) {
       for (let i = 0; i < filterIdr.length; i++) {
         if (filterIdr[i].TotalPlafond !== undefined) {
-          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
-
           result = result + Number(filterIdr[i].TotalPlafond);
         }
       }
@@ -572,8 +497,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].TotalPlafond !== undefined) {
-          // console.log('dolar', filterUsd[i].attributes.totalPlafond);
-          // console.log("kurs ", filterUsd[i].attributes.kurs);
           dolar = dolar + Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster);
         }
       }
@@ -583,10 +506,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   fungsiSuminitGroub() {
-    // alert('ok');
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -595,7 +516,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterIdr.length > 0) {
       for (let i = 0; i < filterIdr.length; i++) {
         if (filterIdr[i].InitialLimit !== undefined) {
-          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
           result = result + Number(filterIdr[i].InitialLimit);
         }
       }
@@ -603,8 +523,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterIdr[i].InitialLimit !== undefined) {
-          // console.log("dolar", filterUsd[i].attributes.initialLimit);
-          // console.log("kurs ", filterUsd[i].attributes.kurs);
           dolar = dolar + Number(filterIdr[i].InitialLimit) * Number(this.currencyMaster);
         }
       }
@@ -616,7 +534,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public fungsiSumOSGroub() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -625,7 +542,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterIdr.length > 0) {
       for (let i = 0; i < filterIdr.length; i++) {
         if (filterIdr[i].OS !== undefined) {
-          // console.log("rupiah", filterIdr[i].attributes.initialLimit);
           result = result + Number(filterIdr[i].OS);
         }
       }
@@ -633,8 +549,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].OS !== undefined) {
-          // console.log("dolar", filterUsd[i].attributes.outstanding);
-          // console.log("kurs ", filterUsd[i].attributes.kurs);
           dolar = dolar + Number(filterUsd[i].OS) * Number(this.currencyMaster);
         }
       }
@@ -691,24 +605,4 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
     return '';
   }
-  // public getInteres() {
-  //   this.partyCifService
-  //     .queryFilterBy({
-  //       idParty: this.creditProposal.cif.partyId,
-  //     })
-  //     .subscribe((res: any) => {
-  //       this.loadInteres(this.partyCifService.findPartyId(res.body[0]));
-  //     });
-  // }
-  // public inter: any;
-  // public loadInteres(_data: string = null): void {
-  //   this.partyCifService
-  //     .queryFilterBy({
-  //       data: _data,
-  //     })
-  //     .subscribe((res: any) => {
-  //       this.inter = res.body[0];
-  //       console.log('inters ', res);
-  //     });
-  // }
 }
