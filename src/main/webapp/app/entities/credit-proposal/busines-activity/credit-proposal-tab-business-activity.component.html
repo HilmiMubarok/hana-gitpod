@@ -100,7 +100,6 @@
         <div class="row my-3">
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col-6">
-              <!-- <div class="form-space"> -->
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
                 placeholder="Venue"
@@ -150,18 +149,6 @@
         >
         </ejs-documenteditorcontainer>
       </section>
-      <!--<section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <ejs-richtexteditor [(ngModel)]="creditProposalItem.attributes['businessActivity'].notes" [toolbarSettings]="tools">
-        </ejs-richtexteditor>
-      </section>
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <p class="lable-form-title">{{ creditProposalItem.attributes['businessActivity'].notes }}</p>
-        <div class="fontsebled row py-3">
-          <div class="col-4">
-            {{ creditProposalItem.attributes['businessActivity'].notese }}
-          </div>
-        </div>
-      </section>-->
     </div>
   </div>
 
@@ -180,16 +167,27 @@
               [spellcheck]="false"
               [enableSpellCheck]="false"
               (keyDown)="onKeyDown($event)"
-              (created)="containers()"
+              (created)="onCreate()"
             >
             </ejs-documenteditorcontainer>
           </section>
           <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">{{ creditProposalItem.attributes['businessActivity'].notesPa }}</p>
+            <ejs-documenteditorcontainer
+              #document_editor_containers
+              [enableToolbar]="false"
+              [enableLocalPaste]="false"
+			  (documentChange)="onDocumentChangePa()"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
+            >
+            </ejs-documenteditorcontainer>
           </section>
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [multiline]="true"
@@ -251,5 +249,3 @@
     </div>
   </div>
 </div>
-
-<script></script>
