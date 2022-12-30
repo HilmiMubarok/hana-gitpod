@@ -619,7 +619,7 @@ export const SUBMENU_PARTY_CIF: object[] = [
       },
       {
         id: 'retrive-info',
-        text: 'retrive',
+        text: 'retrieve',
       },
     ],
   },
@@ -1093,7 +1093,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'covenant',
+    id: 'dar-convenant',
     text: 'Convenant & Document Checklist',
   },
   {

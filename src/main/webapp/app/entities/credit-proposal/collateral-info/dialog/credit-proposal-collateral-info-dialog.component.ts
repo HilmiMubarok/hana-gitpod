@@ -13,12 +13,40 @@ import { ICollateralType } from 'app/entities/collateral-type/collateral-type.mo
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { OptionNode } from 'app/shared/model/option-node.model';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { FormControl } from '@angular/forms';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
   styleUrls: ['./collateral-info-dialog.css'],
-  providers: [ToolbarService, HtmlEditorService],
+  providers: [
+    ToolbarService,
+    HtmlEditorService,
+
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public collateralTypes: ICollateralType[];
@@ -54,6 +82,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   ];
   public lovCollateralStatus: string[] = ['New', 'Existing', 'To be Released'];
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
 
   constructor(
     private creditProposalService: CreditProposalService,

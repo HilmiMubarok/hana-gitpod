@@ -189,23 +189,48 @@
 
 <div [hidden]="view">
   <div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Co-Borrower Info</div>
-        <div class="e-card-content">
-          <ejs-grid [dataSource]="data" [allowPaging]="true">
-            <e-columns>
-              <e-column field="no" headerText="No" width="30"></e-column>
-              <e-column field="customerNumber" headerText="Cif" width="120"></e-column>
-              <e-column field="name" headerText="Company Name" format="C2" width="90"></e-column>
-              <e-column field="taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column>
-              <e-column field="address" headerText="Address" width="120"></e-column>
-            </e-columns>
-          </ejs-grid>
-        </div>
-        <button style="width: 70px" (click)="onOpenDialog($event)" class="btn-info">Add</button>
-      </div>
-    </div>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-subtitle>Co-Borrower Info</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="data" class="w-100">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          </ng-container>
+          <ng-container matColumnDef="customerNumber">
+            <th mat-header-cell *matHeaderCellDef>CIF</th>
+            <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Company Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="taxIdNumber">
+            <th mat-header-cell *matHeaderCellDef>NPWP</th>
+            <td mat-cell *matCellDef="let element">{{ element.taxIdNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef>Address</th>
+            <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="onDelete(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
 

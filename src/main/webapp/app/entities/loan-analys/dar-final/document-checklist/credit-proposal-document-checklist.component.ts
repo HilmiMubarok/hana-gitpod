@@ -5,6 +5,7 @@ import { DocumentChecklist, IDocumentChecklist } from './document-checklist.mode
 import { DocumentChecklistDialogTempComponent } from './document-checklist-dialog.component';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-document-checklist-temp',
   templateUrl: './credit-proposal-document-checklist.component.html',
@@ -15,6 +16,8 @@ export class DocumentChecklistTempComponent implements OnChanges {
   public files: Object[];
   private bucket: string;
 
+  public isDarChecker: Boolean = this.router.url.split('/')[1] === 'dar-checker' ? true : false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -24,7 +27,12 @@ export class DocumentChecklistTempComponent implements OnChanges {
     this._creditProposal = data;
   }
 
-  constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {
+  constructor(
+    public dialog: MatDialog,
+    private storageService: StorageService,
+    private messageService: MessageService,
+    private router: Router
+  ) {
     this.files = [];
   }
 

@@ -17,18 +17,45 @@ import { ISurveyBatch } from '../survey-batch.model';
 import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { CollateralAppraisalService } from 'app/entities/collateral-appraisal/collateral-appraisal.service';
 import { IReportIndependent } from './report-independent.model';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { FormControl } from '@angular/forms';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 @Component({
   selector: 'jhi-report-independent',
   templateUrl: './report-independent.component.html',
   styleUrls: ['./report-independent.css'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class ReportIndependentComponent extends AbstractEntityMaterialComponent<ISurveyBatch> implements OnInit {
   public mData: IReportIndependent;
   formGroupPartner: FormGroup;
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
-
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
   public items: any;
   public displayedColumns: string[] = ['no', 'fileName', 'SizeFile', 'typeFile', 'modifiedDate', 'modifiedBy', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns];

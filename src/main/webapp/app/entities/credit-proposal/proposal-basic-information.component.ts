@@ -37,6 +37,7 @@ import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-
 import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
+import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -48,6 +49,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     static: false,
   })
   creditProposalTabBusinessActivityComponent: CreditProposalTabBusinessActivityComponent;
+
+  @ViewChild('creditProposalCollateralInfoComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
 
   @ViewChild('creditProposalOpinionHistoryComponent', {
     static: false,
@@ -588,8 +594,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
-            this.creditProposalTabBusinessActivityComponent.triggeredSave();
-            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
+			this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+            /* this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa(); */
           }
 
           if (this.creditProposalOpinionHistoryComponent) {
@@ -604,8 +611,9 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-          if (this.remaksComponent) {
-            this.remaksComponent.triggeredSave();
+
+          if (this.creditProposalCollateralInfoComponent) {
+            this.creditProposalCollateralInfoComponent.triggeredSave();
           }
 
           if (source === 'process') {
@@ -627,8 +635,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
-            this.creditProposalTabBusinessActivityComponent.triggeredSave();
-            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
+			this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+            /* this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa(); */
           }
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSave();
@@ -641,8 +650,11 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-          if (this.remaksComponent) {
-            this.remaksComponent.triggeredSave();
+          // if (this.remaksComponent) {
+          //   this.remaksComponent.triggeredSave();
+          // }
+          if (this.creditProposalCollateralInfoComponent) {
+            this.creditProposalCollateralInfoComponent.triggeredSave();
           }
 
           if (source === 'process') {

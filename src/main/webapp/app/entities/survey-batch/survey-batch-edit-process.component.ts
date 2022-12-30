@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
@@ -19,7 +19,7 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { CollateralAppraisalProcessService } from '../collateral-appraisal/collateral-appraisal-process.service';
-import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
+import { CollateralAppraisal, ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
@@ -29,7 +29,7 @@ import { CreditProposalService } from '../credit-proposal/credit-proposal.servic
 import { PartyPostalAddressService } from '../party-postal-address/party-postal-address.service';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 import { StorageService } from '../storage/storage.service';
-import { ISurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
+import { ISurveyAppraisals, SurveyAppraisals } from '../survey-appraisals/survey-appraisals.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
 import lodash from 'lodash';
 import { AccountService } from 'app/core/auth/account.service';
@@ -42,13 +42,37 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
+import { CollateralAppraisalComparisonComponent } from '../collateral-appraisal/comparison/collateral-appraisal-comparison.component';
+import { CollateralAppraisalForwardToComponent } from '../collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
+import { CollateralAppraisalDetailProcessLandCertificatesComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
+import { DocumentComponent } from '../document/document.component';
+import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-land.component';
+import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
+import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
+import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 
 @Component({
-  selector: 'jhi-survey-batch-edit-process',
-  templateUrl: './survey-batch-edit-process.component.html',
+  providers: [
+    CollateralAppraisalProcessComponent,
+    CollateralAppraisalComparisonComponent,
+    CollateralAppraisalForwardToComponent,
+    CollateralAppraisalDetailProcessLandCertificatesComponent,
+    DocumentComponent,
+    CollateralAppraisalDetailProcessLandComponent,
+    CollateralAppraisalDetailProcessUnitConditionComponent,
+    CollateralAppraisalDetailProcessMesinComponent,
+  ],
+  selector: 'jhi-survey-batch-edit-internal',
+  templateUrl: './survey-batch-edit-internal.component.html',
   styleUrls: ['./survey-batch-edit.css'],
 })
 export class SurveyBatchEditProcessComponent implements OnInit {
+  @ViewChild('collateralAppraisalSummaryComponent', {
+    static: false,
+  })
+  collateralAppraisalSummaryComponent: CollateralAppraisalSummaryComponent;
   public wilayahKotaExternalValue?: string;
   public teamReviewerValue: string;
   public kjppIndependentAppraisalValue?: string;
@@ -64,6 +88,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public collateral: ICollateral = new Collateral();
   public partyType: string;
   public collateralType: string;
+  public totalDataDetailLand = [];
   public tipeOfficerAppraisal?: string;
   public menuItemsMin: MenuItemModel[] = [
     {
@@ -83,7 +108,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   set collateralAppraisal(item: ICollateralAppraisal) {
-    this._collateralAppraisal = item;
+    if (item !== undefined) {
+      this.collateralAppraisalFunc(item);
+      this._collateralAppraisal = item;
+    }
   }
 
   private _surveyAppraisal: ISurveyAppraisals;
@@ -92,7 +120,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   set surveyAppraisal(item: ISurveyAppraisals) {
-    this._surveyAppraisal = item;
+    if (item !== undefined) {
+      this.surveyAppraisalFunc(item);
+      this._surveyAppraisal = item;
+    }
   }
 
   public collateralProp: ICollateralProperty;
@@ -109,6 +140,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public fotoObjectJaminan: any;
   public keteranganObjectJaminan: any;
   public ketObjekJaminan: Boolean;
+  public totalDataDocumentCollateral = [];
+  public totalDataDocumentLainya = [];
 
   public jpRenewal: boolean;
   public jpNew: boolean;
@@ -171,8 +204,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     protected router: Router,
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
+    public collateralAppraisalForwardToComponent: CollateralAppraisalForwardToComponent,
+    public documentComponent: DocumentComponent,
+    public collateralAppraisalDetailProcessLandCertificatesComponent: CollateralAppraisalDetailProcessLandCertificatesComponent,
+    public documentCollateralComponent: CollateralAppraisalComparisonComponent,
+    public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
+    public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
   ) {
+    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -201,7 +243,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         summary: 'Warning',
         detail: 'Dont forget to save data on this page',
       });
-      this.router.navigate(['/batch-apprisal', this.id, 'edit-process'], {
+      this.router.navigate(['/batch-apprisal', this.id, 'edit-internal'], {
         queryParams: {
           subroute: menu['id'],
         },
@@ -224,6 +266,109 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         })
       )
     ).body;
+  }
+
+  public collateralAppraisalFunc(item: ICollateralAppraisal) {
+    this.loadData(item.collateral);
+    // this.documentCollateral(item.id)
+    this.documentLainnya(item.id);
+
+    this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+
+    if (item.collateral.propertyUsage !== '') {
+      this.checkedData = true;
+    }
+  }
+
+  public surveyAppraisalFunc(item: ISurveyAppraisals) {
+    if (item !== undefined) {
+      // Get Foto Object Jaminan
+      this.collateralData(item.collateral.id);
+      this.storageService.getBucketName().subscribe(res => {
+        this.storageService
+          .getObjects(res.body['bucket'], {
+            key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+          })
+          .subscribe((result: any) => {
+            this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
+          });
+      });
+
+      this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
+      this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+      this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
+      this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
+    }
+  }
+
+  public loadData(collateral: ICollateral): void {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: collateral.id,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralAppraisalService.totalDataValuationLand = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.LAND;
+        });
+        this.collateralAppraisalService.totalDataValuationBuilding = lodash.filter(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.BUILDING;
+        });
+      });
+  }
+
+  public documentCollateral(id: number) {
+    console.log('document-collateral', id);
+    this.storageService.getBucketName().subscribe((r: any) => {
+      const predicate: Object = {
+        key: `/appraisals/${id}/document-colateral`,
+      };
+
+      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        console.log('appss', res.body);
+        this.totalDataDocumentCollateral = res.body;
+      });
+    });
+  }
+
+  public propertyData(_collateralId: number, data: string) {
+    console.log('ompu', _collateralId);
+    this.collateralPropertyService
+      .queryFilterBy({
+        page: 0,
+        size: 10,
+        sort: ['asc'],
+        idCollateral: _collateralId,
+        idPropertyType: data,
+      })
+      .subscribe((res: any) => {
+        console.log('resss', res.body);
+        this.totalDataDetailLand = res.body;
+        this.collateralAppraisalService.totalDataDetailLand = res.body;
+      });
+  }
+
+  public collateralData(id: number) {
+    this.storageService.getBucketName().subscribe((r: any) => {
+      const predicate: Object = {
+        key: `/collateral/${id}/document`,
+      };
+      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.totalDataDocumentCollateral = res.body;
+      });
+    });
+  }
+
+  public documentLainnya(id: number) {
+    console.log('document-lainnya', id);
+    this.storageService.getBucketName().subscribe((r: any) => {
+      const predicate: Object = {
+        key: `/appraisals/${id}/document-lainnya`,
+      };
+      this.storageService.getObjects(r.body.bucket, predicate).subscribe((res: any) => {
+        this.totalDataDocumentLainya = res.body;
+      });
+    });
   }
 
   public checkCompletedData(node: IOptionNode): boolean {
@@ -303,14 +448,19 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         }
       } else if (node.id === 'collateral-info') {
         if (
-          this.collateralAppraisalService.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
-          this.collateralAppraisalService.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA
+          (this.collateralAppraisalService.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
+            this.collateralAppraisalService.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA) ||
+          (this.totalDataDocumentCollateral.length >= MINIMUM_DOCUMENT_COLLATERAL &&
+            this.totalDataDocumentLainya.length >= MINIMUM_DOCUMENT_LAINYA)
         ) {
           if (
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
             this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
           ) {
-            if (this.collateralAppraisalService.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL) {
+            if (
+              this.collateralAppraisalService.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL ||
+              this.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL
+            ) {
               const collateral = this.surveyAppraisal.collateral;
 
               if (
@@ -446,6 +596,11 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.getTasks();
     this.timeLine();
   }
+
+  // addNewCriteria saya commnet karena IScoreCard[] di hapus oleh anjar, saya gak tau perubahan konsep dari anjar, jadi silahkan tanya anjar - ismoyo
+  // public addNewCriteria(data: IScoreCard[]): void {
+  //   this.collateralAppraisal.attributes['scoreCard'] = data;
+  // }
 
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
@@ -677,9 +832,37 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     });
   }
 
-  private async loadCollateralAppraisal(id: number): Promise<void> {
-    this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
+  private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
+    if (data.attributes === undefined || data.attributes === null) {
+      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['summary'] = {
+        keterangan: '',
+        marketbility: '',
+        returnNotes: '',
+      };
+    } else {
+      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
+        data.attributes['scoreCard'] = scoreCard;
+      } else {
+        data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
+      }
+      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
+        data.attributes['summary'] = {
+          keterangan: '',
+          marketbility: '',
+          returnNotes: '',
+        };
+      } else {
+        data.attributes['summary'] = JSON.parse(data.attributes['summary']);
+      }
+    }
+    return data;
   }
+
+  private async loadCollateralAppraisal(id: number): Promise<void> {
+    this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
+  }
+
   public onAssignTo(ev) {
     this.surveyAppraisal = ev;
   }
@@ -718,13 +901,19 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Pilih Jenis Permohonan Dahulu');
       mustValidateOnDraft.jenisPermohonan = false;
     }
+
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-      this._showNotification('error', 'Masukkan Document Collateral Dahulu');
-      mustValidateOnDraft.documentCollateral = false;
+      if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+        this._showNotification('error', 'Masukkan Document Collateral Dahulu');
+        mustValidateOnDraft.documentLainnya = false;
+      }
     }
+
     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-      this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
-      mustValidateOnDraft.documentLainnya = false;
+      if (this.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+        this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
+        mustValidateOnDraft.documentLainnya = false;
+      }
     }
     if (this.collateral.picName === undefined || this.collateral.picName === '' || !this.collateral.picName) {
       this._showNotification('error', 'Masukkan PIC Debtor Dahulu');
@@ -926,12 +1115,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     marketValue.building.push(getMarketValueBuilding);
 
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-      this._showNotification('error', 'Masukkan Document Collateral Dahulu');
-      mustValidatedOnVisited.documentCollateral = false;
+      if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+        this._showNotification('error', 'Masukkan Document Collateral Dahulu');
+        mustValidatedOnVisited.documentCollateral = false;
+      }
     }
+
     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-      this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
-      mustValidatedOnVisited.documentLainnya = false;
+      if (this.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+        this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
+        mustValidatedOnVisited.documentLainnya = false;
+      }
     }
     if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
       this._showNotification('error', 'Masukkan Certificate Dahulu');
@@ -1040,9 +1234,23 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     });
   }
 
+  // private preSave(): ISurveyAppraisals {
+  //   const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+  //   copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+  //   copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+  //   if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
+  //     copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
+  //       copySurveyAppraisal.collateral.attributes['landCertificates']
+  //     );
+  //   } else {
+  //     copySurveyAppraisal.collateral.attributes['landCertificates'];
+  //   }
+  //   return copySurveyAppraisal;
+  // }
+
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.surveyAppraisal.attributes['scoreCard']);
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
@@ -1061,7 +1269,13 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -1073,7 +1287,13 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
         } else if (source === 'default') {
+          if (this.collateralAppraisalSummaryComponent) {
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+          }
           this.messageService.add({
             severity: 'success',
             summary: 'Success',

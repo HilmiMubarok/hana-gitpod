@@ -100,4 +100,11 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
       }
     });
   }
+
+  public isFromH(element: IOrganizationLegal) {
+    if (element.dataSource === 'h' || element.dataSource === 'H') {
+      return true;
+    }
+    return false;
+  }
 }

@@ -43,7 +43,18 @@
           <ng-container matColumnDef="interet">
             <th mat-header-cell *matHeaderCellDef class="text-center">Interest Rate</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.attributes.interestRateType + ' ' + (element.attributes.currentInterestRate | number) }}
+              <div *ngIf="element.attributes.hobbies">
+                {{ element.attributes.currentInterestRate }}
+              </div>
+              <div *ngIf="!element.attributes.hobbies">
+                {{
+                  element.attributes.interestRateType +
+                    ' ' +
+                    element.attributes.interestRatePeriod +
+                    ' ' +
+                    element.attributes.interestRatePeriodType
+                }}
+              </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="provision">
@@ -73,92 +84,6 @@
           <tr mat-row *matRowDef="let row; columns: displayColumn"></tr>
         </table>
       </div>
-      <!-- <ejs-grid allowTextWrap="true" #grid [dataSource]="dataSource" [allowPaging]="true" [pageSettings]="" gridLines="both">
-        <e-columns>
-
-          <e-column
-            field="attributes.facilityType"
-            headerText="Facility Type"
-            headerTextAlign="center"
-            width="140"
-            textAlign="left"
-          ></e-column>
-         <e-column
-                  field="attributes.availableLimit"
-                  headerText="Available Limit "
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-
-          <e-column
-            field="attributes.initialLimit"
-            headerText="Initial Limit"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.changes"
-            headerText="Changes"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.outstanding"
-            headerText="O/S"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.totalPlafond"
-            headerText="Total Plafond"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-           <e-column
-                  field="attributes.rate"
-                  headerText="Interest Rate (%)"
-                  headerTextAlign="center"
-                  width="140"
-                  textAlign="right"
-                  [format]="numericFormatOptions"
-                ></e-column>
-          <e-column
-            field="attributes.provitionFee"
-            headerText="Provision Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="attributes.adminFee"
-            headerText="Admin Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="frist"
-            headerText="First Disbursement Date"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column field="attributes.maturity" headerText="Tenor" headerTextAlign="center" width="140" textAlign="right"></e-column>
-        </e-columns>
-      </ejs-grid> -->
       <div class="e-card-actions"></div>
       <div class="row">
         <div class="col-6">
@@ -169,7 +94,7 @@
                 placeholder="Sub Total Initial LImit (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="init"
+                [value]="fungsiSuminit()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -181,7 +106,7 @@
             <div class="fontsebled row">
               <div class="col-5">Sub Total Initial LImit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSuminit() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -192,7 +117,7 @@
                 placeholder="Sub Total Changes (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="change"
+                [value]="fungsiSumchange()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -204,7 +129,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Changes (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ change | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumchange() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -217,7 +142,7 @@
                 placeholder="SubTotal O/S (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="os"
+                [value]="fungsiSumOS()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -229,7 +154,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ os | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumOS() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -240,7 +165,7 @@
                 placeholder="Sub Total Plafond  (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalcredit"
+                [value]="fungsiSumcredit()"
                 format="IDR 0,"
                 min="0"
                 readonly="true"
@@ -252,26 +177,10 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalcredit | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumcredit() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
-      </div>
-      <div class="row">
-        <!-- <button (click)="print()">Print</button> -->
-        <!-- <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Available Limit"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]="available"
-                    format="IDR 0,"
-                    min="0"
-                    readonly="true"
-                  ></ejs-numerictextbox>
-                </div>
-              </div> -->
       </div>
     </div>
   </div>
@@ -286,74 +195,6 @@
       </div>
     </div>
     <div class="e-card-content">
-      <!-- <ejs-grid allowTextWrap="true" #grid [dataSource]="myBusinessGroupCPFacility" [allowPaging]="true" [pageSettings]="" gridLines="both">
-        <e-columns>
-          <e-column field="no" headerText="No" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column field="GroupName" headerText="Group Name" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column field="LoanAccount" headerText="Loan Account" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column field="FacilityType" headerText="Facility Type" headerTextAlign="center" width="140" textAlign="left"></e-column>
-
-          <e-column
-            field="InitialLimit"
-            headerText="Initial Limit"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="Changes"
-            headerText="Changes"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="OS"
-            headerText="O/S"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="TotalPlafond"
-            headerText="Total Plafond"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="Provision"
-            headerText="Provision Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="AdminFee"
-            headerText="Admin Fee"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-            [format]="numericFormatOptions"
-          ></e-column>
-          <e-column
-            field="FirstDisbursementDate"
-            headerText="First Disbursement Date"
-            headerTextAlign="center"
-            width="140"
-            textAlign="right"
-          ></e-column>
-          <e-column field="Tenor" headerText="Tenor" headerTextAlign="center" width="140" textAlign="right"></e-column>
-        </e-columns>
-      </ejs-grid> -->
       <div class="table-responsive">
         <table mat-table [dataSource]="myBusinessGroupCPFacility" class="w-100">
           <ng-container matColumnDef="no">
@@ -386,19 +227,16 @@
           </ng-container>
           <ng-container matColumnDef="interet">
             <th mat-header-cell *matHeaderCellDef class="text-center">Interest Rate</th>
-            <!-- <td mat-cell *matCellDef="let element">{{ element.InterestRate | currency: 'IDR ' }}</td> -->
             <td mat-cell *matCellDef="let element">
               {{ element.InterestRate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="provision">
             <th mat-header-cell *matHeaderCellDef class="text-center">Provision</th>
-            <!-- <td mat-cell *matCellDef="let element">{{ element.Provision | number }}</td> -->
             <td mat-cell *matCellDef="let element">{{ element.Provision }}</td>
           </ng-container>
           <ng-container matColumnDef="adminFee">
             <th mat-header-cell *matHeaderCellDef class="text-center">Admin Fee</th>
-            <!-- <td mat-cell *matCellDef="let element">{{ element.AdminFee | number }}</td> -->
             <td mat-cell *matCellDef="let element">{{ element.AdminFee }}</td>
           </ng-container>
           <ng-container matColumnDef="firstDisbursmentDate">
@@ -416,9 +254,6 @@
           <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
         </table>
       </div>
-
-      <div class="e-card-actions"></div>
-
       <div class="row">
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -427,7 +262,7 @@
                 placeholder="Sub Total Initial LImit (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]=""
+                [value]="fungsiSuminitGroub()"
                 format="IDR 0,"
                 min="0"
                 disabled
@@ -438,7 +273,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Initial LImit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' }}</div>
+              <div class="col col-lg-2">{{ fungsiSuminitGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -449,7 +284,7 @@
                 placeholder="Sub Total Changes (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]=""
+                [value]="fungsiSumchangeGroub()"
                 format="IDR 0,"
                 min="0 "
                 disabled
@@ -461,7 +296,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Changes (IDR))</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumchangeGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -474,7 +309,7 @@
                 placeholder="SubTotal O/S (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]=""
+                [value]="fungsiSumOSGroub()"
                 format="IDR 0,"
                 min="0"
                 disabled
@@ -486,7 +321,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ '' | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -497,7 +332,7 @@
                 placeholder="Sub Total Plafond (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalplafondgroup"
+                [value]="fungsiSumcreditGroub()"
                 format="IDR 0,"
                 min="0 "
                 disabled
@@ -508,24 +343,10 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalplafondgroup | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumcreditGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
-      </div>
-      <div class="row">
-        <!-- <div class="col-6">
-                <div class="form-group">
-                  <ejs-numerictextbox
-                    placeholder="Sub Total Avilable Limit"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [value]=""
-                    format="IDR 0,"
-                    min="0"
-                  ></ejs-numerictextbox>
-                </div>
-              </div> -->
       </div>
     </div>
   </div>
@@ -574,7 +395,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="init"
+                [value]="fungsiSuminit() + fungsiSuminitGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -583,7 +404,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Exposure Initial Limit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSuminit() + fungsiSuminitGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -621,7 +442,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="change"
+                [value]="fungsiSumchange() + fungsiSumchangeGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -630,7 +451,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Exposure Changes (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ change | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumchange() + fungsiSumchangeGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -655,7 +476,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Group Cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturCashLoanGroup | number }}</div>
+              <div class="col col-lg-2">{{ totalDebiturCashLoanGroup | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -668,7 +489,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="os"
+                [value]="fungsiSumOS() + fungsiSumOSGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -677,7 +498,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total exposure O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ os | number }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumOS() + fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -715,7 +536,7 @@
                 min="0"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalcredit"
+                [value]="fungsiSumcredit() + fungsiSumcreditGroub()"
                 disabled
               ></ejs-numerictextbox>
             </div>
@@ -724,7 +545,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Plafond (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalcredit | number }}</div>
+              <div class="col col-lg-2">{{ fungsiSumcredit() + fungsiSumcreditGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -771,7 +592,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Group</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ grandTotalGroup }}</div>
+              <div class="col col-lg-2">{{ grandTotalGroup | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>

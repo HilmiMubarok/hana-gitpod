@@ -11,8 +11,9 @@ export interface ICPFacilityTable {
   Provision?: string;
   AdminFee?: string;
   FirstDisbursementDate?: string;
-  Tenor?: string;
+  Tenor?: number;
   LoanType?: string;
+  CCY?: string;
 }
 
 export class CPFacilityTable implements ICPFacilityTable {
@@ -29,7 +30,7 @@ export class CPFacilityTable implements ICPFacilityTable {
     public Provision?: string,
     public AdminFee?: string,
     public FirstDisbursementDate?: string,
-    public Tenor?: string,
+    public Tenor?: number,
     public CCY?: string,
     public LoanType?: string
   ) {}
