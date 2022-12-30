@@ -114,7 +114,9 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
     this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
     this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
   }
-
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+  }
   private getContainer(): void {
     const obj = {
       key: this.getKey,

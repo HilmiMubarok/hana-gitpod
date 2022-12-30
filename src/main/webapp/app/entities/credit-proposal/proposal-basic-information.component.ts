@@ -594,7 +594,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
-			this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+            this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
             /* this.creditProposalTabBusinessActivityComponent.triggeredSave();
             this.creditProposalTabBusinessActivityComponent.triggeredSavePa(); */
           }
@@ -614,6 +614,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 
           if (this.creditProposalCollateralInfoComponent) {
             this.creditProposalCollateralInfoComponent.triggeredSave();
+          }
+          if (this.remaksComponent) {
+            this.remaksComponent.triggeredSave();
           }
 
           if (source === 'process') {
@@ -635,7 +638,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
-			this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+            this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
             /* this.creditProposalTabBusinessActivityComponent.triggeredSave();
             this.creditProposalTabBusinessActivityComponent.triggeredSavePa(); */
           }
@@ -650,9 +653,9 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-          // if (this.remaksComponent) {
-          //   this.remaksComponent.triggeredSave();
-          // }
+          if (this.remaksComponent) {
+            this.remaksComponent.triggeredSave();
+          }
           if (this.creditProposalCollateralInfoComponent) {
             this.creditProposalCollateralInfoComponent.triggeredSave();
           }

@@ -180,11 +180,11 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     // });
 
     this.dataCoBorrower = this.creditProposalItem.attributes['basicInformation'].coborowed;
-    this.actRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
-      this.getContainer();
-    });
+    // this.actRoute.params.subscribe(params => {
+    //   this.paramsIdGet = params['id'];
+    //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
+    //   this.getContainer();
+    // });
 
     if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
       for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
@@ -293,10 +293,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
-    this.getContainer();
   }
-
   // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
