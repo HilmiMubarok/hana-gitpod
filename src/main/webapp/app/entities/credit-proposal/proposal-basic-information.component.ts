@@ -594,8 +594,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
-            this.creditProposalTabBusinessActivityComponent.triggeredSave();
-            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
+			this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+            /* this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa(); */
           }
 
           if (this.creditProposalOpinionHistoryComponent) {
@@ -610,9 +611,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-          // if (this.remaksComponent) {
-          //   this.remaksComponent.triggeredSave();
-          // }
+
           if (this.creditProposalCollateralInfoComponent) {
             this.creditProposalCollateralInfoComponent.triggeredSave();
           }
@@ -636,8 +635,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
-            this.creditProposalTabBusinessActivityComponent.triggeredSave();
-            this.creditProposalTabBusinessActivityComponent.triggeredSavePa();
+			this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
+            /* this.creditProposalTabBusinessActivityComponent.triggeredSave();
+            this.creditProposalTabBusinessActivityComponent.triggeredSavePa(); */
           }
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSave();

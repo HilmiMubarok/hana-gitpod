@@ -259,6 +259,72 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     }
   }
 
+  public triggeredSaveAll(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/business-activity';
+	const keyPa = 'credit_proposal/remark/project-analysis';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	const docEditors = this.containers?.documentEditor as DocumentEditorComponent;
+
+    if (docEditor !== undefined) {
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-business-activity-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+    }
+	
+	if (docEditors !== undefined) {
+      docEditors.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+
+      docEditors.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
+
+        this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+      });
+    }
+  }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
