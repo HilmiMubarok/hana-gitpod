@@ -44,13 +44,7 @@
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
-                    <ejs-textbox
-                      disabled
-                      [(ngModel)]="item.prospectOrganization.pic"
-                      placeholder="PIC"
-                      floatLabelType="Auto"
-                      cssClass="e-outline"
-                    >
+                    <ejs-textbox [(ngModel)]="item.prospectOrganization.pic" placeholder="PIC" floatLabelType="Auto" cssClass="e-outline">
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
@@ -271,7 +265,7 @@
                 </div>
                 <div class="col-6">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.customerSince"
+                    [value]="item.debtorData.customerSince | date: 'yyyy/MM/dd'"
                     disabled
                     placeholder="Existing Customer Since"
                     floatLabelType="Auto"
