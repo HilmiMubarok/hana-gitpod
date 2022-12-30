@@ -4,6 +4,8 @@ import lodash from 'lodash';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IDebtorData } from '../../debtor-data.model';
+import { ICPFacilityTable } from 'app/entities/credit-proposal/exposure/total-exposure/cp-facility-table-model';
+import { CPFacility, ICPFacility } from 'app/shared/model/cp-facility.models';
 // import { FacilityInfoDebiturDialogComponent } from './facility-info-dialog/facility-info-debitur-dialog.component';
 
 @Component({
@@ -12,18 +14,19 @@ import { IDebtorData } from '../../debtor-data.model';
 })
 export class FacilityInfoDebiturDialogComponent {
   public availablelimit: string;
+  public cpFacility: ICPFacility;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      availablelimits: string;
+      cpFacility: ICPFacility;
     },
     private _dialog: MatDialogRef<FacilityInfoDebiturDialogComponent>
   ) {
-    this.availablelimit = data.availablelimits;
+    this.cpFacility = data.cpFacility;
   }
 
   public save(): void {
-    this._dialog.close();
+    this._dialog.close(this.cpFacility);
   }
 }

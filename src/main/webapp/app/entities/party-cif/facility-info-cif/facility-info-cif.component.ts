@@ -12,6 +12,7 @@ import { PartyCifService } from '../party-cif.service';
 })
 export class FacilityInfoCifComponent implements OnInit {
   public loading: boolean;
+  public debtorData: IDebtorData;
 
   constructor(public partyCifService: PartyCifService) {}
   public data = [];
@@ -36,6 +37,8 @@ export class FacilityInfoCifComponent implements OnInit {
   public loadDataBy(): void {
     this.partyCifService.find('cif/retrieve-cp-facility/' + this.partyCif.customerNumber).subscribe((res: any) => {
       this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+      this.debtorData = res.body.debtorData;
+      console.log('debtor data facility parent', this.debtorData);
     });
   }
 
