@@ -22,6 +22,7 @@
             <div class="e-card-content">
               <button class="e-btn" (click)="onclick()">Sync</button>
               <ejs-spreadsheet
+                [height]="700"
                 #spreadsheet
                 (created)="created()"
                 (beforeOpen)="beforeOpen($event)"
