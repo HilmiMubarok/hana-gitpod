@@ -11,6 +11,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { DebtorData, IDebtorData } from '../debtor-data.model';
 import { ICPFacilityTable } from 'app/entities/credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { ICPFacility } from 'app/shared/model/cp-facility.models';
+import { DebtorDataService } from '../debtor-data.service';
 // import { FacilityInfoDebiturDialogComponent } from './facility-info-dialog/facility-info-debitur-dialog.component';
 
 @Component({
@@ -84,7 +85,12 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     this._partyCif = object;
   }
 
-  constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {}
+  constructor(
+    public partyCifService: PartyCifService,
+    public debtorDataService: DebtorDataService,
+    protected _snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
       this.mapingData(this.debtorData);
@@ -126,11 +132,18 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
         },
       });
       dialogRef.afterClosed().subscribe((data: ICPFacility) => {
-        console.log('cek res facility', data);
-        // if (data) {
-        //   // this.data = lodash.cloneDeep(res)
-        //   // console.log('cek data', this.data)
-        // }
+        const objectCPF: ICPFacility[] = JSON.parse(this.debtorData.attributes['cpFacility']);
+        const index = objectCPF.findIndex(x => x.LNB_BASE_AGR_REF_NO === params.LNB_BASE_AGR_REF_NO);
+        console.log('ini index', index);
+
+        objectCPF[index] = data;
+        console.log('1', objectCPF);
+        console.log('2', JSON.parse(this.debtorData.attributes['cpFacility']));
+        this.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
+        console.log(this.debtorData);
+        this.debtorDataService.update(this.debtorData).subscribe(res => {
+          console.log('save berhasil');
+        });
       });
     }
   }
