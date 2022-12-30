@@ -218,7 +218,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   
   private getContainers(): void {
     const obj = {
-      key: this.getKey,
+      key: this.getKeyPa,
     };
     this.storageService
       .getObjects(this.bucket, obj)
