@@ -221,7 +221,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
       key: this.getKey,
     };
     this.storageService
-      .getObjects(this.bucket, obj1)
+      .getObjects(this.bucket, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         if (response.body.length > 0) {
