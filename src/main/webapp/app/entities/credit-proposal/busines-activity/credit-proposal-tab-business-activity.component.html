@@ -1,4 +1,4 @@
-<div *ngIf="item.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+<div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
   <ejs-menu
     [enableScrolling]="true"
     cssClass="e-rounded-menu e-custom-scroll"
@@ -109,7 +109,7 @@
               </ejs-textbox>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-2">Position in Company</div>
               <div class="col-md-auto">:</div>
@@ -153,7 +153,7 @@
   </div>
 
   <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'">
-    <div *ngIf="item.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+    <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
       <div class="e-card-content">
         <div class="e-card-header-title">PROJECT ANALYSIS</div>
         <div class="form-space">
