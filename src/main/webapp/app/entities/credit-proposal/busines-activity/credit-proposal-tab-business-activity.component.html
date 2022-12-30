@@ -13,7 +13,7 @@
       <div class="e-card-header-title">BUSINESS ACTIVITY</div>
       <div class="form-space">
         <div class="row my-3">
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitBy"
@@ -24,7 +24,7 @@
               </ejs-textbox>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-2">Visited By</div>
               <div class="col-md-auto">:</div>
@@ -33,7 +33,7 @@
               </div>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
@@ -44,7 +44,7 @@
               </ejs-textbox>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-2">Visit With</div>
               <div class="col-md-auto">:</div>
@@ -55,7 +55,7 @@
           </section>
         </div>
         <div class="row my-3">
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col">
               <ejs-datepicker
                 format="yyyy-MM-dd"
@@ -67,7 +67,7 @@
               </ejs-datepicker>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-2">Visit Date</div>
               <div class="col-md-auto">:</div>
@@ -76,7 +76,7 @@
               </div>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].positionInCompany"
@@ -87,7 +87,7 @@
               </ejs-textbox>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-2">Position in Company</div>
               <div class="col-md-auto">:</div>
@@ -98,7 +98,7 @@
           </section>
         </div>
         <div class="row my-3">
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="col-6">
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].venue"
@@ -109,7 +109,7 @@
               </ejs-textbox>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
               <div class="col-2">Position in Company</div>
               <div class="col-md-auto">:</div>
@@ -120,7 +120,7 @@
           </section>
         </div>
       </div>
-      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <ejs-documenteditorcontainer
           #document_editor_container
           [enableToolbar]="true"
@@ -134,7 +134,7 @@
         >
         </ejs-documenteditorcontainer>
       </section>
-      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <ejs-documenteditorcontainer
           #document_editor_container
           [enableToolbar]="false"
@@ -157,7 +157,7 @@
       <div class="e-card-content">
         <div class="e-card-header-title">PROJECT ANALYSIS</div>
         <div class="form-space">
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <ejs-documenteditorcontainer
               #document_editor_containers
               [enableToolbar]="true"
@@ -171,7 +171,7 @@
             >
             </ejs-documenteditorcontainer>
           </section>
-          <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <ejs-documenteditorcontainer
               #document_editor_containers
               [enableToolbar]="false"
@@ -188,7 +188,7 @@
           </section>
           <div class="row my-3">
             <div class="col">
-              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [multiline]="true"
                   [(ngModel)]="creditProposalItem.attributes['businessActivity'].riskMitigation"
@@ -198,7 +198,7 @@
                 >
                 </ejs-textbox>
               </section>
-              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row py-3">
                   <div class="col-2">Risk Mitigation</div>
                   <div class="col-md-auto">:</div>
