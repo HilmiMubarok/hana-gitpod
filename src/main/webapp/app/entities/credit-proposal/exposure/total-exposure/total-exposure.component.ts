@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { Internationalization } from '@syncfusion/ej2-base';
@@ -14,19 +14,24 @@ import { CPFacilityTable, ICPFacilityTable } from './cp-facility-table-model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { CreditProposalService } from '../../credit-proposal.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-total-exposure',
   templateUrl: './total-exposure.component.html',
   styleUrls: ['../../loan-facility/grid/loan.scss'],
 })
-export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges {
+export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges, AfterViewInit {
   public parsedAttr;
   public dataSource;
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator2') paginator2: MatPaginator;
 
   public totalDebiturCashLoan = 0;
   public totalDebiturCashLoanGroup = 0;
@@ -95,7 +100,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   // public data1: Object[] = [];
 
   // public valueAccess = (field: string, data1: Object, column: Object) => data1[field] = this.format("$ ###.00", data1[field]);
-
+  public busines: any;
+  public debtor: any;
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
     this.defaultCurrency();
@@ -103,6 +109,15 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.getCurrency();
 
     // this.getInteres();
+  }
+
+  ngAfterViewInit(): void {
+    let a = [];
+    for (let i = 0; i < this.creditProposal.products.length; i++) {
+      a = lodash.concat(a, this.creditProposal.products[i]);
+    }
+    this.debtor = new MatTableDataSource(a);
+    this.debtor.paginator = this.paginator2;
   }
 
   private getMyBusinessGroup(): void {
@@ -152,6 +167,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
               this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+              this.busines = new MatTableDataSource(this.myBusinessGroupCPFacility);
+              this.busines.paginator = this.paginator;
               const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
                 return n === undefined;
               });
@@ -303,11 +320,18 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     } else {
       console.log('false');
       this.dataSource = this.creditProposal.products;
+      let a = [];
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        a = lodash.concat(a, this.creditProposal.products[i]);
+      }
+      this.debtor = new MatTableDataSource(a);
+      this.debtor.paginator = this.paginator2;
     }
 
     console.log('dataSource', {
       dataSource: this.dataSource,
       parsed: this.parsedAttr,
+      debtor: this.debtor,
     });
     this.fungsiSuminit();
     this.fungsiSumchange();
