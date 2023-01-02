@@ -45,6 +45,7 @@ export interface ICreditProposal extends ILoanApplication {
   notes?: INotes[];
   collateralProductRelations?: ICollateralProductRelation[];
   products?: IApplicationProduct[];
+  groupProducts?: IApplicationProduct;
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -99,7 +100,8 @@ export class CreditProposal implements ICreditProposal {
     public customerType?: string,
     public cif?: ICif,
     public collateralProductRelations?: ICollateralProductRelation[],
-    public products?: IApplicationProduct[]
+    public products?: IApplicationProduct[],
+	public groupProducts?: IApplicationProduct[]
   ) {
     this.setCompliance = null;
     this.creditRatings = new Array<ICreditRating>();
