@@ -7,6 +7,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { Input } from '@syncfusion/ej2-angular-inputs';
 
 export const MY_FORMATS = {
   parse: {
@@ -37,14 +38,21 @@ export class OrganizationLegalDialogComponent {
   public managementType: string;
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       organizationLegal: IOrganizationLegal;
+      deedNumber: any;
+      deedDates: any;
     },
     private _dialog: MatDialogRef<OrganizationLegalDialogComponent>
   ) {
     this.organizationLegal = this.data.organizationLegal;
+    if (this.organizationLegal.deedEstablishNum === '' || this.organizationLegal.deedEstablishNum === undefined) {
+      this.organizationLegal.deedEstablishNum = this.data.deedNumber;
+    }
+    this.organizationLegal.deedEstablishDate = this.data.deedDates;
   }
 
   public dataSource() {

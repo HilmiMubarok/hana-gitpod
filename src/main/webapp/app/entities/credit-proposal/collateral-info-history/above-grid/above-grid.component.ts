@@ -353,9 +353,11 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
 
   public findCollateralProperty(collateral: ICollateral): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-      this.collateralProperties = [...this.collateralProperties, ...res.body];
-    });
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

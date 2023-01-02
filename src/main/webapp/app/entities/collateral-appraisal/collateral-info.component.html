@@ -106,7 +106,7 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-document [document]="'document-collateral'" [status]="appraisal.statusId" [collateral]="collateral"></jhi-document>
+        <jhi-document [document]="'document-collateral'" [status]="appraisal.statusId" [collateral]="collateral"> </jhi-document>
       </div>
     </div>
 
@@ -118,11 +118,11 @@
         </div>
       </div>
       <div class="e-card-content">
-        <jhi-document [document]="'document-lainnya'" [appraisal]="appraisal" [status]="appraisal.statusId"></jhi-document>
+        <jhi-document [document]="'document-lainnya'" [appraisal]="appraisal" [status]="appraisal.statusId"> </jhi-document>
       </div>
     </div>
 
-    <div *ngIf="viewCollateralProperty()">
+    <div *ngIf="viewCollateralProperty()" [hidden]="hiddenAppraisalExternal()">
       <jhi-collateral-appraisal-process-detail-real-estate
         [collateralAppraisal]="collateralAppraisal"
         [collateral]="collateral"
@@ -146,7 +146,8 @@
         [collateralAppraisalId]="appraisal.id"
         [collateralId]="collateral.id"
         (outputItems)="onValCollateralItemChanged($event)"
-      ></jhi-collateral-appraisal-process-detail-mesin>
+      >
+      </jhi-collateral-appraisal-process-detail-mesin>
     </div>
 
     <div class="e-card mb-3" *ngIf="!viewCollateralProperty()">

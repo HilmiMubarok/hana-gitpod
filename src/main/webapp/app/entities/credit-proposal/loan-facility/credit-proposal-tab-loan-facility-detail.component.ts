@@ -89,31 +89,14 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
-    this.BUCKET = '';
   }
 
-  // private getBUCKET(): Promise<void> {
-  //   return new Promise<void>((resolve, reject) => {
-  //     this.storageService.getBUCKETName().subscribe(res => {
-  //       this.BUCKET = res.body['BUCKET'];
-  //       resolve();
-  //     });
-  //   });
-  // }
   onDocumentChange() {
     this.container.restrictEditing = true;
   }
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getWord();
-    // this.BUCKET = ' ';
-    // this.actRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKey = 'credit_proposal/remark/loan-facility/' + this.paramsIdGet + '/sfdt';
-    //   this.getBUCKET().then(res => {
-    //     this.getContainer();
-    //   });
-    // });
 
     this.removeTagRemaks();
     this.setCurrency();
@@ -124,24 +107,30 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.triggeredSave();
     }
   }
+  // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['BUCKET'];
+      this.BUCKET = val.body['bucket'];
       this.getContainer();
     });
   }
+
   private getContainer(): void {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/management-info/' + paramsId + '/sfdt',
+      key: 'credit_proposal/remark/loan-facility/' + paramsId + '/sfdt',
     };
+    // console.log('bcc', this.bucket);
+
     this.storageService
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
+        console.log('cekk', response);
+
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])

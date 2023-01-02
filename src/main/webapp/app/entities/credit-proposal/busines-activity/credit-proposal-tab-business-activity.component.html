@@ -9,7 +9,7 @@
 
 <div class="e-card mb-3">
   <!-- <div *ngIf="selectedMenu === 'BUSINESS ACTIVITY'"> -->
-  <div [hidden] = "selectedMenu !== 'BUSINESS ACTIVITY'">
+  <div [hidden]="selectedMenu !== 'BUSINESS ACTIVITY'">
     <div class="e-card-content">
       <div class="e-card-header-title">BUSINESS ACTIVITY</div>
       <div class="form-space">
@@ -154,7 +154,7 @@
   </div>
 
   <!-- <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'"> -->
-  <div [hidden] = "selectedMenu !== 'PROJECT ANALYSIS'">
+  <div [hidden]="selectedMenu !== 'PROJECT ANALYSIS'">
     <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
       <div class="e-card-content">
         <div class="e-card-header-title">PROJECT ANALYSIS</div>
@@ -178,7 +178,7 @@
               #document_editor_containers
               [enableToolbar]="false"
               [enableLocalPaste]="false"
-			  (documentChange)="onDocumentChangePa()"
+              (documentChange)="onDocumentChangePa()"
               height="100vh"
               style="display: block"
               [spellcheck]="false"

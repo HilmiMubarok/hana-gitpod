@@ -5,7 +5,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Deed Of Establishment No</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.deedEstablishNum" [disabled]="dataSource()" />
+          <input matInput type="text" [(ngModel)]="organizationLegal.deedEstablishNum" [disabled]="true" />
         </mat-form-field>
       </div>
       <div class="form-group">
@@ -17,11 +17,11 @@
             matInput
             [formControl]="date"
             type="text"
-            [disabled]="dataSource()"
+            [disabled]="true"
           />
           <mat-datepicker-toggle matSuffix [for]="deedEstablishDate"></mat-datepicker-toggle>
-          <mat-datepicker #deedEstablishDate [disabled]="dataSource()"></mat-datepicker>
-          <mat-hint align="end" [hidden]="!dataSource()"></mat-hint>
+          <mat-datepicker #deedEstablishDate [disabled]="true"></mat-datepicker>
+          <!-- <mat-hint align="end" [hidden]="!dataSource()"></mat-hint> -->
         </mat-form-field>
       </div>
     </div>
@@ -57,7 +57,7 @@
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Deed of Establish Place</mat-label>
-          <input matInput type="text" [(ngModel)]="organizationLegal.establishPlace" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="organizationLegal.establishPlace" [disabled]="dataSource()" />
         </mat-form-field>
       </div>
       <div class="form-group">
