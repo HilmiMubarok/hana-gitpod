@@ -221,12 +221,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
       });
   }
 
-  dataSourceChange(evt: DataSourceChangedEventArgs): void {
-    
-  }
+  dataSourceChange(evt: DataSourceChangedEventArgs): void {}
 
   beforeCellRender(args: CellRenderEventArgs): void {
-    
     // if (this.spreadsheetObj.sheets.length > 1) {
     //   const data = this.spreadsheetObj.sheets.map((item: any) =>
     //     item.properties.name === 'Dashboard'
@@ -350,8 +347,18 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIEVE' }, { text: 'FINANCIAL ANALYSIS' }];
+  public menuItemsLainnya: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'FINANCIAL ANALYSIS' }];
+
   selectMenuItem(args: MenuEventArgs): void {
     if (this.creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
+      this.selectedMenu = args.item.text;
+    }
+  }
+  selectMenuItemLainnya(args: MenuEventArgs): void {
+    if (
+      this.creditProposalItem.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' ||
+      this.creditProposalItem.attributes.proposalType === 'Total Exposure Back to Back'
+    ) {
       this.selectedMenu = args.item.text;
     }
   }
