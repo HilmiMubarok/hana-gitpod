@@ -45,7 +45,7 @@ export interface ICreditProposal extends ILoanApplication {
   notes?: INotes[];
   collateralProductRelations?: ICollateralProductRelation[];
   products?: IApplicationProduct[];
-  groupProducts?: IApplicationProduct;
+  groupProducts?: IApplicationProduct[];
 }
 
 export class CreditProposal implements ICreditProposal {
