@@ -209,7 +209,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     }
   }
 
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

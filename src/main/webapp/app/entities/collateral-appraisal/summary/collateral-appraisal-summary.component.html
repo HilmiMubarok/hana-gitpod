@@ -1,5 +1,5 @@
 <section *jhiMatrixDir="collateralAppraisal.statusId; menu: 'collateral-appraisal'; subMenu: ''; elementType: 'input'">
-  <div *ngIf="!gakbisa()">
+  <div *ngIf="!hideordisable()">
     <div class="e-card mb-3">
       <div class="e-card-header mb-1">
         <div class="e-card-header-caption">
@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="gakbisa()">
+  <div *ngIf="hideordisable()">
     <div class="e-card mb-3">
       <div class="e-card-header mb-1">
         <div class="e-card-header-caption">
@@ -64,7 +64,7 @@
             [(ngModel)]="item.attributes['summary'].marketbility"
             label="Baik"
             cssClass="e-primary"
-            [disabled]="gakbisa()"
+            [disabled]="hideordisable()"
           ></ejs-radiobutton>
         </div>
 
@@ -75,7 +75,7 @@
             [(ngModel)]="item.attributes['summary'].marketbility"
             label="Cukup"
             cssClass="e-primary"
-            [disabled]="gakbisa()"
+            [disabled]="hideordisable()"
           ></ejs-radiobutton>
         </div>
 
@@ -86,7 +86,7 @@
             name="markebility"
             [(ngModel)]="item.attributes['summary'].marketbility"
             cssClass="e-primary"
-            [disabled]="gakbisa()"
+            [disabled]="hideordisable()"
           >
           </ejs-radiobutton>
         </div>

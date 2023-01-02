@@ -72,7 +72,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
     return this.totalArea;
   }
 
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

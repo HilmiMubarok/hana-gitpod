@@ -276,7 +276,7 @@ export class DocumentComponent implements OnChanges {
   public validateDocument() {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
-  gakbisa() {
+  hideordisable() {
     if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
       return true;
     }

@@ -174,7 +174,7 @@
               <div class="col-4">Binding Type</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ item }}
+                {{ binding.bindingType }}
               </div>
             </div>
           </section>
@@ -275,7 +275,8 @@
 
     <div>
       <mat-label>Mapping to Facility</mat-label>
-      <jhi-mapping-facility (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-facility>
+      <jhi-mapping-facility [creditProposal]="creditProposal" (outputCreditProposalMappingData)="getCreditProposalMappingData($event)">
+      </jhi-mapping-facility>
     </div>
 
     <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>

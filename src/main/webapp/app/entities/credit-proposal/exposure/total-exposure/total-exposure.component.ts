@@ -114,7 +114,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
           if (source) {
             for (let y = 0; y < source.length; y++) {
               const parsed = new CPFacilityTable();
-			  const parsedAny = parsed;
+              const parsedAny = parsed;
               no = no + 1;
               parsed.no = no;
               parsed.GroupName = '';
@@ -124,14 +124,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-              parsed.InterestRate =
-                source[y].FILN10_ROLL_GAP +
-                source[y].FILN11_FIX_FLT_GB +
-                source[y].FILN11_SPREAD_RT;
+              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
-			  parsed.Tenor = Number(new Date(source[y].FXFIG_TRX_DT)) - Number(new Date(source[y].FILN10_TOT_EXP_IL));
+              parsed.Tenor = Number(new Date(source[y].FXFIG_TRX_DT)) - Number(new Date(source[y].FILN10_TOT_EXP_IL));
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
 
@@ -147,7 +144,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
                 return n === undefined;
               });
             }
-			console.log('this.myBusinessGroupCPFacility @parse group : ', this.myBusinessGroupCPFacility);
+            console.log('this.myBusinessGroupCPFacility @parse group : ', this.myBusinessGroupCPFacility);
           }
         }
       }

@@ -63,7 +63,7 @@ export class CollateralLandDialogComponent implements OnInit {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

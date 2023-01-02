@@ -5,17 +5,17 @@
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Floor</mat-label>
-          <input [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" matInput type="text" [(ngModel)]="floor.floor" />
+          <input [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" matInput type="text" [(ngModel)]="floor.floor" />
         </mat-form-field>
       </div>
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Area</mat-label>
-          <input matInput type="text" [(ngModel)]="floor.area" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" />
+          <input matInput type="text" [(ngModel)]="floor.area" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" />
         </mat-form-field>
       </div>
       <div class="col-4">
-        <button mat-raised-button class="pad" color="primary" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" (click)="addFloor()">
+        <button mat-raised-button class="pad" color="primary" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" (click)="addFloor()">
           Add
         </button>
       </div>
@@ -38,7 +38,7 @@
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
         <a (click)="deleteFloor(element)">
-          <mat-icon [hidden]="gakbisa()" [hidden]="hiddenRmAdmin">delete</mat-icon>
+          <mat-icon [hidden]="hideordisable()" [hidden]="hiddenRmAdmin">delete</mat-icon>
         </a>
       </td>
     </ng-container>
@@ -51,5 +51,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="close()">Close</button>
-  <button mat-button [disabled]="gakbisa()" [disabled]="hiddenRmAdmin" (click)="save()">Save</button>
+  <button mat-button [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" (click)="save()">Save</button>
 </mat-dialog-actions>

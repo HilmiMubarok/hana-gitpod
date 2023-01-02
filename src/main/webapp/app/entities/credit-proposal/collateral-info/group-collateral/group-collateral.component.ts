@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_TYPE, COLLATERAL_BINDING_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -30,26 +30,26 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 export class GroupCollateralComponent implements OnChanges {
   public displayedColumns: string[] = [
     'no',
-    'collateralNumber',
-    // 'collateralType',
-    // 'collateralAddress',
-    // 'marketValue',
-    // 'liquidValue',
-    // 'mValueKjjp',
-    // 'lValueKjjp',
-    // 'marketability',
-    // 'occupancy',
-    // 'ownership',
-    // 'certificateDueDate',
-    // 'insuredtype',
-    // 'insuredAmount',
-    // 'bindingType',
-    // 'bindingValue',
-    // 'collateralStatus',
-    // 'crossCollateral',
-    // 'action',
+    'collateralType',
+    'collateralAddress',
+    'marketValue',
+    'liquidValue',
+    'mValueKjjp',
+    'lValueKjjp',
+    'marketability',
+    'occupancy',
+    'ownership',
+    'certificateDueDate',
+    'insuredtype',
+    'insuredAmount',
+    'bindingType',
+    'bindingValue',
+    'collateralStatus',
+    'crossCollateral',
+    'action',
   ];
 
+  private bindingTypeVal: any;
   public listGroupCollateral: ICollateral[];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -83,18 +83,23 @@ export class GroupCollateralComponent implements OnChanges {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
+      if (this.creditProposal.customerNumber) {
+        this.collateralMybusiness();
+      }
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
-          this.collateralMybusiness();
+          console.log('datachanges', this.collateralMybusiness());
         }
       }
     }
@@ -121,6 +126,7 @@ export class GroupCollateralComponent implements OnChanges {
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -197,6 +203,10 @@ export class GroupCollateralComponent implements OnChanges {
     return new CreditProposalCollateralInsurance();
   }
 
+  public getBindingType(element: string) {
+    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    return this.bindingTypeVal[keyy];
+  }
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
     if (this.creditProposal.attributes['binding'].length > 0) {
       for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
@@ -272,7 +282,7 @@ export class GroupCollateralComponent implements OnChanges {
   public countTotalLV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -296,7 +306,7 @@ export class GroupCollateralComponent implements OnChanges {
   public countTotalMV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -352,9 +362,11 @@ export class GroupCollateralComponent implements OnChanges {
           const satuanCollateral: ICollateral = satuanGroupCollateral.collaterals[a];
           // this.listGroupCollateral.push(satuanCollateral);
           this.groupCollaterals.push(satuanCollateral);
+          this.groupCollaterals = [...this.groupCollaterals];
         }
       }
     });
+    // this.coba=this.groupCollaterals;
     console.log('datasource', this.groupCollaterals);
   }
 }

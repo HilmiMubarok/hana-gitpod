@@ -98,7 +98,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
 
   ngOnInit(): void {
     this.convrtDate();
-    this.menghilang();
+    this.hiddenNull();
   }
   public countAge(): number {
     let age: number;
@@ -132,7 +132,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     }
     return false;
   }
-  menghilang() {
+  public hiddenNull() {
     if (this.person.firstName === null) {
       this.person.firstName = '';
     }
