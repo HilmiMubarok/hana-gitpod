@@ -191,7 +191,7 @@
   <div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
     <mat-card>
       <mat-card-header>
-        <mat-card-subtitle>Co-Borrower Info</mat-card-subtitle>
+        <mat-card-subtitle class="e-card-header-title">Co-Borrower Info</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <table mat-table [dataSource]="data" class="w-100">
@@ -230,6 +230,9 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
       </mat-card-content>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button (click)="onOpenDialog($event)" class="btn btn-info">Add</button>
+      </div>
     </mat-card>
   </div>
 </div>
