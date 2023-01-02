@@ -204,12 +204,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    this.getWord();
+    // this.getWord();
   }
 
   onDocumentChanges() {
     this.container_condition.restrictEditing = true;
-    this.getWord();
+    // this.getWord();
   }
 
   public disabledOpinion: boolean;
