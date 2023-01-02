@@ -520,10 +520,12 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     key = `/appraisals/${this.collateralAppraisal.id}/jaminan`;
     this.collateralAppraisalService.totalDataFotoObjectJaminan = await this.getDocument(key);
 
-    this.collateralAppraisalService.totalDataComparison = await this.getCollateralProperty(
-      this.collateralAppraisal.collateralId,
-      CollateralPropertyType.COMPARISON
-    );
+	if (this.collateralAppraisal.collateralId) {
+	  this.collateralAppraisalService.totalDataComparison = await this.getCollateralProperty(
+		this.collateralAppraisal.collateralId,
+		CollateralPropertyType.COMPARISON
+      );
+	}
 
     key = `/appraisals/${this.collateralAppraisal.id}/document-lainnya`;
     this.collateralAppraisalService.totalDataDocumentLainya = await this.getDocument(key);
@@ -532,24 +534,30 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.collateralAppraisalService.totalDataDocumentCollateral = await this.getDocument(key);
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-      this.collateralAppraisalService.totalDataDetailLand = await this.getCollateralProperty(
-        this.collateralAppraisal.collateralId,
-        CollateralPropertyType.LAND
-      );
+	  if (this.collateralAppraisal.collateralId) {
+		this.collateralAppraisalService.totalDataDetailLand = await this.getCollateralProperty(
+		  this.collateralAppraisal.collateralId,
+          CollateralPropertyType.LAND
+		);
+	  }
     }
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      this.collateralAppraisalService.totalDataDetailVehicle = await this.getCollateralProperty(
-        this.collateralAppraisal.collateralId,
-        CollateralPropertyType.VEHICLE
-      );
+	  if (this.collateralAppraisal.collateralId) {
+		this.collateralAppraisalService.totalDataDetailVehicle = await this.getCollateralProperty(
+          this.collateralAppraisal.collateralId,
+          CollateralPropertyType.VEHICLE
+		);
+	  }
     }
 
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-      this.collateralAppraisalService.totalDataDetailMachine = await this.getCollateralProperty(
-        this.collateralAppraisal.collateralId,
-        CollateralPropertyType.MACHINE
-      );
+	  if (this.collateralAppraisal.collateralId) {
+		this.collateralAppraisalService.totalDataDetailMachine = await this.getCollateralProperty(
+		  this.collateralAppraisal.collateralId,
+          CollateralPropertyType.MACHINE
+		);
+	  }
     }
 
     this.currentAccount = await firstValueFrom(this.accountService.identity());

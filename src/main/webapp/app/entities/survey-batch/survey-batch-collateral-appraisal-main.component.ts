@@ -303,9 +303,11 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
 
   // check comparison
   private getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
-      this.collateralProperties = res.body;
-    });
+	if (id) {
+	  this.collateralPropertyService.queryFilterBy({ idCollateral: id }).subscribe(res => {
+		this.collateralProperties = res.body;
+      });
+	}
   }
 
   private getSurveyAppraisal(cifId: string): void {
