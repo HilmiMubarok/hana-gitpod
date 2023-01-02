@@ -160,7 +160,7 @@
   <div class="form-group">
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Cross Collateral Status</mat-label>
-      <mat-select name="status" [(ngModel)]="collateral.attributes.crossStatus" [disabled]="dataSource()">
+      <mat-select name="status" [(ngModel)]="collateral.paripasuStatus" [disabled]="dataSource()">
         <mat-option value="">- Please Select -</mat-option>
         <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key">
           {{ item.value }}

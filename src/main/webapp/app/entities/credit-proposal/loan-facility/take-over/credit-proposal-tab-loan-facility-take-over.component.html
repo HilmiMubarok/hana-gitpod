@@ -26,19 +26,41 @@
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="col-6">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Tenor</mat-label>
-              <input matInput type="number" [(ngModel)]="facilityTakeOver.maturityBank" [disabled]="view" />
-            </mat-form-field>
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tenor</mat-label>
+                <input matInput type="number" [(ngModel)]="facilityTakeOver.maturityBank" [disabled]="view" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOver.maturityPeriodType" [disabled]="view">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col-2">Tenor</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ facilityTakeOver.maturityBank }}
+          <div class="row">
+            <div class="fontsebled row">
+              <div class="col-2">Tenor</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ facilityTakeOver.maturityBank }}
+              </div>
+            </div>
+            <div class="fontsebled row">
+              <div class="col-2">Period Type</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ facilityTakeOver.maturityPeriodType }}
+              </div>
             </div>
           </div>
         </section>
@@ -54,7 +76,7 @@
               type="text"
               [(ngModel)]="facilityTakeOver.initialLimitBank"
               [disabled]="view"
-              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
           </mat-form-field>
         </section>
@@ -64,7 +86,7 @@
             <div class="col-2">Initial Limit</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ facilityTakeOver.initialLimitBank | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ facilityTakeOver.initialLimitBank | number: '1.0-0' }}
             </div>
           </div>
         </section>
@@ -78,7 +100,7 @@
               type="text"
               [(ngModel)]="facilityTakeOver.outstandingBank"
               [disabled]="view"
-              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
           </mat-form-field>
         </section>
@@ -87,7 +109,7 @@
             <div class="col-2">Outstanding</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ facilityTakeOverAfterBank.outstandingBank | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ facilityTakeOverAfterBank.outstandingBank | number: '1.0-0' }}
             </div>
           </div>
         </section>

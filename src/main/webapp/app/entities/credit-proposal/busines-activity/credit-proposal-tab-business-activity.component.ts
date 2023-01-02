@@ -66,10 +66,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   attributes: any;
   public _item: ICreditProposal;
   public _projectAnalysis: string;
-  
+
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
-  
+
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
@@ -148,11 +148,11 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-	this.selectedMenu = 'BUSINESS ACTIVITY';
+    this.selectedMenu = 'BUSINESS ACTIVITY';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'credit_proposal/remark/business-activity/' + this.paramsIdGet + '/sfdt';
-	  this.getKeyPa = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
+      this.getKeyPa = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
       this.getBucket().then(res => {
         this.getContainer();
       });
@@ -180,7 +180,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   public getOpiniObjPa() {
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
-	  this.getKey = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
+      this.getKey = 'credit_proposal/remark/project-analysis/' + this.paramsIdGet + '/sfdt';
       this.getContainers();
     });
   }
@@ -210,7 +210,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         }
       });
   }
-  
+
   private getContainers(): void {
     const obj = {
       key: this.getKeyPa,
@@ -239,7 +239,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-	this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -260,12 +260,12 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
       paramsId = params['id'];
     });
     const key = 'credit_proposal/remark/business-activity';
-	const keyPa = 'credit_proposal/remark/project-analysis';
+    const keyPa = 'credit_proposal/remark/project-analysis';
 
     const timeStamp = Math.floor(Date.now() / 1000);
 
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-	const docEditors = this.containers?.documentEditor as DocumentEditorComponent;
+    const docEditors = this.containers?.documentEditor as DocumentEditorComponent;
 
     if (docEditor !== undefined) {
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
@@ -292,8 +292,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
       });
     }
-	
-	if (docEditors !== undefined) {
+
+    if (docEditors !== undefined) {
       docEditors.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
         const fileName = 'credit-proposal-remark-' + paramsId + '-project-analysis-' + fileType + '.docs';
@@ -397,9 +397,9 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
-	if (this.selectedMenu === 'PROJECT ANALYSIS') {
-	  this.getContainers();
-	}
+    if (this.selectedMenu === 'PROJECT ANALYSIS') {
+      this.getContainers();
+    }
   }
 
   public menuItems: MenuItemModel[] = [{ text: 'BUSINESS ACTIVITY' }, { text: 'PROJECT ANALYSIS' }];

@@ -107,7 +107,10 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
       param.attributes['jenisObject'] = '';
     }
 
-    if (param.attributes === undefined || param.attributes === null) {
+    if ( param.attributes === undefined ||
+      param.attributes === null ||
+      typeof param.attributes['summary'] === 'string' ||
+      typeof param.attributes['scoreCard'] === 'string') {
       param.attributes['scoreCard'] = scoreCard;
       param.attributes['summary'] = {
         keterangan: '',
