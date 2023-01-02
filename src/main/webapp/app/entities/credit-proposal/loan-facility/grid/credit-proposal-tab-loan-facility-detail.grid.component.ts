@@ -103,7 +103,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   ngOnInit(): void {
-    console.log('credit proposal', this.creditProposal.products);
     this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
@@ -115,12 +114,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         this.dataParty.push(this.creditProposal.products[i]);
-        console.log('data party 1', this.dataParty);
       }
     } else {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         this.dataParty.push(this.creditProposal.products[i]);
-        console.log('data party 2', this.dataParty);
       }
       this.creditProposal.attributes['loanHobbies'] = 'false';
       this.partyCifService
@@ -214,6 +211,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           totalRate: '0',
           hobbies: true,
           loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO,
+		  firstDisbursementDate: cpFacility[i].FXFIG_TRX_DT
         };
 
         dataParty.push(data);
