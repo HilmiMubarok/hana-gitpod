@@ -15,6 +15,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   public dataFacilityType = [];
   view: boolean;
   facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
+  public periodTypeList: any = ['Week', 'Month', 'Year'];
 
   public lock: boolean;
   public lihat = true;

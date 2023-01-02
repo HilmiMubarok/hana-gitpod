@@ -6,9 +6,9 @@
     <mat-form-field appearance="outline" style="float: right">
       <mat-label>Select Relation Type:</mat-label>
       <mat-select (selectionChange)="selectRelationType($event.value)">
-        <mat-option value="COLLATERALAPPRAISAL"> Appraisal </mat-option>
-        <mat-option value="CREDIT_PROPOSAL"> Credit Proposal </mat-option>
-        <mat-option value="LOAN_ANALYSIS"> Loan Analysis </mat-option>
+        <mat-option *ngFor="let item of relationTypes" [value]="item.id">
+          {{ item.description }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
     <div style="clear: both"></div>
