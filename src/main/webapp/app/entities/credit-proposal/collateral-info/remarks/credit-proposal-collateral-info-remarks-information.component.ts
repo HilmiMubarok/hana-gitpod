@@ -172,7 +172,7 @@ export class CreditProposalCollateralInfoRemarksInformationComponent implements 
     });
     let key: string;
     this.getBucket().then(res => {
-      key = 'credit_proposal/remark/collateral-info/information/';
+      key = 'credit_proposal/remark/collateral-info/information';
 
       const timeStamp = Math.floor(Date.now() / 1000);
 
