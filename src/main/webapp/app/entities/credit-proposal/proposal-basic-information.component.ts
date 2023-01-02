@@ -472,9 +472,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
           this.saveWord = false;
-		  this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-			this.router.navigate([this.router.url.split('/')[1]]);
-		  });
+          this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+            this.router.navigate([this.router.url.split('/')[1]]);
+          });
         });
       });
     } else {
@@ -482,9 +482,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
           this.saveWord = false;
-		  this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-			this.router.navigate([this.router.url.split('/')[1]]);
-		  });
+          this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+            this.router.navigate([this.router.url.split('/')[1]]);
+          });
         });
       });
     }
@@ -573,13 +573,17 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(this.creditProposal.attributes['remarksFinancialStatement']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
 
-	copyCreditProposal.groupProducts = [];
+    copyCreditProposal.groupProducts = [];
 
     return copyCreditProposal;
   }
@@ -620,13 +624,13 @@ export class ProposalBasicInformationComponent implements OnInit {
           }
 
           if (source === 'process') {
-			if (this.parentPath === 'cp-status-approval') {
+            if (this.parentPath === 'cp-status-approval') {
               this.saveApplicationRole();
-            }else {
-			  this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-				this.router.navigate([this.router.url.split('/')[1]]);
-			  });
-			}
+            } else {
+              this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+                this.router.navigate([this.router.url.split('/')[1]]);
+              });
+            }
           } else if (source === 'default') {
             this.messageService.add({
               severity: 'success',
@@ -660,13 +664,13 @@ export class ProposalBasicInformationComponent implements OnInit {
           }
 
           if (source === 'process') {
-			if (this.parentPath === 'cp-status-approval') {
+            if (this.parentPath === 'cp-status-approval') {
               this.saveApplicationRole();
-            }else {
-			  this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-				this.router.navigate([this.router.url.split('/')[1]]);
-			  });
-			}
+            } else {
+              this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+                this.router.navigate([this.router.url.split('/')[1]]);
+              });
+            }
           } else if (source === 'default') {
             this.messageService.add({
               severity: 'success',

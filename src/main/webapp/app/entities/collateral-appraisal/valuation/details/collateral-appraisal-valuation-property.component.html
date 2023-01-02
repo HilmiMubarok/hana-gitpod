@@ -52,7 +52,7 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialog(element)" [hidden]="gakbisa()">
+            <button mat-icon-button (click)="openDialog(element)" [hidden]="hideordisable()">
               <mat-icon>edit</mat-icon>
             </button>
           </td>

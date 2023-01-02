@@ -232,7 +232,7 @@ export class CollateralAppraisalDetailProcessLandComponent
       this.collateral.attributes['buildingWareHousingArea'] = value === true ? 'yes' : 'no';
     }
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

@@ -7,7 +7,12 @@
         <p>Team Leader</p>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Please Select</mat-label>
-          <mat-select [disabled]="gakbisa()" [(ngModel)]="applicationRoleIdTL" (selectionChange)="selectDH($event)" [disabled]="disabled">
+          <mat-select
+            [disabled]="hideordisable()"
+            [(ngModel)]="applicationRoleIdTL"
+            (selectionChange)="selectDH($event)"
+            [disabled]="disabled"
+          >
             <mat-option *ngFor="let item of positionTL" [value]="item.employeeId">
               {{ item.employeeFirstName }} {{ item.employeeLastName }}
             </mat-option>
@@ -18,7 +23,12 @@
         <p>Unit Head</p>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Please Select</mat-label>
-          <mat-select [disabled]="gakbisa()" [(ngModel)]="applicationRoleIdUH" (selectionChange)="selectDH($event)" [disabled]="disabled">
+          <mat-select
+            [disabled]="hideordisable()"
+            [(ngModel)]="applicationRoleIdUH"
+            (selectionChange)="selectDH($event)"
+            [disabled]="disabled"
+          >
             <mat-option *ngFor="let item of positionUH" [value]="item.employeeId">
               {{ item.employeeFirstName }} {{ item.employeeLastName }}
             </mat-option>
@@ -33,7 +43,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Please Select</mat-label>
           <mat-select
-            [disabled]="gakbisa()"
+            [disabled]="hideordisable()"
             [(ngModel)]="applicationRoleIdDeptHead"
             (selectionChange)="selectDH($event)"
             [disabled]="disabled"
@@ -48,7 +58,12 @@
         <p>Division Head</p>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Please Select</mat-label>
-          <mat-select [disabled]="gakbisa()" [(ngModel)]="applicationRoleIdDH" (selectionChange)="selectDH($event)" [disabled]="disabled">
+          <mat-select
+            [disabled]="hideordisable()"
+            [(ngModel)]="applicationRoleIdDH"
+            (selectionChange)="selectDH($event)"
+            [disabled]="disabled"
+          >
             <mat-option *ngFor="let item of positionDH" [value]="item.employeeId">
               {{ item.employeeFirstName }} {{ item.employeeLastName }}
             </mat-option>

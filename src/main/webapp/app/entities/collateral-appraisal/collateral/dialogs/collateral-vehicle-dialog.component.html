@@ -16,7 +16,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.bpkbNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -33,7 +33,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.bpkbName"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -50,7 +50,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -69,7 +69,7 @@
               format="0"
               min="0"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             ></ejs-numerictextbox>
             <!-- <mat-form-field class="w-100" appearance="outline">
@@ -87,7 +87,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.stnkNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -104,7 +104,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.chassisNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -121,7 +121,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehMachineNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -138,7 +138,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehInvNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -164,7 +164,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehUsedBy"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -181,7 +181,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehBrand"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -199,7 +199,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehType"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -217,7 +217,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehCategory"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -235,7 +235,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehModel"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -252,7 +252,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehCylinder"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -271,7 +271,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehColour"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -289,7 +289,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehFuel"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -307,7 +307,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehtransmission"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -324,7 +324,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehWheelsTtl"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -341,7 +341,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehUnitCond"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -358,7 +358,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.vehNotes"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -372,7 +372,7 @@
     </mat-card-content>
     <mat-dialog-actions align="center">
       <button mat-button (click)="close()">Close</button>
-      <button mat-button [disabled]="gakbisa()" (click)="save()" [disabled]="hiddenRmAdmin">Save</button>
+      <button mat-button [disabled]="hideordisable()" (click)="save()" [disabled]="hiddenRmAdmin">Save</button>
     </mat-dialog-actions>
   </mat-card>
 </mat-dialog-content>

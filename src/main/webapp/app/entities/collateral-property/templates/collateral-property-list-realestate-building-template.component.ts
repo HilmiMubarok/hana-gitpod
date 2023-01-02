@@ -93,14 +93,14 @@ export class CollateralPropertyListRealestateBuildingTemplateComponent implement
   }
 
   private getData(): void {
-	if (this.collateral.id) {
-	  this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateral.id, size: 9999 }).subscribe(res => {
-		// building
-		this.items = lodash.filter(res.body, function (o) {
+    if (this.collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: this.collateral.id, size: 9999 }).subscribe(res => {
+        // building
+        this.items = lodash.filter(res.body, function (o) {
           return o.propertyType === CollateralPropertyType.BUILDING;
-		});
+        });
       });
-	}
+    }
   }
 
   public openDialogBuilding(property: ICollateralProperty = null): void {

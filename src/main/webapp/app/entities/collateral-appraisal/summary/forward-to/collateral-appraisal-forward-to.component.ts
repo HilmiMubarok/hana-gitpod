@@ -189,7 +189,7 @@ export class CollateralAppraisalForwardToComponent implements OnInit {
     }
     this.assignTo.emit(this.surveyAppraisal);
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

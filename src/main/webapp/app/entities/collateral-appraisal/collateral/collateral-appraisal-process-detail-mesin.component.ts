@@ -27,7 +27,7 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   public displayColumns: string[] = ['no', 'machineName', 'documentType', 'noDocument', 'date', 'from', 'amount', 'action'];
   public items: ICollateralProperty[];
   public account: Account;
-  // public gakBisa: boolean;
+  // public hideordisable: boolean;
   // public hiddenRmAdmin: boolean;
   public hiddenRmAdmin: boolean;
   constructor(
@@ -91,7 +91,7 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
       this.getData();
     });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

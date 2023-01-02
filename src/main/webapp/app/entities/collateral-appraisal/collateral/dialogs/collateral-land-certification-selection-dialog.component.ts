@@ -32,7 +32,7 @@ export class CollateralLandCertificationDialogComponent {
   public checkboxLabel(row?: ICollateralLandAttribute): string {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

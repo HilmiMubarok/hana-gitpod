@@ -228,7 +228,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       this.certiFicateTypeName = res.body;
     });
   }
-  // gakbisa() {
+  // hideordisable() {
   //   if (this.object.statusId === STATUS.APPROVE) {
   //     return true;
   //   }

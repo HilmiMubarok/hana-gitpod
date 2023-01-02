@@ -191,7 +191,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
         this.countLiquidationValueIndication();
       });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

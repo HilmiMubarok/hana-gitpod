@@ -47,7 +47,7 @@
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button (click)="deleteVechiles(element)">
-            <mat-icon [hidden]="gakbisa()" [hidden]="hiddenRmAdmin">delete</mat-icon>
+            <mat-icon [hidden]="hideordisable()" [hidden]="hiddenRmAdmin">delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -60,7 +60,7 @@
   </mat-card-content>
   <mat-card-actions>
     <div class="d-flex justify-content-end mb-3 mt-3">
-      <button mat-button [hidden]="gakbisa()" (click)="openDialog()" [hidden]="hiddenRmAdmin">Add Condition</button>
+      <button mat-button [hidden]="hideordisable()" (click)="openDialog()" [hidden]="hiddenRmAdmin">Add Condition</button>
     </div>
   </mat-card-actions>
 </mat-card>

@@ -168,13 +168,13 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
       this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
     });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
     return false;
   }
-  gakbisa2() {
+  hideordisable2() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return false;
     }

@@ -24,10 +24,10 @@
           </button>
 
           <button mat-icon-button (click)="edit(element)">
-            <mat-icon [hidden]="gakbisa()">create</mat-icon>
+            <mat-icon [hidden]="hideordisable()">create</mat-icon>
           </button>
           <button mat-icon-button (click)="delete(element)">
-            <mat-icon [hidden]="gakbisa()">delete</mat-icon>
+            <mat-icon [hidden]="hideordisable()">delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -39,6 +39,6 @@
     </table>
   </mat-card-content>
   <mat-card-actions align="center">
-    <button mat-raised-button color="primary" [disabled]="gakbisa()" (click)="openDialog()"><mat-icon>add</mat-icon> UPLOAD</button>
+    <button mat-raised-button color="primary" [disabled]="hideordisable()" (click)="openDialog()"><mat-icon>add</mat-icon> UPLOAD</button>
   </mat-card-actions>
 </mat-card>
