@@ -181,7 +181,7 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
     });
     let key: string;
     this.getBucket().then(res => {
-      key = 'credit_proposal/remark/collateral-info/checklist/';
+      key = 'credit_proposal/remark/collateral-info/checklist';
 
       const timeStamp = Math.floor(Date.now() / 1000);
 
