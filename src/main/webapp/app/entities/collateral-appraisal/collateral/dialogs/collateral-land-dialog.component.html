@@ -7,19 +7,19 @@
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Certificate Number</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certNumber" [disabled]="gakbisa()" />
+              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certNumber" [disabled]="hideordisable()" />
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>In The Name Of</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certName" [disabled]="gakbisa()" />
+              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certName" [disabled]="hideordisable()" />
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>No GS / SU</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certGSNumber" [disabled]="gakbisa()" />
+              <input matInput type="text" [(ngModel)]="collateralLandAttribute.certGSNumber" [disabled]="hideordisable()" />
             </mat-form-field>
           </section>
         </div>
@@ -28,7 +28,7 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Date of Issue</mat-label>
               <input
-                [disabled]="gakbisa()"
+                [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"
                 [matDatepicker]="dateOfIssue"
                 matInput
@@ -37,14 +37,14 @@
                 disabled
               />
               <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
-              <mat-datepicker #dateOfIssue disabled="false" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
+              <mat-datepicker #dateOfIssue disabled="false" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
             </mat-form-field>
           </section>
           <section class="mt-2">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Due Date</mat-label>
               <input
-                [disabled]="gakbisa()"
+                [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"
                 [matDatepicker]="dueDate"
                 matInput
@@ -53,7 +53,7 @@
                 disabled
               />
               <mat-datepicker-toggle matSuffix [for]="dueDate"></mat-datepicker-toggle>
-              <mat-datepicker #dueDate disabled="false" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
+              <mat-datepicker #dueDate disabled="false" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin"> </mat-datepicker>
             </mat-form-field>
           </section>
           <section class="mt-2">
@@ -64,7 +64,7 @@
                 type="text"
                 [ngModel]="collateralLandAttribute.certArea | number: '1.0-0'"
                 (ngModelChange)="collateralLandAttribute.certArea = numberInputChanged($event)"
-                [disabled]="gakbisa()"
+                [disabled]="hideordisable()"
                 [disabled]="hiddenRmAdmin"
               />
 
@@ -78,5 +78,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()" [disabled]="gakbisa()" [disabled]="hiddenRmAdmin">Save</button>
+  <button mat-button (click)="save()" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin">Save</button>
 </mat-dialog-actions>

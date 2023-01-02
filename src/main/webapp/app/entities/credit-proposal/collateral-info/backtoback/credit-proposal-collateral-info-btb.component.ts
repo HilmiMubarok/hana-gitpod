@@ -211,11 +211,11 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   }
 
   public findCollateralProperty(collateral: ICollateral): void {
-	if (collateral.id) {
-	  this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-	  });
-	}
+      });
+    }
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

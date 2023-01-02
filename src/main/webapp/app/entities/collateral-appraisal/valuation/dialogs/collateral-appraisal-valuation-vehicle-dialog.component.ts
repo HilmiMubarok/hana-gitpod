@@ -20,18 +20,29 @@ export class CollateralAppraisalValuationVehicleDialogComponent {
     this.collateralProp = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
+
   public cancel(): void {
     this._dialog.close(this.collateralProp);
   }
   public save(): void {
+    this.resetNumber();
     this.collateralPropertyService.update(this.collateralProp).subscribe(res => {
       this._dialog.close(res.body);
     });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
     return false;
+  }
+
+  public resetNumber() {
+    if (this.collateralProp.vehicleMarketValue === null) {
+      this.collateralProp.vehicleMarketValue = 0;
+    }
+    if (this.collateralProp.vehiclePercentage === null) {
+      this.collateralProp.vehiclePercentage = 0;
+    }
   }
 }

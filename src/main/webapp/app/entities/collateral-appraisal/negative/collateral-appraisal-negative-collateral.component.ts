@@ -77,7 +77,7 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
   public clearTextBox(): void {
     this.criteria = '';
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

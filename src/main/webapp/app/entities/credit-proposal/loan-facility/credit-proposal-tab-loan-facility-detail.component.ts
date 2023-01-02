@@ -107,16 +107,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.triggeredSave();
     }
   }
- // WORD
- public getWord() {
-  this.storageService.getBucketName().subscribe(val => {
-    this.BUCKET = val.body['bucket'];
-    this.getContainer();
-  });
-}
+  // WORD
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+      this.getContainer();
+    });
+  }
 
   private getContainer(): void {
-    
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
       paramsId = params['id'];

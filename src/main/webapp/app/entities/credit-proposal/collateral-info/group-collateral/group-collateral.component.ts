@@ -1,8 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
-import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
+import { COLLATERAL_TYPE, COLLATERAL_BINDING_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -16,6 +16,11 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 
 @Component({
   selector: 'jhi-group-collateral',
@@ -44,18 +49,22 @@ export class GroupCollateralComponent implements OnChanges {
     'action',
   ];
 
+  private bindingTypeVal: any;
+  public listGroupCollateral: ICollateral[];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
+  public groupCollaterals = [];
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+  @Input() cif: string;
 
   @Input()
   get creditProposal() {
@@ -67,23 +76,30 @@ export class GroupCollateralComponent implements OnChanges {
 
   constructor(
     private collateralPropertyService: CollateralPropertyService,
+    private partyCifService: PartyCifService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
+      if (this.creditProposal.customerNumber) {
+        this.collateralMybusiness();
+      }
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
+          console.log('datachanges', this.collateralMybusiness());
         }
       }
     }
@@ -110,6 +126,7 @@ export class GroupCollateralComponent implements OnChanges {
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
+        applicationProduct: this.creditProposal.products,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -186,6 +203,10 @@ export class GroupCollateralComponent implements OnChanges {
     return new CreditProposalCollateralInsurance();
   }
 
+  public getBindingType(element: string) {
+    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    return this.bindingTypeVal[keyy];
+  }
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
     if (this.creditProposal.attributes['binding'].length > 0) {
       for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
@@ -200,11 +221,11 @@ export class GroupCollateralComponent implements OnChanges {
   }
 
   public findCollateralProperty(collateral: ICollateral): void {
-	if (collateral.id) {
-	  this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-		this.collateralProperties = [...this.collateralProperties, ...res.body];
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
       });
-	}
+    }
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {
@@ -263,7 +284,7 @@ export class GroupCollateralComponent implements OnChanges {
   public countTotalLV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -287,7 +308,7 @@ export class GroupCollateralComponent implements OnChanges {
   public countTotalMV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.groupCollaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -332,5 +353,22 @@ export class GroupCollateralComponent implements OnChanges {
       }
     }
     return result;
+  }
+  public collateralMybusiness() {
+    const cifNumber = this.creditProposal.customerNumber;
+    this.partyCifService.getGroupCollateral(cifNumber).subscribe(res => {
+      const groupCollaterals: IGroupCollateral[] = res.body;
+      for (let i = 0; i < groupCollaterals.length; i++) {
+        const satuanGroupCollateral: IGroupCollateral = groupCollaterals[i];
+        for (let a = 0; a < satuanGroupCollateral.collaterals.length; a++) {
+          const satuanCollateral: ICollateral = satuanGroupCollateral.collaterals[a];
+          // this.listGroupCollateral.push(satuanCollateral);
+          this.groupCollaterals.push(satuanCollateral);
+          this.groupCollaterals = [...this.groupCollaterals];
+        }
+      }
+    });
+    // this.coba=this.groupCollaterals;
+    console.log('datasource', this.groupCollaterals);
   }
 }

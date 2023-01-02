@@ -97,7 +97,7 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
       this.getCollateralPropertyByCollateralId(this.collateralId);
     });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
