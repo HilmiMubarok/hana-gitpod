@@ -683,7 +683,12 @@ export class SurveyBatchEditComponent implements OnInit {
     });
   }
   private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
-    if (data.attributes === undefined || data.attributes === null) {
+    if (
+      data.attributes === undefined ||
+      data.attributes === null ||
+      typeof data.attributes['summary'] === 'string' ||
+      typeof data.attributes['scoreCard'] === 'string'
+    ) {
       data.attributes['scoreCard'] = scoreCard;
       data.attributes['summary'] = {
         keterangan: '',
@@ -1075,7 +1080,7 @@ export class SurveyBatchEditComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(copySurveyAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(

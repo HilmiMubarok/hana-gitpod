@@ -832,7 +832,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   }
 
   private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
-    if (data.attributes === undefined || data.attributes === null) {
+    if (
+      data.attributes === undefined ||
+      data.attributes === null ||
+      typeof data.attributes['summary'] === 'string' ||
+      typeof data.attributes['scoreCard'] === 'string'
+    ) {
       data.attributes['scoreCard'] = scoreCard;
       data.attributes['summary'] = {
         keterangan: '',
@@ -845,6 +850,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }
+
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
         data.attributes['summary'] = {
           keterangan: '',
@@ -854,12 +860,17 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       } else {
         data.attributes['summary'] = JSON.parse(data.attributes['summary']);
       }
+
+      console.log('summaryyy', JSON.parse(data.attributes['summary']));
+      console.log('Negative', JSON.parse(data.attributes['scoreCard']));
     }
     return data;
   }
 
   private async loadCollateralAppraisal(id: number): Promise<void> {
     this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
+
+    // this.parseCollateralAppraisal(this.collateralAppraisal);
 
     // this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
     // if (this.collateralAppraisal.attributes === undefined || this.collateralAppraisal.attributes === null) {
@@ -887,6 +898,34 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     //   }
     // }
     console.log('collateral appraisal', this.collateralAppraisal);
+  }
+  private _showNotification(severity: string, message: string): void {
+    // capitalize first letter for summary
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({
+      severity,
+      summary: severityCaptitalized,
+      detail: message,
+      life: 3000,
+    });
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  public onAssignTo(ev) {
+    this.surveyAppraisal = ev;
   }
 
   public onSave(source: string): void {
@@ -982,19 +1021,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     return this._validateProcess(mustValidateOnAssignment);
   }
-  public onAssignTo(ev) {
-    this.surveyAppraisal = ev;
-  }
-  private _showNotification(severity: string, message: string): void {
-    // capitalize first letter for summary
-    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
-    this.messageService.add({
-      severity,
-      summary: severityCaptitalized,
-      detail: message,
-      life: 3000,
-    });
-  }
 
   public checkMustValidatedOnAssigned() {
     const mustValidatedOnAssigned = {
@@ -1020,20 +1046,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     }
 
     return this._validateProcess(mustValidatedOnAssigned);
-  }
-
-  private _validateProcess(toValidate: object) {
-    let isAllTrue = true;
-    for (const key in toValidate) {
-      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
-        if (toValidate[key] === false) {
-          isAllTrue = false;
-          break;
-        }
-      }
-    }
-
-    return isAllTrue;
   }
 
   public validateDraft(): Promise<any> {
@@ -1257,24 +1269,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     });
   }
 
-  // private preSave(): ISurveyAppraisals {
-  //   const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-  //   copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-  //   copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
-  //   if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
-  //     copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
-  //       copySurveyAppraisal.collateral.attributes['landCertificates']
-  //     );
-  //   } else {
-  //     copySurveyAppraisal.collateral.attributes['landCertificates'];
-  //   }
-  //   return copySurveyAppraisal;
-  // }
-
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.surveyAppraisal.attributes['scoreCard']);
+    copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+
     copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+    // copySurveyAppraisal.attributes['summary'].relace(/\\/g,'')
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']
