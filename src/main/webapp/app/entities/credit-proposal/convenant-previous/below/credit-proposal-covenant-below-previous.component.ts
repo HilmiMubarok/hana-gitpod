@@ -85,5 +85,7 @@ export class CreditProposalCovenantBelowPreviousComponent implements OnInit {
     }
 
     // console.log('proposal-type', this.creditProposalItem[])
+    // Filter standard covenant only status === waived and to be waived
+    this.standardCovenant = this.standardCovenant.filter((item: any) => item.status === 'Waived' || item.status === 'To be waived');
   }
 }
