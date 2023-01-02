@@ -80,7 +80,7 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
       }
     });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }

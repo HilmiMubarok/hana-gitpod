@@ -127,6 +127,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     });
     this.loadCollateralType();
     this.loadCollateralGrading();
+    this.trashUndefined();
   }
 
   private loadCollateralGrading(): void {
@@ -216,5 +217,10 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  public trashUndefined() {
+    if (this.marketability === undefined && this.marketability === 'undefined') {
+      this.marketability = '';
+    }
   }
 }

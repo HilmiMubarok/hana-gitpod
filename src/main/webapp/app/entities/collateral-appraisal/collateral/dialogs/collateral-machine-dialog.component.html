@@ -12,7 +12,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineName"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -29,7 +29,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineDocType"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -46,7 +46,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineDocNum"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -65,7 +65,7 @@
               cssClass="e-outline"
               floatLabelType="Auto"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-datepicker>
@@ -85,7 +85,7 @@
               cssClass="e-outline"
               floatLabelType="Auto"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-datepicker>
@@ -107,7 +107,7 @@
               format="IDR 0,"
               min="0"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-numerictextbox>
@@ -133,7 +133,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineMerk"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -150,7 +150,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineMadeBy"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -167,7 +167,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineYear"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -184,7 +184,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineModelType"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -204,7 +204,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineType"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -222,7 +222,7 @@
               floatLabelType="Auto"
               type="date"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             ></ejs-datepicker>
             <!-- <mat-form-field class="w-100" appearance="outline">
@@ -240,7 +240,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineSpec"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -257,7 +257,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineCondition"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -274,7 +274,7 @@
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineNotes"
               required
-              [disabled]="gakbisa()"
+              [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
             </ejs-textbox>
@@ -290,5 +290,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button [disabled]="gakbisa()" (click)="save()" [disabled]="hiddenRmAdmin">Save</button>
+  <button mat-button [disabled]="hideordisable()" (click)="save()" [disabled]="hiddenRmAdmin">Save</button>
 </mat-dialog-actions>

@@ -47,7 +47,7 @@
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button (click)="delete(element)">
-              <mat-icon [hidden]="gakbisa()" [hidden]="hiddenRmAdmin">delete_forever</mat-icon>
+              <mat-icon [hidden]="hideordisable()" [hidden]="hiddenRmAdmin">delete_forever</mat-icon>
             </button>
           </td>
           <td mat-footer-cell *matFooterCellDef></td>
@@ -80,7 +80,7 @@
             format="0,"
             min="0"
             required
-            [disabled]="gakbisa()"
+            [disabled]="hideordisable()"
             [disabled]="hiddenRmAdmin"
           ></ejs-numerictextbox>
         </div>
@@ -97,7 +97,7 @@
             format="0,"
             min="0"
             required
-            [disabled]="gakbisa()"
+            [disabled]="hideordisable()"
             [disabled]="hiddenRmAdmin"
           >
           </ejs-numerictextbox>
@@ -117,7 +117,7 @@
 
   <mat-card-actions>
     <div class="d-flex justify-content-end mb-3 mt-3">
-      <button mat-raised-button [hidden]="gakbisa()" [hidden]="hiddenRmAdmin" (click)="openDialog()">ADD NEW CERTIFICATE</button>
+      <button mat-raised-button [hidden]="hideordisable()" [hidden]="hiddenRmAdmin" (click)="openDialog()">ADD NEW CERTIFICATE</button>
     </div>
   </mat-card-actions>
 </mat-card>

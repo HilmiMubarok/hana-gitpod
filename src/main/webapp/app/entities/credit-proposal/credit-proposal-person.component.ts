@@ -135,7 +135,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.personService.getGenders().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.genders = res.body;
     });
-    this.menghilang();
+    this.hiddenNull();
     console.log(this._deptorData.debtorData.collectabilityStatus);
 
     if (this._deptorData.debtorData.collectabilityStatus === null) {
@@ -153,7 +153,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     }
     return age;
   }
-  menghilang() {
+  public hiddenNull() {
     if (this.item.firstName === null) {
       this.item.firstName = '';
     }

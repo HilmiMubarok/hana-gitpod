@@ -30,7 +30,7 @@ export class CollateralAppraisalValuationVehicleDialogComponent {
       this._dialog.close(res.body);
     });
   }
-  gakbisa() {
+  hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;
     }
