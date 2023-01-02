@@ -23,6 +23,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
   private _creditProposal: ICreditProposal;
   get creditProposal() {
+    console.log('this._creditProposal', this._creditProposal);
     return this._creditProposal;
   }
   public grid: GridComponent;
@@ -151,6 +152,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('this.item', this.item);
     if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
       this.data = this.dataAttrPass;
     } else {

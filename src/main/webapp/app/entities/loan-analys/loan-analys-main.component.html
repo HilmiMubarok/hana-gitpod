@@ -417,6 +417,22 @@
         <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
       </div>
 
+      <!-- group guarantor analysis -->
+      <div *ngIf="selectedMenu === 'group-guarantor-analyst'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-group-guarantor-analysis [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
+        </jhi-loan-analys-group-guarantor-analysis>
+      </div>
+
+      <!-- slik checking in credit proposal -->
+      <div *ngIf="selectedMenu === 'slik-summary'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-slik-summary [creditProposal]="creditProposal"> </jhi-loan-analys-slik-summary>
+      </div>
+
+      <!-- credit rating -->
+      <div *ngIf="selectedMenu === 'credit-rating'">
+        <jhi-loan-analys-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"> </jhi-loan-analys-credit-rating-view>
+      </div>
+
       <!-- opinion -->
       <!-- [saveWordOpinionCondition]="saveWordOpinionCondition"
       [saveWordMinio]="saveWord" -->
@@ -455,7 +471,7 @@
     </div>
 
     <!-- Trade Checking  -->
-    <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval'">
+    <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval' || parentPath === 'la-SME-CRC'">
       <div *ngIf="selectedMenu === 'trade-checking'">
         <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"> </jhi-credit-proposal-trade-checking>
         <jhi-credit-proposal-trade-checking-remarks [creditProposal]="creditProposal" [saveWord]="saveWord">

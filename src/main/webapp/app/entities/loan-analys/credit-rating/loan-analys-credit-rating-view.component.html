@@ -1,0 +1,309 @@
+<div *ngIf="mode === 'view'" class="row">
+  <div class="card-layout">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">MAKSIMUM INTERNAL CREDIT RATING</div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <div class="form-space">
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditRatings.creditRating"
+                placeholder="Credit Rating"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                disabled="true"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditRatings.internalMaxLLL"
+                placeholder="Internal Maksimum LLL (%)"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                disabled="true"
+                type="number"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <ejs-textbox placeholder="Equity Position as of (Date)" floatLabelType="Auto" cssClass="e-outline">
+                  </ejs-textbox> -->
+              <ejs-datepicker
+                cssClass="e-outline"
+                type="text"
+                placeholder="Equity Position as of (Date)"
+                floatLabelType="Auto"
+                [(ngModel)]="creditRatings.equityPositionDate"
+                format="yyyy/MM/dd"
+                disabled="true"
+              >
+              </ejs-datepicker>
+            </div>
+          </div>
+          <div class="row my-3">
+            <div class="col">
+              <ejs-numerictextbox
+                [(ngModel)]="creditRatings.equityPosition"
+                placeholder="Equity Position as of (value)"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                format="0,"
+                min="0"
+                disabled="true"
+              >
+              </ejs-numerictextbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-numerictextbox
+                [(ngModel)]="creditRatings.idrMioLLL"
+                [value]="parse()"
+                placeholder="Maximum Internal Credit Rating (LLL IDR MIO)"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                format="0,"
+                min="0"
+                disabled="true"
+              >
+              </ejs-numerictextbox>
+              <!-- <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Maximum Internal Credit Rating (LLL IDR MIO)</mat-label>
+                    <input matInput type="text" [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL" [value]="parse()">
+                  </mat-form-field> -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-layout py-2">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">EXTERNAL CREDIT RATING</div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <div class="form-space">
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.creditRatings[0].pefindo"
+                placeholder="Pefindo"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+            <div class="col">
+              <ejs-datepicker
+                cssClass="e-outline"
+                placeholder="as of Date"
+                floatLabelType="Auto"
+                [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate"
+              >
+              </ejs-datepicker>
+              <!-- <ejs-datepicker cssClass="e-outline" [(value)]="creditProposalItem.creditRatings[0].pefindoDate"
+                [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate" placeholder="as of Date"
+                floatLabelType="Auto"></ejs-datepicker> -->
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.creditRatings[0].fitch"
+                placeholder="Fitch"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+            <div class="col">
+              <ejs-datepicker
+                cssClass="e-outline"
+                [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
+                placeholder="as of Date"
+                floatLabelType="Auto"
+              ></ejs-datepicker>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.creditRatings[0].snp"
+                placeholder="SNP"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+            <div class="col">
+              <ejs-datepicker
+                cssClass="e-outline"
+                [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
+                placeholder="as of Date"
+                floatLabelType="Auto"
+              ></ejs-datepicker>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <!-- <div class="form-space"> -->
+              <ejs-textbox
+                [(ngModel)]="creditProposalItem.creditRatings[0].moodys"
+                placeholder="Moodys"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+            <div class="col">
+              <ejs-datepicker
+                cssClass="e-outline"
+                [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
+                placeholder="as of Date"
+                floatLabelType="Auto"
+              ></ejs-datepicker>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="e-card-actions">
+    <div class="d-flex justify-content-end"></div>
+  </div>
+</div>
+
+<div *ngIf="mode === 'edit'" class="row">
+  <div class="card-layout">
+    <div class="e-card">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">MAKSIMUM INTERNAL CREDIT RATING</div>
+          <div class="e-card-sub-title"></div>
+        </div>
+      </div>
+      <div class="e-card-content">
+        <div class="form-space">
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="creditRatings.creditRating"
+                [value]="cifNumber"
+                placeholder="Credit Rating"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-textbox
+                [(ngModel)]="creditRatings.internalMaxLLL"
+                placeholder="Internal Maksimum LLL (%)"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                type="number"
+              >
+              </ejs-textbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-numerictextbox
+                [(ngModel)]="creditRatings.equityPosition"
+                placeholder="Equity Position as of Value"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                format="0,"
+                min="0"
+                disabled
+              >
+              </ejs-numerictextbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-datepicker
+                cssClass="e-outline"
+                type="date"
+                placeholder="Equity Position as of (Date)"
+                floatLabelType="Auto"
+                [(ngModel)]="creditRatings.equityPositionDate"
+                format="yyyy/MM/dd"
+                disabled="true"
+              >
+              </ejs-datepicker>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-numerictextbox
+                disabled="true"
+                placeholder="LLL IDR MIO"
+                [value]="parseCif()"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                format="0,"
+                min="0"
+              >
+              </ejs-numerictextbox>
+            </div>
+          </div>
+
+          <div class="row my-3">
+            <div class="col">
+              <ejs-dropdownlist
+                cssClass="e-outline"
+                [dataSource]="industryList"
+                placeholder="Sector Industry"
+                (change)="changeEvent($event)"
+                [(value)]="industrys"
+                floatLabelType="Auto"
+                [fields]="fields"
+              >
+              </ejs-dropdownlist>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="e-card-actions mx-auto mb-5 mt-3">
+        <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()">SYNC from HOBIS</button>
+        <button mat-raised-button (click)="save()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
