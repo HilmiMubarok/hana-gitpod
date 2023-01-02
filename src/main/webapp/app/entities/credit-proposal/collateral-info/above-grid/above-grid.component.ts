@@ -47,7 +47,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     'crossCollateral',
     'action',
   ];
-  @Input() cif: string;
+
   public dataItem: ICollateral[];
   private bindingTypeVal: any;
   public collateralProperties: ICollateralProperty[];
