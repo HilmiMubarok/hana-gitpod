@@ -114,10 +114,12 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     const predicate: object = {
       width: '80vw',
       data: {
+        cp: this._creditProposal,
         collateral: value,
         binding: this.getBinding(value),
         emptyField: this.getEmptyField(value),
         applicationProduct: this.creditProposal.products,
+        properties: this.collateralProperties,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);

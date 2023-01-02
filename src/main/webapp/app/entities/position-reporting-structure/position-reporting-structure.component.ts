@@ -14,9 +14,9 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './position-reporting-structure.component.html',
 })
 export class PositionReportingStructureComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
-  private LOS_REL: string = 'LOS_REL';
+  private LOS_REL = 'LOS_REL';
   public relationTypes: IRelationType[];
-  public displayColumns: string[] = [
+  public displayColumns = [
     'no',
     'positionFrom',
     'positionFromEmployeeName',
