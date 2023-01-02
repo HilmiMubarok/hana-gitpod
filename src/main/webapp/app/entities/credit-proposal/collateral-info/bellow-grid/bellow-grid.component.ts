@@ -70,7 +70,6 @@ export class BellowGridComponent implements OnChanges, OnInit {
     this._creditProposal = cp;
   }
 
-  @Input() cif: string;
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
