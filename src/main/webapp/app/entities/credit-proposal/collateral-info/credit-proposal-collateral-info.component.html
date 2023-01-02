@@ -12,7 +12,7 @@
       (select)="selectMenuItem($event)"
     ></ejs-menu>
     <div [hidden]="selectedMenu === 'CHECKLIST'">
-      <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal" [cif]="cif"></jhi-above-grid>
+      <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
       <jhi-credit-proposal-collateral-info-remarks-information
         #creditProposalCollateralInfoRemarksInfoComponent
         [saveWord]="saveWord"
