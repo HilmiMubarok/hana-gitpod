@@ -132,6 +132,10 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     if (changes['partyId']) {
       this.loadByPartyId(this.partyId);
     }
+
+    if (changes['partyCif']) {
+      console.log('party cif di grid', this.partyCif);
+    }
   }
 
   ngOnInit() {
@@ -315,11 +319,27 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       if (res && res.length > 0) {
         for (let i = 0; i < res.length; i++) {
           const collateralProperty: ICollateralProperty = res[i];
-          this.collateralPropertyService.update(collateralProperty).subscribe();
+          if (collateralProperty.id) {
+            this.collateralPropertyService.update(collateralProperty).subscribe();
+            this.findCollateralProperty(collateralProperty);
+          } else {
+            console.log('save baru');
+            this.collateralPropertyService.create(collateralProperty).subscribe();
+            this.createcollateralProperty(collateralProperty);
+          }
         }
         this.loadByPartyId(this.partyId);
       }
     });
+  }
+
+  private createcollateralProperty(collateralProperty: ICollateralProperty) {
+    this.partyCif.collateralProperties.push(collateralProperty);
+  }
+
+  private findCollateralProperty(collateralProperty: ICollateralProperty) {
+    const index = this.partyCif.collateralProperties.findIndex(obj => obj.id === collateralProperty.id);
+    this.partyCif.collateralProperties[index] = collateralProperty;
   }
 
   public openDialogMarketValue(element: ICollateral): void {

@@ -22,6 +22,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
   public loading: boolean;
   public dataPartySlik: IPartySlik[];
   public data: ICPFacility[] = [];
+  public dataFacility: ICPFacility[] = [];
   public _data: ICPFacility[] = [];
   public _deptorData: ICreditProposal;
   private _debtorData: IDebtorData;
@@ -91,16 +92,28 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {}
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
-      this.mapingData(this.debtorData);
+      this.parsingData(this.debtorData);
+      console.log('ini child data', this.debtorData);
+    }
+    if (changes['partyCif']) {
+      console.log('ini party cif', this.partyCif.debtorData);
     }
   }
 
   ngOnInit(): void {
-    console.log('this debtor data child', this.debtorData);
     console.log('ini data', this.data);
     console.log('collateral type', this.dialogType);
+  }
+
+  public sync() {
+    this.mapingData(this.debtorData);
+  }
+
+  private parsingData(params: IDebtorData) {
+    this.dataFacility = JSON.parse(params.attributes['cpFacility']);
   }
 
   private mapingData(params: IDebtorData) {

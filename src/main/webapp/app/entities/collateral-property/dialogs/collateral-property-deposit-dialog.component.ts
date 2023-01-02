@@ -153,7 +153,6 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   }
 
   filteredQuantity() {
-    console.log('ini options ', this.optionsQuantity);
     this.filteredOptionsQuantity = this.myControlQuantity.valueChanges.pipe(
       startWith(''),
       map(value => {

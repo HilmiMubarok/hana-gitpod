@@ -78,6 +78,7 @@ export class PartyCifDetailComponent implements OnInit {
 
   public preSave() {
     const copyPartyCif: IPartyCif = lodash.cloneDeep(this.partyCif);
+    console.log('sat save', copyPartyCif);
 
     if (typeof copyPartyCif.attributes['comparison'] !== 'string') {
       copyPartyCif.attributes['comparison'] = JSON.stringify(copyPartyCif.attributes['comparison']);
