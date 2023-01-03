@@ -21,6 +21,7 @@ import { SurveyRequestService } from './survey-request.service';
 import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-appraisals.service';
 import { PageEvent } from '@angular/material/paginator';
 import lodash from 'lodash';
+import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
 
 @Component({
   selector: 'jhi-offering-letter-survey-batch-new',
@@ -59,7 +60,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   paginatorPageSizeP: number;
 
   public biayaAppraisal: number;
-
+  public cif: string;
   public surveyRequest: ISurveyRequest;
 
   constructor(
@@ -98,6 +99,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
     //   return data.name == filter;
     //  };
     this.surveyRequest = new SurveyRequest();
+    this.search();
   }
 
   private loadAll(): void {
@@ -114,6 +116,27 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+  }
+  public search() {
+    if (this.currentSearch && this.currentSearch !== '') {
+      this.surveyAppraisalsService
+        .searchExternal(
+          {
+            page: this.page,
+            // query: this.currentSearch,
+            size: this.itemsPerPage,
+          },
+          this.currentSearch
+        )
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => {
+            this.initTableFirst(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+    } else {
+      this.loadAll();
+    }
   }
 
   private loadDataPartner(): void {
