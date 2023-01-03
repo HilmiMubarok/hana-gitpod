@@ -33,6 +33,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
+  @ViewChild('document_editor_container_loan_analys')
+  public container_loan_analys: DocumentEditorContainerComponent;
+
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
   private paramsIdGet: string;
@@ -143,7 +146,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
-                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+				if (parentSource === '') {
+				  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+				}else if (parentSource === 'loan-analys') {
+				  const docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+				}
+
                 const contents: string = e.target.result;
                 docEditor.open(contents);
               };
@@ -178,7 +186,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     const timeStamp = Math.floor(Date.now() / 1000);
 
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	if (parentSource === '') {
+	  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	}else if (parentSource === 'loan-analys') {
+	  const docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+	}
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
