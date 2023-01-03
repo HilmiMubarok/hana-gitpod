@@ -122,6 +122,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   private loadCollateralType(): void {
     this.collateralTypeService.query().subscribe(res => {
       this.collateralTypes = res.body;
+      this.collateralTypes.pop();
     });
   }
 
