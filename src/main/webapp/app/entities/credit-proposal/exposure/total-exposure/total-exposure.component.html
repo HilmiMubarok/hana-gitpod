@@ -92,7 +92,7 @@
           <tr mat-row *matRowDef="let row; columns: displayColumn"></tr>
         </table>
 
-        <mat-paginator #paginator2 [pageSize]="2" [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
       <div class="e-card-actions"></div>
       <div class="row">
@@ -264,7 +264,7 @@
           <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
         </table>
 
-        <mat-paginator #paginator [pageSizeOptions]="[3, 5, 12, 18]" showFirstLastButtons></mat-paginator>
+        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
       <div class="row">
         <div class="col-6">
@@ -467,16 +467,15 @@
             </div>
           </section>
         </div>
-      </div>
-      <div class="row">
+
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-numerictextbox
-                placeholder="Total Group Cash Loan"
+                placeholder="Grand Total Debtor"
                 format="IDR 0,"
                 min="0"
-                [value]="totalDebiturCashLoanGroup"
+                [value]="grandTotalDebitor"
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 disabled
@@ -486,12 +485,13 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Total Group Cash Loan</div>
+              <div class="col-5">Grand Total Debtor</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ totalDebiturCashLoanGroup | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ init }}</div>
             </div>
           </section>
         </div>
+
         <div class="col -6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -520,12 +520,12 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-numerictextbox
-                placeholder="Total Group Non cash Loan"
+                placeholder="Total Group Cash Loan"
                 format="IDR 0,"
                 min="0"
+                [value]="totalDebiturCashLoanGroup"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="totalDebiturNonCashLoanGroup"
                 disabled
               >
               </ejs-numerictextbox>
@@ -533,12 +533,13 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Total Group Non cash Loan</div>
+              <div class="col-5">Total Group Cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturNonCashLoanGroup }}</div>
+              <div class="col col-lg-2">{{ totalDebiturCashLoanGroup | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
+
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
@@ -567,12 +568,12 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-numerictextbox
-                placeholder="Grand Total Debtor"
+                placeholder="Total Group Non cash Loan"
                 format="IDR 0,"
                 min="0"
-                [value]="grandTotalDebitor"
                 cssClass="e-outline"
                 floatLabelType="Auto"
+                [value]="totalDebiturNonCashLoanGroup"
                 disabled
               >
               </ejs-numerictextbox>
@@ -580,12 +581,14 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-5">Grand Total Debtor</div>
+              <div class="col-5">Total Group Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init }}</div>
+              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturNonCashLoanGroup }}</div>
             </div>
           </section>
         </div>
+      </div>
+      <div class="row">
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
