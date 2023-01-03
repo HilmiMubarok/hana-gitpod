@@ -18,6 +18,7 @@ import { IPerson, Person } from '../person/person.model';
 import { CUSTOMER_TYPE } from 'app/shared/constants/base.constants';
 import { PersonService } from '../person/person.service';
 import { PartyGroupService } from '../party-group/party-group.service';
+import { IDebtorData } from '../debtor-data/debtor-data.model';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -57,6 +58,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public expandedElement: IPartyCif | null;
   public activeRoute: string;
   public statusCodesData: Object[] = [];
+  public debtorData: IDebtorData;
 
   constructor(
     protected partyCifService: PartyCifService,
@@ -183,12 +185,21 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
       });
   }
   public cifNumber: any;
+  public data: [];
   updateFromHobis() {
     this.cifNumber = this.expandedElement?.customerId;
     this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
       for (let i = 0; i < this.partyCifs.length; i++) {
         this.partyCifs[i] = res.body;
       }
+    });
+  }
+
+  updateFacilityFromHobis() {
+    this.cifNumber = this.expandedElement?.customerId;
+    this.partyCifService.find('cif/retrieve-cp-facility/' + this.cifNumber).subscribe(res => {
+      this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+      this.debtorData = res.body.debtorData;
     });
   }
 }
