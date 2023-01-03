@@ -657,6 +657,24 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Correspondence';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    if (this.selectedMenu === 'group-guarantor-analyst') {
+      this.titleMenu = 'Group Guarantor Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'slik-summary') {
+      this.titleMenu = 'SLIK Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'credit-rating') {
+      this.titleMenu = 'Credit Rating';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'trade-checking') {
+      this.titleMenu = 'Trade Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+
+    console.log('this.selectedMenu', this.selectedMenu);
   }
 
   getTitleMenu() {
