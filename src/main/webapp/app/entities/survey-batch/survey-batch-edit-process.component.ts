@@ -243,7 +243,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         summary: 'Warning',
         detail: 'Dont forget to save data on this page',
       });
-      this.router.navigate(['/batch-apprisal', this.id, 'edit-internal'], {
+      this.router.navigate(['/batch-apprisal', this.id, 'edit-process'], {
         queryParams: {
           subroute: menu['id'],
         },
@@ -897,6 +897,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       documentLainnya: true,
       picDebtor: true,
       picPhone: true,
+      totalPlafond: true,
+      tglJatuhTempo: true,
     };
     if (
       this.jpRenewal === true ||
@@ -914,7 +916,16 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Pilih Jenis Permohonan Dahulu');
       mustValidateOnDraft.jenisPermohonan = false;
     }
-
+    if (this.jpRenewal === true) {
+      if (this.surveyAppraisal.totalPlafond === undefined || this.surveyAppraisal.totalPlafond === null) {
+        this._showNotification('error', 'Masukkan Total Plafond Dahulu');
+        mustValidateOnDraft.totalPlafond = false;
+      }
+      if (this.surveyAppraisal.tglJatuhTempo === undefined || this.surveyAppraisal.tglJatuhTempo === null) {
+        this._showNotification('error', 'Masukkan Tanggal Jatuh Tempo');
+        mustValidateOnDraft.tglJatuhTempo = false;
+      }
+    }
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
       if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
         this._showNotification('error', 'Masukkan Document Collateral Dahulu');

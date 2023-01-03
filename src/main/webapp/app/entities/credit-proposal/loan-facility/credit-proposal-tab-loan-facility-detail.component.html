@@ -13,8 +13,16 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSuminit()" [ngModel]="totallimt" placeholder="Total Initial Limit"
-              cssClass="e-outline" floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSuminit()"
+              [ngModel]="totallimt"
+              placeholder="Total Initial Limit"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -27,8 +35,15 @@
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSumchange()" placeholder="Total Changes" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSumchange()"
+              placeholder="Total Changes"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -42,8 +57,15 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSumOS()" placeholder="Total O/S" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSumOS()"
+              placeholder="Total O/S"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -56,9 +78,16 @@
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSumcredit()" placeholder="Total Plafond" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSumcredit()"
+              placeholder="Total Plafond"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -75,9 +104,15 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
-              cssClass="e-outline" placeholder="Custody Fee" floatLabelType="auto" floatLabelType="Always"
-              format="IDR 0," min="0"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+              cssClass="e-outline"
+              placeholder="Custody Fee"
+              floatLabelType="auto"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -91,25 +126,20 @@
         </section>
       </div>
     </div>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <div class="mb-2">
-        <mat-label>REMARKS</mat-label>
-
-        <!-- <button (click)="print()">print</button> -->
-        <ejs-richtexteditor [toolbarSettings]="tools"
-          [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks">
-        </ejs-richtexteditor>
-      </div>
-    </section>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <div class="fontsebled row">
-        <div class="col-1">REMARKS</div>
-        <div class="col-md-auto">:</div>
-        <div class="col" [toolbarSettings]="tools">
-          {{ newMessage }}
-        </div>
-      </div>
-    </section>
+    <div class="mb-2">
+      <mat-label>REMARKS</mat-label>
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="false"
+        [enableLocalPaste]="false"
+        height="100vh"
+        style="display: block"
+        (documentChange)="onDocumentChange()"
+        [enableEditor]="false"
+        [isReadOnly]="true"
+      >
+      </ejs-documenteditorcontainer>
+    </div>
   </div>
 </div>
 
@@ -128,8 +158,15 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSuminit()" placeholder="Total Initial Limit" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSuminit()"
+              placeholder="Total Initial Limit"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -142,8 +179,15 @@
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSumchange()" placeholder="Total Changes" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSumchange()"
+              placeholder="Total Changes"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -157,8 +201,15 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSumOS()" placeholder="Total O/S" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSumOS()"
+              placeholder="Total O/S"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -171,9 +222,16 @@
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [value]="fungsiSumcredit()" placeholder="Total Plafond" cssClass="e-outline"
-              floatLabelType="Always" format="IDR 0," min="0" readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [value]="fungsiSumcredit()"
+              placeholder="Total Plafond"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -190,9 +248,15 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
-            <ejs-numerictextbox [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
-              cssClass="e-outline" placeholder="Custody Fee" floatLabelType="auto" floatLabelType="Always"
-              format="IDR 0," min="0"></ejs-numerictextbox>
+            <ejs-numerictextbox
+              [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+              cssClass="e-outline"
+              placeholder="Custody Fee"
+              floatLabelType="auto"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+            ></ejs-numerictextbox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -213,19 +277,46 @@
         </div>
       </div>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false"
-          height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
-          (keyDown)="onKeyDown($event)" (created)="onCreate()">
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDown($event)"
+          (created)="onCreate()"
+        >
         </ejs-documenteditorcontainer>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
-          height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
-          [isReadOnly]="true">
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        >
+        </ejs-documenteditorcontainer>
+      </section>
+      <section [hidden]="parentSource !== 'loan-analys'">
+        <ejs-documenteditorcontainer
+          #document_editor_container_loan_analys
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        >
         </ejs-documenteditorcontainer>
       </section>
     </div>
-
 
     <div class="e-card">
       <div class="e-card-header">
@@ -273,12 +364,10 @@
       </div>
       <div class="row">
         <div class="col-6">
-          <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal">
-          </jhi-credit-proposal-collateral-tab-loan>
+          <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan>
         </div>
         <div class="col-6">
-          <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal">
-          </jhi-credit-proposal-collateral-tab-loan-after>
+          <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan-after>
         </div>
       </div>
     </div>

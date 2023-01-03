@@ -34,6 +34,9 @@ import { DocumentChecklistDialogTempComponent } from './dar-final/document-check
 import { AboveGridDarFinalComponent } from './dar-final/collateral-info/above-grid/above-grid.component';
 import { CollateralInfoBTPDarFinalComponent } from './dar-final/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
 import { CollateralInfoDialogBTBDarFinalComponent } from './dar-final/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
+import { LoanAnalysGroupGuarantorAnalysisComponent } from './guarantour/loan-analys-group-guarantor-analysis.component';
+import { LoanAnalysSlikSummaryComponent } from './slik-summary/loan-analys-slik-summary.component';
+import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys-credit-rating-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
@@ -62,6 +65,9 @@ import { CollateralInfoDialogBTBDarFinalComponent } from './dar-final/collateral
     CreditProposalDeviationBelowTempComponent,
     DocumentChecklistTempComponent,
     DocumentChecklistDialogTempComponent,
+    LoanAnalysGroupGuarantorAnalysisComponent,
+    LoanAnalysSlikSummaryComponent,
+    LoanAnalysCreditRatingViewComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

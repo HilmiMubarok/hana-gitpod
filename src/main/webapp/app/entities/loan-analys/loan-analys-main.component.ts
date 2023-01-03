@@ -108,7 +108,7 @@ export class LoanAnalysMainComponent implements OnInit {
     // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
     // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
     // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
-
+    console.log('this.parentPath', this.parentPath);
     switch (this.parentPath) {
       case 'la-distribution':
         this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
@@ -131,16 +131,16 @@ export class LoanAnalysMainComponent implements OnInit {
       case 'la-analyst':
         this.subMenu = [
           ...SUBMENU_LOAN_ANALYS,
-          { id: 'repayment-capability', text: 'Repayment Capability' },
-          { id: 'trade-checking', text: 'Trade Checking' },
+          // { id: 'repayment-capability', text: 'Repayment Capability' },
+          // { id: 'trade-checking', text: 'Trade Checking' },
         ];
         break;
 
       case 'la-approval':
         this.subMenu = [
           ...SUBMENU_LOAN_ANALYS_LA_APPROVAL,
-          { id: 'repayment-capability', text: 'Repayment Capability' },
-          { id: 'trade-checking', text: 'Trade Checking' },
+          // { id: 'repayment-capability', text: 'Repayment Capability' },
+          // { id: 'trade-checking', text: 'Trade Checking' },
         ];
         break;
 
@@ -657,6 +657,24 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Correspondence';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    if (this.selectedMenu === 'group-guarantor-analyst') {
+      this.titleMenu = 'Group Guarantor Analyst';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'slik-summary') {
+      this.titleMenu = 'SLIK Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'credit-rating') {
+      this.titleMenu = 'Credit Rating';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.selectedMenu === 'trade-checking') {
+      this.titleMenu = 'Trade Checking';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+
+    console.log('this.selectedMenu', this.selectedMenu);
   }
 
   getTitleMenu() {

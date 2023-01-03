@@ -21,11 +21,11 @@ export class CreditProposalOtherCovenantPreviousComponent implements OnInit {
     } else {
       this.dataSource = [];
     }
-    !this.isOtherDeviation && this.displayColumns.pop();
+    this.isOtherDeviation && this.displayColumns.pop();
     this.isOtherDeviation && this.filterOtherDeviation();
   }
 
-  @Input() isOtherDeviation: Boolean = false;
+  @Input() isOtherDeviation: Boolean;
 
   @Input() isOffering: Boolean = false;
 

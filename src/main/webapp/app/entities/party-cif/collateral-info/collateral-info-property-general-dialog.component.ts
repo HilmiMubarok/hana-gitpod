@@ -36,14 +36,6 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
 
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
-    console.log(
-      'collateral data dialog : ',
-      this.collateral.collateralTypeId,
-      ' coll property ',
-      this.collateralProperty,
-      ' coll external ',
-      this.collateralPropertyExternal
-    );
   }
 
   private loadByCollateral(collateralId: number): void {
@@ -68,14 +60,15 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
           collProp.partyId = this.partyCifData.partyId;
           collProp.external = false;
           collProp.collateralId = this.collateral.id;
-          collProp.attributes = [];
+          collProp.attributes = {};
+          this.collateralProperty = collProp;
+
           const collPropEx = new CollateralProperty();
           collPropEx.propertyType = CollateralPropertyType.GENERAL;
           collPropEx.partyId = this.partyCifData.partyId;
           collPropEx.external = true;
           collPropEx.collateralId = this.collateral.id;
-          collPropEx.attributes = [];
-          this.collateralProperty = collProp;
+          collPropEx.attributes = {};
           this.collateralPropertyExternal = collPropEx;
         }
       });

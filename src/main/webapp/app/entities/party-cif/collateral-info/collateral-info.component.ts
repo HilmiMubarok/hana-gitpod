@@ -319,17 +319,13 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       if (res && res.length > 0) {
         for (let i = 0; i < res.length; i++) {
           const collateralProperty: ICollateralProperty = res[i];
-          console.log('ini res nih', res[i]);
           if (collateralProperty.id !== undefined) {
-            console.log('save lama', collateralProperty);
             this.collateralPropertyService.update(collateralProperty).subscribe(res34 => {
               this.findCollateralProperty(res34.body);
             });
           } else {
-            console.log('save baru');
             this.collateralPropertyService.create(collateralProperty).subscribe(res2 => {
               this.createcollateralProperty(res2.body);
-              console.log('res 2', res2.body);
             });
           }
         }

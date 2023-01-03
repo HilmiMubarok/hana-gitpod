@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICreditProposal } from '../../credit-proposal.model';
 
@@ -20,7 +20,7 @@ import { takeUntil, Subject } from 'rxjs';
   styleUrls: ['../checklist/credit-proposal-collateral-info-checklist.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalCollateralInfoRemarksChecklistComponent implements OnInit, OnChanges {
+export class CreditProposalCollateralInfoRemarksChecklistComponent implements OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -43,7 +43,8 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
   constructor(protected activatedRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
     this.bucket = '';
   }
-  @Input() saveWord: any;
+
+  @Input() parentSource?: String = '';
 
   @Input()
   get creditProposal() {
@@ -53,16 +54,6 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
-
-  //   @Input()
-  //   get menu() {
-  //     return this.menuName;
-  //   }
-
-  //   set menu(menuName: string) {
-  //     this.menuName = menuName;
-
-  //   }
 
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -87,14 +78,11 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
       });
     });
   }
+
   onDocumentChange() {
     this.container.restrictEditing = true;
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.saveWord === true) {
-      //   this.triggeredSave();
-    }
-  }
+
   public tools: object = {
     items: [
       'FontName',
@@ -121,8 +109,6 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
     if (this.pacth === 'la-approval' || this.pacth === 'cp-status-approval') {
       this.view = true;
     }
-
-    console.log('test', this.pacth);
   }
 
   removeTagRemaks() {
@@ -157,7 +143,6 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
   }
 
   onCreate(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
@@ -181,7 +166,7 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
     });
     let key: string;
     this.getBucket().then(res => {
-      key = 'credit_proposal/remark/collateral-info/checklist/';
+      key = 'credit_proposal/remark/collateral-info/checklist';
 
       const timeStamp = Math.floor(Date.now() / 1000);
 
