@@ -101,6 +101,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
       console.log('ini party cif', this.partyCif);
       if (this.dialogType === 'debitur') {
         this.dataFacility = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
+        console.log(this.partyCif.debtorData.attributes['cpFacility']);
       }
 
       console.log('ini data faility', this.dataFacility);
@@ -115,18 +116,6 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     console.log('ini data', this.data);
     console.log('collateral type', this.dialogType);
-  }
-
-  public loadDataBy(): void {
-    this.partyCifService.find('cif/retrieve-cp-facility/' + this.partyCif.customerNumber).subscribe((res: any) => {
-      this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-      this.debtorData = res.body.debtorData;
-      console.log('debtor data facility parent', this.debtorData);
-    });
-  }
-
-  private parsingData(params: IDebtorData) {
-    this.dataFacility = JSON.parse(params.attributes['cpFacility']);
   }
 
   private mapingData(params: IDebtorData = null) {

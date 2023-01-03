@@ -31,6 +31,7 @@ export class FacilityInfoCifComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDataGroup();
+    this.loadDataBy();
   }
 
   public loadDataBy(): void {
