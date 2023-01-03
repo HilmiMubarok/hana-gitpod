@@ -92,7 +92,7 @@
               type="text"
               [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
               [disabled]="view"
-              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              [options]="logoCcy"
               [disabled]="true"
             />
           </mat-form-field>
@@ -115,7 +115,7 @@
               type="text"
               [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
               [disabled]="view"
-              [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+              [options]="logoCcy"
               [disabled]="true"
             />
           </mat-form-field>

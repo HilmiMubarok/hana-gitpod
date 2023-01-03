@@ -4,13 +4,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Available Limit</mat-label>
-        <input
-          matInput
-          currencyMask
-          type="text"
-          [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-          [(ngModel)]="cpFacility.AVAILABLE_LIMIT"
-        />
+        <input matInput type="text" [(ngModel)]="cpFacility.AVAILABLE_LIMIT" />
       </mat-form-field>
     </div>
   </div>

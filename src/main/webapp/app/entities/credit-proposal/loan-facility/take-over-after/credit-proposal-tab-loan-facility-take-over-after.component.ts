@@ -13,6 +13,7 @@ import * as uuid from 'uuid';
 export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public dataFacilityType = [];
+  public logoCcy;
   view: boolean;
   facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
   public periodTypeList: any = ['Week', 'Month', 'Year'];
@@ -84,6 +85,10 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       }
     }
     console.log('inievent', event);
+  }
+
+  public changeLogo(data: string) {
+    console.log('test');
   }
 
   print() {

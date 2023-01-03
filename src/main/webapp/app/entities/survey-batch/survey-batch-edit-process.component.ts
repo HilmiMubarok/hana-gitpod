@@ -897,8 +897,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       documentLainnya: true,
       picDebtor: true,
       picPhone: true,
-        totalPlafond:true,
-      tglJatuhTempo:true
+      totalPlafond: true,
+      tglJatuhTempo: true,
     };
     if (
       this.jpRenewal === true ||
@@ -912,11 +912,11 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Pilih Jenis Objek Dahulu');
         mustValidateOnDraft.jenisObject = false;
       }
-    }else{
+    } else {
       this._showNotification('error', 'Pilih Jenis Permohonan Dahulu');
       mustValidateOnDraft.jenisPermohonan = false;
     }
-  if (this.jpRenewal === true) {
+    if (this.jpRenewal === true) {
       if (this.surveyAppraisal.totalPlafond === undefined || this.surveyAppraisal.totalPlafond === null) {
         this._showNotification('error', 'Masukkan Total Plafond Dahulu');
         mustValidateOnDraft.totalPlafond = false;
