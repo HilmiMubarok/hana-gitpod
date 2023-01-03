@@ -14,8 +14,13 @@
           <div class="row my-3">
             <div class="col">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox placeholder="Based on Notarial Deed No" [(ngModel)]="deeedNumber" floatLabelType="Auto"
-                  cssClass="e-outline" disabled>
+                <ejs-textbox
+                  placeholder="Based on Notarial Deed No"
+                  [(ngModel)]="deeedNumber"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  disabled
+                >
                 </ejs-textbox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -30,8 +35,7 @@
             </div>
             <div class="col">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="deedDate"
-                  disabled>
+                <ejs-datepicker placeholder="Date" floatLabelType="Auto" cssClass="e-outline" [(ngModel)]="deedDate" disabled>
                 </ejs-datepicker>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -49,8 +53,7 @@
             <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA">
             </jhi-organization-management-list>
             <div class="my-5"></div>
-            <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER">
-            </jhi-organization-management-list>
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER"> </jhi-organization-management-list>
             <div class="my-5"></div>
             <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON">
             </jhi-organization-management-list>
@@ -96,9 +99,13 @@
             <div class="col">
               <!-- <div class="form-space"> -->
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-textbox [multiline]="true" [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes"
-                  placeholder="Describe relationship between BOC/BOD with shareholders" floatLabelType="Auto"
-                  cssClass="e-outline">
+                <ejs-textbox
+                  [multiline]="true"
+                  [(ngModel)]="creditProposalItem.attributes['managementInfo'].notes"
+                  placeholder="Describe relationship between BOC/BOD with shareholders"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
                 </ejs-textbox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -111,6 +118,43 @@
                 </div>
               </section>
               <!-- </div> -->
+            </div>
+          </div>
+          <div
+            *ngIf="
+              creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' ||
+              creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'
+            "
+            class="py-3"
+          >
+            <div class="e-card-content">
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-documenteditorcontainer
+                  #document_editor_container
+                  [enableToolbar]="true"
+                  [enableLocalPaste]="false"
+                  height="100vh"
+                  style="display: block"
+                  [spellcheck]="false"
+                  [enableSpellCheck]="false"
+                  (keyDown)="onKeyDown($event)"
+                  (created)="onCreate()"
+                >
+                </ejs-documenteditorcontainer>
+              </section>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <ejs-documenteditorcontainer
+                  #document_editor_container
+                  [enableToolbar]="false"
+                  [enableLocalPaste]="false"
+                  height="100vh"
+                  style="display: block"
+                  (documentChange)="onDocumentChange()"
+                  [enableEditor]="false"
+                  [isReadOnly]="true"
+                >
+                </ejs-documenteditorcontainer>
+              </section>
             </div>
           </div>
         </div>
@@ -140,19 +184,37 @@
                           <ng-template #template let-data>
                             <div class="d-flex justify-content-around">
                               <div class="mx-2">
-                                <ejs-radiobutton label="Yes" value="Yes" (change)="onSelect('Yes', data)"
-                                  [checked]="data.value == 'Yes'" name="{{ data.No }}" [checked]="data.value == 'Yes'">
+                                <ejs-radiobutton
+                                  label="Yes"
+                                  value="Yes"
+                                  (change)="onSelect('Yes', data)"
+                                  [checked]="data.value == 'Yes'"
+                                  name="{{ data.No }}"
+                                  [checked]="data.value == 'Yes'"
+                                >
                                 </ejs-radiobutton>
                               </div>
                               <div class="mx-2">
-                                <ejs-radiobutton label="No" value="No" (change)="onSelect('No', data)"
-                                  [checked]="data.value == 'No'" name="{{ data.No }}" [checked]="data.value == 'No'">
+                                <ejs-radiobutton
+                                  label="No"
+                                  value="No"
+                                  (change)="onSelect('No', data)"
+                                  [checked]="data.value == 'No'"
+                                  name="{{ data.No }}"
+                                  [checked]="data.value == 'No'"
+                                >
                                 </ejs-radiobutton>
                               </div>
                               <div class="mx-2">
-                                <ejs-radiobutton label="N/A" value="N/A" (change)="onSelect('N/A', data)"
-                                  [checked]="data.value == 'N/A'" name="state" name="{{ data.No }}"
-                                  [checked]="data.value == 'N/A'"></ejs-radiobutton>
+                                <ejs-radiobutton
+                                  label="N/A"
+                                  value="N/A"
+                                  (change)="onSelect('N/A', data)"
+                                  [checked]="data.value == 'N/A'"
+                                  name="state"
+                                  name="{{ data.No }}"
+                                  [checked]="data.value == 'N/A'"
+                                ></ejs-radiobutton>
                               </div>
                             </div>
                           </ng-template>
@@ -166,15 +228,30 @@
           </div>
           <div class="e-card-content">
             <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="true" [enableLocalPaste]="false"
-                height="100vh" style="display: block" [spellcheck]="false" [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)" (created)="onCreate()">
+              <ejs-documenteditorcontainer
+                #document_editor_container
+                [enableToolbar]="true"
+                [enableLocalPaste]="false"
+                height="100vh"
+                style="display: block"
+                [spellcheck]="false"
+                [enableSpellCheck]="false"
+                (keyDown)="onKeyDown($event)"
+                (created)="onCreate()"
+              >
               </ejs-documenteditorcontainer>
             </section>
             <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
-                height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
-                [isReadOnly]="true">
+              <ejs-documenteditorcontainer
+                #document_editor_container
+                [enableToolbar]="false"
+                [enableLocalPaste]="false"
+                height="100vh"
+                style="display: block"
+                (documentChange)="onDocumentChange()"
+                [enableEditor]="false"
+                [isReadOnly]="true"
+              >
               </ejs-documenteditorcontainer>
             </section>
           </div>
@@ -194,16 +271,11 @@
             <div class="e-card-content">
               <ejs-grid [dataSource]="dataCoBorrower" allowTextWrap="true">
                 <e-columns>
-                  <e-column field="no" headerText="No" width="80" headerTextAlign="center" textAlign="center">
-                  </e-column>
-                  <e-column field="customerNumber" headerText="CIF" width="130" headerTextAlign="center"
-                    textAlign="center"> </e-column>
-                  <e-column field="name" headerText="Company Name" width="180" headerTextAlign="center"
-                    textAlign="center"> </e-column>
-                  <e-column field="address" headerText="Address" width="180" headerTextAlign="center"
-                    textAlign="center"></e-column>
-                  <e-column field="taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center"
-                    textAlign="center"> </e-column>
+                  <e-column field="no" headerText="No" width="80" headerTextAlign="center" textAlign="center"> </e-column>
+                  <e-column field="customerNumber" headerText="CIF" width="130" headerTextAlign="center" textAlign="center"> </e-column>
+                  <e-column field="name" headerText="Company Name" width="180" headerTextAlign="center" textAlign="center"> </e-column>
+                  <e-column field="address" headerText="Address" width="180" headerTextAlign="center" textAlign="center"></e-column>
+                  <e-column field="taxIdNumber" headerText="NPWP" width="180" headerTextAlign="center" textAlign="center"> </e-column>
                   <e-column headerText="Action" width="180" textAlign="Center">
                     <ng-template #template let-data>
                       <div>
