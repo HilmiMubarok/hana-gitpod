@@ -146,10 +146,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
-				if (parentSource === '') {
-				  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-				}else if (parentSource === 'loan-analys') {
-				  const docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+				let docEditor: any;
+
+				if (this.parentSource === '') {
+				  docEditor = this.container?.documentEditor as DocumentEditorComponent;
+				}else if (this.parentSource === 'loan-analys') {
+				  docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
 				}
 
                 const contents: string = e.target.result;
@@ -186,10 +188,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     const timeStamp = Math.floor(Date.now() / 1000);
 
+	let docEditor: any;
+
 	if (parentSource === '') {
-	  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	  docEditor = this.container?.documentEditor as DocumentEditorComponent;
 	}else if (parentSource === 'loan-analys') {
-	  const docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+	  docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
 	}
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
