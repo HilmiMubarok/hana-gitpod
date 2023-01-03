@@ -7,12 +7,43 @@ import { ICreditProposalCollateralBinding } from '../credit-proposal-collateral-
 import { IEmptyField } from './empty-field.model';
 import { Observable, of } from 'rxjs';
 import lodash from 'lodash';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { FormControl } from '@angular/forms';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CreditProposalService } from '../../credit-proposal.service';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-dialog',
   templateUrl: './dialog-credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../../proposal-basic-information.css'],
-  providers: [ToolbarService, HtmlEditorService],
+  providers: [
+    ToolbarService,
+    HtmlEditorService,
+
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   public collateral: ICollateral;
@@ -20,6 +51,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   public creditProposalOpenState: ICreditProposal;
   public binding: ICreditProposalCollateralBinding;
   public empty: IEmptyField;
+  public properties: ICollateralProperty[];
   public filteredOptionBindingTypes: Observable<string[]>;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
@@ -33,11 +65,13 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     'LAINNYA',
   ];
   constructor(
+    private creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
       collateral: ICollateral;
+      properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       emptyField: IEmptyField;
     }
@@ -46,8 +80,11 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.binding = this.data.binding;
+    this.properties = this.data.properties;
     this.empty = this.data.emptyField;
   }
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
 
   public filterBindingType(): void {
     const text: string = this.binding.bindingType;
@@ -87,5 +124,8 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposal = creditProposalMappingData;
+  }
+  public getCertificateDueDate(): string {
+    return this.creditProposalService.getCertificationDate(this.collateral, this.properties);
   }
 }

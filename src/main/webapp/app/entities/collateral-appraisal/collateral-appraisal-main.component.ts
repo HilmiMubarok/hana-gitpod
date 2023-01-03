@@ -785,6 +785,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
       documentLainnya: true,
       picDebtor: true,
       picPhone: true,
+      totalPlafond: true,
+      tglJatuhTempo: true,
     };
     if (
       this.jpRenewal === true ||
@@ -801,6 +803,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       this._showNotification('error', 'Pilih Jenis Permohonan Dahulu');
       mustValidateOnDraft.jenisPermohonan = false;
+    }
+    if (this.jpRenewal === true) {
+      if (this.surveyAppraisal.totalPlafond === undefined || this.surveyAppraisal.totalPlafond === null) {
+        this._showNotification('error', 'Masukkan Total Plafond Dahulu');
+        mustValidateOnDraft.totalPlafond = false;
+      }
+      if (this.surveyAppraisal.tglJatuhTempo === undefined || this.surveyAppraisal.tglJatuhTempo === null) {
+        this._showNotification('error', 'Masukkan Tanggal Jatuh Tempo');
+        mustValidateOnDraft.tglJatuhTempo = false;
+      }
     }
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
       this._showNotification('error', 'Masukkan Document Collateral Dahulu');

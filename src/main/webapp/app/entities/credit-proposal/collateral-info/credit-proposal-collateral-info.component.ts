@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
@@ -10,7 +10,7 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks
   templateUrl: './credit-proposal-collateral-info.component.html',
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoComponent implements OnInit {
+export class CreditProposalCollateralInfoComponent {
   public pacth: any;
   public view: boolean;
 
@@ -26,9 +26,6 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   })
   creditProposalCollateralInfoRemarksCheckComponent: CreditProposalCollateralInfoRemarksChecklistComponent;
 
-  ngOnInit(): void {
-    console.log(this.creditProposal.attributes['proposalType']);
-  }
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -38,6 +35,8 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   }
 
   @Input() isViewMode?: Boolean = false;
+
+  @Input() parentSource?: String = '';
 
   @Input()
   get creditProposal() {

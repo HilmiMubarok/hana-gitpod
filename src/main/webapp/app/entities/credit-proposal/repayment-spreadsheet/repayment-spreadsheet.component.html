@@ -7,6 +7,20 @@
   ></ejs-menu>
 </div>
 
+<div
+  *ngIf="
+    creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' ||
+    creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'
+  "
+>
+  <ejs-menu
+    [enableScrolling]="true"
+    cssClass="e-rounded-menu e-custom-scroll"
+    [items]="menuItemsLainnya"
+    (select)="selectMenuItemLainnya($event)"
+  ></ejs-menu>
+</div>
+
 <div *ngIf="selectedMenu === 'UPLOAD'">
   <div class="mb-5">
     <div class="e-sample-resize-container e-card-resize-container">

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ViewChild, OnInit } from '@angular/core';
-import { ICreditProposal } from '../credit-proposal.model';
+// import { ICreditProposal } from '../../credit-proposal.model';
 
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,14 +14,15 @@ import {
 
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 @Component({
-  selector: 'jhi-credit-proposal-group-guarantor-analysis',
-  templateUrl: './credit-proposal-group-guarantor-analysis.component.html',
-  styleUrls: ['./credit-proposal-group-guarantor-analysis.component.css'],
+  selector: 'jhi-loan-analys-group-guarantor-analysis',
+  templateUrl: './loan-analys-group-guarantor-analysis.component.html',
+  styleUrls: ['./loan-analys-group-guarantor-analysis.component.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, OnChanges {
+export class LoanAnalysGroupGuarantorAnalysisComponent implements OnInit, OnChanges {
   private _creditProposalItem: ICreditProposal;
 
   private bucket: string;
@@ -36,6 +37,7 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   @Input()
   get creditProposalItem() {
     console.log('this._creditProposalItem', this._creditProposalItem);
+    // this._creditProposalItem.statusId = "DRAFT";
     return this._creditProposalItem;
   }
 
