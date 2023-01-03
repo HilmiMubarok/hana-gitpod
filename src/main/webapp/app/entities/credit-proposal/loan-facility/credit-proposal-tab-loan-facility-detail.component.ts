@@ -42,6 +42,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   @Input() saveWord: any;
 
+  @Input() parentSource: String = '';
+
   @Input() isViewMode: Boolean = false;
 
   @Input()
@@ -94,6 +96,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   onDocumentChange() {
     this.container.restrictEditing = true;
   }
+
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getWord();
@@ -123,13 +126,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     const obj = {
       key: 'credit_proposal/remark/loan-facility/' + paramsId + '/sfdt',
     };
-    // console.log('bcc', this.bucket);
 
     this.storageService
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('cekk', response);
 
         if (response.body.length > 0) {
           this.storageService
@@ -138,7 +139,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-hana/credit_proposal/remark/loan-facility-sfdt.sfdt'
+                'credit-proposal-remark-' + this.paramsIdGet + '-loan-facility-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -153,7 +154,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onCreate(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
@@ -166,7 +166,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
-      // console.log('ini paste');
     }
   }
 
@@ -183,7 +182,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/loan-facility-' + fileType + '.docs';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
       };
@@ -195,7 +194,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-hana/credit_proposal/remark/loan-facility-' + fileType + '.sfdt';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
       const metaData = {
         objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
       };
@@ -245,7 +244,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.initialLimit !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.initialLimit);
           }
         }
@@ -253,8 +251,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.initialLimit !== undefined) {
-            // console.log("dolar", filterUsd[i].attributes.initialLimit);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -280,7 +276,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.changes !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.changes);
           }
         }
@@ -288,8 +283,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.changes !== undefined) {
-            // console.log("dolar", filterUsd[i].attributes.initialLimit);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -315,7 +308,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.outstanding !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.outstanding);
           }
         }
@@ -323,8 +315,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.outstanding !== undefined) {
-            // console.log("dolar", filterUsd[i].attributes.outstanding);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
           }
         }
@@ -364,7 +354,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
           if (filterIdr[i].attributes.totalPlafond !== undefined) {
-            // console.log("rupiah", filterIdr[i].attributes.initialLimit);
             result = result + Number(filterIdr[i].attributes.totalPlafond);
           }
         }
@@ -372,18 +361,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
           if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            // console.log('dolar', filterUsd[i].attributes.totalPlafond);
-            // console.log("kurs ", filterUsd[i].attributes.kurs);
             dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
     return result + dolar;
-  }
-
-  print() {
-    console.log(this._creditProposal);
   }
 
   // matrix reove tag
