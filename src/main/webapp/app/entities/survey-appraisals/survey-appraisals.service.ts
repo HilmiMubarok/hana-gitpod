@@ -145,7 +145,16 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
-
+  public searchExternal(req?: any, cif?: string): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/distribution-external/filter-cif/' + cif, {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
   public searchNew(req?: any, src?: string): Observable<HttpResponse<any>> {
     console.log('req', req);
     const options = createRequestOption(req);

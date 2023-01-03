@@ -996,31 +996,32 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     });
   }
 
-  public checkMustValidatedOnAssigned() {
-    const mustValidatedOnAssigned = {
-      fotoObjectJaminan: true,
-      comparisonData: true,
-    };
+  // public checkMustValidatedOnAssigned() {
+  //   const mustValidatedOnAssigned = {
+  //     fotoObjectJaminan: true,
+  //     comparisonData: true,
+  //   };
 
-    if (
-      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
-      this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
-    ) {
-      if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
-        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
-          this._showNotification('error', 'Comparison data less than 3');
-          mustValidatedOnAssigned.comparisonData = false;
-        }
-      }
+  //   if (
+  //     this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
+  //     this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
+  //   ) {
+  //     if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+  //       if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+  //         this._showNotification('error', 'Comparison data less than 3');
+  //         mustValidatedOnAssigned.comparisonData = false;
+  //       }
+  //     }
 
-      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-        this._showNotification('error', 'Foto object jaminan data less than 6');
-        mustValidatedOnAssigned.fotoObjectJaminan = false;
-      }
-    }
+  //     if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+  //       this._showNotification('error', 'Foto object jaminan data less than 6');
+  //       mustValidatedOnAssigned.fotoObjectJaminan = false;
+  //     }
+  //   }
 
-    return this._validateProcess(mustValidatedOnAssigned);
-  }
+  //   return this._validateProcess(mustValidatedOnAssigned);
+  // }
+
 
   private _validateProcess(toValidate: object) {
     let isAllTrue = true;
@@ -1091,6 +1092,108 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     return true;
   }
 
+
+    public checkMustValidatedOnAssigned() {
+    const mustValidatedOnAssigned = {
+      fotoObjectJaminan: true,
+      comparisonData: true,
+      documentCollateral: true,
+      documentLainnya: true,
+      landDetail: true,
+      certificateInfo: true,
+      buildingDetail: true,
+      machineMarketValue: true,
+      precentage: true,
+      machineDetail: true,
+      vehicleDetail: true,
+      marketValueM2: true,
+      certificate: true,
+    };
+    const landCertificate =
+      this.collateralAppraisal.collateral.attributes.landCertificate &&
+      JSON.parse(this.collateralAppraisal.collateral.attributes.landCertificates);
+    const marketValue = {
+      land: [],
+      building: [],
+    };
+
+    const getMarketValueLand = this.collateralAppraisalService.totalDataValuationLand.map(obj => obj.propertyMarketValuePerMeter);
+    marketValue.land.push(getMarketValueLand);
+
+    const getMarketValueBuilding = this.collateralAppraisalService.totalDataValuationBuilding.map(obj => obj.propertyMarketValuePerMeter);
+    marketValue.building.push(getMarketValueBuilding);
+    if (
+      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
+      this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
+    ) {
+      if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+          this._showNotification('error', 'Comparison data less than 3');
+          mustValidatedOnAssigned.comparisonData = false;
+        }
+      }
+
+      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+        this._showNotification('error', 'Foto object jaminan data less than 6');
+        mustValidatedOnAssigned.fotoObjectJaminan = false;
+      }
+    }
+
+    if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+      this._showNotification('error', 'Masukkan Document Collateral Dahulu');
+      mustValidatedOnAssigned.documentCollateral = false;
+    }
+    if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+      this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
+      mustValidatedOnAssigned.documentLainnya = false;
+    }
+    if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
+      this._showNotification('error', 'Masukkan Certificate Dahulu');
+      mustValidatedOnAssigned.certificate = false;
+    }
+    //  Real Estate validation
+    if (
+      this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+      this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+    ) {
+      if (marketValue.land.length < 1 && marketValue.building.length < 1) {
+        this._showNotification('error', 'Masukkan Market Value M2 di Valuation Dahulu');
+        mustValidatedOnAssigned.marketValueM2 = false;
+      }
+      if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
+        this._showNotification('error', 'Masukkan Land Detail Dahulu');
+        mustValidatedOnAssigned.landDetail = false;
+      }
+      if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
+        this._showNotification('error', 'Masukkan Building Detail Dahulu');
+        mustValidatedOnAssigned.buildingDetail = false;
+      }
+    }
+
+    if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+      if (!this.checkMachineMarketValue()) {
+        this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
+        mustValidatedOnAssigned.machineMarketValue = false;
+      }
+      if (!this.checkMachinePercentage()) {
+        this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
+        mustValidatedOnAssigned.precentage = false;
+      }
+      if (this.collateralAppraisalService.totalDataDetailMachine.length < MINIMUM_MACHINE_DETAIL) {
+        this._showNotification('error', 'Masukkan Machine Detail Dahulu');
+        mustValidatedOnAssigned.machineDetail = false;
+      }
+    }
+    if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+      if (this.collateralAppraisalService.totalDataDetailVehicle.length < MINIMUM_VEHCICLE_DETAIL) {
+        this._showNotification('error', 'Masukkan Vehicle Detail Dahulu');
+        mustValidatedOnAssigned.vehicleDetail = false;
+      }
+    }
+    return this._validateProcess(mustValidatedOnAssigned);
+  }
+
+
   public checkMustValidatedOnApprovalTL() {
     const mustValidateOnTL = {
       jenisObject: true,
@@ -1122,6 +1225,9 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       teamLeadName: true,
       unitHeadName: true,
       divHeadName: true,
+      machineDetail:true,
+      vehicleDetail:true,
+
     };
 
     const landCertificate =
@@ -1180,6 +1286,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       if (!this.checkMachinePercentage()) {
         this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
         mustValidatedOnVisited.precentage = false;
+      }
+         if (this.collateralAppraisalService.totalDataDetailMachine.length < MINIMUM_MACHINE_DETAIL) {
+        this._showNotification('error', 'Masukkan Machine Detail Dahulu');
+        mustValidatedOnVisited.machineDetail = false;
+      }
+    }
+
+      if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+      if (this.collateralAppraisalService.totalDataDetailVehicle.length < MINIMUM_VEHCICLE_DETAIL) {
+        this._showNotification('error', 'Masukkan Vehicle Detail Dahulu');
+        mustValidatedOnVisited.vehicleDetail = false;
       }
     }
 

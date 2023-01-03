@@ -8,7 +8,7 @@ export interface IPartySlik {
   collateralIdrMio?: number;
   facilityType?: number;
   rate?: number;
-  period?: number;
+  period?: string;
   tenor?: number;
   description?: string;
   arrearsReason?: string;
@@ -37,7 +37,7 @@ export class PartySlik implements IPartySlik {
     public collateralIdrMio?: number,
     public facilityType?: number,
     public rate?: number,
-    public period?: number,
+    public period?: string,
     public tenor?: number,
     public description?: string,
     public arrearsReason?: string,
