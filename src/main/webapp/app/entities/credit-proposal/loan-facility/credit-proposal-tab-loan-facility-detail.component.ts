@@ -152,9 +152,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               fileReader.onload = (e: any) => {
 				let docEditor: any;
 
-				if (isViewMode === false) {
+				if (this.isViewMode === false) {
 				  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-				} else (isViewMode === true) {
+				} else (this.isViewMode === true) {
 				  if (this.parentSource === '') {
 					docEditor = this.container?.documentEditor as DocumentEditorComponent;
 				  } else if (this.parentSource === 'loan-analys') {
@@ -198,9 +198,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
 	let docEditor: any;
 
-	if (isViewMode === false) {
+	if (this.isViewMode === false) {
 	  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-	} else (isViewMode === true) {
+	} else (this.isViewMode === true) {
 	  if (this.parentSource === '') {
 		docEditor = this.container?.documentEditor as DocumentEditorComponent;
 	  } else if (this.parentSource === 'loan-analys') {
