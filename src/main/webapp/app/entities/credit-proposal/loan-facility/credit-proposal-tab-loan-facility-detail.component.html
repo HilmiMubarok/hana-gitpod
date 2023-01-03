@@ -91,25 +91,13 @@
         </section>
       </div>
     </div>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <div class="mb-2">
-        <mat-label>REMARKS</mat-label>
-
-        <!-- <button (click)="print()">print</button> -->
-        <ejs-richtexteditor [toolbarSettings]="tools"
-          [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks">
-        </ejs-richtexteditor>
-      </div>
-    </section>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <div class="fontsebled row">
-        <div class="col-1">REMARKS</div>
-        <div class="col-md-auto">:</div>
-        <div class="col" [toolbarSettings]="tools">
-          {{ newMessage }}
-        </div>
-      </div>
-    </section>
+    <div class="mb-2">
+	  <mat-label>REMARKS</mat-label>
+	  <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
+		height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
+		[isReadOnly]="true">
+	  </ejs-documenteditorcontainer>
+	</div>
   </div>
 </div>
 
@@ -219,6 +207,12 @@
         </ejs-documenteditorcontainer>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
+          height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
+          [isReadOnly]="true">
+        </ejs-documenteditorcontainer>
+      </section>
+	  <section [hidden]="parentSource !== 'loan-analys'">
         <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
           height="100vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
           [isReadOnly]="true">

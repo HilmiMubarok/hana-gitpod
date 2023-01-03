@@ -42,6 +42,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   @Input() saveWord: any;
 
+  @Input() parentSource: String = '';
+
   @Input() isViewMode: Boolean = false;
 
   @Input()
