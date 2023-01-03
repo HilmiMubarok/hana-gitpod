@@ -845,36 +845,52 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
         text: 'basic information',
       },
       {
-        id: 'business-activity',
-        text: 'business activity',
-      },
-      {
-        id: 'loan-facility',
-        text: 'Loan Facility',
-      },
-      {
-        id: 'exposure',
-        text: 'Exposure',
+        id: 'management-information',
+        text: 'management information',
       },
       {
         id: 'risk-acceptance-criteria',
         text: 'risk acceptance criteria',
       },
       {
+        id: 'loan-facility',
+        text: 'Loan Facility Detail',
+      },
+      {
         id: 'collateral-info',
         text: 'Collateral Info',
       },
       {
-        id: 'management-information',
-        text: 'management information',
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
       },
       {
         id: 'financial-statement',
         text: 'financial statement',
       },
       {
+        id: 'group-guarantor-analyst',
+        text: 'group & guarantor analyst',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
         id: 'bank-account-analyst',
         text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
       },
       {
         id: 'propose-pricing',
@@ -912,6 +928,76 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY: object[] = [
   {
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'group-guarantor-analyst',
+        text: 'group & guarantor analyst',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
   },
 ];
 
@@ -1047,7 +1133,7 @@ export const SUBMENU_LOAN_ANALYS_LA_ANALYST: object[] = [
 
 export const SUBMENU_LOAN_ANALYS_LA_APPROVAL: object[] = [
   ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
-  ...SUBMENU_LOAN_CP,
+  // ...SUBMENU_LOAN_CP,
   {
     id: 'opinion',
     text: 'Opinion',
