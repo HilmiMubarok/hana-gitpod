@@ -458,14 +458,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.applicationRole = ev;
   }
 
-  // private saveApplicationRole(): void {
-  //   if (this.applicationRole.id) {
-  //     this.applicationRoleService.update(this.applicationRole).subscribe(resApprole => {});
-  //   } else {
-  //     this.applicationRoleService.create(this.applicationRole).subscribe(resApprole => {});
-  //   }
-  // }
-
   private saveApplicationRole(): void {
     if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
