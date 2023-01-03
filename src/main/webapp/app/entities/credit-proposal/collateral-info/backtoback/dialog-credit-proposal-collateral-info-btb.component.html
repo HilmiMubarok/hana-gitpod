@@ -1,135 +1,139 @@
-<div class="e-card">
-  <div class="e-sample-resize-container">
-    <div class="e-card-content">
-      <div class="row">
-        <div class="col-md-6" style="padding: 10px">
-          <div class="form-group">
-            <ejs-textbox
-              disabled
-              [(ngModel)]="collateral.managementBranch"
-              placeholder="Management Branch"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            ></ejs-textbox>
-          </div>
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="e-card">
+      <div class="e-sample-resize-container">
+        <div class="e-card-content">
+          <div class="row">
+            <div class="col-md-6" style="padding: 10px">
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateral.managementBranch"
+                  placeholder="Management Branch"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox
-              disabled
-              [(ngModel)]="collateral.guaranteType"
-              placeholder="Jenis Jaminan"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            ></ejs-textbox>
-          </div>
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateral.guaranteType"
+                  placeholder="Jenis Jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox
-              disabled
-              [(ngModel)]="collateral.installmentTime"
-              placeholder="Collateral Value"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            ></ejs-textbox>
-          </div>
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateral.installmentTime"
+                  placeholder="Collateral Value"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox disabled placeholder="NO Ducument Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
-          </div>
+              <div class="form-group">
+                <ejs-textbox disabled placeholder="NO Ducument Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox
-              disabled
-              [(ngModel)]="collateral.accountCustName"
-              placeholder="Account Customer"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            ></ejs-textbox>
-          </div>
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateral.accountCustName"
+                  placeholder="Account Customer"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox
-              disabled
-              [(ngModel)]="collateral.issuer"
-              placeholder="Status Lembaga Penjamin"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            ></ejs-textbox>
-          </div>
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateral.issuer"
+                  placeholder="Status Lembaga Penjamin"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox
-              disabled
-              [(ngModel)]="collateral.collCharacteristic"
-              placeholder="Sifat jaminan"
-              cssClass="e-outline"
-              floatLabelType="Always"
-            ></ejs-textbox>
-          </div>
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateral.collCharacteristic"
+                  placeholder="Sifat jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
 
-          <div class="form-group">
-            <ejs-textbox disabled placeholder="Periode Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+              <div class="form-group">
+                <ejs-textbox disabled placeholder="Periode Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Binding Type</mat-label>
+                  <mat-select [(ngModel)]="binding.bindingType" name="facilityType">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
+                      {{ item }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="binding.bindingValue"
+                  placeholder="Binding Value"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="collateral.statusCode"
+                  placeholder="Collateral Status"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox [(ngModel)]="empty.bunga" placeholder="Bunga" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+              </div>
+              <div class="form-group">
+                <ejs-textbox [(ngModel)]="empty.kondisi" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Tanggal Verifikasi</mat-label>
+                  <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="empty.tanggalVerifikasi" />
+                  <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+                  <mat-datepicker #bindingDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="col-md-6">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Binding Type</mat-label>
-              <mat-select [(ngModel)]="binding.bindingType" name="facilityType">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="binding.bindingValue"
-              placeholder="Binding Value"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox
-              [(ngModel)]="collateral.statusCode"
-              placeholder="Collateral Status"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <ejs-textbox [(ngModel)]="empty.bunga" placeholder="Bunga" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-          <div class="form-group">
-            <ejs-textbox [(ngModel)]="empty.kondisi" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-          </div>
-
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Tanggal Verifikasi</mat-label>
-              <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="empty.tanggalVerifikasi" />
-              <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
-              <mat-datepicker #bindingDate></mat-datepicker>
-            </mat-form-field>
-          </div>
+        <div>
+          <mat-label>Mapping to Facility</mat-label>
+          <jhi-mapping-facility [creditProposal]="creditProposal" (outputCreditProposalMappingData)="getCreditProposalMappingData($event)">
+          </jhi-mapping-facility>
         </div>
+        <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+        <mat-dialog-actions align="center">
+          <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+          <button mat-button (click)="save()">Save</button>
+        </mat-dialog-actions>
       </div>
     </div>
-    <div>
-      <mat-label>Mapping to Facility</mat-label>
-      <jhi-mapping-facility [creditProposal]="creditProposal" (outputCreditProposalMappingData)="getCreditProposalMappingData($event)">
-      </jhi-mapping-facility>
-    </div>
-    <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
-    <mat-dialog-actions align="center">
-      <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-      <button mat-button (click)="save()">Save</button>
-    </mat-dialog-actions>
   </div>
-</div>
+</mat-dialog-content>
