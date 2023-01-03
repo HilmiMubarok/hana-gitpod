@@ -35,6 +35,8 @@ export class CreditProposalMappingFacilityComponent implements OnChanges {
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
+    console.log('data', this.creditProposalData);
+
     this.checked = false;
     this.setUp();
   }
@@ -53,14 +55,16 @@ export class CreditProposalMappingFacilityComponent implements OnChanges {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
-        if (this.creditProposalData.collateralProductRelations.length > 0) {
-          for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
-            if (
-              this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
-              this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[i].id
-            ) {
-              this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
-              this.mappingStatusHelper[i] = 'yes';
+        if (this.creditProposalData.collateralProductRelations) {
+          if (this.creditProposalData.collateralProductRelations.length > 0) {
+            for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
+              if (
+                this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
+                this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[i].id
+              ) {
+                this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
+                this.mappingStatusHelper[i] = 'yes';
+              }
             }
           }
         }

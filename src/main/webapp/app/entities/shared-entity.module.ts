@@ -176,7 +176,6 @@ import { CreditProposalFinancialStatementComponent } from './credit-proposal/fin
 import { RepaymentSpreadsheetComponent } from './credit-proposal/repayment-spreadsheet/repayment-spreadsheet.component';
 import { CreditProposalBankAccountAnalystComponent } from './credit-proposal/bank-account-analyst/bank-account-analyst.component';
 import { CreditProposalCollateralInfoBTPComponent } from './credit-proposal/collateral-info/backtoback/credit-proposal-collateral-info-btb.component';
-import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './credit-proposal/collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 
 import { CreditProposalProposePricingComponent } from './credit-proposal/propose-pricing/credit-proposal-propose-pricing.component';
 import { ProposePricingLoanFacilityDetailComponent } from './credit-proposal/propose-pricing/propose-pricing-loan-facility-detail.component';
@@ -520,7 +519,6 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-
     CreditProposalProposePricingComponent,
     ProposePricingLoanFacilityDetailComponent,
     CreditProposalCollateralInfoBTPComponent,
-    DialogCreditProposalCollateralInfoDialogBTBComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
     OrganizationManagementBusinessGroupComponent,
@@ -871,7 +869,6 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-
     CreditProposalProposePricingComponent, // Remove Me
     ProposePricingLoanFacilityDetailComponent,
     CreditProposalCollateralInfoBTPComponent,
-    DialogCreditProposalCollateralInfoDialogBTBComponent,
     CreditProposalTabCustomerProfitabilityComponent,
     CollateralTypeDialogComponent,
     PartyPostalAddressCardComponent,
