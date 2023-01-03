@@ -319,13 +319,18 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       if (res && res.length > 0) {
         for (let i = 0; i < res.length; i++) {
           const collateralProperty: ICollateralProperty = res[i];
-          if (collateralProperty.id) {
-            this.collateralPropertyService.update(collateralProperty).subscribe();
-            this.findCollateralProperty(collateralProperty);
+          console.log('ini res nih', res[i]);
+          if (collateralProperty.id !== undefined) {
+            console.log('save lama', collateralProperty);
+            this.collateralPropertyService.update(collateralProperty).subscribe(res34 => {
+              this.findCollateralProperty(res34.body);
+            });
           } else {
             console.log('save baru');
-            this.collateralPropertyService.create(collateralProperty).subscribe();
-            this.createcollateralProperty(collateralProperty);
+            this.collateralPropertyService.create(collateralProperty).subscribe(res2 => {
+              this.createcollateralProperty(res2.body);
+              console.log('res 2', res2.body);
+            });
           }
         }
         this.loadByPartyId(this.partyId);
@@ -340,6 +345,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   private findCollateralProperty(collateralProperty: ICollateralProperty) {
     const index = this.partyCif.collateralProperties.findIndex(obj => obj.id === collateralProperty.id);
     this.partyCif.collateralProperties[index] = collateralProperty;
+    console.log('data save yang akan di masukan', collateralProperty);
+    console.log('save lama', this.partyCif.collateralProperties[index]);
   }
 
   public openDialogMarketValue(element: ICollateral): void {

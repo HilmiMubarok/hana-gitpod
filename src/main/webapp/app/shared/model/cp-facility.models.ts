@@ -32,6 +32,7 @@ export interface ICPFacility {
   LNB_BASE_LON_JAN?: string;
   PROVISION_FEE?: string;
   PROVISION_FEE_TYPE?: string;
+  dataAvailable?: string;
 }
 
 export class CPFacility implements ICPFacility {
@@ -68,6 +69,7 @@ export class CPFacility implements ICPFacility {
     public LNB_BASE_LON_CCY?: string,
     public LNB_BASE_LON_JAN?: string,
     public PROVISION_FEE?: string,
-    public PROVISION_FEE_TYPE?: string
+    public PROVISION_FEE_TYPE?: string,
+    public dataAvailable?: string
   ) {}
 }

@@ -73,7 +73,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
 
   set dataGroup(object: any[]) {
     this._dataGroup = object;
-    this.data = this.dataGroup;
+    this.dataFacility = this.dataGroup;
   }
 
   private _partyCif: IPartyCif;
@@ -95,11 +95,20 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
-      this.parsingData(this.debtorData);
       console.log('ini child data', this.debtorData);
     }
     if (changes['partyCif']) {
-      console.log('ini party cif', this.partyCif.debtorData);
+      console.log('ini party cif', this.partyCif);
+      if (this.dialogType === 'debitur') {
+        this.dataFacility = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
+      }
+
+      console.log('ini data faility', this.dataFacility);
+    }
+    if (changes['dataGroup']) {
+      if (this.dialogType === 'dataGroup') {
+        this.dataFacility = this.dataGroup;
+      }
     }
   }
 
@@ -108,23 +117,29 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     console.log('collateral type', this.dialogType);
   }
 
-  public sync() {
-    this.mapingData(this.debtorData);
+  public loadDataBy(): void {
+    this.partyCifService.find('cif/retrieve-cp-facility/' + this.partyCif.customerNumber).subscribe((res: any) => {
+      this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+      this.debtorData = res.body.debtorData;
+      console.log('debtor data facility parent', this.debtorData);
+    });
   }
 
   private parsingData(params: IDebtorData) {
     this.dataFacility = JSON.parse(params.attributes['cpFacility']);
   }
 
-  private mapingData(params: IDebtorData) {
-    this._data = JSON.parse(params.attributes['cpFacility']);
-    this.data = JSON.parse(params.attributes['cpFacility']);
-    console.log('ini data', this.data);
+  private mapingData(params: IDebtorData = null) {
+    if (params) {
+      this._data = JSON.parse(params.attributes['cpFacility']);
+      this.data = JSON.parse(params.attributes['cpFacility']);
+      console.log('ini data', this.data);
 
-    for (let i = 0; i < this._data.length; i++) {
-      const date1 = new Date(this._data[i].FXFIG_TRX_DT);
-      const date2 = new Date(this._data[i].FILN10_TOT_EXP_IL);
-      this.aYear[i] = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
+      for (let i = 0; i < this._data.length; i++) {
+        const date1 = new Date(this._data[i].FXFIG_TRX_DT);
+        const date2 = new Date(this._data[i].FILN10_TOT_EXP_IL);
+        this.aYear[i] = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
+      }
     }
   }
 
@@ -145,16 +160,16 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
         },
       });
       dialogRef.afterClosed().subscribe((data: ICPFacility) => {
-        const objectCPF: ICPFacility[] = JSON.parse(this.debtorData.attributes['cpFacility']);
+        const objectCPF: ICPFacility[] = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
         const index = objectCPF.findIndex(x => x.LNB_BASE_AGR_REF_NO === params.LNB_BASE_AGR_REF_NO);
         console.log('ini index', index);
 
         objectCPF[index] = data;
         console.log('1', objectCPF);
-        console.log('2', JSON.parse(this.debtorData.attributes['cpFacility']));
-        this.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
-        console.log(this.debtorData);
-        this.debtorDataService.update(this.debtorData).subscribe(res => {
+        console.log('2', JSON.parse(this.partyCif.debtorData.attributes['cpFacility']));
+        this.partyCif.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
+        console.log(this.partyCif.debtorData);
+        this.debtorDataService.update(this.partyCif.debtorData).subscribe(res => {
           console.log('save berhasil');
         });
       });

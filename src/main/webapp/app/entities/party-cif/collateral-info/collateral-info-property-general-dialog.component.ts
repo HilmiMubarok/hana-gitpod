@@ -56,7 +56,6 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       })
       .subscribe(res => {
         if (res.body.length > 0) {
-          console.log('coll prop ', res.body);
           this.collateralProperty = lodash.find(res.body, function (o) {
             return !o.external;
           });
@@ -69,13 +68,13 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
           collProp.partyId = this.partyCifData.partyId;
           collProp.external = false;
           collProp.collateralId = this.collateral.id;
-          collProp.attributes = {};
+          collProp.attributes = [];
           const collPropEx = new CollateralProperty();
           collPropEx.propertyType = CollateralPropertyType.GENERAL;
           collPropEx.partyId = this.partyCifData.partyId;
           collPropEx.external = true;
           collPropEx.collateralId = this.collateral.id;
-          collPropEx.attributes = {};
+          collPropEx.attributes = [];
           this.collateralProperty = collProp;
           this.collateralPropertyExternal = collPropEx;
         }
