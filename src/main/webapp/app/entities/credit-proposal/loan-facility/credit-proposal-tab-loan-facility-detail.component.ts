@@ -30,11 +30,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
-  @ViewChild('document_editor')
-  public documentEditor: DocumentEditorComponent;
+
+  @ViewChild('document_editor_container_view_false')
+  public container_view_false: DocumentEditorContainerComponent;
 
   @ViewChild('document_editor_container_loan_analys')
   public container_loan_analys: DocumentEditorContainerComponent;
+
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
 
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
