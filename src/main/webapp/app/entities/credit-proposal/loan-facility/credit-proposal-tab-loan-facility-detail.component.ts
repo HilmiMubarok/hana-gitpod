@@ -154,7 +154,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
 				if (this.isViewMode === false) {
 				  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-				} else (this.isViewMode === true) {
+				} else if (this.isViewMode === true) {
 				  if (this.parentSource === '') {
 					docEditor = this.container?.documentEditor as DocumentEditorComponent;
 				  } else if (this.parentSource === 'loan-analys') {
@@ -200,7 +200,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
 	if (this.isViewMode === false) {
 	  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-	} else (this.isViewMode === true) {
+	} else if (this.isViewMode === true) {
 	  if (this.parentSource === '') {
 		docEditor = this.container?.documentEditor as DocumentEditorComponent;
 	  } else if (this.parentSource === 'loan-analys') {
