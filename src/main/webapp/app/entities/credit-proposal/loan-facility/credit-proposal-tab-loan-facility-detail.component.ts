@@ -190,9 +190,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
 	let docEditor: any;
 
-	if (parentSource === '') {
+	if (this.parentSource === '') {
 	  docEditor = this.container?.documentEditor as DocumentEditorComponent;
-	}else if (parentSource === 'loan-analys') {
+	}else if (this.parentSource === 'loan-analys') {
 	  docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
 	}
 
