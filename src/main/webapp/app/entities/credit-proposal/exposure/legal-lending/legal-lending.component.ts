@@ -15,6 +15,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
 import { IMasterParameter } from 'app/entities/master-parameter/master-parameter.model';
 import { PARAMETER_TYPE } from 'app/shared/constants/base.constants';
+import { CreditProposalService } from '../../credit-proposal.service';
 
 @Component({
   selector: 'jhi-legal-lending',
@@ -50,6 +51,8 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   public modalUsaha: any;
   public parsedAttr;
   public ccy: any;
+  public totalExposureDebtorAndGroub: number;
+  public currencyMaster: any;
 
   @Input()
   get creditProposal() {
@@ -71,7 +74,8 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     protected fakeFacilityService: FakeFacilityService,
     protected partyCifService: PartyCifService,
     protected _snackbar: MatSnackBar,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    public creditProposalService: CreditProposalService
   ) {
     super(_snackbar, partyCifService);
   }
@@ -102,6 +106,16 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.grandTotalDebitur();
     this.getMyBusinessGroup();
     this.getCurrency();
+    this.exposureDebiturGroubTotal();
+  }
+
+  public exposureDebiturGroubTotal() {
+    this.totalExposureDebtorAndGroub =
+      this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup + this.totalDebiturNonCashLoan + this.totalDebiturCashLoan;
+    console.log('1', this.totalDebiturCashLoanGroup);
+    console.log('2', this.totalDebiturNonCashLoanGroup);
+    console.log('3', this.totalDebiturNonCashLoan);
+    console.log('4', this.totalDebiturCashLoan);
   }
 
   public getApplicationOption() {
@@ -127,6 +141,14 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       });
   }
 
+  public defaultCurrency() {
+    const setDate = new Date().toISOString().split('T')[0];
+
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+    });
+  }
+
   fungsiSuminit() {
     const datafilter = this.creditProposal.products.filter(
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
@@ -141,31 +163,94 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
 
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this.dataSource.length; i++) {
-      // cashloan
-      if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-        this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'DL') {
-        this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'MML') {
-        this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-        this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-        this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'OD') {
-        this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.initialLimit);
-      }
+      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
+        if (this.dataSource[i].attributes.currency === 'IDR') {
+          if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
+            if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+              this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.outstanding);
+            } else {
+              this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
+            }
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'DL') {
+            this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'MML') {
+            this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'FL') {
+            if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.outstanding);
+            } else {
+              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond);
+            }
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'IL') {
+            if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.outstanding);
+            } else {
+              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
+            }
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'OD') {
+            this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond);
+          }
 
-      if (this.dataSource[i].attributes['facilityType'] === 'BG') {
-        this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'LC') {
-        this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.initialLimit);
+          if (this.dataSource[i].attributes['facilityType'] === 'BG') {
+            this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'LC') {
+            this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+        }
+
+        if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
+          if (this.dataSource[i].attributes.currency === 'USD') {
+            if (this.dataSource[i].attributes['facilityType'] === 'BG') {
+              this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'LC') {
+              this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
+              if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+                this.totalWcl =
+                  this.totalWcl + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+              } else {
+                this.totalWcl =
+                  this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              }
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'DL') {
+              this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'MML') {
+              this.totalMML =
+                this.totalMML + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'FL') {
+              if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+                this.totalFL =
+                  this.totalFL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+              } else {
+                this.totalFL =
+                  this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              }
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'IL') {
+              if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+                this.totalIL =
+                  this.totalIL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+              } else {
+                this.totalIL =
+                  this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+              }
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'OD') {
+              this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+          }
+        }
       }
     }
   }
@@ -218,10 +303,33 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
 
-              if (parsed.LoanType === 'Cash Loan') {
-                this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
-              } else if (parsed.LoanType === 'Non Cash Loan') {
-                this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
+              parsed.GroupName = '';
+              parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
+              parsed.FacilityType = source[y].FILN11_COM_NM;
+              parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
+              parsed.Changes = 0;
+              parsed.OS = source[y].LNB_BASE_LON_JAN;
+              parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
+              parsed.Provision = source[y].FILN22_FEE_AMT;
+              parsed.AdminFee = source[y].FILN22_FEE_AMT;
+              parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
+              parsed.Tenor = (Number(new Date(source[y].FILN10_TOT_EXP_IL)) - Number(new Date(source[y].FXFIG_TRX_DT))) / 86400000;
+              parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
+              parsed.CCY = source[y].LNB_BASE_LON_CCY;
+
+              if (source[y].LNB_BASE_LON_CCY === 'IDR') {
+                if (parsed.LoanType === 'Cash Loan') {
+                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
+                } else if (parsed.LoanType === 'Non Cash Loan') {
+                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
+                }
+              } else if (source[y].LNB_BASE_LON_CCY !== 'IDR') {
+                if (parsed.LoanType === 'Cash Loan') {
+                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
+                } else if (parsed.LoanType === 'Non Cash Loan') {
+                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
+                }
               }
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
@@ -229,6 +337,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
           }
         }
       }
+      this.exposureDebiturGroubTotal();
     }
     this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
   }

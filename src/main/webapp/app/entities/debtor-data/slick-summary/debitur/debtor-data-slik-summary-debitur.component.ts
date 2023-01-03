@@ -307,9 +307,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.worstCollectability = item.kolTerburuk == null ? 0 : Number(item.kolTerburuk.substring(0, 1));
     partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
     partySlik.facilityType = 0;
-
-    const findPeriod = this.bulan.find(obj => obj.name === item.period.substring(3, 6));
-    partySlik.period = findPeriod.id;
+    partySlik.period = item.period;
+    // const findPeriod = this.bulan.find(obj => obj.name === item.period.substring(3, 6));
+    // partySlik.period = (item.period);
 
     return partySlik;
   }
