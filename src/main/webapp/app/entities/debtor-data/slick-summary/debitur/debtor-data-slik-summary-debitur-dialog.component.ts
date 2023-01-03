@@ -35,7 +35,8 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
   ];
   id: string;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
       object: IPartyCif;
       partySlik: IPartySlik;
       mode: string;
@@ -92,12 +93,10 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
         this.partySlik.collateralType = this.partySlik.collateralType == null ? '' : this.partySlik.collateralType;
         this.partySlik.facilityType = 0;
         this.partySlik.attributes = {};
+        this.partySlik.period = this.partySlik.period == null ? '' : this.partySlik.period;
 
-        const findPeriod = this.bulan.find(obj => obj.name === res.body[0].period.substring(3, 6));
-        this.partySlik.period = findPeriod.id;
-
-        // console.log('kol1', res.body[0].kolTerakhir.substring(0,1));
-        // console.log('kol2', res.body[0].kolTerburuk.substring(0,1));
+        // const findPeriod = this.bulan.find(obj => obj.name === res.body[0].period.substring(3, 6));
+        // this.partySlik.period = findPeriod.id;
       }
 
       // bank: "BANK CIMB NIAGA BANK CIMB NIAGA KPO "
@@ -125,7 +124,6 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
   }
 
   onNoClick(): void {
-    console.log("click");
     this._dialog.close();
   }
 }
