@@ -362,13 +362,10 @@ export class GroupCollateralComponent implements OnChanges {
         const satuanGroupCollateral: IGroupCollateral = groupCollaterals[i];
         for (let a = 0; a < satuanGroupCollateral.collaterals.length; a++) {
           const satuanCollateral: ICollateral = satuanGroupCollateral.collaterals[a];
-          // this.listGroupCollateral.push(satuanCollateral);
           this.groupCollaterals.push(satuanCollateral);
           this.groupCollaterals = [...this.groupCollaterals];
         }
       }
     });
-    // this.coba=this.groupCollaterals;
-    console.log('datasource', this.groupCollaterals);
   }
 }

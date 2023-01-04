@@ -378,7 +378,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         this.resProcess = _res;
         this.taskProcess = task;
-        this.onSave('process');
+        if (_res.name === 'return' || _res.name === 'cancel') {
+          this.saveProcess();
+        } else {
+          this.onSave('process');
+        }
       }
     });
   }
@@ -465,7 +469,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
     }
   }
-
   public onSave(source: string): void {
     this.ketObjekJaminan = true;
     if (source === 'process') {
