@@ -45,6 +45,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
   public object: ICreditProposal;
   public key: string;
   public view: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -65,6 +66,10 @@ export class DocumentChecklistDialogComponent implements OnInit {
     this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
+  }
+
+  public onChange(el) {
+    el === 'TBO' && this.isTBO();
   }
 
   ngOnInit() {
@@ -101,6 +106,9 @@ export class DocumentChecklistDialogComponent implements OnInit {
       const formData = new FormData();
       formData.append('file', this.file[i]);
       console.log('meta', metaData);
+      console.log('data-file', this.file[i]);
+      console.log('files', files);
+      console.log('formData', formData);
 
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
@@ -159,6 +167,23 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
   public onSelect(event: any) {
     this.file.push(...event.addedFiles);
+    console.log(this.file);
+  }
+
+  private isTBO() {
+    const img = new Image();
+    img.src = 'content/images/los_logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+        this.file.push(file);
+      }, 'image/png');
+    };
   }
 
   public onRemove(event: any) {
