@@ -147,10 +147,18 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
 
-              if (parsed.LoanType === 'Cash Loan') {
-                this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
-              } else if (parsed.LoanType === 'Non Cash Loan') {
-                this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
+              if (source[y].LNB_BASE_LON_CCY === 'IDR') {
+                if (parsed.LoanType === 'Cash Loan') {
+                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
+                } else if (parsed.LoanType === 'Non Cash Loan') {
+                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
+                }
+              } else if (source[y].LNB_BASE_LON_CCY !== 'IDR') {
+                if (parsed.LoanType === 'Cash Loan') {
+                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
+                } else if (parsed.LoanType === 'Non Cash Loan') {
+                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
+                }
               }
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
@@ -305,31 +313,65 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this.dataSource.length; i++) {
-      // cashloan
-      if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-        this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'DL') {
-        this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'MML') {
-        this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-        this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-        this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'OD') {
-        this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.initialLimit);
-      }
+      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
+        if (this.dataSource[i].attributes.currency === 'IDR') {
+          if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
+            this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'DL') {
+            this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'MML') {
+            this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'FL') {
+            this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'IL') {
+            this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'OD') {
+            this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond);
+          }
 
-      if (this.dataSource[i].attributes['facilityType'] === 'BG') {
-        this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.initialLimit);
-      }
-      if (this.dataSource[i].attributes['facilityType'] === 'LC') {
-        this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.initialLimit);
+          if (this.dataSource[i].attributes['facilityType'] === 'BG') {
+            this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+          if (this.dataSource[i].attributes['facilityType'] === 'LC') {
+            this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond);
+          }
+        }
+
+        if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
+          if (this.dataSource[i].attributes.currency === 'USD') {
+            if (this.dataSource[i].attributes['facilityType'] === 'BG') {
+              this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'LC') {
+              this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
+              this.totalWcl =
+                this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'DL') {
+              this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'MML') {
+              this.totalMML =
+                this.totalMML + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'FL') {
+              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'IL') {
+              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+            if (this.dataSource[i].attributes['facilityType'] === 'OD') {
+              this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+            }
+          }
+        }
       }
     }
   }

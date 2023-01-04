@@ -1022,7 +1022,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   //   return this._validateProcess(mustValidatedOnAssigned);
   // }
 
-
   private _validateProcess(toValidate: object) {
     let isAllTrue = true;
     for (const key in toValidate) {
@@ -1092,8 +1091,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     return true;
   }
 
-
-    public checkMustValidatedOnAssigned() {
+  public checkMustValidatedOnAssigned() {
     const mustValidatedOnAssigned = {
       fotoObjectJaminan: true,
       comparisonData: true,
@@ -1193,7 +1191,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     return this._validateProcess(mustValidatedOnAssigned);
   }
 
-
   public checkMustValidatedOnApprovalTL() {
     const mustValidateOnTL = {
       jenisObject: true,
@@ -1225,9 +1222,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       teamLeadName: true,
       unitHeadName: true,
       divHeadName: true,
-      machineDetail:true,
-      vehicleDetail:true,
-
+      machineDetail: true,
+      vehicleDetail: true,
     };
 
     const landCertificate =
@@ -1287,13 +1283,13 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
         mustValidatedOnVisited.precentage = false;
       }
-         if (this.collateralAppraisalService.totalDataDetailMachine.length < MINIMUM_MACHINE_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailMachine.length < MINIMUM_MACHINE_DETAIL) {
         this._showNotification('error', 'Masukkan Machine Detail Dahulu');
         mustValidatedOnVisited.machineDetail = false;
       }
     }
 
-      if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
+    if (this.collateralAppraisal.collateral.collateralTypeId === 'VEHICLE') {
       if (this.collateralAppraisalService.totalDataDetailVehicle.length < MINIMUM_VEHCICLE_DETAIL) {
         this._showNotification('error', 'Masukkan Vehicle Detail Dahulu');
         mustValidatedOnVisited.vehicleDetail = false;

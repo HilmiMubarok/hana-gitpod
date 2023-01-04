@@ -14,12 +14,13 @@
     <div [hidden]="selectedMenu === 'CHECKLIST'">
       <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
       <jhi-credit-proposal-collateral-info-remarks-information
-        #creditProposalCollateralInfoRemarksInfoComponent
+        #creditProposalCollateralInfoRemarksInfoComponentAbove
         [creditProposal]="creditProposal"
         [parentSource]="parentSource"
       >
       </jhi-credit-proposal-collateral-info-remarks-information>
     </div>
+    <!-- [saveWord]="saveWord" -->
   </div>
   <div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure > IDR 15 Bn'">
     <div [hidden]="selectedMenu !== 'CHECKLIST'">
@@ -40,12 +41,13 @@
 <div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure <= IDR 15 Bn'">
   <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
   <jhi-credit-proposal-collateral-info-remarks-information
-    #creditProposalCollateralInfoRemarksInfoComponent
+    #creditProposalCollateralInfoRemarksInfoComponentBelow
     [creditProposal]="creditProposal"
     [parentSource]="parentSource"
   >
   </jhi-credit-proposal-collateral-info-remarks-information>
 </div>
+<!-- [saveWord]="saveWord" -->
 
 <div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure Back to Back'">
   <jhi-credit-proposal-collateral-info-btb
@@ -53,9 +55,10 @@
     [creditProposal]="creditProposal"
   ></jhi-credit-proposal-collateral-info-btb>
   <jhi-credit-proposal-collateral-info-remarks-information
-    #creditProposalCollateralInfoRemarksInfoComponent
+    #creditProposalCollateralInfoRemarksInfoComponentBtb
     [creditProposal]="creditProposal"
     [parentSource]="parentSource"
   >
   </jhi-credit-proposal-collateral-info-remarks-information>
 </div>
+<!-- [saveWord]="saveWord" -->
