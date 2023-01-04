@@ -14,7 +14,11 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { COLLATERAL_TYPE, SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
+import {
+  COLLATERAL_TYPE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
+} from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -42,7 +46,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalComparisonComponent } from '../collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalForwardToComponent } from '../collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
@@ -563,7 +567,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.currentAccount = await firstValueFrom(this.accountService.identity());
     this.accountAuthorities = this.currentAccount.authorities;
     if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      this.subMenu =
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+          : SUBMENU_COLLATERAL_APPRAISAL;
     } else {
       if (
         lodash.indexOf(this.accountAuthorities, Authority.ADMIN_APPRAISER) >= 0 ||
@@ -577,11 +584,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         ) {
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
         } else {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          this.subMenu =
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+              ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+              : SUBMENU_COLLATERAL_APPRAISAL;
         }
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        this.subMenu =
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+            : SUBMENU_COLLATERAL_APPRAISAL;
       }
     }
     this.setAuthorizedRole();
@@ -606,9 +619,9 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   // addNewCriteria saya commnet karena IScoreCard[] di hapus oleh anjar, saya gak tau perubahan konsep dari anjar, jadi silahkan tanya anjar - ismoyo
-  // public addNewCriteria(data: IScoreCard[]): void {
-  //   this.collateralAppraisal.attributes['scoreCard'] = data;
-  // }
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
 
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
@@ -847,7 +860,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       typeof data.attributes['summary'] === 'string' ||
       typeof data.attributes['scoreCard'] === 'string'
     ) {
-      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       data.attributes['summary'] = {
         keterangan: '',
         marketbility: '',
