@@ -51,6 +51,7 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
   }
 
   public folders = [];
+  public dataFolder = [];
   private groupByFolder(param: any[]): void {
     this.folders = [];
     if (param.length > 0) {
@@ -71,6 +72,19 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
           files: val,
         }))
         .value();
+
+      for (let i = 0; i < this.folders.length; i++) {
+        const setdata = {
+          no: this.folders.length + 1,
+          covenant: this.folders[i].document,
+          status: this.folders[i].status,
+          deviation: this.folders[i].category,
+          formGroub: true,
+          justification: '',
+        };
+
+        this.standardDataGridAbove = [...this.standardDataGridAbove, setdata];
+      }
     } else {
       this.folders = [];
     }
@@ -82,7 +96,6 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
     };
     this.storageService.getBucketName().subscribe((res: any) => {
       this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
-        console.log('ressdd', a);
         this.groupByFolder(a.body);
       });
     });
@@ -104,7 +117,6 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('ikeee', changes.creditProposalItem.currentValue.attributes['convenant'].standardDataGridAbove);
     this.standardDataGridAbove = [
       ...this.standardDataGridAbove,
       changes.creditProposalItem.currentValue.attributes['convenant'].standardDataGridAbove,

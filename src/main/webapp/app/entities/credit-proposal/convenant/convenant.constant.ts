@@ -42,6 +42,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 1,
@@ -50,6 +51,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 2,
@@ -58,6 +60,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 3,
@@ -66,6 +69,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 4,
@@ -74,6 +78,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 5,
@@ -81,6 +86,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 6,
@@ -89,6 +95,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 7,
@@ -97,6 +104,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 8,
@@ -105,6 +113,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 9,
@@ -113,6 +122,7 @@ export const dataCovenantBelow = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
 ];
 
@@ -199,6 +209,7 @@ export const dataCovenantBackToBackDeposit = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 1,
@@ -207,6 +218,7 @@ export const dataCovenantBackToBackDeposit = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 2,
@@ -214,6 +226,7 @@ export const dataCovenantBackToBackDeposit = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 3,
@@ -221,6 +234,7 @@ export const dataCovenantBackToBackDeposit = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
 ];
 
@@ -231,6 +245,7 @@ export const dataCovenantBackToBackGeneral = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 1,
@@ -239,6 +254,7 @@ export const dataCovenantBackToBackGeneral = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 2,
@@ -247,6 +263,7 @@ export const dataCovenantBackToBackGeneral = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 3,
@@ -254,6 +271,7 @@ export const dataCovenantBackToBackGeneral = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
   {
     id: 4,
@@ -262,5 +280,6 @@ export const dataCovenantBackToBackGeneral = [
     status: '',
     deviation: '',
     justification: '',
+    formGroub: false,
   },
 ];

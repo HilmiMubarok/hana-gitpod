@@ -115,8 +115,10 @@ export class DocumentChecklistDialogComponent implements OnInit {
             }
           });
         } else {
-          this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-            this._dialog.close();
+          this.storageService.getBucketName().subscribe((a: any) => {
+            this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+              this._dialog.close();
+            });
           });
         }
       });
