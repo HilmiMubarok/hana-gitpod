@@ -44,7 +44,13 @@
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
-                    <ejs-textbox [(ngModel)]="item.prospectOrganization.pic" placeholder="PIC" floatLabelType="Auto" cssClass="e-outline">
+                    <ejs-textbox
+                      [(ngModel)]="item.prospectOrganization.pic"
+                      placeholder="PIC"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                      disabled
+                    >
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
@@ -124,7 +130,7 @@
                     <div class="col-sm-6">
                       <ejs-textbox
                         [(ngModel)]="item.prospectOrganization.officePhone"
-                        placeholder="Phone Number"
+                        placeholder="Phone Number 1"
                         floatLabelType="Auto"
                         disabled
                         cssClass="e-outline"
@@ -134,7 +140,7 @@
                     <div class="col-sm-6">
                       <ejs-textbox
                         [(ngModel)]="item.prospectOrganization.otherPhone1"
-                        placeholder="Phone Number 1"
+                        placeholder="Phone Number 2"
                         floatLabelType="Auto"
                         disabled
                         cssClass="e-outline"
@@ -146,7 +152,7 @@
                     <div class="col-sm-6">
                       <ejs-textbox
                         [(ngModel)]="item.prospectOrganization.otherPhone2"
-                        placeholder="Phone Number 2"
+                        placeholder="Phone Number 3"
                         disabled
                         floatLabelType="Auto"
                         cssClass="e-outline"
@@ -372,6 +378,7 @@
                     [value]="'New'"
                     name="customer"
                     label="New"
+                    disabled
                   ></ejs-radiobutton>
                   <!-- </div> -->
                 </div>
@@ -381,6 +388,7 @@
                     [value]="'Existing'"
                     name="customer"
                     label="Existing"
+                    disabled
                   ></ejs-radiobutton>
                   <!-- </div> -->
                 </div>
@@ -394,6 +402,7 @@
                     placeholder="Call Report Category"
                     cssClass="e-outline"
                     floatLabelType="Auto"
+                    disabled
                   ></ejs-dropdownlist>
                 </div>
                 <div class="col-6">
@@ -403,6 +412,7 @@
                     placeholder="IFC & Risk Category"
                     cssClass="e-outline"
                     floatLabelType="Auto"
+                    disabled
                   >
                   </ejs-dropdownlist>
                 </div>
