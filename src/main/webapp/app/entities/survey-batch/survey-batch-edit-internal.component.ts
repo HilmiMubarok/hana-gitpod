@@ -430,11 +430,16 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         return true;
       } else if (node.id === 'summary') {
         if (
-          this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
-          this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
+          this.collateralAppraisal.attributes['marketbility'] !== '' &&
+          this.collateralAppraisal.divHeadId !== null &&
+          this.collateralAppraisal.deptHeadId !== null &&
+          this.collateralAppraisal.teamLeadId !== null &&
+          this.collateralAppraisal.unitHeadId !== null
+          // this.collateralAppraisal.attributes['marketbility'] !== '' &&
+          // this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
+          // this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
+          // this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
+          // this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
         ) {
           return true;
         } else {
@@ -842,37 +847,17 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   }
 
   private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
-    if (
-      data.attributes === undefined ||
-      data.attributes === null ||
-      typeof data.attributes['summary'] === 'string' ||
-      typeof data.attributes['scoreCard'] === 'string'
-    ) {
+    if (!lodash.has(data.attributes, 'marketbility')) {
+      data.attributes['marketbility'] = '';
+    }
+    if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
       data.attributes['scoreCard'] = scoreCard;
-      data.attributes['summary'] = {
-        keterangan: '',
-        marketbility: '',
-        returnNotes: '',
-      };
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = scoreCard;
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }
-
-      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
-        data.attributes['summary'] = {
-          keterangan: '',
-          marketbility: '',
-          returnNotes: '',
-        };
-      } else {
-        data.attributes['summary'] = JSON.parse(data.attributes['summary']);
-      }
-
-      console.log('summaryyy', JSON.parse(data.attributes['summary']));
-      console.log('Negative', JSON.parse(data.attributes['scoreCard']));
     }
     return data;
   }
@@ -1220,7 +1205,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
+    if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
@@ -1281,10 +1266,14 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
 
-    copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
-    // copySurveyAppraisal.attributes['summary'].relace(/\\/g,'')
+    if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
+      copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
+    } else {
+      copySurveyAppraisal.attributes['marketbility'] = this.collateralAppraisal.attributes['marketbility'];
+    }
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']

@@ -63,8 +63,8 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   public items: any;
-  public displayedColumns: string[] = ['no', 'fileName', 'SizeFile', 'typeFile', 'modifiedDate', 'modifiedBy', 'action'];
-  public displayedColumnsExpand = [...this.displayedColumns];
+  // public displayedColumns: string[] = ['no', 'fileName', 'SizeFile', 'typeFile', 'modifiedDate', 'modifiedBy', 'action'];
+  // public displayedColumnsExpand = [...this.displayedColumns];
 
   post: any = '';
   organizationData: any = '';
@@ -107,16 +107,16 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.collateralAppraisalService.find(this.id).subscribe(result => {
-      this.mData = result.body.attributes;
-      this.mData.tujuanPenilian = result.body.attributes['tujuanPenilaian'];
-      this.mData.apprReportNum = result.body.apprReportNum;
+      // this.mData = result.body.attributes;
+      this.mData.tujuanPenilaian = result.body.attributes['tujuanPenilaian'];
+      this.mData.appraisalNumber = result.body.appraisalNumber;
       this.mData.quantity = result.body.attributes['quantity'];
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
       this.mData.totalLuasTanahFisik = result.body.attributes['totalLuasTanahFisik'];
       this.mData.totalLuasBangunanFisik = result.body.attributes['totalLuasBangunanFisik'];
-      this.mData.marketValue = result.body.marketVal;
+      this.mData.marketValue = result.body.collateral.marketValue;
       this.mData.totalLuasTanahImbTataKota = result.body.attributes['totalLuasTanahImbTataKota'];
       this.mData.totalLuasBangunanImbTataKota = result.body.attributes['totalLuasBangunanImbTataKota'];
       this.mData.appraisalvalueImbTataKota = result.body.attributes['appraisalvalueImbTataKota'];
