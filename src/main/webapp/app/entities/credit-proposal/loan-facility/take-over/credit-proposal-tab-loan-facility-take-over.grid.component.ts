@@ -97,6 +97,5 @@ export class CreditProposalTabLoanFacilityTakeOverGridComponent implements OnCha
     const dataGridTake = this.creditProposal.attributes['facilityTakeOver'].filter(({ id }) => id !== element.id);
     this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
     this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
-    console.log('Tes Delete', dataGridTake);
   }
 }
