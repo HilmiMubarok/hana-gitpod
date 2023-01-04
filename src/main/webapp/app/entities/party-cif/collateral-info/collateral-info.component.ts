@@ -381,6 +381,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
         if (res.id) {
           this.collateralService.save(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
             this.loadByPartyId(this.partyId);
+            this.updateCollateral(res);
           });
         } else {
           this.collateralService.create(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
@@ -389,6 +390,11 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
         }
       }
     });
+  }
+
+  private updateCollateral(res: ICollateral) {
+    const index = this.partyCif.collaterals.findIndex(obj => obj.id === res.id);
+    this.partyCif.collaterals[index] = res;
   }
 
   public openResult(element: ICollateral) {
