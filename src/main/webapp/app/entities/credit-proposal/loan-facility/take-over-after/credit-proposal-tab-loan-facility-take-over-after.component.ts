@@ -13,6 +13,7 @@ import * as uuid from 'uuid';
 export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public dataFacilityType = [];
+  public logoCcy;
   view: boolean;
   facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
   public periodTypeList: any = ['Week', 'Month', 'Year'];
@@ -54,6 +55,11 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       }
     }
 
+    this.changeLogo(this.facilityTakeOverAfterBank.currency);
+    // this.changeLogo(this.)
+    console.log('ini take over', this.facilityTakeOverAfterBank);
+    console.log('object', this.creditProposal);
+
     this.lock = true;
     console.log(this.dataFacilityType);
     console.log(this.facilityTakeOverAfterBank.facilityTypeOverBank);
@@ -79,11 +85,23 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
         this.facilityTakeOverAfterBank.initialLimitBankOver = result.attributes['maturity'];
         this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
         this.facilityTakeOverAfterBank.maturityPeriodType = result.attributes['maturityPeriodType'];
+        this.facilityTakeOverAfterBank.currency = result.attributes['currency'];
+        this.changeLogo(result.attributes.currency);
       } else {
         this.lock = true;
       }
     }
-    console.log('inievent', event);
+  }
+
+  public changeLogo(data: string) {
+    if (data) {
+      if (data === 'USD') {
+        this.logoCcy = {};
+      }
+      if (data === 'IDR') {
+        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      }
+    }
   }
 
   print() {

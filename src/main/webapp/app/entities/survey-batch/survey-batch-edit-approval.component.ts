@@ -88,7 +88,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public collateral: ICollateral = new Collateral();
   public partyType: string;
   public collateralType: string;
-    public totalDataDetailLand = [];
+  public totalDataDetailLand = [];
   public tipeOfficerAppraisal?: string;
   public menuItemsMin: MenuItemModel[] = [
     {
@@ -120,7 +120,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     return this._surveyAppraisal;
   }
 
- set surveyAppraisal(item: ISurveyAppraisals) {
+  set surveyAppraisal(item: ISurveyAppraisals) {
     this._surveyAppraisal = item;
     if (item !== undefined) {
       this.surveyAppraisalFunc(item);
@@ -142,7 +142,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   public fotoObjectJaminan: any;
   public keteranganObjectJaminan: any;
   public ketObjekJaminan: Boolean;
-    public totalDataDocumentCollateral = [];
+  public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
 
   public jpRenewal: boolean;
@@ -207,7 +207,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     protected dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
     private storageService: StorageService,
-        public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
+    public collateralAppraisalProcessComponent: CollateralAppraisalProcessComponent,
     public collateralAppraisalForwardToComponent: CollateralAppraisalForwardToComponent,
     public documentComponent: DocumentComponent,
     public collateralAppraisalDetailProcessLandCertificatesComponent: CollateralAppraisalDetailProcessLandCertificatesComponent,
@@ -268,7 +268,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       )
     ).body;
   }
- public collateralAppraisalFunc(item: ICollateralAppraisal) {
+  public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
     // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
@@ -455,7 +455,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
             this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
             this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
           ) {
-        if (
+            if (
               this.collateralAppraisalService.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL ||
               this.totalDataDetailLand.length >= MINIMUM_LAND_DETAIL
             ) {
@@ -918,7 +918,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         mustValidateOnDraft.documentLainnya = false;
       }
     }
-     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+    if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
       if (this.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
         this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
         mustValidateOnDraft.documentLainnya = false;
@@ -1123,13 +1123,13 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     const getMarketValueBuilding = this.collateralAppraisalService.totalDataValuationBuilding.map(obj => obj.propertyMarketValuePerMeter);
     marketValue.building.push(getMarketValueBuilding);
 
-     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+    if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
       if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
         this._showNotification('error', 'Masukkan Document Collateral Dahulu');
         mustValidatedOnVisited.documentCollateral = false;
       }
     }
-     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+    if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
       if (this.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
         this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
         mustValidatedOnVisited.documentLainnya = false;
@@ -1187,7 +1187,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Marketability Dahulu');
     //   mustValidatedOnVisited.marketability = false;
     // }
-     if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
+    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketbility = false;
     }

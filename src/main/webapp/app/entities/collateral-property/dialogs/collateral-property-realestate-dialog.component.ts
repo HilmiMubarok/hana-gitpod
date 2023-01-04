@@ -209,7 +209,6 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit {
   }
 
   filteredMVEx() {
-    console.log('ini options ', this.optionsMVEx);
     this.filteredOptionsMVEx = this.myControlMVEx.valueChanges.pipe(
       startWith(''),
       map(value => {

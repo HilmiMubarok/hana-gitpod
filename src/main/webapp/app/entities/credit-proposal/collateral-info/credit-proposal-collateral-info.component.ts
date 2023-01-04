@@ -16,10 +16,20 @@ export class CreditProposalCollateralInfoComponent {
 
   constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
 
-  @ViewChild('creditProposalCollateralInfoRemarksInfoComponent', {
+  @ViewChild('creditProposalCollateralInfoRemarksInfoComponentAbove', {
     static: false,
   })
-  creditProposalCollateralInfoRemarksInfoComponent: CreditProposalCollateralInfoRemarksInformationComponent;
+  creditProposalCollateralInfoRemarksInfoComponentAbove: CreditProposalCollateralInfoRemarksInformationComponent;
+
+  @ViewChild('creditProposalCollateralInfoRemarksInfoComponentBelow', {
+    static: false,
+  })
+  creditProposalCollateralInfoRemarksInfoComponentBelow: CreditProposalCollateralInfoRemarksInformationComponent;
+
+  @ViewChild('creditProposalCollateralInfoRemarksInfoComponentBtb', {
+    static: false,
+  })
+  creditProposalCollateralInfoRemarksInfoComponentBtb: CreditProposalCollateralInfoRemarksInformationComponent;
 
   @ViewChild('creditProposalCollateralInfoRemarksCheckComponent', {
     static: false,
@@ -46,8 +56,15 @@ export class CreditProposalCollateralInfoComponent {
     this._creditProposal = cp;
   }
 
-  public triggeredSave() {
-    this.creditProposalCollateralInfoRemarksInfoComponent.triggeredSave();
+  public triggeredSave(proposalType: any) {
+    if (proposalType === 'Total Exposure > IDR 15 Bn') {
+      this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
+    } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
+      this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
+    } else if (proposalType === 'Total Exposure Back to Back') {
+      this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
+    }
+
     this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
   }
 }

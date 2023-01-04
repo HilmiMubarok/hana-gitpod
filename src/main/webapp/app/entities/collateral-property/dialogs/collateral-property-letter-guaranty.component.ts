@@ -181,7 +181,6 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   }
 
   filteredCurrency() {
-    console.log('ini options ', this.optionsCurrency);
     this.filteredOptionsCurrency = this.myControlCurrency.valueChanges.pipe(
       startWith(''),
       map(value => {

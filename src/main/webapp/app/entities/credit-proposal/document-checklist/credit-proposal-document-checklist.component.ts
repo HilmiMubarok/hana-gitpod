@@ -42,7 +42,8 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
-        console.log('bucket', res.body['bucket']);
+        this.bucket = res.body['bucket'];
+        // console.log('bucket', res.body['bucket']);
         resolve();
       });
     });
