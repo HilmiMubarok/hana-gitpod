@@ -78,7 +78,6 @@ export class PartyCifDetailComponent implements OnInit {
 
   public preSave() {
     const copyPartyCif: IPartyCif = lodash.cloneDeep(this.partyCif);
-    console.log('sat save', copyPartyCif);
 
     if (typeof copyPartyCif.attributes['comparison'] !== 'string') {
       copyPartyCif.attributes['comparison'] = JSON.stringify(copyPartyCif.attributes['comparison']);
@@ -91,6 +90,8 @@ export class PartyCifDetailComponent implements OnInit {
     if (typeof copyPartyCif.attributes['shere-holde'] !== 'string') {
       copyPartyCif.attributes['shere-holder'] = JSON.stringify(copyPartyCif.attributes['shere-holder']);
     }
+	
+	copyPartyCif.debtorData.customerSince = '';
 
     return copyPartyCif;
   }
