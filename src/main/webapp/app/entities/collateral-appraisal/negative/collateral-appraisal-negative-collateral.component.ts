@@ -62,6 +62,7 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
     const copyItems: IScoreCard[] = this.item;
     copyItems.push(newItem);
     this.item = [...new Set([...this.item, ...copyItems])];
+    this.criteriaEvent.emit(this.item);
   }
 
   public selectScoreCard(data: IScoreCard, value: string) {
@@ -72,6 +73,7 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
       .indexOf(data.id);
 
     this.item[idx].value = value;
+    this.criteriaEvent.emit(this.item);
   }
 
   public clearTextBox(): void {

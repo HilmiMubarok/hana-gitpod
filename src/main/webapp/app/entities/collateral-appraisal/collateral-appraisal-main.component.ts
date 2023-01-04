@@ -34,6 +34,7 @@ import {
   SUBMENU_COLLATERAL_APPRAISAL_ADMIN,
   SUBMENU_COLLATERAL_APPRAISAL_MACHINE,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
 } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
@@ -260,7 +261,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.currentAccount = account;
       this.accountAuthorities = account['authorities'];
       if (lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN') >= 0) {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        this.subMenu =
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+            : SUBMENU_COLLATERAL_APPRAISAL;
       } else {
         if (
           lodash.indexOf(this.accountAuthorities, 'ROLE_ADMIN_APPRAISER') >= 0 ||
@@ -274,10 +278,16 @@ export class CollateralAppraisalMainComponent implements OnInit {
           ) {
             this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
           } else {
-            this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+            this.subMenu =
+              this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+                ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+                : SUBMENU_COLLATERAL_APPRAISAL;
           }
         } else {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          this.subMenu =
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+              ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+              : SUBMENU_COLLATERAL_APPRAISAL;
         }
       }
     });
