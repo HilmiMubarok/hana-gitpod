@@ -626,15 +626,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: {
-        processTask: task,
-      },
+      data: { processTask: task },
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resProcess = _res;
         this.taskProcess = task;
-        this.onSave('process');
+        if (_res.name === 'return' || _res.name === 'cancel') {
+          this.saveProcess();
+        } else {
+          this.onSave('process');
+        }
       }
     });
   }
