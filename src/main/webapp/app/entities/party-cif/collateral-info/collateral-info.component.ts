@@ -380,8 +380,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       if (res) {
         if (res.id) {
           this.collateralService.save(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
-            this.loadByPartyId(this.partyId);
             this.updateCollateral(res);
+            this.loadByPartyId(this.partyId);
           });
         } else {
           this.collateralService.create(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
