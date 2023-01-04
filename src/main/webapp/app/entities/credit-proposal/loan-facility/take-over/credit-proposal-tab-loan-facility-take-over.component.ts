@@ -14,6 +14,7 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
   public _creditProposal: ICreditProposal;
   public ccy: string;
   public periodTypeList: any = ['Week', 'Month', 'Year'];
+  public currencyList: any = ['IDR', 'USD'];
   view: boolean;
   facilityTakeOver: IApplicationProductTakeOver;
 
@@ -37,7 +38,6 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOver = this.data.facilityTakeOver;
-    // this.ccy = this.creditProposal.products[0]?.attributes.currency
   }
 
   public Onsave(): void {

@@ -68,17 +68,32 @@
 
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Initial Limit</mat-label>
-            <input
-              currencyMask
-              matInput
-              type="text"
-              [(ngModel)]="facilityTakeOver.initialLimitBank"
-              [disabled]="view"
-              [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
-            />
-          </mat-form-field>
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Initial Limit</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="facilityTakeOver.initialLimitBank"
+                  [disabled]="view"
+                  [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOver.currency" (ngModelChange)="chnageCurrency($event)" [disabled]="view">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of currencyList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
         </section>
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -92,17 +107,32 @@
         </section>
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Outstanding</mat-label>
-            <input
-              currencyMask
-              matInput
-              type="text"
-              [(ngModel)]="facilityTakeOver.outstandingBank"
-              [disabled]="view"
-              [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
-            />
-          </mat-form-field>
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Outstanding</mat-label>
+                <input
+                  currencyMask
+                  matInput
+                  type="text"
+                  [(ngModel)]="facilityTakeOver.outstandingBank"
+                  [disabled]="view"
+                  [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="facilityTakeOver.currency" (ngModelChange)="chnageCurrency($event)" [disabled]="view">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of currencyList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
