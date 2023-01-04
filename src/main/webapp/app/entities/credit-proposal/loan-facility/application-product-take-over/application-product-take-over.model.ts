@@ -6,6 +6,7 @@ export interface IApplicationProductTakeOver {
   maturityBank?: number;
   initialLimitBank?: number;
   outstandingBank?: number;
+  currency?: string;
 }
 
 export class ApplicationProductTakeOver implements IApplicationProductTakeOver {
@@ -15,7 +16,8 @@ export class ApplicationProductTakeOver implements IApplicationProductTakeOver {
     public facilityTypeBank?: string,
     public maturityBank?: number,
     public initialLimitBank?: number,
-    public outstandingBank?: number
+    public outstandingBank?: number,
+    public currency?: string
   ) {
     this.id = uuid.v4();
     this.facilityTypeBank = '';
