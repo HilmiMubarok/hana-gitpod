@@ -1,7 +1,16 @@
-<section class="mb-4">
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <button ejs-button class="btn-info" (click)="generate()">Generate</button>
+</section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <button ejs-button class="btn-info" (click)="generate()" disabled>Generate</button>
+</section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <button ejs-button class="btn-info" (click)="downloadExcel()">Download Excel</button>
 </section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <button ejs-button class="btn-info" (click)="downloadExcel()">Download Excel</button>
+</section>
+
 <!--<ejs-grid #grid [dataSource]="aplicationProducts" [resizeSettings]="resizeSettings" [allowResizing]='true' (dataBound)="dataBound($event)">-->
 <div class="table-responsive-material">
   <table mat-table [dataSource]="aplicationProducts" class="w-100">
