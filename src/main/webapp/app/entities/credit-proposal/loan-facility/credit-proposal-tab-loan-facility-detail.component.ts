@@ -148,15 +148,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               fileReader.onload = (e: any) => {
                 let docEditor: any;
 
-				if (this.isViewMode === false) {
-				  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-				} else if (this.isViewMode === true) {
-				  if (this.parentSource === '') {
-					docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                if (this.isViewMode === false) {
+                  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+                } else if (this.isViewMode === true) {
+                  if (this.parentSource === '') {
+                    docEditor = this.container?.documentEditor as DocumentEditorComponent;
                   } else if (this.parentSource === 'loan-analys') {
-					docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+                    docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
                   }
-				}
+                }
 
                 const contents: string = e.target.result;
                 docEditor.open(contents);
@@ -195,14 +195,14 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     let docEditor: any;
 
     if (this.isViewMode === false) {
-	  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-	} else if (this.isViewMode === true) {
-	  if (this.parentSource === '') {
-		docEditor = this.container?.documentEditor as DocumentEditorComponent;
-	  } else if (this.parentSource === 'loan-analys') {
-		docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-	  }
-	}
+      docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+    } else if (this.isViewMode === true) {
+      if (this.parentSource === '') {
+        docEditor = this.container?.documentEditor as DocumentEditorComponent;
+      } else if (this.parentSource === 'loan-analys') {
+        docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+      }
+    }
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';

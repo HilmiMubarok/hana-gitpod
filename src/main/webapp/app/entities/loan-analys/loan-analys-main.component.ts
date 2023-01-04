@@ -389,7 +389,7 @@ export class LoanAnalysMainComponent implements OnInit {
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
             this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : "",
+              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
               copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
               this.InternalId,
               this.positionApproval,
@@ -400,7 +400,7 @@ export class LoanAnalysMainComponent implements OnInit {
       } else {
         copyCreditProposal.notes.push(
           this.addNewNotes(
-            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : "",
+            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
             copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
             this.InternalId,
             this.positionApproval,
@@ -416,7 +416,9 @@ export class LoanAnalysMainComponent implements OnInit {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : "";
+            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes']
+              ? copyCreditProposal.attributes['tempLoggedInNotes']
+              : '';
             copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
             copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
@@ -427,7 +429,7 @@ export class LoanAnalysMainComponent implements OnInit {
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
             this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : "",
+              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
               copyCreditProposal.attributes['tempLoggedInRecomendation'],
               copyCreditProposal.attributes['tempLoggedInCondition'],
               copyCreditProposal.attributes['positionLogin'],
@@ -438,7 +440,7 @@ export class LoanAnalysMainComponent implements OnInit {
       } else {
         copyCreditProposal.notes.push(
           this.addNewNotes(
-            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : "",
+            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
             copyCreditProposal.attributes['tempLoggedInRecomendation'],
             copyCreditProposal.attributes['tempLoggedInCondition'],
             copyCreditProposal.attributes['positionLogin'],

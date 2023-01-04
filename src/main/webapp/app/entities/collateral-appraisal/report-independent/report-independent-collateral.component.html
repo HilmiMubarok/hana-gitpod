@@ -9,7 +9,7 @@
               <!-- [(ngModel)]="mData.tujuanPenilian"  -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Tujuan Penilaian</mat-label>
-                <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilian " />
+                <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilian" />
                 <!-- collateral appraisal attributes -->
               </mat-form-field>
             </div>
@@ -23,7 +23,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Quantity/Size</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.quantity " />
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.quantity" />
             </mat-form-field>
           </div>
         </div>
@@ -32,8 +32,7 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Date</mat-label>
               <!-- [(ngModel)]="partner.fromDate"  -->
-              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true"
-                [value]="mData.apprDate| date: 'yyyy/MM/dd'" />
+              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.apprDate | date: 'yyyy/MM/dd'" />
               <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
               <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
               <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -44,8 +43,7 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Report Date</mat-label>
                 <!-- [(ngModel)]="partner.fromDate"  -->
-                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true"
-                  [value]="mData.reportDate | date: 'yyyy/MM/dd'" />
+                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.reportDate | date: 'yyyy/MM/dd'" />
                 <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFromDate></mat-datepicker>
