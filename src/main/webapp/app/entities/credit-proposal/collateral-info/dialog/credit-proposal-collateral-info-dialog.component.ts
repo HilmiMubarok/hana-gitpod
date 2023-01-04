@@ -19,6 +19,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 export const MY_FORMATS = {
   parse: {
@@ -80,7 +81,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
-  public lovCollateralStatus: string[] = ['New', 'Existing', 'To be Released'];
+  public lovCollateralStatus: any;
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
@@ -90,6 +91,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
+
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
@@ -120,6 +122,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     for (let i = 1; i < 101; i++) {
       this.lovRank.push(i);
     }
+    this.lovCollateralStatus = STATUS_COLLATERAL;
   }
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
