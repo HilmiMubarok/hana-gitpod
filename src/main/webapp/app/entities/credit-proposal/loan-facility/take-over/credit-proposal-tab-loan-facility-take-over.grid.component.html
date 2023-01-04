@@ -9,15 +9,15 @@
   </ng-container>
   <ng-container matColumnDef="initialLimit">
     <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
-    <td mat-cell *matCellDef="let element">{{ element.initialLimitBank | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.currency + ' ' + (element.initialLimitBank | number: '1.0-0') }}</td>
   </ng-container>
   <ng-container matColumnDef="outstanding">
     <th mat-header-cell *matHeaderCellDef>O/S</th>
-    <td mat-cell *matCellDef="let element">{{ element.outstandingBank | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.currency + ' ' + (element.outstandingBank | number: '1.0-0') }}</td>
   </ng-container>
   <ng-container matColumnDef="tenor">
     <th mat-header-cell *matHeaderCellDef>Tenor</th>
-    <td mat-cell *matCellDef="let element">{{ element.maturityBank | number: '1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.maturityBank | number: '1.0-0' }}{{ element.maturityPeriodType }}</td>
   </ng-container>
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
