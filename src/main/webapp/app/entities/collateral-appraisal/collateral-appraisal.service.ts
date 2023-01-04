@@ -106,19 +106,16 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
     if (!lodash.has(param.attributes, 'jenisObject')) {
       param.attributes['jenisObject'] = '';
     }
-
-    if (
-      param.attributes === undefined ||
-      param.attributes === null ||
-      typeof param.attributes['summary'] === 'string' ||
-      typeof param.attributes['scoreCard'] === 'string'
-    ) {
+    if (!lodash.has(param.attributes, 'marketbility')) {
+      param.attributes['marketbility'] = '';
+    }
+    if (param.attributes === undefined || param.attributes === null || typeof param.attributes['scoreCard'] === 'string') {
       param.attributes['scoreCard'] = JSON.parse(param.attributes['scoreCard']);
-      param.attributes['summary'] = {
-        keterangan: '',
-        marketbility: '',
-        returnNotes: '',
-      };
+      // param.attributes['summary'] = {
+      //   keterangan: '',
+      //   marketbility: '',
+      //   returnNotes: '',
+      // };
     } else {
       if (!Object.prototype.hasOwnProperty.call(param.attributes, 'scoreCard')) {
         param.attributes['scoreCard'] = scoreCard;
@@ -126,15 +123,15 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
         param.attributes['scoreCard'] = JSON.parse(param.attributes['scoreCard']);
       }
 
-      if (!Object.prototype.hasOwnProperty.call(param.attributes, 'summary')) {
-        param.attributes['summary'] = {
-          keterangan: '',
-          marketbility: '',
-          returnNotes: '',
-        };
-      } else {
-        param.attributes['summary'] = JSON.parse(param.attributes['summary']);
-      }
+      // if (!Object.prototype.hasOwnProperty.call(param.attributes, 'summary')) {
+      //   param.attributes['summary'] = {
+      //     keterangan: '',
+      //     marketbility: '',
+      //     returnNotes: '',
+      //   };
+      // } else {
+      //   param.attributes['summary'] = JSON.parse(param.attributes['summary']);
+      // }
     }
     return param;
   }
