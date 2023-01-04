@@ -70,7 +70,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
   ngOnInit() {
     this.object = this.data.creditProposal;
   }
-
+  public copyDeviation = [];
   public save(): void {
     for (let i = 0; i < this.file.length; i++) {
       const metaData = {
@@ -104,11 +104,35 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
-        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-          this._dialog.close(this.documentChecklist);
-        });
+        if (metaData.status === 'Waived') {
+          this.setConvenant(metaData);
+          this.storageService.getBucketName().subscribe((a: any) => {
+            console.log('ok', a.body.bucket);
+            if (a.body.bucket !== null) {
+              this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+                this._dialog.close(this.copyDeviation);
+              });
+            }
+          });
+        } else {
+          this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
+            this._dialog.close();
+          });
+        }
       });
     }
+  }
+
+  public setConvenant(data: any) {
+    const convenantObject = {
+      no: this.data.creditProposal.attributes['convenant'].standardDataGridAbove.length + 1,
+      covenant: data.document,
+      status: data.status,
+      deviation: data.category,
+      formGroub: true,
+      justification: '',
+    };
+    this.copyDeviation.push(convenantObject);
   }
 
   public edit(): void {
