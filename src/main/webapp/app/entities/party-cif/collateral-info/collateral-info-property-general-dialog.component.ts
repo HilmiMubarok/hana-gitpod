@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
@@ -36,7 +36,6 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
 
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
-    console.log('id Branch', this.branchId);
   }
 
   private loadByCollateral(collateralId: number): void {
@@ -55,6 +54,22 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
           this.collateralPropertyExternal = lodash.find(res.body, function (o) {
             return o.external;
           });
+        } else {
+          const collProp = new CollateralProperty();
+          collProp.propertyType = CollateralPropertyType.GENERAL;
+          collProp.partyId = this.partyCifData.partyId;
+          collProp.external = false;
+          collProp.collateralId = this.collateral.id;
+          collProp.attributes = {};
+          this.collateralProperty = collProp;
+
+          const collPropEx = new CollateralProperty();
+          collPropEx.propertyType = CollateralPropertyType.GENERAL;
+          collPropEx.partyId = this.partyCifData.partyId;
+          collPropEx.external = true;
+          collPropEx.collateralId = this.collateral.id;
+          collPropEx.attributes = {};
+          this.collateralPropertyExternal = collPropEx;
         }
       });
   }

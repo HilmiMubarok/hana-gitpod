@@ -141,7 +141,6 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   }
 
   filteredMVImb() {
-    console.log('ini options ', this.optionsMVImb);
     this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -161,7 +160,6 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   }
 
   filteredMVImbPs() {
-    console.log('ini options ', this.optionsMVImbPs);
     this.filteredOptionsMVImbPs = this.myControlMVImbPs.valueChanges.pipe(
       startWith(''),
       map(value => {

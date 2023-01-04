@@ -607,9 +607,8 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
-
           if (this.creditProposalCollateralInfoComponent) {
-            this.creditProposalCollateralInfoComponent.triggeredSave();
+            this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
           }
           if (this.remaksComponent) {
             this.remaksComponent.triggeredSave();
@@ -652,7 +651,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             this.remaksComponent.triggeredSave();
           }
           if (this.creditProposalCollateralInfoComponent) {
-            this.creditProposalCollateralInfoComponent.triggeredSave();
+            this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
           }
 
           if (source === 'process') {
