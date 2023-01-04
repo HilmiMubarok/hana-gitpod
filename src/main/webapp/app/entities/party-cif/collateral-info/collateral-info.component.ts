@@ -416,7 +416,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
       this.loading = false;
-      this.dataSource = res.body.collaterals;
+      this.dataSource = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
     });
   }
 
