@@ -110,12 +110,13 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Binding Date</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.bindingDate }}
-              </div>
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Binding Date</mat-label>
+                <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+                <mat-datepicker #bindingDate disabled="true"></mat-datepicker>
+              </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

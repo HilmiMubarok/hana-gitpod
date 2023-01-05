@@ -36,6 +36,8 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   private _postalAddress: IPostalAddress;
   private _organization: IOrganizationManagement;
 
+  @Input() public type: string;
+
   @Input()
   get postalAddress(): IPostalAddress {
     return this._postalAddress;
@@ -80,6 +82,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.initializeCountry();
     this.cekDataSource();
+    console.log('type postal adress', this.type);
   }
 
   filteredCountry() {
@@ -288,13 +291,17 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   }
 
   public dataSource() {
-    if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
-      return true;
-    }
-    if (this.collateralApprAddress === true) {
-      return true;
-    }
-    if (this._organization?.dataSource === 'h' || this._organization?.dataSource === 'H') {
+    if (this.type === undefined) {
+      if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+        return true;
+      }
+      if (this.collateralApprAddress === true) {
+        return true;
+      }
+      if (this._organization?.dataSource === 'h' || this._organization?.dataSource === 'H') {
+        return true;
+      }
+    } else if (this.type === 'approval') {
       return true;
     }
     return false;
@@ -316,6 +323,13 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
       this.myControlVillage.disable();
     }
     if (this.collateralApprAddress === true) {
+      this.myControlCountry.disable();
+      this.myControlProvince.disable();
+      this.myControlCity.disable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+    }
+    if (this.type === 'approval') {
       this.myControlCountry.disable();
       this.myControlProvince.disable();
       this.myControlCity.disable();

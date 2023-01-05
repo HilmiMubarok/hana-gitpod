@@ -104,6 +104,9 @@ export class LoanAnalysMainComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     this.url = this.parentPath; // kebutuhan buat assign to
+    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
     switch (this.parentPath) {
       case 'la-distribution':
         this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
