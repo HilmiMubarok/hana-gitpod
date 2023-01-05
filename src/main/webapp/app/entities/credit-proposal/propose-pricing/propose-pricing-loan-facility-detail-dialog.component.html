@@ -408,12 +408,23 @@
           ></ejs-textbox>
         </div>
         <div class="mb-2">
-          <ejs-numerictextbox
-            [(ngModel)]="dataEdit.attributes['discountProposal']"
-            cssClass="e-outline"
-            placeholder="Discount Proposal"
-            floatLabelType="auto"
-          ></ejs-numerictextbox>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <ejs-numerictextbox
+              [(ngModel)]="dataEdit.attributes['discountProposal']"
+              cssClass="e-outline"
+              placeholder="Discount Proposal"
+              floatLabelType="auto"
+            ></ejs-numerictextbox>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <ejs-numerictextbox
+              [(ngModel)]="dataEdit.attributes['discountProposal']"
+              cssClass="e-outline"
+              placeholder="Discount Proposal"
+              floatLabelType="auto"
+              disabled
+            ></ejs-numerictextbox>
+          </section>
         </div>
         <div class="mb-2">
           <ejs-textbox
