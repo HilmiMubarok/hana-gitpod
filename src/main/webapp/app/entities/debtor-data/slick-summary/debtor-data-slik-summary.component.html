@@ -1,58 +1,51 @@
-<ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItemsAll" (select)="selectMenuItem($event)">
-</ejs-menu>
 <div *ngIf="cif !== undefined">
-  <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
-    <mat-card>
-      <mat-card-header class="mb-2">
-        <div>
-          <mat-card-title>SLIK Checking</mat-card-title>
-        </div>
-      </mat-card-header>
-
-      <div class="mb-2 mt-5">
-        <mat-card-subtitle>Debtor</mat-card-subtitle>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-header-subtitle class="text-capitalize">Debitur</mat-card-header-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <jhi-debtor-data-slik-summary-debitur
-              [managementType]="'DEBITUR'"
-              (sendToParent)="getSlikFromSummary($event)"
-              [mode]="mode"
-              [partyId]="partyCif.partyId"
-              [partyCif]="partyCif"
-            ></jhi-debtor-data-slik-summary-debitur>
-          </mat-card-content>
-        </mat-card>
-
-        <jhi-debtor-data-organization-management-list
-          [mode]="mode"
-          [cif]="cif.customerNumber"
-          [partyCif]="partyCif"
-          managementType="MANAGEMENT_DATA"
-        >
-        </jhi-debtor-data-organization-management-list>
-        <div class="my-5"></div>
-        <jhi-debtor-data-organization-management-list
-          [mode]="mode"
-          [cif]="cif.customerNumber"
-          [partyCif]="partyCif"
-          managementType="SHAREHOLDER"
-        >
-        </jhi-debtor-data-organization-management-list>
-        <div class="my-5"></div>
-        <jhi-debtor-data-organization-management-list
-          [mode]="mode"
-          [cif]="cif.customerNumber"
-          [partyCif]="partyCif"
-          managementType="CONTROL_PERSON"
-        >
-        </jhi-debtor-data-organization-management-list>
+  <mat-card>
+    <mat-card-header class="mb-2">
+      <div>
+        <mat-card-title>SLIK Checking</mat-card-title>
       </div>
-    </mat-card>
-  </div>
-  <div *ngIf="selectedMenu === 'SLIK IDEB'">
-    <jhi-debtor-data-slik-ideb [partyCif]="cif"></jhi-debtor-data-slik-ideb>
-  </div>
+    </mat-card-header>
+
+    <div class="mb-2 mt-5">
+      <mat-card-subtitle>Debtor</mat-card-subtitle>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-header-subtitle class="text-capitalize">Debitur</mat-card-header-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <jhi-debtor-data-slik-summary-debitur
+            [managementType]="'DEBITUR'"
+            (sendToParent)="getSlikFromSummary($event)"
+            [mode]="mode"
+            [partyId]="partyCif.partyId"
+            [partyCif]="partyCif"
+          ></jhi-debtor-data-slik-summary-debitur>
+        </mat-card-content>
+      </mat-card>
+
+      <jhi-debtor-data-organization-management-list
+        [mode]="mode"
+        [cif]="cif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="MANAGEMENT_DATA"
+      >
+      </jhi-debtor-data-organization-management-list>
+      <div class="my-5"></div>
+      <jhi-debtor-data-organization-management-list
+        [mode]="mode"
+        [cif]="cif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="SHAREHOLDER"
+      >
+      </jhi-debtor-data-organization-management-list>
+      <div class="my-5"></div>
+      <jhi-debtor-data-organization-management-list
+        [mode]="mode"
+        [cif]="cif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="CONTROL_PERSON"
+      >
+      </jhi-debtor-data-organization-management-list>
+    </div>
+  </mat-card>
 </div>
