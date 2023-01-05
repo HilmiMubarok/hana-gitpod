@@ -273,32 +273,34 @@
           <div class="e-card-header-title">REMARKS</div>
         </div>
       </div>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <ejs-documenteditorcontainer
-          #document_editor_container
-          [enableToolbar]="true"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          [spellcheck]="false"
-          [enableSpellCheck]="false"
-          (keyDown)="onKeyDown($event)"
-          (created)="onCreate()"
-		  [isReadOnly]="false"
-        ></ejs-documenteditorcontainer>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <ejs-documenteditorcontainer
-          #document_editor_container
-          [enableToolbar]="false"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          (documentChange)="onDocumentChange()"
-          [enableEditor]="false"
-          [isReadOnly]="true"
-        ></ejs-documenteditorcontainer>
-      </section>
+	  <section *ngIf="parentSource === ''">
+		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+		  <ejs-documenteditorcontainer
+			#document_editor_container
+			[enableToolbar]="true"
+			[enableLocalPaste]="false"
+			height="100vh"
+			style="display: block"
+			[spellcheck]="false"
+			[enableSpellCheck]="false"
+			(keyDown)="onKeyDown($event)"
+			(created)="onCreate()"
+			[isReadOnly]="false"
+		  ></ejs-documenteditorcontainer>
+		</section>
+		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <ejs-documenteditorcontainer
+			#document_editor_container
+			[enableToolbar]="false"
+			[enableLocalPaste]="false"
+			height="100vh"
+			style="display: block"
+			(documentChange)="onDocumentChange()"
+			[enableEditor]="false"
+			[isReadOnly]="true"
+          ></ejs-documenteditorcontainer>
+		</section>
+	  </section>
       <section *ngIf="parentSource === 'loan-analys'">
         <ejs-documenteditorcontainer
           #document_editor_container_loan_analys
