@@ -97,11 +97,16 @@
         </section>
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
+          <div class="fontsebled row py-1">
             <div class="col-2">Initial Limit</div>
             <div class="col-md-auto">:</div>
             <div class="col">
               {{ facilityTakeOver.initialLimitBank | number: '1.0-0' }}
+            </div>
+            <div class="col-2">Currency</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.currency }}
             </div>
           </div>
         </section>
@@ -135,11 +140,16 @@
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
+          <div class="fontsebled row py-1">
             <div class="col-2">Outstanding</div>
             <div class="col-md-auto">:</div>
             <div class="col">
               {{ facilityTakeOverAfterBank.outstandingBank | number: '1.0-0' }}
+            </div>
+            <div class="col-2">Currency</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ facilityTakeOverAfterBank.currency }}
             </div>
           </div>
         </section>

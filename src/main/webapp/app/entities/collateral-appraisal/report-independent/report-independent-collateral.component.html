@@ -5,19 +5,15 @@
         <!-- -======================================== -->
         <div class="col-6">
           <div class="form-group">
-            <div class="w-100">
-              <!-- [(ngModel)]="mData.tujuanPenilian"  -->
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Tujuan Penilaian</mat-label>
-                <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilian" />
-                <!-- collateral appraisal attributes -->
-              </mat-form-field>
-            </div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tujuan Penilaian</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilaian" />
+            </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Report No</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.apprReportNum" />
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.appraisalNumber" />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -31,7 +27,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Date</mat-label>
-              <!-- [(ngModel)]="partner.fromDate"  -->
+
               <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.apprDate | date: 'yyyy/MM/dd'" />
               <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
               <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>

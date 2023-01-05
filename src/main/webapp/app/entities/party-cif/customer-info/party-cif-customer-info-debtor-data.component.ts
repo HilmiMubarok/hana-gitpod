@@ -250,9 +250,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         // this.debtorData.internalName = this.branchs[i].name;
       }
     }
-    this.year = new Date(this.partyCif.debtorData.customerSince);
-    const fullYear = this.year.toISOString().split('T')[0];
-    this.partyCif.debtorData.customerSince = fullYear;
+    // this.year = new Date(this.partyCif.debtorData.customerSince);
+    // const fullYear = this.year.toISOString().split('T')[0];
+    // this.partyCif.debtorData.customerSince = fullYear;
   }
 
   public showHideElement() {

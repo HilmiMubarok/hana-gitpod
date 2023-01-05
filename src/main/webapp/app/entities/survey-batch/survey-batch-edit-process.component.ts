@@ -14,7 +14,11 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { COLLATERAL_TYPE, SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
+import {
+  COLLATERAL_TYPE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
+} from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -42,7 +46,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalComparisonComponent } from '../collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalForwardToComponent } from '../collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
@@ -430,11 +434,11 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         return true;
       } else if (node.id === 'summary') {
         if (
-          this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
-          this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
+          this.collateralAppraisal.attributes['marketbility'] !== '' &&
+          this.collateralAppraisal.divHeadId !== null &&
+          this.collateralAppraisal.deptHeadId !== null &&
+          this.collateralAppraisal.teamLeadId !== null &&
+          this.collateralAppraisal.unitHeadId !== null
         ) {
           return true;
         } else {
@@ -563,7 +567,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.currentAccount = await firstValueFrom(this.accountService.identity());
     this.accountAuthorities = this.currentAccount.authorities;
     if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      this.subMenu =
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+          : SUBMENU_COLLATERAL_APPRAISAL;
     } else {
       if (
         lodash.indexOf(this.accountAuthorities, Authority.ADMIN_APPRAISER) >= 0 ||
@@ -577,11 +584,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         ) {
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
         } else {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          this.subMenu =
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+              ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+              : SUBMENU_COLLATERAL_APPRAISAL;
         }
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        this.subMenu =
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+            : SUBMENU_COLLATERAL_APPRAISAL;
       }
     }
     this.setAuthorizedRole();
@@ -605,23 +618,24 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.timeLine();
   }
 
-  // addNewCriteria saya commnet karena IScoreCard[] di hapus oleh anjar, saya gak tau perubahan konsep dari anjar, jadi silahkan tanya anjar - ismoyo
-  // public addNewCriteria(data: IScoreCard[]): void {
-  //   this.collateralAppraisal.attributes['scoreCard'] = data;
-  // }
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
 
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: {
-        processTask: task,
-      },
+      data: { processTask: task },
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resProcess = _res;
         this.taskProcess = task;
-        this.onSave('process');
+        if (_res.name === 'return' || _res.name === 'cancel') {
+          this.saveProcess();
+        } else {
+          this.onSave('process');
+        }
       }
     });
   }
@@ -841,33 +855,31 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
-    if (
-      data.attributes === undefined ||
-      data.attributes === null ||
-      typeof data.attributes['summary'] === 'string' ||
-      typeof data.attributes['scoreCard'] === 'string'
-    ) {
-      data.attributes['scoreCard'] = scoreCard;
-      data.attributes['summary'] = {
-        keterangan: '',
-        marketbility: '',
-        returnNotes: '',
-      };
+    if (!lodash.has(data.attributes, 'marketbility')) {
+      data.attributes['marketbility'] = '';
+    }
+    if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
+      data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
+      // data.attributes['summary'] = {
+      //   keterangan: '',
+      //   marketbility: '',
+      //   returnNotes: '',
+      // };
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = scoreCard;
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }
-      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
-        data.attributes['summary'] = {
-          keterangan: '',
-          marketbility: '',
-          returnNotes: '',
-        };
-      } else {
-        data.attributes['summary'] = JSON.parse(data.attributes['summary']);
-      }
+      // if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
+      //   data.attributes['summary'] = {
+      //     keterangan: '',
+      //     marketbility: '',
+      //     returnNotes: '',
+      //   };
+      // } else {
+      //   data.attributes['summary'] = JSON.parse(data.attributes['summary']);
+      // }
     }
     return data;
   }
@@ -1136,19 +1148,28 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         mustValidatedOnAssigned.fotoObjectJaminan = false;
       }
     }
-
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
-      this._showNotification('error', 'Masukkan Document Collateral Dahulu');
-      mustValidatedOnAssigned.documentCollateral = false;
+      if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+        this._showNotification('error', 'Masukkan Document Collateral Dahulu');
+        mustValidatedOnAssigned.documentCollateral = false;
+      }
     }
+
     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
-      this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
-      mustValidatedOnAssigned.documentLainnya = false;
+      if (this.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+        this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
+        mustValidatedOnAssigned.documentLainnya = false;
+      }
     }
-    if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
-      this._showNotification('error', 'Masukkan Certificate Dahulu');
-      mustValidatedOnAssigned.certificate = false;
-    }
+    // if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
+    //   this._showNotification('error', 'Masukkan Document Collateral Dahulu');
+    //   mustValidatedOnAssigned.documentCollateral = false;
+    // }
+    // if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
+    //   this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
+    //   mustValidatedOnAssigned.documentLainnya = false;
+    // }
+
     //  Real Estate validation
     if (
       this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
@@ -1165,6 +1186,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnAssigned.buildingDetail = false;
+      }
+      if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
+        this._showNotification('error', 'Masukkan Certificate Dahulu');
+        mustValidatedOnAssigned.certificate = false;
       }
     }
 
@@ -1312,7 +1337,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
+    if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
@@ -1371,24 +1396,15 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     });
   }
 
-  // private preSave(): ISurveyAppraisals {
-  //   const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
-  //   copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-  //   copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
-  //   if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
-  //     copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
-  //       copySurveyAppraisal.collateral.attributes['landCertificates']
-  //     );
-  //   } else {
-  //     copySurveyAppraisal.collateral.attributes['landCertificates'];
-  //   }
-  //   return copySurveyAppraisal;
-  // }
-
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-    copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+    if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
+      copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
+    } else {
+      copySurveyAppraisal.attributes['marketbility'] = this.collateralAppraisal.attributes['marketbility'];
+    }
+    // copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']
