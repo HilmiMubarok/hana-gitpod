@@ -376,4 +376,17 @@ export class GroupCollateralComponent implements OnChanges {
       }
     });
   }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
+  }
 }
