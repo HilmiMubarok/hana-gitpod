@@ -22,7 +22,7 @@ export class DebtorDataViewUploadComponent {
     this.folder = this.data;
   }
 
-  public donwload(event: any) {
-    this.reportUtilService.downloadFileBYName(event);
+  public donwload(event: any, name: any) {
+    this.reportUtilService.downloadFileBYName(event, name.folder);
   }
 }
