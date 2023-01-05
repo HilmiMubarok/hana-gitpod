@@ -22,6 +22,7 @@ export class OrganizationManagementListComponent
   implements OnChanges, OnInit
 {
   @Input() public cif: string;
+  @Input() public type: string;
   @Input() public managementType: string;
 
   @Input()
@@ -34,7 +35,9 @@ export class OrganizationManagementListComponent
 
   public displayedColumns: string[];
   public pacth: any;
+  public text: any;
   public view: boolean;
+  public field: boolean;
   public elementData: IOrganizationManagement;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
@@ -57,6 +60,7 @@ export class OrganizationManagementListComponent
   }
   ngOnInit(): void {
     this.removefield();
+    console.log('ini type : ', this.type);
   }
 
   private defineDisplayedColumns(param: string) {
@@ -99,7 +103,12 @@ export class OrganizationManagementListComponent
   }
   public removefield() {
     this.pacth = this.router.url.split('/')[1];
-    if (this.pacth === 'credit-proposal-status') {
+    if (
+      this.pacth === 'credit-proposal-status' ||
+      this.pacth === 'la-approval-inquiry' ||
+      this.pacth === 'la-approval' ||
+      this.pacth === 'la-SME-CRC'
+    ) {
       this.view = true;
     }
   }
@@ -120,6 +129,7 @@ export class OrganizationManagementListComponent
       data: {
         organizationManagement: orgMgm,
         managementType: this.managementType,
+        typeScreen: this.type,
       },
     });
     dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {

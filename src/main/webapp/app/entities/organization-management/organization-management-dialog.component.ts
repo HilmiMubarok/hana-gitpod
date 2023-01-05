@@ -14,16 +14,20 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public managementType: string;
   public pacth: any;
   public pacthh: any;
+  public text: any;
+  public field: boolean;
   public view: boolean;
   public viewes: boolean;
   public pepStatus: any;
   public posManagement: any;
+  public typeSable: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       organizationManagement: IOrganizationManagement;
       managementType: string;
+      typeScreen: string;
     },
     private router: Router,
     private _dialog: MatDialogRef<OrganizationManagementDialogComponent>,
@@ -31,16 +35,23 @@ export class OrganizationManagementDialogComponent implements OnInit {
   ) {
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
+    this.typeSable = this.data.typeScreen;
   }
   ngOnInit(): void {
     this.remove();
     this.removepacth();
     this.setPep();
     this.setPosition();
+    console.log('ini typeSable', this.typeSable);
+    console.log('return type sable', this.dataSource());
   }
 
   public dataSource() {
-    if (this.organizationManagement.dataSource === 'h' || this.organizationManagement.dataSource === 'H') {
+    if (this.typeSable === undefined) {
+      if (this.organizationManagement.dataSource === 'h' || this.organizationManagement.dataSource === 'H') {
+        return true;
+      }
+    } else if (this.typeSable === 'approval') {
       return true;
     }
     return false;
@@ -51,7 +62,12 @@ export class OrganizationManagementDialogComponent implements OnInit {
   }
   public remove() {
     this.pacth = this.router.url.split('/')[1];
-    if (this.pacth === 'credit-proposal-status') {
+    if (
+      this.pacth === 'credit-proposal-status' ||
+      this.pacth === 'la-approval-inquiry' ||
+      this.pacth === 'la-approval' ||
+      this.pacth === 'la-SME-CRC'
+    ) {
       this.view = true;
     }
   }

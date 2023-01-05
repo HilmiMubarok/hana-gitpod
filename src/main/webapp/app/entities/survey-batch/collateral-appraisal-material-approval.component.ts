@@ -59,6 +59,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
     'customerType',
     'createdDate',
     'collateralType',
+    'appraisalType',
     'status',
     'action',
   ];

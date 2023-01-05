@@ -99,17 +99,25 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
-    if (this.router.url.split('/')[1] === 'cp-status-approval') {
-      this.parentSource = 'loan-analys';
-    }
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = true;
+	if (this.isViewMode === true) {
+	  this.container_view_false.restrictEditing = true;
+	} else if (this.isViewMode === false) {
+	  if (this.parentSource === '') {
+		this.container.restrictEditing = true;
+	  } else if (this.parentSource === 'loan-analys') {
+		this.container_loan_analys.restrictEditing = true;
+	  }
+	}
   }
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+	if (this.router.url.split('/')[1] === 'cp-status-approval') {
+      this.parentSource = 'loan-analys';
+    }
     this.getWord();
 
     this.removeTagRemaks();

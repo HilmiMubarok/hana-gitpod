@@ -91,7 +91,7 @@ export class BellowGridComponent implements OnChanges, OnInit {
       this.isChecked = true;
     }
 
-    this.isViewMode && this.displayedColumns.pop();
+    // this.isViewMode && this.displayedColumns.pop();
   }
 
   private loadByPartyId(param: string): void {
