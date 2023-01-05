@@ -91,7 +91,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   private getContainer(): void {
     this.getObj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.positionUserId + '-' + this.notes.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, this.getObj)
@@ -104,7 +104,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.creditProposalItem.id + '-' + this.notes.userId + '-opinion-sfdt.sfdt'
+                'credit-proposal-remark-' + this.creditProposalItem.id + '-' + this.notes.positionUserId + '-' + this.notes.userId + '-opinion-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -121,7 +121,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   private getContainerCondition(): void {
     const getObj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.positionUserId + '-' +  this.notes.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, getObj)
@@ -134,7 +134,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.creditProposalItem.id + '-' + this.notes.userId + '-opinion-' + 'condition-sfdt.sfdt'
+                'credit-proposal-remark-' + this.creditProposalItem.id + '-' + this.notes.positionUserId + '-' + this.notes.userId + '-opinion-' + 'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
