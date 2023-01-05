@@ -661,10 +661,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else if (node.id === 'summary') {
       if (
         this.collateralAppraisal.attributes['marketbility'] !== '' &&
-        this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
-        this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
-        this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
-        this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
+        this.collateralAppraisal.divHeadId !== null &&
+        this.collateralAppraisal.deptHeadId !== null &&
+        this.collateralAppraisal.teamLeadId !== null &&
+        this.collateralAppraisal.unitHeadId !== null
       ) {
         return true;
       } else {
