@@ -32,8 +32,8 @@ export class DocumentDialogDialogV2Component implements OnInit {
     });
   }
 
-  public donwload(event: any) {
-    this.reportUtilService.downloadFileBYName(event);
+  public donwload(event: any, name: any) {
+    this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + name.objectName.split('.')[1]);
   }
 
   public save(): void {

@@ -160,7 +160,7 @@
               />
 
               <img
-                (click)="donwload(item.url)"
+                (click)="donwload(item.url, item.tags)"
                 width="150px"
                 src="../../../content/images/excel.png"
                 *ngIf="
@@ -171,7 +171,7 @@
               />
 
               <img
-                (click)="donwload(item.url)"
+                (click)="donwload(item.url, item.tags)"
                 width="150px"
                 src="../../../content/images/word.png"
                 *ngIf="
@@ -181,14 +181,14 @@
               />
 
               <img
-                (click)="donwload(item.url)"
+                (click)="donwload(item.url, item.tags)"
                 width="150px"
                 src="../../../content/images/pdf.png"
                 *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
               />
 
               <img
-                (click)="donwload(item.url)"
+                (click)="donwload(item.url, item.tags)"
                 width="150px"
                 src="../../../content/images/power-point.jpg"
                 *ngIf="
@@ -315,6 +315,7 @@
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
         <img
+          style="width: 300px; border-radius: 20px"
           *ngIf="
             item.key.split('.')[1] === 'png' ||
             item.key.split('.')[1] === 'jpg' ||
@@ -334,7 +335,7 @@
         >
           <img width="300px" src="../../../content/images/excel.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)">
               <mat-icon>get_app</mat-icon>
             </button>
           </div>
@@ -348,7 +349,7 @@
         >
           <img width="300px" src="../../../content/images/word.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)">
               <mat-icon>get_app</mat-icon>
             </button>
           </div>
@@ -358,7 +359,7 @@
           <img width="300px" src="../../../content/images/pdf.png" />
 
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)">
               <mat-icon>get_app</mat-icon>
             </button>
           </div>
@@ -373,7 +374,7 @@
           <img width="300px" src="../../../content/images/power-point.jpg" />
 
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)">
               <mat-icon>get_app</mat-icon>
             </button>
           </div>
