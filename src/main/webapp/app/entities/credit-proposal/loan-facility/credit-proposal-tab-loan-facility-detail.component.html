@@ -137,8 +137,7 @@
         (documentChange)="onDocumentChange()"
         [enableEditor]="false"
         [isReadOnly]="true"
-      >
-      </ejs-documenteditorcontainer>
+      ></ejs-documenteditorcontainer>
     </div>
   </div>
 </div>
@@ -287,8 +286,7 @@
           [enableSpellCheck]="false"
           (keyDown)="onKeyDown($event)"
           (created)="onCreate()"
-        >
-        </ejs-documenteditorcontainer>
+        ></ejs-documenteditorcontainer>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <ejs-documenteditorcontainer
@@ -300,10 +298,9 @@
           (documentChange)="onDocumentChange()"
           [enableEditor]="false"
           [isReadOnly]="true"
-        >
-        </ejs-documenteditorcontainer>
+        ></ejs-documenteditorcontainer>
       </section>
-      <section [hidden]="parentSource !== 'loan-analys'">
+      <section *ngIf="parentSource === 'loan-analys'">
         <ejs-documenteditorcontainer
           #document_editor_container_loan_analys
           [enableToolbar]="false"
@@ -313,8 +310,7 @@
           (documentChange)="onDocumentChange()"
           [enableEditor]="false"
           [isReadOnly]="true"
-        >
-        </ejs-documenteditorcontainer>
+        ></ejs-documenteditorcontainer>
       </section>
     </div>
 

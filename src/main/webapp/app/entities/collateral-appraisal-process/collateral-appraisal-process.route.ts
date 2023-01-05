@@ -75,7 +75,7 @@ export class CollateralAppraisalProcessResolve implements Resolve<ICollateralApp
         map((res: HttpResponse<ICollateralAppraisal>) => res.body),
         mergeMap(res => {
           if (res) {
-            res.attributes['scoreCard'] = scoreCard;
+            // res.attributes['scoreCard'] = scoreCard;
             return of(res);
           } else {
             this.router.navigate(['404']);

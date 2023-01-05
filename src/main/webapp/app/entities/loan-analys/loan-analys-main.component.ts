@@ -1,28 +1,24 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
-import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
-  POSITION_TYPE,
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
   SUBMENU_LOAN_ANALYS_CC_REVIEW,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER,
   SUBMENU_LOAN_ANALYS_DAR_FINAL,
-  SUBMENU_LOAN_ANALYS_LA_ANALYST,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
   SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
-import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,6 +33,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { LoanAnalysService } from './loan-analys.service';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
+import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -48,8 +45,13 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   loanAnalysOpinionComponent: LoanAnalysOpinionComponent;
+
+  @ViewChild('creditProposalCollateralInfoComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
   private id: number;
-  // private id: string;
 
   public url: string;
   public subMenu: object[];
@@ -93,7 +95,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
@@ -259,6 +260,10 @@ export class LoanAnalysMainComponent implements OnInit {
           this.cp = response.body;
         });
 
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -270,6 +275,11 @@ export class LoanAnalysMainComponent implements OnInit {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
           this.cp = response.body;
         });
+
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -424,6 +434,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public saveDoc: boolean;
+
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {

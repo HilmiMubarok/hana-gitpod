@@ -64,6 +64,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public rmBranch: IInternal;
   public rmPosition: IPosition;
   public positionRms1 = 0;
+  public dataPush: ICollateral;
 
   @Input()
   get partyCif() {
@@ -380,13 +381,13 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       if (res) {
         if (res.id) {
           this.collateralService.save(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
-            this.updateCollateral(res);
             this.loadByPartyId(this.partyId);
+            this.updateCollateral(res2.body);
           });
         } else {
           this.collateralService.create(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
-            this.pushCollateral(res2.body);
             this.loadByPartyId(this.partyId);
+            this.pushCollateral(res2.body);
           });
         }
       }
@@ -398,8 +399,19 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.partyCif.collaterals[index] = res;
   }
 
-  private pushCollateral(res: ICollateral) {
-    this.partyCif.collaterals.push(res);
+  private pushCollateral(data: ICollateral) {
+    this.collateralService
+      .queryFilterBy({
+        page: this.page,
+        idParty: this.partyId,
+        isActive: true,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      })
+      .subscribe(resi => {
+        this.dataPush = resi.body.find(obj => (obj.id = data.id));
+        this.partyCif.collaterals.push(this.dataPush);
+      });
   }
 
   public openResult(element: ICollateral) {
@@ -416,7 +428,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
       this.loading = false;
-      this.dataSource = res.body.collaterals;
+      this.dataSource = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
     });
   }
 

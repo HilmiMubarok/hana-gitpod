@@ -15,6 +15,7 @@ import { CPFacility, ICPFacility } from 'app/shared/model/cp-facility.models';
 export class FacilityInfoDebiturDialogComponent {
   public availablelimit: string;
   public cpFacility: ICPFacility;
+  public preData: ICPFacility;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -24,9 +25,13 @@ export class FacilityInfoDebiturDialogComponent {
     private _dialog: MatDialogRef<FacilityInfoDebiturDialogComponent>
   ) {
     this.cpFacility = data.cpFacility;
+    this.preData = data.cpFacility;
   }
 
   public save(): void {
     this._dialog.close(this.cpFacility);
+  }
+  public cancel(): void {
+    this._dialog.close();
   }
 }

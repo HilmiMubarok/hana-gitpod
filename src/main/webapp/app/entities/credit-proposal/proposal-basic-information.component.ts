@@ -92,7 +92,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public url: string;
   public activeRoute: string;
   public applicationRole: IApplicationRole;
-  // public position: IPosition[];
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
   public routeHelper: string;
@@ -485,7 +484,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     let tempHelper = 0;
-
     if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -504,8 +502,8 @@ export class ProposalBasicInformationComponent implements OnInit {
               copyCreditProposal.attributes['tempLoggedInNotes'],
               copyCreditProposal.attributes['tempLoggedInRecomendation'],
               copyCreditProposal.attributes['tempLoggedInCondition'],
-              copyCreditProposal.attributes['positionLogin'],
-              this.currentAccount.login
+              this.currentAccount.login,
+              copyCreditProposal.attributes['positionLogin']
             )
           );
         }
@@ -604,12 +602,15 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.CreditProposalTabSummaryComponent) {
             this.CreditProposalTabSummaryComponent.triggeredSave();
           }
+
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
+
           if (this.creditProposalCollateralInfoComponent) {
             this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
           }
+
           if (this.remaksComponent) {
             this.remaksComponent.triggeredSave();
           }
@@ -636,20 +637,25 @@ export class ProposalBasicInformationComponent implements OnInit {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
+
           if (this.creditProposalOpinionHistoryComponent) {
             this.creditProposalOpinionHistoryComponent.triggeredSave();
             this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
             this.creditProposalOpinionHistoryComponent.refresh();
           }
+
           if (this.CreditProposalTabSummaryComponent) {
             this.CreditProposalTabSummaryComponent.triggeredSave();
           }
+
           if (this.creditProposaTabManagementInfoComponent) {
             this.creditProposaTabManagementInfoComponent.triggeredSave();
           }
+
           if (this.remaksComponent) {
             this.remaksComponent.triggeredSave();
           }
+
           if (this.creditProposalCollateralInfoComponent) {
             this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
           }

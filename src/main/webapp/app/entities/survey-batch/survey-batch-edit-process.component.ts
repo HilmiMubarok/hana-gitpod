@@ -17,6 +17,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import {
   COLLATERAL_TYPE,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
   SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
 } from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
@@ -795,7 +796,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
   public getConditionSubMenu(data): void {
     if (data.apprOfficer === 'External') {
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      this.subMenu =
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+          : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
     }
   }
 
