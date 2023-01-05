@@ -23,6 +23,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 export const MY_FORMATS = {
   parse: {
@@ -63,6 +64,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   post: any = '';
   organizationData: any = '';
   private id: string;
+  public status: boolean;
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private formBuilder: FormBuilder,
@@ -80,16 +82,45 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
 
   ngOnInit(): void {
     console.log('masuk report');
+    this.getReport();
+    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.collateralAppraisalService.find(this.id).subscribe(result => {
+    //   console.log('result', result);
+    //   this.mData = result.body.attributes;
+    //   this.mData.remark = result.body.remark;
+    //   this.mData.marketValue = result.body.collateral.marketValue;
+    //   this.mData.apprReportNum = result.body.apprReportNum;
+    //   this.mData.apprDate = result.body.apprDate;
+    //   this.mData.reportDate = result.body.reportDate;
+    //   this.mData.reviewedBy = result.body.reviewedBy;
+    // });
+  }
+
+  public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.collateralAppraisalService.find(this.id).subscribe(result => {
-      console.log('result', result);
-      this.mData = result.body.attributes;
-      this.mData.remark = result.body.remark;
-      this.mData.marketValue = result.body.collateral.marketValue;
-      this.mData.apprReportNum = result.body.apprReportNum;
+      // this.mData = result.body.attributes;
+      console.log('appraisal Number', result.body.appraisalNumber);
+      this.mData.tujuanPenilaian = result.body.attributes['tujuanPenilaian'];
+      this.mData.appraisalNumber = result.body.appraisalNumber;
+      this.mData.quantity = result.body.attributes['quantity'];
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
+      this.mData.totalLuasTanahFisik = result.body.attributes['totalLuasTanahFisik'];
+      this.mData.totalLuasBangunanFisik = result.body.attributes['totalLuasBangunanFisik'];
+      this.mData.marketValue = result.body.collateral.marketValue;
+      this.mData.totalLuasTanahImbTataKota = result.body.attributes['totalLuasTanahImbTataKota'];
+      this.mData.totalLuasBangunanImbTataKota = result.body.attributes['totalLuasBangunanImbTataKota'];
+      this.mData.appraisalvalueImbTataKota = result.body.attributes['appraisalvalueImbTataKota'];
+      this.mData.remark = result.body.remark;
+      if (result.body.apprOfficer === 'External') {
+        if (result.body.statusId === STATUS.APPROVE) {
+          this.status = true;
+        } else {
+          this.status = false;
+        }
+      }
     });
   }
 
