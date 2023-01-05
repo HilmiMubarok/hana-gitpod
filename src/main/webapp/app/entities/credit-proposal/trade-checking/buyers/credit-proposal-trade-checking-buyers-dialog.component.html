@@ -93,14 +93,13 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Terms Of Payment</mat-label>
-            <input
+            <!-- <input
               matInput
               type="text"
               [ngModel]="tradeCheckingBuyers.termsOfPayment"
-              (ngModelChange)="(tradeCheckingBuyers.termsOfPayment)"
               [disabled]="view"
-            />
-            <!-- <input matInput type="text" [(ngModel)]="tradeCheckingBuyers.termsOfPayment" [disabled]="view" /> -->
+            /> -->
+            <input matInput type="text" [(ngModel)]="tradeCheckingBuyers.termsOfPayment" [disabled]="view" />
           </mat-form-field>
         </div>
       </section>
