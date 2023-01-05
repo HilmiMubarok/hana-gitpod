@@ -5,17 +5,15 @@
         <!-- -======================================== -->
         <div class="col-6">
           <div class="form-group">
-            <div class="w-100">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Tujuan Penilaian</mat-label>
-                <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilian" />
-              </mat-form-field>
-            </div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tujuan Penilaian</mat-label>
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.tujuanPenilaian" />
+            </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Report No</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.apprReportNum" />
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.appraisalNumber" />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -29,8 +27,8 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Date</mat-label>
-              <!-- [(ngModel)]="partner.fromDate"  -->
-              <input matInput [matDatepicker]="pickerFromDate" [formControl]="date" [disabled]="true" [(ngModel)]="mData.apprDate" />
+
+              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.apprDate | date: 'yyyy/MM/dd'" />
               <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
               <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
               <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -41,7 +39,7 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Report Date</mat-label>
                 <!-- [(ngModel)]="partner.fromDate"  -->
-                <input matInput [matDatepicker]="pickerFromDate" [formControl]="date" [disabled]="true" [(ngModel)]="mData.reportDate" />
+                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.reportDate | date: 'yyyy/MM/dd'" />
                 <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                 <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
                 <mat-datepicker #pickerFromDate></mat-datepicker>
@@ -66,12 +64,14 @@
           <div class="form-group" style="margin-top: 20px">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Tanah (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
               <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahFisik" />
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Bangunan (Physics)</mat-label>
+              <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
               <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanFisik" />
             </mat-form-field>
           </div>
@@ -93,7 +93,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Bangunan (IMB / Tata Kota)</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahImbTataKota" />
+              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanImbTataKota" />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -118,12 +118,12 @@
         <div class="col-12">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Review Opinion</mat-label>
-            <textarea matInput style="height: 170px" [disabled]="true"></textarea>
+            <textarea matInput style="height: 170px" [disabled]="status"></textarea>
           </mat-form-field>
         </div>
       </div>
       <!-- -======================================== -->
-      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+      <!-- <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
           <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
@@ -174,8 +174,8 @@
           class="mat-element-row"
           (click)="expandedElement = expandedElement === element ? null : element"
         ></tr>
-      </table>
-      <mat-card *ngIf="loading" id="material-loading-bar">
+      </table> -->
+      <!-- <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
       <mat-paginator
@@ -186,7 +186,7 @@
         [pageSizeOptions]="paginatorPageSizeOption"
         (page)="loadDataLazy($event)"
       >
-      </mat-paginator>
+      </mat-paginator> -->
     </div>
   </div>
 </div>

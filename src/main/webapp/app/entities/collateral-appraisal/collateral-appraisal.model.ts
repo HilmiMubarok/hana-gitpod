@@ -207,7 +207,7 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public reportDate?: Date
   ) {
     this.attributes = {};
-    this.attributes['scoreCard'] = scoreCard;
+    // this.attributes['scoreCard'] = scoreCard;
     this.attributes['segmentProduct'] = '';
   }
 }

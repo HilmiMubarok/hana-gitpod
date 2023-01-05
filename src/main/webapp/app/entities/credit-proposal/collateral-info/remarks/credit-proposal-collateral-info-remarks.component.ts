@@ -63,7 +63,7 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
 
   ngOnInit(): void {
     this.removeTagRemaks();
-    this.pathremove();
+    // this.pathremove();
 
     this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
@@ -101,14 +101,14 @@ export class CreditProposalCollateralInfoRemarksComponent implements OnInit, OnC
     ],
   };
 
-  public pathremove() {
-    this.pacth = this.router.url.split('/')[1];
-    if (this.pacth === 'la-approval' || this.pacth === 'cp-status-approval') {
-      this.view = true;
-    }
+  // public pathremove() {
+  //   this.pacth = this.router.url.split('/')[1];
+  //   if (this.pacth === 'la-approval' || this.pacth === 'cp-status-approval') {
+  //     this.view = true;
+  //   }
 
-    console.log('test', this.pacth);
-  }
+  //   console.log('test', this.pacth);
+  // }
 
   removeTagRemaks() {
     this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;

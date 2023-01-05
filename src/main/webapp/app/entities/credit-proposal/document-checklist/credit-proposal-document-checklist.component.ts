@@ -6,6 +6,7 @@ import { DocumentChecklistDialogComponent } from './document-checklist-dialog.co
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
+import { dataCovenantAbove } from '../convenant/convenant.constant';
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
   templateUrl: './credit-proposal-document-checklist.component.html',
@@ -97,10 +98,20 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     }
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getBucket().then(() => {
-        this.getFiles(this.creditProposal.id);
-      });
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if (res !== null) {
+        this.creditProposal.attributes['convenant'].standardDataGridAbove = [
+          ...this.creditProposal.attributes['convenant'].standardDataGridAbove,
+          res[0],
+        ];
+        this.getBucket().then(() => {
+          this.getFiles(this.creditProposal.id);
+        });
+      } else {
+        this.getBucket().then(() => {
+          this.getFiles(this.creditProposal.id);
+        });
+      }
     });
   }
 

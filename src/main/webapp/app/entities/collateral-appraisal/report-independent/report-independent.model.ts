@@ -1,5 +1,5 @@
 export interface IReportIndependent {
-  tujuanPenilian?: String;
+  tujuanPenilaian?: String;
   totalLuasTanahFisik?: String;
   totalLuasBangunanFisik?: String;
   appraisalvalueImbTataKota?: String;
@@ -10,14 +10,14 @@ export interface IReportIndependent {
   marketValue?: Number;
   remark?: String;
   reportDate?: Date;
-  apprReportNum?: String;
+  appraisalNumber?: String;
   apprDate?: Date;
   reviewedBy?: String;
 }
 
 export class ReportIndependent implements IReportIndependent {
   constructor(
-    public tujuanPenilian?: string,
+    public tujuanPenilaian?: string,
     public totalLuasTanahFisik?: string,
     public totalLuasBangunanFisik?: string,
     public appraisalvalueImbTataKota?: string,
@@ -28,7 +28,7 @@ export class ReportIndependent implements IReportIndependent {
     public marketValue?: number,
     public remark?: string,
     public reportDate?: Date,
-    public apprReportNum?: string,
+    public appraisalNumber?: string,
     public apprDate?: Date,
     public reviewedBy?: String
   ) {}

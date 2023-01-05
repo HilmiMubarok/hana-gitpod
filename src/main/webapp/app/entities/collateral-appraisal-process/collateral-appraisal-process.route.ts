@@ -35,14 +35,16 @@ export class CollateralAppraisalProcessResolve implements Resolve<ICollateralApp
             if (!lodash.has(collateralAppraisal.body.attributes, 'jenisObject')) {
               collateralAppraisal.body.attributes['jenisObject'] = '';
             }
-
+            if (!lodash.has(collateralAppraisal.body.attributes, 'marketbility')) {
+              collateralAppraisal.body.attributes['marketbility'] = '';
+            }
             if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
               collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
-              collateralAppraisal.body.attributes['summary'] = {
-                keterangan: '',
-                marketbility: '',
-                returnNotes: '',
-              };
+              // collateralAppraisal.body.attributes['summary'] = {
+              //   keterangan: '',
+              //   marketbility: '',
+              //   returnNotes: '',
+              // };
             } else {
               if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'scoreCard')) {
                 collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
@@ -50,15 +52,15 @@ export class CollateralAppraisalProcessResolve implements Resolve<ICollateralApp
                 collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
               }
 
-              if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'summary')) {
-                collateralAppraisal.body.attributes['summary'] = {
-                  keterangan: '',
-                  marketbility: '',
-                  returnNotes: '',
-                };
-              } else {
-                collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
-              }
+              // if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'summary')) {
+              //   collateralAppraisal.body.attributes['summary'] = {
+              //     keterangan: '',
+              //     marketbility: '',
+              //     returnNotes: '',
+              //   };
+              // } else {
+              //   collateralAppraisal.body.attributes['summary'] = JSON.parse(collateralAppraisal.body.attributes['summary']);
+              // }
             }
             return of(collateralAppraisal.body);
           } else {
