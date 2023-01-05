@@ -414,6 +414,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
+
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
       copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
     } else {
@@ -659,7 +660,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       return true;
     } else if (node.id === 'summary') {
       if (
-        this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
+        this.collateralAppraisal.attributes['marketbility'] !== '' &&
         this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
         this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
         this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
@@ -1048,7 +1049,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
+    if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
