@@ -1,65 +1,56 @@
-<!-- <div class="">
-  <div class="e-card-content">
-    <div class="col-md-6">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Forwad to</mat-label>
-        <mat-select>
-          <mat-option value="">- Please Select -</mat-option>
-          <mat-option *ngFor="let item of creditProposalStatusCodes" value="item">
-            {{ item.toLowerCase() }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  </div> -->
-
-<!-- <div class="e-card">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title header-retrive">Approval User</div>
-      <div class="mb-6">
-         <button mat-raised-button class="button-retrive"  *ngIf="showHide" (onClick)="generateData()">Create Retrive</button>
-      </div>
-    </div>
-  </div> -->
 <mat-card class="mb-2 mt-5">
   <div>
-    <mat-card-subtitle>Approval User</mat-card-subtitle>
+    <mat-card-subtitle>
+      <div style="float: left; line-height: 85px">Approval User</div>
+      <div style="float: right">
+        <mat-form-field appearance="fill">
+          <mat-label>Approval Level</mat-label>
+          <mat-select [(value)]="selectedRelationType" (selectionChange)="selRelType($event.value)">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of relType" [value]="item.id">
+              {{ item.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="clear: both"></div>
+    </mat-card-subtitle>
   </div>
   <mat-card-content>
-    <table mat-table class="w-100" appearance="outline" [dataSource]="items">
-      <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-      </ng-container>
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef>Position</th>
-        <td mat-cell *matCellDef="let element">{{ element.roleDescription }}</td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.partyName }}</td>
-      </ng-container>
-      <ng-container matColumnDef="remarks">
-        <th mat-header-cell *matHeaderCellDef>Remarks</th>
-        <td mat-cell *matCellDef="let element">{{ element.text }}</td>
-      </ng-container>
-      <ng-container matColumnDef="available">
-        <th mat-header-cell *matHeaderCellDef>Available</th>
-        <td mat-cell *matCellDef="let element">
-          <!-- {{ element.lastModifiedBy }} -->
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="alternatename">
-        <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
-        <td mat-cell *matCellDef="let element"></td>
-      </ng-container>
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-      </tr>
-      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-    </table>
+    <div class="table-responsive-material">
+      <table mat-table class="w-100" appearance="outline" [dataSource]="filteringItems">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>Position</th>
+          <td mat-cell *matCellDef="let element">{{ element.roleDescription }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.partyName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="remarks">
+          <th mat-header-cell *matHeaderCellDef>Remarks</th>
+          <td mat-cell *matCellDef="let element">{{ element.text }}</td>
+        </ng-container>
+        <ng-container matColumnDef="available">
+          <th mat-header-cell *matHeaderCellDef>Available</th>
+          <td mat-cell *matCellDef="let element">
+            <!-- {{ element.lastModifiedBy }} -->
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="alternatename">
+          <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+      </table>
+    </div>
   </mat-card-content>
 </mat-card>
