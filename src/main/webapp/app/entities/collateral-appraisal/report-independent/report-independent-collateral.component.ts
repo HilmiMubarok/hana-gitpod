@@ -107,19 +107,12 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.collateralAppraisalService.find(this.id).subscribe(result => {
-      // this.mData = result.body.attributes;
-      this.mData.tujuanPenilaian = result.body.attributes['tujuanPenilaian'];
+      this.mData = result.body.attributes;
       this.mData.appraisalNumber = result.body.appraisalNumber;
-      this.mData.quantity = result.body.attributes['quantity'];
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
-      this.mData.totalLuasTanahFisik = result.body.attributes['totalLuasTanahFisik'];
-      this.mData.totalLuasBangunanFisik = result.body.attributes['totalLuasBangunanFisik'];
       this.mData.marketValue = result.body.collateral.marketValue;
-      this.mData.totalLuasTanahImbTataKota = result.body.attributes['totalLuasTanahImbTataKota'];
-      this.mData.totalLuasBangunanImbTataKota = result.body.attributes['totalLuasBangunanImbTataKota'];
-      this.mData.appraisalvalueImbTataKota = result.body.attributes['appraisalvalueImbTataKota'];
       this.mData.remark = result.body.remark;
       if (result.body.apprOfficer === 'External') {
         if (result.body.statusId === STATUS.APPROVE) {
