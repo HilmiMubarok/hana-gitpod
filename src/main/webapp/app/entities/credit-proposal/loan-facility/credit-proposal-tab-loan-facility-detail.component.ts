@@ -99,9 +99,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
-    if (this.router.url.split('/')[1] === 'cp-status-approval') {
-      this.parentSource = 'loan-analys';
-    }
   }
 
   onDocumentChange() {
