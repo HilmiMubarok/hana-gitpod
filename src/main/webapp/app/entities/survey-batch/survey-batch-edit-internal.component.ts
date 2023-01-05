@@ -14,7 +14,11 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { COLLATERAL_TYPE, SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
+import {
+  COLLATERAL_TYPE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
+} from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -568,7 +572,10 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     this.currentAccount = await firstValueFrom(this.accountService.identity());
     this.accountAuthorities = this.currentAccount.authorities;
     if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+      this.subMenu =
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+          : SUBMENU_COLLATERAL_APPRAISAL;
     } else {
       if (
         lodash.indexOf(this.accountAuthorities, Authority.ADMIN_APPRAISER) >= 0 ||
@@ -582,11 +589,17 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         ) {
           this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
         } else {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+          this.subMenu =
+            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+              ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+              : SUBMENU_COLLATERAL_APPRAISAL;
         }
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
+        this.subMenu =
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+            : SUBMENU_COLLATERAL_APPRAISAL;
       }
     }
     this.setAuthorizedRole();
