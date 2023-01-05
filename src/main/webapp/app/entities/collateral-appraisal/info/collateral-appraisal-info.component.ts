@@ -405,7 +405,13 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       }
     }
   }
-
+  public externalDisabled() {
+    if (this.collateralAppraisal.apprOfficer === 'External') {
+      return true;
+    } else {
+      return false;
+    }
+  }
   public selectWilayahKota(args: ChangeEventArgs): void {
     this.outputWilayahKota.emit(args['value']);
     this.positionService

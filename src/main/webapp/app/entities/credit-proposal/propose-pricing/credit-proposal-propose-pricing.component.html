@@ -13,7 +13,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="form-group">
             <ejs-textbox
-              type="datetime"
+              type="date"
               placeholder="Modified Date"
               [(ngModel)]="creditProposal.lastModifiedDate"
               cssClass="e-outline"
@@ -184,6 +184,10 @@
                 <td>{{ proposedRateIDR }} %</td>
               </tr>
               <tr>
+                <td>AVERAGE IDR</td>
+                <td>{{ averageIDR }} %</td>
+              </tr>
+              <tr>
                 <th colspan="2">USD</th>
               </tr>
               <tr>
@@ -197,6 +201,10 @@
               <tr>
                 <td>PROPOSED RATE</td>
                 <td>{{ proposedRateUSD | number }} %</td>
+              </tr>
+              <tr>
+                <td>AVERAGE USD</td>
+                <td>{{ averageUSD }} %</td>
               </tr>
             </table>
           </div>

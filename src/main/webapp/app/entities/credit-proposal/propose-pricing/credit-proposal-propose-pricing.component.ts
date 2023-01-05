@@ -9,6 +9,8 @@ import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { ListOfValueIndustryService } from '../list-of-value-industry.service';
 import { IListOfValueIndustry } from '../list-of-value-industry.model';
 import { CreditProposalService } from '../credit-proposal.service';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
@@ -41,6 +43,9 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public normalRateUSD: any;
   public discountProposalUSD: any;
   public proposedRateUSD: any;
+  public averageIDR: any;
+  public averageUSD: any;
+  public aplicationProducts: IApplicationProduct[];
   @Input() saveWordMinio: any;
   @Input()
   get creditProposal() {
@@ -49,6 +54,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+    this.aplicationProducts = item.products;
   }
 
   public industryList = [];
@@ -70,7 +76,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   constructor(
     private actRoute: ActivatedRoute,
     public listOfIndustryService: ListOfValueIndustryService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private http: HttpClient
   ) {
     this.countOS = 0;
     this.availableLimit = 0;
@@ -323,6 +330,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
     this.defaultCurrency();
     this.creditRatingCondition();
+    this.averagetoIDR();
   }
   public creditRatingCondition() {
     if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
@@ -372,5 +380,15 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         });
       }
     }
+  }
+
+  public averagetoIDR() {
+    this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        this.averageIDR = this.aplicationProducts[i].attributes['avgRateIDR'] = res['proposePricing'][i]['avgRateIDR'];
+        this.averageUSD = this.aplicationProducts[i].attributes['avgRateUSD'] = res['proposePricing'][i]['avgRateUSD'];
+        console.log('cek data', this.averageIDR, this.averageUSD);
+      }
+    });
   }
 }

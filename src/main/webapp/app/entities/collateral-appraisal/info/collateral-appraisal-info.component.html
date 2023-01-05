@@ -188,6 +188,7 @@
         format="IDR 0,"
         min="0"
         [disabled]="!isEnablePlafond"
+        [disabled]="externalDisabled()"
       >
       </ejs-numerictextbox>
     </section>
@@ -198,6 +199,7 @@
         floatLabelType="Auto"
         [(ngModel)]="surveyAppraisal.tglJatuhTempo"
         [disabled]="!isEnablePlafond"
+        [disabled]="externalDisabled()"
         format="yyyy/MM/dd"
       ></ejs-datepicker>
     </section>

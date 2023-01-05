@@ -69,6 +69,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   public collateralStatus: any;
   public paripasuStatus: any;
   public bindingTypes: any;
+  public isViewMode: Boolean;
   constructor(
     private creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
@@ -79,6 +80,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       emptyField: IEmptyField;
+      isViewMode: Boolean;
     }
   ) {
     this.creditProposal = this.data.cp;
@@ -90,6 +92,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
+    this.isViewMode = this.data.isViewMode;
   }
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
