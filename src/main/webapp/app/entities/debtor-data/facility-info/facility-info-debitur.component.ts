@@ -95,7 +95,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
-      console.log('ini child data', this.debtorData);
+      this.mapingData();
     }
     if (changes['partyCif']) {
       console.log('ini party cif', this.partyCif);
@@ -107,8 +107,11 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
       console.log('ini data faility', this.dataFacility);
     }
     if (changes['dataGroup']) {
-      if (this.dialogType === 'dataGroup') {
+      console.log('data group jalan');
+      if (this.dialogType === 'group') {
         this.dataFacility = this.dataGroup;
+        this.mapingData();
+        console.log('in group', this.dataFacility);
       }
     }
   }
@@ -118,17 +121,11 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     console.log('collateral type', this.dialogType);
   }
 
-  private mapingData(params: IDebtorData = null) {
-    if (params) {
-      this._data = JSON.parse(params.attributes['cpFacility']);
-      this.data = JSON.parse(params.attributes['cpFacility']);
-      console.log('ini data', this.data);
-
-      for (let i = 0; i < this._data.length; i++) {
-        const date1 = new Date(this._data[i].FXFIG_TRX_DT);
-        const date2 = new Date(this._data[i].FILN10_TOT_EXP_IL);
-        this.aYear[i] = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
-      }
+  private mapingData() {
+    for (let i = 0; i < this.dataFacility.length; i++) {
+      const date1 = new Date(this.dataFacility[i].FXFIG_TRX_DT);
+      const date2 = new Date(this.dataFacility[i].FILN10_TOT_EXP_IL);
+      this.aYear[i] = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
     }
   }
 
