@@ -82,8 +82,10 @@ export class CreditProposalDeviationAboveComponent implements OnInit, OnChanges 
           formGroub: true,
           justification: '',
         };
-
-        this.standardDataGridAbove = [...this.standardDataGridAbove, setdata];
+        if (setdata.deviation === 'Waived') {
+          this.standardDataGridAbove = [...this.standardDataGridAbove, setdata];
+        }
+        
       }
     } else {
       this.folders = [];
