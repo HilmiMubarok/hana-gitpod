@@ -76,7 +76,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
-    this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
+    // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   private loadByPartyId(param: string): void {
@@ -120,6 +120,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         emptyField: this.getEmptyField(value),
         applicationProduct: this.creditProposal.products,
         properties: this.collateralProperties,
+        isViewMode: this.isViewMode,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
