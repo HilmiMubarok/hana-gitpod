@@ -89,6 +89,7 @@
 
               <div class="form-group">
                 <ejs-textbox
+                  [disabled]="isViewMode === true"
                   [(ngModel)]="binding.bindingValue"
                   placeholder="Binding Value"
                   cssClass="e-outline"
@@ -106,18 +107,39 @@
               </div> -->
 
               <div class="form-group">
-                <ejs-textbox [(ngModel)]="empty.bunga" placeholder="Bunga" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                <ejs-textbox
+                  [disabled]="isViewMode === true"
+                  [(ngModel)]="empty.bunga"
+                  placeholder="Bunga"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                >
+                </ejs-textbox>
               </div>
               <div class="form-group">
-                <ejs-textbox [(ngModel)]="empty.kondisi" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
+                <ejs-textbox
+                  [disabled]="isViewMode === true"
+                  [(ngModel)]="empty.kondisi"
+                  placeholder="Kondisi"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                >
+                </ejs-textbox>
               </div>
 
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Tanggal Verifikasi</mat-label>
-                  <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="collateral.bindingDate" />
-                  <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
-                  <mat-datepicker #bindingDate></mat-datepicker>
+                  <input
+                    [disabled]="isViewMode === true"
+                    [matDatepicker]="bindingDate"
+                    [formControl]="date"
+                    matInput
+                    type="text"
+                    [(ngModel)]="collateral.bindingDate"
+                  />
+                  <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker>
                 </mat-form-field>
               </div>
 
