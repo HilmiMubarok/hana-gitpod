@@ -209,6 +209,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       'BSBY',
       'TERM SOFR',
       'FLOAT',
+      'BACK TO BACK',
+      'BSBY',
+      'SDBI',
+      'TERM SOFR',
+      'SBI',
+      'PRIME',
     ],
 
     rateAmountTypeList: ['%p.a', 'Amount IDR', 'Amount USD'],

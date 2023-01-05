@@ -20,7 +20,6 @@ export class DocumentDialogDialogV2Component implements OnInit {
     public reportUtilService: ReportUtilService
   ) {
     this.folder = this.data;
-    console.log('folder', this.folder);
   }
 
   ngOnInit(): void {
