@@ -61,7 +61,7 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Binding Date</mat-label>
-    <input [matDatepicker]="bindingDate" [formControl]="date" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
+    <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
     <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="dataSource()"></mat-datepicker-toggle>
     <mat-datepicker #bindingDate [disabled]="dataSource()"></mat-datepicker>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
@@ -70,14 +70,16 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Registration Date</mat-label>
-    <input
+    <input [matDatepicker]="registrationDate" matInput type="text" [(ngModel)]="collateral.registrationDate" disabled />
+    <!-- <input
       [matDatepicker]="registrationDate"
       [formControl]="date"
       matInput
       type="text"
       [(ngModel)]="collateral.registrationDate"
+      [value]="collateral.registrationDate"
       disabled
-    />
+    /> -->
     <mat-datepicker-toggle matSuffix [for]="registrationDate" [disabled]="dataSource()"></mat-datepicker-toggle>
     <mat-datepicker #registrationDate [disabled]="dataSource()"></mat-datepicker>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
@@ -86,7 +88,7 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Contract Date</mat-label>
-    <input [matDatepicker]="contractDate" [formControl]="date" matInput type="text" [(ngModel)]="collateral.contractDate" disabled />
+    <input [matDatepicker]="contractDate" matInput type="text" [(ngModel)]="collateral.contractDate" disabled />
     <mat-datepicker-toggle matSuffix [for]="contractDate" [disabled]="dataSource()"></mat-datepicker-toggle>
     <mat-datepicker #contractDate [disabled]="dataSource()"></mat-datepicker>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
@@ -95,7 +97,7 @@
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Release Date</mat-label>
-    <input [matDatepicker]="releaseDate" [formControl]="date" matInput type="text" [(ngModel)]="collateral.releaseDate" disabled />
+    <input [matDatepicker]="releaseDate" matInput type="text" [(ngModel)]="collateral.releaseDate" disabled />
     <mat-datepicker-toggle matSuffix [for]="releaseDate" [disabled]="dataSource()"></mat-datepicker-toggle>
     <mat-datepicker #releaseDate [disabled]="dataSource()"></mat-datepicker>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>

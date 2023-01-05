@@ -246,7 +246,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.docs';
+      const fileName =
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
@@ -257,7 +258,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
+      const fileName =
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
       const metaData = {
         objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
@@ -285,7 +287,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId + '-' +this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -298,7 +300,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionUserId + '-' + this.userId + '-opinion-sfdt.sfdt');
+              this.fileGet = new File(
+                [res.body],
+                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionUserId + '-' + this.userId + '-opinion-sfdt.sfdt'
+              );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
                 const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -335,7 +340,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion' + '-condition-' + fileType + '.docs';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId +
+        '-' +
+        this.userId +
+        '-opinion' +
+        '-condition-' +
+        fileType +
+        '.docs';
       const metaData = {
         objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
@@ -347,7 +362,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + '-condition-' + fileType + '.sfdt';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId +
+        '-' +
+        this.userId +
+        '-opinion-' +
+        '-condition-' +
+        fileType +
+        '.sfdt';
       const metaData = {
         objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
@@ -387,7 +412,14 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + 'condition-sfdt.sfdt'
+                'credit-proposal-remark-' +
+                  this.paramsIdGet +
+                  '-' +
+                  this.positionUserId +
+                  '-' +
+                  this.userId +
+                  '-opinion-' +
+                  'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {

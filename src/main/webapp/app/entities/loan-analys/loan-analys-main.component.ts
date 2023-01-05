@@ -1,28 +1,24 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
-import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
-  POSITION_TYPE,
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
   SUBMENU_LOAN_ANALYS_CC_REVIEW,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER,
   SUBMENU_LOAN_ANALYS_DAR_FINAL,
-  SUBMENU_LOAN_ANALYS_LA_ANALYST,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
   SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
-import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
@@ -90,7 +86,6 @@ export class LoanAnalysMainComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
-    private positionService: PositionService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
     public loanAnalystService: LoanAnalysService
@@ -125,15 +120,11 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS,
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS];
         break;
 
       case 'la-approval':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_LA_APPROVAL,
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL];
         break;
 
       case 'la-approval-inquiry':
@@ -257,7 +248,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   // get data from child
-  public onAssignTo(ev) {
+  public onAssignTo(ev: any): void {
     this.applicationRole = ev.applicationRole;
     this.applicationRoleId = ev.applicationRoleId;
   }
@@ -269,9 +260,9 @@ export class LoanAnalysMainComponent implements OnInit {
           this.cp = response.body;
         });
 
-		if (this.creditProposalCollateralInfoComponent) {
-		  this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-		}
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
         this.messageService.add({
           severity: 'success',
@@ -285,9 +276,9 @@ export class LoanAnalysMainComponent implements OnInit {
           this.cp = response.body;
         });
 
-		if (this.creditProposalCollateralInfoComponent) {
-		  this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
-		}
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
         this.messageService.add({
           severity: 'success',
@@ -347,7 +338,9 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
@@ -357,7 +350,7 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
-  private extPreSave(copyCreditProposal) {
+  private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
       this.userId = copyCreditProposal.attributes['userId'];
@@ -396,9 +389,7 @@ export class LoanAnalysMainComponent implements OnInit {
         );
       }
 
-      // delete this.positionApproval;
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
-      // delete copyCreditProposal.attributes['tempLoggedInCondition'];
     } else {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -474,7 +465,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.saveWordOpinionCondition = true;
   }
 
-  getTitle() {
+  public getTitle(): void {
     this.appName = sessionStorage.getItem('appName');
   }
 
@@ -537,7 +528,7 @@ export class LoanAnalysMainComponent implements OnInit {
     }
   }
 
-  getTitleUrl() {
+  public getTitleUrl(): void {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
   }
@@ -657,7 +648,7 @@ export class LoanAnalysMainComponent implements OnInit {
     }
   }
 
-  getTitleMenu() {
+  getTitleMenu(): void {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
   }
 }

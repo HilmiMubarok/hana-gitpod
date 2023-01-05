@@ -42,9 +42,9 @@ export class CreditProposalCollateralInfoRemarksChecklistComponent implements On
 
   constructor(protected activatedRoute: ActivatedRoute, private router: Router, private storageService: StorageService) {
     this.bucket = '';
-	if (this.router.url.split('/')[1] === 'cp-status-approval') {
-	  this.parentSource = 'loan-analys';
-	}
+    if (this.router.url.split('/')[1] === 'cp-status-approval') {
+      this.parentSource = 'loan-analys';
+    }
   }
 
   @Input() parentSource?: String = '';

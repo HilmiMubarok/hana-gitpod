@@ -151,7 +151,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.docs';
+        const fileName =
+          'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.docs';
         const metaData = {
           objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
         };
@@ -163,7 +164,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
+        const fileName =
+          'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
         const metaData = {
           objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
         };
@@ -207,7 +209,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
               .fileBlob(response.body[response.body.length - 1]['url'])
               .pipe(takeUntil(this.ngUnsubscribe))
               .subscribe(res => {
-                this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId + '-' +this.userId + '-opinion-sfdt.sfdt');
+                this.fileGet = new File(
+                  [res.body],
+                  'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId + '-' + this.userId + '-opinion-sfdt.sfdt'
+                );
                 const fileReader: FileReader = new FileReader();
                 fileReader.onload = (e: any) => {
                   const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -245,7 +250,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion' + '-condition-' + fileType + '.docs';
+        const fileName =
+          'credit-proposal-remark-' +
+          paramsId +
+          '-' +
+          this.positionId +
+          '-' +
+          this.userId +
+          '-opinion' +
+          '-condition-' +
+          fileType +
+          '.docs';
         const metaData = {
           objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
         };
@@ -257,7 +272,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
-        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + '-condition-' + fileType + '.sfdt';
+        const fileName =
+          'credit-proposal-remark-' +
+          paramsId +
+          '-' +
+          this.positionId +
+          '-' +
+          this.userId +
+          '-opinion-' +
+          '-condition-' +
+          fileType +
+          '.sfdt';
         const metaData = {
           objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
         };
@@ -280,39 +305,46 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     }
   }
   private getContainerCondition(): void {
-  this.positionService.findByLogin().subscribe(posisi => {
-    this.positionId = posisi.body[0].name;
-    let paramsId = '';
-    console.log("pos", this.positionId);
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const obj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionId + '-' + this.userId + '/sfdt',
-    };
-    this.storageService
-      .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        if (response.body.length > 0) {
-          this.storageService
-            .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId + '-' +this.userId + '-opinion-' + 'condition-sfdt.sfdt'
-              );
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
-                const contents: string = e.target.result;
-                docEditor.open(contents);
-              };
-              fileReader.readAsText(this.fileGet);
-            });
-        }
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionId = posisi.body[0].name;
+      let paramsId = '';
+      console.log('pos', this.positionId);
+      this.activatedRoute.params.subscribe(params => {
+        paramsId = params['id'];
       });
+      const obj = {
+        key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionId + '-' + this.userId + '/sfdt',
+      };
+      this.storageService
+        .getObjects(this.BUCKET, obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(response => {
+          if (response.body.length > 0) {
+            this.storageService
+              .fileBlob(response.body[response.body.length - 1]['url'])
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(res => {
+                this.fileGet = new File(
+                  [res.body],
+                  'credit-proposal-remark-' +
+                    this.paramsIdGet +
+                    '-' +
+                    this.positionId +
+                    '-' +
+                    this.userId +
+                    '-opinion-' +
+                    'condition-sfdt.sfdt'
+                );
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+                  const contents: string = e.target.result;
+                  docEditor.open(contents);
+                };
+                fileReader.readAsText(this.fileGet);
+              });
+          }
+        });
     });
   }
 

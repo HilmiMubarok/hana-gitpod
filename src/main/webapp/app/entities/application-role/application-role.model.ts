@@ -4,6 +4,10 @@ export interface IApplicationRole {
   thruDate?: Date;
   roleId?: string;
   roleDescription?: string;
+  partyFromId?: string;
+  partyFromName?: string;
+  relationTypeId?: string;
+  relationTypeDescription?: string;
   partyId?: string;
   partyName?: string;
   applicationId?: Number;
@@ -20,6 +24,10 @@ export class ApplicationRole implements IApplicationRole {
     public partyId?: string,
     public partyName?: string,
     public applicationId?: Number,
+    public partyFromId?: string,
+    public partyFromName?: string,
+    public relationTypeId?: string,
+    public relationTypeDescription?: string,
     public attributes?: any
   ) {}
 }
