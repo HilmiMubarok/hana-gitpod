@@ -121,9 +121,13 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     // this.getExis();
     this.CollectabilityStatus();
     this.showHideElement();
+    console.log('party cif', this.partyCif);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['partyCif']) {
+      console.log('party cif', this.partyCif);
+    }
     // this.loadPositionRM();
     this.loadInternalInformationRM(this.partyCif.rm.id);
   }
@@ -242,6 +246,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     for (let i = 0; i < this.branchs.length; i++) {
       if (event.value === this.branchs[i].id) {
         this.partyCif.debtorData.bookingBranch = this.branchs[i].id.toString();
+        console.log('booking branch', typeof this.partyCif.debtorData.bookingBranch);
         // this.debtorData.internalName = this.branchs[i].name;
       }
     }

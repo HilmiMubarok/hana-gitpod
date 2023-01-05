@@ -149,18 +149,22 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
         },
       });
       dialogRef.afterClosed().subscribe((data: ICPFacility) => {
-        const objectCPF: ICPFacility[] = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
-        const index = objectCPF.findIndex(x => x.LNB_BASE_AGR_REF_NO === params.LNB_BASE_AGR_REF_NO);
-        console.log('ini index', index);
+        if (data) {
+          const objectCPF: ICPFacility[] = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
+          const index = objectCPF.findIndex(x => x.LNB_BASE_AGR_REF_NO === params.LNB_BASE_AGR_REF_NO);
+          console.log('ini index', index);
 
-        objectCPF[index] = data;
-        console.log('1', objectCPF);
-        console.log('2', JSON.parse(this.partyCif.debtorData.attributes['cpFacility']));
-        this.partyCif.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
-        console.log(this.partyCif.debtorData);
-        this.debtorDataService.update(this.partyCif.debtorData).subscribe(res => {
-          console.log('save berhasil');
-        });
+          objectCPF[index] = data;
+          console.log('1', objectCPF);
+          console.log('2', JSON.parse(this.partyCif.debtorData.attributes['cpFacility']));
+          this.partyCif.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
+          console.log(this.partyCif.debtorData);
+          this.debtorDataService.update(this.partyCif.debtorData).subscribe(res => {
+            console.log('save berhasil');
+          });
+        } else {
+          this.dataFacility = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
+        }
       });
     }
   }
