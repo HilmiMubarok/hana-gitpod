@@ -74,10 +74,6 @@ export class LoanAnalysMainComponent implements OnInit {
   public titleUrl: string;
   public titleMenu: string;
   public cp: ICreditProposal;
-  // public titleName: string;
-  // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
-  //   this.titleName = message
-  // })
   public isShow = false;
   public isHistoryExist: boolean;
 
@@ -88,7 +84,6 @@ export class LoanAnalysMainComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
-    private positionService: PositionService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
     public loanAnalystService: LoanAnalysService
@@ -103,12 +98,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
-    // const parentPath = this.router.url.split('/')[1];
     this.url = this.parentPath; // kebutuhan buat assign to
-    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
-    console.log('this.parentPath', this.parentPath);
     switch (this.parentPath) {
       case 'la-distribution':
         this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
@@ -129,19 +119,11 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS,
-          // { id: 'repayment-capability', text: 'Repayment Capability' },
-          // { id: 'trade-checking', text: 'Trade Checking' },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS];
         break;
 
       case 'la-approval':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_LA_APPROVAL,
-          // { id: 'repayment-capability', text: 'Repayment Capability' },
-          // { id: 'trade-checking', text: 'Trade Checking' },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL];
         break;
 
       case 'la-approval-inquiry':
@@ -251,18 +233,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
-  // private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
-  //   let note: INotes = new Notes();
-
-  //   return (note = {
-  //     message: messageVal,
-  //     userId: userIdVal,
-  //     createDate: new Date(),
-  //     recomendation: recomendationVal,
-  //     condition: conditionVal,
-  //   });
-  // }
-
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, positionVal: string, userIdVal: string): INotes {
     let note: INotes = new Notes();
 
@@ -277,7 +247,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   // get data from child
-  public onAssignTo(ev) {
+  public onAssignTo(ev: any): void {
     this.applicationRole = ev.applicationRole;
     this.applicationRoleId = ev.applicationRoleId;
   }
@@ -370,7 +340,7 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
-  private extPreSave(copyCreditProposal) {
+  private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
       this.userId = copyCreditProposal.attributes['userId'];
@@ -409,9 +379,7 @@ export class LoanAnalysMainComponent implements OnInit {
         );
       }
 
-      // delete this.positionApproval;
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
-      // delete copyCreditProposal.attributes['tempLoggedInCondition'];
     } else {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -486,9 +454,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.saveWordOpinionCondition = true;
   }
 
-  // appName: any;
-
-  getTitle() {
+  public getTitle(): void {
     this.appName = sessionStorage.getItem('appName');
   }
 
@@ -496,79 +462,64 @@ export class LoanAnalysMainComponent implements OnInit {
     if (value === 'la-distribution') {
       this.title = 'Loan Analysis Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-analyst') {
       this.title = 'Loan Analysis';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-SME-CRC') {
       this.title = 'Loan Analysis SME Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval') {
       this.title = 'Loan Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval-inquiry') {
       this.title = 'Loan Approval Inquiry';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-final') {
       this.title = 'DAR Finalization';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-checker') {
       this.title = 'Final DAR - Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-committee-approval') {
       this.title = 'Loan Komite Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-notif') {
       this.title = 'DAR Notification';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-distribution') {
       this.title = 'Compliance Checking Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-checking') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-review') {
       this.title = 'Compliance Checking Review';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-inquiry') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-analys-and-approval-monitoring') {
       this.title = 'Loan Analyst and Approval Monitoring';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
   }
 
-  getTitleUrl() {
+  public getTitleUrl(): void {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
-    console.log('navigasi', this.titleUrl);
   }
 
   getTextMenu() {
@@ -684,12 +635,9 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Trade Checking';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-
-    console.log('this.selectedMenu', this.selectedMenu);
   }
 
-  getTitleMenu() {
+  getTitleMenu(): void {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
-    console.log('ini appNameMenu', this.appNameMenu);
   }
 }
