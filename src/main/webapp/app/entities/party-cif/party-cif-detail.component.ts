@@ -90,8 +90,6 @@ export class PartyCifDetailComponent implements OnInit {
     if (typeof copyPartyCif.attributes['shere-holde'] !== 'string') {
       copyPartyCif.attributes['shere-holder'] = JSON.stringify(copyPartyCif.attributes['shere-holder']);
     }
-	
-	copyPartyCif.debtorData.customerSince = '';
 
     return copyPartyCif;
   }
