@@ -351,4 +351,17 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
   }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
+  }
 }

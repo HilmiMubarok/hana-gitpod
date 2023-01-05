@@ -93,6 +93,13 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     });
     this.loadCollateralType();
     this.loadCollateralGrading();
+    this.cekData();
+  }
+
+  public cekData() {
+    if (this.collateral.paripasuStatus === undefined) {
+      this.collateral.paripasuStatus = 'N';
+    }
   }
 
   private loadCollateralGrading(): void {

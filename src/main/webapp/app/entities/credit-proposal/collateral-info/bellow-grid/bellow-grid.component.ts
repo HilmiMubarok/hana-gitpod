@@ -689,5 +689,18 @@ export class BellowGridComponent implements OnChanges, OnInit {
   public print() {
     this.countTotalMV();
   }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
+  }
   //
 }

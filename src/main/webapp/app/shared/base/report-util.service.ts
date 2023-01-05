@@ -70,11 +70,9 @@ export class ReportUtilService {
     return options;
   };
 
-  downloadFileBYName(event: string) {
-    const fileName = event.split('?')[0].split('/')[8].split('.')[0].replace(/%20/g, ' ');
-
+  downloadFileBYName(event: string, name: any) {
     this.http.get(event, { responseType: 'blob', observe: 'response' }).subscribe(response => {
-      saveAs(response.body!, fileName);
+      saveAs(response.body!, name);
     });
   }
 }
