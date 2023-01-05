@@ -190,7 +190,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           loanPurpose: '',
           loanType: cpFacility[i].FILN11_COM_NM,
           maturity: aYear[i],
-          maturityDate: cpFacility[i].FILN10_TOT_EXP_IL,
+          maturityDate: new Date(cpFacility[i].FILN10_TOT_EXP_IL).toISOString(),
           maturityPeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
           memoDate: '2022-11-24T10:57:14.435Z',
           memoNo: '',
@@ -211,10 +211,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           totalRate: '0',
           hobbies: true,
           loanAccount: cpFacility[i].LNB_BASE_AGR_REF_NO,
-		  firstDisbursementDate: cpFacility[i].FXFIG_TRX_DT
+          firstDisbursementDate: new Date(cpFacility[i].FXFIG_TRX_DT).toISOString(),
         };
 
         dataParty.push(data);
+        console.log('cp products', dataParty);
       }
 
       const appProduct: IApplicationProduct = this.applicationProduct;
