@@ -108,7 +108,7 @@
           <ng-container matColumnDef="crossCollateral">
             <th mat-header-cell *matHeaderCellDef>Cross Collateral</th>
             <td mat-cell *matCellDef="let element">
-              {{ creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus }}
+              {{ getCrossStatus(element.paripasuStatus) }}
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
