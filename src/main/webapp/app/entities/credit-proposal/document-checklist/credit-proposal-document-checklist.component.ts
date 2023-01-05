@@ -99,6 +99,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogComponent, predicate);
     dialogRef.afterClosed().subscribe((res: any) => {
+  
       if (res !== null) {
         this.creditProposal.attributes['convenant'].standardDataGridAbove = [
           ...this.creditProposal.attributes['convenant'].standardDataGridAbove,

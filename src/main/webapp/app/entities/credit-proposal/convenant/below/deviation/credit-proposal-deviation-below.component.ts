@@ -82,8 +82,10 @@ export class CreditProposalDeviationBelowComponent implements OnInit, OnChanges 
           formGroub: true,
           justification: '',
         };
-
-        this.standardCovenant = [...this.standardCovenant, setdata];
+        if (setdata.deviation === 'Waived') {
+          this.standardCovenant = [...this.standardCovenant, setdata];
+        }
+        
       }
     } else {
       this.folders = [];
