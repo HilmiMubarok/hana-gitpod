@@ -248,7 +248,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     this.cif = new Cif();
     this.rm = new ApplicationRole();
     this.attributes = {};
-    this.attributes['scoreCard'] = scoreCard;
+    // this.attributes['scoreCard'] = scoreCard;
     this.attributes['segmentProduct'] = '';
   }
 }
