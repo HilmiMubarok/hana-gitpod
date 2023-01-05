@@ -196,7 +196,20 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       'CURRENT DEPOSITS SUPER GIRO (USD)',
       'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)',
     ],
-    interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
+    interestRateTypeList: [
+      'FIXED',
+      'LIBOR',
+      'JIBOR',
+      'TIBOR',
+      'HIBOR',
+      'EURIBOR',
+      'EURO-LIBOR',
+      'FED FUND',
+      'OTHER',
+      'BSBY',
+      'TERM SOFR',
+      'FLOAT',
+    ],
 
     rateAmountTypeList: ['%p.a', 'Amount IDR', 'Amount USD'],
     gracePeriodTypeList: [

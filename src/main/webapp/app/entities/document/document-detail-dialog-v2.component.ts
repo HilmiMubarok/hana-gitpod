@@ -20,6 +20,7 @@ export class DocumentDialogDialogV2Component implements OnInit {
     public reportUtilService: ReportUtilService
   ) {
     this.folder = this.data;
+    console.log('folder', this.folder);
   }
 
   ngOnInit(): void {
@@ -32,8 +33,8 @@ export class DocumentDialogDialogV2Component implements OnInit {
     });
   }
 
-  public donwload(event: any) {
-    this.reportUtilService.downloadFileBYName(event);
+  public donwload(event: any, name: any) {
+    this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + name.objectName.split('.')[1]);
   }
 
   public save(): void {
