@@ -35,6 +35,7 @@ import {
   SUBMENU_COLLATERAL_APPRAISAL_MACHINE,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
   SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
 } from 'app/shared/constants/base.constants';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import {
@@ -402,6 +403,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+        this.subMenu =
+          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+            ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+            : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
       }
       console.log('submenu', this.subMenu);
     }

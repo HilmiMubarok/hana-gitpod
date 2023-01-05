@@ -14,7 +14,11 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { COLLATERAL_TYPE, SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
+import {
+  COLLATERAL_TYPE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
+} from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -42,7 +46,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 
 @Component({
@@ -637,9 +641,16 @@ export class SurveyBatchEditComponent implements OnInit {
     });
   }
 
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
+
   public getConditionSubMenu(data): void {
     if (data.apprOfficer === 'External') {
-      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      this.subMenu =
+        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+          : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
     }
   }
 
@@ -703,7 +714,7 @@ export class SurveyBatchEditComponent implements OnInit {
       data.attributes['marketbility'] = '';
     }
     if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
-      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = scoreCard;
