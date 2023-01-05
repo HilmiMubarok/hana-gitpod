@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
 import { BLOOD_TYPE, GENDER, MARITAL_STATUS } from 'app/shared/constants/base.constants';
 import { IPerson } from '../../person/person.model';
@@ -54,6 +54,8 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
   public separate: string;
   public _managementType: string;
 
+  @Input() public type: string;
+
   @Input()
   get person() {
     return this._person;
@@ -100,8 +102,11 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
 
   public bloodTypes: any;
   public maritalStatuses: any;
+  public view: boolean;
+  public pacth: any;
+
   public genders: any;
-  constructor(protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {
+  constructor(protected activatedRoute: ActivatedRoute, private fb: FormBuilder, private router: Router) {
     super();
     this.bloodTypes = BLOOD_TYPE;
     this.maritalStatuses = MARITAL_STATUS;
@@ -112,6 +117,7 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
     this.test();
     this.convrtDate();
     this.hiddenNull();
+    console.log('in type organization management = ', this.type);
   }
   public countAge(): number {
     let age: number;
@@ -141,9 +147,12 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];
   }
-
   public dataSource() {
-    if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
+    if (this.type === undefined) {
+      if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
+        return true;
+      }
+    } else if (this.type === 'approval') {
       return true;
     }
     return false;
@@ -155,6 +164,12 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
 
     if (this.person.lastName === null) {
       this.person.lastName = '';
+    }
+  }
+  public remove() {
+    this.pacth = this.router.url.split('/')[1];
+    if (this.pacth === 'credit-proposal-status' || this.pacth === 'la-approval-inquiry') {
+      this.view = true;
     }
   }
 }

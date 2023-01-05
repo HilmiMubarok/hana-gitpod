@@ -94,7 +94,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
 
-    this.isViewMode && this.displayedColumns.pop();
+    // this.isViewMode && this.displayedColumns.pop();
 
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;

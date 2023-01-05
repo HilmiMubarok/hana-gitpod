@@ -6,7 +6,10 @@
   </div>
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-credit-proposal-tab-loan-facility-detail-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-credit-proposal-tab-loan-facility-detail-grid>
+      <jhi-credit-proposal-tab-loan-facility-detail-grid
+        [isViewMode]="isViewMode"
+        [creditProposal]="creditProposal"
+      ></jhi-credit-proposal-tab-loan-facility-detail-grid>
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
@@ -127,16 +130,33 @@
     </div>
     <div class="mb-2">
       <mat-label>REMARKS</mat-label>
-      <ejs-documenteditorcontainer
-        #document_editor_container_view_false
-        [enableToolbar]="false"
-        [enableLocalPaste]="false"
-        height="100vh"
-        style="display: block"
-        (documentChange)="onDocumentChange()"
-        [enableEditor]="false"
-        [isReadOnly]="true"
-      ></ejs-documenteditorcontainer>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <ejs-documenteditorcontainer
+          #document_editor_container_view_false
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        >
+        </ejs-documenteditorcontainer>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <ejs-documenteditorcontainer
+          #document_editor_container_view_false
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="false"
+          disabled
+        >
+        </ejs-documenteditorcontainer>
+      </section>
     </div>
   </div>
 </div>
@@ -149,7 +169,9 @@
   </div>
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-credit-proposal-tab-loan-facility-detail-grid [creditProposal]="creditProposal"></jhi-credit-proposal-tab-loan-facility-detail-grid>
+      <jhi-credit-proposal-tab-loan-facility-detail-grid
+        [creditProposal]="creditProposal"
+      ></jhi-credit-proposal-tab-loan-facility-detail-grid>
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
@@ -273,34 +295,34 @@
           <div class="e-card-header-title">REMARKS</div>
         </div>
       </div>
-	  <section *ngIf="parentSource === ''">
-		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-		  <ejs-documenteditorcontainer
-			#document_editor_container
-			[enableToolbar]="true"
-			[enableLocalPaste]="false"
-			height="100vh"
-			style="display: block"
-			[spellcheck]="false"
-			[enableSpellCheck]="false"
-			(keyDown)="onKeyDown($event)"
-			(created)="onCreate()"
-			[isReadOnly]="false"
-		  ></ejs-documenteditorcontainer>
-		</section>
-		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <section *ngIf="parentSource === ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
-			#document_editor_container
-			[enableToolbar]="false"
-			[enableLocalPaste]="false"
-			height="100vh"
-			style="display: block"
-			(documentChange)="onDocumentChange()"
-			[enableEditor]="false"
-			[isReadOnly]="true"
+            #document_editor_container
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+            [isReadOnly]="false"
           ></ejs-documenteditorcontainer>
-		</section>
-	  </section>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [enableToolbar]="false"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            (documentChange)="onDocumentChange()"
+            [enableEditor]="false"
+            [isReadOnly]="true"
+          ></ejs-documenteditorcontainer>
+        </section>
+      </section>
       <section *ngIf="parentSource === 'loan-analys'">
         <ejs-documenteditorcontainer
           #document_editor_container_loan_analys

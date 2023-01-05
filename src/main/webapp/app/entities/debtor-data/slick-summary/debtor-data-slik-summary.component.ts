@@ -9,7 +9,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 })
 export class DebtorDataSlikSummaryComponent implements OnInit, OnChanges {
   public selectedMenu: string;
-  public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
+  // public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
   public menuItems: MenuItemModel[] = [];
   @Input() mode: 'view' | 'edit';
   public _partyCif: IPartyCif;
