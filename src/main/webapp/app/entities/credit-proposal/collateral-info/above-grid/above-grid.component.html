@@ -140,6 +140,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
         </table>
+        <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>
@@ -285,6 +286,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
         </table>
+        <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>

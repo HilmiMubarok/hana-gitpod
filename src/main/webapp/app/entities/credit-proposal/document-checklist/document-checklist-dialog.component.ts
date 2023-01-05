@@ -105,17 +105,12 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('file', this.file[i]);
-      console.log('meta', metaData);
-      console.log('data-file', this.file[i]);
-      console.log('files', files);
-      console.log('formData', formData);
 
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
         if (metaData.status === 'Waived') {
           this.setConvenant(metaData);
           this.storageService.getBucketName().subscribe((a: any) => {
-            console.log('ok', a.body.bucket);
             if (a.body.bucket !== null) {
               this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
                 this._dialog.close(this.copyDeviation);
@@ -125,7 +120,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
         } else {
           this.storageService.getBucketName().subscribe((a: any) => {
             this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
-              this._dialog.close();
+              this._dialog.close(this.documentChecklist);
             });
           });
         }
