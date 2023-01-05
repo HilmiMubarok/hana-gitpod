@@ -494,7 +494,11 @@
     <!-- Trade Checking  -->
     <div
       *ngIf="
-        parentPath === 'la-analyst' || parentPath === 'la-approval' || parentPath === 'la-approval-inquiry' || parentPath === 'la-SME-CRC'
+        parentPath === 'la-analyst' ||
+        parentPath === 'la-approval' ||
+        parentPath === 'la-approval-inquiry' ||
+        parentPath === 'la-SME-CRC' ||
+        parentPath === 'la-distribution'
       "
     >
       <div *ngIf="selectedMenu === 'trade-checking'">
