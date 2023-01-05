@@ -138,11 +138,15 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-analyst':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS];
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS])
+          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB]);
         break;
 
       case 'la-approval':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL];
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL])
+          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB]);
         break;
 
       case 'la-approval-inquiry':
