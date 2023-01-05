@@ -363,12 +363,14 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public refresh() {
+    console.log('okeee')
     this.accountService.identity().subscribe(account => {
       this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
       this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
       this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
 
       this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
+        console.log('body', res.body.notes)
         this.notes = res.body.notes;
 
         if (this.notes.length > 0) {
