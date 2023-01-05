@@ -513,8 +513,9 @@ export class ProposalBasicInformationComponent implements OnInit {
             copyCreditProposal.attributes['tempLoggedInNotes'],
             copyCreditProposal.attributes['tempLoggedInRecomendation'],
             copyCreditProposal.attributes['tempLoggedInCondition'],
-            copyCreditProposal.attributes['positionLogin'],
-            this.currentAccount.login
+            this.currentAccount.login,
+            copyCreditProposal.attributes['positionLogin']
+           
           )
         );
       }
