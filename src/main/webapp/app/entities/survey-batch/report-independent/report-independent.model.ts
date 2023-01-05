@@ -13,6 +13,7 @@ export interface IReportIndependent {
   appraisalNumber?: String;
   apprDate?: Date;
   reviewedBy?: String;
+  reviewOpinion?: String;
 }
 
 export class ReportIndependent implements IReportIndependent {
@@ -30,6 +31,7 @@ export class ReportIndependent implements IReportIndependent {
     public reportDate?: Date,
     public appraisalNumber?: string,
     public apprDate?: Date,
-    public reviewedBy?: String
+    public reviewedBy?: String,
+    public reviewOpinion?: String
   ) {}
 }
