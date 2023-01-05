@@ -83,25 +83,19 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Terms Of Payment</mat-label>
-            <input
+            <!-- <input
               matInput
               type="text"
-              [ngModel]="tradeCheckingSupplier.termsOfPayment | number: '1.0-0'"
-              (ngModelChange)="tradeCheckingSupplier.termsOfPayment = numberInputChanged($event)"
-            />
-            <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" /> -->
+              [ngModel]="tradeCheckingSupplier.termsOfPayment"
+              (ngModelChange)="tradeCheckingSupplier.termsOfPayment"
+            /> -->
+            <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" />
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Terms Of Payment</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="tradeCheckingSupplier.termsOfPayment | number: '1.0-0'"
-              (ngModelChange)="tradeCheckingSupplier.termsOfPayment = numberInputChanged($event)"
-              disabled
-            />
+            <input matInput type="text" [ngModel]="tradeCheckingSupplier.termsOfPayment" disabled />
             <!-- <input matInput type="text" [(ngModel)]="tradeCheckingSupplier.termsOfPayment" /> -->
           </mat-form-field>
         </section>
