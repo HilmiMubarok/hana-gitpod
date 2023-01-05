@@ -15,6 +15,8 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CreditProposalService } from '../../credit-proposal.service';
+import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { COLLATERAL_BINDING_TYPE } from 'app/shared/constants/base.constants';
 
 export const MY_FORMATS = {
   parse: {
@@ -64,6 +66,9 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
+  public collateralStatus: any;
+  public paripasuStatus: any;
+  public bindingTypes: any;
   constructor(
     private creditProposalService: CreditProposalService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
@@ -82,6 +87,9 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     this.binding = this.data.binding;
     this.properties = this.data.properties;
     this.empty = this.data.emptyField;
+    this.collateralStatus = STATUS_COLLATERAL;
+    this.paripasuStatus = PARIPASU_STATUS;
+    this.bindingTypes = COLLATERAL_BINDING_TYPE;
   }
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());

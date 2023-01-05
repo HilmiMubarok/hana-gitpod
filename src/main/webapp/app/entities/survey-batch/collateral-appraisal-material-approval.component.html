@@ -110,6 +110,10 @@
             {{ element.collateral.collateralTypeDescription }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="appraisalType">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Appraisal Type</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.apprOfficer }}</td>
+        </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
           <td mat-cell *matCellDef="let element" class="text-center">
