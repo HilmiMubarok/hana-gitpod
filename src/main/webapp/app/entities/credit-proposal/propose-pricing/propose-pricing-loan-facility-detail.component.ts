@@ -281,22 +281,35 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit {
   public generate(): void {
     this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
       for (let i = 0; i < this.aplicationProducts.length; i++) {
-        this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][i]['ftp'];
-        this.aplicationProducts[i].attributes['ckpn'] = res['proposePricing'][i]['ckpn'];
-        this.aplicationProducts[i].attributes['expectedLoss'] = res['proposePricing'][i]['expectedLoss'];
-        this.aplicationProducts[i].attributes['industrySpread'] = res['proposePricing'][i]['industrySpread'];
-        this.aplicationProducts[i].attributes['targetMargin'] = res['proposePricing'][i]['targetMargin'];
-        this.aplicationProducts[i].attributes['normalRate'] = res['proposePricing'][i]['normalRate'];
-        this.aplicationProducts[i].attributes['discountProposal'] = res['proposePricing'][i]['discountProposal'];
-        this.aplicationProducts[i].attributes['proposedRate'] = res['proposePricing'][i]['proposedRate'];
-        this.aplicationProducts[i].attributes['referenceRate'] = res['proposePricing'][i]['referenceRate'];
-        this.aplicationProducts[i].attributes['requiredSpread'] = res['proposePricing'][i]['requiredSpread'];
-        this.aplicationProducts[i].attributes['cost'] = res['proposePricing'][i]['cost'];
-        this.aplicationProducts[i].attributes['roaa'] = res['proposePricing'][i]['roaa'];
+        this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][i]['ftp'] === null ? '0.00%' : res['proposePricing'][i]['ftp'];
+        this.aplicationProducts[i].attributes['ckpn'] =
+          res['proposePricing'][i]['ckpn'] === null ? '0.00%' : res['proposePricing'][i]['ckpn'];
+        this.aplicationProducts[i].attributes['expectedLoss'] =
+          res['proposePricing'][i]['expectedLoss'] === null ? '0.00%' : res['proposePricing'][i]['expectedLoss'];
+        this.aplicationProducts[i].attributes['industrySpread'] =
+          res['proposePricing'][i]['industrySpread'] === null ? '0.00' : res['proposePricing'][i]['industrySpread'];
+        this.aplicationProducts[i].attributes['targetMargin'] =
+          res['proposePricing'][i]['targetMargin'] === null ? '0.00%' : res['proposePricing'][i]['targetMargin'];
+        this.aplicationProducts[i].attributes['normalRate'] =
+          res['proposePricing'][i]['normalRate'] === null ? '0.00%' : res['proposePricing'][i]['normalRate'];
+        // this.aplicationProducts[i].attributes['discountProposal'] = res['proposePricing'][i]['discountProposal'];
+        this.aplicationProducts[i].attributes['discountProposal'] =
+          res['proposePricing'][i]['discountProposal'] === null ? '0.00%' : res['proposePricing'][i]['discountProposal'];
+        this.aplicationProducts[i].attributes['proposedRate'] =
+          res['proposePricing'][i]['proposedRate'] === null ? '0.00%' : res['proposePricing'][i]['proposedRate'];
+        this.aplicationProducts[i].attributes['referenceRate'] =
+          res['proposePricing'][i]['referenceRate'] === null ? '0.00%' : res['proposePricing'][i]['referenceRate'];
+        this.aplicationProducts[i].attributes['requiredSpread'] =
+          res['proposePricing'][i]['requiredSpread'] === null ? '0.00%' : res['proposePricing'][i]['requiredSpread'];
+        this.aplicationProducts[i].attributes['cost'] =
+          res['proposePricing'][i]['cost'] === null ? '0.00%' : res['proposePricing'][i]['cost'];
+        this.aplicationProducts[i].attributes['roaa'] =
+          res['proposePricing'][i]['roaa'] === null ? '0.00%' : res['proposePricing'][i]['roaa'];
       }
       // this.grid.refresh();
       // this.grid.autoFitColumns();
       this.spreadPerFacility.emit(this.aplicationProducts);
+      console.log('dataSpred');
     });
   }
 
