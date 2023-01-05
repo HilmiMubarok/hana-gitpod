@@ -53,6 +53,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private getKey: string;
   private fileGet: File;
   private userId: any;
+  public positionId: any;
   public resourceUrl: string;
   public positionLogin: any;
 
@@ -136,38 +137,41 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   // Word Save
   public triggeredSave(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const key = 'credit_proposal/remark/opinion-history/opinion';
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionId = posisi.body[0].name;
+      let paramsId = '';
+      this.activatedRoute.params.subscribe(params => {
+        paramsId = params['id'];
+      });
+      const key = 'credit_proposal/remark/opinion-history/opinion';
 
-    const timeStamp = Math.floor(Date.now() / 1000);
+      const timeStamp = Math.floor(Date.now() / 1000);
 
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      });
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      });
     });
   }
 
@@ -185,34 +189,37 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
   public obj: any;
   private getContainer(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    this.obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.userId + '/sfdt',
-    };
-    this.storageService
-      .getObjects(this.BUCKET, this.obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        if (response.body.length > 0) {
-          this.storageService
-            .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion-sfdt.sfdt');
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-                const contents: any = e.target.result;
-                docEditor.open(contents);
-              };
-              fileReader.readAsText(this.fileGet);
-            });
-        }
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionId = posisi.body[0].name;
+      let paramsId = '';
+      this.activatedRoute.params.subscribe(params => {
+        paramsId = params['id'];
       });
-    this.refresh();
+      this.obj = {
+        key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionId + '-' + this.userId + '/sfdt',
+      };
+      this.storageService
+        .getObjects(this.BUCKET, this.obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(response => {
+          if (response.body.length > 0) {
+            this.storageService
+              .fileBlob(response.body[response.body.length - 1]['url'])
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(res => {
+                this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId + '-' +this.userId + '-opinion-sfdt.sfdt');
+                const fileReader: FileReader = new FileReader();
+                fileReader.onload = (e: any) => {
+                  const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                  const contents: any = e.target.result;
+                  docEditor.open(contents);
+                };
+                fileReader.readAsText(this.fileGet);
+              });
+          }
+        });
+      this.refresh();
+    });
   }
   myFunction(value: string) {
     console.log('cek value', value);
@@ -224,38 +231,41 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   // Condition On Opinion
   public triggeredSaveCondition(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const key = 'credit_proposal/remark/opinion-history/condition';
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionId = posisi.body[0].name;
+      let paramsId = '';
+      this.activatedRoute.params.subscribe(params => {
+        paramsId = params['id'];
+      });
+      const key = 'credit_proposal/remark/opinion-history/condition';
 
-    const timeStamp = Math.floor(Date.now() / 1000);
+      const timeStamp = Math.floor(Date.now() / 1000);
 
-    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+      const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion' + '-condition-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion' + '-condition-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      });
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + '-condition-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + '-condition-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      });
     });
   }
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -270,12 +280,15 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     }
   }
   private getContainerCondition(): void {
+  this.positionService.findByLogin().subscribe(posisi => {
+    this.positionId = posisi.body[0].name;
     let paramsId = '';
+    console.log("pos", this.positionId);
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionId + '-' + this.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -288,7 +301,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion-' + 'condition-sfdt.sfdt'
+                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId + '-' +this.userId + '-opinion-' + 'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -300,6 +313,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             });
         }
       });
+    });
   }
 
   onCreateCondition(): void {
@@ -309,6 +323,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public filterPositionLogin() {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
+      this.positionId = posisi.body[0].name;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
       }
