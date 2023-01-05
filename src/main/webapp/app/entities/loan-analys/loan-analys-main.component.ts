@@ -37,6 +37,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { LoanAnalysService } from './loan-analys.service';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
+import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -48,8 +49,13 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   loanAnalysOpinionComponent: LoanAnalysOpinionComponent;
+
+  @ViewChild('creditProposalCollateralInfoComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
   private id: number;
-  // private id: string;
 
   public url: string;
   public subMenu: object[];
@@ -74,10 +80,6 @@ export class LoanAnalysMainComponent implements OnInit {
   public titleUrl: string;
   public titleMenu: string;
   public cp: ICreditProposal;
-  // public titleName: string;
-  // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
-  //   this.titleName = message
-  // })
   public isShow = false;
   public isHistoryExist: boolean;
 
@@ -98,17 +100,11 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
-    // const parentPath = this.router.url.split('/')[1];
     this.url = this.parentPath; // kebutuhan buat assign to
-    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
-    console.log('this.parentPath', this.parentPath);
     switch (this.parentPath) {
       case 'la-distribution':
         this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
@@ -131,16 +127,12 @@ export class LoanAnalysMainComponent implements OnInit {
       case 'la-analyst':
         this.subMenu = [
           ...SUBMENU_LOAN_ANALYS,
-          // { id: 'repayment-capability', text: 'Repayment Capability' },
-          // { id: 'trade-checking', text: 'Trade Checking' },
         ];
         break;
 
       case 'la-approval':
         this.subMenu = [
           ...SUBMENU_LOAN_ANALYS_LA_APPROVAL,
-          // { id: 'repayment-capability', text: 'Repayment Capability' },
-          // { id: 'trade-checking', text: 'Trade Checking' },
         ];
         break;
 
@@ -251,18 +243,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
-  // private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
-  //   let note: INotes = new Notes();
-
-  //   return (note = {
-  //     message: messageVal,
-  //     userId: userIdVal,
-  //     createDate: new Date(),
-  //     recomendation: recomendationVal,
-  //     condition: conditionVal,
-  //   });
-  // }
-
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, positionVal: string, userIdVal: string): INotes {
     let note: INotes = new Notes();
 
@@ -289,6 +269,10 @@ export class LoanAnalysMainComponent implements OnInit {
           this.cp = response.body;
         });
 
+		if (this.creditProposalCollateralInfoComponent) {
+		  this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+		}
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -300,6 +284,11 @@ export class LoanAnalysMainComponent implements OnInit {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
           this.cp = response.body;
         });
+
+		if (this.creditProposalCollateralInfoComponent) {
+		  this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+		}
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -358,9 +347,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
@@ -456,6 +443,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public saveDoc: boolean;
+
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
@@ -486,8 +474,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.saveWordOpinionCondition = true;
   }
 
-  // appName: any;
-
   getTitle() {
     this.appName = sessionStorage.getItem('appName');
   }
@@ -496,79 +482,64 @@ export class LoanAnalysMainComponent implements OnInit {
     if (value === 'la-distribution') {
       this.title = 'Loan Analysis Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-analyst') {
       this.title = 'Loan Analysis';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-SME-CRC') {
       this.title = 'Loan Analysis SME Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval') {
       this.title = 'Loan Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval-inquiry') {
       this.title = 'Loan Approval Inquiry';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-final') {
       this.title = 'DAR Finalization';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-checker') {
       this.title = 'Final DAR - Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-committee-approval') {
       this.title = 'Loan Komite Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-notif') {
       this.title = 'DAR Notification';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-distribution') {
       this.title = 'Compliance Checking Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-checking') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-review') {
       this.title = 'Compliance Checking Review';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-inquiry') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-analys-and-approval-monitoring') {
       this.title = 'Loan Analyst and Approval Monitoring';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
   }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
-    console.log('navigasi', this.titleUrl);
   }
 
   getTextMenu() {
@@ -684,12 +655,9 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Trade Checking';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-
-    console.log('this.selectedMenu', this.selectedMenu);
   }
 
   getTitleMenu() {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
-    console.log('ini appNameMenu', this.appNameMenu);
   }
 }

@@ -2,7 +2,7 @@
   <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
     <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
   </div>
-  <div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure > IDR 15 Bn'">
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <ejs-menu
       [hidden]="view"
       *ngIf="isViewMode === false"
@@ -11,7 +11,7 @@
       [items]="menuItems"
       (select)="selectMenuItem($event)"
     ></ejs-menu>
-    <div [hidden]="selectedMenu === 'CHECKLIST'">
+    <div *ngIf="selectedMenu !== 'CHECKLIST'">
       <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
       <jhi-credit-proposal-collateral-info-remarks-information
         #creditProposalCollateralInfoRemarksInfoComponentAbove
@@ -20,8 +20,8 @@
       ></jhi-credit-proposal-collateral-info-remarks-information>
     </div>
   </div>
-  <div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure > IDR 15 Bn'">
-    <div [hidden]="selectedMenu !== 'CHECKLIST'">
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+    <div *ngIf="selectedMenu === 'CHECKLIST'">
       <div class="card-content">
         <jhi-credit-proposal-collateral-info-checklist [hidden]="isViewMode == true" [creditProposal]="creditProposal">
         </jhi-credit-proposal-collateral-info-checklist>
@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure <= IDR 15 Bn'">
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
   <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
   <jhi-credit-proposal-collateral-info-remarks-information
     #creditProposalCollateralInfoRemarksInfoComponentBelow
@@ -44,7 +44,7 @@
   ></jhi-credit-proposal-collateral-info-remarks-information>
 </div>
 
-<div [hidden]="creditProposal.attributes['proposalType'] !== 'Total Exposure Back to Back'">
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
   <jhi-credit-proposal-collateral-info-btb
     [isViewMode]="isViewMode"
     [creditProposal]="creditProposal"

@@ -61,6 +61,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
   public applicationProduct: IApplicationProduct;
   public totalInitialLimit?: number;
   public totalChanges?: number;
@@ -98,6 +99,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+	if (this.router.url.split('/')[1] === 'cp-status-approval') {
+	  this.parentSource = 'loan-analys';
+	}
   }
 
   onDocumentChange() {
@@ -251,10 +255,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   };
 
   fungsiSuminit() {
-    // alert('ok');
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -286,7 +288,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   fungsiSumchange() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -318,7 +319,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public fungsiSumOS() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -364,7 +364,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   fungsiSumcredit() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 

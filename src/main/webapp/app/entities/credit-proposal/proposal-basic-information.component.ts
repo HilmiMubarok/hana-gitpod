@@ -484,7 +484,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     let tempHelper = 0;
-
     if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -503,8 +502,9 @@ export class ProposalBasicInformationComponent implements OnInit {
               copyCreditProposal.attributes['tempLoggedInNotes'],
               copyCreditProposal.attributes['tempLoggedInRecomendation'],
               copyCreditProposal.attributes['tempLoggedInCondition'],
-              copyCreditProposal.attributes['positionLogin'],
-              this.currentAccount.login
+              this.currentAccount.login,
+              copyCreditProposal.attributes['positionLogin']
+
             )
           );
         }
