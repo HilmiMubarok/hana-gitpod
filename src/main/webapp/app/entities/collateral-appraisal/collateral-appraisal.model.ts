@@ -102,6 +102,8 @@ export interface ICollateralAppraisal {
   teamLeadName?: string;
   teamLeadPersonId?: string;
   reportDate?: Date;
+  totalMarketValue?: number;
+  totalLiquidationValue?: number;
 }
 
 export class CollateralAppraisal implements ICollateralAppraisal {
@@ -204,7 +206,9 @@ export class CollateralAppraisal implements ICollateralAppraisal {
     public teamLeadId?: number,
     public teamLeadName?: string,
     public teamLeadPersonId?: string,
-    public reportDate?: Date
+    public reportDate?: Date,
+    public totalMarketValue?: number,
+    public totalLiquidationValue?: number
   ) {
     this.attributes = {};
     // this.attributes['scoreCard'] = scoreCard;
