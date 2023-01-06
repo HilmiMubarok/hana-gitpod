@@ -126,24 +126,50 @@
         </section>
       </div>
     </div>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <div class="mb-2">
-        <mat-label>REMARKS</mat-label>
-
-        <!-- <button (click)="print()">print</button> -->
-        <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks">
-        </ejs-richtexteditor>
-      </div>
-    </section>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <div class="fontsebled row">
-        <div class="col-1">REMARKS</div>
-        <div class="col-md-auto">:</div>
-        <div class="col" [toolbarSettings]="tools">
-          {{ newMessage }}
-        </div>
-      </div>
-    </section>
+	<div class="mb-2">
+	  <mat-label>REMARKS</mat-label>
+      <section *ngIf="parentSource === ''">
+		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <ejs-documenteditorcontainer
+			#document_editor_container_view_false
+			[enableToolbar]="false"
+			[enableLocalPaste]="false"
+			height="100vh"
+			style="display: block"
+			(documentChange)="onDocumentChange()"
+			[enableEditor]="false"
+			[isReadOnly]="true"
+          >
+          </ejs-documenteditorcontainer>
+		</section>
+		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <ejs-documenteditorcontainer
+			#document_editor_container_view_false
+			[enableToolbar]="false"
+			[enableLocalPaste]="false"
+			height="100vh"
+			style="display: block"
+			(documentChange)="onDocumentChange()"
+			[enableEditor]="false"
+			[isReadOnly]="false"
+			disabled
+          >
+          </ejs-documenteditorcontainer>
+		</section>
+	  </section>
+	  <section *ngIf="parentSource === 'loan-analys'">
+        <ejs-documenteditorcontainer
+          #document_editor_container_view_false_loan_analys
+          [enableToolbar]="false"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          (documentChange)="onDocumentChange()"
+          [enableEditor]="false"
+          [isReadOnly]="true"
+        ></ejs-documenteditorcontainer>
+      </section>
+	</div>
   </div>
 </div>
 
@@ -273,27 +299,47 @@
         </section>
       </div>
     </div>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <div class="mb-2">
-        <div class="e-card-header">
-          <div class="e-card-header-caption">
-            <div class="e-card-header-title">REMARKS</div>
-          </div>
-        </div>
-        <!-- <button (click)="print()">print</button> -->
-        <ejs-richtexteditor [toolbarSettings]="tools" [(ngModel)]="_creditProposal.attributes['facilityDetail'].remarks">
-        </ejs-richtexteditor>
-      </div>
-    </section>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <div class="fontsebled row">
-        <div class="col-1">REMARKS</div>
-        <div class="col-md-auto">:</div>
-        <div class="col">
-          {{ newMessage }}
-        </div>
-      </div>
-    </section>
+    <section *ngIf="parentSource === ''">
+	  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+		<ejs-documenteditorcontainer
+		  #document_editor_container
+		  [enableToolbar]="true"
+		  [enableLocalPaste]="false"
+		  height="100vh"
+		  style="display: block"
+		  [spellcheck]="false"
+		  [enableSpellCheck]="false"
+		  (keyDown)="onKeyDown($event)"
+		  (created)="onCreate()"
+		  [enableEditor]="true"
+		  [isReadOnly]="false"
+		></ejs-documenteditorcontainer>
+	  </section>
+	  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+		<ejs-documenteditorcontainer
+		  #document_editor_container
+		  [enableToolbar]="false"
+		  [enableLocalPaste]="false"
+		  height="100vh"
+		  style="display: block"
+		  (documentChange)="onDocumentChange()"
+		  [enableEditor]="false"
+		  [isReadOnly]="true"
+		></ejs-documenteditorcontainer>
+	  </section>
+	</section>
+	<section *ngIf="parentSource === 'loan-analys'">
+	  <ejs-documenteditorcontainer
+		#document_editor_container_loan_analys
+		[enableToolbar]="false"
+		[enableLocalPaste]="false"
+		height="100vh"
+		style="display: block"
+		(documentChange)="onDocumentChange()"
+		[enableEditor]="false"
+		[isReadOnly]="true"
+	  ></ejs-documenteditorcontainer>
+	</section>
     <div class="e-card">
       <div class="e-card-header">
         <div class="e-card-header-caption">

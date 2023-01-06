@@ -130,9 +130,38 @@
     </div>
     <div class="mb-2">
       <mat-label>REMARKS</mat-label>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+	  <section *ngIf="parentSource === ''">
+		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <ejs-documenteditorcontainer
+			#document_editor_container_view_false
+			[enableToolbar]="false"
+			[enableLocalPaste]="false"
+			height="100vh"
+			style="display: block"
+			(documentChange)="onDocumentChange()"
+			[enableEditor]="false"
+			[isReadOnly]="true"
+          >
+          </ejs-documenteditorcontainer>
+		</section>
+		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <ejs-documenteditorcontainer
+			#document_editor_container_view_false
+			[enableToolbar]="false"
+			[enableLocalPaste]="false"
+			height="100vh"
+			style="display: block"
+			(documentChange)="onDocumentChange()"
+			[enableEditor]="false"
+			[isReadOnly]="false"
+			disabled
+          >
+          </ejs-documenteditorcontainer>
+		</section>
+	  </section>
+	  <section *ngIf="parentSource === 'loan-analys'">
         <ejs-documenteditorcontainer
-          #document_editor_container_view_false
+          #document_editor_container_view_false_loan_analys
           [enableToolbar]="false"
           [enableLocalPaste]="false"
           height="100vh"
@@ -140,22 +169,7 @@
           (documentChange)="onDocumentChange()"
           [enableEditor]="false"
           [isReadOnly]="true"
-        >
-        </ejs-documenteditorcontainer>
-      </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <ejs-documenteditorcontainer
-          #document_editor_container_view_false
-          [enableToolbar]="false"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          (documentChange)="onDocumentChange()"
-          [enableEditor]="false"
-          [isReadOnly]="false"
-          disabled
-        >
-        </ejs-documenteditorcontainer>
+        ></ejs-documenteditorcontainer>
       </section>
     </div>
   </div>

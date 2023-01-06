@@ -141,11 +141,17 @@
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail
-              [creditProposal]="creditProposal"
+			  *ngIf="!isHistoryExist"
+			  [isViewMode]="true"
               [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-            >
-            </jhi-credit-proposal-tab-loan-facility-detail>
+              [creditProposal]="creditProposal"
+            ></jhi-credit-proposal-tab-loan-facility-detail>
+			<jhi-loan-facility-detail-history
+			  *ngIf="isHistoryExist"
+              [isViewMode]="true"   
+			  [parentSource]="'loan-analys'"
+              [creditProposal]="creditProposal"
+            ></jhi-loan-facility-detail-history>
           </mat-card-content>
         </mat-card>
 
@@ -330,13 +336,14 @@
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail
               *ngIf="!isHistoryExist"
+			  [isViewMode]="true"
               [parentSource]="'loan-analys'"
-              [isViewMode]="true"
               [creditProposal]="creditProposal"
             ></jhi-credit-proposal-tab-loan-facility-detail>
             <jhi-loan-facility-detail-history
-              [isViewMode]="true"
-              *ngIf="isHistoryExist"
+			  *ngIf="isHistoryExist"
+              [isViewMode]="true"   
+			  [parentSource]="'loan-analys'"
               [creditProposal]="creditProposal"
             ></jhi-loan-facility-detail-history>
           </mat-card-content>
