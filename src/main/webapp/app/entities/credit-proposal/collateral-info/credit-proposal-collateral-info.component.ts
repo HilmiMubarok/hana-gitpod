@@ -13,7 +13,7 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks
 export class CreditProposalCollateralInfoComponent implements OnInit {
   public pacth: any;
   public view: boolean;
-  public customPath: boolean = false;
+  public customPath: Boolean = false;
 
   constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
 
@@ -58,22 +58,36 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	if (this.router.url.split('/')[1] === 'la-distribution' || this.router.url.split('/')[1] === 'la-analyst' || this.router.url.split('/')[1] === 'la-SME-CRC' || this.router.url.split('/')[1] === 'la-approval' || this.router.url.split('/')[1] === 'la-approval-inquiry' || this.router.url.split('/')[1] === 'dar-final' || this.router.url.split('/')[1] === 'dar-checker' || this.router.url.split('/')[1] === 'dar-notif' || this.router.url.split('/')[1] === 'cc-distribution' || this.router.url.split('/')[1] === 'cc-checking' || this.router.url.split('/')[1] === 'cc-review' || this.router.url.split('/')[1] === 'cc-inquiry' || this.router.url.split('/')[1] === 'loan-analys-and-approval-monitoring') {
+    if (
+      this.router.url.split('/')[1] === 'la-distribution' ||
+      this.router.url.split('/')[1] === 'la-analyst' ||
+      this.router.url.split('/')[1] === 'la-SME-CRC' ||
+      this.router.url.split('/')[1] === 'la-approval' ||
+      this.router.url.split('/')[1] === 'la-approval-inquiry' ||
+      this.router.url.split('/')[1] === 'dar-final' ||
+      this.router.url.split('/')[1] === 'dar-checker' ||
+      this.router.url.split('/')[1] === 'dar-notif' ||
+      this.router.url.split('/')[1] === 'cc-distribution' ||
+      this.router.url.split('/')[1] === 'cc-checking' ||
+      this.router.url.split('/')[1] === 'cc-review' ||
+      this.router.url.split('/')[1] === 'cc-inquiry' ||
+      this.router.url.split('/')[1] === 'loan-analys-and-approval-monitoring'
+    ) {
       this.customPath = true;
     }
   }
 
   public triggeredSave(proposalType: any) {
-	if (this.selectedMenu === 'CHECKLIST') {
-	  this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
-	}else {
-	  if (proposalType === 'Total Exposure > IDR 15 Bn') {
-		this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
-	  } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
-		this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
-	  } else if (proposalType === 'Total Exposure Back to Back') {
-		this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
-	  }
-	}
+    if (this.selectedMenu === 'CHECKLIST') {
+      this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
+    } else {
+      if (proposalType === 'Total Exposure > IDR 15 Bn') {
+        this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
+      } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
+        this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
+      } else if (proposalType === 'Total Exposure Back to Back') {
+        this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
+      }
+    }
   }
 }

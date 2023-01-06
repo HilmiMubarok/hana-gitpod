@@ -4,6 +4,10 @@ export interface IAppraisalRole {
   thruDate?: Date;
   roleId?: string;
   roleDescription?: string;
+  fromPartyId?: string;
+  fromPartyName?: string;
+  relationTypeId?: string;
+  relationTypeDescription?: string;
   partyId?: string;
   partyName?: string;
   appraisalId?: Number;
@@ -17,6 +21,10 @@ export class AppraisalRole implements IAppraisalRole {
     public thruDate?: Date,
     public roleId?: string,
     public roleDescription?: string,
+    public fromPartyId?: string,
+    public fromPartyName?: string,
+    public relationTypeId?: string,
+    public relationTypeDescription?: string,
     public partyId?: string,
     public partyName?: string,
     public appraisalId?: Number,

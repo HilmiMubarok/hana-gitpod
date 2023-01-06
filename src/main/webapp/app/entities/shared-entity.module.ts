@@ -330,6 +330,7 @@ import { AboveGridPreviousComponent } from './credit-proposal/collateral-info-pr
 import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-facility-previous/loan-facility-detail-previous.component';
 import { CreditProposalCollateralInfoRemarksInformationComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks-checklist.component';
+import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -714,6 +715,7 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-
     DarCovenantBackToBackGeneralComponent,
     CollateralAppraisalForwardToComponent,
     DialogBorrowerComponent,
+    AppraisalRoleComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1064,6 +1066,7 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-
     DarCovenantBackToBackGeneralComponent,
     CollateralAppraisalForwardToComponent,
     DialogBorrowerComponent,
+    AppraisalRoleComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
