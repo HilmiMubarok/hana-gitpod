@@ -52,22 +52,16 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Identity Number</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.identityNumber" [disabled]="true" />
-      </mat-form-field>
-    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Number (IDR)</mat-label>
-        <input matInput type="text" [(ngModel)]="partyCif.debtorData.accountNumberIDR" />
+        <input matInput type="number" [(ngModel)]="partyCif.debtorData.strAccountNumberIDR" [maxlength]="15" />
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Number (USD)</mat-label>
-        <input matInput type="text" [(ngModel)]="partyCif.debtorData.accountNumberUSD" />
+        <input matInput type="number" [(ngModel)]="partyCif.debtorData.strAccountNumberUSD" [maxlength]="15" />
       </mat-form-field>
     </div>
     <div class="form-group">

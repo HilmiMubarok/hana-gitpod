@@ -121,7 +121,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     // this.getExis();
     this.CollectabilityStatus();
     this.showHideElement();
-    console.log('party cif', this.partyCif);
+    this.toString();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -259,5 +259,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     if (this.customerType !== 'PERSONAL') {
       this.individu = 'none';
     }
+  }
+  public toString() {
+    Number(this.partyCif.debtorData.accountNumberIDR.toString().replace('0', ''));
   }
 }
