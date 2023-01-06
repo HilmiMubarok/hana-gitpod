@@ -65,20 +65,22 @@
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Tanah (Physics)</mat-label>
               <!-- [(ngModel)]="mData.totalLuasTanahFisik" -->
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahFisik" />
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasTanahFisik" />
+              <div matSuffix>m<sup>2</sup></div>
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Bangunan (Physics)</mat-label>
               <!-- [(ngModel)]="mData.totalLuasBangunanFisik" -->
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanFisik" />
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanFisik" />
+              <div matSuffix>m<sup>2</sup></div>
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Value Physics</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.marketValue" />
+              <input matInput type="text" [disabled]="true" [ngModel]="mData.marketValue | currency: 'IDR ':'symbol':'1.0-0'" />
             </mat-form-field>
           </div>
         </div>
@@ -87,19 +89,26 @@
           <div class="form-group" style="margin-top: 20px">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Tanah (IMB / Tata Kota)</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasTanahImbTataKota" />
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasTanahImbTataKota" />
+              <span matSuffix>m<sup>2</sup></span>
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Total Luas Bangunan (IMB / Tata Kota)</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanImbTataKota" />
+              <input matInput type="number" [disabled]="true" [(ngModel)]="mData.totalLuasBangunanImbTataKota" />
+              <div matSuffix>m<sup>2</sup></div>
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Value (IMB)</mat-label>
-              <input matInput type="text" [disabled]="true" [(ngModel)]="mData.appraisalvalueImbTataKota" />
+              <input
+                matInput
+                type="text"
+                [disabled]="true"
+                [ngModel]="mData.appraisalvalueImbTataKota | currency: 'IDR ':'symbol':'1.0-0'"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -118,7 +127,7 @@
         <div class="col-12">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Review Opinion</mat-label>
-            <textarea matInput style="height: 170px" [disabled]="status"></textarea>
+            <textarea matInput style="height: 170px" [(ngModel)]="surveyAppraisal.reviewedOpinion" [disabled]="status"></textarea>
           </mat-form-field>
         </div>
       </div>
