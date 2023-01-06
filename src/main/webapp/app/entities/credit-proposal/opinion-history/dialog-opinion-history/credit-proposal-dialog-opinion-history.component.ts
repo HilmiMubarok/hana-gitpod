@@ -95,9 +95,9 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
         'credit_proposal/remark/opinion-history/opinion/' +
         this.creditProposalItem.id +
         '/' +
-        this.notes.positionUserId +
+        this.notes.positionUserId.replace('&', '') +
         '-' +
-        this.notes.userId +
+        this.notes.userId.replace('&', '') +
         '/sfdt',
     };
     this.storageService
@@ -114,9 +114,9 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
                 'credit-proposal-remark-' +
                   this.creditProposalItem.id +
                   '-' +
-                  this.notes.positionUserId +
+                  this.notes.positionUserId.replace('&', '') +
                   '-' +
-                  this.notes.userId +
+                  this.notes.userId.replace('&', '') +
                   '-opinion-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
@@ -138,9 +138,9 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
         'credit_proposal/remark/opinion-history/condition/' +
         this.creditProposalItem.id +
         '/' +
-        this.notes.positionUserId +
+        this.notes.positionUserId.replace('&', '') +
         '-' +
-        this.notes.userId +
+        this.notes.userId.replace('&', '') +
         '/sfdt',
     };
     this.storageService
@@ -157,9 +157,9 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
                 'credit-proposal-remark-' +
                   this.creditProposalItem.id +
                   '-' +
-                  this.notes.positionUserId +
+                  this.notes.positionUserId.replace('&', '') +
                   '-' +
-                  this.notes.userId +
+                  this.notes.userId.replace('&', '') +
                   '-opinion-' +
                   'condition-sfdt.sfdt'
               );
