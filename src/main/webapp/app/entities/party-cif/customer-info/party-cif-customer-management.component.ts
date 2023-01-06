@@ -157,10 +157,17 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
     }
     return false;
   }
+  public approvalDisabled() {
+    if (this.type === 'approval') {
+      return true;
+    }
+    return false;
+  }
   public hiddenNull() {
     if (this.person.firstName === null) {
       this.person.firstName = '';
     }
+    
 
     if (this.person.lastName === null) {
       this.person.lastName = '';

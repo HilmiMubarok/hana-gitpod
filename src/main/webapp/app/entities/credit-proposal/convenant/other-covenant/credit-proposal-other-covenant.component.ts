@@ -17,7 +17,7 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
 
   ngOnInit() {
-    this.getFiles(this.creditProposalItem.id);
+    this.getFiles(this.creditProposalItem.cif.partyId);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
   }
@@ -113,9 +113,9 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
     }
   }
 
-  private getFiles(id: number): void {
+  private getFiles(id: any): void {
     const predicate: Object = {
-      key: `/credit_proposal/${id}/document`,
+      key: `/cif/${id}/document`,
     };
     this.storageService.getBucketName().subscribe((res: any) => {
       this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
