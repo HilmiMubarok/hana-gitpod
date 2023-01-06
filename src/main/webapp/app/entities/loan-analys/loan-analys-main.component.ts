@@ -37,6 +37,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { LoanAnalysService } from './loan-analys.service';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
+import { LoanAnalysOpinionCompliencePartComponent } from './opinion/loan-analys-opinion-complience-part.component';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
@@ -49,6 +50,11 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   loanAnalysOpinionComponent: LoanAnalysOpinionComponent;
+
+  @ViewChild('loanAnalysOpinionCompliencePartComponent', {
+    static: false,
+  })
+  loanAnalysOpinionCompliencePartComponent: LoanAnalysOpinionCompliencePartComponent;
 
   @ViewChild('creditProposalCollateralInfoComponent', {
     static: false,
@@ -104,9 +110,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     this.url = this.parentPath; // kebutuhan buat assign to
-    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
-    // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
     switch (this.parentPath) {
       case 'la-distribution':
         this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
@@ -476,6 +479,13 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionComponent.onCreate();
           this.loanAnalysOpinionComponent.onCreateCondition();
         }
+		if (this.loanAnalysOpinionCompliencePartComponent) {
+          this.loanAnalysOpinionCompliencePartComponent.triggeredSave();
+          this.loanAnalysOpinionCompliencePartComponent.triggeredSaveCondition();
+          this.loanAnalysOpinionCompliencePartComponent.refresh();
+          this.loanAnalysOpinionCompliencePartComponent.onCreate();
+          this.loanAnalysOpinionCompliencePartComponent.onCreateCondition();
+        }
         this.saveDoc = true;
         this.saveApplicationRole();
       });
@@ -487,6 +497,13 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionComponent.refresh();
           this.loanAnalysOpinionComponent.onCreate();
           this.loanAnalysOpinionComponent.onCreateCondition();
+        }
+		if (this.loanAnalysOpinionCompliencePartComponent) {
+          this.loanAnalysOpinionCompliencePartComponent.triggeredSave();
+          this.loanAnalysOpinionCompliencePartComponent.triggeredSaveCondition();
+          this.loanAnalysOpinionCompliencePartComponent.refresh();
+          this.loanAnalysOpinionCompliencePartComponent.onCreate();
+          this.loanAnalysOpinionCompliencePartComponent.onCreateCondition();
         }
         this.saveDoc = true;
         this.saveApplicationRole();

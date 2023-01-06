@@ -68,6 +68,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     });
     this.view = false;
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['word'].currentValue === true) {
       this.triggeredSave();
@@ -75,13 +76,10 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
   }
 
   public onSelect(value: string, data: any): void {
-    // console.log('bot', data, value);
-
     this.dataCompliance[data.No - 1].value = value;
     this.creditProposal.attributes['complienceReccomendation'].complienceRec = this.dataCompliance;
   }
 
-  // ini bisa
   onKeyUpEvent() {
     for (let h = 0; h < this.dataCompliance.length; h++) {
       this.dataCompliance[h].remarks = this.remarks[h];
@@ -247,6 +245,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       this.creditProposal.attributes['complienceReccomendation'].analystRecommendation = '';
     }
   }
+
   private fileGet: File;
 
   public disabledOffering() {
@@ -261,7 +260,6 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     ) {
       this.view = true;
     }
-    console.log('ini route', this.route);
   }
 
   public disabledCompliance: boolean;
@@ -278,7 +276,6 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
   }
 
   onCreate(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 

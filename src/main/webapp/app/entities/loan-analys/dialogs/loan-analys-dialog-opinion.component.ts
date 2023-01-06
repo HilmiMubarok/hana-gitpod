@@ -113,7 +113,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
     this.container.restrictEditing = true;
   }
 
-  onDocumentChangesCondition() {
+  onDocumentChanges() {
     this.container_condition.restrictEditing = true;
   }
 

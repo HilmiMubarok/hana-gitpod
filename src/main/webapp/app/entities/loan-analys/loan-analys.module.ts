@@ -13,7 +13,6 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { CreditProposalResolve } from '../credit-proposal/credit-proposal.route';
 
 import { LoanAnalysSlikMainComponent } from './slik/loan-analys-slik-main.component';
-import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
 import { LoanAnalysDialogOpinionComponent } from './dialogs/loan-analys-dialog-opinion.component';
 import { LoanFacilityDetailTempComponent } from './dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 import { LoanFacilityDetailGridTempComponent } from './dar-final/loan-facility/grid/credit-proposal-tab-loan-facility-detail.grid.component';

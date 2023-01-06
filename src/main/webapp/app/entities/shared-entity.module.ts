@@ -242,6 +242,7 @@ import { GroupCollateralComponent } from './credit-proposal/collateral-info/grou
 import { CollateralPropertyListPersonalPropertyTemplateComponent } from './collateral-property/templates/collateral-property-list-personal-property-template.component';
 import { entityTemplate } from './entity-template.constant';
 import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
+import { LoanAnalysOpinionCompliencePartComponent } from './loan-analys/opinion/loan-analys-opinion-complience-part.component';
 import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
 import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
@@ -613,6 +614,7 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
+	LoanAnalysOpinionCompliencePartComponent,
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralAppraisalPartyGroupViewComponent,
@@ -962,6 +964,7 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
+	LoanAnalysOpinionCompliencePartComponent,
     LoanAnalysDialogOpinionComponent,
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,

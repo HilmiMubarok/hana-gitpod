@@ -162,7 +162,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- collaterla info -->
+        <!-- collateral info -->
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
@@ -475,8 +475,6 @@
       </div>
 
       <!-- opinion -->
-      <!-- [saveWordOpinionCondition]="saveWordOpinionCondition"
-      [saveWordMinio]="saveWord" -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-opinion #loanAnalysOpinionComponent [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion>
       </div>
@@ -489,7 +487,7 @@
       <div *ngIf="selectedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
         <div *ngIf="parentPath === 'cc-review'">
-          <jhi-loan-analys-opinion #loanAnalysOpinionComponent [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion>
+		  <jhi-loan-analys-opinion-complience-part #loanAnalysOpinionCompliencePartComponent [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion-complience-part>
         </div>
       </div>
     </div>
