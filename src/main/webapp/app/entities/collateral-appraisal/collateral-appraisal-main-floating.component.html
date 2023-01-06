@@ -120,12 +120,7 @@
               <!-- [input]="ketObjekJaminan" -->
             </jhi-collateral-appraisal-summary>
             <div *ngIf="surveyAppraisal.statusId !== 'DRAFT' || collateralAppraisal.statusId !== 'DRAFT'">
-              <jhi-collateral-appraisal-forward-to
-                [collateralAppraisal]="collateralAppraisal"
-                (assignTo)="onAssignTo($event)"
-                [surveyAppraisal]="surveyAppraisal"
-              >
-              </jhi-collateral-appraisal-forward-to>
+              <jhi-appraisal-role [appraisalId]="collateralAppraisal.id"></jhi-appraisal-role>
             </div>
           </div>
         </div>
