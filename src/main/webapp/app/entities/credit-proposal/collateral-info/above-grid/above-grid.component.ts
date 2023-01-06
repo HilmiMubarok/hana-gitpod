@@ -94,7 +94,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
 
-    this.isViewMode && this.displayedColumns.pop();
+    // this.isViewMode && this.displayedColumns.pop();
 
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
@@ -637,5 +637,18 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
+  }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
   }
 }

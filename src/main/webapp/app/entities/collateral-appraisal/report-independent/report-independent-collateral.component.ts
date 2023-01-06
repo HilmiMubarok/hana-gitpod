@@ -27,6 +27,8 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
+import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
+// import { PositionService } from 'app/entities/position/position.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -70,7 +72,16 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   organizationData: any = '';
   private id: string;
   public status: boolean;
+  public reviewedOpinion: any;
+  private _surveyAppraisal: ISurveyAppraisals;
 
+  @Input()
+  get surveyAppraisal() {
+    return this._surveyAppraisal;
+  }
+  set surveyAppraisal(data: ISurveyAppraisals) {
+    this._surveyAppraisal = data;
+  }
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private formBuilder: FormBuilder,
@@ -79,7 +90,7 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
     public dialog: MatDialog,
     protected messageService: MessageService,
     public surveyBatchService: SurveyBatchService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute // private positionService: PositionService
   ) {
     super(_snackBar, surveyBatchService);
     this.page = 0;
@@ -90,6 +101,8 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
     // console.log('cccc', this.collateralAppraisal.attributes['totalLuasBangunanFisik']);
     console.log('masuk report');
     this.getReport();
+
+    // this.testReview();
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     // this.collateralAppraisalService.find(this.id).subscribe(result => {
     //   console.log('result', result);
@@ -107,6 +120,7 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.collateralAppraisalService.find(this.id).subscribe(result => {
+      // this.data = result.body.reviewedOpinion
       this.mData = result.body.attributes;
       this.mData.appraisalNumber = result.body.appraisalNumber;
       this.mData.apprDate = result.body.apprDate;
@@ -114,6 +128,8 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
       this.mData.reviewedBy = result.body.reviewedBy;
       this.mData.marketValue = result.body.collateral.marketValue;
       this.mData.remark = result.body.remark;
+      // this.reviewedOpinion = result.body.reviewedOpinion;
+
       if (result.body.apprOfficer === 'External') {
         if (result.body.statusId === STATUS.APPROVE) {
           this.status = true;
@@ -124,16 +140,43 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
     });
   }
 
+  // public teamReviewName: any;
+  // public testReview() {
+  //   this.id = this.activatedRoute.snapshot.paramMap.get('id');
+  //   this.collateralAppraisalService.find(this.id).subscribe(result => {
+  //     this.positionService
+  //       .queryFilterBy({
+  //         page: 0,
+  //         size: 9999,
+  //         idInternal: result.body.teamLeadId,
+  //         // surveyAppraisal.teamLeadId
+  //       })
+  //       .subscribe(res => {
+  //         // const teamLeader = [];
+  //         for (let i = 0; i < res.body.length; i++) {
+  //           if (res.body[i].positionTypeDescription === 'Team Leader') {
+  //              this.teamReviewName.push(res.body[i].employeeFirstName);
+  //             console.log('xxxxx', res.body[i].employeeFirstName);
+  //             // teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
+  //           }
+  //              result.body.reviewedBy = this.teamReviewName;
+
+  //           console.log('yyyy', res.body[i].employeeFirstName);
+  //         }
+
+  //         // this.teamReviewName = teamLeader;
+  //       });
+  //     // this.positionService.find(result.body.surveyorArea).subscribe(res => {
+  //     //   this.teamReviewName = res.body.employeeFirstName;
+  //     // });
+  //   });
+  // }
   previousState(): void {
     window.history.back();
   }
-  // public disabledAppraisalExternal() {
-  //   if (this.collateralAppraisal.apprOfficer === 'External') {
-  //     if (this.collateralAppraisal.statusId === STATUS.APPROVE) {
-  //       this.status = true;
-  //     } else {
-  //       this.status = false;
-  //     }
-  //   }
-  // }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return String(num);
+  }
 }

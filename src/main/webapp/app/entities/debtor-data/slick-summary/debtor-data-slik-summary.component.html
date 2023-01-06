@@ -1,7 +1,8 @@
-<ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItemsAll" (select)="selectMenuItem($event)">
-</ejs-menu>
+<!-- <ejs-menu [enableScrolling]="true" cssClass="e-rounded-menu e-custom-scroll" [items]="menuItemsAll" (select)="selectMenuItem($event)"> -->
+<!-- </ejs-menu> -->
 <div *ngIf="cif !== undefined">
-  <div *ngIf="selectedMenu === 'SLIK SUMMARY'">
+  <!-- <div *ngIf="selectedMenu === 'SLIK SUMMARY'"> -->
+  <div>
     <mat-card>
       <mat-card-header class="mb-2">
         <div>
@@ -52,7 +53,7 @@
       </div>
     </mat-card>
   </div>
-  <div *ngIf="selectedMenu === 'SLIK IDEB'">
+  <!-- <div *ngIf="selectedMenu === 'SLIK IDEB'">
     <jhi-debtor-data-slik-ideb [partyCif]="cif"></jhi-debtor-data-slik-ideb>
-  </div>
+  </div> -->
 </div>

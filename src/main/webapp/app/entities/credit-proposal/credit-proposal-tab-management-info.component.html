@@ -50,12 +50,13 @@
             </div>
           </div>
           <div class="row my-3">
-            <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA">
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA" [type]="'approval'">
             </jhi-organization-management-list>
             <div class="my-5"></div>
-            <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER"> </jhi-organization-management-list>
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="SHAREHOLDER" [type]="'approval'">
+            </jhi-organization-management-list>
             <div class="my-5"></div>
-            <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON">
+            <jhi-organization-management-list [cif]="item.customerNumber" managementType="CONTROL_PERSON" [type]="'approval'">
             </jhi-organization-management-list>
           </div>
           <!-- <ejs-grid [dataSource]="data" allowTextWrap="true">
@@ -184,37 +185,79 @@
                           <ng-template #template let-data>
                             <div class="d-flex justify-content-around">
                               <div class="mx-2">
-                                <ejs-radiobutton
-                                  label="Yes"
-                                  value="Yes"
-                                  (change)="onSelect('Yes', data)"
-                                  [checked]="data.value == 'Yes'"
-                                  name="{{ data.No }}"
-                                  [checked]="data.value == 'Yes'"
-                                >
-                                </ejs-radiobutton>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                  <ejs-radiobutton
+                                    label="Yes"
+                                    value="Yes"
+                                    (change)="onSelect('Yes', data)"
+                                    [checked]="data.value == 'Yes'"
+                                    name="{{ data.No }}"
+                                    [checked]="data.value == 'Yes'"
+                                  >
+                                  </ejs-radiobutton>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                  <ejs-radiobutton
+                                    label="Yes"
+                                    value="Yes"
+                                    (change)="onSelect('Yes', data)"
+                                    [checked]="data.value == 'Yes'"
+                                    name="{{ data.No }}"
+                                    [checked]="data.value == 'Yes'"
+                                    disabled
+                                  >
+                                  </ejs-radiobutton>
+                                </section>
                               </div>
                               <div class="mx-2">
-                                <ejs-radiobutton
-                                  label="No"
-                                  value="No"
-                                  (change)="onSelect('No', data)"
-                                  [checked]="data.value == 'No'"
-                                  name="{{ data.No }}"
-                                  [checked]="data.value == 'No'"
-                                >
-                                </ejs-radiobutton>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                  <ejs-radiobutton
+                                    label="No"
+                                    value="No"
+                                    (change)="onSelect('No', data)"
+                                    [checked]="data.value == 'No'"
+                                    name="{{ data.No }}"
+                                    [checked]="data.value == 'No'"
+                                  >
+                                  </ejs-radiobutton>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                  <ejs-radiobutton
+                                    label="No"
+                                    value="No"
+                                    (change)="onSelect('No', data)"
+                                    [checked]="data.value == 'No'"
+                                    name="{{ data.No }}"
+                                    [checked]="data.value == 'No'"
+                                    disabled
+                                  >
+                                  </ejs-radiobutton>
+                                </section>
                               </div>
                               <div class="mx-2">
-                                <ejs-radiobutton
-                                  label="N/A"
-                                  value="N/A"
-                                  (change)="onSelect('N/A', data)"
-                                  [checked]="data.value == 'N/A'"
-                                  name="state"
-                                  name="{{ data.No }}"
-                                  [checked]="data.value == 'N/A'"
-                                ></ejs-radiobutton>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                                  <ejs-radiobutton
+                                    label="N/A"
+                                    value="N/A"
+                                    (change)="onSelect('N/A', data)"
+                                    [checked]="data.value == 'N/A'"
+                                    name="state"
+                                    name="{{ data.No }}"
+                                    [checked]="data.value == 'N/A'"
+                                  ></ejs-radiobutton>
+                                </section>
+                                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                                  <ejs-radiobutton
+                                    label="N/A"
+                                    value="N/A"
+                                    (change)="onSelect('N/A', data)"
+                                    [checked]="data.value == 'N/A'"
+                                    name="state"
+                                    name="{{ data.No }}"
+                                    [checked]="data.value == 'N/A'"
+                                    disabled
+                                  ></ejs-radiobutton>
+                                </section>
                               </div>
                             </div>
                           </ng-template>

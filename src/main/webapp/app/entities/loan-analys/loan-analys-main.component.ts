@@ -10,13 +10,17 @@ import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
+  SUBMENU_LOAN_ANALYS_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
   SUBMENU_LOAN_ANALYS_CC_REVIEW,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER,
   SUBMENU_LOAN_ANALYS_DAR_FINAL,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
+  SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
+  SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB,
   SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
 import { IPosition } from '../position/position.model';
@@ -100,23 +104,37 @@ export class LoanAnalysMainComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     this.url = this.parentPath; // kebutuhan buat assign to
+    // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
+    // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
     switch (this.parentPath) {
       case 'la-distribution':
-        this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
+        this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
           ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS);
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
         break;
 
       case 'la-SME-CRC':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
-          { id: 'opinion', text: 'Opinion' },
-          { id: 'compare-data', text: 'Compare Data' },
-        ];
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ])
+          : (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ]);
         break;
 
       case 'cc-distribution':
-        this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
         break;
 
       case 'la-analyst':
@@ -128,12 +146,19 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-approval-inquiry':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
-          { id: 'opinion', text: 'Opinion' },
-          ...SUBMENU_LOAN_CP,
-          { id: 'compare-data', text: 'Compare Data' },
-        ];
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              { id: 'opinion', text: 'Opinion' },
+              ...SUBMENU_LOAN_CP,
+              { id: 'compare-data', text: 'Compare Data' },
+            ])
+          : (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              { id: 'opinion', text: 'Opinion' },
+              ...SUBMENU_LOAN_CP,
+              { id: 'compare-data', text: 'Compare Data' },
+            ]);
         break;
       case 'dar-final':
         this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
@@ -144,7 +169,9 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'loan-committee-approval':
-        this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB);
         break;
 
       case 'cc-checking':
@@ -161,7 +188,9 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       default:
-        this.subMenu = SUBMENU_LOAN_ANALYS;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
         break;
     }
 

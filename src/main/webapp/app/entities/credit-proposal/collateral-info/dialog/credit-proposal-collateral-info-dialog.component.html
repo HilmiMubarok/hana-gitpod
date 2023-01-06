@@ -546,7 +546,7 @@
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Status</mat-label>
-                <mat-select name="staus" [(ngModel)]="collateral.statusId" [disabled]="disabledOpt">
+                <mat-select name="staus" [(ngModel)]="collateral.statusId">
                   <mat-option value=" ">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of lovCollateralStatus | keyvalue" [value]="item.key">
                     {{ item.value }}

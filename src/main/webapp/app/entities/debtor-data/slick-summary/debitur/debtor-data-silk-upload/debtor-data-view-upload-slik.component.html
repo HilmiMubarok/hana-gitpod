@@ -18,7 +18,7 @@
   </table>
   <ul class="list-image">
     <li *ngFor="let item of folder">
-      <div style="background-color: #d9d9d9; height: 400px; border-radius: 60px">
+      <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
         <img
           [src]="item.url"
           *ngIf="
@@ -38,7 +38,7 @@
         >
           <img width="300px" src="../../../content/images/excel.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -50,7 +50,7 @@
         >
           <img width="300px" src="../../../content/images/word.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -58,7 +58,7 @@
           <img width="300px" src="../../../content/images/pdf.png" />
 
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -71,11 +71,14 @@
           <img width="300px" src="../../../content/images/power-point.jpg" />
 
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
-
-        Nama File: {{ item.tags.folder }}
+        <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
+          <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
+            Nama File: {{ item.tags.folder }}
+          </p>
+        </div>
       </div>
     </li>
   </ul>

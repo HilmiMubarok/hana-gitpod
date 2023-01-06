@@ -647,10 +647,7 @@ export class SurveyBatchEditComponent implements OnInit {
 
   public getConditionSubMenu(data): void {
     if (data.apprOfficer === 'External') {
-      this.subMenu =
-        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
-          : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
     }
   }
 

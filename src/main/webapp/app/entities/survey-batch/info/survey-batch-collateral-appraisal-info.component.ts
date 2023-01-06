@@ -468,12 +468,19 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
         }
 
         this.teamReviewer = teamLeader;
+        console.log('ini reviewer KJPP', this.teamReviewer);
       });
 
     this.cdr.detectChanges();
+    this.surveyAppraisal.surveyorArea = args['value'].id;
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {
+    this.surveyAppraisal.teamLeadId = args['value'].id;
+    this.surveyAppraisal.teamLeadPersonId = args['value'].employeeId;
+    this.surveyAppraisal.teamLeadName = args['value'].employeeFirstName;
+    // save nama surveyor ke reviewedBy untuk kebutuhan get data report independent
+    this.surveyAppraisal.reviewedBy = args['value'].employeeFirstName;
     this.outputTeamReviewer.emit(args['value']);
   }
 

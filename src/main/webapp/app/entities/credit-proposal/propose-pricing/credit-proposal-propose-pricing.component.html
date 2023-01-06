@@ -12,7 +12,21 @@
       <div class="col-md-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="form-group">
-            <ejs-textbox
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Modified Date</mat-label>
+              <input
+                [matDatepicker]="modifiedDate"
+                matInput
+                type="text"
+                [formControl]="date"
+                [(ngModel)]="creditProposal.lastModifiedDate"
+                disabled
+              />
+              <mat-datepicker-toggle matSuffix [for]="modifiedDate"></mat-datepicker-toggle>
+              <mat-datepicker #expiry [disabled]="true"></mat-datepicker>
+              <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
+            </mat-form-field>
+            <!-- <ejs-textbox
               type="datetime"
               placeholder="Modified Date"
               [(ngModel)]="creditProposal.lastModifiedDate"
@@ -20,7 +34,7 @@
               floatLabelType="Always"
               disabled
             >
-            </ejs-textbox>
+            </ejs-textbox> -->
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -184,6 +198,10 @@
                 <td>{{ proposedRateIDR }} %</td>
               </tr>
               <tr>
+                <td>AVERAGE IDR</td>
+                <td>{{ averageIDR }} %</td>
+              </tr>
+              <tr>
                 <th colspan="2">USD</th>
               </tr>
               <tr>
@@ -197,6 +215,10 @@
               <tr>
                 <td>PROPOSED RATE</td>
                 <td>{{ proposedRateUSD | number }} %</td>
+              </tr>
+              <tr>
+                <td>AVERAGE USD</td>
+                <td>{{ averageUSD }} %</td>
               </tr>
             </table>
           </div>

@@ -22,6 +22,7 @@
           [managementType]="managementType"
           [organization]="organizationManagement"
           [person]="organizationManagement.person"
+          [type]="typeSable"
           mode="edit"
         ></jhi-party-cif-customer-management>
       </ng-container>
@@ -30,6 +31,7 @@
           [organization]="organizationManagement"
           [partyGroup]="organizationManagement.organization"
           mode="edit"
+          [type]="typeSable"
         >
         </jhi-party-cif-customer-info-party-group>
       </ng-container>
@@ -106,12 +108,16 @@
       <mat-card-subtitle>Postal Address</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-postal-address-view-custom [organization]="organizationManagement" [postalAddress]="organizationManagement.postalAddress">
+      <jhi-postal-address-view-custom
+        [organization]="organizationManagement"
+        [postalAddress]="organizationManagement.postalAddress"
+        [type]="typeSable"
+      >
       </jhi-postal-address-view-custom>
     </mat-card-content>
   </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center" [hidden]="view">
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button [hidden]="view" (click)="save()">Save</button>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
