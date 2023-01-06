@@ -79,14 +79,19 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
 
     if (value !== '') {
       if (value.toLowerCase() !== 'credit_proposal') {
-        const whoAmI: IPerson = this.whoAmI;
-        this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
-          return o.relationTypeId === value && o.partyFromId === whoAmI.id;
-        });
+        for (let i = 0; i < this.items.length; i++) {
+          const each: IApplicationRole = this.items[i];
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
+            this.filteringItems.push(each);
+          }
+        }
       } else {
-        this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
-          return o.relationTypeId === value;
-        });
+        for (let i = 0; i < this.items.length; i++) {
+          const each: IApplicationRole = this.items[i];
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase()) {
+            this.filteringItems.push(each);
+          }
+        }
       }
     }
   }
