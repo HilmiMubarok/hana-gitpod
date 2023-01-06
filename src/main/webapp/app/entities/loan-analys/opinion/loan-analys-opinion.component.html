@@ -20,18 +20,10 @@
         <th mat-header-cell *matHeaderCellDef>Date</th>
         <td mat-cell *matCellDef="let element">{{ element.createDate }}</td>
       </ng-container>
-      <!-- <ng-container matColumnDef="opinion">
-        <th mat-header-cell *matHeaderCellDef>Opinion</th>
-        <td mat-cell *matCellDef="let element">{{ element.message }}</td>
-      </ng-container> -->
       <ng-container matColumnDef="recomendation">
         <th mat-header-cell *matHeaderCellDef>Recomendation</th>
         <td mat-cell *matCellDef="let element">{{ element.recomendation }}</td>
       </ng-container>
-      <!-- <ng-container matColumnDef="condition">
-        <th mat-header-cell *matHeaderCellDef>Condition</th>
-        <td mat-cell *matCellDef="let element">{{ element.condition }}</td>
-      </ng-container> -->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
@@ -80,21 +72,15 @@
             style="display: block"
             [spellcheck]="false"
             [enableSpellCheck]="false"
-            (onkeypress)="myFunction($event)"
             (keyDown)="onKeyDown($event)"
             (created)="onCreate()"
-          >
-          </ejs-documenteditorcontainer>
+          ></ejs-documenteditorcontainer>
         </section>
         <section
           *ngIf="
             creditProposalItem.statusId === 'CP_DAR_FINAL' ||
             creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
-            creditProposalItem.statusId === 'CP_CC_ANALYST' ||
-            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION' ||
-            creditProposalItem.statusId === 'CP_CC_DIV_HEAD' ||
-            creditProposalItem.statusId === 'CP_CC_DEPT_HEAD' ||
-            creditProposalItem.statusId === 'CP_CC_DIRECTOR'
+            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION'
           "
         >
           <ejs-documenteditorcontainer
@@ -106,8 +92,7 @@
             (documentChange)="onDocumentChange()"
             [enableEditor]="false"
             [isReadOnly]="true"
-          >
-          </ejs-documenteditorcontainer>
+          ></ejs-documenteditorcontainer>
         </section>
       </div>
       <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'">
@@ -120,8 +105,7 @@
                 value="{{ valueRadioPurpose }}"
                 [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
-              >
-              </ejs-radiobutton>
+              ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
@@ -129,8 +113,7 @@
                 value="{{ valueRadioCondition }}"
                 [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
-              >
-              </ejs-radiobutton>
+              ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
@@ -138,8 +121,7 @@
                 value="{{ valueRadioRecommend }}"
                 [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
-              >
-              </ejs-radiobutton>
+              ></ejs-radiobutton>
             </div>
           </div>
         </div>
@@ -155,8 +137,7 @@
                 value="Approved as Propose"
                 [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendationUser"
                 [disabled]="disabledOpinion"
-              >
-              </ejs-radiobutton>
+              ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
@@ -164,8 +145,7 @@
                 value="Approved With Condition"
                 [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendationUser"
                 [disabled]="disabledOpinion"
-              >
-              </ejs-radiobutton>
+              ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
@@ -173,8 +153,7 @@
                 value="Not Approved"
                 [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendationUser"
                 [disabled]="disabledOpinion"
-              >
-              </ejs-radiobutton>
+              ></ejs-radiobutton>
             </div>
           </div>
         </div>
@@ -201,19 +180,14 @@
             [enableSpellCheck]="false"
             (keyDown)="onKeyDownCondition($event)"
             (created)="onCreateCondition()"
-          >
-          </ejs-documenteditorcontainer>
+          ></ejs-documenteditorcontainer>
         </section>
 
         <section
           *ngIf="
             creditProposalItem.statusId === 'CP_DAR_FINAL' ||
             creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
-            creditProposalItem.statusId === 'CP_CC_ANALYST' ||
-            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION' ||
-            creditProposalItem.statusId === 'CP_CC_DIV_HEAD' ||
-            creditProposalItem.statusId === 'CP_CC_DEPT_HEAD' ||
-            creditProposalItem.statusId === 'CP_CC_DIRECTOR'
+            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION'
           "
         >
           <ejs-documenteditorcontainer
@@ -225,8 +199,7 @@
             (documentChange)="onDocumentChanges()"
             [enableEditor]="false"
             [isReadOnly]="true"
-          >
-          </ejs-documenteditorcontainer>
+          ></ejs-documenteditorcontainer>
         </section>
       </div>
     </div>

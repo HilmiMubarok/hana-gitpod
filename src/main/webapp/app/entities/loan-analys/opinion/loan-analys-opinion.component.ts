@@ -44,7 +44,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public notes: any;
   public route: any;
   public view: boolean;
-  // public pacth: any;
   public parentPath = this.router.url.split('/')[1];
   public position: IPosition[];
 
@@ -125,10 +124,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
-      console.log('val', val);
       this.BUCKET = val.body['bucket'];
-      // this.getContainer();
-      // this.getContainerCondition();
     });
   }
 
@@ -140,8 +136,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.userId = account.login;
       });
     }
-
-    console.log('yang login siapa', this.userId);
   }
 
   public openDialog(element: INotes = null): void {
@@ -171,7 +165,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.userId = this.creditProposalItem.attributes['userId'];
       this.positionUserId = this.creditProposalItem.attributes['position'];
     }
-    console.log('posisi', this.positionUserId);
   }
 
   public conditionOpinion() {
@@ -202,12 +195,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWord();
   }
 
   onDocumentChanges() {
     this.container_condition.restrictEditing = true;
-    // this.getWord();
   }
 
   public disabledOpinion: boolean;
@@ -293,7 +284,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('abednege', obj);
 
         if (response.body.length > 0) {
           this.storageService
@@ -314,10 +304,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             });
         }
       });
-  }
-
-  myFunction(value: string) {
-    console.log('cek value', value);
   }
 
   onCreate(): void {
@@ -383,8 +369,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     });
   }
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
-    console.log('cek', args);
-    console.log('ini paste', args);
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
     // 67 is the character code for 'C'
@@ -434,7 +418,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   onCreateCondition(): void {
-    // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.container_condition.documentEditor.openBlank();
   }
@@ -460,7 +443,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.notes = res.body.notes;
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-        // this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = '';
         this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
         this.creditProposalItem.attributes['position'] = '';
         this.userId = this.creditProposalItem.attributes['userId'];
@@ -479,7 +461,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.creditProposalItem.attributes['userId'] = '';
       } else {
         this.accountService.identity().subscribe(account => {
-          console.log('Akun Login', account);
           this.currentAccount = account;
           this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
           this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
