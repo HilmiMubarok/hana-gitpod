@@ -37,7 +37,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
     console.log('data', this.creditProposalData);
-
+    this.setUp();
     this.checked = false;
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -51,20 +51,17 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   }
 
   public setCrossCollateral(index: number) {
-    if (this.collateralData.paripasuStatus === 'Y') {
-      console.log('paripasu status');
-      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-        const tempCollateralProductRelationObject = {
-          collateralId: this.collateralInfo.id,
-          bindingValue: this.bindingValueHelper[index],
-          applicationProduct: this.applicationProductData[index],
-        };
-
-        this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+    if (this.collateralData) {
+      if (this.collateralData.paripasuStatus === 'Y') {
+        if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+          const tempCollateralProductRelationObject = {
+            collateralId: this.collateralInfo.id,
+            bindingValue: this.bindingValueHelper[index],
+            applicationProduct: this.applicationProductData[index],
+          };
+          this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+        }
       }
-    }
-    if (this.collateralData.paripasuStatus === 'N') {
-      console.log('paripsu NO');
     }
   }
 

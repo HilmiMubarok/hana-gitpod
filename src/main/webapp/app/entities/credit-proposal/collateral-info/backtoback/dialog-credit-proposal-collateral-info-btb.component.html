@@ -172,7 +172,7 @@
         <div>
           <mat-label>Mapping to Facility</mat-label>
           <jhi-mapping-facility
-            [paripasuStatus]=""
+            [collateralData]="collateral"
             [creditProposal]="creditProposal"
             (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
           >
