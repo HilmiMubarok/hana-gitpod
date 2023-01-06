@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, OnChanges, SimpleChanges, ChangeDetectorRef, AfterContentInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -27,7 +27,6 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { PositionService } from 'app/entities/position/position.service';
-
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
   templateUrl: './credit-proposal-opinion-history.component.html',
@@ -65,6 +64,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
   }
+
 
   public tools: ToolbarModule = {
     items: [
@@ -124,6 +124,12 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     });
   }
 
+  @Output() newItemEvent = new EventEmitter<string>();
+
+  change(event: string){
+    this.newItemEvent.emit(event);
+  }
+
   public openDialog(element: INotes = null): void {
     const predicate = {
       width: '80vw',
@@ -152,9 +158,9 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
         const fileName =
-          'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.docs';
+          'credit-proposal-remark-' + paramsId.replace('&', '') + '-' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-' + fileType.replace('&', '') + '.docs';
         const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+          objectName: `${key}/${paramsId}/${this.positionId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType.replace('&', '')}/${fileName.replace('&', '')}`,
         };
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
@@ -165,9 +171,9 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
         const fileName =
-          'credit-proposal-remark-' + paramsId + '-' + this.positionId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
+          'credit-proposal-remark-' + paramsId + '-' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-' + fileType.replace('&', '') + '.sfdt';
         const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+          objectName: `${key}/${paramsId}/${this.positionId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType.replace('&', '')}/${fileName.replace('&', '')}`,
         };
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
@@ -198,7 +204,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         paramsId = params['id'];
       });
       this.obj = {
-        key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionId + '-' + this.userId + '/sfdt',
+        key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId.replace('&', '') + '/' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '/sfdt',
       };
       this.storageService
         .getObjects(this.BUCKET, this.obj)
@@ -211,7 +217,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
               .subscribe(res => {
                 this.fileGet = new File(
                   [res.body],
-                  'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId + '-' + this.userId + '-opinion-sfdt.sfdt'
+                  'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-sfdt.sfdt'
                 );
                 const fileReader: FileReader = new FileReader();
                 fileReader.onload = (e: any) => {
@@ -247,22 +253,23 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       const timeStamp = Math.floor(Date.now() / 1000);
 
       const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+   
 
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
         const fileName =
           'credit-proposal-remark-' +
-          paramsId +
+          paramsId.replace('&', '') +
           '-' +
-          this.positionId +
+          this.positionId.replace('&', '') +
           '-' +
-          this.userId +
+          this.userId.replace('&', '') +
           '-opinion' +
           '-condition-' +
-          fileType +
+          fileType.replace('&', '') +
           '.docs';
         const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+          objectName: `${key}/${paramsId}/${this.positionId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType.replace('&', '')}/${fileName.replace('&', '')}`,
         };
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
@@ -274,17 +281,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         const fileType = 'sfdt';
         const fileName =
           'credit-proposal-remark-' +
-          paramsId +
+          paramsId.replace('&', '') +
           '-' +
-          this.positionId +
+          this.positionId.replace('&', '') +
           '-' +
-          this.userId +
+          this.userId.replace('&', '') +
           '-opinion-' +
           '-condition-' +
-          fileType +
+          fileType.replace('&', '') +
           '.sfdt';
         const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionId}-${this.userId}/${fileType}/${fileName}`,
+          objectName: `${key}/${paramsId}/${this.positionId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName.replace('&', '')}`,
         };
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
@@ -313,7 +320,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         paramsId = params['id'];
       });
       const obj = {
-        key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionId + '-' + this.userId + '/sfdt',
+        key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '/sfdt',
       };
       this.storageService
         .getObjects(this.BUCKET, obj)
@@ -361,7 +368,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       }
     });
   }
-
+  public recomendasi: string
   public refresh() {
     this.accountService.identity().subscribe(account => {
       this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
@@ -369,6 +376,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
 
       this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
+        console.log('body', res.body.notes)
         this.notes = res.body.notes;
 
         if (this.notes.length > 0) {
@@ -377,6 +385,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             if (this.notes[i].userId === account.login) {
               this.creditProposalItem.notes[i].message = this.obj;
               this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
+              this.recomendasi = this.notes[i].recomendation;
               this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
               this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
               this.creditProposalItem.attributes['tempLoggedInCondition'] = this.notes[i].condition;

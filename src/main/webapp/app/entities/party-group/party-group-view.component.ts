@@ -51,7 +51,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPartyGroup> implements OnChanges, OnInit {
+export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPartyGroup> implements OnChanges {
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
@@ -211,9 +211,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
   }
-  ngOnInit() {
-    this.remove();
-  }
+  // ngOnInit() {
+  //   this.remove();
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {

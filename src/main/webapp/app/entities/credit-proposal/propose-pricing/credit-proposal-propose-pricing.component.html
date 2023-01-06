@@ -12,15 +12,29 @@
       <div class="col-md-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="form-group">
-            <ejs-textbox
-              type="date"
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Modified Date</mat-label>
+              <input
+                [matDatepicker]="modifiedDate"
+                matInput
+                type="text"
+                [formControl]="date"
+                [(ngModel)]="creditProposal.lastModifiedDate"
+                disabled
+              />
+              <mat-datepicker-toggle matSuffix [for]="modifiedDate"></mat-datepicker-toggle>
+              <mat-datepicker #expiry [disabled]="true"></mat-datepicker>
+              <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
+            </mat-form-field>
+            <!-- <ejs-textbox
+              type="datetime"
               placeholder="Modified Date"
               [(ngModel)]="creditProposal.lastModifiedDate"
               cssClass="e-outline"
               floatLabelType="Always"
               disabled
             >
-            </ejs-textbox>
+            </ejs-textbox> -->
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -173,38 +187,30 @@
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
-                <td>{{ normalRateIDR }} %</td>
+                <td>{{ avgNormalRateIDR }} %</td>
               </tr>
               <tr>
                 <td>DISCOUNT PROPOSAL</td>
-                <td>{{ discountProposalIDR }} %</td>
+                <td>{{ avgDiscProposalIDR }} %</td>
               </tr>
               <tr>
                 <td>PROPOSED RATE</td>
-                <td>{{ proposedRateIDR }} %</td>
-              </tr>
-              <tr>
-                <td>AVERAGE IDR</td>
-                <td>{{ averageIDR }} %</td>
+                <td>{{ avgProposedRateIDR }} %</td>
               </tr>
               <tr>
                 <th colspan="2">USD</th>
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
-                <td>{{ normalRateUSD | number }} %</td>
+                <td>{{ avgNormalRateUSD }} %</td>
               </tr>
               <tr>
                 <td>DISCOUNT PROPOSAL</td>
-                <td>{{ discountProposalUSD | number }} %</td>
+                <td>{{ avgDiscProposalUSD }} %</td>
               </tr>
               <tr>
                 <td>PROPOSED RATE</td>
-                <td>{{ proposedRateUSD | number }} %</td>
-              </tr>
-              <tr>
-                <td>AVERAGE USD</td>
-                <td>{{ averageUSD }} %</td>
+                <td>{{ avgProposedRateUSD }} %</td>
               </tr>
             </table>
           </div>
@@ -259,30 +265,41 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Credit Rating{{ creditProposal.creditRatings[0].creditRating }}</p>
+            <p class="lable-form-title">Credit Rating: {{ creditProposal.creditRatings[0].creditRating }}</p>
           </section>
         </div>
         <div class="col-md-6">
-          <div class="form-group">
-            <ejs-textbox
-              placeholder="USD to IDR"
-              [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-textbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox
+                placeholder="USD to IDR"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [disabled]="view"
+              ></ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">USD to IDR: {{ creditProposal.attributes['purposePricing'].usdToIdr }}</p>
+          </section>
 
-          <div class="form-group">
-            <ejs-dropdownlist
-              cssClass="e-outline"
-              #dropdownlistdata
-              [dataSource]="industryList"
-              placeholder="Industry"
-              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
-              floatLabelType="Auto"
-            >
-            </ejs-dropdownlist>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-dropdownlist
+                cssClass="e-outline"
+                #dropdownlistdata
+                [dataSource]="industryList"
+                placeholder="Industry"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+                floatLabelType="Auto"
+              >
+              </ejs-dropdownlist>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Industry: {{ creditProposal.attributes['purposePricing'].industry }}</p>
+          </section>
         </div>
       </div>
     </div>
@@ -314,8 +331,8 @@
         <mat-card-content>
           <ejs-chart id="chartcontainer" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2">
             <e-series-collection>
-              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"></e-series>
-              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"></e-series>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"> </e-series>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"> </e-series>
             </e-series-collection>
           </ejs-chart>
         </mat-card-content>

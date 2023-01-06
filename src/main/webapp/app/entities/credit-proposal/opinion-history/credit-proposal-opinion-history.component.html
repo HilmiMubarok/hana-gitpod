@@ -66,29 +66,13 @@
     <div class="form-group">
       <p class="e-card-sub-title">Recomendation</p>
       <div class="d-flex justify-content-around">
-        <div class="mx-2">
-          <ejs-radiobutton
-            label="Recommend as propose"
-            value="Recommend as propose"
-            [(ngModel)]="creditProposalItem.attributes['tempLoggedInRecomendation']"
-          >
-          </ejs-radiobutton>
-        </div>
-        <div class="mx-2">
-          <ejs-radiobutton
-            label="Recommend With Condition"
-            value="Recommend With Condition"
-            [(ngModel)]="creditProposalItem.attributes['tempLoggedInRecomendation']"
-          >
-          </ejs-radiobutton>
-        </div>
-        <div class="mx-2">
-          <ejs-radiobutton
-            label="Not Recommend"
-            value="Not Recommend"
-            [(ngModel)]="creditProposalItem.attributes['tempLoggedInRecomendation']"
-          ></ejs-radiobutton>
-        </div>
+     
+          <mat-radio-group>
+            <mat-radio-button [checked]="recomendasi === 'Recommend as propose'" value="Recommend as propose" (change)="change('Recommend as propose')">Recommend as propose</mat-radio-button>
+            <mat-radio-button [checked]="recomendasi === 'Recommend With Condition'" value="Recommend With Condition" (change)="change('Recommend With Condition')">Recommend With Condition</mat-radio-button>
+            <mat-radio-button [checked]="recomendasi === 'Not Recommend'" value="Not Recommend" (change)="change('Not Recommend')">Not Recommend</mat-radio-button>
+          </mat-radio-group>
+    
       </div>
     </div>
 

@@ -4,8 +4,8 @@ export interface IApplicationRole {
   thruDate?: Date;
   roleId?: string;
   roleDescription?: string;
-  partyFromId?: string;
-  partyFromName?: string;
+  fromPartyId?: string;
+  fromPartyName?: string;
   relationTypeId?: string;
   relationTypeDescription?: string;
   partyId?: string;
@@ -24,8 +24,8 @@ export class ApplicationRole implements IApplicationRole {
     public partyId?: string,
     public partyName?: string,
     public applicationId?: Number,
-    public partyFromId?: string,
-    public partyFromName?: string,
+    public fromPartyId?: string,
+    public fromPartyName?: string,
     public relationTypeId?: string,
     public relationTypeDescription?: string,
     public attributes?: any

@@ -88,6 +88,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public currentAccount: Account;
 
   public subMenu: object[];
+  public recomendation: string;
 
   public url: string;
   public activeRoute: string;
@@ -144,6 +145,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
   }
+  setOpinionRecomendation(newItem: string){
+    this.recomendation = newItem
+  }
+
 
   ngOnInit() {
     this.getTitle();
@@ -447,7 +452,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       message: messageVal,
       userId: userIdVal,
       createDate: new Date(),
-      recomendation: recomendationVal,
+      recomendation: this.recomendation,
       condition: conditionVal,
       positionUserId: positionVal,
     });
@@ -489,7 +494,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
             copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
-            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
+            copyCreditProposal.notes[i].recomendation = this.recomendation
             copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
             tempHelper = tempHelper + 1;
@@ -513,8 +518,9 @@ export class ProposalBasicInformationComponent implements OnInit {
             copyCreditProposal.attributes['tempLoggedInNotes'],
             copyCreditProposal.attributes['tempLoggedInRecomendation'],
             copyCreditProposal.attributes['tempLoggedInCondition'],
-            copyCreditProposal.attributes['positionLogin'],
-            this.currentAccount.login
+            this.currentAccount.login,
+            copyCreditProposal.attributes['positionLogin']
+           
           )
         );
       }
@@ -588,6 +594,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.saveWord = true;
       if (this.creditProposal.id) {
+    
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();

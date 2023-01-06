@@ -1,6 +1,6 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnInit } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CreditProposalCollateralInfoRemarksInformationComponent } from './remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks/credit-proposal-collateral-info-remarks-checklist.component';
@@ -10,11 +10,12 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks
   templateUrl: './credit-proposal-collateral-info.component.html',
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoComponent {
+export class CreditProposalCollateralInfoComponent implements OnInit {
   public pacth: any;
   public view: boolean;
+  public customPath: boolean = false;
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(private router: Router) {}
 
   @ViewChild('creditProposalCollateralInfoRemarksInfoComponentAbove', {
     static: false,
@@ -54,6 +55,12 @@ export class CreditProposalCollateralInfoComponent {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  ngOnInit(): void {
+	if (this.router.url.split('/')[1] === 'la-distribution' || this.router.url.split('/')[1] === 'la-analyst' || this.router.url.split('/')[1] === 'la-SME-CRC' || this.router.url.split('/')[1] === 'la-approval' || this.router.url.split('/')[1] === 'la-approval-inquiry' || this.router.url.split('/')[1] === 'dar-final' || this.router.url.split('/')[1] === 'dar-checker' || this.router.url.split('/')[1] === 'dar-notif' || this.router.url.split('/')[1] === 'cc-distribution' || this.router.url.split('/')[1] === 'cc-checking' || this.router.url.split('/')[1] === 'cc-review' || this.router.url.split('/')[1] === 'cc-inquiry' || this.router.url.split('/')[1] === 'loan-analys-and-approval-monitoring') {
+      this.customPath = true;
+    }
   }
 
   public triggeredSave(proposalType: any) {

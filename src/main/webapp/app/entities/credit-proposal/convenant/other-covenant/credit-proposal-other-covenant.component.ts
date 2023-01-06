@@ -5,7 +5,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { IOtherCovenant, OtherCovenant } from './other-convenant.model';
 import { CreditProposalOtherCovenantDialogComponent } from './add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditComponent } from './edit/credit-proposal-other-covenant-edit.component';
-
+import { StorageService } from 'app/entities/storage/storage.service';
 @Component({
   selector: 'jhi-other-covenant',
   templateUrl: './credit-proposal-other-covenant.component.html',
@@ -17,6 +17,7 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
 
   ngOnInit() {
+    this.getFiles(this.creditProposalItem.cif.partyId);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
   }
@@ -34,7 +35,7 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
 
   public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification', 'action'];
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, public storageService: StorageService) {
     this.loading = false;
   }
 
@@ -66,6 +67,63 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
       }
     });
   }
+
+
+  public folders = [];
+  public dataFolder = [];
+  private groupByFolder(param: any[]): void {
+    this.folders = [];
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.document')
+        .map((val, key) => ({
+          folder: key,
+          key: val[0].key,
+          data: val,
+          documentType: val[0]['tags']['documentType'],
+          document: val[0]['tags']['document'],
+          category: val[0]['tags']['category'],
+          dueDate: val[0]['tags']['dueDate'],
+          status: val[0]['tags']['status'],
+          remarks: val[0]['tags']['remarks'],
+
+          files: val,
+        }))
+        .value();
+        const dataset = []
+      for (let i = 0; i < this.folders.length; i++) {
+       
+        const setdata = {
+          no: this.folders.length + 1,
+          covenant: this.folders[i].document,
+          status: this.folders[i].status,
+          deviation: this.folders[i].remarks,
+          formGroub: true,
+          justification: '',
+        };
+        dataset.push(setdata)
+        if (dataset[i].status === 'Waived') {
+          this.creditProposalItem.attributes['convenant'].otherCovenant = dataset;
+        }
+        
+      }
+    } else {
+      this.folders = [];
+    }
+  }
+
+  private getFiles(id: any): void {
+    const predicate: Object = {
+      key: `/cif/${id}/document`,
+    };
+    this.storageService.getBucketName().subscribe((res: any) => {
+      this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
+        this.groupByFolder(a.body);
+      });
+    });
+  }
+
 
   // Edit
   public editDialog(element: IOtherCovenant = null): void {

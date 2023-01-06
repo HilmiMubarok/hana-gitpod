@@ -15,23 +15,47 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnSelect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
 
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnSelect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
                   </div>
                 </ng-template>
@@ -81,23 +105,47 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnnSelect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No * 11}}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnnSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No * 11}}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnnSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No * 11}}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
 
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnnSelect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No * 11 }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnnSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No * 11 }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnnSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No * 11 }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
                   </div>
                 </ng-template>
@@ -123,6 +171,7 @@
                     (keyup)="OnKeyUpEvent()"
                     [(ngModel)]="remarksTwo[data.No - 1]"
                     width="200"
+                    disabled
                   >
                   </ejs-textbox>
                 </section>
@@ -147,23 +196,47 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnNSelect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No * 299 }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnNSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No * 299 }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnNSelect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No * 299 }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
 
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnNSelect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No * 299 }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnNSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No * 299 }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnNSelect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No * 299 }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
                   </div>
                 </ng-template>
@@ -189,6 +262,7 @@
                     [(ngModel)]="remarksThere[data.No - 1]"
                     cssClass="e-outline"
                     width="200"
+                    disabled
                   >
                   </ejs-textbox>
                 </section>
@@ -213,23 +287,47 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnNSeleect('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No *444 }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnNSeleect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No *444 }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnNSeleect('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No *444 }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
 
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnNSeleect('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No *444 }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnNSeleect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No *444 }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnNSeleect('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No *444 }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
                   </div>
                 </ng-template>
@@ -279,23 +377,47 @@
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="Yes"
-                        value="Yes"
-                        (change)="OnNSelectt('Yes', data)"
-                        [checked]="data.value === 'Yes'"
-                        name="{{ data.No * 555 }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnNSelectt('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No * 555 }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="Yes"
+                          value="Yes"
+                          (change)="OnNSelectt('Yes', data)"
+                          [checked]="data.value === 'Yes'"
+                          name="{{ data.No * 555 }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
 
                     <div class="mx-1">
-                      <ejs-radiobutton
-                        label="No"
-                        value="No"
-                        (change)="OnNSelectt('No', data)"
-                        [checked]="data.value === 'No'"
-                        name="{{ data.No * 555  }}"
-                      ></ejs-radiobutton>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnNSelectt('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No * 555  }}"
+                        ></ejs-radiobutton>
+                      </section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <ejs-radiobutton
+                          label="No"
+                          value="No"
+                          (change)="OnNSelectt('No', data)"
+                          [checked]="data.value === 'No'"
+                          name="{{ data.No * 555  }}"
+                          disabled
+                        ></ejs-radiobutton>
+                      </section>
                     </div>
                   </div>
                 </ng-template>

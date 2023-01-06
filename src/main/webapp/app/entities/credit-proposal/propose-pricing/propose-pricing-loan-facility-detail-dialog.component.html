@@ -207,8 +207,6 @@
             cssClass="e-outline"
             placeholder="Memo Date"
             floatLabelType="auto"
-            [disabled]="detailStats"
-            readonly
             disabled
           ></ejs-datepicker>
         </div>
@@ -408,12 +406,23 @@
           ></ejs-textbox>
         </div>
         <div class="mb-2">
-          <ejs-numerictextbox
-            [(ngModel)]="dataEdit.attributes['discountProposal']"
-            cssClass="e-outline"
-            placeholder="Discount Proposal"
-            floatLabelType="auto"
-          ></ejs-numerictextbox>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <ejs-numerictextbox
+              [(ngModel)]="dataEdit.attributes['discountProposal']"
+              cssClass="e-outline"
+              placeholder="Discount Proposal"
+              floatLabelType="auto"
+            ></ejs-numerictextbox>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <ejs-numerictextbox
+              [(ngModel)]="dataEdit.attributes['discountProposal']"
+              cssClass="e-outline"
+              placeholder="Discount Proposal"
+              floatLabelType="auto"
+              disabled
+            ></ejs-numerictextbox>
+          </section>
         </div>
         <div class="mb-2">
           <ejs-textbox
@@ -432,7 +441,10 @@
   </div>
 </mat-dialog-content>
 <div class="mt-3 text-center">
-  <button mat-raised-button color="primary" (click)="save()">Save</button>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"></section>
 </div>
 
 <!-- <div class="row justify-content-between">

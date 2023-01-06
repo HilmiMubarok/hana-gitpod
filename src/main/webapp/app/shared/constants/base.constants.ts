@@ -1324,6 +1324,10 @@ export const SUBMENU_LOAN_DAR: object[] = [
         text: 'bank account analysis',
       },
       {
+        id: 'trade-checking',
+        text: 'Trade Checking',
+      },
+      {
         id: 'propose-pricing',
         text: 'propose pricing',
       },

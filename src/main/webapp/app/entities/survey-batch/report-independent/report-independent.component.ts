@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -24,6 +24,9 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
+// import { PositionService } from 'app/entities/position/position.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -41,6 +44,9 @@ export const MY_FORMATS = {
   templateUrl: './report-independent.component.html',
   styleUrls: ['./report-independent.css'],
   providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -65,6 +71,16 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   organizationData: any = '';
   private id: string;
   public status: boolean;
+  public reviewedOpinion: any;
+  private _surveyAppraisal: ISurveyAppraisals;
+
+  @Input()
+  get surveyAppraisal() {
+    return this._surveyAppraisal;
+  }
+  set surveyAppraisal(data: ISurveyAppraisals) {
+    this._surveyAppraisal = data;
+  }
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private formBuilder: FormBuilder,
@@ -73,7 +89,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     protected messageService: MessageService,
     public surveyBatchService: SurveyBatchService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute // private positionService: PositionService
   ) {
     super(_snackBar, surveyBatchService);
     this.page = 0;
@@ -81,8 +97,10 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
-    console.log('masuk report');
+    console.log('masukss report');
     this.getReport();
+
+    // this.testReview();
     // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     // this.collateralAppraisalService.find(this.id).subscribe(result => {
     //   console.log('result', result);
@@ -95,35 +113,44 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
     //   this.mData.reviewedBy = result.body.reviewedBy;
     // });
   }
-  tujuanPenilaian: any;
   public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.collateralAppraisalService.find(this.id).subscribe(result => {
       this.mData = result.body.attributes;
-      // this.mData.tujuanPenilaian = result.body.attributes['tujuanPenilaian'];
       this.mData.appraisalNumber = result.body.appraisalNumber;
-      // this.mData.quantity = result.body.attributes['quantity'];
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
-      // this.mData.totalLuasTanahFisik = result.body.attributes['totalLuasTanahFisik'];
-      // this.mData.totalLuasBangunanFisik = result.body.attributes['totalLuasBangunanFisik'];
-      this.mData.marketValue = result.body.collateral.marketValue;
-      // this.mData.totalLuasTanahImbTataKota = result.body.attributes['totalLuasTanahImbTataKota'];
-      // this.mData.totalLuasBangunanImbTataKota = result.body.attributes['totalLuasBangunanImbTataKota'];
-      // this.mData.appraisalvalueImbTataKota = result.body.attributes['appraisalvalueImbTataKota'];
+      this.mData.marketValue = result.body.totalMarketValue;
       this.mData.remark = result.body.remark;
+      // this.reviewedOpinion = result.body.reviewedOpinion;
+
       if (result.body.apprOfficer === 'External') {
-        if (result.body.statusId === STATUS.APPROVE) {
-          this.status = true;
-        } else {
+        if (result.body.statusId === STATUS.APPROVAL_TL) {
           this.status = false;
+        } else {
+          this.status = true;
         }
       }
     });
   }
+  // public teamReviewName: string;
+  // public testReview() {
+  //   this.id = this.activatedRoute.snapshot.paramMap.get('id');
+  //   this.collateralAppraisalService.find(this.id).subscribe(result => {
+  //     this.positionService.find(result.body.surveyorArea).subscribe(res => {
+  //       this.teamReviewName = res.body.employeeFirstName;
+  //     });
+  //     console.log('ini reviewer KJPP', this.teamReviewName);
+  //   });
+  // }
 
   previousState(): void {
     window.history.back();
+  }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return String(num);
   }
 }

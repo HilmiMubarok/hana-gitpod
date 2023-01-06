@@ -8,12 +8,10 @@ import {
   DocumentEditorKeyDownEventArgs,
   EditorService,
   SelectionService,
-  SfdtExportService,
+  SfdtExportService
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
-
 import { Subject, takeUntil } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
@@ -37,13 +35,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   @ViewChild('document_editor_container_loan_analys')
   public container_loan_analys: DocumentEditorContainerComponent;
 
+  @ViewChild('document_editor_container_view_false_loan_analys')
+  public container_view_false_loan_analys: DocumentEditorContainerComponent;
+
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
   private paramsIdGet: string;
-  private getKey: string;
   private fileGet: File;
   public resourceUrl: string;
 
@@ -94,7 +94,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     protected actRoute: ActivatedRoute,
     private router: Router,
     private storageService: StorageService,
-    private http: HttpClient,
     private applicationConfigService: ApplicationConfigService
   ) {
     this.applicationProduct = new ApplicationProduct();
@@ -103,7 +102,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   onDocumentChange() {
 	if (this.isViewMode === true) {
-	  this.container_view_false.restrictEditing = true;
+	  if (this.parentSource === '') {
+		this.container_view_false.restrictEditing = true;
+	  } else if (this.parentSource === 'loan-analys') {
+		this.container_view_false_loan_analys.restrictEditing = true;
+	  }
 	} else if (this.isViewMode === false) {
 	  if (this.parentSource === '') {
 		this.container.restrictEditing = true;
@@ -161,7 +164,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
                 let docEditor: any;
 
                 if (this.isViewMode === true) {
-                  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+				  if (this.parentSource === '') {
+					docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+				  } else if (this.parentSource === 'loan-analys') {
+					docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+				  }
                 } else if (this.isViewMode === false) {
                   if (this.parentSource === '') {
                     docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -207,14 +214,18 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     let docEditor: any;
 
     if (this.isViewMode === true) {
-      docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-    } else if (this.isViewMode === false) {
-      if (this.parentSource === '') {
-        docEditor = this.container?.documentEditor as DocumentEditorComponent;
-      } else if (this.parentSource === 'loan-analys') {
-        docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-      }
-    }
+	  if (this.parentSource === '') {
+		docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+	  } else if (this.parentSource === 'loan-analys') {
+		docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+	  }
+	} else if (this.isViewMode === false) {
+	  if (this.parentSource === '') {
+		docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	  } else if (this.parentSource === 'loan-analys') {
+		docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+	  }
+	}
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
