@@ -158,7 +158,10 @@ export class OrganizationManagementListComponent
   public hiddenButton(element: IOrganizationManagement) {
     if (element.dataSource === 'h' || element.dataSource === 'H') {
       return true;
+    } else if (this.view) {
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 }
