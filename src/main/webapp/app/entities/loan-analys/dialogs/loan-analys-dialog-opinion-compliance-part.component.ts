@@ -50,7 +50,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
       notes: any;
       item: ICreditProposal;
     },
-    _dialog: MatDialogRef<LoanAnalysDialogOpinionComponent>,
+    _dialog: MatDialogRef<LoanAnalysDialogOpinionCompliancePartComponent>,
     protected router: Router,
     private storageService: StorageService,
     protected activatedRoute: ActivatedRoute,
