@@ -42,7 +42,6 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Management Branch</mat-label>
-        <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" [disabled]="dataSource()" /> -->
         <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branceManagement" [value]="item.id"> {{ item.label }} </mat-option>
@@ -53,7 +52,6 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Branch</mat-label>
-        <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" /> -->
         <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
@@ -68,56 +66,6 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <!-- <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Collateral Address</mat-label>
-        <textarea matInput [(ngModel)]="collateralProperty.attributes.personalPropertyAddress"></textarea>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kode Pos</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyPostalCode">
-          <mat-option value="">Please Select</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kelurahan</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.personalPropertyVillage">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of villages" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kecamatan</mat-label>
-        <mat-select (selectionChange)="loadVillage($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyDistrict">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of districts" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Kabupaten / Kotamadya</mat-label>
-        <mat-select (selectionChange)="loadDistrict($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyCity">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of cities" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Provinsi</mat-label>
-        <mat-select (selectionChange)="loadCity($event)" [(ngModel)]="collateralProperty.attributes.personalPropertyProvince">
-          <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of provinces" [value]="item.id"> {{ item.description }} </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div> -->
   </div>
   <!-- RIGHT SIDE -->
   <div class="col-6">
@@ -133,19 +81,6 @@
         <div class="col-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Qty</mat-label>
-            <!-- <input
-              type="text"
-              matInput
-              [formControl]="myControlQuantity"
-              [matAutocomplete]="autok"
-              [(ngModel)]="qty"
-              (ngModelChange)="getQty()"
-            />
-            <mat-autocomplete #autok="matAutocomplete" [displayWith]="displayFnQuantity">
-              <mat-option *ngFor="let option of filteredOptionsQuantity | async" [value]="option">
-                {{ sliceText(option.id) }} - {{ option.description }}
-              </mat-option>
-            </mat-autocomplete> -->
             <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
@@ -157,35 +92,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Developer Subsidy Status</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.realestateDeveloperSubsidyStatus">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option value="yes">Yes</mat-option>
-            <mat-option value="no">No</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Quantity Size</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProperty.attributes.realestateQuantitySize" />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-select [(ngModel)]="collateralProperty.attributes.realestateQuantitySizeUomId">
-                <mat-option value="">Please Select</mat-option>
-                <mat-option *ngFor="let item of areaMeasure" [value]="item.id">
-                  {{ item.abbreviation }} - {{ item.description }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Appraisal Date Internal</mat-label>
@@ -208,6 +114,11 @@
           <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.vehicleMarketValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Liquidation Value</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
@@ -218,10 +129,6 @@
               {{ option.abbreviation }} - {{ option.description }}
             </mat-option>
           </mat-autocomplete>
-          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueCcy" [disabled]="dataSource()">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -250,22 +157,10 @@
               {{ option.abbreviation }} - {{ option.description }}
             </mat-option>
           </mat-autocomplete>
-          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueImbCcy" [disabled]="dataSource()">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
     </div>
-    <!-- <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Market Value (Tata Kota)</mat-label>
-            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.realestateMarketValueTataKota"
-              disabled />
-            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
-        </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Appraisal Date Independent</mat-label>
@@ -288,41 +183,35 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
-    <!-- <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Market Value (Independent)</mat-label>
-            <input matInput type="number" [(ngModel)]="collateralProperty.attributes.realestateMarketValueIndependent"
-              disabled />
-            <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
-        </div> -->
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Market Value Independent</mat-label>
-        <input
-          currencyMask
-          matInput
-          type="text"
-          [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependent"
-          disabled
-          [options]="logoCcy"
-        />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>CCY</mat-label>
-        <input
-          currencyMask
-          matInput
-          type="text"
-          [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependentCCY"
-          disabled
-          [options]="logoCcy"
-        />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Market Value Independent</mat-label>
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependent"
+            disabled
+            [options]="logoCcy"
+          />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>CCY</mat-label>
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependentCCY"
+            disabled
+            [options]="logoCcy"
+          />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
     </div>
   </div>
 </div>
