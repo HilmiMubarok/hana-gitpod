@@ -29,6 +29,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
+    // 'id',
     'collateralType',
     'collateralAddress',
     'marketValue',
@@ -482,7 +483,18 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
             collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
             collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
           ) {
-            result = result + data.marketValue;
+            // kondisi ditambahkan berdasarkan CRECAS-1194
+            // console.log("yang masuk di count total mv",collaterals[i]);
+            // console.log("data count total mv",data);
+            if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
+              result = result + collaterals[i].unitFaceAmount;
+            } else if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+              result = result + collaterals[i].guaranteeAmount;
+            } else if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
+              result = result + collaterals[i].amount;
+            } else {
+              result = result + data.marketValue;
+            }
           }
         }
       }
@@ -495,6 +507,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
+    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -537,14 +550,24 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
       collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
     ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.marketValue === null) {
-          result = 0;
-        } else {
-          result = data.marketValue;
+      // kondisi ditambahkan berdasarkan CRECAS-1194
+      if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+        result = collateral.unitFaceAmount;
+      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+        result = collateral.guaranteeAmount;
+      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+        result = collateral.amount;
+      } else {
+        data = this.collateralProperties.find(
+          obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+        );
+        // console.log("data in above grid",data);
+        if (data !== undefined) {
+          if (data.marketValue === null) {
+            result = 0;
+          } else {
+            result = data.marketValue;
+          }
         }
       }
     }
