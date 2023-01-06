@@ -59,6 +59,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this._collateral = item;
   }
   @Input() collateralAppraisal: ICollateralAppraisal;
+  @Input() public type: string;
   @Input()
   get disabledOpt() {
     return this._disabledOpt;
@@ -94,6 +95,13 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this.loadCollateralType();
     this.loadCollateralGrading();
     this.cekData();
+  }
+
+  public disabledOccupansy() {
+    if (this.type === 'appraisal') {
+      return true;
+    }
+    return false;
   }
 
   public cekData() {
