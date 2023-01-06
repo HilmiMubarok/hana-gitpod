@@ -819,14 +819,10 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   public getConditionSubMenu(data): void {
-    if (data.apprOfficer === 'Internal') {
-      this.subMenu =
-        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
-          : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+    if (data.apprOfficer === 'External') {
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
     }
   }
-
   private setMenuByRole(): void {
     for (let i = 0; i < this.collateralAppraisalMainRolesAccess.length; i++) {
       if (
