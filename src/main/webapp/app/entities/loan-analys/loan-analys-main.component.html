@@ -141,11 +141,17 @@
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail
-              [creditProposal]="creditProposal"
+			  *ngIf="!isHistoryExist"
+			  [isViewMode]="true"
               [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-            >
-            </jhi-credit-proposal-tab-loan-facility-detail>
+              [creditProposal]="creditProposal"
+            ></jhi-credit-proposal-tab-loan-facility-detail>
+			<jhi-loan-facility-detail-history
+			  *ngIf="isHistoryExist"
+              [isViewMode]="true"   
+			  [parentSource]="'loan-analys'"
+              [creditProposal]="creditProposal"
+            ></jhi-loan-facility-detail-history>
           </mat-card-content>
         </mat-card>
 
@@ -161,10 +167,18 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
+			  *ngIf="!isHistoryExist"
               [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
             ></jhi-credit-proposal-collateral-info>
+			<jhi-collateral-info-history
+			  #creditProposalCollateralInfoComponent
+			  *ngIf="isHistoryExist"
+			  [creditProposal]="creditProposal"
+			  [parentSource]="'loan-analys'"
+			  [isViewMode]="true"
+			></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
 
@@ -330,13 +344,14 @@
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail
               *ngIf="!isHistoryExist"
+			  [isViewMode]="true"
               [parentSource]="'loan-analys'"
-              [isViewMode]="true"
               [creditProposal]="creditProposal"
             ></jhi-credit-proposal-tab-loan-facility-detail>
             <jhi-loan-facility-detail-history
-              [isViewMode]="true"
-              *ngIf="isHistoryExist"
+			  *ngIf="isHistoryExist"
+              [isViewMode]="true"   
+			  [parentSource]="'loan-analys'"
               [creditProposal]="creditProposal"
             ></jhi-loan-facility-detail-history>
           </mat-card-content>
@@ -363,9 +378,9 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
+			  [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
-              [creditProposal]="creditProposal"
             ></jhi-credit-proposal-collateral-info>
           </mat-card-content>
         </mat-card>
@@ -374,7 +389,12 @@
       <div *ngIf="selectedMenu === 'collateral-info' && isHistoryExist" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-collateral-info-history [isViewMode]="true" [creditProposal]="creditProposal"></jhi-collateral-info-history>
+            <jhi-collateral-info-history
+			  #creditProposalCollateralInfoComponent
+			  [creditProposal]="creditProposal"
+			  [parentSource]="'loan-analys'"
+			  [isViewMode]="true"
+			></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
       </div>
@@ -492,22 +512,12 @@
     </div>
 
     <!-- Trade Checking  -->
-    <div
-      *ngIf="
-        parentPath === 'la-analyst' ||
-        parentPath === 'la-approval' ||
-        parentPath === 'la-approval-inquiry' ||
-        parentPath === 'la-SME-CRC' ||
-        parentPath === 'la-distribution'
-      "
-    >
-      <div *ngIf="selectedMenu === 'trade-checking'">
-        <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
-        <jhi-credit-proposal-trade-checking-remarks
-          [creditProposal]="creditProposal"
-          [saveWord]="saveWord"
-        ></jhi-credit-proposal-trade-checking-remarks>
-      </div>
+    <div *ngIf="selectedMenu === 'trade-checking'">
+      <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
+      <jhi-credit-proposal-trade-checking-remarks
+        [creditProposal]="creditProposal"
+        [saveWord]="saveWord"
+      ></jhi-credit-proposal-trade-checking-remarks>
     </div>
     <!-- Repayment Capability  -->
 
