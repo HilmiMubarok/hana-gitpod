@@ -19,7 +19,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
-import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 export const MY_FORMATS = {
   parse: {
@@ -70,6 +70,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public filteredOptionBindingTypes: Observable<string[]>;
   public binding: ICreditProposalCollateralBinding;
   public lovRank = [];
+  public paripasuStatus: any;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -123,6 +124,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       this.lovRank.push(i);
     }
     this.lovCollateralStatus = STATUS_COLLATERAL;
+    this.paripasuStatus = PARIPASU_STATUS;
   }
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
@@ -131,6 +133,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.loadCollateralType();
     this.loadCollateralGrading();
     this.trashUndefined();
+    this.checkStatusCOllateral();
   }
 
   private loadCollateralGrading(): void {
@@ -224,6 +227,12 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public trashUndefined() {
     if (this.marketability === undefined && this.marketability === 'undefined') {
       this.marketability = '';
+    }
+  }
+
+  public checkStatusCOllateral() {
+    if (this.collateral.paripasuStatus === undefined) {
+      this.collateral.paripasuStatus = 'N';
     }
   }
 }
