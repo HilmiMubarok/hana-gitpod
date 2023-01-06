@@ -54,6 +54,8 @@ export class CollateralInfoHistoryComponent implements OnInit {
 
   @Input() isViewMode?: Boolean = false;
 
+  @Input() parentSource?: String = '';
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
