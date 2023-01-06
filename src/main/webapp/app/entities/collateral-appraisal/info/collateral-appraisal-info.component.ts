@@ -438,6 +438,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyAppraisal.teamLeadId = args['itemData'].id;
     this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
     this.surveyAppraisal.teamLeadName = args['itemData'].employeeFirstName;
+    // save nama surveyor ke reviewedBy untuk kebutuhan get data report independent
+    this.surveyAppraisal.reviewedBy = args['itemData'].employeeFirstName;
     this.outputTeamReviewer.emit(args['value']);
   }
 

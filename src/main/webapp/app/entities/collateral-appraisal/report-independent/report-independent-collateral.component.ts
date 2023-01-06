@@ -46,6 +46,9 @@ export const MY_FORMATS = {
   templateUrl: './report-independent-collateral.component.html',
   styleUrls: ['./report-independent.css'],
   providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -126,51 +129,20 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
-      this.mData.marketValue = result.body.collateral.marketValue;
+      this.mData.marketValue = result.body.totalMarketValue;
       this.mData.remark = result.body.remark;
       // this.reviewedOpinion = result.body.reviewedOpinion;
 
       if (result.body.apprOfficer === 'External') {
-        if (result.body.statusId === STATUS.APPROVE) {
-          this.status = true;
-        } else {
+        if (result.body.statusId === STATUS.APPROVAL_TL) {
           this.status = false;
+        } else {
+          this.status = true;
         }
       }
     });
   }
 
-  // public teamReviewName: any;
-  // public testReview() {
-  //   this.id = this.activatedRoute.snapshot.paramMap.get('id');
-  //   this.collateralAppraisalService.find(this.id).subscribe(result => {
-  //     this.positionService
-  //       .queryFilterBy({
-  //         page: 0,
-  //         size: 9999,
-  //         idInternal: result.body.teamLeadId,
-  //         // surveyAppraisal.teamLeadId
-  //       })
-  //       .subscribe(res => {
-  //         // const teamLeader = [];
-  //         for (let i = 0; i < res.body.length; i++) {
-  //           if (res.body[i].positionTypeDescription === 'Team Leader') {
-  //              this.teamReviewName.push(res.body[i].employeeFirstName);
-  //             console.log('xxxxx', res.body[i].employeeFirstName);
-  //             // teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
-  //           }
-  //              result.body.reviewedBy = this.teamReviewName;
-
-  //           console.log('yyyy', res.body[i].employeeFirstName);
-  //         }
-
-  //         // this.teamReviewName = teamLeader;
-  //       });
-  //     // this.positionService.find(result.body.surveyorArea).subscribe(res => {
-  //     //   this.teamReviewName = res.body.employeeFirstName;
-  //     // });
-  //   });
-  // }
   previousState(): void {
     window.history.back();
   }
