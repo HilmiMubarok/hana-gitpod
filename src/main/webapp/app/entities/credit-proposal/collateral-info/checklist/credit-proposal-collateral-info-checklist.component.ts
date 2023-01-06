@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PositionService } from 'app/entities/position/position.service';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { ICreditProposal } from '../../credit-proposal.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-checklist',
@@ -14,8 +15,14 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
   public criteria: string;
   public value: string;
   public remarks: string;
+  public patch: any;
+  public view: boolean;
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {}
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    protected router: Router
+  ) {}
 
   @Input()
   get creditProposal() {
@@ -43,6 +50,7 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.removefield();
     if (this.creditProposal.attributes['collateralChecklist'].checklistValue.length !== 0) {
       for (let i = 0; i < this.creditProposal.attributes['collateralChecklist'].checklistValue.length; i++) {
         this.dataChecklist = this.creditProposal.attributes['collateralChecklist'].checklistValue;
@@ -126,4 +134,11 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
       'CreateLink',
     ],
   };
+
+  public removefield() {
+    this.patch = this.router.url.split('/')[1];
+    if (this.patch === 'cp-status-approval') {
+      this.view = true;
+    }
+  }
 }

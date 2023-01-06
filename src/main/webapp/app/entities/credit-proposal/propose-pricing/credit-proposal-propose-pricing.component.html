@@ -265,30 +265,41 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">Credit Rating{{ creditProposal.creditRatings[0].creditRating }}</p>
+            <p class="lable-form-title">Credit Rating: {{ creditProposal.creditRatings[0].creditRating }}</p>
           </section>
         </div>
         <div class="col-md-6">
-          <div class="form-group">
-            <ejs-textbox
-              placeholder="USD to IDR"
-              [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
-              cssClass="e-outline"
-              floatLabelType="Auto"
-            ></ejs-textbox>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox
+                placeholder="USD to IDR"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [disabled]="view"
+              ></ejs-textbox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">USD to IDR: {{ creditProposal.attributes['purposePricing'].usdToIdr }}</p>
+          </section>
 
-          <div class="form-group">
-            <ejs-dropdownlist
-              cssClass="e-outline"
-              #dropdownlistdata
-              [dataSource]="industryList"
-              placeholder="Industry"
-              [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
-              floatLabelType="Auto"
-            >
-            </ejs-dropdownlist>
-          </div>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-dropdownlist
+                cssClass="e-outline"
+                #dropdownlistdata
+                [dataSource]="industryList"
+                placeholder="Industry"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].industry"
+                floatLabelType="Auto"
+              >
+              </ejs-dropdownlist>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <p class="lable-form-title">Industry: {{ creditProposal.attributes['purposePricing'].industry }}</p>
+          </section>
         </div>
       </div>
     </div>
@@ -320,8 +331,8 @@
         <mat-card-content>
           <ejs-chart id="chartcontainer" [primaryXAxis]="primaryXAxis2" [primaryYAxis]="primaryYAxis2">
             <e-series-collection>
-              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"></e-series>
-              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"></e-series>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="roaa" name="ROAA"> </e-series>
+              <e-series [dataSource]="chartData2" type="StackingColumn" xName="label" yName="cost" name="Cost"> </e-series>
             </e-series-collection>
           </ejs-chart>
         </mat-card-content>

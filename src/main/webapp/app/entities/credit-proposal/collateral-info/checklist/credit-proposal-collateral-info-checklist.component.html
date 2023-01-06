@@ -21,6 +21,7 @@
                             (change)="onSelect('Yes', data)"
                             [checked]="data.value === 'Yes'"
                             name="{{ data.No }}"
+                            [disabled]="view"
                           ></ejs-radiobutton>
                         </div>
                       </div>
@@ -38,6 +39,7 @@
                             (change)="onSelect('No', data)"
                             [checked]="data.value === 'No'"
                             name="{{ data.No }}"
+                            [disabled]="view"
                           ></ejs-radiobutton>
                         </div>
                       </div>
