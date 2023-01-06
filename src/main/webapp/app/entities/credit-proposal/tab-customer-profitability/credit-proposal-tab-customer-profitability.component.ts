@@ -176,7 +176,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     let result: number;
     result = 0;
     result = Number(this.item.attributes['tabCustomer'].profit) / Number(this.item.attributes['tabCustomer'].avarage);
-    return result;
+    return result.toFixed(2);
   }
 
   public btnSave($event: any): void {
