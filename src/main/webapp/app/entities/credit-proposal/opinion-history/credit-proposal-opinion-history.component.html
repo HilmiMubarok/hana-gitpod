@@ -68,9 +68,9 @@
       <div class="d-flex justify-content-around">
      
           <mat-radio-group>
-            <mat-radio-button [checked]="creditProposalItem.attributes['tempLoggedInRecomendation'] === 'Recommend as propose'" (change)="change('Recommend as propose')">Recommend as propose</mat-radio-button>
-            <mat-radio-button [checked]="creditProposalItem.attributes['tempLoggedInRecomendation'] === 'Recommend With Condition'" >Recommend With Condition</mat-radio-button>
-            <mat-radio-button [checked]="creditProposalItem.attributes['tempLoggedInRecomendation'] === 'Not Recommend'">Not Recommend</mat-radio-button>
+            <mat-radio-button [checked]="recomendasi === 'Recommend as propose'" value="Recommend as propose" (change)="change('Recommend as propose')">Recommend as propose</mat-radio-button>
+            <mat-radio-button [checked]="recomendasi === 'Recommend With Condition'" value="Recommend With Condition" (change)="change('Recommend With Condition')">Recommend With Condition</mat-radio-button>
+            <mat-radio-button [checked]="recomendasi === 'Not Recommend'" value="Not Recommend" (change)="change('Not Recommend')">Not Recommend</mat-radio-button>
           </mat-radio-group>
     
       </div>
