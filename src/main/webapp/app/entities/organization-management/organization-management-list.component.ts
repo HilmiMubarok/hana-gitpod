@@ -105,9 +105,25 @@ export class OrganizationManagementListComponent
     this.pacth = this.router.url.split('/')[1];
     if (
       this.pacth === 'credit-proposal-status' ||
-      this.pacth === 'la-approval-inquiry' ||
+      this.pacth === 'la-distribution' ||
+      this.pacth === 'la-analyst' ||
+      this.pacth === 'la-SME-CRC' ||
       this.pacth === 'la-approval' ||
-      this.pacth === 'la-SME-CRC'
+      this.pacth === 'la-approval-inquiry' ||
+      this.pacth === 'dar-final' ||
+      this.pacth === 'dar-checker' ||
+      this.pacth === 'dar-loan-committe-approval' ||
+      this.pacth === 'dar-notif' ||
+      this.pacth === 'cc-distribution' ||
+      this.pacth === 'cc-checking' ||
+      this.pacth === 'cc-review' ||
+      this.pacth === 'cc-inquiry' ||
+      this.pacth === 'loan-analys-and-approval-monitoring' ||
+      this.pacth === 'distribution' ||
+      this.pacth === 'finalize' ||
+      this.pacth === 'review' ||
+      this.pacth === 'cp-status-approval' ||
+      this.pacth === 'confirmation'
     ) {
       this.view = true;
     }
