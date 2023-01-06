@@ -68,7 +68,7 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
     this.relType = this.applicationRoleService.filteringRelationTypes(params);
   }
 
-  public async selRelType(value: string): Promise<void> {
+  public selRelType(value: string): void {
     this.selectedRelationType = value;
     if (value !== '') {
       this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
