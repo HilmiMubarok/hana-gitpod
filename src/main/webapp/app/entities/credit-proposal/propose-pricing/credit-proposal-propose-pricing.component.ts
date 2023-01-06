@@ -167,6 +167,12 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public availableLimitUSDAVG: number;
   public countOSUSDAVG: number;
   public totalPlafonUSDAVG: number;
+  public avgNormalRateIDR: any;
+  public avgNormalRateUSD: any;
+  public avgProposedRateIDR: any;
+  public avgProposedRateUSD: any;
+  public avgDiscProposalIDR: any;
+  public avgDiscProposalUSD: any;
 
   setValue(creditProposal: any) {
     for (let i = 0; i < creditProposal.products.length; i++) {
@@ -418,9 +424,17 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public averagetoIDR() {
     this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.averageIDR = this.aplicationProducts[i].attributes['avgRateIDR'] = res['proposePricing'][i]['avgRateIDR'];
-        this.averageUSD = this.aplicationProducts[i].attributes['avgRateUSD'] = res['proposePricing'][i]['avgRateUSD'];
-        console.log('cek data', this.averageIDR, this.averageUSD);
+        this.avgNormalRateIDR = this.aplicationProducts[i].attributes['avgNormalRateIDR'] = res['proposePricing'][i]['avgNormalRateIDR'];
+        this.avgProposedRateIDR = this.aplicationProducts[i].attributes['avgProposedRateIDR'] =
+          res['proposePricing'][i]['avgProposedRateIDR'];
+        this.avgDiscProposalIDR = this.aplicationProducts[i].attributes['avgDiscProposalIDR'] =
+          res['proposePricing'][i]['avgDiscProposalIDR'];
+
+        this.avgProposedRateUSD = this.aplicationProducts[i].attributes['avgProposedRateUSD'] =
+          res['proposePricing'][i]['avgProposedRateUSD'];
+        this.avgNormalRateUSD = this.aplicationProducts[i].attributes['avgNormalRateUSD'] = res['proposePricing'][i]['avgNormalRateUSD'];
+        this.avgDiscProposalUSD = this.aplicationProducts[i].attributes['avgDiscProposalUSD'] =
+          res['proposePricing'][i]['avgDiscProposalUSD'];
       }
     });
   }
