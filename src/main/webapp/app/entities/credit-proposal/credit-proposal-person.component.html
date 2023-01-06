@@ -560,11 +560,10 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.debtorData.strAccountNumberIDR"
+                      [(ngModel)]="deptorData.debtorData.accountNumberIDR"
                       placeholder="Account Number (IDR)"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      [maxlength]="15"
                     >
                     </ejs-textbox>
                   </section>
@@ -573,7 +572,7 @@
                       <div class="col-4">Account Number (IDR)</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.debtorData.strAccountNumberIDR }}
+                        {{ deptorData.debtorData.accountNumberIDR }}
                       </div>
                     </div>
                   </section>
@@ -606,11 +605,10 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <ejs-textbox
                       disabled
-                      [(ngModel)]="deptorData.debtorData.strAccountNumberUSD"
+                      [(ngModel)]="deptorData.debtorData.accountNumberUSD"
                       placeholder="Account Number (USD)"
                       cssClass="e-outline"
                       floatLabelType="Auto"
-                      [maxlength]="15"
                     >
                     </ejs-textbox>
                   </section>
@@ -619,7 +617,7 @@
                       <div class="col-4">Account Number (USD)</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.debtorData.strAccountNumberUSD }}
+                        {{ deptorData.debtorData.accountNumberUSD }}
                       </div>
                     </div>
                   </section>

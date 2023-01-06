@@ -121,6 +121,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     // this.getExis();
     this.CollectabilityStatus();
     this.showHideElement();
+    console.log('party cif', this.partyCif);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

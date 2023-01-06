@@ -45,13 +45,10 @@ export interface IDebtorData {
   businessPermitNumber?: string;
   accountNumberUSD?: number;
   accountNumberIDR?: number;
-  strAccountNumberIDR?: string;
-  strAccountNumberUSD?: string;
   correspondenceAddress?: string;
   occupiedSince?: Date;
   correspondenceAddressDesc?: string;
   separateAssetAggrementDesc?: string;
-  pic?: string;
 }
 
 export class DebtorData implements IDebtorData {
@@ -104,10 +101,7 @@ export class DebtorData implements IDebtorData {
     public correspondenceAddress?: string,
     public occupiedSince?: Date,
     public correspondenceAddressDesc?: string,
-    public separateAssetAggrementDesc?: string,
-    public strAccountNumberIDR?: string,
-    public strAccountNumberUSD?: string,
-    public pic?: string
+    public separateAssetAggrementDesc?: string
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;

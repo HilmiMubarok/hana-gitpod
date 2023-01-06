@@ -45,7 +45,7 @@
                   </div>
                   <div class="my-3">
                     <ejs-textbox
-                      [(ngModel)]="item.debtorData.pic"
+                      [(ngModel)]="item.prospectOrganization.pic"
                       placeholder="PIC"
                       floatLabelType="Auto"
                       cssClass="e-outline"
@@ -64,12 +64,11 @@
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
-                    <!-- <div class="form-space"> -->
                     <ejs-textbox
-                      [(ngModel)]="item.prospectOrganization.officeMail"
-                      placeholder="Email"
-                      disabled
+                      [(ngModel)]="item.collaterals.picName"
+                      placeholder="Contact Person Name"
                       floatLabelType="Auto"
+                      disabled
                       cssClass="e-outline"
                     >
                     </ejs-textbox>
@@ -175,9 +174,10 @@
               </div>
               <div class="row my-3">
                 <div class="col">
+                  <!-- <div class="form-space"> -->
                   <ejs-textbox
-                    [(ngModel)]="item.legal.establishPlace"
-                    placeholder="Deed Of Established Place"
+                    [(ngModel)]="item.prospectOrganization.officeMail"
+                    placeholder="Email"
                     disabled
                     floatLabelType="Auto"
                     cssClass="e-outline"
@@ -206,7 +206,7 @@
                     disabled
                   ></ejs-textbox>
                 </div> -->
-                <!-- <div class="col">
+                <div class="col">
                   <ejs-textbox
                     [(ngModel)]="item.legal.establishPlace"
                     placeholder="Deed Of Established Place"
@@ -215,7 +215,7 @@
                     cssClass="e-outline"
                   >
                   </ejs-textbox>
-                </div> -->
+                </div>
               </div>
               <div class="row my-3">
                 <div class="col">
@@ -321,7 +321,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.strAccountNumberIDR"
+                    [(ngModel)]="item.debtorData.accountNumberIDR"
                     disabled
                     placeholder="Account Number (IDR)"
                     floatLabelType="Auto"
@@ -345,7 +345,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.strAccountNumberUSD"
+                    [(ngModel)]="item.debtorData.accountNumberUSD"
                     disabled
                     placeholder="Account Number (USD)"
                     floatLabelType="Auto"
@@ -722,7 +722,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.strAccountNumberIDR"
+                    [(ngModel)]="item.debtorData.accountNumberIDR"
                     placeholder="Account Number (IDR)"
                     floatLabelType="Auto"
                     cssClass="e-outline"
@@ -745,7 +745,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.strAccountNumberUSD"
+                    [(ngModel)]="item.debtorData.accountNumberUSD"
                     placeholder="Account Number (USD)"
                     floatLabelType="Auto"
                     cssClass="e-outline"
