@@ -26,7 +26,6 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
   public container_condition: DocumentEditorContainerComponent;
 
   public notes: any;
-  // public parentPath = this.router.url.split('/')[1];
   public nameLabel: any;
   public radioButtonPurpose: any;
   public radioButtonCondition: any;
@@ -61,20 +60,11 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
   ) {
     this.notes = this.dataNotes.notes;
     this.creditProposalItem = this.dataNotes.item;
-
-    // this.getLogin();
   }
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.conditionOpinion();
     this.getWord();
-
-    // this.activatedRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKeyCondition =
-    //     'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt';
-    //   // this.getContainer();
-    // });
   }
 
   public conditionOpinion() {
@@ -117,42 +107,14 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
         }
       }
     }
-    // if (
-    //   this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
-    //   this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-    //   this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
-    // ) {
-    //   // Manipulation in Label
-    //   this.nameLabel = 'Approved Status';
-    //   // Manipulation in radio button
-    //   this.radioButtonPurpose = 'Approved as Propose';
-    //   this.radioButtonCondition = 'Approved With Condition';
-    //   this.radioButtonNotRecommend = 'Not Approved';
-    //   // Manipulation in value
-    //   this.valueRadioPurpose = 'Approved as Propose';
-    //   this.valueRadioCondition = 'Approved With Condition';
-    //   this.valueRadioRecommend = 'Not Approved';
-    // } else {
-    //   // if outside the conditions url loan commite approval
-    //   this.nameLabel = 'Recomendation';
-    //   this.radioButtonPurpose = 'Recommend as Propose';
-    //   this.radioButtonCondition = 'Recommend With Condition';
-    //   this.radioButtonNotRecommend = 'Not Recommend';
-
-    //   this.valueRadioPurpose = 'Recommend as propose';
-    //   this.valueRadioCondition = 'Recommend With Condition';
-    //   this.valueRadioRecommend = 'Not Recommend';
-    // }
   }
 
   onDocumentChange() {
     this.container.restrictEditing = true;
-    // this.getWordOpinion();
   }
 
-  onDocumentChanges() {
+  onDocumentChangesCondition() {
     this.container_condition.restrictEditing = true;
-    // this.getContainerCondition();
   }
 
   public getWord() {
@@ -162,22 +124,6 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
       this.getContainerCondition();
     });
   }
-  // public getOpiniObj() {
-  //   this.activatedRoute.params.subscribe(params => {
-  //     this.paramsIdGet = params['id'];
-  //     this.getKeyOpinion =
-  //       'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt';
-  //     this.getContainer();
-  //   });
-  // }
-  // public getConditionObj() {
-  //   this.activatedRoute.params.subscribe(params => {
-  //     this.paramsIdGet = params['id'];
-  //     this.getKeyCondition =
-  //       'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.userId + '/sfdt';
-  //     this.getContainerCondition();
-  //   });
-  // }
 
   private getContainer(): void {
     const obj = {
@@ -216,7 +162,6 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
-              console.log('ini file get', this.fileGet);
             });
         }
       });

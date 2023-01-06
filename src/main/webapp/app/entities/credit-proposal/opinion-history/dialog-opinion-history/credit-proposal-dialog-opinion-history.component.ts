@@ -126,7 +126,6 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
-              console.log('ini file get', this.fileGet);
             });
         }
       });

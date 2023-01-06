@@ -60,7 +60,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
   public userId: string;
   public accountLogin: any;
   public positionUserId: string;
@@ -235,6 +234,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     const timeStamp = Math.floor(Date.now() / 1000);
 
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
       const fileName =
@@ -260,6 +260,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
+
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -292,7 +293,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionUserId + '-' + this.userId + '-opinion-sfdt.sfdt'
+                'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -368,6 +369,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
+
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -377,6 +379,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       args.isHandled = true;
     }
   }
+
   private getContainerCondition(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
@@ -397,7 +400,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
               this.fileGet = new File(
                 [res.body],
                 'credit-proposal-remark-' +
-                  this.paramsIdGet +
+                  paramsId +
                   '-' +
                   this.positionUserId +
                   '-' +
@@ -429,6 +432,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       });
     });
   }
+
   public filterPositionLogin() {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
