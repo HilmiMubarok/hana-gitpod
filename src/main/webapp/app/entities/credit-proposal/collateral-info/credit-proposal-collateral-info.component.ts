@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, OnInit } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CreditProposalCollateralInfoRemarksInformationComponent } from './remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks/credit-proposal-collateral-info-remarks-checklist.component';
@@ -15,7 +15,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   public view: boolean;
   public customPath: boolean = false;
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
+  constructor(private router: Router) {}
 
   @ViewChild('creditProposalCollateralInfoRemarksInfoComponentAbove', {
     static: false,
