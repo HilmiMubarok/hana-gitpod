@@ -8,6 +8,11 @@ import { PositionReportingStructureService } from 'app/entities/position-reporti
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { LoanAnalysService } from '../loan-analys.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { firstValueFrom } from 'rxjs';
+import { Account } from 'app/core/auth/account.model';
+import { PersonService } from 'app/entities/person/person.service';
+import { IPerson } from 'app/entities/person/person.model';
 
 @Component({
   selector: 'jhi-loan-facility-approve-level',
@@ -22,13 +27,16 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   public relType: IOptionNode[];
   public selectedRelationType: string;
   public filteringItems: IApplicationRole[];
+  public whoAmI: IPerson;
 
   constructor(
     protected positionReportingStructureService: PositionReportingStructureService,
     protected snackbar: MatSnackBar,
     protected loanAnalysService: LoanAnalysService,
     protected activatedRoute: ActivatedRoute,
-    protected applicationRoleService: ApplicationRoleService
+    protected applicationRoleService: ApplicationRoleService,
+    protected personService: PersonService,
+    protected accountService: AccountService
   ) {
     super(snackbar, positionReportingStructureService);
     this.loading = false;
@@ -39,8 +47,9 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   }
 
   ngOnInit(): void {
-    this.getApplicationRolesByApplicationId();
-    this.setCurrenDate();
+    this.getWhoAmI().then(res => {
+      this.getApplicationRolesByApplicationId();
+    });
   }
 
   singleCheck(checkNode: any) {
@@ -55,20 +64,31 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     this.relType = this.applicationRoleService.filteringRelationTypes(params);
   }
 
-  setCurrenDate() {
-    this.items.fromDate = new Date();
+  private async getWhoAmI(): Promise<void> {
+    const account: Account = await firstValueFrom(this.accountService.identity());
+    const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
+      .body;
+    if (persons.length > 0) {
+      this.whoAmI = persons[0];
+    }
   }
 
   public selRelType(value: string): void {
     this.selectedRelationType = value;
-    if (value !== '') {
-      this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
-        return o.relationTypeId === value;
-      });
-      return;
-    }
-
     this.filteringItems = [];
+
+    if (value !== '') {
+      if (value.toLowerCase() !== 'credit_proposal') {
+        const whoAmI: IPerson = this.whoAmI;
+        this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
+          return o.relationTypeId === value && o.partyFromId === whoAmI.id;
+        });
+      } else {
+        this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
+          return o.relationTypeId === value;
+        });
+      }
+    }
   }
 
   private getApplicationRolesByApplicationId(): void {
