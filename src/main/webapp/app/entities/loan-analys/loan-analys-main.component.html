@@ -492,22 +492,12 @@
     </div>
 
     <!-- Trade Checking  -->
-    <div
-      *ngIf="
-        parentPath === 'la-analyst' ||
-        parentPath === 'la-approval' ||
-        parentPath === 'la-approval-inquiry' ||
-        parentPath === 'la-SME-CRC' ||
-        parentPath === 'la-distribution'
-      "
-    >
-      <div *ngIf="selectedMenu === 'trade-checking'">
-        <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
-        <jhi-credit-proposal-trade-checking-remarks
-          [creditProposal]="creditProposal"
-          [saveWord]="saveWord"
-        ></jhi-credit-proposal-trade-checking-remarks>
-      </div>
+    <div *ngIf="selectedMenu === 'trade-checking'">
+      <jhi-credit-proposal-trade-checking [creditProposal]="creditProposal"></jhi-credit-proposal-trade-checking>
+      <jhi-credit-proposal-trade-checking-remarks
+        [creditProposal]="creditProposal"
+        [saveWord]="saveWord"
+      ></jhi-credit-proposal-trade-checking-remarks>
     </div>
     <!-- Repayment Capability  -->
 
