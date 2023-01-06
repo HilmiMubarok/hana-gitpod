@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
@@ -7,11 +7,12 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import { dataCovenantAbove } from '../convenant/convenant.constant';
+
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
   templateUrl: './credit-proposal-document-checklist.component.html',
 })
-export class CreditProposalDocumentChecklistComponent implements OnChanges {
+export class CreditProposalDocumentChecklistComponent implements OnChanges, OnInit {
   private _creditProposal: ICreditProposal;
   public folders = [];
   public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
@@ -25,6 +26,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
 
   set creditProposal(data: ICreditProposal) {
     this._creditProposal = data;
+    console.log('cp', data.cif.partyId)
   }
 
   constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {
@@ -34,9 +36,15 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       this.getBucket().then(res => {
-        this.getFiles(this.creditProposal.id);
+        this.getFiles(this.creditProposal.cif.partyId);
       });
     }
+  }
+
+  ngOnInit(): void {
+    this.getBucket().then(res => {
+      this.getFiles(this.creditProposal.cif.partyId);
+    });
   }
 
   private getBucket(): Promise<void> {
@@ -74,9 +82,9 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     }
   }
 
-  private getFiles(id: number): void {
+  private getFiles(id: any): void {
     const predicate: Object = {
-      key: `/credit_proposal/${id}/document`,
+      key: `/cif/${id}/document`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
       this.groupByFolder(res.body);
@@ -101,11 +109,11 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges {
     dialogRef.afterClosed().subscribe((res: any) => {
       if (res !== null) {
         this.getBucket().then(() => {
-          this.getFiles(this.creditProposal.id);
+          this.getFiles(this.creditProposal.cif.partyId);
         });
       } else {
         this.getBucket().then(() => {
-          this.getFiles(this.creditProposal.id);
+          this.getFiles(this.creditProposal.cif.partyId);
         });
       }
     });
