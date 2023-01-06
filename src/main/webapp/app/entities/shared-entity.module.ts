@@ -242,8 +242,9 @@ import { GroupCollateralComponent } from './credit-proposal/collateral-info/grou
 import { CollateralPropertyListPersonalPropertyTemplateComponent } from './collateral-property/templates/collateral-property-list-personal-property-template.component';
 import { entityTemplate } from './entity-template.constant';
 import { LoanAnalysOpinionComponent } from './loan-analys/opinion/loan-analys-opinion.component';
-import { LoanAnalysOpinionCompliencePartComponent } from './loan-analys/opinion/loan-analys-opinion-complience-part.component';
+import { LoanAnalysOpinionCompliancePartComponent } from './loan-analys/opinion/loan-analys-opinion-compliance-part.component';
 import { LoanAnalysDialogOpinionComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion.component';
+import { LoanAnalysDialogOpinionCompliancePartComponent } from './loan-analys/dialogs/loan-analys-dialog-opinion-compliance-part.component';
 import { RetriveComponent } from './credit-proposal/retrive/retrive.component';
 import { PartyCifCustomerInfoPartyGroupComponent } from './party-cif/customer-info/party-cif-customer-info-party-group.component';
 import { RemarskComponent } from './credit-proposal/trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
@@ -614,8 +615,9 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
-	LoanAnalysOpinionCompliencePartComponent,
+	LoanAnalysOpinionCompliancePartComponent,
     LoanAnalysDialogOpinionComponent,
+	LoanAnalysDialogOpinionCompliancePartComponent,
     CollateralAppraisalPersonViewComponent,
     CollateralAppraisalPartyGroupViewComponent,
     AssignToComponent,
@@ -964,8 +966,9 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
-	LoanAnalysOpinionCompliencePartComponent,
+	LoanAnalysOpinionCompliancePartComponent,
     LoanAnalysDialogOpinionComponent,
+	LoanAnalysDialogOpinionCompliancePartComponent,
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,

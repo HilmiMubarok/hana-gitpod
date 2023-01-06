@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from 'app/core/auth/account.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
-import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-opinion.component';
+import { LoanAnalysDialogOpinionCompliancePartComponent } from '../dialogs/loan-analys-dialog-opinion-compliance-part.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DocumentEditorComponent,
@@ -27,12 +27,12 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
-  selector: 'jhi-loan-analys-opinion-complience-part',
-  templateUrl: './loan-analys-opinion-complience-part.component.html',
+  selector: 'jhi-loan-analys-opinion-compliance-part',
+  templateUrl: './loan-analys-opinion-compliance-part.component.html',
   styleUrls: ['./loan-analys-opinion.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChanges {
+export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChanges {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor_container_condition')
@@ -145,7 +145,7 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
 
     predicate.data['notes'] = element;
 
-    const dialogRef = this.dialog.open(LoanAnalysDialogOpinionComponent, predicate);
+    const dialogRef = this.dialog.open(LoanAnalysDialogOpinionCompliancePartComponent, predicate);
   }
 
   public readOnlyOffering() {
@@ -238,9 +238,9 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
       const fileName =
-        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-complience-' + fileType + '.docs';
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-compliance-' + fileType + '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/opinion-complience/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/opinion-compliance/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -250,9 +250,9 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
       const fileName =
-        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-complience-' + fileType + '.sfdt';
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-compliance-' + fileType + '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/opinion-compliance/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -279,7 +279,7 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/opinion-complience/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/opinion-compliance/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -293,7 +293,7 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-complience-sfdt.sfdt'
+                'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-compliance-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -334,12 +334,12 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
         this.positionUserId +
         '-' +
         this.userId +
-        '-opinion' +
+        '-opinion-compliance' +
         '-condition-' +
         fileType +
         '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/opinion-compliance/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -356,12 +356,12 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
         this.positionUserId +
         '-' +
         this.userId +
-        '-opinion-' +
+        '-opinion-compliance' +
         '-condition-' +
         fileType +
         '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/opinion-compliance/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -386,7 +386,7 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/opinion-compliance/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -405,7 +405,7 @@ export class LoanAnalysOpinionCompliencePartComponent implements OnInit, OnChang
                   this.positionUserId +
                   '-' +
                   this.userId +
-                  '-opinion-' +
+                  '-opinion-compliance-' +
                   'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();

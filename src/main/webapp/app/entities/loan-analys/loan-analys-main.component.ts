@@ -37,7 +37,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { LoanAnalysService } from './loan-analys.service';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
-import { LoanAnalysOpinionCompliencePartComponent } from './opinion/loan-analys-opinion-complience-part.component';
+import { LoanAnalysOpinionCompliancePartComponent } from './opinion/loan-analys-opinion-compliance-part.component';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
@@ -51,10 +51,10 @@ export class LoanAnalysMainComponent implements OnInit {
   })
   loanAnalysOpinionComponent: LoanAnalysOpinionComponent;
 
-  @ViewChild('loanAnalysOpinionCompliencePartComponent', {
+  @ViewChild('loanAnalysOpinionCompliancePartComponent', {
     static: false,
   })
-  loanAnalysOpinionCompliencePartComponent: LoanAnalysOpinionCompliencePartComponent;
+  loanAnalysOpinionCompliancePartComponent: LoanAnalysOpinionCompliancePartComponent;
 
   @ViewChild('creditProposalCollateralInfoComponent', {
     static: false,
@@ -479,12 +479,12 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionComponent.onCreate();
           this.loanAnalysOpinionComponent.onCreateCondition();
         }
-		if (this.loanAnalysOpinionCompliencePartComponent) {
-          this.loanAnalysOpinionCompliencePartComponent.triggeredSave();
-          this.loanAnalysOpinionCompliencePartComponent.triggeredSaveCondition();
-          this.loanAnalysOpinionCompliencePartComponent.refresh();
-          this.loanAnalysOpinionCompliencePartComponent.onCreate();
-          this.loanAnalysOpinionCompliencePartComponent.onCreateCondition();
+		if (this.loanAnalysOpinionCompliancePartComponent) {
+          this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+          this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
+          this.loanAnalysOpinionCompliancePartComponent.refresh();
+          this.loanAnalysOpinionCompliancePartComponent.onCreate();
+          this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
         }
         this.saveDoc = true;
         this.saveApplicationRole();
@@ -498,12 +498,12 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionComponent.onCreate();
           this.loanAnalysOpinionComponent.onCreateCondition();
         }
-		if (this.loanAnalysOpinionCompliencePartComponent) {
-          this.loanAnalysOpinionCompliencePartComponent.triggeredSave();
-          this.loanAnalysOpinionCompliencePartComponent.triggeredSaveCondition();
-          this.loanAnalysOpinionCompliencePartComponent.refresh();
-          this.loanAnalysOpinionCompliencePartComponent.onCreate();
-          this.loanAnalysOpinionCompliencePartComponent.onCreateCondition();
+		if (this.loanAnalysOpinionCompliancePartComponent) {
+          this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+          this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
+          this.loanAnalysOpinionCompliancePartComponent.refresh();
+          this.loanAnalysOpinionCompliancePartComponent.onCreate();
+          this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
         }
         this.saveDoc = true;
         this.saveApplicationRole();
@@ -658,8 +658,8 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Compare Data';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-    if (this.selectedMenu === 'complience-recommendation') {
-      this.titleMenu = 'Complience Recommendation';
+    if (this.selectedMenu === 'compliance-recommendation') {
+      this.titleMenu = 'Compliance Recommendation';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.selectedMenu === 'slik-checking') {
