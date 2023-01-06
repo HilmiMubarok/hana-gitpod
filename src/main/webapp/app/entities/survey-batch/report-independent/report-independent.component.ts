@@ -44,6 +44,9 @@ export const MY_FORMATS = {
   templateUrl: './report-independent.component.html',
   styleUrls: ['./report-independent.css'],
   providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -118,15 +121,15 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
-      this.mData.marketValue = result.body.collateral.marketValue;
+      this.mData.marketValue = result.body.totalMarketValue;
       this.mData.remark = result.body.remark;
       // this.reviewedOpinion = result.body.reviewedOpinion;
 
       if (result.body.apprOfficer === 'External') {
-        if (result.body.statusId === STATUS.APPROVE) {
-          this.status = true;
-        } else {
+        if (result.body.statusId === STATUS.APPROVAL_TL) {
           this.status = false;
+        } else {
+          this.status = true;
         }
       }
     });
