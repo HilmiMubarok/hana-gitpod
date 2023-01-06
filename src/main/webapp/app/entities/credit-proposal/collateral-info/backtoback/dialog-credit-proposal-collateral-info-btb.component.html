@@ -228,8 +228,13 @@
         </div>
         <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
         <mat-dialog-actions align="center">
-          <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-          <button mat-button (click)="save()">Save</button>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+            <button mat-button (click)="save()">Save</button>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+          </section>
         </mat-dialog-actions>
       </div>
     </div>
