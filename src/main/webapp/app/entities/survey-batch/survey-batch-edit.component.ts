@@ -14,7 +14,11 @@ import {
   MINIMUM_VEHCICLE_DETAIL,
 } from 'app/shared/constants/config.constants';
 import { STATUS } from 'app/shared/constants/status.constants';
-import { COLLATERAL_TYPE, SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL } from 'app/shared/constants/base.constants';
+import {
+  COLLATERAL_TYPE,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
+  SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
+} from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
@@ -42,7 +46,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 
 @Component({
@@ -291,11 +295,16 @@ export class SurveyBatchEditComponent implements OnInit {
         return true;
       } else if (node.id === 'summary') {
         if (
-          this.collateralAppraisal.attributes['summary'].marketbility !== '' &&
-          this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
-          this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
+          this.collateralAppraisal.attributes['marketbility'] !== '' &&
+          this.collateralAppraisal.divHeadId !== null &&
+          this.collateralAppraisal.deptHeadId !== null &&
+          this.collateralAppraisal.teamLeadId !== null &&
+          this.collateralAppraisal.unitHeadId !== null
+          // this.collateralAppraisal.attributes['marketbility'] !== '' &&
+          // this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
+          // this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
+          // this.surveyAppraisalsService.applicationRoleIdTL[0] !== 'false' &&
+          // this.surveyAppraisalsService.applicationRoleIdUH[0] !== 'false'
         ) {
           return true;
         } else {
@@ -464,15 +473,17 @@ export class SurveyBatchEditComponent implements OnInit {
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
-      data: {
-        processTask: task,
-      },
+      data: { processTask: task },
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resProcess = _res;
         this.taskProcess = task;
-        this.onSave('process');
+        if (_res.name === 'return' || _res.name === 'cancel') {
+          this.saveProcess();
+        } else {
+          this.onSave('process');
+        }
       }
     });
   }
@@ -630,6 +641,10 @@ export class SurveyBatchEditComponent implements OnInit {
     });
   }
 
+  public addNewCriteria(data: IScoreCard[]): void {
+    this.collateralAppraisal.attributes['scoreCard'] = data;
+  }
+
   public getConditionSubMenu(data): void {
     if (data.apprOfficer === 'External') {
       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
@@ -690,33 +705,18 @@ export class SurveyBatchEditComponent implements OnInit {
       });
     });
   }
+
   private parseCollateralAppraisal(data: ICollateralAppraisal): ICollateralAppraisal {
-    if (
-      data.attributes === undefined ||
-      data.attributes === null ||
-      typeof data.attributes['summary'] === 'string' ||
-      typeof data.attributes['scoreCard'] === 'string'
-    ) {
-      data.attributes['scoreCard'] = scoreCard;
-      data.attributes['summary'] = {
-        keterangan: '',
-        marketbility: '',
-        returnNotes: '',
-      };
+    if (!lodash.has(data.attributes, 'marketbility')) {
+      data.attributes['marketbility'] = '';
+    }
+    if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
+      data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = scoreCard;
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
-      }
-      if (!Object.prototype.hasOwnProperty.call(data.attributes, 'summary')) {
-        data.attributes['summary'] = {
-          keterangan: '',
-          marketbility: '',
-          returnNotes: '',
-        };
-      } else {
-        data.attributes['summary'] = JSON.parse(data.attributes['summary']);
       }
     }
     return data;
@@ -1027,7 +1027,7 @@ export class SurveyBatchEditComponent implements OnInit {
     //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
     //   mustValidatedOnVisited.keterangan = false;
     // }
-    if (this.collateralAppraisal.attributes['summary'].marketbility === '') {
+    if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
@@ -1088,8 +1088,14 @@ export class SurveyBatchEditComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
-    copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+
+    if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
+      copySurveyAppraisal.attributes['marketbility'] = JSON.stringify(this.collateralAppraisal.attributes['marketbility']);
+    } else {
+      copySurveyAppraisal.attributes['marketbility'] = this.collateralAppraisal.attributes['marketbility'];
+    }
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']

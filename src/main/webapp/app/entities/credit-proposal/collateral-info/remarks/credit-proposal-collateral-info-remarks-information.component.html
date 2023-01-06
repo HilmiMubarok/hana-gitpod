@@ -1,4 +1,4 @@
-<div class="e-sample-resize-container e-card-resize-container mt-5" [hidden]="view">
+<div class="e-sample-resize-container e-card-resize-container mt-5">
   <div class="row">
     <div class="row card-layout">
       <div class="e-card">
@@ -17,8 +17,7 @@
                 [enableSpellCheck]="false"
                 (keyDown)="onKeyDown($event)"
                 (created)="onCreate()"
-              >
-              </ejs-documenteditorcontainer>
+              ></ejs-documenteditorcontainer>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <ejs-documenteditorcontainer
@@ -30,8 +29,19 @@
                 (documentChange)="onDocumentChange()"
                 [enableEditor]="false"
                 [isReadOnly]="true"
-              >
-              </ejs-documenteditorcontainer>
+              ></ejs-documenteditorcontainer>
+            </section>
+            <section *ngIf="parentSource === 'loan-analys'">
+              <ejs-documenteditorcontainer
+                #document_editor_container
+                [enableToolbar]="false"
+                [enableLocalPaste]="false"
+                height="100vh"
+                style="display: block"
+                (documentChange)="onDocumentChange()"
+                [enableEditor]="false"
+                [isReadOnly]="true"
+              ></ejs-documenteditorcontainer>
             </section>
           </div>
         </div>

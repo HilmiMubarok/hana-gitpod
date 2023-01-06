@@ -1,7 +1,16 @@
-<section class="mb-4">
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <button ejs-button class="btn-info" (click)="generate()">Generate</button>
+</section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <button ejs-button class="btn-info" (click)="generate()" disabled>Generate</button>
+</section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <button ejs-button class="btn-info" (click)="downloadExcel()">Download Excel</button>
 </section>
+<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+  <button ejs-button class="btn-info" (click)="downloadExcel()">Download Excel</button>
+</section>
+
 <!--<ejs-grid #grid [dataSource]="aplicationProducts" [resizeSettings]="resizeSettings" [allowResizing]='true' (dataBound)="dataBound($event)">-->
 <div class="table-responsive-material">
   <table mat-table [dataSource]="aplicationProducts" class="w-100">
@@ -39,11 +48,11 @@
     </ng-container>
     <ng-container matColumnDef="availableLimit">
       <th mat-header-cell *matHeaderCellDef>Available Limit</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.availableLimit | number }}</td>
+      <td mat-cell *matCellDef="let i = index">{{ setAvailableLimit(i) | number }}</td>
     </ng-container>
     <ng-container matColumnDef="currentInterestRate">
       <th mat-header-cell *matHeaderCellDef>Current Interest Rate</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.rate }}</td>
+      <td mat-cell *matCellDef="let i = index">{{ setInterestRate(i) }}</td>
     </ng-container>
     <ng-container matColumnDef="ftp">
       <th mat-header-cell *matHeaderCellDef>FTP</th>
@@ -93,7 +102,7 @@
     </ng-container>
     <ng-container matColumnDef="maturityDate">
       <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'yyyy/MM/dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>

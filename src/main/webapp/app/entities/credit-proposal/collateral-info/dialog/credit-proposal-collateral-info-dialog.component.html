@@ -290,7 +290,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Ownership</mat-label>
-                <input matInput type="text" [(ngModel)]="collateral.collateralOwner" disabled />
+                <input matInput type="text" [(ngModel)]="collateral.certificateType + '' + collateral.certificateNumber" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -298,9 +298,7 @@
             <div class="fontsebled row">
               <div class="col-4">Ownership</div>
               <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collateralOwner }}
-              </div>
+              <div class="col">{{ collateral.certificateType }} {{ collateral.certificateNum }}</div>
             </div>
           </section>
 
@@ -548,10 +546,10 @@
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Status</mat-label>
-                <mat-select>
+                <mat-select name="staus" [(ngModel)]="collateral.statusId">
                   <mat-option value=" ">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of lovCollateralStatus" [value]="item">
-                    {{ item }}
+                  <mat-option *ngFor="let item of lovCollateralStatus | keyvalue" [value]="item.key">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -561,7 +559,7 @@
                 <div class="col-4">Collateral Status</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
-                  {{ item }}
+                  {{ collateral.statusId }}
                 </div>
               </div>
             </section>

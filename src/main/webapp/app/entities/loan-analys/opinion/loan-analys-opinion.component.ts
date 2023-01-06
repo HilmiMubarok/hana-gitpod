@@ -113,10 +113,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getLogin();
     this.filterPositionLogin();
-    if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
-      this.getWord();
-      this.refresh();
-    }
+    this.getWord();
+    this.refresh();
 
     this.conditionOpinion();
     this.readOnlyOffering();
@@ -129,8 +127,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.storageService.getBucketName().subscribe(val => {
       console.log('val', val);
       this.BUCKET = val.body['bucket'];
-      this.getContainer();
-      this.getContainerCondition();
+      // this.getContainer();
+      // this.getContainerCondition();
     });
   }
 
@@ -246,24 +244,24 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     const timeStamp = Math.floor(Date.now() / 1000);
 
     const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + fileType + '.docs';
+      const fileName =
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
-
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
+      const fileName =
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -289,7 +287,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -302,7 +300,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .fileBlob(response.body[response.body.length - 1]['url'])
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion-sfdt.sfdt');
+              this.fileGet = new File(
+                [res.body],
+                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionUserId + '-' + this.userId + '-opinion-sfdt.sfdt'
+              );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
                 const docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -321,6 +322,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.documentEditor.openBlank();
   }
 
   // Condition remark
@@ -338,9 +340,19 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion' + '-condition-' + fileType + '.docs';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId +
+        '-' +
+        this.userId +
+        '-opinion' +
+        '-condition-' +
+        fileType +
+        '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -350,9 +362,19 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-' + this.userId + '-opinion-' + '-condition-' + fileType + '.sfdt';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId +
+        '-' +
+        this.userId +
+        '-opinion-' +
+        '-condition-' +
+        fileType +
+        '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -377,7 +399,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -390,7 +412,14 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + this.paramsIdGet + '-' + this.userId + '-opinion-' + 'condition-sfdt.sfdt'
+                'credit-proposal-remark-' +
+                  this.paramsIdGet +
+                  '-' +
+                  this.positionUserId +
+                  '-' +
+                  this.userId +
+                  '-opinion-' +
+                  'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -407,6 +436,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   onCreateCondition(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_condition.documentEditor.openBlank();
   }
 
   public loadPosition(position: any): void {

@@ -11,7 +11,6 @@ import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import {
   DocumentEditorComponent,

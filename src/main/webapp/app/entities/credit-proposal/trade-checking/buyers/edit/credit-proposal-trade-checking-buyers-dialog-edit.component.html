@@ -37,13 +37,13 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Contact</mat-label>
-            <input matInput type="number" [(ngModel)]="tradeCheckingBuyers.contact" />
+            <input matInput type="text" [(ngModel)]="tradeCheckingBuyers.contact" />
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Contact</mat-label>
-            <input matInput type="number" disabled [(ngModel)]="tradeCheckingBuyers.contact" />
+            <input matInput type="text" disabled [(ngModel)]="tradeCheckingBuyers.contact" />
           </mat-form-field>
         </section>
       </div>
@@ -82,25 +82,19 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Terms Of Payment</mat-label>
-            <input
+            <!-- <input
               matInput
               type="text"
-              [ngModel]="tradeCheckingBuyers.termsOfPayment | number: '1.0-0'"
-              (ngModelChange)="tradeCheckingBuyers.termsOfPayment = numberInputChanged($event)"
-            />
-            <!-- <input matInput type="text" [(ngModel)]="tradeCheckingBuyers.termsOfPayment" /> -->
+              [ngModel]="tradeCheckingBuyers.termsOfPayment"
+              (ngModelChange)="tradeCheckingBuyers.termsOfPayment"
+            /> -->
+            <input matInput type="text" [(ngModel)]="tradeCheckingBuyers.termsOfPayment" />
           </mat-form-field>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Terms Of Payment</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="tradeCheckingBuyers.termsOfPayment | number: '1.0-0'"
-              (ngModelChange)="tradeCheckingBuyers.termsOfPayment = numberInputChanged($event)"
-              disabled
-            />
+            <input matInput type="text" [ngModel]="tradeCheckingBuyers.termsOfPayment" disabled />
           </mat-form-field>
         </section>
       </div>

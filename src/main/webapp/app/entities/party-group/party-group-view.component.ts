@@ -1,5 +1,5 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
@@ -56,6 +56,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public pacth: any;
+  public view: boolean;
+
   partytypes: IPartyType[] = [];
 
   moment = _rollupMoment || _moment;
@@ -194,6 +197,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
 
   constructor(
     protected dataUtils: BaseDataUtils,
+    private router: Router,
     protected alertService: AlertService,
     protected partyGroupService: PartyGroupService,
     protected partyTypeService: PartyTypeService,
@@ -207,6 +211,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
   }
+  // ngOnInit() {
+  //   this.remove();
+  // }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
@@ -273,5 +280,16 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
 
   printing() {
     console.log(this.item);
+  }
+  public remove() {
+    this.pacth = this.router.url.split('/')[1];
+    if (
+      this.pacth === 'cp-status-approval' ||
+      this.pacth === 'la-approval-inquiry' ||
+      this.pacth === 'la-approval' ||
+      this.pacth === 'la-SME-CRC'
+    ) {
+      this.view = true;
+    }
   }
 }

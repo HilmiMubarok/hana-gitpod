@@ -1,28 +1,28 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ICreditProposal, CreditProposal } from '../credit-proposal/credit-proposal.model';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
-import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import {
-  POSITION_TYPE,
   SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING,
+  SUBMENU_LOAN_ANALYS_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
   SUBMENU_LOAN_ANALYS_CC_REVIEW,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER,
   SUBMENU_LOAN_ANALYS_DAR_FINAL,
-  SUBMENU_LOAN_ANALYS_LA_ANALYST,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
+  SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
+  SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB,
   SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
-import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { SUBMENU_LOAN_ANALYS } from 'app/shared/constants/base.constants';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,6 +37,7 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { LoanAnalysService } from './loan-analys.service';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
+import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -48,8 +49,13 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   loanAnalysOpinionComponent: LoanAnalysOpinionComponent;
+
+  @ViewChild('creditProposalCollateralInfoComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
+
   private id: number;
-  // private id: string;
 
   public url: string;
   public subMenu: object[];
@@ -74,10 +80,6 @@ export class LoanAnalysMainComponent implements OnInit {
   public titleUrl: string;
   public titleMenu: string;
   public cp: ICreditProposal;
-  // public titleName: string;
-  // title = this.loanAnalystService.titleApplication.subscribe((message:any)=>{
-  //   this.titleName = message
-  // })
   public isShow = false;
   public isHistoryExist: boolean;
 
@@ -88,7 +90,6 @@ export class LoanAnalysMainComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     protected messageService: MessageService,
-    private positionService: PositionService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
     public loanAnalystService: LoanAnalysService
@@ -98,59 +99,66 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
-    // const parentPath = this.router.url.split('/')[1];
     this.url = this.parentPath; // kebutuhan buat assign to
     // this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
     // this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
     // this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
-    console.log('this.parentPath', this.parentPath);
     switch (this.parentPath) {
       case 'la-distribution':
-        this.creditProposal.statusId === 'CP_APPROVE_TO_LA'
+        this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
           ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS);
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
         break;
 
       case 'la-SME-CRC':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
-          { id: 'opinion', text: 'Opinion' },
-          { id: 'compare-data', text: 'Compare Data' },
-        ];
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ])
+          : (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ]);
         break;
 
       case 'cc-distribution':
-        this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
         break;
 
       case 'la-analyst':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS,
-          // { id: 'repayment-capability', text: 'Repayment Capability' },
-          // { id: 'trade-checking', text: 'Trade Checking' },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS];
         break;
 
       case 'la-approval':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_LA_APPROVAL,
-          // { id: 'repayment-capability', text: 'Repayment Capability' },
-          // { id: 'trade-checking', text: 'Trade Checking' },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL];
         break;
 
       case 'la-approval-inquiry':
-        this.subMenu = [
-          ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
-          { id: 'opinion', text: 'Opinion' },
-          ...SUBMENU_LOAN_CP,
-          { id: 'compare-data', text: 'Compare Data' },
-        ];
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              { id: 'opinion', text: 'Opinion' },
+              ...SUBMENU_LOAN_CP,
+              { id: 'compare-data', text: 'Compare Data' },
+            ])
+          : (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+              { id: 'opinion', text: 'Opinion' },
+              ...SUBMENU_LOAN_CP,
+              { id: 'compare-data', text: 'Compare Data' },
+            ]);
         break;
       case 'dar-final':
         this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
@@ -161,7 +169,9 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'loan-committee-approval':
-        this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB);
         break;
 
       case 'cc-checking':
@@ -178,7 +188,9 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       default:
-        this.subMenu = SUBMENU_LOAN_ANALYS;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS)
+          : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
         break;
     }
 
@@ -251,18 +263,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
-  // private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
-  //   let note: INotes = new Notes();
-
-  //   return (note = {
-  //     message: messageVal,
-  //     userId: userIdVal,
-  //     createDate: new Date(),
-  //     recomendation: recomendationVal,
-  //     condition: conditionVal,
-  //   });
-  // }
-
   private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, positionVal: string, userIdVal: string): INotes {
     let note: INotes = new Notes();
 
@@ -277,7 +277,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   // get data from child
-  public onAssignTo(ev) {
+  public onAssignTo(ev: any): void {
     this.applicationRole = ev.applicationRole;
     this.applicationRoleId = ev.applicationRoleId;
   }
@@ -288,6 +288,10 @@ export class LoanAnalysMainComponent implements OnInit {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
           this.cp = response.body;
         });
+
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
 
         this.messageService.add({
           severity: 'success',
@@ -300,6 +304,11 @@ export class LoanAnalysMainComponent implements OnInit {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
           this.cp = response.body;
         });
+
+        if (this.creditProposalCollateralInfoComponent) {
+          this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+        }
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -314,88 +323,10 @@ export class LoanAnalysMainComponent implements OnInit {
   public positionApproval: any;
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    let tempHelper = 0;
-
-    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
-      if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-        this.userId = copyCreditProposal.attributes['userId'];
-        this.InternalId = copyCreditProposal.attributes['internalApprovaluser'];
-        this.positionApproval = copyCreditProposal.attributes['position'];
-        if (copyCreditProposal.notes.length > 0) {
-          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-            if (copyCreditProposal.notes[i].userId === this.userId) {
-              copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
-              copyCreditProposal.notes[i].positionUserId = this.positionApproval;
-              copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendationUser'];
-              tempHelper = tempHelper + 1;
-            }
-          }
-
-          if (tempHelper === 0) {
-            copyCreditProposal.notes.push(
-              this.addNewNotes(
-                copyCreditProposal.attributes['tempLoggedInNotes'],
-                copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
-                this.InternalId,
-                this.positionApproval,
-                this.userId
-              )
-            );
-          }
-        } else {
-          copyCreditProposal.notes.push(
-            this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'],
-              copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
-              this.InternalId,
-              this.positionApproval,
-              this.userId
-            )
-          );
-        }
-
-        // delete this.positionApproval;
-        delete copyCreditProposal.attributes['tempLoggedInNotes'];
-        // delete copyCreditProposal.attributes['tempLoggedInCondition'];
-      } else {
-        if (copyCreditProposal.notes.length > 0) {
-          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-            if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-              copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
-              copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
-              copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
-              copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
-              tempHelper = tempHelper + 1;
-            }
-          }
-
-          if (tempHelper === 0) {
-            copyCreditProposal.notes.push(
-              this.addNewNotes(
-                copyCreditProposal.attributes['tempLoggedInNotes'],
-                copyCreditProposal.attributes['tempLoggedInRecomendation'],
-                copyCreditProposal.attributes['tempLoggedInCondition'],
-                copyCreditProposal.attributes['positionLogin'],
-                this.currentAccount.login
-              )
-            );
-          }
-        } else {
-          copyCreditProposal.notes.push(
-            this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'],
-              copyCreditProposal.attributes['tempLoggedInRecomendation'],
-              copyCreditProposal.attributes['tempLoggedInCondition'],
-              copyCreditProposal.attributes['positionLogin'],
-              this.currentAccount.login
-            )
-          );
-        }
-        delete copyCreditProposal.attributes['tempLoggedInNotes'];
-        delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-        delete copyCreditProposal.attributes['tempLoggedInCondition'];
-        delete copyCreditProposal.attributes['positionLogin'];
-      }
+    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes') && this.parentPath !== 'loan-committee-approval') {
+      this.extPreSave(copyCreditProposal);
+    } else {
+      this.extPreSave(copyCreditProposal);
     }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
@@ -448,7 +379,91 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
+  private extPreSave(copyCreditProposal: any): void {
+    let tempHelper = 0;
+    if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+      this.userId = copyCreditProposal.attributes['userId'];
+      this.InternalId = copyCreditProposal.attributes['internalApprovaluser'];
+      this.positionApproval = copyCreditProposal.attributes['position'];
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.userId) {
+            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            copyCreditProposal.notes[i].positionUserId = this.positionApproval;
+            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendationUser'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
+              copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
+              this.InternalId,
+              this.positionApproval,
+              this.userId
+            )
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
+            copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
+            this.InternalId,
+            this.positionApproval,
+            this.userId
+          )
+        );
+      }
+
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+    } else {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes']
+              ? copyCreditProposal.attributes['tempLoggedInNotes']
+              : '';
+            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
+            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
+              copyCreditProposal.attributes['tempLoggedInRecomendation'],
+              copyCreditProposal.attributes['tempLoggedInCondition'],
+              copyCreditProposal.attributes['positionLogin'],
+              this.currentAccount.login
+            )
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
+            copyCreditProposal.attributes['tempLoggedInRecomendation'],
+            copyCreditProposal.attributes['tempLoggedInCondition'],
+            copyCreditProposal.attributes['positionLogin'],
+            this.currentAccount.login
+          )
+        );
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+      delete copyCreditProposal.attributes['positionLogin'];
+    }
+  }
+
   public saveDoc: boolean;
+
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
@@ -456,6 +471,8 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionComponent.triggeredSave();
           this.loanAnalysOpinionComponent.triggeredSaveCondition();
           this.loanAnalysOpinionComponent.refresh();
+          this.loanAnalysOpinionComponent.onCreate();
+          this.loanAnalysOpinionComponent.onCreateCondition();
         }
         this.saveDoc = true;
         this.saveApplicationRole();
@@ -466,6 +483,8 @@ export class LoanAnalysMainComponent implements OnInit {
           this.loanAnalysOpinionComponent.triggeredSave();
           this.loanAnalysOpinionComponent.triggeredSaveCondition();
           this.loanAnalysOpinionComponent.refresh();
+          this.loanAnalysOpinionComponent.onCreate();
+          this.loanAnalysOpinionComponent.onCreateCondition();
         }
         this.saveDoc = true;
         this.saveApplicationRole();
@@ -475,9 +494,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.saveWordOpinionCondition = true;
   }
 
-  // appName: any;
-
-  getTitle() {
+  public getTitle(): void {
     this.appName = sessionStorage.getItem('appName');
   }
 
@@ -485,79 +502,64 @@ export class LoanAnalysMainComponent implements OnInit {
     if (value === 'la-distribution') {
       this.title = 'Loan Analysis Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-analyst') {
       this.title = 'Loan Analysis';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-SME-CRC') {
       this.title = 'Loan Analysis SME Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval') {
       this.title = 'Loan Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval-inquiry') {
       this.title = 'Loan Approval Inquiry';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-final') {
       this.title = 'DAR Finalization';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-checker') {
       this.title = 'Final DAR - Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-committee-approval') {
       this.title = 'Loan Komite Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-notif') {
       this.title = 'DAR Notification';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-distribution') {
       this.title = 'Compliance Checking Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-checking') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-review') {
       this.title = 'Compliance Checking Review';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-inquiry') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-analys-and-approval-monitoring') {
       this.title = 'Loan Analyst and Approval Monitoring';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
   }
 
-  getTitleUrl() {
+  public getTitleUrl(): void {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
-    console.log('navigasi', this.titleUrl);
   }
 
   getTextMenu() {
@@ -673,12 +675,9 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Trade Checking';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-
-    console.log('this.selectedMenu', this.selectedMenu);
   }
 
-  getTitleMenu() {
+  getTitleMenu(): void {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
-    console.log('ini appNameMenu', this.appNameMenu);
   }
 }

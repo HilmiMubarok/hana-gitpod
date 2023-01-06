@@ -11,8 +11,8 @@ export class CollateralInfoRemarksHistoryComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public remarks: string;
   public newMessage: string;
-  public pacth: any;
-  public view: boolean;
+  // public pacth: any;
+  // public view: boolean;
 
   constructor(protected activatedRoute: ActivatedRoute, private router: Router) {}
 
@@ -27,7 +27,7 @@ export class CollateralInfoRemarksHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.removeTagRemaks();
-    this.pathremove();
+    // this.pathremove();
   }
   public tools: object = {
     items: [
@@ -50,14 +50,14 @@ export class CollateralInfoRemarksHistoryComponent implements OnInit {
     ],
   };
 
-  public pathremove() {
-    this.pacth = this.router.url.split('/')[1];
-    if (this.pacth === 'la-approval' || this.pacth === 'cp-status-approval') {
-      this.view = true;
-    }
+  // public pathremove() {
+  //   this.pacth = this.router.url.split('/')[1];
+  //   if (this.pacth === 'la-approval' || this.pacth === 'cp-status-approval') {
+  //     this.view = true;
+  //   }
 
-    console.log('test', this.pacth);
-  }
+  //   console.log('test', this.pacth);
+  // }
 
   removeTagRemaks() {
     this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;

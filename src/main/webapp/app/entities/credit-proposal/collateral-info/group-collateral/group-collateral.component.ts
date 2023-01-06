@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { Collateral, ICollateral } from 'app/entities/collateral/collateral.model';
@@ -21,6 +21,8 @@ import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-group-collateral',
@@ -87,6 +89,8 @@ export class GroupCollateralComponent implements OnChanges {
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
+
+  @ViewChild('paginator') paginator: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes', changes);
@@ -354,6 +358,7 @@ export class GroupCollateralComponent implements OnChanges {
     }
     return result;
   }
+  public groubCollateralPagination: any;
   public collateralMybusiness() {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getGroupCollateral(cifNumber).subscribe(res => {
@@ -362,13 +367,26 @@ export class GroupCollateralComponent implements OnChanges {
         const satuanGroupCollateral: IGroupCollateral = groupCollaterals[i];
         for (let a = 0; a < satuanGroupCollateral.collaterals.length; a++) {
           const satuanCollateral: ICollateral = satuanGroupCollateral.collaterals[a];
-          // this.listGroupCollateral.push(satuanCollateral);
           this.groupCollaterals.push(satuanCollateral);
           this.groupCollaterals = [...this.groupCollaterals];
+
+          this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
+          this.groubCollateralPagination.paginator = this.paginator;
         }
       }
     });
-    // this.coba=this.groupCollaterals;
-    console.log('datasource', this.groupCollaterals);
+  }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
   }
 }

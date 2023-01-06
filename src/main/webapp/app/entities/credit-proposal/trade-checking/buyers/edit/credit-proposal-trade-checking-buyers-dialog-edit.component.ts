@@ -31,6 +31,7 @@ export class CreditProposalTradeCheckingBuyersDialogEditComponent {
 
   public save(): void {
     this._dialog.close({ tradeCheckingBuyers: this.tradeCheckingBuyers, action: 'save' });
+    console.log('trade cecking buyers', this.tradeCheckingBuyers);
   }
 
   public close() {

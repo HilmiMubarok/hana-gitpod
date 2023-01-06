@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -20,13 +20,14 @@ import { CollateralPropertyResultListComponent } from 'app/entities/collateral-p
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
+export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
   public displayedColumns: string[] = [
     'no',
     // 'id',
@@ -49,7 +50,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     'action',
   ];
 
-  public dataItem: ICollateral[];
+  public dataItem: any;
   private bindingTypeVal: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -94,12 +95,15 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
 
-    this.isViewMode && this.displayedColumns.pop();
+    // this.isViewMode && this.displayedColumns.pop();
 
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
   }
+
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild('paginator2') paginator2: MatPaginator;
 
   private loadByPartyId(param: string): void {
     this.collateralService
@@ -108,7 +112,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = res.body;
+        this.dataItem = new MatTableDataSource(res.body);
+        this.dataItem.paginator = this.paginator;
       });
   }
 
@@ -125,6 +130,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+  }
+
+  public collateral: any;
+  ngAfterViewInit(): void {
+    let a = [];
+    for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+      a = lodash.concat(a, this.creditProposal.collaterals[i]);
+    }
+    this.collateral = new MatTableDataSource(a);
+    this.collateral.paginator = this.paginator2;
   }
 
   public openDialog(element: ICollateral): void {
@@ -645,5 +660,18 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
+  }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
   }
 }

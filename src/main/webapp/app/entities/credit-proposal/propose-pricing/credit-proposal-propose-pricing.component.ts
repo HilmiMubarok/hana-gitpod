@@ -9,11 +9,44 @@ import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { ListOfValueIndustryService } from '../list-of-value-industry.service';
 import { IListOfValueIndustry } from '../list-of-value-industry.model';
 import { CreditProposalService } from '../credit-proposal.service';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { HttpClient } from '@angular/common/http';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { FormControl } from '@angular/forms';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 
 @Component({
   selector: 'jhi-credit-proposal-propose-pricing',
   templateUrl: './credit-proposal-propose-pricing.component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css'],
+
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class CreditProposalProposePricingComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('dropdownlistdata')
@@ -41,6 +74,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public normalRateUSD: any;
   public discountProposalUSD: any;
   public proposedRateUSD: any;
+  public averageIDR: any;
+  public averageUSD: any;
+  public aplicationProducts: IApplicationProduct[];
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
   @Input() saveWordMinio: any;
   @Input()
   get creditProposal() {
@@ -49,6 +87,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+    this.aplicationProducts = item.products;
   }
 
   public industryList = [];
@@ -70,7 +109,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   constructor(
     private actRoute: ActivatedRoute,
     public listOfIndustryService: ListOfValueIndustryService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private http: HttpClient
   ) {
     this.countOS = 0;
     this.availableLimit = 0;
@@ -102,6 +142,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     for (let i = 0; i < this.listOfIndustry.length; i++) {
       if (this.listOfIndustry[i].label === event.itemData.value) {
         this.creditProposal.attributes['purposePricing'].industry = event.itemData.value;
+        this.creditProposal.attributes['purposePricing'].industryCode = this.listOfIndustry[i].id;
       }
     }
   }
@@ -126,6 +167,12 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public availableLimitUSDAVG: number;
   public countOSUSDAVG: number;
   public totalPlafonUSDAVG: number;
+  public avgNormalRateIDR: any;
+  public avgNormalRateUSD: any;
+  public avgProposedRateIDR: any;
+  public avgProposedRateUSD: any;
+  public avgDiscProposalIDR: any;
+  public avgDiscProposalUSD: any;
 
   setValue(creditProposal: any) {
     for (let i = 0; i < creditProposal.products.length; i++) {
@@ -322,6 +369,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
     this.defaultCurrency();
     this.creditRatingCondition();
+    this.averagetoIDR();
   }
   public creditRatingCondition() {
     if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
@@ -371,5 +419,23 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         });
       }
     }
+  }
+
+  public averagetoIDR() {
+    this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        this.avgNormalRateIDR = this.aplicationProducts[i].attributes['avgNormalRateIDR'] = res['proposePricing'][i]['avgNormalRateIDR'];
+        this.avgProposedRateIDR = this.aplicationProducts[i].attributes['avgProposedRateIDR'] =
+          res['proposePricing'][i]['avgProposedRateIDR'];
+        this.avgDiscProposalIDR = this.aplicationProducts[i].attributes['avgDiscProposalIDR'] =
+          res['proposePricing'][i]['avgDiscProposalIDR'];
+
+        this.avgProposedRateUSD = this.aplicationProducts[i].attributes['avgProposedRateUSD'] =
+          res['proposePricing'][i]['avgProposedRateUSD'];
+        this.avgNormalRateUSD = this.aplicationProducts[i].attributes['avgNormalRateUSD'] = res['proposePricing'][i]['avgNormalRateUSD'];
+        this.avgDiscProposalUSD = this.aplicationProducts[i].attributes['avgDiscProposalUSD'] =
+          res['proposePricing'][i]['avgDiscProposalUSD'];
+      }
+    });
   }
 }

@@ -61,6 +61,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
   public applicationProduct: IApplicationProduct;
   public totalInitialLimit?: number;
   public totalChanges?: number;
@@ -101,11 +102,22 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = true;
+	if (this.isViewMode === true) {
+	  this.container_view_false.restrictEditing = true;
+	} else if (this.isViewMode === false) {
+	  if (this.parentSource === '') {
+		this.container.restrictEditing = true;
+	  } else if (this.parentSource === 'loan-analys') {
+		this.container_loan_analys.restrictEditing = true;
+	  }
+	}
   }
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+	if (this.router.url.split('/')[1] === 'cp-status-approval') {
+      this.parentSource = 'loan-analys';
+    }
     this.getWord();
 
     this.removeTagRemaks();
@@ -148,15 +160,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               fileReader.onload = (e: any) => {
                 let docEditor: any;
 
-				if (this.isViewMode === false) {
-				  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-				} else if (this.isViewMode === true) {
-				  if (this.parentSource === '') {
-					docEditor = this.container?.documentEditor as DocumentEditorComponent;
+                if (this.isViewMode === true) {
+                  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+                } else if (this.isViewMode === false) {
+                  if (this.parentSource === '') {
+                    docEditor = this.container?.documentEditor as DocumentEditorComponent;
                   } else if (this.parentSource === 'loan-analys') {
-					docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+                    docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
                   }
-				}
+                }
 
                 const contents: string = e.target.result;
                 docEditor.open(contents);
@@ -194,15 +206,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     let docEditor: any;
 
-    if (this.isViewMode === false) {
-	  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-	} else if (this.isViewMode === true) {
-	  if (this.parentSource === '') {
-		docEditor = this.container?.documentEditor as DocumentEditorComponent;
-	  } else if (this.parentSource === 'loan-analys') {
-		docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-	  }
-	}
+    if (this.isViewMode === true) {
+      docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+    } else if (this.isViewMode === false) {
+      if (this.parentSource === '') {
+        docEditor = this.container?.documentEditor as DocumentEditorComponent;
+      } else if (this.parentSource === 'loan-analys') {
+        docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+      }
+    }
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
@@ -251,10 +263,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   };
 
   fungsiSuminit() {
-    // alert('ok');
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -286,7 +296,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   fungsiSumchange() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -318,7 +327,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public fungsiSumOS() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 
@@ -364,7 +372,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   fungsiSumcredit() {
     let result: number;
     let dolar: number;
-    // limit = 0;
     result = 0;
     dolar = 0;
 

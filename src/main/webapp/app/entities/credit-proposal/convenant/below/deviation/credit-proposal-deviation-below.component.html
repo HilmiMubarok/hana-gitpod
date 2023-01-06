@@ -10,10 +10,24 @@
         </div>
         <ejs-grid [dataSource]="standardCovenant" allowTextWrap="true">
           <e-columns>
-            <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
+            <e-column headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center">
+              <ng-template #template let-data>{{ data.covenant }}</ng-template>
+            </e-column>
             <e-column headerText="Status" width="150" textAlign="center">
               <ng-template #template let-data>
                 <ejs-dropdownlist
+                  *ngIf="data.formGroub === 'true' || data.formGroub === true"
+                  (change)="onKeyUpEvent('status', $event, data)"
+                  [value]="'Waived'"
+                  [dataSource]="status"
+                  placeholder="Select a Status"
+                  cssClass="e-outline"
+                  [disabled]="readonly"
+                >
+                </ejs-dropdownlist>
+
+                <ejs-dropdownlist
+                  *ngIf="data.formGroub === false || data.formGroub === 'false'"
                   (change)="onKeyUpEvent('status', $event, data)"
                   [(ngModel)]="statusValue[data.id]"
                   [dataSource]="status"
@@ -24,9 +38,20 @@
                 </ejs-dropdownlist>
               </ng-template>
             </e-column>
-            <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+            <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
               <ng-template #template let-data>
                 <ejs-textbox
+                  *ngIf="data.formGroub === true || data.formGroub === 'true'"
+                  class="txtHeight"
+                  [multiline]="true"
+                  [value]="data.deviation"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox>
+
+                <ejs-textbox
+                  *ngIf="data.formGroub === false || data.formGroub === 'false'"
                   class="txtHeight"
                   [multiline]="true"
                   (keyup)="onKeyUpEvent('deviation', $event, data)"
@@ -38,9 +63,20 @@
                 </ejs-textbox>
               </ng-template>
             </e-column>
-            <e-column field="justification" headerText="Justification" width="200" textAlign="center">
+            <e-column field="justification" headerText="Justification" width="200" textAlign="justify" headerTextAlign="center">
               <ng-template #template let-data>
                 <ejs-textbox
+                  *ngIf="data.formGroub === true || data.formGroub === 'true'"
+                  class="txtHeight"
+                  [multiline]="true"
+                  [value]="data.justification"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox>
+
+                <ejs-textbox
+                  *ngIf="data.formGroub === false || data.formGroub === 'false'"
                   class="txtHeight"
                   [multiline]="true"
                   (keyup)="onKeyUpEvent('justification', $event, data)"

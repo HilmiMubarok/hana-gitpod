@@ -45,6 +45,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
   public object: ICreditProposal;
   public key: string;
   public view: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -67,10 +68,14 @@ export class DocumentChecklistDialogComponent implements OnInit {
     this.files = this.data.files;
   }
 
+  public onChange(el) {
+    el === 'TBO' && this.isTBO();
+  }
+
   ngOnInit() {
     this.object = this.data.creditProposal;
   }
-
+  public copyDeviation = [];
   public save(): void {
     for (let i = 0; i < this.file.length; i++) {
       const metaData = {
@@ -100,15 +105,39 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('file', this.file[i]);
-      console.log('meta', metaData);
 
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
-        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-          this._dialog.close(this.documentChecklist);
-        });
+        if (metaData.status === 'Waived') {
+          this.setConvenant(metaData);
+          this.storageService.getBucketName().subscribe((a: any) => {
+            if (a.body.bucket !== null) {
+              this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+                this._dialog.close(this.copyDeviation);
+              });
+            }
+          });
+        } else {
+          this.storageService.getBucketName().subscribe((a: any) => {
+            this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+              this._dialog.close(null);
+            });
+          });
+        }
       });
     }
+  }
+
+  public setConvenant(data: any) {
+    const convenantObject = {
+      no: this.data.creditProposal.attributes['convenant'].standardDataGridAbove.length + 1,
+      covenant: data.document,
+      status: data.status,
+      deviation: data.category,
+      formGroub: true,
+      justification: '',
+    };
+    this.copyDeviation.push(convenantObject);
   }
 
   public edit(): void {
@@ -133,13 +162,30 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
   public onSelect(event: any) {
     this.file.push(...event.addedFiles);
+    console.log(this.file);
+  }
+
+  private isTBO() {
+    const img = new Image();
+    img.src = 'content/images/los_logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+        this.file.push(file);
+      }, 'image/png');
+    };
   }
 
   public onRemove(event: any) {
     this.file.splice(this.files.indexOf(event), 1);
   }
 
-  public donwload(event: any) {
-    this.reportUtilService.downloadFileBYName(event);
+  public donwload(event: any, name: any) {
+    this.reportUtilService.downloadFileBYName(event, name.document + '.' + name.objectName.split('.')[1]);
   }
 }

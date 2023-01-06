@@ -1,39 +1,55 @@
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { IPositionReportingStructure } from 'app/entities/position-reporting-structure/position-reporting-structure.model';
+import { IApplicationRole } from 'app/entities/application-role/application-role.model';
+import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
+import lodash from 'lodash';
 import { PositionReportingStructureService } from 'app/entities/position-reporting-structure/position-reporting-structure.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { IOptionNode } from 'app/shared/model/option-node.model';
 import { LoanAnalysService } from '../loan-analys.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { firstValueFrom } from 'rxjs';
+import { Account } from 'app/core/auth/account.model';
+import { PersonService } from 'app/entities/person/person.service';
+import { IPerson } from 'app/entities/person/person.model';
 
 @Component({
   selector: 'jhi-loan-facility-approve-level',
   templateUrl: './approve-level.component.html',
   styleUrls: ['./approve-level.css'],
 })
-export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
+export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
   public displayColumns: string[] = ['no', 'approval_name', 'position', 'date', 'available_status', 'recomendation'];
-  public loading: boolean;
-  public itemsPerPage = 10;
-  public page = 0;
   public idRelationType: string;
-  public items: any;
   public dateCurren: any;
   public idApp: any;
+  public relType: IOptionNode[];
+  public selectedRelationType: string;
+  public filteringItems: IApplicationRole[];
+  public whoAmI: IPerson;
 
   constructor(
     protected positionReportingStructureService: PositionReportingStructureService,
     protected snackbar: MatSnackBar,
     protected loanAnalysService: LoanAnalysService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected applicationRoleService: ApplicationRoleService,
+    protected personService: PersonService,
+    protected accountService: AccountService
   ) {
     super(snackbar, positionReportingStructureService);
     this.loading = false;
     this.idApp = this.activatedRoute.snapshot.paramMap.get('id');
+    this.relType = [];
+    this.selectedRelationType = '';
+    this.filteringItems = [];
   }
+
   ngOnInit(): void {
-    this.setApprovalLevel();
-    this.setCurrenDate();
+    this.getWhoAmI().then(res => {
+      this.getApplicationRolesByApplicationId();
+    });
   }
 
   singleCheck(checkNode: any) {
@@ -44,13 +60,48 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     }
   }
 
-  setCurrenDate() {
-    this.items.fromDate = new Date();
+  private filteringRelType(params: IApplicationRole[]): void {
+    this.relType = this.applicationRoleService.filteringRelationTypes(params);
   }
 
-  setApprovalLevel() {
-    this.loanAnalysService.getAprovalLevel(this.idApp).subscribe(res => {
-      this.items = res.body;
-    });
+  private async getWhoAmI(): Promise<void> {
+    const account: Account = await firstValueFrom(this.accountService.identity());
+    const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
+      .body;
+    if (persons.length > 0) {
+      this.whoAmI = persons[0];
+    }
+  }
+
+  public selRelType(value: string): void {
+    this.selectedRelationType = value;
+    this.filteringItems = [];
+
+    if (value !== '') {
+      if (value.toLowerCase() !== 'credit_proposal') {
+        const whoAmI: IPerson = this.whoAmI;
+        this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
+          return o.relationTypeId === value && o.partyFromId === whoAmI.id;
+        });
+      } else {
+        this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
+          return o.relationTypeId === value;
+        });
+      }
+    }
+  }
+
+  private getApplicationRolesByApplicationId(): void {
+    this.applicationRoleService
+      .queryFilterBy({
+        idApplication: this.idApp,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.items = res.body;
+        this.filteringRelType(this.items);
+        this.selRelType(this.relType[0].id);
+      });
   }
 }

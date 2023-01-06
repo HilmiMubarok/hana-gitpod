@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -23,6 +23,10 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { STATUS } from 'app/shared/constants/status.constants';
+import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
+import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
+// import { PositionService } from 'app/entities/position/position.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -63,6 +67,17 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   post: any = '';
   organizationData: any = '';
   private id: string;
+  public status: boolean;
+  public reviewedOpinion: any;
+  private _surveyAppraisal: ISurveyAppraisals;
+
+  @Input()
+  get surveyAppraisal() {
+    return this._surveyAppraisal;
+  }
+  set surveyAppraisal(data: ISurveyAppraisals) {
+    this._surveyAppraisal = data;
+  }
   constructor(
     private collateralAppraisalService: CollateralAppraisalService,
     private formBuilder: FormBuilder,
@@ -71,7 +86,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     protected messageService: MessageService,
     public surveyBatchService: SurveyBatchService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute // private positionService: PositionService
   ) {
     super(_snackBar, surveyBatchService);
     this.page = 0;
@@ -79,21 +94,60 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
-    console.log('masuk report');
+    console.log('masukss report');
+    this.getReport();
+
+    // this.testReview();
+    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.collateralAppraisalService.find(this.id).subscribe(result => {
+    //   console.log('result', result);
+    //   this.mData = result.body.attributes;
+    //   this.mData.remark = result.body.remark;
+    //   this.mData.marketValue = result.body.collateral.marketValue;
+    //   this.mData.apprReportNum = result.body.apprReportNum;
+    //   this.mData.apprDate = result.body.apprDate;
+    //   this.mData.reportDate = result.body.reportDate;
+    //   this.mData.reviewedBy = result.body.reviewedBy;
+    // });
+  }
+  public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.collateralAppraisalService.find(this.id).subscribe(result => {
-      console.log('result', result);
       this.mData = result.body.attributes;
-      this.mData.remark = result.body.remark;
-      this.mData.marketValue = result.body.collateral.marketValue;
-      this.mData.apprReportNum = result.body.apprReportNum;
+      this.mData.appraisalNumber = result.body.appraisalNumber;
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
       this.mData.reviewedBy = result.body.reviewedBy;
+      this.mData.marketValue = result.body.collateral.marketValue;
+      this.mData.remark = result.body.remark;
+      // this.reviewedOpinion = result.body.reviewedOpinion;
+
+      if (result.body.apprOfficer === 'External') {
+        if (result.body.statusId === STATUS.APPROVE) {
+          this.status = true;
+        } else {
+          this.status = false;
+        }
+      }
     });
   }
+  // public teamReviewName: string;
+  // public testReview() {
+  //   this.id = this.activatedRoute.snapshot.paramMap.get('id');
+  //   this.collateralAppraisalService.find(this.id).subscribe(result => {
+  //     this.positionService.find(result.body.surveyorArea).subscribe(res => {
+  //       this.teamReviewName = res.body.employeeFirstName;
+  //     });
+  //     console.log('ini reviewer KJPP', this.teamReviewName);
+  //   });
+  // }
 
   previousState(): void {
     window.history.back();
+  }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return String(num);
   }
 }

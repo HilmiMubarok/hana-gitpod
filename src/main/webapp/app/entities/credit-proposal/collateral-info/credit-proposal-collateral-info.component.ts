@@ -57,14 +57,16 @@ export class CreditProposalCollateralInfoComponent {
   }
 
   public triggeredSave(proposalType: any) {
-    if (proposalType === 'Total Exposure > IDR 15 Bn') {
-      this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
-    } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
-      this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
-    } else if (proposalType === 'Total Exposure Back to Back') {
-      this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
-    }
-
-    this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
+	if (this.selectedMenu === 'CHECKLIST') {
+	  this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
+	}else {
+	  if (proposalType === 'Total Exposure > IDR 15 Bn') {
+		this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
+	  } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
+		this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
+	  } else if (proposalType === 'Total Exposure Back to Back') {
+		this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
+	  }
+	}
   }
 }
