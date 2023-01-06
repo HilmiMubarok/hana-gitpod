@@ -167,10 +167,18 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
+			  *ngIf="!isHistoryExist"
               [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
             ></jhi-credit-proposal-collateral-info>
+			<jhi-collateral-info-history
+			  #creditProposalCollateralInfoComponent
+			  *ngIf="isHistoryExist"
+			  [creditProposal]="creditProposal"
+			  [parentSource]="'loan-analys'"
+			  [isViewMode]="true"
+			></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
 
