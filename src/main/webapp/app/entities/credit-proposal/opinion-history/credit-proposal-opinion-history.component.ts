@@ -368,9 +368,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       }
     });
   }
-
+  public recomendasi: string
   public refresh() {
-    console.log('okeee')
     this.accountService.identity().subscribe(account => {
       this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
       this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
@@ -386,6 +385,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             if (this.notes[i].userId === account.login) {
               this.creditProposalItem.notes[i].message = this.obj;
               this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
+              this.recomendasi = this.notes[i].recomendation;
               this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
               this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
               this.creditProposalItem.attributes['tempLoggedInCondition'] = this.notes[i].condition;
