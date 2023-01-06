@@ -36,7 +36,7 @@
   mat-table
   id="tblOtherCovenant"
   *ngIf="creditProposalItem && !loading && isViewMode === false"
-  [dataSource]="creditProposalItem.attributes['convenant'].otherCovenant"
+  [dataSource]="this.creditProposalItem.attributes['convenant'].otherCovenant"
   class="w-100"
 >
   <ng-container matColumnDef="no">
