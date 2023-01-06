@@ -45,7 +45,7 @@
                   </div>
                   <div class="my-3">
                     <ejs-textbox
-                      [(ngModel)]="item.prospectOrganization.pic"
+                      [(ngModel)]="item.debtorData.pic"
                       placeholder="PIC"
                       floatLabelType="Auto"
                       cssClass="e-outline"
@@ -65,10 +65,10 @@
                   </div>
                   <div class="my-3">
                     <ejs-textbox
-                      [(ngModel)]="item.collaterals.picName"
-                      placeholder="Contact Person Name"
-                      floatLabelType="Auto"
+                      [(ngModel)]="item.prospectOrganization.officeMail"
+                      placeholder="Email"
                       disabled
+                      floatLabelType="Auto"
                       cssClass="e-outline"
                     >
                     </ejs-textbox>
@@ -176,8 +176,8 @@
                 <div class="col">
                   <!-- <div class="form-space"> -->
                   <ejs-textbox
-                    [(ngModel)]="item.prospectOrganization.officeMail"
-                    placeholder="Email"
+                    [(ngModel)]="item.legal.establishPlace"
+                    placeholder="Deed Of Established Place"
                     disabled
                     floatLabelType="Auto"
                     cssClass="e-outline"
@@ -206,285 +206,275 @@
                     disabled
                   ></ejs-textbox>
                 </div> -->
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.legal.establishPlace"
-                    placeholder="Deed Of Established Place"
-                    disabled
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <!-- <div class="form-space"> -->
+                    <ejs-textbox
+                      [(ngModel)]="item.debtorData.relationWithHana"
+                      placeholder="Relation With Keb Hana Bank"
+                      disabled
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
+                  <div class="col">
+                    <ejs-textbox [(ngModel)]="item.legal.siupNumber" disabled placeholder="SIUP" floatLabelType="Auto" cssClass="e-outline">
+                    </ejs-textbox>
+                    <!-- </div> -->
+                  </div>
                 </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.relationWithHana"
-                    placeholder="Relation With Keb Hana Bank"
-                    disabled
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <!-- <div class="form-space"> -->
+                    <ejs-textbox
+                      [(ngModel)]="item.debtorData.attributes['lobName']"
+                      disabled
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      placeholder="Line Of Business"
+                    ></ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="item.debtorData.attributes['lobCode']"
+                      placeholder="Line of Business Code"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    >
+                    </ejs-textbox>
+                  </div>
                 </div>
-                <div class="col">
-                  <ejs-textbox [(ngModel)]="item.legal.siupNumber" disabled placeholder="SIUP" floatLabelType="Auto" cssClass="e-outline">
-                  </ejs-textbox>
-                  <!-- </div> -->
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.attributes['lobName']"
-                    disabled
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    placeholder="Line Of Business"
-                  ></ejs-textbox>
-                </div>
-                <div class="col-6">
-                  <ejs-textbox
-                    disabled
-                    [(ngModel)]="item.debtorData.attributes['lobCode']"
-                    placeholder="Line of Business Code"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  >
-                  </ejs-textbox>
-                </div>
-              </div>
 
-              <div class="row">
-                <div class="col-6">
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.custInfoSystemName"
-                    placeholder="SID"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                    disabled
-                  >
-                  </ejs-textbox>
+                <div class="row">
+                  <div class="col-6">
+                    <ejs-textbox
+                      [(ngModel)]="item.debtorData.custInfoSystemName"
+                      placeholder="SID"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                      disabled
+                    >
+                    </ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <ejs-textbox
+                      [value]="item.debtorData.customerSince | date: 'yyyy/MM/dd'"
+                      disabled
+                      placeholder="Existing Customer Since"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
                 </div>
-                <div class="col-6">
-                  <ejs-textbox
-                    [value]="item.debtorData.customerSince | date: 'yyyy/MM/dd'"
-                    disabled
-                    placeholder="Existing Customer Since"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <ejs-textbox
+                      [(ngModel)]="item.debtorData.custInfoSystemCode"
+                      disabled
+                      placeholder="SID Code"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Existing Debtor Since</mat-label>
+                      <input
+                        [matDatepicker]="debtorSince"
+                        matInput
+                        type="text"
+                        [formControl]="date"
+                        [(ngModel)]="item.debtorData.debtorSince"
+                        [disabled]="true"
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="debtorSince" [disabled]="true"></mat-datepicker-toggle>
+                      <mat-datepicker #debtorSince></mat-datepicker>
+                    </mat-form-field>
+                  </div>
                 </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.custInfoSystemCode"
-                    disabled
-                    placeholder="SID Code"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <!-- <div class="form-space"> -->
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="item.debtorData.gnrlBankReportCode"
+                      placeholder="Kode LBU"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
+                  <div class="col">
+                    <ejs-textbox
+                      [(ngModel)]="partyCif.debtorData.strAccountNumberIDR"
+                      disabled
+                      placeholder="Account Number (IDR)"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                    <!-- </div> -->
+                  </div>
                 </div>
-                <div class="col-6">
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Existing Debtor Since</mat-label>
-                    <input
-                      [matDatepicker]="debtorSince"
-                      matInput
-                      type="text"
-                      [formControl]="date"
-                      [(ngModel)]="item.debtorData.debtorSince"
-                      [disabled]="true"
-                    />
-                    <mat-datepicker-toggle matSuffix [for]="debtorSince" [disabled]="true"></mat-datepicker-toggle>
-                    <mat-datepicker #debtorSince></mat-datepicker>
-                  </mat-form-field>
+                <div class="row my-3">
+                  <div class="col">
+                    <ejs-textbox
+                      [(ngModel)]="item.debtorData.gnrlBankReport"
+                      disabled
+                      [multiline]="true"
+                      placeholder="LBU Remark"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
+                  <div class="col">
+                    <ejs-textbox
+                      [(ngModel)]="partyCif.debtorData.strAccountNumberUSD"
+                      disabled
+                      placeholder="Account Number (USD)"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
                 </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-textbox
-                    disabled
-                    [(ngModel)]="item.debtorData.gnrlBankReportCode"
-                    placeholder="Kode LBU"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <!-- <div class="form-space"> -->
+                    <ejs-dropdownlist
+                      disabled
+                      [(ngModel)]="item.debtorData.collectabilityStatus"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      id="ddlelement"
+                      [dataSource]="collectabilityStatusData"
+                      placeholder="collectability Status"
+                    >
+                    </ejs-dropdownlist>
+                  </div>
+                  <div class="col-2">
+                    <!-- <div class="form-space"> -->
+                    <div color="#A3A3A3" class="e-headertext">Customer Status</div>
+                  </div>
+                  <div class="col-2">
+                    <ejs-radiobutton
+                      [(ngModel)]="item.attributes['basicInformation'].customerStatus"
+                      [value]="'New'"
+                      name="customer"
+                      label="New"
+                      [disabled]="view"
+                    ></ejs-radiobutton>
+                    <!-- </div> -->
+                  </div>
+                  <div class="col-2">
+                    <ejs-radiobutton
+                      [(ngModel)]="item.attributes['basicInformation'].customerStatus"
+                      [value]="'Existing'"
+                      name="customer"
+                      label="Existing"
+                      [disabled]="view"
+                    ></ejs-radiobutton>
+                    <!-- </div> -->
+                  </div>
                 </div>
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.accountNumberIDR"
-                    disabled
-                    placeholder="Account Number (IDR)"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                  <!-- </div> -->
+                <div class="row my-3">
+                  <div class="col-6">
+                    <!-- <div class="form-space"> -->
+                    <ejs-dropdownlist
+                      [dataSource]="callReportCategoryData"
+                      [(ngModel)]="item.debtorData.callReportCategory"
+                      placeholder="Call Report Category"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [disabled]="view"
+                    ></ejs-dropdownlist>
+                  </div>
+                  <div class="col-6">
+                    <ejs-dropdownlist
+                      [dataSource]="ifcRiskCategoryData"
+                      [(ngModel)]="item.debtorData.ifcRiskCategory"
+                      placeholder="IFC & Risk Category"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                      [disabled]="view"
+                    >
+                    </ejs-dropdownlist>
+                  </div>
                 </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.gnrlBankReport"
-                    disabled
-                    [multiline]="true"
-                    placeholder="LBU Remark"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="col">
-                  <ejs-textbox
-                    [(ngModel)]="item.debtorData.accountNumberUSD"
-                    disabled
-                    placeholder="Account Number (USD)"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-dropdownlist
-                    disabled
-                    [(ngModel)]="item.debtorData.collectabilityStatus"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    id="ddlelement"
-                    [dataSource]="collectabilityStatusData"
-                    placeholder="collectability Status"
-                  >
-                  </ejs-dropdownlist>
-                </div>
-                <div class="col-2">
-                  <!-- <div class="form-space"> -->
-                  <div color="#A3A3A3" class="e-headertext">Customer Status</div>
-                </div>
-                <div class="col-2">
-                  <ejs-radiobutton
-                    [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                    [value]="'New'"
-                    name="customer"
-                    label="New"
-                    [disabled]="view"
-                  ></ejs-radiobutton>
-                  <!-- </div> -->
-                </div>
-                <div class="col-2">
-                  <ejs-radiobutton
-                    [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                    [value]="'Existing'"
-                    name="customer"
-                    label="Existing"
-                    [disabled]="view"
-                  ></ejs-radiobutton>
-                  <!-- </div> -->
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-6">
-                  <!-- <div class="form-space"> -->
-                  <ejs-dropdownlist
-                    [dataSource]="callReportCategoryData"
-                    [(ngModel)]="item.debtorData.callReportCategory"
-                    placeholder="Call Report Category"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [disabled]="view"
-                  ></ejs-dropdownlist>
-                </div>
-                <div class="col-6">
-                  <ejs-dropdownlist
-                    [dataSource]="ifcRiskCategoryData"
-                    [(ngModel)]="item.debtorData.ifcRiskCategory"
-                    placeholder="IFC & Risk Category"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    [disabled]="view"
-                  >
-                  </ejs-dropdownlist>
-                </div>
-              </div>
 
-              <div class="row my-3">
-                <div class="col-6">
-                  <!-- <div class="form-space"> -->
-                  <ejs-textbox disabled [(ngModel)]="item.debtorData.pep" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col-6">
+                    <!-- <div class="form-space"> -->
+                    <ejs-textbox disabled [(ngModel)]="item.debtorData.pep" placeholder="PEP" floatLabelType="Auto" cssClass="e-outline">
+                    </ejs-textbox>
+                  </div>
+                  <div class="col-6">
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="item.debtorData.correspondenceAddressDesc"
+                      placeholder="Correspondence Address"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
                 </div>
-                <div class="col-6">
-                  <ejs-textbox
-                    disabled
-                    [(ngModel)]="item.debtorData.correspondenceAddressDesc"
-                    placeholder="Correspondence Address"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <!-- <div class="form-space"> -->
+                    <ejs-numerictextbox
+                      disabled
+                      [(ngModel)]="item.debtorData.depositCapital"
+                      placeholder="Modal Disetor"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                      format="IDR 0,"
+                      min="0"
+                      disabled
+                    >
+                    </ejs-numerictextbox>
+                  </div>
+                  <div class="col">
+                    <ejs-numerictextbox
+                      disabled
+                      [(ngModel)]="item.debtorData.annualSales"
+                      placeholder="Penjualan Tahunan"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                      format="IDR 0,"
+                      min="0"
+                    >
+                    </ejs-numerictextbox>
+                    <!-- </div> -->
+                  </div>
                 </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-numerictextbox
-                    disabled
-                    [(ngModel)]="item.debtorData.depositCapital"
-                    placeholder="Modal Disetor"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                    format="IDR 0,"
-                    min="0"
-                    disabled
-                  >
-                  </ejs-numerictextbox>
-                </div>
-                <div class="col">
-                  <ejs-numerictextbox
-                    disabled
-                    [(ngModel)]="item.debtorData.annualSales"
-                    placeholder="Penjualan Tahunan"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                    format="IDR 0,"
-                    min="0"
-                  >
-                  </ejs-numerictextbox>
-                  <!-- </div> -->
-                </div>
-              </div>
-              <div class="row my-3">
-                <div class="col">
-                  <!-- <div class="form-space"> -->
-                  <ejs-textbox
-                    disabled
-                    [(ngModel)]="item.debtorData.umkmCategory"
-                    placeholder="Category Debitur"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
-                </div>
-                <div class="col">
-                  <ejs-textbox
-                    disabled
-                    [(ngModel)]="item.debtorData.umkmClassification"
-                    placeholder="Klasifikasi UMKM"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                  >
-                  </ejs-textbox>
+                <div class="row my-3">
+                  <div class="col">
+                    <!-- <div class="form-space"> -->
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="item.debtorData.umkmCategory"
+                      placeholder="Category Debitur"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
+                  <div class="col">
+                    <ejs-textbox
+                      disabled
+                      [(ngModel)]="item.debtorData.umkmClassification"
+                      placeholder="Klasifikasi UMKM"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox>
+                  </div>
                 </div>
               </div>
             </div>
@@ -722,7 +712,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.accountNumberIDR"
+                    [(ngModel)]="partyCif.debtorData.strAccountNumberIDR"
                     placeholder="Account Number (IDR)"
                     floatLabelType="Auto"
                     cssClass="e-outline"
@@ -745,7 +735,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="item.debtorData.accountNumberUSD"
+                    [(ngModel)]="partyCif.debtorData.strAccountNumberUSD"
                     placeholder="Account Number (USD)"
                     floatLabelType="Auto"
                     cssClass="e-outline"

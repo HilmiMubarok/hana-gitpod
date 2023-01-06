@@ -22,6 +22,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -58,6 +59,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public pacth: any;
   public view: boolean;
+  public partyCif: IPartyCif = new PartyCif();
 
   partytypes: IPartyType[] = [];
 
@@ -211,9 +213,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
   }
-  // ngOnInit() {
-  //   this.remove();
-  // }
+  ngOnInit() {
+    console.log('data', this.partyCif);
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
