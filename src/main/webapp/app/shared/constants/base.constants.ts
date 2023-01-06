@@ -396,6 +396,10 @@ export enum GUARANTEE_TYPE {
   G02 = 'CONTINUING(LIMITED)',
 }
 
+export enum GUARANTEE_COVERAGE {
+  G0 = '',
+}
+
 export enum GUARANTEE_BIS_COL_DETAIL_TYPE {
   G301 = ' (0%)Bank of Korea',
   G302 = ' (0%)Republic of Korea Government',

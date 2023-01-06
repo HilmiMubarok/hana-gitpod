@@ -10,9 +10,10 @@ import lodash from 'lodash';
   selector: 'jhi-mapping-facility',
   templateUrl: './mapping-facility.component.html',
 })
-export class CreditProposalMappingFacilityComponent implements OnInit {
+export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges {
   @Output() outputCreditProposalMappingData = new EventEmitter();
   @Input() creditProposal: ICreditProposal;
+  @Input() collateralData: ICollateral;
 
   public collateralInfo: any;
   public creditProposalData: any;
@@ -38,16 +39,32 @@ export class CreditProposalMappingFacilityComponent implements OnInit {
     console.log('data', this.creditProposalData);
 
     this.checked = false;
-    this.setUp();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralData']) {
+      this.setUp();
+    }
   }
 
   ngOnInit(): void {
-    if (this.collateralInfo.paripasuStatus === 'Y') {
+    console.log('collateral ', this.collateralData);
+  }
+
+  public setCrossCollateral(index: number) {
+    if (this.collateralData.paripasuStatus === 'Y') {
+      console.log('paripasu status');
       if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-        this.checked = true;
-      } else {
-        this.checked = false;
+        const tempCollateralProductRelationObject = {
+          collateralId: this.collateralInfo.id,
+          bindingValue: this.bindingValueHelper[index],
+          applicationProduct: this.applicationProductData[index],
+        };
+
+        this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
       }
+    }
+    if (this.collateralData.paripasuStatus === 'N') {
+      console.log('paripsu NO');
     }
   }
 
@@ -56,6 +73,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
+        this.setCrossCollateral(i);
         if (this.creditProposalData.collateralProductRelations) {
           if (this.creditProposalData.collateralProductRelations.length > 0) {
             for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
