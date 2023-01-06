@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
+import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -13,7 +14,7 @@ import { DocumentEditorComponent, DocumentEditorContainerComponent, DocumentEdit
   templateUrl: './loan-facility-detail-history.component.html',
   styleUrls: ['./grid/loan.scss', './credit-proposal-tab-loan-facility-detail.css'],
 })
-export class LoanFacilityDetailHistoryComponent implements OnInit {
+export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];

@@ -118,6 +118,6 @@
   </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center" [hidden]="view">
-  <button mat-button [hidden]="view" (click)="save()">Save</button>
+  <button mat-button [hidden]="dataSource()" (click)="save()">Save</button>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

@@ -167,10 +167,18 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
+			  *ngIf="!isHistoryExist"
               [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
             ></jhi-credit-proposal-collateral-info>
+			<jhi-collateral-info-history
+			  #creditProposalCollateralInfoComponent
+			  *ngIf="isHistoryExist"
+			  [creditProposal]="creditProposal"
+			  [parentSource]="'loan-analys'"
+			  [isViewMode]="true"
+			></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
 
@@ -370,9 +378,9 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
+			  [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
-              [creditProposal]="creditProposal"
             ></jhi-credit-proposal-collateral-info>
           </mat-card-content>
         </mat-card>
@@ -381,7 +389,12 @@
       <div *ngIf="selectedMenu === 'collateral-info' && isHistoryExist" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-collateral-info-history [isViewMode]="true" [creditProposal]="creditProposal"></jhi-collateral-info-history>
+            <jhi-collateral-info-history
+			  #creditProposalCollateralInfoComponent
+			  [creditProposal]="creditProposal"
+			  [parentSource]="'loan-analys'"
+			  [isViewMode]="true"
+			></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
       </div>

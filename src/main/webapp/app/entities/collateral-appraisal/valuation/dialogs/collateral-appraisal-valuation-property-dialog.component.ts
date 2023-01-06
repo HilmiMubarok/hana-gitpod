@@ -11,7 +11,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
   templateUrl: './collateral-appraisal-valuation-property-dialog.component.html',
   styleUrls: ['../collateral-appraisal-valuation.scss'],
 })
-export class CollateralAppraisalValuationPropertyDialogComponent implements OnChanges, OnInit {
+export class CollateralAppraisalValuationPropertyDialogComponent implements OnInit {
   public collateralProp: ICollateralProperty;
   public collateralAppraisal: ICollateralAppraisal;
   constructor(
@@ -23,18 +23,25 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
   ngOnInit(): void {
-    this.calTotalmarket();
-    this.calTotalmarketIMB();
-    this.calTotalmarketTataKota();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
     if (this.collateralProp.propertyType === CollateralPropertyType.LAND) {
-      this.getMarketValueImbLand();
-    } else {
-      this.getMarketValueImbBuilding();
+      this.calTotalmarket();
+      this.calTotalmarketTataKotaLand();
+    }
+    if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
+      this.calTotalmarketIMBBuilding();
+      this.calTotalmarketTataKotaBuilding();
     }
   }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (this.collateralProp.propertyType === CollateralPropertyType.LAND) {
+  //     this.calTotalmarket();
+  //     this.calTotalmarketTataKotaLand();
+  //   } else {
+  //     this.calTotalmarketIMBBuilding();
+  //     this.calTotalmarketTataKotaBuilding();
+  //   }
+  // }
 
   public cancel(): void {
     this._dialog.close(this.collateralProp);
@@ -78,15 +85,27 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnCh
     }
     return false;
   }
+  // public calTotalmarket(): Number {
+  //   this.collateralProp.propertyMarketValue = this.collateralProp.propertyMarketValuePerMeter * this.countTotalArea();
+  //   return this.collateralProp.propertyMarketValue;
+  // }
   public calTotalmarket(): Number {
-    this.collateralProp.propertyMarketValue = this.collateralProp.propertyMarketValuePerMeter * this.countTotalArea();
-    return this.collateralProp.propertyMarketValue;
+    this.collateralProp.propertyMarketValueIMB =
+      this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValueIMBPerMeter;
+    return this.collateralProp.propertyMarketValueIMB;
   }
-  public calTotalmarketIMB(): Number {
+
+  public calTotalmarketTataKotaLand(): Number {
+    this.collateralProp.propertyMarketValueTataKota =
+      this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValueTataKotaPerMeter;
+    return this.collateralProp.propertyMarketValueTataKota;
+  }
+
+  public calTotalmarketIMBBuilding(): Number {
     this.collateralProp.propertyMarketValueIMB = this.collateralProp.propertyMarketValueIMBPerMeter * this.collateralProp.imbArea;
     return this.collateralProp.propertyMarketValueIMB;
   }
-  public calTotalmarketTataKota(): Number {
+  public calTotalmarketTataKotaBuilding(): Number {
     this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * this.countTotalArea();
     return this.collateralProp.propertyMarketValueTataKota;
   }

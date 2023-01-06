@@ -8,20 +8,40 @@
   ></ejs-menu>
   <div [hidden]="selectedMenu === 'CHECKLIST'">
     <jhi-above-grid-history [creditProposal]="creditProposal"></jhi-above-grid-history>
+	<jhi-credit-proposal-collateral-info-remarks-information
+	  #creditProposalCollateralInfoRemarksInfoComponentAbove
+	  [creditProposal]="creditProposal"
+	  [parentSource]="parentSource"
+	></jhi-credit-proposal-collateral-info-remarks-information>
   </div>
 </div>
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
   <div *ngIf="selectedMenu === 'CHECKLIST'">
     <div class="card-content">
       <jhi-collateral-info-checklist-history [creditProposal]="creditProposal"> </jhi-collateral-info-checklist-history>
+	  <jhi-credit-proposal-collateral-info-remarks-checklist
+		#creditProposalCollateralInfoRemarksCheckComponent
+		[creditProposal]="creditProposal"
+		[parentSource]="parentSource"
+	  ></jhi-credit-proposal-collateral-info-remarks-checklist>
     </div>
   </div>
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
   <jhi-bellow-grid-history [creditProposal]="creditProposal"></jhi-bellow-grid-history>
+  <jhi-credit-proposal-collateral-info-remarks-information
+    #creditProposalCollateralInfoRemarksInfoComponentBelow
+    [creditProposal]="creditProposal"
+    [parentSource]="parentSource"
+  ></jhi-credit-proposal-collateral-info-remarks-information>
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
   <jhi-collateral-info-btb-history [creditProposal]="creditProposal"></jhi-collateral-info-btb-history>
+  <jhi-credit-proposal-collateral-info-remarks-information
+    #creditProposalCollateralInfoRemarksInfoComponentBtb
+    [creditProposal]="creditProposal"
+    [parentSource]="parentSource"
+  ></jhi-credit-proposal-collateral-info-remarks-information>
 </div>

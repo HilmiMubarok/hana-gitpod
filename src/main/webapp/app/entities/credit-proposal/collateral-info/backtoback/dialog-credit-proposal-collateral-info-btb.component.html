@@ -88,13 +88,25 @@
               </div>
 
               <div class="form-group">
-                <ejs-textbox
-                  [disabled]="isViewMode === true"
-                  [(ngModel)]="binding.bindingValue"
-                  placeholder="Binding Value"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                ></ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="binding.bindingValue"
+                    placeholder="Binding Value"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="binding.bindingValue"
+                    placeholder="Binding Value"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  ></ejs-textbox>
+                </section>
               </div>
 
               <!-- <div class="form-group">
@@ -107,39 +119,79 @@
               </div> -->
 
               <div class="form-group">
-                <ejs-textbox
-                  [disabled]="isViewMode === true"
-                  [(ngModel)]="empty.bunga"
-                  placeholder="Bunga"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
-                </ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.bunga"
+                    placeholder="Bunga"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.bunga"
+                    placeholder="Bunga"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  >
+                  </ejs-textbox>
+                </section>
               </div>
               <div class="form-group">
-                <ejs-textbox
-                  [disabled]="isViewMode === true"
-                  [(ngModel)]="empty.kondisi"
-                  placeholder="Kondisi"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                >
-                </ejs-textbox>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.kondisi"
+                    placeholder="Kondisi"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  >
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    [disabled]="isViewMode === true"
+                    [(ngModel)]="empty.kondisi"
+                    placeholder="Kondisi"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  >
+                  </ejs-textbox>
+                </section>
               </div>
 
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Tanggal Verifikasi</mat-label>
-                  <input
-                    [disabled]="isViewMode === true"
-                    [matDatepicker]="bindingDate"
-                    [formControl]="date"
-                    matInput
-                    type="text"
-                    [(ngModel)]="collateral.bindingDate"
-                  />
-                  <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
-                  <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-label>Tanggal Verifikasi</mat-label>
+                    <input
+                      [disabled]="isViewMode === true"
+                      [matDatepicker]="bindingDate"
+                      [formControl]="date"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                    />
+                    <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
+                    <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <input
+                      disabled
+                      [matDatepicker]="bindingDate"
+                      [formControl]="date"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                    />
+                    <mat-datepicker-toggle matSuffix disabled [for]="bindingDate"></mat-datepicker-toggle>
+                    <mat-datepicker disabled #bindingDate></mat-datepicker>
+                  </section>
                 </mat-form-field>
               </div>
 
@@ -176,8 +228,13 @@
         </div>
         <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
         <mat-dialog-actions align="center">
-          <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-          <button mat-button (click)="save()">Save</button>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+            <button mat-button (click)="save()">Save</button>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+          </section>
         </mat-dialog-actions>
       </div>
     </div>
