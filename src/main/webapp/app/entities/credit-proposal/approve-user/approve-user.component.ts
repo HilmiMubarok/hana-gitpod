@@ -1,19 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { AccountService } from 'app/core/auth/account.service';
-import { ApplicationRole, IApplicationRole } from 'app/entities/application-role/application-role.model';
+import { IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
-import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 import { LoanAnalysService } from 'app/entities/loan-analys/loan-analys.service';
-import { IPositionReportingStructure } from 'app/entities/position-reporting-structure/position-reporting-structure.model';
 import { PositionReportingStructureService } from 'app/entities/position-reporting-structure/position-reporting-structure.service';
-import { IPosition, Position } from 'app/entities/position/position.model';
-import { PositionService } from 'app/entities/position/position.service';
+import { IPosition } from 'app/entities/position/position.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
+import { IOptionNode } from 'app/shared/model/option-node.model';
 import lodash from 'lodash';
-import { firstValueFrom } from 'rxjs';
 import { ICreditProposal } from '../credit-proposal.model';
 
 @Component({
@@ -52,7 +47,6 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
 
   constructor(
     protected snackbar: MatSnackBar,
-    protected accountService: AccountService,
     protected positionReportingStructureService: PositionReportingStructureService,
     public applicationRoleService: ApplicationRoleService,
     protected activatedRoute: ActivatedRoute,
@@ -75,9 +69,6 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
   }
 
   public async selRelType(value: string): Promise<void> {
-    const account: any = await firstValueFrom(this.accountService.identity());
-    console.log('xxx', account);
-
     this.selectedRelationType = value;
     if (value !== '') {
       this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
