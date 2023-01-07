@@ -1526,21 +1526,22 @@ export const SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING: object[] = [
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
   },
-  {
-    id: 'compliance-recommendation',
-    text: 'Compliance Recommendation',
-  },
+  ...SUBMENU_LOAN_DAR,
   {
     id: 'opinion',
     text: 'Credit Opinion',
   },
   {
-    id: 'loan-facility',
-    text: 'Loan Facility Detail',
+    id: 'loan-facility-detail',
+    text: 'loan facility detail',
   },
   {
     id: 'convenant-tbo',
     text: 'Covenant & Document Checklist',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Facility Mapping',
   },
 ];
 
