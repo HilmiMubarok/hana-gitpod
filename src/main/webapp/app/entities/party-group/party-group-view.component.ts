@@ -213,9 +213,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
   }
-  ngOnInit() {
-    console.log('data', this.partyCif);
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['id']) {
