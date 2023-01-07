@@ -4,6 +4,9 @@ import { IndustryLimit, IIndustryLimit } from './industry-limit.model';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IndustryLimitExposureParameterService } from 'app/entities/master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { ListOfValueIndustryService } from '../../list-of-value-industry.service';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { IProduct } from 'app/entities/product/product.model';
+import { CreditProposalService } from '../../credit-proposal.service';
 @Component({
   selector: 'jhi-industry-limit',
   templateUrl: './industry-limit.component.html',
@@ -20,12 +23,13 @@ export class IndustryLimitComponent implements OnInit {
   public remainingAfterCp: number;
   public status: string;
   public cpFaciity = [];
-  public remainingAfterCpMinus: number
+  public remainingAfterCpMinus: number;
 
   constructor(
     public applicationOptionService: ApplicationOptionService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
-    public listOfValueIndustryService: ListOfValueIndustryService
+    public listOfValueIndustryService: ListOfValueIndustryService,
+    public creditProposalService: CreditProposalService
   ) {
     this.dateAsOf = '';
     this.limitPercentage = 0;
@@ -51,12 +55,7 @@ export class IndustryLimitComponent implements OnInit {
   ngOnInit(): void {
     this.applicationOption();
     this.industryLimit();
-   
-  
-    this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond
- 
   }
-
 
   public fungsiSumOS() {
     let result: number;
@@ -103,7 +102,6 @@ export class IndustryLimitComponent implements OnInit {
     });
   }
 
-
   public industryLimit() {
     this.listOfValueIndustryService.query().subscribe((response: any) => {
       // this.listOfIndustry = res.body;
@@ -113,8 +111,8 @@ export class IndustryLimitComponent implements OnInit {
           this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
             this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
-            this.industryLimitExposure = res.body.industryLimitExposure
-            this.limitNominal =  Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
+            this.industryLimitExposure = res.body.industryLimitExposure;
+            this.limitNominal = Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
 
             this.totalAmmountFunc(res.body.remainingBalance);
           });
@@ -123,19 +121,17 @@ export class IndustryLimitComponent implements OnInit {
     });
   }
 
-   public totalAmmountFunc(remaining: number) {
+  public totalAmmountFunc(remaining: number) {
     const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
-
-
-    this.remainingAfterCp = Number(remaining) - Number(this.creditProposal.attributes['facilityDetail'].totalPlafond);
-    this.remainingAfterCpMinus = Number(this.creditProposal.attributes['facilityDetail'].totalPlafond) - Number(remaining);
-   
-    if (this.remainingAfterCp > 0) {
-      this.status = 'Comply';
-    } else {
-      this.status = 'Breach The Limit';
-    }
+    const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
+      this.purposeAmmount = message;
+      this.remainingAfterCp = Number(remaining) - Number(this.purposeAmmount);
+      this.remainingAfterCpMinus = Number(this.purposeAmmount) - Number(remaining);
+      if (this.remainingAfterCp > 0) {
+        this.status = 'Comply';
+      } else {
+        this.status = 'Breach The Limit';
+      }
+    });
   }
 }
-
-
