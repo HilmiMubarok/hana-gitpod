@@ -134,15 +134,17 @@
 		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
 			#document_editor_container_view_false
-			[enableToolbar]="false"
+			[enableToolbar]="true"
 			[enableLocalPaste]="false"
 			height="100vh"
 			style="display: block"
-			(documentChange)="onDocumentChange()"
-			[enableEditor]="false"
-			[isReadOnly]="true"
-          >
-          </ejs-documenteditorcontainer>
+			[spellcheck]="false"
+            [enableSpellCheck]="false"
+			(keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+			[enableEditor]="true"
+			[isReadOnly]="false"
+          ></ejs-documenteditorcontainer>
 		</section>
 		<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <ejs-documenteditorcontainer
@@ -153,10 +155,9 @@
 			style="display: block"
 			(documentChange)="onDocumentChange()"
 			[enableEditor]="false"
-			[isReadOnly]="false"
+			[isReadOnly]="true"
 			disabled
-          >
-          </ejs-documenteditorcontainer>
+          ></ejs-documenteditorcontainer>
 		</section>
 	  </section>
 	  <section *ngIf="parentSource === 'loan-analys'">
@@ -193,6 +194,7 @@
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSuminit()"
+			  [ngModel]="totallimt"
               placeholder="Total Initial Limit"
               cssClass="e-outline"
               floatLabelType="Always"
@@ -335,6 +337,7 @@
             (documentChange)="onDocumentChange()"
             [enableEditor]="false"
             [isReadOnly]="true"
+			disabled
           ></ejs-documenteditorcontainer>
         </section>
       </section>
