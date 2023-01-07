@@ -380,7 +380,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
           for (let i = 0; i < this.notes.length; i++) {
             this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
             if (this.notes[i].userId === account.login) {
-              this.creditProposalItem.notes[i].message = this.obj;
+              this.creditProposalItem.notes[i].message = '';
               this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
               this.recomendasi = this.notes[i].recomendation;
               this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
