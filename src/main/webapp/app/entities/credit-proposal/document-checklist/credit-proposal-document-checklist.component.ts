@@ -26,7 +26,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
 
   set creditProposal(data: ICreditProposal) {
     this._creditProposal = data;
-    console.log('cp', data.cif.partyId)
+    console.log('cp', data.cif.partyId);
   }
 
   constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {
@@ -125,7 +125,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
 
     for (let i = 0; i < element.files.length; i++) {
       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-        this.getFiles(this.creditProposal.id);
+        this.getFiles(this.creditProposal.cif.partyId);
       });
     }
   }
