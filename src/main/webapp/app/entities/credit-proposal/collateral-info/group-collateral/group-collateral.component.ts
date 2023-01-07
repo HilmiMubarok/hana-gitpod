@@ -103,7 +103,6 @@ export class GroupCollateralComponent implements OnChanges {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
-          console.log('datachanges', this.collateralMybusiness());
         }
       }
     }
@@ -360,20 +359,13 @@ export class GroupCollateralComponent implements OnChanges {
   }
   public groubCollateralPagination: any;
   public collateralMybusiness() {
+    const groupId = this.creditProposal.debtorData.groupCompanyId;
+    const idParty = this.creditProposal.cif.partyId;
     const cifNumber = this.creditProposal.customerNumber;
-    this.partyCifService.getGroupCollateral(cifNumber).subscribe(res => {
-      const groupCollaterals: IGroupCollateral[] = res.body;
-      for (let i = 0; i < groupCollaterals.length; i++) {
-        const satuanGroupCollateral: IGroupCollateral = groupCollaterals[i];
-        for (let a = 0; a < satuanGroupCollateral.collaterals.length; a++) {
-          const satuanCollateral: ICollateral = satuanGroupCollateral.collaterals[a];
-          this.groupCollaterals.push(satuanCollateral);
-          this.groupCollaterals = [...this.groupCollaterals];
-
-          this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
-          this.groubCollateralPagination.paginator = this.paginator;
-        }
-      }
+    this.partyCifService.getListGroupCollateral(cifNumber).subscribe(res => {
+      this.groupCollaterals = res.body;
+      this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
+      this.groubCollateralPagination.paginator = this.paginator;
     });
   }
 
