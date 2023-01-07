@@ -473,7 +473,7 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
 
     this.cdr.detectChanges();
     // this.surveyAppraisal.surveyorArea = args['value'].id;
-    this.surveyAppraisal.surveyorArea = args['itemData'].id;
+    this.surveyAppraisal.surveyorArea = args['value'].id;
   }
 
   public selectTeamReviewer(args: ChangeEventArgs): void {

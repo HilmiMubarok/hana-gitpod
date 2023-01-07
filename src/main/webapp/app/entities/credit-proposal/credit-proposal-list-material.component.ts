@@ -82,7 +82,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
-    this.kagebunshinNoJutsu();
+    this.conditionRoleRM();
   }
 
   private loadStatusChip(): void {
@@ -282,7 +282,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       }
     });
   }
-  public kagebunshinNoJutsu() {
+  public conditionRoleRM() {
     if (this.isRm()) {
       if (this.parentPath === 'cp-status-approval') {
         if (this.account.authorities.length <= 2) {
