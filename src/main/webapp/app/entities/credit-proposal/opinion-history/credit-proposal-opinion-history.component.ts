@@ -127,6 +127,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   change(event: string){
     this.newItemEvent.emit(event);
+	this.creditProposalItem.attributes['tempLoggedInRecomendation'] = event;
   }
 
   public openDialog(element: INotes = null): void {
@@ -381,11 +382,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
             if (this.notes[i].userId === account.login) {
               this.creditProposalItem.notes[i].message = '';
-              this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
+              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
               this.recomendasi = this.notes[i].recomendation;
               this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
               this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-              this.creditProposalItem.attributes['tempLoggedInCondition'] = this.notes[i].condition;
+              this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
             }
           }
         }
