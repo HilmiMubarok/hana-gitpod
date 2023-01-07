@@ -46,6 +46,7 @@ export class DocumentComponent implements OnChanges, OnInit {
   }
   ngOnInit(): void {
     this.checkLogin();
+    this.hideordisable();
     this.setMatrixInput();
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -284,9 +285,10 @@ export class DocumentComponent implements OnChanges, OnInit {
   }
   hideordisable() {
     if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
-      return true;
+      this.IfRmEnable = true;
+    } else {
+      this.IfRmEnable = false;
     }
-    return false;
   }
   private checkLogin() {
     this.accountService.identity().subscribe(account => {
@@ -302,10 +304,10 @@ export class DocumentComponent implements OnChanges, OnInit {
   private setMatrixInput() {
     if (this.isRm()) {
       if (this.account.authorities.length <= 2) {
-        if (this.status === STATUS.APPROVE) {
-          this.IfRmEnable = true;
-        } else {
+        if (this.status !== STATUS.COMPLETE) {
           this.IfRmEnable = false;
+        } else {
+          this.IfRmEnable = true;
         }
       }
     }
