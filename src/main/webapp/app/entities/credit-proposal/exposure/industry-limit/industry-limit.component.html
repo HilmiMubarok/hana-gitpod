@@ -43,7 +43,7 @@
                 <div class="col-5">Limit in % from total O/S loan</div>
                 <div class="col-md-auto">:</div>
                 <div class="col col-lg-2">
-                  {{ limitPercentage }}
+                  {{ limitPercentage | currency: 'IDR':'symbol' }}
                 </div>
               </div>
             </section>
@@ -67,7 +67,7 @@
                 <div class="col-5">Limit in IDR MIO</div>
                 <div class="col-md-auto">:</div>
                 <div class="col col-lg-2">
-                  {{ limitNominal }}
+                  {{ limitNominal | currency: 'IDR':'symbol' }}
                 </div>
               </div>
             </section>
@@ -91,7 +91,7 @@
                 <div class="col-5">Remaining Balance</div>
                 <div class="col-md-auto">:</div>
                 <div class="col col-lg-2">
-                  {{ remainingBalance }}
+                  {{ remainingBalance | currency: 'IDR':'symbol' }}
                 </div>
               </div>
             </section>
@@ -141,7 +141,7 @@
                 <div class="col-5">Proposed Amount</div>
                 <div class="col-md-auto">:</div>
                 <div class="col col-lg-2">
-                  {{ purposeAmmount }}
+                  {{ purposeAmmount | currency: 'IDR':'symbol' }}
                 </div>
               </div>
             </section>
@@ -162,7 +162,7 @@
               <div class="fontsebled row py-3">
                 <div class="col-5">Remaining Balance after this Proposal</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-2">-{{ remainingAfterCpMinus }}</div>
+                <div class="col col-lg-3">-{{ remainingAfterCpMinus | currency: 'IDR':'symbol' }}</div>
               </div>
             </section>
           </div>
@@ -181,7 +181,7 @@
               <div class="fontsebled row py-3">
                 <div class="col-5">Remaining Balance after this Proposal</div>
                 <div class="col-md-auto">:</div>
-                <div class="col col-lg-2">-{{ remainingAfterCpMinus }}</div>
+                <div class="col col-lg-3">-{{ remainingAfterCpMinus | currency: 'IDR':'symbol' }}</div>
               </div>
             </section>
           </div>
