@@ -55,6 +55,8 @@ export class IndustryLimitComponent implements OnInit {
   ngOnInit(): void {
     this.applicationOption();
     this.industryLimit();
+
+    this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
   }
 
   public fungsiSumOS() {
@@ -123,15 +125,14 @@ export class IndustryLimitComponent implements OnInit {
 
   public totalAmmountFunc(remaining: number) {
     const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
-    const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
-      this.purposeAmmount = message;
-      this.remainingAfterCp = Number(remaining) - Number(this.purposeAmmount);
-      this.remainingAfterCpMinus = Number(this.purposeAmmount) - Number(remaining);
-      if (this.remainingAfterCp > 0) {
-        this.status = 'Comply';
-      } else {
-        this.status = 'Breach The Limit';
-      }
-    });
+
+    this.remainingAfterCp = Number(remaining) - Number(this.creditProposal.attributes['facilityDetail'].totalPlafond);
+    this.remainingAfterCpMinus = Math.round(Number(this.creditProposal.attributes['facilityDetail'].totalPlafond) - Number(remaining));
+
+    if (this.remainingAfterCp > 0) {
+      this.status = 'Comply';
+    } else {
+      this.status = 'Breach The Limit';
+    }
   }
 }
