@@ -127,7 +127,7 @@
             <div class="fontsebled row">
               <div class="col-5">Sub Total Initial LImit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSuminit() | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ fungsiSuminit() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -150,7 +150,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Changes (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumchange() | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ fungsiSumchange() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -319,7 +319,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Sub Total Changes (IDR))</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumchangeGroub() | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ fungsiSumchangeGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -344,7 +344,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">SubTotal O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -404,7 +404,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Debitur Cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturCashLoan | number }}</div>
+              <div class="col col-lg-2">{{ totalDebiturCashLoan | number }}</div>
             </div>
           </section>
         </div>
@@ -428,7 +428,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Exposure Initial Limit (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSuminit() + fungsiSuminitGroub() | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ fungsiSuminit() + fungsiSuminitGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -453,7 +453,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Debitur Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturNonCashLoan | number }}</div>
+              <div class="col col-lg-2">{{ totalDebiturNonCashLoan | number }}</div>
             </div>
           </section>
         </div>
@@ -499,7 +499,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Debtor</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ init }}</div>
+              <div class="col col-lg-2">{{ init }}</div>
             </div>
           </section>
         </div>
@@ -522,7 +522,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total exposure O/S (IDR)</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ fungsiSumOS() + fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
+              <div class="col col-lg-2">{{ fungsiSumOS() + fungsiSumOSGroub() | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -596,7 +596,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Group Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ ccy }}.{{ totalDebiturNonCashLoanGroup }}</div>
+              <div class="col col-lg-2">{{ totalDebiturNonCashLoanGroup }}</div>
             </div>
           </section>
         </div>
