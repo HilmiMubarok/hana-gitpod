@@ -108,7 +108,7 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
 
       for (let i = 0; i < dataset.length; i++) {
         if (dataset[i].status === 'Waived') {
-          this.filterStatus = [dataset[i]];
+          this.filterStatus = [...this.filterStatus, dataset[i]];
         }
       }
     } else {
