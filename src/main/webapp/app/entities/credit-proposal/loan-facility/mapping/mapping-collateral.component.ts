@@ -26,6 +26,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
 
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
+  public disableField: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -34,6 +35,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       collateralInfo: ICollateral;
       collateralProductRelations: any; // seharusnya ICollateralProductRelation
       creditProposaldata: ICreditProposal;
+      hideField: string;
     },
     protected collateralPropertyService: CollateralPropertyService
   ) {
@@ -41,7 +43,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
 
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
-
+    this.disableField = this.data.hideField;
     this.setUp();
   }
 
@@ -54,6 +56,13 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     for (let i = 0; i < this.collateralInfo.length; i++) {
       this.loadData(i);
     }
+    this.sableFeild();
+  }
+  public sableFeild() {
+    if (this.disableField === 'DRAFT') {
+      return false;
+    }
+    return true;
   }
 
   private setUp(): void {

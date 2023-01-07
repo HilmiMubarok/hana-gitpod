@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../credit-proposal.model';
-import lodash from 'lodash';
+import lodash, { toUpper } from 'lodash';
 
 @Component({
   selector: 'jhi-mapping-facility',
@@ -19,6 +19,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public creditProposalData: any;
   public applicationProductData: any;
   public checked: boolean;
+  public disableField: string;
 
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
@@ -31,6 +32,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       applicationProduct: IApplicationProduct;
       collateral: ICollateral;
       cp: ICreditProposal;
+      hideField: string;
     }
   ) {
     this.collateralInfo = this.data.collateral;
@@ -39,6 +41,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     console.log('data', this.creditProposalData);
     this.setUp();
     this.checked = false;
+    this.disableField = this.data.hideField;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralData']) {
@@ -48,8 +51,16 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
 
   ngOnInit(): void {
     console.log('collateral ', this.collateralData);
+    this.sableFeild();
+    console.log('ini typeSable', this.disableField);
+    // console.log('return type sable', this.sableFeild());
   }
-
+  public sableFeild() {
+    if (this.disableField === 'DRAFT') {
+      return false;
+    }
+    return true;
+  }
   public setCrossCollateral(index: number) {
     if (this.collateralData) {
       if (this.collateralData.paripasuStatus === 'Y') {
