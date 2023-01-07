@@ -30,7 +30,6 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFiles(this.creditProposalItem.cif.partyId);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
   }
@@ -39,6 +38,7 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public storageService: StorageService) {
     this.loading = false;
+    this.filterStatus = [];
   }
 
   // Add View Dialog
@@ -68,6 +68,17 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
         ];
       }
     });
+  }
+
+  public filterDeviation() {
+    this.getFiles(this.creditProposalItem.cif.partyId);
+    if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
+      for (let i = 0; i < this.creditProposalItem.attributes['convenant']['otherCovenant'].length; i++) {
+        if (this.creditProposalItem.attributes['convenant']['otherCovenant'][i].status !== 'Applied') {
+          this.filterStatus = [...this.filterStatus, this.creditProposalItem.attributes['convenant']['otherCovenant'][i]];
+        }
+      }
+    }
   }
 
   public folders = [];
@@ -162,11 +173,5 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
     const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
     this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
     this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
-  }
-
-  public filterDeviation() {
-    if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
-      this.filterStatus = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(element => element.status !== 'Applied');
-    }
   }
 }
