@@ -152,10 +152,10 @@
                 width="150px"
                 [src]="item.url"
                 *ngIf="
-                  item.key.split('.')[1] === 'png' ||
-                  item.key.split('.')[1] === 'jpg' ||
-                  item.key.split('.')[1] === 'jpeg' ||
-                  item.key.split('.')[1] === 'gif'
+                  item.key.indexOf('png') > -1 ||
+                  item.key.indexOf('jpg') > -1 ||
+                  item.key.indexOf('jpeg') > -1 ||
+                  item.key.indexOf('gif') > -1
                 "
               />
 
@@ -314,69 +314,64 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <img
-          style="width: 300px; border-radius: 20px"
-          *ngIf="
-            item.key.split('.')[1] === 'png' ||
-            item.key.split('.')[1] === 'jpg' ||
-            item.key.split('.')[1] === 'jpeg' ||
-            item.key.split('.')[1] === 'gif'
-          "
-          [src]="item.url"
-        />
-
-        <div
-          *ngIf="
-            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-            item['metaData']['Value'] === 'application/vnd.ms-excel'
-          "
-          style="width: 300px"
-        >
-          <img width="300px" src="../../../content/images/excel.png" />
-          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)">
-              <mat-icon>get_app</mat-icon>
-            </button>
+        <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
+          <img
+            [src]="item.url"
+            style="width: 300px; border-radius: 20px"
+            *ngIf="
+              item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
+            "
+          />
+          <div
+            *ngIf="
+              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+              item['metaData']['Value'] === 'application/vnd.ms-excel'
+            "
+            style="width: 300px"
+          >
+            <img width="300px" src="../../../content/images/excel.png" />
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            </div>
           </div>
-        </div>
 
-        <div
-          *ngIf="
-            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-          "
-        >
-          <img width="300px" src="../../../content/images/word.png" />
-          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)">
-              <mat-icon>get_app</mat-icon>
-            </button>
+          <div
+            *ngIf="
+              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            "
+          >
+            <img width="300px" src="../../../content/images/word.png" />
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            </div>
           </div>
-        </div>
 
-        <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
-          <img width="300px" src="../../../content/images/pdf.png" />
+          <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
+            <img width="300px" src="../../../content/images/pdf.png" />
 
-          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)">
-              <mat-icon>get_app</mat-icon>
-            </button>
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            </div>
           </div>
-        </div>
 
-        <div
-          *ngIf="
-            item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-            item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-          "
-        >
-          <img width="300px" src="../../../content/images/power-point.jpg" />
+          <div
+            *ngIf="
+              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            "
+          >
+            <img width="300px" src="../../../content/images/power-point.jpg" />
 
-          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)">
-              <mat-icon>get_app</mat-icon>
-            </button>
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+          <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
+            <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
+              Nama File: {{ item.tags.document }}
+            </p>
           </div>
         </div>
       </li>

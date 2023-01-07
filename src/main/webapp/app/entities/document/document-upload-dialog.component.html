@@ -111,10 +111,10 @@
                 width="150px"
                 [src]="item.url"
                 *ngIf="
-                  item.key.split('.')[1] === 'png' ||
-                  item.key.split('.')[1] === 'jpg' ||
-                  item.key.split('.')[1] === 'gif' ||
-                  item.key.split('.')[1] === 'jpeg'
+                  item.key.indexOf('png') > -1 ||
+                  item.key.indexOf('jpg') > -1 ||
+                  item.key.indexOf('jpeg') > -1 ||
+                  item.key.indexOf('gif') > -1
                 "
               />
 
