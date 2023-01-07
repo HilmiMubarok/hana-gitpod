@@ -434,11 +434,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         return true;
       } else if (node.id === 'summary') {
         if (
-          this.collateralAppraisal.attributes['marketbility'] !== '' &&
-          this.collateralAppraisal.divHeadId !== null &&
-          this.collateralAppraisal.deptHeadId !== null &&
-          this.collateralAppraisal.teamLeadId !== null &&
-          this.collateralAppraisal.unitHeadId !== null
+          this.collateralAppraisal.attributes['marketbility'] !== ''
+          // &&
+          // this.collateralAppraisal.divHeadId !== null &&
+          // this.collateralAppraisal.deptHeadId !== null &&
+          // this.collateralAppraisal.teamLeadId !== null &&
+          // this.collateralAppraisal.unitHeadId !== null
           // this.collateralAppraisal.attributes['marketbility'] !== '' &&
           // this.surveyAppraisalsService.applicationRoleIdDH[0] !== 'false' &&
           // this.surveyAppraisalsService.applicationRoleIdDeptHead[0] !== 'false' &&
@@ -1138,10 +1139,10 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       precentage: true,
       keterangan: true,
       marketability: true,
-      deptHeadName: true,
-      teamLeadName: true,
-      unitHeadName: true,
-      divHeadName: true,
+      // deptHeadName: true,
+      // teamLeadName: true,
+      // unitHeadName: true,
+      // divHeadName: true,
     };
 
     const landCertificate =
@@ -1223,22 +1224,22 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       mustValidatedOnVisited.marketability = false;
     }
 
-    if (!this.surveyAppraisal.deptHeadName) {
-      this._showNotification('error', 'Masukkan Departemen Head Dahulu');
-      mustValidatedOnVisited.deptHeadName = false;
-    }
-    if (!this.surveyAppraisal.teamLeadName) {
-      this._showNotification('error', 'Masukkan Team Leader Dahulu');
-      mustValidatedOnVisited.teamLeadName = false;
-    }
-    if (!this.surveyAppraisal.unitHeadName) {
-      this._showNotification('error', 'Masukkan Unit Head Dahulu');
-      mustValidatedOnVisited.unitHeadName = false;
-    }
-    if (!this.surveyAppraisal.divHeadName) {
-      this._showNotification('error', 'Masukkan Division Head Dahulu');
-      mustValidatedOnVisited.divHeadName = false;
-    }
+    // if (!this.surveyAppraisal.deptHeadName) {
+    //   this._showNotification('error', 'Masukkan Departemen Head Dahulu');
+    //   mustValidatedOnVisited.deptHeadName = false;
+    // }
+    // if (!this.surveyAppraisal.teamLeadName) {
+    //   this._showNotification('error', 'Masukkan Team Leader Dahulu');
+    //   mustValidatedOnVisited.teamLeadName = false;
+    // }
+    // if (!this.surveyAppraisal.unitHeadName) {
+    //   this._showNotification('error', 'Masukkan Unit Head Dahulu');
+    //   mustValidatedOnVisited.unitHeadName = false;
+    // }
+    // if (!this.surveyAppraisal.divHeadName) {
+    //   this._showNotification('error', 'Masukkan Division Head Dahulu');
+    //   mustValidatedOnVisited.divHeadName = false;
+    // }
 
     return this._validateProcess(mustValidatedOnVisited);
   }
