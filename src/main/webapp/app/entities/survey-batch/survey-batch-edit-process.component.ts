@@ -44,7 +44,7 @@ import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { Cif, ICif } from '../cif/cif.model';
 import { IOptionNode } from 'app/shared/model/option-node.model';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
@@ -143,8 +143,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public collateralProperties: ICollateralProperty[];
   public bucket: string;
   public fotoObjectJaminan: any;
-  public keteranganObjectJaminan: any;
-  public ketObjekJaminan: Boolean;
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
 
@@ -273,12 +271,45 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     ).body;
   }
 
+  private ngUnsubscribe = new Subject();
+  public totalKeteranganObjectJaminan;
+  // get keterangan objek jaminan
+  private getContainer(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const obj = {
+      key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
+    };
+    this.getBucket().then(() => {
+      this.storageService
+        .getObjects(this.bucket, obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(response => {
+          if (response.body.length > 0) {
+            this.totalKeteranganObjectJaminan = response.body.length;
+          }
+        });
+    });
+  }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
     // this.documentCollateral(item.id)
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+    this.getContainer();
 
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
@@ -439,7 +470,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           this.collateralAppraisal.divHeadId !== null &&
           this.collateralAppraisal.deptHeadId !== null &&
           this.collateralAppraisal.teamLeadId !== null &&
-          this.collateralAppraisal.unitHeadId !== null
+          this.collateralAppraisal.unitHeadId !== null &&
+          this.totalKeteranganObjectJaminan > 0
         ) {
           return true;
         } else {
@@ -896,7 +928,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.surveyAppraisal = ev;
   }
   public onSave(source: string): void {
-    this.ketObjekJaminan = true;
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
@@ -1243,7 +1274,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       building: true,
       certificate: true,
       marketValueM2: true,
-      machineMarketValue: true,
+      marketValue: true,
       precentage: true,
       keterangan: true,
       marketability: true,
@@ -1261,13 +1292,63 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     const marketValue = {
       land: [],
       building: [],
+      machine: [],
+      vehicle: [],
     };
 
-    const getMarketValueLand = this.collateralAppraisalService.totalDataValuationLand.map(obj => obj.propertyMarketValuePerMeter);
-    marketValue.land.push(getMarketValueLand);
+    // if real estate
+    if (
+      this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
+      this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+    ) {
+      const getMarketValueLand = this.collateralAppraisalService.totalDataValuationLand.map(obj => obj.propertyMarketValuePerMeter);
+      marketValue.land.push(getMarketValueLand);
 
-    const getMarketValueBuilding = this.collateralAppraisalService.totalDataValuationBuilding.map(obj => obj.propertyMarketValuePerMeter);
-    marketValue.building.push(getMarketValueBuilding);
+      marketValue.land.forEach(value => {
+        value.forEach(val => {
+          if (val === null || val === undefined) {
+            this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
+            mustValidatedOnVisited.marketValue = false;
+          }
+        });
+      });
+
+      const getMarketValueBuilding = this.collateralAppraisalService.totalDataValuationBuilding.map(obj => obj.propertyMarketValuePerMeter);
+      marketValue.building.push(getMarketValueBuilding);
+
+      marketValue.building.forEach(value => {
+        value.forEach(val => {
+          if (val === null || val === undefined) {
+            this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
+            mustValidatedOnVisited.marketValue = false;
+          }
+        });
+      });
+    } else if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
+      const getMarketValue = this.collateralAppraisalService.totalDataDetailMachine.map(obj => obj.machineMarketValue);
+      marketValue.machine.push(getMarketValue);
+
+      marketValue.machine.forEach(value => {
+        value.forEach(val => {
+          if (val === null || val === undefined) {
+            this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
+            mustValidatedOnVisited.marketValue = false;
+          }
+        });
+      });
+    } else {
+      const getMarketValue = this.collateralAppraisalService.totalDataDetailVehicle.map(obj => obj.vehicleMarketValue);
+      marketValue.vehicle.push(getMarketValue);
+
+      marketValue.vehicle.forEach(value => {
+        value.forEach(val => {
+          if (val === null || val === undefined) {
+            this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
+            mustValidatedOnVisited.marketValue = false;
+          }
+        });
+      });
+    }
 
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
       if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
@@ -1290,10 +1371,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
     ) {
-      if (marketValue.land.length < 1 && marketValue.building.length < 1) {
-        this._showNotification('error', 'Masukkan Market Value M2 di Valuation Dahulu');
-        mustValidatedOnVisited.marketValueM2 = false;
-      }
       if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
         this._showNotification('error', 'Masukkan Land Detail Dahulu');
         mustValidatedOnVisited.landDetail = false;
@@ -1304,10 +1381,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       }
     }
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
-      if (!this.checkMachineMarketValue()) {
-        this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
-        mustValidatedOnVisited.machineMarketValue = false;
-      }
       if (!this.checkMachinePercentage()) {
         this._showNotification('error', 'Masukkan Percentage di Valuation Dahulu');
         mustValidatedOnVisited.precentage = false;
@@ -1337,31 +1410,31 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
+    if (!this.totalKeteranganObjectJaminan) {
+      this._showNotification('error', 'Masukkan Keterangan Object Jaminan Dahulu');
+      mustValidatedOnVisited.keterangan = false;
+    }
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
 
-    if (!this.surveyAppraisal.deptHeadName) {
-      this._showNotification('error', 'Masukkan Departemen Head Dahulu');
-      mustValidatedOnVisited.deptHeadName = false;
-    }
-    if (!this.surveyAppraisal.teamLeadName) {
-      this._showNotification('error', 'Masukkan Team Leader Dahulu');
-      mustValidatedOnVisited.teamLeadName = false;
-    }
-    if (!this.surveyAppraisal.unitHeadName) {
-      this._showNotification('error', 'Masukkan Unit Head Dahulu');
-      mustValidatedOnVisited.unitHeadName = false;
-    }
-    if (!this.surveyAppraisal.divHeadName) {
-      this._showNotification('error', 'Masukkan Division Head Dahulu');
-      mustValidatedOnVisited.divHeadName = false;
-    }
+    // if (!this.surveyAppraisal.deptHeadName) {
+    //   this._showNotification('error', 'Masukkan Departemen Head Dahulu');
+    //   mustValidatedOnVisited.deptHeadName = false;
+    // }
+    // if (!this.surveyAppraisal.teamLeadName) {
+    //   this._showNotification('error', 'Masukkan Team Leader Dahulu');
+    //   mustValidatedOnVisited.teamLeadName = false;
+    // }
+    // if (!this.surveyAppraisal.unitHeadName) {
+    //   this._showNotification('error', 'Masukkan Unit Head Dahulu');
+    //   mustValidatedOnVisited.unitHeadName = false;
+    // }
+    // if (!this.surveyAppraisal.divHeadName) {
+    //   this._showNotification('error', 'Masukkan Division Head Dahulu');
+    //   mustValidatedOnVisited.divHeadName = false;
+    // }
 
     return this._validateProcess(mustValidatedOnVisited);
   }
