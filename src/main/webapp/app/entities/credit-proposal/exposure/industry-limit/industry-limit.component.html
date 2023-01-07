@@ -173,7 +173,7 @@
                 placeholder="Remaining Balance after this Proposal"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="'-' + remainingAfterCpMinus"
+                [value]="'-' + remainingAfterCpMinus | number"
                 disabled
               ></ejs-textbox>
             </section>
@@ -191,7 +191,6 @@
               <ejs-textbox placeholder="Status" cssClass="e-outline" floatLabelType="Auto" [(ngModel)]="status" disabled></ejs-textbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-              -->
               <div class="fontsebled row py-3">
                 <div class="col-5">Status</div>
                 <div class="col-md-auto">:</div>
