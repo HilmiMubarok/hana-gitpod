@@ -145,7 +145,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     '*Product refer to treasury menu (FORWARD)',
     '*Product refer to trade finance menu (for L/C Import)',
     '*Product refer to trade finance menu (for L/C Export)',
-    'CURRENT DEPOSITS',
+
     'CURRENT DEPOSITS SUPER GIRO',
     'HANA READY CASH',
     'READY CASH PACKAGE 1',
