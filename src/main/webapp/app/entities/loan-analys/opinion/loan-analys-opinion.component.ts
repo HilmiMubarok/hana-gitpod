@@ -65,7 +65,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public obj: any;
   public InternalId: any;
   public positionLogin: any;
-  
+
+  public recomendasi: string;
   private positionLoanComitee: string;
 
   @Input() cp: ICreditProposal;

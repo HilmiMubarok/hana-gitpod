@@ -365,7 +365,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     });
   }
 
-  public recomendasi: string
+  public recomendasi: string;
 
   public refresh() {
     this.accountService.identity().subscribe(account => {
