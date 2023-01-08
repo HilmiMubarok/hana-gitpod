@@ -238,9 +238,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';
       const fileName =
-        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.docs';
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-' + fileType + '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -250,9 +250,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
       const fileName =
-        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-' + fileType + '.sfdt';
+        'credit-proposal-remark-' + paramsId + '-' + this.positionUserId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-' + fileType + '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -279,7 +279,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + paramsId + '/' + this.positionUserId.replace('&', '') + '-' + this.userId.replace('&', '') + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -293,7 +293,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
             .subscribe(res => {
               this.fileGet = new File(
                 [res.body],
-                'credit-proposal-remark-' + paramsId + '-' + this.positionUserId + '-' + this.userId + '-opinion-sfdt.sfdt'
+                'credit-proposal-remark-' + paramsId + '-' + this.positionUserId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -331,15 +331,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         'credit-proposal-remark-' +
         paramsId +
         '-' +
-        this.positionUserId +
+        this.positionUserId.replace('&', '') +
         '-' +
-        this.userId +
+        this.userId.replace('&', '') +
         '-opinion' +
         '-condition-' +
         fileType +
         '.docs';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -353,15 +353,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         'credit-proposal-remark-' +
         paramsId +
         '-' +
-        this.positionUserId +
+        this.positionUserId.replace('&', '') +
         '-' +
-        this.userId +
+        this.userId.replace('&', '') +
         '-opinion-' +
         '-condition-' +
         fileType +
         '.sfdt';
       const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId}-${this.userId}/${fileType}/${fileName}`,
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
@@ -386,7 +386,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       paramsId = params['id'];
     });
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionUserId + '-' + this.userId + '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + paramsId + '/' + this.positionUserId.replace('&', '') + '-' + this.userId.replace('&', '') + '/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -402,9 +402,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
                 'credit-proposal-remark-' +
                   paramsId +
                   '-' +
-                  this.positionUserId +
+                  this.positionUserId.replace('&', '') +
                   '-' +
-                  this.userId +
+                  this.userId.replace('&', '') +
                   '-opinion-' +
                   'condition-sfdt.sfdt'
               );
