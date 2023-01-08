@@ -195,6 +195,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       'CURRENT DEPOSITS (Foreign)',
       'CURRENT DEPOSITS SUPER GIRO (USD)',
       'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)',
+      'Kredit Investasi/KI - Installment',
+      'Working Capital - Installment',
+      'CURRENT DEPOSITS',
+      'Kredit Modal kerja/KMK - Installment',
     ],
     interestRateTypeList: [
       'FIXED',
