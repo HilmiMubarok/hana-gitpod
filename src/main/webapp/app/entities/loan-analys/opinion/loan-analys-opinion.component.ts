@@ -83,6 +83,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   @Output() newItemEvent = new EventEmitter<string>();
+  @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cp.currentValue.notes.length > 0) {
@@ -450,6 +451,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
+		this.positionLoginEmit.emit(this.positionLogin[i].positionTypeDescription);
       }
     });
   }
