@@ -369,6 +369,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public _creditProposal: ICreditProposal;
   public itemCollateral: ICreditProposal;
   public _exposure: string;
+  public totalChanges: any;
 
   @Input()
   get creditProposal() {
@@ -536,6 +537,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
+    this.totalChanges = result + dolar;
+    this.creditProposalService.setTotalChanges(this.totalChanges);
     return result + dolar;
   }
 

@@ -44,14 +44,14 @@
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
-                    <ejs-textbox
-                      [(ngModel)]="item.debtorData.pic"
-                      placeholder="PIC"
-                      floatLabelType="Auto"
-                      cssClass="e-outline"
-                      [disabled]="view"
-                    >
-                    </ejs-textbox>
+                    <section *ngIf="item.statusId === 'DRAFT'">
+                      <ejs-textbox [(ngModel)]="item.debtorData.pic" placeholder="PIC" floatLabelType="Auto" cssClass="e-outline">
+                      </ejs-textbox>
+                    </section>
+                    <section *ngIf="item.statusId !== 'DRAFT'">
+                      <ejs-textbox [(ngModel)]="item.debtorData.pic" placeholder="PIC" floatLabelType="Auto" cssClass="e-outline" disabled>
+                      </ejs-textbox>
+                    </section>
                   </div>
                   <div class="my-3">
                     <ejs-textbox
@@ -310,7 +310,7 @@
                   </div>
                   <div class="col">
                     <ejs-textbox
-                      [(ngModel)]="partyCif.debtorData.strAccountNumberIDR"
+                      [(ngModel)]="item.debtorData.strAccountNumberIDR"
                       disabled
                       placeholder="Account Number (IDR)"
                       floatLabelType="Auto"
@@ -334,7 +334,7 @@
                   </div>
                   <div class="col">
                     <ejs-textbox
-                      [(ngModel)]="partyCif.debtorData.strAccountNumberUSD"
+                      [(ngModel)]="item.debtorData.strAccountNumberUSD"
                       disabled
                       placeholder="Account Number (USD)"
                       floatLabelType="Auto"
@@ -362,48 +362,91 @@
                     <div color="#A3A3A3" class="e-headertext">Customer Status</div>
                   </div>
                   <div class="col-2">
-                    <ejs-radiobutton
-                      [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                      [value]="'New'"
-                      name="customer"
-                      label="New"
-                      [disabled]="view"
-                    ></ejs-radiobutton>
+                    <section *ngIf="item.statusId === 'DRAFT'">
+                      <ejs-radiobutton
+                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
+                        [value]="'New'"
+                        name="customer"
+                        label="New"
+                      ></ejs-radiobutton>
+                    </section>
+                    <section *ngIf="item.statusId !== 'DRAFT'">
+                      <ejs-radiobutton
+                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
+                        [value]="'New'"
+                        name="customer"
+                        label="New"
+                        disabled
+                      ></ejs-radiobutton>
+                    </section>
                     <!-- </div> -->
                   </div>
                   <div class="col-2">
-                    <ejs-radiobutton
-                      [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                      [value]="'Existing'"
-                      name="customer"
-                      label="Existing"
-                      [disabled]="view"
-                    ></ejs-radiobutton>
+                    <section *ngIf="item.statusId === 'DRAFT'">
+                      <ejs-radiobutton
+                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
+                        [value]="'Existing'"
+                        name="customer"
+                        label="Existing"
+                      ></ejs-radiobutton>
+                    </section>
+                    <section *ngIf="item.statusId !== 'DRAFT'">
+                      <ejs-radiobutton
+                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
+                        [value]="'Existing'"
+                        name="customer"
+                        label="Existing"
+                        disabled
+                      ></ejs-radiobutton>
+                    </section>
                     <!-- </div> -->
                   </div>
                 </div>
                 <div class="row my-3">
                   <div class="col-6">
                     <!-- <div class="form-space"> -->
-                    <ejs-dropdownlist
-                      [dataSource]="callReportCategoryData"
-                      [(ngModel)]="item.debtorData.callReportCategory"
-                      placeholder="Call Report Category"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      [disabled]="view"
-                    ></ejs-dropdownlist>
+                    <section *ngIf="item.statusId === 'DRAFT'">
+                      <ejs-dropdownlist
+                        [dataSource]="callReportCategoryData"
+                        [(ngModel)]="item.debtorData.callReportCategory"
+                        placeholder="Call Report Category"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      ></ejs-dropdownlist>
+                    </section>
+                    <section *ngIf="item.statusId !== 'DRAFT'">
+                      <ejs-dropdownlist
+                        [dataSource]="callReportCategoryData"
+                        [(ngModel)]="item.debtorData.callReportCategory"
+                        placeholder="Call Report Category"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                        disabled
+                      ></ejs-dropdownlist>
+                    </section>
                   </div>
                   <div class="col-6">
-                    <ejs-dropdownlist
-                      [dataSource]="ifcRiskCategoryData"
-                      [(ngModel)]="item.debtorData.ifcRiskCategory"
-                      placeholder="IFC & Risk Category"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      [disabled]="view"
-                    >
-                    </ejs-dropdownlist>
+                    <section *ngIf="item.statusId === 'DRAFT'">
+                      <ejs-dropdownlist
+                        [dataSource]="ifcRiskCategoryData"
+                        [(ngModel)]="item.debtorData.ifcRiskCategory"
+                        placeholder="IFC & Risk Category"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                      >
+                      </ejs-dropdownlist>
+                    </section>
+                    <section *ngIf="item.statusId !== 'DRAFT'">
+                      <ejs-dropdownlist
+                        [dataSource]="ifcRiskCategoryData"
+                        [(ngModel)]="item.debtorData.ifcRiskCategory"
+                        placeholder="IFC & Risk Category"
+                        cssClass="e-outline"
+                        floatLabelType="Auto"
+                        disabled
+                      >
+                      </ejs-dropdownlist>
+                    </section>
                   </div>
                 </div>
 
@@ -712,7 +755,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="partyCif.debtorData.strAccountNumberIDR"
+                    [(ngModel)]="item.debtorData.strAccountNumberIDR"
                     placeholder="Account Number (IDR)"
                     floatLabelType="Auto"
                     cssClass="e-outline"
@@ -735,7 +778,7 @@
                 </div>
                 <div class="col">
                   <ejs-textbox
-                    [(ngModel)]="partyCif.debtorData.strAccountNumberUSD"
+                    [(ngModel)]="item.debtorData.strAccountNumberUSD"
                     placeholder="Account Number (USD)"
                     floatLabelType="Auto"
                     cssClass="e-outline"

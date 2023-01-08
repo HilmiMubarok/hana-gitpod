@@ -27,22 +27,18 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Appraisal Date</mat-label>
-
-              <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.apprDate | date: 'yyyy/MM/dd'" />
-              <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
-              <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
-              <mat-datepicker #pickerFromDate></mat-datepicker>
+              <input [matDatepicker]="apprDate" [formControl]="date" matInput type="text" [(ngModel)]="mData.apprDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="apprDate" disabled="true"></mat-datepicker-toggle>
+              <mat-datepicker #apprDate disabled="true"></mat-datepicker>
             </mat-form-field>
           </div>
           <div class="form-group">
             <div class="w-100">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Report Date</mat-label>
-                <!-- [(ngModel)]="partner.fromDate"  -->
-                <input matInput [matDatepicker]="pickerFromDate" [disabled]="true" [value]="mData.reportDate | date: 'yyyy/MM/dd'" />
-                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
-                <mat-datepicker-toggle matSuffix [for]="pickerFromDate" [disabled]="true"></mat-datepicker-toggle>
-                <mat-datepicker #pickerFromDate></mat-datepicker>
+                <input [matDatepicker]="reportDate" [formControl]="date" matInput type="text" [(ngModel)]="mData.reportDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="reportDate" disabled="true"></mat-datepicker-toggle>
+                <mat-datepicker #reportDate disabled="true"></mat-datepicker>
               </mat-form-field>
             </div>
           </div>
