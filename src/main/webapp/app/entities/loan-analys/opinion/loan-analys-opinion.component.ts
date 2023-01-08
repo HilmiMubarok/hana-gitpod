@@ -481,6 +481,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
                 this.creditProposalItem.notes[i].message = '';
                 this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
+				this.recomendasi = this.notes[i].recomendation;
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
                 this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
               }

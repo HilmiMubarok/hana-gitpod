@@ -475,7 +475,7 @@ export class LoanAnalysMainComponent implements OnInit {
       delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
       delete copyCreditProposal.attributes['tempLoggedInCondition'];
       delete copyCreditProposal.attributes['positionLogin'];
-	  if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
 		delete copyCreditProposal.attributes['position'];
 	  }
     }
