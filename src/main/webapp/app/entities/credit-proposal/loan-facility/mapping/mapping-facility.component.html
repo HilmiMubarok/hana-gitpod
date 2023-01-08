@@ -22,13 +22,7 @@
   <ng-container matColumnDef="bindingValue">
     <th mat-header-cell *matHeaderCellDef>Binding Value</th>
     <td mat-cell *matCellDef="let i = index">
-      <input
-        matInput
-        type="number"
-        [(ngModel)]="bindingValueHelper[i]"
-        [disabled]="sableFeild()"
-        (change)="onChangeBindingValue($event, i)"
-      />
+      <input matInput type="number" [(ngModel)]="bindingValueHelper[i]" [disabled]="field" (change)="onChangeBindingValue($event, i)" />
     </td>
   </ng-container>
   <ng-container matColumnDef="select">
@@ -36,7 +30,7 @@
     <td mat-cell *matCellDef="let i = index">
       <mat-checkbox
         [checked]="mappingStatusHelper[i] === 'yes'"
-        [disabled]="sableFeild()"
+        [disabled]="field"
         (change)="changeBuildingFacility($event, i)"
       ></mat-checkbox>
     </td>

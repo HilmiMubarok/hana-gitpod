@@ -5,6 +5,7 @@ import { IApplicationProduct } from 'app/entities/application-product/applicatio
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../../../credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
+import { STATUS } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-mapping-collateral-temp',
@@ -95,5 +96,11 @@ export class CreditProposalMappingCollateralTempComponent {
     }
 
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
+  }
+  public sableFeild() {
+    if (this.collateralInfo.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }
