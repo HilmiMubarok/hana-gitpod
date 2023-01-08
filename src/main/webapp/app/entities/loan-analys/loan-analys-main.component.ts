@@ -89,6 +89,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public isShow = false;
   public isHistoryExist: boolean;
 
+  public recomendation: string;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -270,7 +272,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
-  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, positionVal: string, userIdVal: string): INotes {
+  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string, positionVal: string): INotes {
     let note: INotes = new Notes();
 
     return (note = {
@@ -393,18 +395,20 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
+  setOpinionRecomendation(newItem: string){
+    this.recomendation = newItem;
+  }
+
   private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-      this.userId = copyCreditProposal.attributes['userId'];
-      this.InternalId = copyCreditProposal.attributes['internalApprovaluser'];
       this.positionApproval = copyCreditProposal.attributes['position'];
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.userId) {
-            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = this.positionApproval;
-            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendationUser'];
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
             tempHelper = tempHelper + 1;
           }
         }
@@ -412,22 +416,22 @@ export class LoanAnalysMainComponent implements OnInit {
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
             this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
-              copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
-              this.InternalId,
-              this.positionApproval,
-              this.userId
+              '',
+              this.recomendation,
+              '',
+			  this.currentAccount.login,
+              this.positionApproval
             )
           );
         }
       } else {
         copyCreditProposal.notes.push(
           this.addNewNotes(
-            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
-            copyCreditProposal.attributes['tempLoggedInRecomendationUser'],
-            this.InternalId,
-            this.positionApproval,
-            this.userId
+            '',
+            this.recomendation,
+            '',
+			this.currentAccount.login,
+            this.positionApproval
           )
         );
       }
@@ -437,11 +441,9 @@ export class LoanAnalysMainComponent implements OnInit {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes']
-              ? copyCreditProposal.attributes['tempLoggedInNotes']
-              : '';
-            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
-            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            copyCreditProposal.notes[i].message = '';
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
+            copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
             tempHelper = tempHelper + 1;
           }
@@ -450,22 +452,22 @@ export class LoanAnalysMainComponent implements OnInit {
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
             this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
-              copyCreditProposal.attributes['tempLoggedInRecomendation'],
-              copyCreditProposal.attributes['tempLoggedInCondition'],
-              copyCreditProposal.attributes['positionLogin'],
-              this.currentAccount.login
+              '',
+              this.recomendation,
+              '',
+			  this.currentAccount.login,
+              copyCreditProposal.attributes['positionLogin']
             )
           );
         }
       } else {
         copyCreditProposal.notes.push(
           this.addNewNotes(
-            copyCreditProposal.attributes['tempLoggedInNotes'] ? copyCreditProposal.attributes['tempLoggedInNotes'] : '',
-            copyCreditProposal.attributes['tempLoggedInRecomendation'],
-            copyCreditProposal.attributes['tempLoggedInCondition'],
-            copyCreditProposal.attributes['positionLogin'],
-            this.currentAccount.login
+            '',
+            this.recomendation,
+            '',
+			this.currentAccount.login,
+            copyCreditProposal.attributes['positionLogin']
           )
         );
       }
@@ -473,6 +475,9 @@ export class LoanAnalysMainComponent implements OnInit {
       delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
       delete copyCreditProposal.attributes['tempLoggedInCondition'];
       delete copyCreditProposal.attributes['positionLogin'];
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+		delete copyCreditProposal.attributes['position'];
+	  }
     }
   }
 

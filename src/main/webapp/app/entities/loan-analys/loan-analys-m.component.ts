@@ -64,16 +64,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public statusCodesData: Object[] = [];
-  /* public statusCodesDataRes: Object[] = [];
-  public statusCodesDataLineUp: string[] = [
-    'CP_APPROVE_TO_LA',
-    'CP_ASSIGNMENT',
-    'CP_RETURN_TO_CR',
-    'CP_CHECKER',
-    'CP_CANCEL',
-    'CP_REJECT',
-    'CP_COMPLETE',
-  ]; */
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
@@ -100,19 +90,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
-  // emiit tiitle
-  // @Output() titleApp = new EventEmitter();
-
-  /* private sortStatusCodesData(): void {
-    for (let i = 0; i < this.statusCodesDataLineUp.length; i++) {
-      for (let j = 0; j < this.statusCodesDataRes.length; j++) {
-        if (this.statusCodesDataRes[j]['id'] === this.statusCodesDataLineUp[i]) {
-          this.statusCodesData.push(this.statusCodesDataRes[j]);
-        }
-      }
-    }
-  } */
-
   private loadStatusChip(): void {
     this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
@@ -122,7 +99,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.isShow = false;
         }
       }
-      // this.sortStatusCodesData();
     });
   }
 
@@ -184,9 +160,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   private loadAll(): void {
     this.loading = true;
-    /* const dynamicURL: string = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.LOS + '/api/loan-analisys/' + this.convertStatusActivateRoute(this.activeRoute);
-    ); */
 	let menu = this.convertStatusActivateRoute(this.activeRoute);
 	if (menu === 'loan-analys-and-approval-monitoring') {
 	  menu = 'la-approval';
@@ -224,32 +197,14 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         });
       return;
     }
-
-    /* this.loanAnalysService
-      .queryDynamicURL(
-        {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        },
-        dynamicURL
-      )
-      .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => {
-          this.initDataForMatTable(res, res.headers);
-        },
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      }); */
 	  
-	  this.loanAnalysService
-      .queryByMenu(
-        {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        },
-        menu
-      )
+	this.loanAnalysService
+	  .queryByMenu({
+		page: this.page,
+		size: this.itemsPerPage,
+		sort: this.sortData(),
+	  },
+	  menu)
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);
@@ -364,72 +319,58 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     if (value === 'la-distribution') {
       this.title = 'Loan Analysis Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-analyst') {
       this.title = 'Loan Analysis';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-SME-CRC') {
       this.title = 'Loan Analysis SME Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval') {
       this.title = 'Loan Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'la-approval-inquiry') {
       this.title = 'Loan Approval Inquiry';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-final') {
       this.title = 'DAR Finalization';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-checker') {
       this.title = 'Final DAR - Checker';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-committee-approval') {
       this.title = 'Loan Komite Approval';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'dar-notif') {
       this.title = 'DAR Notification';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-distribution') {
       this.title = 'Compliance Checking Distribution';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-checking') {
       this.title = 'Compliance Checking';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-review') {
       this.title = 'Compliance Checking Review';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'cc-inquiry') {
       this.title = 'Compliance Checking Inquiry';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
     if (value === 'loan-analys-and-approval-monitoring') {
       this.title = 'Loan Analyst and Approval Monitoring';
       sessionStorage.setItem('appName', this.title);
-      //   this.loanAnalysService.setTitile(this.title)
     }
   }
 }

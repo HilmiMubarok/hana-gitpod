@@ -42,7 +42,7 @@
     </table>
 
     <div class="mb-2 col-md-2" style="margin-top: 20px">
-      <mat-form-field class="w-100" appearance="outline" [hidden]="view" [hidden]="approvalUser">
+      <mat-form-field class="w-100" appearance="outline" [hidden]="approvalUser">
         <mat-label>Approval User</mat-label>
         <mat-select (selectionChange)="setApproval($event)" [(ngModel)]="creditProposalItem.attributes['userId']">
           <mat-option *ngFor="let item of position" [value]="item.employeeFirstName">
@@ -101,25 +101,28 @@
           <div class="d-flex justify-content-around">
             <div class="mx-2">
               <ejs-radiobutton
+				[checked]="recomendasi === 'Approved as Propose' || recomendasi === 'Recommend as Propose'"
+				(change)="change(valueRadioPurpose)"
                 label="{{ radioButtonPurpose }}"
                 value="{{ valueRadioPurpose }}"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
+				[checked]="recomendasi === 'Approved With Condition' || recomendasi === 'Recommend With Condition'"
+				(change)="change(valueRadioCondition)"
                 label="{{ radioButtonCondition }}"
                 value="{{ valueRadioCondition }}"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
+				[checked]="recomendasi === 'Not Approved' || recomendasi === 'Not Recommend'"
+				(change)="change(valueRadioRecommend)"
                 label="{{ radioButtonNotRecommend }}"
                 value="{{ valueRadioRecommend }}"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
