@@ -148,6 +148,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public change(event: string){
     this.newItemEvent.emit(event);
+	this.recomendasi = event;
   }
 
   setApproval(event: any) {

@@ -127,6 +127,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   change(event: string){
     this.newItemEvent.emit(event);
+	this.recomendasi = event;
   }
 
   public openDialog(element: INotes = null): void {
