@@ -290,7 +290,16 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-    if (this.applicationRole.id) {
+	if (this.creditProposalCollateralInfoComponent) {
+	  this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+	}
+
+	this.messageService.add({
+	  severity: 'success',
+	  summary: 'Success',
+	  detail: 'Save Success',
+	});
+    /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
           this.cp = response.body;
@@ -322,7 +331,7 @@ export class LoanAnalysMainComponent implements OnInit {
           detail: 'Save Success',
         });
       });
-    }
+    } */
   }
 
   public userId: any;
