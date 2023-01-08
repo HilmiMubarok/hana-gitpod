@@ -56,7 +56,7 @@ export class IndustryLimitComponent implements OnInit {
     this.applicationOption();
     this.industryLimit();
 
-    this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
+    // this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
   }
 
   public fungsiSumOS() {
@@ -109,8 +109,8 @@ export class IndustryLimitComponent implements OnInit {
       // this.listOfIndustry = res.body;
 
       for (let i = 0; i < response.body.length; i++) {
-        if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industry) {
-          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
+        if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industryCode) {
+          this.industryLimitExposureParameterService.find('industryCode').subscribe((res: any) => {
             this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
             this.industryLimitExposure = res.body.industryLimitExposure;
@@ -125,14 +125,15 @@ export class IndustryLimitComponent implements OnInit {
 
   public totalAmmountFunc(remaining: number) {
     const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
-
-    this.remainingAfterCp = Number(remaining) - Number(this.creditProposal.attributes['facilityDetail'].totalPlafond);
-    this.remainingAfterCpMinus = Math.round(Number(this.creditProposal.attributes['facilityDetail'].totalPlafond) - Number(remaining));
-
-    if (this.remainingAfterCp > 0) {
-      this.status = 'Comply';
-    } else {
-      this.status = 'Breach The Limit';
-    }
+    const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
+      this.purposeAmmount = message;
+      this.remainingAfterCp = Number(remaining) - Number(this.purposeAmmount);
+      this.remainingAfterCpMinus = Number(this.purposeAmmount) - Number(remaining);
+      if (this.remainingAfterCp > 0) {
+        this.status = 'Comply';
+      } else {
+        this.status = 'Breach The Limit';
+      }
+    });
   }
 }
