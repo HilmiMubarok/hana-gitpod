@@ -115,66 +115,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'BG',
     'LC',
   ];
-  public cashLoan = [
-    'Working Capital - Demand Loan',
-    'Working Capital - Demand Loan ECL',
-    'Working Capital - Trust Receipt',
-    'Working Capital - ARC Loan',
-    'Working Capital - eARC Loan',
-    'Working Capital - Demand Loan(Foreign)',
-    'Working Capital - Trust Receipt(Foreign)',
-    'Working Capital - ARC Loan(Foreign)',
-    'Working Capital - eARC Loan(Foreign)',
-    'Working Capital - Installment',
-    'Working Capital - Installment ECL',
-    'Working Capital - Installment(Foreign)',
-    'Working Capital - Demand Loan',
-    'Working Capital - Demand Loan ECL',
-    'Working Capital - Trust Receipt',
-    'Working Capital - ARC Loan',
-    'Working Capital - eARC Loan',
-    'Working Capital - Demand Loan(Foreign)',
-    'Working Capital - Trust Receipt(Foreign)',
-    'Working Capital - ARC Loan(Foreign)',
-    'Working Capital - eARC Loan(Foreign)',
-    'Working Capital - Money Market Line',
-    'Investment Loan - Installment',
-    'Investment Loan - Installment ECL',
-    'Investment Loan - Installment(Foreign)',
-    'Long Term Loan (SYNDICATED LOAN) -- Menu FN11',
-    '*Product refer to treasury menu (FORWARD)',
-    '*Product refer to trade finance menu (for L/C Import)',
-    '*Product refer to trade finance menu (for L/C Export)',
-    'CURRENT DEPOSITS',
-    'CURRENT DEPOSITS SUPER GIRO',
-    'HANA READY CASH',
-    'READY CASH PACKAGE 1',
-    'PREMIUM ACCOUNT',
-    'FLEXI MULTIPURPOSE',
-    'CURRENT DEPOSITS SPECIAL SUPER GIRO',
-    'CURRENT DEPOSITS SPECIAL SUPER GIRO II',
-    'CURRENT DEPOSITS (OTHER)',
-    'CURRENT DEPOSITS (OTHER) - MULTICURRENCY',
-    'CURRENT DEPOSITS (Foreign)',
-    'CURRENT DEPOSITS SUPER GIRO (USD)',
-    'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)',
-
-    'Working Capital - Installment',
-    'CURRENT DEPOSITS',
-    'Kredit Modal kerja/KMK - Installment',
-    'Kredit Modal kerja/KMK - Demand Loan',
-    'Kredit Investasi/KI - Installment',
-    'Kredit Modal kerja/KMK - Fixed Loan',
-    'Kredit Konsumsi/KK - KPR Sejahtera FLPP',
-
-    'OD',
-    'WCI',
-    'DL',
-    'MML',
-    'FL',
-
-    'IL',
-  ];
 
   public numericFormatOptions: Object = { format: 'N' };
   public currencyMaster: any;
@@ -223,7 +163,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-              console.log('total plafond', parsed.TotalPlafond);
+
               parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
@@ -251,33 +191,13 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   public calculateCashLoanNonCashLoanGroub(busines: any[]) {
     const nonCashLoan = [];
-    const cashLoan = [];
-    // pengelompokan cash loan non cash loan
+
+    // pengelompokan non cash loan
     for (let i = 0; i < busines.length; i++) {
       for (let j = 0; j < this.nonCashLoan.length; j++) {
         if (busines[i].FacilityType === this.nonCashLoan[j]) {
           nonCashLoan.push(busines[i]);
         }
-      }
-    }
-
-    for (let i = 0; i < busines.length; i++) {
-      for (let j = 0; j < this.cashLoan.length; j++) {
-        if (busines[i].FacilityType === this.cashLoan[j]) {
-          cashLoan.push(busines[i]);
-        }
-      }
-    }
-
-    // calculation
-
-    for (let i = 0; i < cashLoan.length; i++) {
-      if (cashLoan[i].CCY === 'IDR') {
-        this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + cashLoan[i].InitialLimit;
-      }
-
-      if (cashLoan[i].CCY === 'USD') {
-        this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + cashLoan[i].InitialLimit * Number(this.currencyMaster);
       }
     }
 
@@ -290,6 +210,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + nonCashLoan[i].InitialLimit * Number(this.currencyMaster);
       }
     }
+    this.totalDebiturCashLoanGroup = this.fungsiSumcreditGroub() - this.totalDebiturNonCashLoanGroup;
   }
 
   format(format: any, value: any): string {
@@ -411,14 +332,14 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.fungsiSumcredit();
     this.fungsiSumavailable();
     this.fungsiSumTotalDebiturCashLoan();
-    this.totalCashLoan();
     this.totalNonCashLoan();
+    this.totalCashLoan();
     this.getMyBusinessGroup();
     this.grandTotalDebitur();
   }
 
   totalCashLoan() {
-    this.totalDebiturCashLoan = this.cashLoanDebitur.reduce((acc, cur) => acc + cur);
+    this.totalDebiturCashLoan = this.fungsiSumcredit() - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
   }
 
   totalNonCashLoan() {
@@ -431,43 +352,13 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this.dataSource.length; i++) {
-      // cash loan
       if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-        if (this.dataSource[i].attributes.currency === 'IDR') {
-          for (let j = 0; j < this.cashLoan.length; j++) {
-            if (this.dataSource[i].attributes['facilityType'] === this.cashLoan[j]) {
-              this.cashLoanDebitur = [...this.cashLoanDebitur, Number(this.dataSource[i].attributes.totalPlafond)];
-            }
-          }
-        }
-      }
-
-      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-        if (this.dataSource[i].attributes.currency === 'USD') {
-          for (let j = 0; j < this.cashLoan.length; j++) {
-            if (this.dataSource[i].attributes['facilityType'] === this.cashLoan[j]) {
-              this.cashLoanDebitur = [
-                ...this.cashLoanDebitur,
-                Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs),
-              ];
-            }
-          }
-        }
-      }
-
-      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-        if (this.dataSource[i].attributes.currency === 'IDR') {
-          for (let j = 0; j < this.nonCashLoan.length; j++) {
+        for (let j = 0; j < this.nonCashLoan.length; j++) {
+          if (this.dataSource[i].attributes.currency === 'IDR') {
             if (this.dataSource[i].attributes['facilityType'] === this.nonCashLoan[j]) {
               this.nonCashLoanDebitur = [...this.nonCashLoanDebitur, Number(this.dataSource[i].attributes.totalPlafond)];
             }
-          }
-        }
-      }
-
-      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-        if (this.dataSource[i].attributes.currency === 'USD') {
-          for (let j = 0; j < this.nonCashLoan.length; j++) {
+          } else {
             if (this.dataSource[i].attributes['facilityType'] === this.nonCashLoan[j]) {
               this.nonCashLoanDebitur = [
                 ...this.nonCashLoanDebitur,
