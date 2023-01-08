@@ -98,49 +98,60 @@
       <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'">
         <div class="form-group">
           <p class="e-card-sub-title">{{ nameLabel }}</p>
-          <div class="d-flex justify-content-around">
+		  <div *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'" class="d-flex justify-content-around">
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="
-				  recomendasi === 'Approved as Propose' || 
-				  recomendasi === 'Recommend as Propose' ||
-				  recomendasi !== 'Approved With Condition' ||
-				  recomendasi !== 'Recommend With Condition' ||
-				  recomendasi !== 'Not Approved' ||
-				  recomendasi !== 'Not Recommend'"
+				[checked]="recomendasi === 'Approved as Propose'"
 				(change)="change(valueRadioPurpose)"
                 label="{{ radioButtonPurpose }}"
-                value="{{ valueRadioPurpose }}"
+                value="Approved as Propose"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="
-				  recomendasi === 'Approved With Condition' ||
-				  recomendasi === 'Recommend With Condition' ||
-				  recomendasi !== 'Approved as Propose' ||
-				  recomendasi !== 'Recommend as Propose' ||
-				  recomendasi !== 'Not Approved' ||
-				  recomendasi !== 'Not Recommend'"
+				[checked]="recomendasi === 'Approved With Condition'"
 				(change)="change(valueRadioCondition)"
                 label="{{ radioButtonCondition }}"
-                value="{{ valueRadioCondition }}"
+                value="Approved With Condition"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="
-				  recomendasi === 'Not Approved' ||
-				  recomendasi === 'Not Recommend' ||
-				  recomendasi !== 'Approved as Propose' ||
-				  recomendasi !== 'Recommend as Propose' ||
-				  recomendasi !== 'Approved With Condition' ||
-				  recomendasi !== 'Recommend With Condition'"
+				[checked]="recomendasi === 'Not Approved'"
 				(change)="change(valueRadioRecommend)"
                 label="{{ radioButtonNotRecommend }}"
-                value="{{ valueRadioRecommend }}"
+                value="Not Approved"
+                [disabled]="disabledOpinion"
+              ></ejs-radiobutton>
+            </div>
+          </div>
+          <div *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'" class="d-flex justify-content-around">
+            <div class="mx-2">
+              <ejs-radiobutton
+				[checked]="recomendasi === 'Recommend as Propose'"
+				(change)="change(valueRadioPurpose)"
+                label="{{ radioButtonPurpose }}"
+                value="Recommend as Propose"
+                [disabled]="disabledOpinion"
+              ></ejs-radiobutton>
+            </div>
+            <div class="mx-2">
+              <ejs-radiobutton
+				[checked]="recomendasi === 'Recommend With Condition'"
+				(change)="change(valueRadioCondition)"
+                label="{{ radioButtonCondition }}"
+                value="Recommend With Condition"
+                [disabled]="disabledOpinion"
+              ></ejs-radiobutton>
+            </div>
+            <div class="mx-2">
+              <ejs-radiobutton
+				[checked]="recomendasi === 'Not Recommend'"
+				(change)="change(valueRadioRecommend)"
+                label="{{ radioButtonNotRecommend }}"
+                value="Not Recommend"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
