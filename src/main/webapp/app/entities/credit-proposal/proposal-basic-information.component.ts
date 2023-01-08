@@ -150,7 +150,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.recomendation = newItem;
   }
 
-
   ngOnInit() {
     this.getTitle();
 
