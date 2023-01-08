@@ -131,9 +131,9 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
         'credit_proposal/remark/opinion-history/opinion/' +
         this.creditProposalItem.id +
         '/' +
-        this.notes.positionUserId +
+        this.notes.positionUserId.replace('&', '') +
         '-' +
-        this.notes.userId +
+        this.notes.userId.replace('&', '') +
         '/opinion-compliance/sfdt',
     };
     this.storageService
@@ -150,9 +150,9 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
                 'credit-proposal-remark-' +
                   this.creditProposalItem.id +
                   '-' +
-                  this.notes.positionUserId +
+                  this.notes.positionUserId.replace('&', '') +
                   '-' +
-                  this.notes.userId +
+                  this.notes.userId.replace('&', '') +
                   '-opinion-compliance-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
@@ -173,9 +173,9 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
         'credit_proposal/remark/opinion-history/condition/' +
         this.creditProposalItem.id +
         '/' +
-        this.notes.positionUserId +
+        this.notes.positionUserId.replace('&', '') +
         '-' +
-        this.notes.userId +
+        this.notes.userId.replace('&', '') +
         '/opinion-compliance/sfdt',
     };
     this.storageService
@@ -192,9 +192,9 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
                 'credit-proposal-remark-' +
                   this.creditProposalItem.id +
                   '-' +
-                  this.notes.positionUserId +
+                  this.notes.positionUserId.replace('&', '') +
                   '-' +
-                  this.notes.userId +
+                  this.notes.userId.replace('&', '') +
                   '-opinion-compliance-' +
                   'condition-sfdt.sfdt'
               );

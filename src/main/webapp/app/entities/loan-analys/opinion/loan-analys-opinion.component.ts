@@ -454,7 +454,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
           for (let i = 0; i < this.notes.length; i++) {
             this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
             if (this.notes[i].userId === this.userId) {
-              this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
+              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
               this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
               this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
             }
@@ -475,10 +475,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
               this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
               if (this.notes[i].userId === this.currentAccount.login) {
                 this.creditProposalItem.notes[i].message = '';
-                this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
+                this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-                this.creditProposalItem.attributes['tempLoggedInCondition'] = this.notes[i].condition;
+                this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
               }
             }
           }
