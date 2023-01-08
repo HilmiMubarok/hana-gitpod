@@ -465,7 +465,11 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-    if (this.applicationRole.id) {
+	this.saveWord = false;
+	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+	  this.router.navigate([this.router.url.split('/')[1]]);
+	});
+    /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
@@ -485,7 +489,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           });
         });
       });
-    }
+    } */
   }
 
   private preSave(): ICreditProposal {
