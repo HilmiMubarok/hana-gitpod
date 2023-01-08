@@ -195,6 +195,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public disabledOpinion: boolean;
+
   public conditionEnableOpinion() {
     if (
       this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
@@ -312,7 +313,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container.documentEditor.openBlank();
+    // this.container.documentEditor.openBlank();
   }
 
   // Condition remark
@@ -366,7 +367,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
           this.positionUserId.replace('&', '') +
           '-' +
           this.userId.replace('&', '') +
-          '-opinion-' +
+          '-opinion' +
           '-condition-' +
           fileType +
           '.sfdt';
@@ -433,7 +434,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container_condition.documentEditor.openBlank();
+    // this.container_condition.documentEditor.openBlank();
   }
 
   public loadPosition(position: any): void {

@@ -101,7 +101,13 @@
           <div class="d-flex justify-content-around">
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="recomendasi === 'Approved as Propose' || recomendasi === 'Recommend as Propose'"
+				[checked]="
+				  recomendasi === 'Approved as Propose' || 
+				  recomendasi === 'Recommend as Propose' ||
+				  recomendasi !== 'Approved With Condition' ||
+				  recomendasi !== 'Recommend With Condition' ||
+				  recomendasi !== 'Not Approved' ||
+				  recomendasi !== 'Not Recommend'"
 				(change)="change(valueRadioPurpose)"
                 label="{{ radioButtonPurpose }}"
                 value="{{ valueRadioPurpose }}"
@@ -110,7 +116,13 @@
             </div>
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="recomendasi === 'Approved With Condition' || recomendasi === 'Recommend With Condition'"
+				[checked]="
+				  recomendasi === 'Approved With Condition' ||
+				  recomendasi === 'Recommend With Condition' ||
+				  recomendasi !== 'Approved as Propose' ||
+				  recomendasi !== 'Recommend as Propose' ||
+				  recomendasi !== 'Not Approved' ||
+				  recomendasi !== 'Not Recommend'"
 				(change)="change(valueRadioCondition)"
                 label="{{ radioButtonCondition }}"
                 value="{{ valueRadioCondition }}"
@@ -119,7 +131,13 @@
             </div>
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="recomendasi === 'Not Approved' || recomendasi === 'Not Recommend'"
+				[checked]="
+				  recomendasi === 'Not Approved' ||
+				  recomendasi === 'Not Recommend' ||
+				  recomendasi !== 'Approved as Propose' ||
+				  recomendasi !== 'Recommend as Propose' ||
+				  recomendasi !== 'Approved With Condition' ||
+				  recomendasi !== 'Recommend With Condition'"
 				(change)="change(valueRadioRecommend)"
                 label="{{ radioButtonNotRecommend }}"
                 value="{{ valueRadioRecommend }}"
