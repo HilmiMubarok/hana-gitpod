@@ -402,7 +402,8 @@ export class LoanAnalysMainComponent implements OnInit {
   private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-      this.positionApproval = copyCreditProposal.attributes['position'];
+      //this.positionApproval = copyCreditProposal.attributes['position'];
+	  this.positionApproval = copyCreditProposal.attributes['positionLogin'];
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.userId) {
