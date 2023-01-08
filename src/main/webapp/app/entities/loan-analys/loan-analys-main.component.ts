@@ -341,10 +341,97 @@ export class LoanAnalysMainComponent implements OnInit {
   public positionApproval: any;
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes') && this.parentPath !== 'loan-committee-approval') {
+    /* if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes') && this.parentPath !== 'loan-committee-approval') {
       this.extPreSave(copyCreditProposal);
     } else {
       this.extPreSave(copyCreditProposal);
+    } */
+	
+	let tempHelper = 0;
+    if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+      this.positionApproval = copyCreditProposal.attributes['position'];
+	  // this.positionApproval = copyCreditProposal.attributes['positionLogin'];
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.userId) {
+            copyCreditProposal.notes[i].condition = '';
+            copyCreditProposal.notes[i].positionUserId = this.positionApproval;
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              '',
+              this.recomendation,
+              '',
+			  this.currentAccount.login,
+              this.positionApproval
+            )
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            '',
+            this.recomendation,
+            '',
+			this.currentAccount.login,
+            this.positionApproval
+          )
+        );
+      }
+
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+	  delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+      delete copyCreditProposal.attributes['positionLogin'];
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+		delete copyCreditProposal.attributes['position'];
+	  }
+    } else {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = '';
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
+            copyCreditProposal.notes[i].condition = '';
+            copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(
+              '',
+              this.recomendation,
+              '',
+			  this.currentAccount.login,
+              copyCreditProposal.attributes['positionLogin']
+            )
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes(
+            '',
+            this.recomendation,
+            '',
+			this.currentAccount.login,
+            copyCreditProposal.attributes['positionLogin']
+          )
+        );
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+      delete copyCreditProposal.attributes['positionLogin'];
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+		delete copyCreditProposal.attributes['position'];
+	  }
     }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
@@ -402,8 +489,8 @@ export class LoanAnalysMainComponent implements OnInit {
   private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-      //this.positionApproval = copyCreditProposal.attributes['position'];
-	  this.positionApproval = copyCreditProposal.attributes['positionLogin'];
+      this.positionApproval = copyCreditProposal.attributes['position'];
+	  // this.positionApproval = copyCreditProposal.attributes['positionLogin'];
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.userId) {
@@ -438,6 +525,12 @@ export class LoanAnalysMainComponent implements OnInit {
       }
 
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
+	  delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+      delete copyCreditProposal.attributes['positionLogin'];
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+		delete copyCreditProposal.attributes['position'];
+	  }
     } else {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
