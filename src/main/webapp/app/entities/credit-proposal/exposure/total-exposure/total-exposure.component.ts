@@ -113,7 +113,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'Investment Loan - Fixed Loan',
     'Investment Loan - Fixed Loan(Foreign)',
     'BG',
-    'FL',
+    'LC',
   ];
   public cashLoan = [
     'Working Capital - Demand Loan',
@@ -171,9 +171,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'WCI',
     'DL',
     'MML',
+    'FL',
 
     'IL',
-    'LC',
   ];
 
   public numericFormatOptions: Object = { format: 'N' };
@@ -223,6 +223,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+              console.log('total plafond', parsed.TotalPlafond);
               parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
@@ -244,6 +245,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
       this.calculateCashLoanNonCashLoanGroub(this.myBusinessGroupCPFacility);
     }
+
     this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
   }
 
