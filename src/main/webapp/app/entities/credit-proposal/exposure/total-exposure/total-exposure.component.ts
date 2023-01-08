@@ -164,7 +164,14 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
 
-              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
+              parsed.InterestRate =
+                source[y].FILN10_ROLL_GAP +
+                ' ' +
+                source[y].FILN10_ROLL_GAP_GB_NM +
+                ' ' +
+                source[y].FIX_FLT_GB_NM +
+                ' ' +
+                source[y].FILN11_SPREAD_RT;
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
