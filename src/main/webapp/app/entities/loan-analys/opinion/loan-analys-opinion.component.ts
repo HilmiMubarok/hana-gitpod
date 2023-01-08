@@ -219,7 +219,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
-	
 	this.positionService.findByLogin().subscribe(posisi => {
 	  if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
 		this.positionUserId = this.positionLoanComitee;

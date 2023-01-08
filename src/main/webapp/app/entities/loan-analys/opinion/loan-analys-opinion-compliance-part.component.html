@@ -41,17 +41,6 @@
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
 
-    <div class="mb-2 col-md-2" style="margin-top: 20px">
-      <mat-form-field class="w-100" appearance="outline" [hidden]="view" [hidden]="approvalUser">
-        <mat-label>Approval User</mat-label>
-        <mat-select (selectionChange)="setApproval($event)" [(ngModel)]="creditProposalItem.attributes['userId']">
-          <mat-option *ngFor="let item of position" [value]="item.employeeFirstName">
-            {{ item.employeeFirstName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
     <div class="e-card-content">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
