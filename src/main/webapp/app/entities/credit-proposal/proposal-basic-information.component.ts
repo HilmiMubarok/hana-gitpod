@@ -147,7 +147,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   setOpinionRecomendation(newItem: string){
-    this.recomendation = newItem
+    this.recomendation = newItem;
   }
 
 
@@ -496,7 +496,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
             copyCreditProposal.notes[i].message = '';
-            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation']
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
             copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
             tempHelper = tempHelper + 1;
@@ -507,7 +507,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           copyCreditProposal.notes.push(
             this.addNewNotes(
               '',
-              copyCreditProposal.attributes['tempLoggedInRecomendation'],
+              this.recomendation,
               '',
               this.currentAccount.login,
               copyCreditProposal.attributes['positionLogin']
@@ -518,7 +518,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         copyCreditProposal.notes.push(
           this.addNewNotes(
             '',
-            copyCreditProposal.attributes['tempLoggedInRecomendation'],
+            this.recomendation,
             '',
             this.currentAccount.login,
             copyCreditProposal.attributes['positionLogin']
