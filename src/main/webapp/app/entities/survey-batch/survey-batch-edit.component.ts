@@ -955,7 +955,7 @@ export class SurveyBatchEditComponent implements OnInit {
         mustValidateOnAssignment.officerAppraisal = false;
       }
       if (!this.surveyAppraisal.totalMarketValue) {
-        this._showNotification('error', 'Masukkan Appraisal Value Physic terlebih dahulu');
+        this._showNotification('error', 'Masukkan dan Upload KJPP terlebih dahulu');
         mustValidateOnAssignment.totalMarketValue = false;
       }
     }
@@ -1053,7 +1053,7 @@ export class SurveyBatchEditComponent implements OnInit {
   }
   public validateApprovalTL(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.checkMustValidatedOnApprovalTL() && resolve('Assignment Validated');
+      this.checkMustValidatedOnApprovalTL() && resolve('Approval Team Leader Validated');
     });
   }
 
