@@ -5,6 +5,8 @@ import { IApplicationProduct } from 'app/entities/application-product/applicatio
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash, { toUpper } from 'lodash';
+import { STATUS } from 'app/shared/constants/status.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-mapping-facility',
@@ -19,7 +21,8 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public creditProposalData: any;
   public applicationProductData: any;
   public checked: boolean;
-  public disableField: string;
+  public disableField: any;
+  public field: boolean;
 
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
@@ -27,12 +30,12 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public mappingStatusHelper: any = [];
 
   constructor(
+    private router: Router,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
       collateral: ICollateral;
       cp: ICreditProposal;
-      hideField: string;
     }
   ) {
     this.collateralInfo = this.data.collateral;
@@ -41,7 +44,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     console.log('data', this.creditProposalData);
     this.setUp();
     this.checked = false;
-    this.disableField = this.data.hideField;
+    // this.disableField = this.data.hideField;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralData']) {
@@ -56,10 +59,15 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     // console.log('return type sable', this.sableFeild());
   }
   public sableFeild() {
-    if (this.disableField === 'DRAFT') {
-      return false;
+    this.disableField = this.router.url.split('/')[1];
+    if (
+      this.disableField === 'cp-status-approval' ||
+      this.disableField === 'la-approval-inquiry' ||
+      this.disableField === 'la-approval' ||
+      this.disableField === 'la-SME-CRC'
+    ) {
+      this.field = true;
     }
-    return true;
   }
   public setCrossCollateral(index: number) {
     if (this.collateralData) {

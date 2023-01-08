@@ -8,6 +8,8 @@ import lodash from 'lodash';
 import { DataSource } from '@angular/cdk/collections';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { STATUS } from 'app/shared/constants/status.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-mapping-collateral',
@@ -26,9 +28,11 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
 
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
-  public disableField: string;
+  public disableField: any;
+  public field: boolean;
 
   constructor(
+    private router: Router,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
@@ -59,10 +63,15 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     this.sableFeild();
   }
   public sableFeild() {
-    if (this.disableField === 'DRAFT') {
-      return false;
+    this.disableField = this.router.url.split('/')[1];
+    if (
+      this.disableField === 'cp-status-approval' ||
+      this.disableField === 'la-approval-inquiry' ||
+      this.disableField === 'la-approval' ||
+      this.disableField === 'la-SME-CRC'
+    ) {
+      this.field = true;
     }
-    return true;
   }
 
   private setUp(): void {
