@@ -339,11 +339,19 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   totalCashLoan() {
-    this.totalDebiturCashLoan = this.fungsiSumcredit() - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturCashLoan = this.fungsiSumcredit() - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+    } else {
+      this.totalDebiturCashLoan = this.fungsiSumcredit() - 0;
+    }
   }
 
   totalNonCashLoan() {
-    this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+    } else {
+      this.totalDebiturNonCashLoan = 0;
+    }
   }
 
   grandTotalDebitur() {
