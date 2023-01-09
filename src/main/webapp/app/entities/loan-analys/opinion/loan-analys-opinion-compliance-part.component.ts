@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -66,6 +66,9 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   public InternalId: any;
   public positionLogin: any;
 
+  public recomendasi: string;
+  private positionLoanComitee: string;
+
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
   @Input() saveWordOpinionCondition;
@@ -78,6 +81,9 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
   }
+
+  @Output() newItemEvent = new EventEmitter<string>();
+  @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cp.currentValue.notes.length > 0) {
@@ -115,6 +121,11 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     this.conditionEnableOpinion();
     this.hiddenApprovalUser();
     this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
+  }
+
+  public change(event: string){
+    this.newItemEvent.emit(event);
+	this.recomendasi = event;
   }
 
   public getWord() {
@@ -175,6 +186,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   public disabledOpinion: boolean;
+
   public conditionEnableOpinion() {
     if (
       this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
@@ -190,6 +202,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   public approvalUser: boolean;
+
   private hiddenApprovalUser() {
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
       this.approvalUser = false;
@@ -287,7 +300,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container.documentEditor.openBlank();
+    // this.container.documentEditor.openBlank();
   }
 
   // Condition remark
@@ -404,7 +417,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 
   onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container_condition.documentEditor.openBlank();
+    // this.container_condition.documentEditor.openBlank();
   }
 
   public loadPosition(position: any): void {
@@ -421,6 +434,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
       }
+	  this.positionLoginEmit.emit(this.creditProposalItem.attributes['positionLogin']);
     });
   }
 

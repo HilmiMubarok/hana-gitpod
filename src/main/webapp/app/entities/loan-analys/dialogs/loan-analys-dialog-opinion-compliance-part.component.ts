@@ -77,33 +77,21 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
           this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
           this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
         ) {
-          if (this.recommendation === 'Approved as Propose') {
-            this.nameLabel = 'Approved Status';
-            this.radioButtonPurpose = 'Approved as Propose';
-            this.valueRadioPurpose = 'Approved as Propose';
-          } else if (this.recommendation === 'Approved With Condition') {
-            this.nameLabel = 'Approved Status';
-            this.radioButtonCondition = 'Approved With Condition';
-            this.valueRadioCondition = 'Approved With Condition';
-          } else {
-            this.nameLabel = 'Approved Status';
-            this.radioButtonNotRecommend = 'Not Approved';
-            this.valueRadioRecommend = 'Not Approved';
-          }
+		  this.nameLabel = 'Approved Status';
+		  this.radioButtonPurpose = 'Approved as Propose';
+		  this.valueRadioPurpose = 'Approved as Propose';
+		  this.radioButtonCondition = 'Approved With Condition';
+		  this.valueRadioCondition = 'Approved With Condition';
+		  this.radioButtonNotRecommend = 'Not Approved';
+		  this.valueRadioRecommend = 'Not Approved';
         } else {
-          if (this.recommendation === 'Recommend as Propose') {
-            this.nameLabel = 'Recomendation';
-            this.radioButtonPurpose = 'Recommend as Propose';
-            this.valueRadioPurpose = 'Recommend as propose';
-          } else if (this.recommendation === 'Recommend With Condition') {
-            this.nameLabel = 'Recomendation';
-            this.radioButtonCondition = 'Recommend With Condition';
-            this.valueRadioCondition = 'Recommend With Condition';
-          } else {
-            this.nameLabel = 'Recomendation';
-            this.radioButtonNotRecommend = 'Not Recommend';
-            this.valueRadioRecommend = 'Not Recommend';
-          }
+		  this.nameLabel = 'Recomendation';
+		  this.radioButtonPurpose = 'Recommend as Propose';
+		  this.valueRadioPurpose = 'Recommend as propose';
+		  this.radioButtonCondition = 'Recommend With Condition';
+		  this.valueRadioCondition = 'Recommend With Condition';
+		  this.radioButtonNotRecommend = 'Not Recommend';
+		  this.valueRadioRecommend = 'Not Recommend';
         }
       }
     }

@@ -5,16 +5,13 @@
 <mat-dialog-content>
   <div class="row">
     <div class="col-6">
-      <!-- <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Position</mat-label>
           <input matInput type="text" [(ngModel)]="notes.positionUserId" [disabled]="true" />
         </mat-form-field>
       </div>
-      <!-- </section>  -->
 
-      <!-- <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
       <div class="form-group">
         <p class="e-card-sub-title">Recomendation</p>
         <div class="d-flex justify-content-around">
@@ -39,27 +36,15 @@
           </div>
         </div>
       </div>
-      <!-- </section> -->
-      <!--
-      <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-         <p class="lable-form-title">Opinion: {{ notes.message }}</p>
-        <div class="fontsebled row">
-          <div class="col-4">Condition</div>
-          <div class="col-md-auto">:</div>
-          <div class="col col-lg-4">{{ creditProposalItem.attributes.tempLoggedInCondition }}</div>
-        </div>
-      </section> -->
     </div>
 
     <div class="col-6">
-      <!-- <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
       <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Date</mat-label>
           <input matInput type="text" [(ngModel)]="notes.createDate" [disabled]="true" />
         </mat-form-field>
       </div>
-      <!-- </section> -->
     </div>
 
     <mat-card>

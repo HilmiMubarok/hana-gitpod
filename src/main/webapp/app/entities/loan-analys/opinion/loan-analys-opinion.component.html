@@ -102,7 +102,7 @@
             <div class="mx-2">
               <ejs-radiobutton
 				[checked]="recomendasi === 'Recommend as Propose'"
-				(change)="change(valueRadioPurpose)"
+				(change)="change('Recommend as Propose')"
                 label="{{ radioButtonPurpose }}"
                 value="Recommend as Propose"
                 [disabled]="disabledOpinion"
@@ -111,7 +111,7 @@
             <div class="mx-2">
               <ejs-radiobutton
 				[checked]="recomendasi === 'Recommend With Condition'"
-				(change)="change(valueRadioCondition)"
+				(change)="change('Recommend With Condition')"
                 label="{{ radioButtonCondition }}"
                 value="Recommend With Condition"
                 [disabled]="disabledOpinion"
@@ -120,7 +120,7 @@
             <div class="mx-2">
               <ejs-radiobutton
 				[checked]="recomendasi === 'Not Recommend'"
-				(change)="change(valueRadioRecommend)"
+				(change)="change('Not Recommend')"
                 label="{{ radioButtonNotRecommend }}"
                 value="Not Recommend"
                 [disabled]="disabledOpinion"
@@ -138,7 +138,8 @@
               <ejs-radiobutton
                 label="Approved as Propose"
                 value="Approved as Propose"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendationUser"
+                [checked]="recomendasi === 'Approved as Propose'"
+				(change)="change('Approved as Propose')"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -146,7 +147,8 @@
               <ejs-radiobutton
                 label="Approved With Condition"
                 value="Approved With Condition"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendationUser"
+                [checked]="recomendasi === 'Approved With Condition'"
+				(change)="change('Approved With Condition')"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -154,7 +156,8 @@
               <ejs-radiobutton
                 label="Not Approved"
                 value="Not Approved"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendationUser"
+                [checked]="recomendasi === 'Not Approved'"
+				(change)="change('Not Approved')"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
