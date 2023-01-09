@@ -1121,7 +1121,15 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       documentLainnya: true,
       picDebtor: true,
       picPhone: true,
+      reviewedOpinion: true,
     };
+
+    if (this.surveyAppraisal.apprOfficer === 'External') {
+      if (!this.surveyAppraisal.reviewedOpinion) {
+        this._showNotification('error', 'Masukkan Review Opinion terlebih dahulu');
+        mustValidateOnTL.reviewedOpinion = false;
+      }
+    }
 
     return this._validateProcess(mustValidateOnTL);
   }
