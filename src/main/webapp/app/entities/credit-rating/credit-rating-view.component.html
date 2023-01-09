@@ -114,6 +114,7 @@
                   placeholder="Pefindo"
                   floatLabelType="Auto"
                   cssClass="e-outline"
+                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -123,7 +124,6 @@
                   placeholder="Pefindo"
                   floatLabelType="Auto"
                   cssClass="e-outline"
-                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -135,18 +135,18 @@
                   placeholder="as of Date"
                   floatLabelType="Auto"
                   cssClass="e-outline"
+                  disabled
                 >
                 </ejs-textbox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-textbox
+                <ejs-datepicker
                   [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
                   cssClass="e-outline"
-                  disabled
                 >
-                </ejs-textbox>
+                </ejs-datepicker>
               </section>
 
               <!-- <ejs-datepicker cssClass="e-outline" [(value)]="creditProposalItem.creditRatings[0].pefindoDate"
@@ -164,6 +164,7 @@
                   placeholder="Fitch"
                   floatLabelType="Auto"
                   cssClass="e-outline"
+                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -173,7 +174,6 @@
                   placeholder="Fitch"
                   floatLabelType="Auto"
                   cssClass="e-outline"
-                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -185,6 +185,7 @@
                   [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
+                  disabled
                 ></ejs-datepicker>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -193,7 +194,6 @@
                   [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
-                  disabled
                 ></ejs-datepicker>
               </section>
             </div>
@@ -208,6 +208,7 @@
                   placeholder="SNP"
                   floatLabelType="Auto"
                   cssClass="e-outline"
+                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -217,7 +218,6 @@
                   placeholder="SNP"
                   floatLabelType="Auto"
                   cssClass="e-outline"
-                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -229,6 +229,7 @@
                   [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
+                  disabled
                 ></ejs-datepicker>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -237,7 +238,6 @@
                   [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
-                  disabled
                 ></ejs-datepicker>
               </section>
             </div>
@@ -252,6 +252,7 @@
                   placeholder="Moodys"
                   floatLabelType="Auto"
                   cssClass="e-outline"
+                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -261,7 +262,6 @@
                   placeholder="Moodys"
                   floatLabelType="Auto"
                   cssClass="e-outline"
-                  disabled
                 >
                 </ejs-textbox>
               </section>
@@ -273,6 +273,7 @@
                   [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
+                  disabled
                 ></ejs-datepicker>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -281,7 +282,6 @@
                   [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
-                  disabled
                 ></ejs-datepicker>
               </section>
             </div>
