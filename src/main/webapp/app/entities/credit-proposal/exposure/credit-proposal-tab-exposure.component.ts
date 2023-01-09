@@ -45,7 +45,6 @@ export class CreditProposalTabExposureComponent implements OnInit {
   public value: string;
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
-
     this.setMenu('');
   }
 

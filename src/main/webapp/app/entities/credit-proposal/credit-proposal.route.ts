@@ -52,6 +52,7 @@ import { FinancialState } from './repayment-spreadsheet/remarks/financial-statem
 import { RejectReason } from './forward-to/reject-to.model';
 import { LegalLendingLimit } from './exposure/legal-lending/legal-lending-limit.model';
 import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
+import { CalculationExposure } from './exposure/total-exposure/calculation-exposure.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -347,6 +348,11 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['legalLendingLimit'] = new LegalLendingLimit();
             } else {
               creditProposal.body.attributes['legalLendingLimit'] = JSON.parse(creditProposal.body.attributes['legalLendingLimit']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'calculationExposure')) {
+              creditProposal.body.attributes['calculationExposure'] = new CalculationExposure();
+            } else {
+              creditProposal.body.attributes['calculationExposure'] = JSON.parse(creditProposal.body.attributes['calculationExposure']);
             }
 
             if (creditProposal.body.prospectOrganization) {
