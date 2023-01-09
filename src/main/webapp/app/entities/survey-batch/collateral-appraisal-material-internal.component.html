@@ -24,13 +24,8 @@
         </mat-card-header>
         <mat-card-content>
           <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-            <mat-chip
-              class="example-box text-capitalize"
-              id="statusOption"
-              (click)="chipClick(item)"
-              cdkDrag
-              *ngFor="let item of collateralAppraisalStatusCodes"
-            >
+            <mat-chip class="example-box text-capitalize" id="statusOption" (click)="chipClick(item)" cdkDrag
+              *ngFor="let item of collateralAppraisalStatusCodes">
               {{ item.label }}
             </mat-chip>
           </mat-chip-list>
@@ -119,12 +114,8 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <a
-              href="javascript:void();"
-              [routerLink]="['/batch-apprisal/', element.id, 'edit-internal']"
-              mat-icon-button
-              (click)="$event.stopPropagation()"
-            >
+            <a href="javascript:void();" [routerLink]="['/batch-apprisal/', element.id, 'edit-internal']"
+              mat-icon-button (click)="$event.stopPropagation()">
               <fa-icon icon="pencil-alt"></fa-icon>
             </a>
             <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
@@ -135,15 +126,11 @@
         <ng-container matColumnDef="expand">
           <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              aria-label="expand row"
-              (click)="
+            <button mat-icon-button aria-label="expand row" (click)="
                 findCreditProposalBySurveyAppraisal(element);
                 expandedElement = expandedElement === element ? null : element;
                 $event.stopPropagation()
-              "
-            >
+              ">
               <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
               <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
             </button>
@@ -226,7 +213,8 @@
                 </mat-card>
                 <mat-card class="w-50 mx-auto" *ngIf="creditProposal.prospectOrganization">
                   <mat-card-header>
-                    <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
+                    <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail
+                    </mat-card-subtitle>
                   </mat-card-header>
                   <mat-card-content>
                     <div class="clearfix">
@@ -265,31 +253,23 @@
           </td>
         </tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: displayedColumnsExpand"
-          [class.mat-expanded-row]="expandedElement === element"
-          class="mat-element-row"
-          (click)="findCreditProposalBySurveyAppraisal(element); expandedElement = expandedElement === element ? null : element"
-        ></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element" class="mat-element-row"
+          (click)="findCreditProposalBySurveyAppraisal(element); expandedElement = expandedElement === element ? null : element">
+        </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
       </table>
       <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
-      <mat-paginator
-        showFirstLastButtons
-        ngClass="transparant"
-        [length]="paginatorLength"
-        [pageSize]="paginatorPageSize"
-        [pageSizeOptions]="paginatorPageSizeOption"
-        (page)="loadDataLazy($event)"
-      >
+      <mat-paginator showFirstLastButtons ngClass="transparant" [length]="paginatorLength"
+        [pageSize]="paginatorPageSize" [pageSizeOptions]="paginatorPageSizeOption" (page)="loadDataLazy($event)">
       </mat-paginator>
     </div>
-    <div class="d-flex justify-content-center mb-3 mt-3">
+    <!-- Takout Button Add Request -->
+    <!-- <div class="d-flex justify-content-center mb-3 mt-3">
       <button class="button-info" (click)="goToEdit()">Add Request Appraisal</button>
-    </div>
+    </div> -->
     <mat-sidenav-container [hasBackdrop]="true">
       <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
         <div class="p-3" style="padding-top: 90px !important">
@@ -297,18 +277,14 @@
           <ul class="side-menu">
             <li *ngFor="let item of subMenu">
               <!--SUBMENU DOESNT HAVE A CHILD-->
-              <a
-                *ngIf="!item.hasOwnProperty('child')"
-                href="javascript:void(0)"
-                class="text-capitalize"
-                (click)="routeSubMenu(item); drawer.toggle()"
-                >{{ item.label }}</a
-              >
+              <a *ngIf="!item.hasOwnProperty('child')" href="javascript:void(0)" class="text-capitalize"
+                (click)="routeSubMenu(item); drawer.toggle()">{{ item.label }}</a>
               <!--SUBMENU HAS A CHILD-->
               <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
               <ul *ngIf="item.hasOwnProperty('child')">
                 <li *ngFor="let itemChild of item.child">
-                  <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
+                  <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()"
+                    class="text-capitalize">{{
                     itemChild.label
                   }}</a>
                 </li>
