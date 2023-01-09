@@ -173,7 +173,7 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value (Physic)</mat-label>
-          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValue" [options]="logoCcy" disabled />
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -202,10 +202,33 @@
       </div>
     </div>
     <div class="row form-group">
-      <div class="col-12">
+      <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Liquidation Value</mat-label>
           <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVPs"
+            [matAutocomplete]="autoMvPs"
+            [(ngModel)]="MVPsCcy"
+            (ngModelChange)="getMVPsCcy()"
+          />
+          <mat-autocomplete #autoMvPs="matAutocomplete" [displayWith]="displayFnMVPs">
+            <mat-option *ngFor="let option of filteredOptionsMVPs | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueCcy" [disabled]="dataSource()">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select> -->
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -328,6 +351,38 @@
             </mat-option>
           </mat-autocomplete>
           <!-- <mat-select [(ngModel)]="collateralPropertyExternal.attributes.marketValueCcy" [disabled]="dataSource()">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select> -->
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Liquidation Value Independent</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralPropertyExternal.liquidationValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVPs"
+            [matAutocomplete]="autoMvPs"
+            [(ngModel)]="MVPsCcy"
+            (ngModelChange)="getMVPsCcy()"
+          />
+          <mat-autocomplete #autoMvPs="matAutocomplete" [displayWith]="displayFnMVPs">
+            <mat-option *ngFor="let option of filteredOptionsMVPs | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueCcy" [disabled]="dataSource()">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
           </mat-select> -->

@@ -2,6 +2,21 @@
   <!-- LEFT SIDE -->
   <div class="col-6">
     <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Certificate Expiry Date</mat-label>
+        <input
+          [matDatepicker]="securityExpiryDate"
+          matInput
+          type="text"
+          [(ngModel)]="collateralProperty.attributes.certificateExpiryDate"
+          disabled
+        />
+        <mat-datepicker-toggle matSuffix [for]="securityExpiryDate"></mat-datepicker-toggle>
+        <mat-datepicker #securityExpiryDate [disabled]="dataSource()"></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Collateral Detail Type</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" [disabled]="dataSource()">

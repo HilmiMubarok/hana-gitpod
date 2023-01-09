@@ -162,6 +162,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
+        certDueDate: this.getExpiry(element),
+        ownerShip: this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
       },
     };
@@ -406,10 +408,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           result = data.liquidationValue;
         }
       }
-    } else if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['property']
-    ) {
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -434,7 +433,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     } else if (
       collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
       collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
       collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
     ) {
       data = this.collateralProperties.find(
@@ -521,7 +519,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-
     // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
@@ -536,16 +533,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
     } else if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['property']
+      collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.propertyMarketValue === null) {
+        if (data.marketValue === null) {
           result = 0;
         } else {
-          result = data.propertyMarketValue;
+          result = data.marketValue;
         }
       }
     } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
@@ -559,33 +556,41 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           result = data.vehicleMarketValue;
         }
       }
-    } else if (
-      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
-    ) {
-      // kondisi ditambahkan berdasarkan CRECAS-1194
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-        result = collateral.unitFaceAmount;
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-        result = collateral.guaranteeAmount;
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-        result = collateral.amount;
-      } else {
-        data = this.collateralProperties.find(
-          obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-        );
-        // console.log("data in above grid",data);
-        if (data !== undefined) {
-          if (data.marketValue === null) {
-            result = 0;
-          } else {
-            result = data.marketValue;
-          }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null) {
+          result = 0;
+        } else {
+          result = data.attributes.amount;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.totalFaceAmount === null) {
+          result = 0;
+        } else {
+          result = data.attributes.totalFaceAmount;
+        }
+      }
+    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null) {
+          result = 0;
+        } else {
+          result = data.attributes.amount;
         }
       }
     }
+
     return result;
   }
 
@@ -643,6 +648,73 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     }
     return result;
   }
+
+  // get Ownership
+  public getOwnerShip(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    let string1: string;
+    let string2: string;
+    let result: string;
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateType === undefined) {
+          string1 = '';
+        } else {
+          string1 = data.attributes.certificateType;
+        }
+        if (data.attributes.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.attributes.certificateNumber;
+        }
+        result = string1 + ' ' + string2;
+      }
+    }
+    return result;
+  }
+
+  public getExpiry(collateral: ICollateral) {
+    let result: any;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.expiry === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.expiry;
+        }
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    return result;
+  }
+
   public openResult(element: ICollateral) {
     const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
       width: '80vw',

@@ -71,6 +71,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public binding: ICreditProposalCollateralBinding;
   public lovRank = [];
   public paripasuStatus: any;
+  public dataCertDueDate: any;
+  public dataOwnerShip: string;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -105,6 +107,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       insurance: ICreditProposalCollateralInsurance;
+      certDueDate: any;
+      ownerShip: string;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
@@ -125,6 +129,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     }
     this.lovCollateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
+    this.dataCertDueDate = data.certDueDate;
+    this.dataOwnerShip = data.ownerShip;
   }
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
