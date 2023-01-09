@@ -91,7 +91,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public recomendation: string;
   public positionLoginFromEmit: string;
-  public opinionType: string;
+  public opinionType = '';
 
   constructor(
     private creditProposalService: CreditProposalService,
