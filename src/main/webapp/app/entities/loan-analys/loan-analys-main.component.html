@@ -501,6 +501,7 @@
         <div *ngIf="parentPath === 'cc-review'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
+			(typeOpinion)="setTypeOpinion($event)"
             [creditProposalItem]="creditProposal"
             [cp]="cp"
           ></jhi-loan-analys-opinion-compliance-part>

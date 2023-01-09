@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -32,7 +32,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
   styleUrls: ['./loan-analys-opinion.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChanges {
+export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor_container_condition')
@@ -467,5 +467,9 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 		}
 	  });
     });
+  }
+
+  ngOnDestroy() {
+	this.typeOpinion.emit('');
   }
 }
