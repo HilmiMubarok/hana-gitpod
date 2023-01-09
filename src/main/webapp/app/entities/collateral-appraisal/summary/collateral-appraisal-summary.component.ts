@@ -18,6 +18,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { HttpClient } from '@angular/common/http';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { SurveyBatchEditProcessComponent } from 'app/entities/survey-batch/survey-batch-edit-process.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
@@ -60,7 +61,8 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+    private mainComponent: SurveyBatchEditProcessComponent
   ) {}
 
   onCreate(): void {
@@ -131,7 +133,11 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe(res => {
+        if (res.status === 200) {
+          this.mainComponent.totalKeteranganObjectJaminan = true;
+        }
+      });
     });
 
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -143,7 +149,11 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe(res => {
+        if (res.status === 200) {
+          this.mainComponent.totalKeteranganObjectJaminan = true;
+        }
+      });
     });
   }
   public getWord() {
