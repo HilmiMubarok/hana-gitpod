@@ -155,6 +155,46 @@ export class SurveyAppraisalsService extends AbstractEntityService<ISurveyApprai
       .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
   }
+  public searchInternal(req?: any, cif?: string): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/distribution-internal/filter-cif/' + cif, {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+  public searchProcess(req?: any, cif?: string): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/appraisal-process/filter-cif/' + cif, {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+  public searchInquiry(req?: any, cif?: string): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/appraisal-inquiry/filter-cif/' + cif, {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+  public searchReport(req?: any, cif?: string): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(MICROSERVICENAME.LOS + '/api/survey-appraisals/appraisal-report-approval/filter-cif/' + cif, {
+        params: options,
+        observe: 'response',
+      })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
   public searchNew(req?: any, src?: string): Observable<HttpResponse<any>> {
     console.log('req', req);
     const options = createRequestOption(req);

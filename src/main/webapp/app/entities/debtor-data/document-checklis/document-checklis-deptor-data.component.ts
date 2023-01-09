@@ -43,7 +43,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   }
 
   private groupByFolder(param: any[]): void {
-    this.folders = []
+    this.folders = [];
     if (param.length > 0) {
       this.folders = lodash
         .chain(param)
@@ -58,7 +58,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
           dueDate: val[0]['tags']['dueDate'],
           status: val[0]['tags']['status'],
           remarks: val[0]['tags']['remarks'],
-
+          nameFile: val[0].name,
           files: val,
         }))
         .value();
@@ -72,6 +72,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
       key: `/cif/${id}/document`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      console.log('file data', res.body);
       this.groupByFolder(res.body);
     });
   }

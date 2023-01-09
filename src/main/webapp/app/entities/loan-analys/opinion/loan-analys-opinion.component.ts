@@ -25,6 +25,7 @@ import _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -107,7 +108,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     private positionService: PositionService,
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+	protected messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -158,7 +160,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.creditProposalItem.attributes['position'] = this.position[i].positionTypeDescription;
       }
 	  this.positionLoanComitee = this.creditProposalItem.attributes['position'];
-      // this.positionUserId = this.creditProposalItem.attributes['position'];
+	  this.positionLoginEmit.emit(this.positionLoanComitee);
     }
   }
 
@@ -225,7 +227,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public triggeredSave(): void {
 	this.positionService.findByLogin().subscribe(posisi => {
 	  if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-		this.positionUserId = this.positionLoanComitee;
+		if (this.positionLoanComitee) {
+		  this.positionUserId = this.positionLoanComitee;
+		} else {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
+		}
 	  } else {
 		this.positionUserId = posisi.body[0].name;
 	  }
@@ -323,7 +329,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public triggeredSaveCondition(): void {
 	this.positionService.findByLogin().subscribe(posisi => {
 	  if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-		this.positionUserId = this.positionLoanComitee;
+		if (this.positionLoanComitee) {
+		  this.positionUserId = this.positionLoanComitee;
+		} else {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
+		}
 	  } else {
 		this.positionUserId = posisi.body[0].name;
 	  }
@@ -452,8 +462,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
-		this.positionLoginEmit.emit(this.positionLogin[i].positionTypeDescription);
       }
+	  this.positionLoginEmit.emit(this.creditProposalItem.attributes['positionLogin']);
     });
   }
 

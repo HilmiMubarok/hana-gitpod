@@ -91,6 +91,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public recomendation: string;
   public positionLoginFromEmit: string;
+  public opinionType = '';
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -273,7 +274,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
   }
 
-  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string, positionVal: string): INotes {
+  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string, positionVal: string, opinionType: string): INotes {
     let note: INotes = new Notes();
 
     return (note = {
@@ -283,6 +284,7 @@ export class LoanAnalysMainComponent implements OnInit {
       recomendation: recomendationVal,
       condition: conditionVal,
       createDate: new Date(),
+	  type: opinionType
     });
   }
 
@@ -347,17 +349,20 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.extPreSave(copyCreditProposal);
     } */
-	
+
 	let tempHelper = 0;
+	let tempOpinionType = '';
+
+	tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-      // this.positionApproval = copyCreditProposal.attributes['position'];
-	  // this.positionApproval = copyCreditProposal.attributes['positionLogin'];
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.userId) {
             copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
             copyCreditProposal.notes[i].recomendation = this.recomendation;
+			copyCreditProposal.notes[i].type = tempOpinionType;
             tempHelper = tempHelper + 1;
           }
         }
@@ -369,7 +374,8 @@ export class LoanAnalysMainComponent implements OnInit {
               this.recomendation,
               '',
 			  this.currentAccount.login,
-              this.positionLoginFromEmit
+              this.positionLoginFromEmit,
+			  tempOpinionType
             )
           );
         }
@@ -380,7 +386,8 @@ export class LoanAnalysMainComponent implements OnInit {
             this.recomendation,
             '',
 			this.currentAccount.login,
-            this.positionLoginFromEmit
+            this.positionLoginFromEmit,
+			tempOpinionType
           )
         );
       }
@@ -400,6 +407,7 @@ export class LoanAnalysMainComponent implements OnInit {
             copyCreditProposal.notes[i].recomendation = this.recomendation;
             copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
+			copyCreditProposal.notes[i].type = tempOpinionType;
             tempHelper = tempHelper + 1;
           }
         }
@@ -411,7 +419,8 @@ export class LoanAnalysMainComponent implements OnInit {
               this.recomendation,
               '',
 			  this.currentAccount.login,
-              this.positionLoginFromEmit
+              this.positionLoginFromEmit,
+			  tempOpinionType
             )
           );
         }
@@ -422,7 +431,8 @@ export class LoanAnalysMainComponent implements OnInit {
             this.recomendation,
             '',
 			this.currentAccount.login,
-           this.positionLoginFromEmit
+           this.positionLoginFromEmit,
+		   tempOpinionType
           )
         );
       }
@@ -491,7 +501,11 @@ export class LoanAnalysMainComponent implements OnInit {
     this.positionLoginFromEmit = newItem;
   }
 
-  private extPreSave(copyCreditProposal: any): void {
+  setTypeOpinion(type: string) {
+	this.opinionType = type;
+  }
+
+  /* private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
       // this.positionApproval = copyCreditProposal.attributes['position'];
@@ -578,7 +592,7 @@ export class LoanAnalysMainComponent implements OnInit {
 		delete copyCreditProposal.attributes['position'];
 	  }
     }
-  }
+  } */
 
   public saveDoc: boolean;
 

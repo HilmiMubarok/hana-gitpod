@@ -403,10 +403,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-        this.subMenu =
-          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-            ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
-            : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+        // this.subMenu =
+        //   this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+        //     ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+        //     : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
       }
       console.log('submenu', this.subMenu);
     }
@@ -731,7 +731,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
-      console.log("menu['id']", menu['id']);
       this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
       this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
     }

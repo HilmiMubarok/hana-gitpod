@@ -141,15 +141,15 @@
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail
-			  *ngIf="!isHistoryExist"
-			  [isViewMode]="true"
+              *ngIf="!isHistoryExist"
+              [isViewMode]="true"
               [parentSource]="'loan-analys'"
               [creditProposal]="creditProposal"
             ></jhi-credit-proposal-tab-loan-facility-detail>
-			<jhi-loan-facility-detail-history
-			  *ngIf="isHistoryExist"
-              [isViewMode]="true"   
-			  [parentSource]="'loan-analys'"
+            <jhi-loan-facility-detail-history
+              *ngIf="isHistoryExist"
+              [isViewMode]="true"
+              [parentSource]="'loan-analys'"
               [creditProposal]="creditProposal"
             ></jhi-loan-facility-detail-history>
           </mat-card-content>
@@ -167,18 +167,18 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
-			  *ngIf="!isHistoryExist"
+              *ngIf="!isHistoryExist"
               [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
             ></jhi-credit-proposal-collateral-info>
-			<jhi-collateral-info-history
-			  #creditProposalCollateralInfoComponent
-			  *ngIf="isHistoryExist"
-			  [creditProposal]="creditProposal"
-			  [parentSource]="'loan-analys'"
-			  [isViewMode]="true"
-			></jhi-collateral-info-history>
+            <jhi-collateral-info-history
+              #creditProposalCollateralInfoComponent
+              *ngIf="isHistoryExist"
+              [creditProposal]="creditProposal"
+              [parentSource]="'loan-analys'"
+              [isViewMode]="true"
+            ></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
 
@@ -344,14 +344,14 @@
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail
               *ngIf="!isHistoryExist"
-			  [isViewMode]="true"
+              [isViewMode]="true"
               [parentSource]="'loan-analys'"
               [creditProposal]="creditProposal"
             ></jhi-credit-proposal-tab-loan-facility-detail>
             <jhi-loan-facility-detail-history
-			  *ngIf="isHistoryExist"
-              [isViewMode]="true"   
-			  [parentSource]="'loan-analys'"
+              *ngIf="isHistoryExist"
+              [isViewMode]="true"
+              [parentSource]="'loan-analys'"
               [creditProposal]="creditProposal"
             ></jhi-loan-facility-detail-history>
           </mat-card-content>
@@ -378,7 +378,7 @@
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
-			  [creditProposal]="creditProposal"
+              [creditProposal]="creditProposal"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
             ></jhi-credit-proposal-collateral-info>
@@ -390,11 +390,11 @@
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-collateral-info-history
-			  #creditProposalCollateralInfoComponent
-			  [creditProposal]="creditProposal"
-			  [parentSource]="'loan-analys'"
-			  [isViewMode]="true"
-			></jhi-collateral-info-history>
+              #creditProposalCollateralInfoComponent
+              [creditProposal]="creditProposal"
+              [parentSource]="'loan-analys'"
+              [isViewMode]="true"
+            ></jhi-collateral-info-history>
           </mat-card-content>
         </mat-card>
       </div>
@@ -405,11 +405,14 @@
       </div>
 
       <!-- Financial Statement -->
-      <div *ngIf="selectedMenu === 'financial-statement'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-financial-statement
-          *ngIf="creditProposal.attributes.proposalType === '' || creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
-          [creditProposal]="creditProposal"
-        ></jhi-credit-proposal-financial-statement>
+      <!-- <div [hidden]="selectedMenu !== 'financial-statement'" class="e-sample-resize-container e-card-resize-container"> -->
+      <div *ngIf="selectedMenu === 'financial-statement'">
+        <jhi-repayment-spreadsheet
+          [creditProposalItem]="creditProposal"
+          *ngIf="creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
+          [jhifilter]="creditProposal.attributes.proposalType"
+          [saveWordMinio]="saveWord"
+        ></jhi-repayment-spreadsheet>
         <jhi-repayment-spreadsheet
           [creditProposalItem]="creditProposal"
           *ngIf="
@@ -419,7 +422,10 @@
           [jhifilter]="creditProposal.attributes.proposalType"
           [saveWordMinio]="saveWord"
         ></jhi-repayment-spreadsheet>
-        <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-remarks>
+        <!-- <jhi-credit-proposal-collateral-info-remarks
+          [creditProposal]="creditProposal"
+          *ngIf="creditProposal.attributes.proposalType === 'Total Exposure Back to Back'"
+        ></jhi-credit-proposal-collateral-info-remarks> -->
       </div>
 
       <!-- Slik Checking -->
@@ -476,7 +482,13 @@
 
       <!-- opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-opinion #loanAnalysOpinionComponent (positionLoginEmit)="setPositionLogin($event)" (newItemEvent)="setOpinionRecomendation($event)" [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion>
+        <jhi-loan-analys-opinion
+          #loanAnalysOpinionComponent
+          (positionLoginEmit)="setPositionLogin($event)"
+          (newItemEvent)="setOpinionRecomendation($event)"
+          [creditProposalItem]="creditProposal"
+          [cp]="cp"
+        ></jhi-loan-analys-opinion>
       </div>
 
       <!-- compare data -->
@@ -487,7 +499,12 @@
       <div *ngIf="selectedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
         <div *ngIf="parentPath === 'cc-review'">
-		  <jhi-loan-analys-opinion-compliance-part #loanAnalysOpinionCompliancePartComponent [creditProposalItem]="creditProposal" [cp]="cp"></jhi-loan-analys-opinion-compliance-part>
+          <jhi-loan-analys-opinion-compliance-part
+            #loanAnalysOpinionCompliancePartComponent
+			(typeOpinion)="setTypeOpinion($event)"
+            [creditProposalItem]="creditProposal"
+            [cp]="cp"
+          ></jhi-loan-analys-opinion-compliance-part>
         </div>
       </div>
     </div>
@@ -549,9 +566,8 @@
       >
         {{ task.caption }}
       </button>
-      
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
 
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

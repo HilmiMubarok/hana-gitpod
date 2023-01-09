@@ -71,7 +71,7 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
   }
 
   public filterDeviation() {
-    this.getFiles(this.creditProposalItem.cif.partyId);
+    this.getFiles(this.creditProposalItem.id);
     if (this.creditProposalItem.attributes['convenant']['otherCovenant'].length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant']['otherCovenant'].length; i++) {
         if (this.creditProposalItem.attributes['convenant']['otherCovenant'][i].status !== 'Applied') {
@@ -129,7 +129,7 @@ export class CreditProposalOtherDeviationComponent implements OnInit {
 
   private getFiles(id: any): void {
     const predicate: Object = {
-      key: `/cif/${id}/document`,
+      key: `/credit_proposal/${id}/document`,
     };
     this.storageService.getBucketName().subscribe((res: any) => {
       this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
