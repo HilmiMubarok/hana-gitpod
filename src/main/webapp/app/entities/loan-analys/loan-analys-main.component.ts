@@ -350,8 +350,6 @@ export class LoanAnalysMainComponent implements OnInit {
 	
 	let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-      // this.positionApproval = copyCreditProposal.attributes['position'];
-	  // this.positionApproval = copyCreditProposal.attributes['positionLogin'];
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.userId) {
@@ -491,7 +489,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.positionLoginFromEmit = newItem;
   }
 
-  private extPreSave(copyCreditProposal: any): void {
+  /* private extPreSave(copyCreditProposal: any): void {
     let tempHelper = 0;
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
       // this.positionApproval = copyCreditProposal.attributes['position'];
@@ -578,7 +576,7 @@ export class LoanAnalysMainComponent implements OnInit {
 		delete copyCreditProposal.attributes['position'];
 	  }
     }
-  }
+  } */
 
   public saveDoc: boolean;
 

@@ -108,43 +108,43 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [(ngModel)]="creditProposalItem.creditRatings[0].pefindo"
+                  placeholder="Pefindo"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].pefindo"
                   placeholder="Pefindo"
                   floatLabelType="Auto"
                   cssClass="e-outline"
                   disabled
-                >
-                </ejs-textbox>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-textbox
-                  [(ngModel)]="creditProposalItem.creditRatings[0].pefindo"
-                  placeholder="Pefindo"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
                 >
                 </ejs-textbox>
               </section>
             </div>
             <div class="col">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
                   cssClass="e-outline"
-                  disabled
                 >
                 </ejs-textbox>
               </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-datepicker
                   [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
                   cssClass="e-outline"
+                  disabled
                 >
                 </ejs-datepicker>
               </section>
@@ -158,7 +158,16 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [(ngModel)]="creditProposalItem.creditRatings[0].fitch"
+                  placeholder="Fitch"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].fitch"
                   placeholder="Fitch"
@@ -168,18 +177,17 @@
                 >
                 </ejs-textbox>
               </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-textbox
-                  [(ngModel)]="creditProposalItem.creditRatings[0].fitch"
-                  placeholder="Fitch"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                >
-                </ejs-textbox>
-              </section>
             </div>
             <div class="col">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-datepicker
+                  cssClass="e-outline"
+                  [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
+                  placeholder="as of Date"
+                  floatLabelType="Auto"
+                ></ejs-datepicker>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-datepicker
                   cssClass="e-outline"
                   [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
@@ -188,21 +196,22 @@
                   disabled
                 ></ejs-datepicker>
               </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-datepicker
-                  cssClass="e-outline"
-                  [(ngModel)]="creditProposalItem.creditRatings[0].fitchDate"
-                  placeholder="as of Date"
-                  floatLabelType="Auto"
-                ></ejs-datepicker>
-              </section>
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [(ngModel)]="creditProposalItem.creditRatings[0].snp"
+                  placeholder="SNP"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].snp"
                   placeholder="SNP"
@@ -212,32 +221,23 @@
                 >
                 </ejs-textbox>
               </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-textbox
-                  [(ngModel)]="creditProposalItem.creditRatings[0].snp"
-                  placeholder="SNP"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                >
-                </ejs-textbox>
-              </section>
             </div>
             <div class="col">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-datepicker
+                  cssClass="e-outline"
+                  [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
+                  placeholder="as of Date"
+                  floatLabelType="Auto"
+                ></ejs-datepicker>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-datepicker
                   cssClass="e-outline"
                   [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
                   disabled
-                ></ejs-datepicker>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-datepicker
-                  cssClass="e-outline"
-                  [(ngModel)]="creditProposalItem.creditRatings[0].snpDate"
-                  placeholder="as of Date"
-                  floatLabelType="Auto"
                 ></ejs-datepicker>
               </section>
             </div>
@@ -246,42 +246,42 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  [(ngModel)]="creditProposalItem.creditRatings[0].moodys"
+                  placeholder="Moodys"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].moodys"
                   placeholder="Moodys"
                   floatLabelType="Auto"
                   cssClass="e-outline"
                   disabled
-                >
-                </ejs-textbox>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-textbox
-                  [(ngModel)]="creditProposalItem.creditRatings[0].moodys"
-                  placeholder="Moodys"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
                 >
                 </ejs-textbox>
               </section>
             </div>
             <div class="col">
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-datepicker
+                  cssClass="e-outline"
+                  [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
+                  placeholder="as of Date"
+                  floatLabelType="Auto"
+                ></ejs-datepicker>
+              </section>
+              <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <ejs-datepicker
                   cssClass="e-outline"
                   [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
                   placeholder="as of Date"
                   floatLabelType="Auto"
                   disabled
-                ></ejs-datepicker>
-              </section>
-              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <ejs-datepicker
-                  cssClass="e-outline"
-                  [(ngModel)]="creditProposalItem.creditRatings[0].moodysDate"
-                  placeholder="as of Date"
-                  floatLabelType="Auto"
                 ></ejs-datepicker>
               </section>
             </div>
