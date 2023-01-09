@@ -218,6 +218,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
     }
     this.totalDebiturCashLoanGroup = this.fungsiSumcreditGroub() - this.totalDebiturNonCashLoanGroup;
+    this.creditProposal.attributes['calculationExposure'].totalGroubCashLoan = Number(this.totalDebiturCashLoanGroup);
+    this.creditProposal.attributes['calculationExposure'].totalGroubNonCashLoan = Number(this.totalDebiturNonCashLoanGroup);
   }
 
   format(format: any, value: any): string {
@@ -348,16 +350,20 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   totalCashLoan() {
     if (this.nonCashLoanDebitur.length > 0) {
       this.totalDebiturCashLoan = this.fungsiSumcredit() - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+      this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
     } else {
       this.totalDebiturCashLoan = this.fungsiSumcredit() - 0;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturCashLoan;
     }
   }
 
   totalNonCashLoan() {
     if (this.nonCashLoanDebitur.length > 0) {
       this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
     } else {
       this.totalDebiturNonCashLoan = 0;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
     }
   }
 

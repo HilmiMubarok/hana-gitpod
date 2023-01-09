@@ -146,7 +146,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
   }
 
-  setOpinionRecomendation(newItem: string){
+  setOpinionRecomendation(newItem: string) {
     this.recomendation = newItem;
   }
 
@@ -464,10 +464,10 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-	this.saveWord = false;
-	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-	  this.router.navigate([this.router.url.split('/')[1]]);
-	});
+    this.saveWord = false;
+    this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+      this.router.navigate([this.router.url.split('/')[1]]);
+    });
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
@@ -508,25 +508,12 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
-            this.addNewNotes(
-              '',
-              this.recomendation,
-              '',
-              this.currentAccount.login,
-              copyCreditProposal.attributes['positionLogin']
-            )
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
           );
         }
       } else {
         copyCreditProposal.notes.push(
-          this.addNewNotes(
-            '',
-            this.recomendation,
-            '',
-            this.currentAccount.login,
-            copyCreditProposal.attributes['positionLogin']
-           
-          )
+          this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
         );
       }
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
@@ -574,12 +561,16 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(this.creditProposal.attributes['remarksFinancialStatement']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
-
+    copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.groupProducts = [];
 
     return copyCreditProposal;
@@ -595,7 +586,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.saveWord = true;
       if (this.creditProposal.id) {
-    
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
