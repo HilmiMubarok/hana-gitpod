@@ -294,12 +294,6 @@ export class DocumentComponent implements OnChanges, OnInit {
     return this.account.authorities.includes('ROLE_RM');
   }
   private setMatrixInput() {
-    //------------ Condition if status complete and approve
-    if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
-      this.IfRmEnable = true;
-    } else {
-      this.IfRmEnable = false;
-    }
     // ---------- Condition if login RM, status approve enabled.
     if (this.isRm()) {
       if (this.account.authorities.length <= 2) {
@@ -308,6 +302,13 @@ export class DocumentComponent implements OnChanges, OnInit {
         } else {
           this.IfRmEnable = true;
         }
+      }
+    } else {
+      //------------ Condition if status complete and approve
+      if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
+        this.IfRmEnable = true;
+      } else {
+        this.IfRmEnable = false;
       }
     }
   }
