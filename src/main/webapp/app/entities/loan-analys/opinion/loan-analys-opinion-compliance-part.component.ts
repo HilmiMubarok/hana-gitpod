@@ -82,17 +82,20 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     this._creditProposalItem = item;
   }
 
+  @Output() typeOpinion = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
   @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cp.currentValue.notes.length > 0) {
-      this.notes = lodash.cloneDeep(changes.cp.currentValue.notes);
-      for (let i = 0; i < this.notes.length; i++) {
-        this.notes[i].message = this.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
-        this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
-        this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-        this.notes[i].recomendation = this.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+      for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
+		if (changes.cp.currentValue.notes[i].type === 'compliance') {
+		  this.notes[i].type = 'compliance';
+		  this.notes[i].message = changes.cp.currentValue.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.notes[i].condition = changes.cp.currentValue.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
+          this.notes[i].createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+          this.notes[i].recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		}
       }
     }
   }
@@ -111,6 +114,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   ) {}
 
   ngOnInit(): void {
+	this.typeOpinion.emit('compliance');
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getLogin();
     this.filterPositionLogin();
@@ -449,13 +453,15 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 		this.creditProposalItem.attributes['positionLogin'] = '';
 		if (this.notes.length > 0) {
 		  for (let i = 0; i < this.notes.length; i++) {
-			this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-			if (this.notes[i].userId === this.currentAccount.login) {
-			  this.creditProposalItem.notes[i].message = '';
-			  this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-			  this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
-			  this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-			  this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+			if (this.notes[i].type === 'compliance') {
+			  this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+			  if (this.notes[i].userId === this.currentAccount.login) {
+				this.creditProposalItem.notes[i].message = '';
+				this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+				this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
+				this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
+				this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+			  }
 			}
 		  }
 		}

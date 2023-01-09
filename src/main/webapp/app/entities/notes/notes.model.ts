@@ -6,6 +6,7 @@ export interface INotes {
   createDate?: Date;
   recomendation?: string;
   condition?: string;
+  type?: string;
   attributes?: any;
 }
 
@@ -18,6 +19,7 @@ export class Notes implements INotes {
     public createDate?: Date,
     public recomendation?: string,
     public condition?: string,
+	public type?: string,
     public attributes?: any
   ) {}
 }
