@@ -57,6 +57,13 @@ export class OrganizationManagementDialogComponent implements OnInit {
     return false;
   }
 
+  public buttonApproval() {
+    if (this.typeSable === 'approval') {
+      return true;
+    }
+    return false;
+  }
+
   public save(): void {
     this._dialog.close(this.organizationManagement);
   }
