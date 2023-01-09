@@ -26,66 +26,66 @@
   <mat-card>
     <p class="mb-5">
       <mat-card-subtitle>Opinion</mat-card-subtitle>
-      <ejs-documenteditorcontainer
-        #document_editor_container
-        [enableToolbar]="false"
-        [enableLocalPaste]="false"
-        height="30vh"
-        style="display: block"
-        (documentChange)="onDocumentChange()"
-        [enableEditor]="false"
-        [isReadOnly]="true"
-      >
+      <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
+        height="30vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
+        [isReadOnly]="true">
       </ejs-documenteditorcontainer>
     </p>
   </mat-card>
 
   <mat-card>
     <div class="form-group">
-      <mat-card-subtitle>{{ nameLabel }} </mat-card-subtitle>
-      <div class="d-flex justify-content-around">
-        <div class="mx-2">
-          <ejs-radiobutton
-            disabled
-            [(ngModel)]="notes.recomendation"
-            value="{{ valueRadioPurpose }}"
-            label="{{ radioButtonPurpose }}"
-          ></ejs-radiobutton>
+      <section *ngIf="
+          notes.recomendation === 'Approved as Propose' ||
+          notes.recomendation === 'Approved With Condition' ||
+          notes.recomendation === 'Not Approved'
+        ">
+        <mat-card-subtitle>Approved Status</mat-card-subtitle>
+        <div class="d-flex justify-content-around">
+          <div class="mx-2">
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Approved as Propose"
+              label="Approved as Propose"></ejs-radiobutton>
+          </div>
+          <div class="mx-2">
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Approved With Condition"
+              label="Approved With Condition"></ejs-radiobutton>
+          </div>
+          <div class="mx-2">
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Approved" label="Not Approved">
+            </ejs-radiobutton>
+          </div>
         </div>
-        <div class="mx-2">
-          <ejs-radiobutton
-            disabled
-            [(ngModel)]="notes.recomendation"
-            value="{{ valueRadioCondition }}"
-            label="{{ radioButtonCondition }}"
-          ></ejs-radiobutton>
+      </section>
+      <section *ngIf="
+          notes.recomendation === 'Recommend as propose' ||
+          notes.recomendation === 'Recommend With Condition' ||
+          notes.recomendation === 'Not Recommend'
+        ">
+        <mat-card-subtitle>Recomendation</mat-card-subtitle>
+        <div class="d-flex justify-content-around">
+          <div class="mx-2">
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend as propose"
+              label="Recommend as Propose"></ejs-radiobutton>
+          </div>
+          <div class="mx-2">
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend With Condition"
+              label="Recommend With Condition"></ejs-radiobutton>
+          </div>
+          <div class="mx-2">
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend">
+            </ejs-radiobutton>
+          </div>
         </div>
-        <div class="mx-2">
-          <ejs-radiobutton
-            disabled
-            [(ngModel)]="notes.recomendation"
-            value="{{ valueRadioRecommend }}"
-            label="{{ radioButtonNotRecommend }}"
-          >
-          </ejs-radiobutton>
-        </div>
-      </div>
+      </section>
     </div>
   </mat-card>
 
   <mat-card>
     <p class="mb-5">
       <mat-card-subtitle>Condition </mat-card-subtitle>
-      <ejs-documenteditorcontainer
-        #document_editor_container_condition
-        [enableToolbar]="false"
-        [enableLocalPaste]="false"
-        height="30vh"
-        style="display: block"
-        (documentChange)="onDocumentChanges()"
-        [enableEditor]="false"
-        [isReadOnly]="true"
-      >
+      <ejs-documenteditorcontainer #document_editor_container_condition [enableToolbar]="false"
+        [enableLocalPaste]="false" height="30vh" style="display: block" (documentChange)="onDocumentChanges()"
+        [enableEditor]="false" [isReadOnly]="true">
       </ejs-documenteditorcontainer>
     </p>
   </mat-card>
