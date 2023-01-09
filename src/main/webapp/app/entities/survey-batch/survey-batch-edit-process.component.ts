@@ -8,6 +8,7 @@ import {
   MINIMUM_COMPARISON_DATA,
   MINIMUM_DOCUMENT_COLLATERAL,
   MINIMUM_DOCUMENT_LAINYA,
+  MINIMUM_KETERANGAN_JAMINAN,
   MINIMUM_LAND_DETAIL,
   MINIMUM_MACHINE_DETAIL,
   MINIMUM_OBJECT_JAMINAN_DATA,
@@ -282,18 +283,26 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     const obj = {
       key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
     };
-    this.getBucket().then(() => {
-      this.storageService
-        .getObjects(this.bucket, obj)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(response => {
-          if (response.body.length > 0) {
-            this.totalKeteranganObjectJaminan = true;
-          }
-        });
-    });
+
+    this.storageService
+      .getObjects(this.bucket, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        this.totalKeteranganObjectJaminan = response.body;
+
+        // if (response.body.length > 0) {
+        //   this.totalKeteranganObjectJaminan = true;
+        console.log('vvvvv', this.totalKeteranganObjectJaminan);
+        // }
+      });
   }
 
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.bucket = val.body['bucket'];
+      this.getContainer();
+    });
+  }
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
@@ -309,7 +318,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-    this.getContainer();
+    this.getWord();
 
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
@@ -465,14 +474,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else if (node.id === 'appraisal-info') {
         return true;
       } else if (node.id === 'summary') {
-        if (
-          this.collateralAppraisal.attributes['marketbility'] !== '' &&
-          this.collateralAppraisal.divHeadId !== null &&
-          this.collateralAppraisal.deptHeadId !== null &&
-          this.collateralAppraisal.teamLeadId !== null &&
-          this.collateralAppraisal.unitHeadId !== null &&
-          this.totalKeteranganObjectJaminan > 0
-        ) {
+        if (this.collateralAppraisal.attributes['marketbility'] !== '' && this.totalKeteranganObjectJaminan.length >= 0) {
           return true;
         } else {
           return false;
@@ -1410,8 +1412,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    if (!this.totalKeteranganObjectJaminan) {
-      this._showNotification('error', 'Masukkan Keterangan Object Jaminan Dahulu');
+    if (this.totalKeteranganObjectJaminan.length < MINIMUM_KETERANGAN_JAMINAN) {
+      this._showNotification('error', 'Masukkan Keterangan Object Jaminan Dahulu, Lalu Save');
       mustValidatedOnVisited.keterangan = false;
     }
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
@@ -1501,10 +1503,12 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
           this.messageService.add({
             severity: 'success',
@@ -1519,10 +1523,12 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
           this.messageService.add({
             severity: 'success',

@@ -19,7 +19,6 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { HttpClient } from '@angular/common/http';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { SurveyBatchEditProcessComponent } from 'app/entities/survey-batch/survey-batch-edit-process.component';
-
 @Component({
   selector: 'jhi-collateral-appraisal-summary',
   templateUrl: './collateral-appraisal-summary.component.html',
@@ -38,13 +37,14 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
   public formatType?: string;
 
   private BUCKET: string;
-
+  totalKeteranganObjectJaminan: any;
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private paramId: string;
   private getKey: string;
   private fileGet: File;
   public resourceUrl: string;
+  private applicationConfigService: ApplicationConfigService;
 
   @Input('item')
   get item() {
@@ -60,9 +60,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     private storageService: StorageService,
     protected activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService,
-    private mainComponent: SurveyBatchEditProcessComponent
+    private http: HttpClient // private mainComponent: SurveyBatchEditProcessComponent,
   ) {}
 
   onCreate(): void {
@@ -135,7 +133,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe(res => {
         if (res.status === 200) {
-          this.mainComponent.totalKeteranganObjectJaminan = true;
+          this.totalKeteranganObjectJaminan = res.body;
         }
       });
     });
@@ -151,12 +149,15 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe(res => {
         if (res.status === 200) {
-          this.mainComponent.totalKeteranganObjectJaminan = true;
+          // this.mainComponent.totalKeteranganObjectJaminan = true;
+          this.totalKeteranganObjectJaminan = res.body;
         }
       });
     });
   }
   public getWord() {
+    // this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
       this.getContainer();
@@ -164,7 +165,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    // this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getWord();
 
     // this.BUCKET = ' ';

@@ -67,6 +67,7 @@ import { CollateralAppraisalDetailProcessMesinComponent } from './collateral/col
 import { CollateralAppraisalComparisonComponent } from './comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { CollateralAppraisalSummaryComponent } from './summary/collateral-appraisal-summary.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   providers: [
@@ -112,6 +113,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this._collateralAppraisal = item;
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+    // this.getContainer();
+    this.getWord();
 
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
@@ -331,6 +334,69 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
+  // private ngUnsubscribe = new Subject();
+  // public totalKeteranganObjectJaminan;
+  // // get keterangan objek jaminan
+  // private getContainer(): void {
+  //   let paramsId = '';
+  //   this.activatedRoute.params.subscribe(params => {
+  //     paramsId = params['id'];
+  //   });
+  //   const obj = {
+  //     key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
+  //   };
+  //   this.getBucket().then(() => {
+  //     this.storageService
+  //       .getObjects(this.bucket, obj)
+  //       .pipe(takeUntil(this.ngUnsubscribe))
+  //       .subscribe(response => {
+  //         if (response.body.length > 0) {
+  //           this.totalKeteranganObjectJaminan = true;
+  //         }
+  //       });
+  //   });
+  // }
+  private ngUnsubscribe = new Subject();
+  public totalKeteranganObjectJaminan;
+  // get keterangan objek jaminan
+  private getContainer(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const obj = {
+      key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
+    };
+
+    this.storageService
+      .getObjects(this.bucket, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        this.totalKeteranganObjectJaminan = response.body;
+
+        // if (response.body.length > 0) {
+        //   this.totalKeteranganObjectJaminan = true;
+        console.log('vvvvv', this.totalKeteranganObjectJaminan);
+        // }
+      });
+  }
+
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.bucket = val.body['bucket'];
+      this.getContainer();
+    });
+  }
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
+
   private getDataSurveyAppraisal(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.find(this.id).subscribe(res => {
@@ -456,10 +522,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
         }
@@ -469,11 +537,13 @@ export class CollateralAppraisalMainComponent implements OnInit {
         if (source === 'process') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
           this.saveProcess();
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getWord();
           }
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
         }
@@ -664,14 +734,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else if (node.id === 'appraisal-info') {
       return true;
     } else if (node.id === 'summary') {
-      if (
-        this.collateralAppraisal.attributes['marketbility'] !== ''
-        //  &&
-        // this.collateralAppraisal.divHeadId !== null &&
-        // this.collateralAppraisal.deptHeadId !== null &&
-        // this.collateralAppraisal.teamLeadId !== null &&
-        // this.collateralAppraisal.unitHeadId !== null
-      ) {
+      if (this.collateralAppraisal.attributes['marketbility'] !== '' && this.totalKeteranganObjectJaminan > 0) {
         return true;
       } else {
         return false;
