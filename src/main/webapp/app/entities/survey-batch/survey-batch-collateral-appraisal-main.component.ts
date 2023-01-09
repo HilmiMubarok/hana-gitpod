@@ -1166,13 +1166,13 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
       documentLainnya: true,
       picDebtor: true,
       picPhone: true,
-      reviewOpinion: true,
+      reviewedOpinion: true,
     };
 
     if (this.surveyAppraisal.apprOfficer === 'External') {
       if (!this.surveyAppraisal.reviewedOpinion) {
         this._showNotification('error', 'Masukkan Review Opinion terlebih dahulu');
-        mustValidateOnTL.reviewOpinion = false;
+        mustValidateOnTL.reviewedOpinion = false;
       }
     }
 
