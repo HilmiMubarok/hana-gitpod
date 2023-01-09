@@ -73,6 +73,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
           dueDate: val[0]['tags']['dueDate'],
           status: val[0]['tags']['status'],
           remarks: val[0]['tags']['remarks'],
+          nameFile: val[0].name,
 
           files: val,
         }))
