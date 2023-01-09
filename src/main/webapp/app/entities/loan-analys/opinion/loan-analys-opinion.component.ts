@@ -25,6 +25,7 @@ import _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -107,7 +108,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     private positionService: PositionService,
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    private applicationConfigService: ApplicationConfigService,
+	protected messageService: MessageService
   ) {}
 
   ngOnInit(): void {

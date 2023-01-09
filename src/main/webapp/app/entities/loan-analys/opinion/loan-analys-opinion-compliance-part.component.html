@@ -94,7 +94,6 @@
 				(change)="change('Recommend as Propose')"
                 label="Recommend as Propose"
                 value="Recommend as Propose"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -104,7 +103,6 @@
                 value="Recommend With Condition"
 				[checked]="recomendasi === 'Recommend With Condition'"
 				(change)="change('Recommend With Condition')"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -114,7 +112,6 @@
 				(change)="change('Not Recommend')"
                 label="Not Recommend"
                 value="Not Recommend"
-                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>

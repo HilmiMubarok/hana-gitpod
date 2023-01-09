@@ -23,6 +23,7 @@ import { PositionService } from 'app/entities/position/position.service';
 import { IPosition, Position } from 'app/entities/position/position.model';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -411,6 +412,23 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       .subscribe(resi => {
         this.dataPush = resi.body.find(obj => (obj.id = data.id));
         this.partyCif.collaterals.push(this.dataPush);
+
+        this.collateralPropertyService
+          .queryFilterBy({
+            page: 0,
+            idCollateral: data.id,
+            idPropertyType: CollateralPropertyType.GENERAL,
+            size: 10,
+          })
+          .subscribe(res => {
+            const collProp: ICollateralProperty[] = res.body;
+            if (collProp.length > 0) {
+              for (let i = 0; i < collProp.length; i++) {
+                const item: ICollateralProperty = collProp[i];
+                this.partyCif.collateralProperties.push(item);
+              }
+            }
+          });
       });
   }
 

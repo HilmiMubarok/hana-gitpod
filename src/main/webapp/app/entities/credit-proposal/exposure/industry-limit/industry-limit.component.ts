@@ -59,8 +59,11 @@ export class IndustryLimitComponent implements OnInit {
 
     this.listOfValueIndustryService.query().subscribe((response: any) => {
       for (let i = 0; i < response.body.length; i++) {
-        if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industryCode) {
-          this.industryLimitExposureParameterService.find('industryCode').subscribe((res: any) => {
+        if (
+          response.body[i].label === this.creditProposal.attributes['purposePricing'].industry &&
+          response.body[i].id === this.creditProposal.attributes['purposePricing'].industryCode
+        ) {
+          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
             this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
             this.industryLimitExposure = res.body.industryLimitExposure;

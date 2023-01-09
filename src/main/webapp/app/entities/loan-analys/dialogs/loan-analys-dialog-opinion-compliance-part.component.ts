@@ -36,6 +36,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 
   creditProposalItem: ICreditProposal;
   public recommendation: any;
+  public tempStat: boolean;
 
   private ngUnsubscribe = new Subject();
   private fileGet: File;
@@ -84,6 +85,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 		  this.valueRadioCondition = 'Approved With Condition';
 		  this.radioButtonNotRecommend = 'Not Approved';
 		  this.valueRadioRecommend = 'Not Approved';
+		  this.tempStat = true;
         } else {
 		  this.nameLabel = 'Recomendation';
 		  this.radioButtonPurpose = 'Recommend as Propose';
@@ -92,6 +94,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 		  this.valueRadioCondition = 'Recommend With Condition';
 		  this.radioButtonNotRecommend = 'Not Recommend';
 		  this.valueRadioRecommend = 'Not Recommend';
+		  this.tempStat = false;
         }
       }
     }
