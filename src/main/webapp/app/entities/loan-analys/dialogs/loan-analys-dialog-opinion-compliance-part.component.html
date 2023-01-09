@@ -43,28 +43,55 @@
   <mat-card>
     <div class="form-group">
       <mat-card-subtitle>{{ nameLabel }} </mat-card-subtitle>
-      <div class="d-flex justify-content-around">
+      <div *ngIf="tempStat" class="d-flex justify-content-around">
         <div class="mx-2">
           <ejs-radiobutton
             disabled
-            [(ngModel)]="notes.recomendation"
-            value="{{ valueRadioPurpose }}"
+            [checked]="recomendasi === 'Approved as Propose'"
+            value="Approved as Propose"
             label="{{ radioButtonPurpose }}"
           ></ejs-radiobutton>
         </div>
         <div class="mx-2">
           <ejs-radiobutton
             disabled
-            [(ngModel)]="notes.recomendation"
-            value="{{ valueRadioCondition }}"
+            [checked]="recomendasi === 'Approved With Condition'"
+            value="Approved With Condition"
             label="{{ radioButtonCondition }}"
           ></ejs-radiobutton>
         </div>
         <div class="mx-2">
           <ejs-radiobutton
             disabled
-            [(ngModel)]="notes.recomendation"
-            value="{{ valueRadioRecommend }}"
+            [checked]="recomendasi === 'Not Approved'"
+            value="Not Approved"
+            label="{{ radioButtonNotRecommend }}"
+          >
+          </ejs-radiobutton>
+        </div>
+      </div>
+	  <div *ngIf="!tempStat" class="d-flex justify-content-around">
+        <div class="mx-2">
+          <ejs-radiobutton
+            disabled
+            [checked]="recomendasi === 'Recommend as Propose'"
+            value="Recommend as Propose"
+            label="{{ radioButtonPurpose }}"
+          ></ejs-radiobutton>
+        </div>
+        <div class="mx-2">
+          <ejs-radiobutton
+            disabled
+            [checked]="recomendasi === 'Recommend With Condition'"
+            value="Recommend With Condition"
+            label="{{ radioButtonCondition }}"
+          ></ejs-radiobutton>
+        </div>
+        <div class="mx-2">
+          <ejs-radiobutton
+            disabled
+            [checked]="recomendasi === 'Not Recommend'"
+            value="Not Recommend"
             label="{{ radioButtonNotRecommend }}"
           >
           </ejs-radiobutton>
