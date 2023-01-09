@@ -52,7 +52,7 @@
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [hidden]="view" (click)="deleteData(element)">
+          <button mat-icon-button (click)="deleteData(element)" [hidden]="hiddenButton(element)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -140,7 +140,7 @@
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button [hidden]="view" (click)="deleteData(element)">
+          <button mat-icon-button (click)="deleteData(element)" [hidden]="hiddenButton(element)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
