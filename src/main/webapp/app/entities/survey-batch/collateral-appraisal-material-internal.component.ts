@@ -208,14 +208,14 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
 
     if (this.currentSearch && this.currentSearch !== '') {
       this.surveyAppraisalService
-        .searchNew(
+        .searchInternal(
           {
             page: this.page,
-            query: this.currentSearch,
+            // query: this.currentSearch,
             size: this.itemsPerPage,
             sort: ['id,desc'],
           },
-          'Internal'
+          this.currentSearch
         )
         .subscribe({
           next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
