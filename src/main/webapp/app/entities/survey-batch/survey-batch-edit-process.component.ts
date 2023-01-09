@@ -288,7 +288,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(response => {
           if (response.body.length > 0) {
-            this.totalKeteranganObjectJaminan = response.body.length;
+            this.totalKeteranganObjectJaminan = true;
           }
         });
     });
