@@ -201,11 +201,11 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
   }
 
   public setAvailableLimit(index: number) {
-    return this.cpFacility[index].AVAILABLE_LIMIT;
+    return this.cpFacility[index]?.AVAILABLE_LIMIT;
   }
 
   public setInterestRate(index: number) {
-    return this.cpFacility[index].FILN11_SPREAD_RT;
+    return this.cpFacility[index]?.FILN11_SPREAD_RT;
   }
 
   private getBucketNameSummary(): Promise<Object> {

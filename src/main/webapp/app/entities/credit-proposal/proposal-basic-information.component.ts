@@ -145,10 +145,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
   }
-  setOpinionRecomendation(newItem: string){
-    this.recomendation = newItem
-  }
 
+  setOpinionRecomendation(newItem: string){
+    this.recomendation = newItem;
+  }
 
   ngOnInit() {
     this.getTitle();
@@ -342,6 +342,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public goToSubMenu(menu: string): void {
     this.clickedMenu = menu;
   }
+
   public routeSubMenu(menu: object): void {
     if (menu['id'] === ID_GREATER_15_BN) {
       this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
@@ -452,7 +453,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       message: messageVal,
       userId: userIdVal,
       createDate: new Date(),
-      recomendation: this.recomendation,
+      recomendation: recomendationVal,
       condition: conditionVal,
       positionUserId: positionVal,
     });
@@ -463,7 +464,11 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-    if (this.applicationRole.id) {
+	this.saveWord = false;
+	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+	  this.router.navigate([this.router.url.split('/')[1]]);
+	});
+    /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
           this.cp = response.body;
@@ -483,7 +488,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           });
         });
       });
-    }
+    } */
   }
 
   private preSave(): ICreditProposal {
@@ -493,9 +498,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
-            copyCreditProposal.notes[i].recomendation = this.recomendation
-            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
+            copyCreditProposal.notes[i].message = '';
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
+            copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
             tempHelper = tempHelper + 1;
           }
@@ -504,9 +509,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
             this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'],
-              copyCreditProposal.attributes['tempLoggedInRecomendation'],
-              copyCreditProposal.attributes['tempLoggedInCondition'],
+              '',
+              this.recomendation,
+              '',
               this.currentAccount.login,
               copyCreditProposal.attributes['positionLogin']
             )
@@ -515,9 +520,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       } else {
         copyCreditProposal.notes.push(
           this.addNewNotes(
-            copyCreditProposal.attributes['tempLoggedInNotes'],
-            copyCreditProposal.attributes['tempLoggedInRecomendation'],
-            copyCreditProposal.attributes['tempLoggedInCondition'],
+            '',
+            this.recomendation,
+            '',
             this.currentAccount.login,
             copyCreditProposal.attributes['positionLogin']
            
@@ -569,13 +574,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
-      this.creditProposal.attributes['remarksFinancialStatement']
-    );
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(this.creditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
 

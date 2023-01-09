@@ -92,6 +92,30 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'tenor',
   ];
 
+  public nonCashLoan = [
+    'Bank Guarantee Bid Bond',
+    'Bank Guarantee Performance Bond',
+    'Bank Guarantee Adnced Payment',
+    'Bank Guarantee Shipping  Guarantee',
+    'Bank Guarantee Standby L/C',
+    'Bank Guarantee Endorsement A/Srt Bhrg',
+    'Bank Guarantee Lainnya',
+    'Bank Guarantee VA Bid Bond',
+    'Bank Guarantee VA Performance Bond',
+    'Bank Guarantee VA Advanced Payment',
+    'Bank Guarantee VA Shipping  Guarantee',
+    'Bank Guarantee VA Standby L/C',
+    'Bank Guarantee VA Endorsement A/Srt Bhrg',
+    'Bank Guarantee VA Lainnya',
+    'Working Capital - Fixed Loan',
+    'Working Capital - Fixed Loan ECL',
+    'Working Capital - Fixed Loan(Foreign)',
+    'Investment Loan - Fixed Loan',
+    'Investment Loan - Fixed Loan(Foreign)',
+    'BG',
+    'LC',
+  ];
+
   public numericFormatOptions: Object = { format: 'N' };
   public currencyMaster: any;
   public busines: any;
@@ -139,27 +163,21 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
               parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
-              parsed.InterestRate = source[y].FILN10_ROLL_GAP + source[y].FILN11_FIX_FLT_GB + source[y].FILN11_SPREAD_RT;
+
+              parsed.InterestRate =
+                source[y].FILN10_ROLL_GAP +
+                ' ' +
+                source[y].FILN10_ROLL_GAP_GB_NM +
+                ' ' +
+                source[y].FIX_FLT_GB_NM +
+                ' ' +
+                source[y].FILN11_SPREAD_RT;
               parsed.Provision = source[y].FILN22_FEE_AMT;
               parsed.AdminFee = source[y].FILN22_FEE_AMT;
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = (Number(new Date(source[y].FILN10_TOT_EXP_IL)) - Number(new Date(source[y].FXFIG_TRX_DT))) / 86400000;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
-
-              if (source[y].LNB_BASE_LON_CCY === 'IDR') {
-                if (parsed.LoanType === 'Cash Loan') {
-                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
-                } else if (parsed.LoanType === 'Non Cash Loan') {
-                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
-                }
-              } else if (source[y].LNB_BASE_LON_CCY !== 'IDR') {
-                if (parsed.LoanType === 'Cash Loan') {
-                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
-                } else if (parsed.LoanType === 'Non Cash Loan') {
-                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
-                }
-              }
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
               this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
@@ -169,12 +187,37 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
                 return n === undefined;
               });
             }
-            console.log('this.myBusinessGroupCPFacility @parse group : ', this.myBusinessGroupCPFacility);
           }
         }
       }
+      this.calculateCashLoanNonCashLoanGroub(this.myBusinessGroupCPFacility);
     }
+
     this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
+  }
+
+  public calculateCashLoanNonCashLoanGroub(busines: any[]) {
+    const nonCashLoan = [];
+
+    // pengelompokan non cash loan
+    for (let i = 0; i < busines.length; i++) {
+      for (let j = 0; j < this.nonCashLoan.length; j++) {
+        if (busines[i].FacilityType === this.nonCashLoan[j]) {
+          nonCashLoan.push(busines[i]);
+        }
+      }
+    }
+
+    for (let i = 0; i < nonCashLoan.length; i++) {
+      if (nonCashLoan[i].CCY === 'IDR') {
+        this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + nonCashLoan[i].InitialLimit;
+      }
+
+      if (nonCashLoan[i].CCY === 'USD') {
+        this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + nonCashLoan[i].InitialLimit * Number(this.currencyMaster);
+      }
+    }
+    this.totalDebiturCashLoanGroup = this.fungsiSumcreditGroub() - this.totalDebiturNonCashLoanGroup;
   }
 
   format(format: any, value: any): string {
@@ -250,9 +293,13 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public totalBG = 0;
   public totalLC = 0;
 
+  public cashLoanDebitur = [];
+  public nonCashLoanDebitur = [];
+
   public _creditProposal: ICreditProposal;
   public itemCollateral: ICreditProposal;
   public _exposure: string;
+  public totalChanges: any;
 
   @Input()
   get creditProposal() {
@@ -292,19 +339,26 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.fungsiSumcredit();
     this.fungsiSumavailable();
     this.fungsiSumTotalDebiturCashLoan();
-    this.totalCashLoan();
     this.totalNonCashLoan();
+    this.totalCashLoan();
     this.getMyBusinessGroup();
     this.grandTotalDebitur();
   }
 
   totalCashLoan() {
-    this.totalDebiturCashLoan =
-      this.totalDebiturCashLoan + this.totalDl + this.totalWcl + this.totalMML + this.totalFL + this.totalIL + this.totalOD;
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturCashLoan = this.fungsiSumcredit() - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+    } else {
+      this.totalDebiturCashLoan = this.fungsiSumcredit() - 0;
+    }
   }
 
   totalNonCashLoan() {
-    this.totalDebiturNonCashLoan = this.totalDebiturNonCashLoan + this.totalBG + this.totalLC;
+    if (this.nonCashLoanDebitur.length > 0) {
+      this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+    } else {
+      this.totalDebiturNonCashLoan = 0;
+    }
   }
 
   grandTotalDebitur() {
@@ -314,61 +368,17 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this.dataSource.length; i++) {
       if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-        if (this.dataSource[i].attributes.currency === 'IDR') {
-          if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-            this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-          if (this.dataSource[i].attributes['facilityType'] === 'DL') {
-            this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-          if (this.dataSource[i].attributes['facilityType'] === 'MML') {
-            this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-          if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-            this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-          if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-            this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-          if (this.dataSource[i].attributes['facilityType'] === 'OD') {
-            this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-
-          if (this.dataSource[i].attributes['facilityType'] === 'BG') {
-            this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-          if (this.dataSource[i].attributes['facilityType'] === 'LC') {
-            this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond);
-          }
-        }
-
-        if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
-          if (this.dataSource[i].attributes.currency === 'USD') {
-            if (this.dataSource[i].attributes['facilityType'] === 'BG') {
-              this.totalBG = this.totalBG + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+        for (let j = 0; j < this.nonCashLoan.length; j++) {
+          if (this.dataSource[i].attributes.currency === 'IDR') {
+            if (this.dataSource[i].attributes['facilityType'] === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [...this.nonCashLoanDebitur, Number(this.dataSource[i].attributes.totalPlafond)];
             }
-            if (this.dataSource[i].attributes['facilityType'] === 'LC') {
-              this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-            }
-            if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-              this.totalWcl =
-                this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-            }
-            if (this.dataSource[i].attributes['facilityType'] === 'DL') {
-              this.totalDl = this.totalDl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-            }
-            if (this.dataSource[i].attributes['facilityType'] === 'MML') {
-              this.totalMML =
-                this.totalMML + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-            }
-            if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-            }
-            if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-            }
-            if (this.dataSource[i].attributes['facilityType'] === 'OD') {
-              this.totalOD = this.totalOD + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+          } else {
+            if (this.dataSource[i].attributes['facilityType'] === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [
+                ...this.nonCashLoanDebitur,
+                Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs),
+              ];
             }
           }
         }
@@ -435,6 +445,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
+    this.totalChanges = result + dolar;
+    this.creditProposalService.setTotalChanges(this.totalChanges);
     return result + dolar;
   }
 

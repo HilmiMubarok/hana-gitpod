@@ -7,13 +7,25 @@
     </div>
     <div class="e-card-content">
       <div *ngIf="clickedMenu === 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-survey-batch-collateral-appraisal-info
+        <!-- <jhi-survey-batch-collateral-appraisal-info [surveyAppraisal]="surveyAppraisal"
+          [collateralAppraisal]="collateralAppraisal" [accountAuthorities]="accountAuthorities"
+          (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)">
+        </jhi-survey-batch-collateral-appraisal-info> -->
+
+        <jhi-collateral-appraisal-info
+          *ngIf="surveyAppraisal"
+          [statusAppraisal]="timeLineStatus"
           [surveyAppraisal]="surveyAppraisal"
-          [collateralAppraisal]="collateralAppraisal"
           [accountAuthorities]="accountAuthorities"
           (outputTipeOfficerAppraisal)="onValTipeOfficerAppraisalChanged($event)"
+          (jpRenewal)="setRenewal($event)"
+          (jpNew)="setNew($event)"
+          (jpAdditional)="setAdditional($event)"
+          (jpProgress)="setProgress($event)"
+          (jpOther)="setOther($event)"
+          [collateralAppraisal]="collateralAppraisal"
         >
-        </jhi-survey-batch-collateral-appraisal-info>
+        </jhi-collateral-appraisal-info>
       </div>
 
       <div *ngIf="clickedMenu === 'customer-info'">
@@ -74,7 +86,7 @@
       >
         {{ task.caption }}
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave('default')">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

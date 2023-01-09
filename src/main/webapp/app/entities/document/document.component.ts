@@ -9,12 +9,14 @@ import { DocumentUploadDialogComponent } from './document-upload-dialog.componen
 import lodash from 'lodash';
 import { DocumentDialogDialogV2Component } from './document-detail-dialog-v2.component';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-document',
   templateUrl: './document.component.html',
 })
-export class DocumentComponent implements OnChanges {
+export class DocumentComponent implements OnChanges, OnInit {
   @Input()
   public collateral: ICollateral;
 
@@ -26,22 +28,26 @@ export class DocumentComponent implements OnChanges {
 
   @Input()
   public status: string;
-
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   public files: Object[];
   public documents: string;
-
+  public account: Account;
   public folders: Object[];
   private bucket: string;
+  public IfRmEnable: boolean;
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
-    private collateralAppraisalService: CollateralAppraisalService
+    private collateralAppraisalService: CollateralAppraisalService,
+    private accountService: AccountService
   ) {
     this.files = [];
     this.folders = [];
   }
-
+  ngOnInit(): void {
+    this.checkLogin();
+    this.setMatrixInput();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.getBucket().then(res => {
@@ -276,10 +282,34 @@ export class DocumentComponent implements OnChanges {
   public validateDocument() {
     this.forwardTo.emit(this.collateralAppraisalService.totalDataDocumentCollateral.length);
   }
-  hideordisable() {
-    if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
-      return true;
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+      }
+    });
+  }
+
+  public isRm(): any {
+    return this.account.authorities.includes('ROLE_RM');
+  }
+  private setMatrixInput() {
+    // ---------- Condition if login RM, status approve enabled.
+    if (this.isRm()) {
+      if (this.account.authorities.length <= 2) {
+        if (this.status !== STATUS.COMPLETE) {
+          this.IfRmEnable = false;
+        } else {
+          this.IfRmEnable = true;
+        }
+      }
+    } else {
+      //------------ Condition if status complete and approve
+      if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
+        this.IfRmEnable = true;
+      } else {
+        this.IfRmEnable = false;
+      }
     }
-    return false;
   }
 }

@@ -4,6 +4,9 @@ import { IndustryLimit, IIndustryLimit } from './industry-limit.model';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IndustryLimitExposureParameterService } from 'app/entities/master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 import { ListOfValueIndustryService } from '../../list-of-value-industry.service';
+import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { IProduct } from 'app/entities/product/product.model';
+import { CreditProposalService } from '../../credit-proposal.service';
 @Component({
   selector: 'jhi-industry-limit',
   templateUrl: './industry-limit.component.html',
@@ -20,12 +23,13 @@ export class IndustryLimitComponent implements OnInit {
   public remainingAfterCp: number;
   public status: string;
   public cpFaciity = [];
-  public remainingAfterCpMinus: number
+  public remainingAfterCpMinus: number;
 
   constructor(
     public applicationOptionService: ApplicationOptionService,
     public industryLimitExposureParameterService: IndustryLimitExposureParameterService,
-    public listOfValueIndustryService: ListOfValueIndustryService
+    public listOfValueIndustryService: ListOfValueIndustryService,
+    public creditProposalService: CreditProposalService
   ) {
     this.dateAsOf = '';
     this.limitPercentage = 0;
@@ -34,6 +38,7 @@ export class IndustryLimitComponent implements OnInit {
     this.limitNominal = 0;
     this.purposeAmmount = 0;
     this.status = '';
+    this.remainingAfterCpMinus = 0;
   }
 
   @Input()
@@ -50,13 +55,34 @@ export class IndustryLimitComponent implements OnInit {
 
   ngOnInit(): void {
     this.applicationOption();
-    this.industryLimit();
-   
-  
-    this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond
- 
-  }
+    // this.industryLimit();
 
+    this.listOfValueIndustryService.query().subscribe((response: any) => {
+      for (let i = 0; i < response.body.length; i++) {
+        if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industryCode) {
+          this.industryLimitExposureParameterService.find('industryCode').subscribe((res: any) => {
+            this.limitPercentage = res.body.limitPercentage;
+            this.remainingBalance = res.body.remainingBalance;
+            this.industryLimitExposure = res.body.industryLimitExposure;
+            this.limitNominal = Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
+            // this.totalAmmountFunc(this.remainingBalance);
+          });
+        }
+      }
+    });
+    const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
+      this.purposeAmmount = message;
+      this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
+      this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
+      if (this.remainingAfterCp > 0) {
+        this.status = 'Comply';
+      } else {
+        this.status = 'Breach The Limit';
+      }
+    });
+
+    // this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
+  }
 
   public fungsiSumOS() {
     let result: number;
@@ -103,39 +129,37 @@ export class IndustryLimitComponent implements OnInit {
     });
   }
 
+  // public industryLimit() {
+  //   this.listOfValueIndustryService.query().subscribe((response: any) => {
+  //     // this.listOfIndustry = res.body;
 
-  public industryLimit() {
-    this.listOfValueIndustryService.query().subscribe((response: any) => {
-      // this.listOfIndustry = res.body;
+  //     for (let i = 0; i < response.body.length; i++) {
+  //       if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industryCode) {
+  //         this.industryLimitExposureParameterService.find('industryCode').subscribe((res: any) => {
+  //           this.limitPercentage = res.body.limitPercentage;
+  //           this.remainingBalance = res.body.remainingBalance;
+  //           this.industryLimitExposure = res.body.industryLimitExposure;
+  //           this.limitNominal = Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
 
-      for (let i = 0; i < response.body.length; i++) {
-        if (response.body[i].label === this.creditProposal.attributes['purposePricing'].industry) {
-          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
-            this.limitPercentage = res.body.limitPercentage;
-            this.remainingBalance = res.body.remainingBalance;
-            this.industryLimitExposure = res.body.industryLimitExposure
-            this.limitNominal =  Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
+  //           // this.totalAmmountFunc(this.remainingBalance);
+  //           // console.log('cek data1', this.totalAmmountFunc(res.body.remainingBalance))
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
-            this.totalAmmountFunc(res.body.remainingBalance);
-          });
-        }
-      }
-    });
-  }
-
-   public totalAmmountFunc(remaining: number) {
-    const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
-
-
-    this.remainingAfterCp = Number(remaining) - Number(this.creditProposal.attributes['facilityDetail'].totalPlafond);
-    this.remainingAfterCpMinus = Number(this.creditProposal.attributes['facilityDetail'].totalPlafond) - Number(remaining);
-   
-    if (this.remainingAfterCp > 0) {
-      this.status = 'Comply';
-    } else {
-      this.status = 'Breach The Limit';
-    }
-  }
+  // public totalAmmountFunc(remaining: number) {
+  //   const creditLimit = this.cpFaciity.reduce((a: any, b: any) => Number(a) + Number(b));
+  //   const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
+  //     this.purposeAmmount = message;
+  //     this.remainingAfterCp = Number(remaining) - Number(this.purposeAmmount);
+  //     this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(remaining));
+  //     if (this.remainingAfterCp > 0) {
+  //       this.status = 'Comply';
+  //     } else {
+  //       this.status = 'Breach The Limit';
+  //     }
+  //   });
+  // }
 }
-
-

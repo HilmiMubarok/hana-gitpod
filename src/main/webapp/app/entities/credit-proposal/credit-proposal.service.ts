@@ -5,7 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ICreditProposal } from './credit-proposal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
@@ -26,6 +26,8 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     this.resouceGridRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/fin-statements/cif/');
     this.resourcelistCurrency = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api');
   }
+
+  public totalChanges: Subject<any> = new Subject();
 
   protected isNew(entity: ICreditProposal): boolean {
     return entity.id === undefined || entity.id === null;
@@ -118,5 +120,10 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   public getListCurency(page: number, size: number): Observable<HttpResponse<any>> {
     const params = new HttpParams().set('page', page).set('size', size);
     return this.http.get<any>(this.resourcelistCurrency + '/uoms', { params, observe: 'response' });
+  }
+
+  // settotal
+  setTotalChanges(message: any) {
+    this.totalChanges.next(message);
   }
 }

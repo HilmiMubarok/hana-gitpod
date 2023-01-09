@@ -47,7 +47,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private BUCKET: string;
 
   private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
   private paramId: string;
   private getKey: string;
   private fileGet: File;
@@ -128,6 +127,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   change(event: string){
     this.newItemEvent.emit(event);
+	this.recomendasi = event;
   }
 
   public openDialog(element: INotes = null): void {
@@ -192,10 +192,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
-      console.log('ini paste');
     }
   }
+
   public obj: any;
+
   private getContainer(): void {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionId = posisi.body[0].name;
@@ -217,7 +218,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
               .subscribe(res => {
                 this.fileGet = new File(
                   [res.body],
-                  'credit-proposal-remark-' + this.paramsIdGet + '-' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-sfdt.sfdt'
+                  'credit-proposal-remark-' + paramsId + '-' + this.positionId.replace('&', '') + '-' + this.userId.replace('&', '') + '-opinion-sfdt.sfdt'
                 );
                 const fileReader: FileReader = new FileReader();
                 fileReader.onload = (e: any) => {
@@ -231,9 +232,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         });
       this.refresh();
     });
-  }
-  myFunction(value: string) {
-    console.log('cek value', value);
   }
 
   onCreate(): void {
@@ -300,9 +298,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       });
     });
   }
+
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
-    console.log('cek', args);
-    console.log('ini paste', args);
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
     // 67 is the character code for 'C'
@@ -311,11 +308,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       args.isHandled = true;
     }
   }
+
   private getContainerCondition(): void {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionId = posisi.body[0].name;
       let paramsId = '';
-      console.log('pos', this.positionId);
       this.activatedRoute.params.subscribe(params => {
         paramsId = params['id'];
       });
@@ -334,7 +331,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
                 this.fileGet = new File(
                   [res.body],
                   'credit-proposal-remark-' +
-                    this.paramsIdGet +
+                    paramsId +
                     '-' +
                     this.positionId +
                     '-' +
@@ -368,7 +365,9 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       }
     });
   }
-  public recomendasi: string
+
+  public recomendasi: string;
+
   public refresh() {
     this.accountService.identity().subscribe(account => {
       this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
@@ -376,19 +375,18 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
 
       this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-        console.log('body', res.body.notes)
         this.notes = res.body.notes;
 
         if (this.notes.length > 0) {
           for (let i = 0; i < this.notes.length; i++) {
             this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
             if (this.notes[i].userId === account.login) {
-              this.creditProposalItem.notes[i].message = this.obj;
-              this.creditProposalItem.attributes['tempLoggedInNotes'] = this.notes[i].message;
+              this.creditProposalItem.notes[i].message = '';
+              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
               this.recomendasi = this.notes[i].recomendation;
               this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
               this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-              this.creditProposalItem.attributes['tempLoggedInCondition'] = this.notes[i].condition;
+              this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
             }
           }
         }

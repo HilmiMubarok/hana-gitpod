@@ -41,17 +41,6 @@
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
 
-    <div class="mb-2 col-md-2" style="margin-top: 20px">
-      <mat-form-field class="w-100" appearance="outline" [hidden]="approvalUser">
-        <mat-label>Approval User</mat-label>
-        <mat-select (selectionChange)="setApproval($event)" [(ngModel)]="creditProposalItem.attributes['userId']">
-          <mat-option *ngFor="let item of position" [value]="item.employeeFirstName">
-            {{ item.employeeFirstName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
     <div class="e-card-content">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
@@ -103,17 +92,19 @@
               <ejs-radiobutton
 				[checked]="recomendasi === 'Recommend as Propose'"
 				(change)="change('Recommend as Propose')"
-                label="{{ radioButtonPurpose }}"
+                label="Recommend as Propose"
                 value="Recommend as Propose"
+                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
             <div class="mx-2">
               <ejs-radiobutton
+                label="Recommend With Condition"
+                value="Recommend With Condition"
 				[checked]="recomendasi === 'Recommend With Condition'"
 				(change)="change('Recommend With Condition')"
-                label="{{ radioButtonCondition }}"
-                value="Recommend With Condition"
+                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -121,8 +112,9 @@
               <ejs-radiobutton
 				[checked]="recomendasi === 'Not Recommend'"
 				(change)="change('Not Recommend')"
-                label="{{ radioButtonNotRecommend }}"
+                label="Not Recommend"
                 value="Not Recommend"
+                [(ngModel)]="creditProposalItem.attributes.tempLoggedInRecomendation"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>

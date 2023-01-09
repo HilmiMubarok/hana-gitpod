@@ -198,7 +198,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Status</mat-label>
-                  <mat-select name="status" [(ngModel)]="collateral.statusId" disabled>
+                  <mat-select name="status" [(ngModel)]="collateral.statusId">
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of collateralStatus | keyvalue" [value]="item.key">
                       {{ item.value }}
@@ -223,7 +223,11 @@
         </div>
         <div>
           <mat-label>Mapping to Facility</mat-label>
-          <jhi-mapping-facility [creditProposal]="creditProposal" (outputCreditProposalMappingData)="getCreditProposalMappingData($event)">
+          <jhi-mapping-facility
+            [collateralData]="collateral"
+            [creditProposal]="creditProposal"
+            (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
+          >
           </jhi-mapping-facility>
         </div>
         <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>

@@ -96,4 +96,8 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   public getPositionManagement(): Observable<HttpResponse<IPartyCif>> {
     return this.http.get<IPartyCif>(`${this.resourceSyncHobis}/lov/management-position`, { observe: 'response' });
   }
+
+  public getListGroupCollateral(cif: string): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceUrl}/list-group-collateral-by-cif/${cif}`, { observe: 'response' });
+  }
 }

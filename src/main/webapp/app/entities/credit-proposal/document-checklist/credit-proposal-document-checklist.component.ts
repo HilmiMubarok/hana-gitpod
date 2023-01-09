@@ -26,7 +26,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
 
   set creditProposal(data: ICreditProposal) {
     this._creditProposal = data;
-    console.log('cp', data.cif.partyId)
+    console.log('cp', data.cif.partyId);
   }
 
   constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {
@@ -36,14 +36,14 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       this.getBucket().then(res => {
-        this.getFiles(this.creditProposal.cif.partyId);
+        this.getFiles(this.creditProposal.id);
       });
     }
   }
 
   ngOnInit(): void {
     this.getBucket().then(res => {
-      this.getFiles(this.creditProposal.cif.partyId);
+      this.getFiles(this.creditProposal.id);
     });
   }
 
@@ -73,6 +73,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
           dueDate: val[0]['tags']['dueDate'],
           status: val[0]['tags']['status'],
           remarks: val[0]['tags']['remarks'],
+          nameFile: val[0].name,
 
           files: val,
         }))
@@ -84,7 +85,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
 
   private getFiles(id: any): void {
     const predicate: Object = {
-      key: `/cif/${id}/document`,
+      key: `/credit_proposal/${id}/document`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
       this.groupByFolder(res.body);
@@ -109,11 +110,11 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
     dialogRef.afterClosed().subscribe((res: any) => {
       if (res !== null) {
         this.getBucket().then(() => {
-          this.getFiles(this.creditProposal.cif.partyId);
+          this.getFiles(this.creditProposal.id);
         });
       } else {
         this.getBucket().then(() => {
-          this.getFiles(this.creditProposal.cif.partyId);
+          this.getFiles(this.creditProposal.id);
         });
       }
     });

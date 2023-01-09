@@ -403,10 +403,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-        this.subMenu =
-          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-            ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
-            : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+        // this.subMenu =
+        //   this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
+        //     ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+        //     : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
       }
       console.log('submenu', this.subMenu);
     }
@@ -665,11 +665,12 @@ export class CollateralAppraisalMainComponent implements OnInit {
       return true;
     } else if (node.id === 'summary') {
       if (
-        this.collateralAppraisal.attributes['marketbility'] !== '' &&
-        this.collateralAppraisal.divHeadId !== null &&
-        this.collateralAppraisal.deptHeadId !== null &&
-        this.collateralAppraisal.teamLeadId !== null &&
-        this.collateralAppraisal.unitHeadId !== null
+        this.collateralAppraisal.attributes['marketbility'] !== ''
+        //  &&
+        // this.collateralAppraisal.divHeadId !== null &&
+        // this.collateralAppraisal.deptHeadId !== null &&
+        // this.collateralAppraisal.teamLeadId !== null &&
+        // this.collateralAppraisal.unitHeadId !== null
       ) {
         return true;
       } else {
@@ -730,7 +731,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public ceckData(menu: object) {
     const router = this.router.url.split('=')[1];
     if (router !== menu['id']) {
-      console.log("menu['id']", menu['id']);
       this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Dont forget to save data on this page' });
       this.router.navigate(['/collateral-appraisal', this.id, 'edit'], { queryParams: { subroute: menu['id'] } });
     }
@@ -978,10 +978,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
       precentage: true,
       keterangan: true,
       marketability: true,
-      deptHeadName: true,
-      teamLeadName: true,
-      unitHeadName: true,
-      divHeadName: true,
+      // deptHeadName: true,
+      // teamLeadName: true,
+      // unitHeadName: true,
+      // divHeadName: true,
     };
 
     const landCertificate =
@@ -1059,22 +1059,22 @@ export class CollateralAppraisalMainComponent implements OnInit {
       mustValidatedOnVisited.marketability = false;
     }
 
-    if (!this.surveyAppraisal.deptHeadName) {
-      this._showNotification('error', 'Masukkan Departemen Head Dahulu');
-      mustValidatedOnVisited.deptHeadName = false;
-    }
-    if (!this.surveyAppraisal.teamLeadName) {
-      this._showNotification('error', 'Masukkan Team Leader Dahulu');
-      mustValidatedOnVisited.teamLeadName = false;
-    }
-    if (!this.surveyAppraisal.unitHeadName) {
-      this._showNotification('error', 'Masukkan Unit Head Dahulu');
-      mustValidatedOnVisited.unitHeadName = false;
-    }
-    if (!this.surveyAppraisal.divHeadName) {
-      this._showNotification('error', 'Masukkan Division Head Dahulu');
-      mustValidatedOnVisited.divHeadName = false;
-    }
+    // if (!this.surveyAppraisal.deptHeadName) {
+    //   this._showNotification('error', 'Masukkan Departemen Head Dahulu');
+    //   mustValidatedOnVisited.deptHeadName = false;
+    // }
+    // if (!this.surveyAppraisal.teamLeadName) {
+    //   this._showNotification('error', 'Masukkan Team Leader Dahulu');
+    //   mustValidatedOnVisited.teamLeadName = false;
+    // }
+    // if (!this.surveyAppraisal.unitHeadName) {
+    //   this._showNotification('error', 'Masukkan Unit Head Dahulu');
+    //   mustValidatedOnVisited.unitHeadName = false;
+    // }
+    // if (!this.surveyAppraisal.divHeadName) {
+    //   this._showNotification('error', 'Masukkan Division Head Dahulu');
+    //   mustValidatedOnVisited.divHeadName = false;
+    // }
 
     return this._validateProcess(mustValidatedOnVisited);
   }

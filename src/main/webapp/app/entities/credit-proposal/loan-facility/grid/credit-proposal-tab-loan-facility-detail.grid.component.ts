@@ -215,7 +215,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         };
 
         dataParty.push(data);
-        console.log('cp products', dataParty);
       }
 
       const appProduct: IApplicationProduct = this.applicationProduct;

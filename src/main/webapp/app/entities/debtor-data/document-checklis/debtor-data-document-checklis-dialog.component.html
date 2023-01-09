@@ -151,10 +151,10 @@
                 width="150px"
                 [src]="item.url"
                 *ngIf="
-                  item.key.split('.')[1] === 'png' ||
-                  item.key.split('.')[1] === 'jpg' ||
-                  item.key.split('.')[1] === 'jpeg' ||
-                  item.key.split('.')[1] === 'gif'
+                  item.key.indexOf('png') > -1 ||
+                  item.key.indexOf('jpg') > -1 ||
+                  item.key.indexOf('jpeg') > -1 ||
+                  item.key.indexOf('gif') > -1
                 "
               />
 
@@ -318,10 +318,7 @@
             style="width: 300px; border-radius: 20px"
             [src]="item.url"
             *ngIf="
-              item.key.split('.')[1] === 'png' ||
-              item.key.split('.')[1] === 'jpg' ||
-              item.key.split('.')[1] === 'jpeg' ||
-              item.key.split('.')[1] === 'gif'
+              item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
             "
           />
           <div
@@ -372,7 +369,7 @@
           </div>
           <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
-              Nama File: {{ item.tags.document }}
+              Nama File: {{ item.name }}
             </p>
           </div>
         </div>

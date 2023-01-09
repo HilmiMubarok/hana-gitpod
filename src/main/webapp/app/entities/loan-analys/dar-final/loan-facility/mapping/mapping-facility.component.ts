@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { STATUS } from 'app/shared/constants/status.constants';
 import lodash from 'lodash';
 
 @Component({
@@ -94,5 +95,11 @@ export class MappingFacilityTempComponent {
     }
 
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
+  }
+  public sableFeild() {
+    if (this.collateralInfo.statusId === STATUS.APPROVE) {
+      return true;
+    }
+    return false;
   }
 }

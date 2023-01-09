@@ -11,11 +11,11 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Component({
-  selector: 'jhi-loan-analys-dialog-opinion',
-  templateUrl: './loan-analys-dialog-opinion.component.html',
+  selector: 'jhi-loan-analys-dialog-opinion-compliance-part',
+  templateUrl: './loan-analys-dialog-opinion-compliance-part.component.html',
   styleUrls: ['./loan-analys-dialog-opinion.css'],
 })
-export class LoanAnalysDialogOpinionComponent implements OnInit {
+export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
 
@@ -50,7 +50,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
       notes: any;
       item: ICreditProposal;
     },
-    _dialog: MatDialogRef<LoanAnalysDialogOpinionComponent>,
+    _dialog: MatDialogRef<LoanAnalysDialogOpinionCompliancePartComponent>,
     protected router: Router,
     private storageService: StorageService,
     protected activatedRoute: ActivatedRoute,
@@ -77,33 +77,21 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
           this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
           this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
         ) {
-          if (this.recommendation === 'Approved as Propose') {
-            this.nameLabel = 'Approved Status';
-            this.radioButtonPurpose = 'Approved as Propose';
-            this.valueRadioPurpose = 'Approved as Propose';
-          } else if (this.recommendation === 'Approved With Condition') {
-            this.nameLabel = 'Approved Status';
-            this.radioButtonCondition = 'Approved With Condition';
-            this.valueRadioCondition = 'Approved With Condition';
-          } else {
-            this.nameLabel = 'Approved Status';
-            this.radioButtonNotRecommend = 'Not Approved';
-            this.valueRadioRecommend = 'Not Approved';
-          }
+		  this.nameLabel = 'Approved Status';
+		  this.radioButtonPurpose = 'Approved as Propose';
+		  this.valueRadioPurpose = 'Approved as Propose';
+		  this.radioButtonCondition = 'Approved With Condition';
+		  this.valueRadioCondition = 'Approved With Condition';
+		  this.radioButtonNotRecommend = 'Not Approved';
+		  this.valueRadioRecommend = 'Not Approved';
         } else {
-          if (this.recommendation === 'Recommend as Propose') {
-            this.nameLabel = 'Recomendation';
-            this.radioButtonPurpose = 'Recommend as Propose';
-            this.valueRadioPurpose = 'Recommend as propose';
-          } else if (this.recommendation === 'Recommend With Condition') {
-            this.nameLabel = 'Recomendation';
-            this.radioButtonCondition = 'Recommend With Condition';
-            this.valueRadioCondition = 'Recommend With Condition';
-          } else {
-            this.nameLabel = 'Recomendation';
-            this.radioButtonNotRecommend = 'Not Recommend';
-            this.valueRadioRecommend = 'Not Recommend';
-          }
+		  this.nameLabel = 'Recomendation';
+		  this.radioButtonPurpose = 'Recommend as Propose';
+		  this.valueRadioPurpose = 'Recommend as propose';
+		  this.radioButtonCondition = 'Recommend With Condition';
+		  this.valueRadioCondition = 'Recommend With Condition';
+		  this.radioButtonNotRecommend = 'Not Recommend';
+		  this.valueRadioRecommend = 'Not Recommend';
         }
       }
     }
@@ -134,7 +122,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
         this.notes.positionUserId.replace('&', '') +
         '-' +
         this.notes.userId.replace('&', '') +
-        '/sfdt',
+        '/opinion-compliance/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -153,7 +141,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
                   this.notes.positionUserId.replace('&', '') +
                   '-' +
                   this.notes.userId.replace('&', '') +
-                  '-opinion-sfdt.sfdt'
+                  '-opinion-compliance-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -176,7 +164,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
         this.notes.positionUserId.replace('&', '') +
         '-' +
         this.notes.userId.replace('&', '') +
-        '/sfdt',
+        '/opinion-compliance/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -195,7 +183,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
                   this.notes.positionUserId.replace('&', '') +
                   '-' +
                   this.notes.userId.replace('&', '') +
-                  '-opinion-' +
+                  '-opinion-compliance-' +
                   'condition-sfdt.sfdt'
               );
               const fileReader: FileReader = new FileReader();

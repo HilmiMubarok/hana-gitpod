@@ -4,20 +4,25 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../credit-proposal.model';
-import lodash from 'lodash';
+import lodash, { toUpper } from 'lodash';
+import { STATUS } from 'app/shared/constants/status.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-mapping-facility',
   templateUrl: './mapping-facility.component.html',
 })
-export class CreditProposalMappingFacilityComponent implements OnInit {
+export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges {
   @Output() outputCreditProposalMappingData = new EventEmitter();
   @Input() creditProposal: ICreditProposal;
+  @Input() collateralData: ICollateral;
 
   public collateralInfo: any;
   public creditProposalData: any;
   public applicationProductData: any;
   public checked: boolean;
+  public disableField: any;
+  public field: boolean;
 
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
@@ -25,6 +30,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit {
   public mappingStatusHelper: any = [];
 
   constructor(
+    private router: Router,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       applicationProduct: IApplicationProduct;
@@ -36,17 +42,44 @@ export class CreditProposalMappingFacilityComponent implements OnInit {
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
     console.log('data', this.creditProposalData);
-
-    this.checked = false;
     this.setUp();
+    this.checked = false;
+    // this.disableField = this.data.hideField;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralData']) {
+      this.setUp();
+    }
   }
 
   ngOnInit(): void {
-    if (this.collateralInfo.paripasuStatus === 'Y') {
-      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-        this.checked = true;
-      } else {
-        this.checked = false;
+    console.log('collateral ', this.collateralData);
+    this.sableFeild();
+    console.log('ini typeSable', this.disableField);
+    // console.log('return type sable', this.sableFeild());
+  }
+  public sableFeild() {
+    this.disableField = this.router.url.split('/')[1];
+    if (
+      this.disableField === 'cp-status-approval' ||
+      this.disableField === 'la-approval-inquiry' ||
+      this.disableField === 'la-approval' ||
+      this.disableField === 'la-SME-CRC'
+    ) {
+      this.field = true;
+    }
+  }
+  public setCrossCollateral(index: number) {
+    if (this.collateralData) {
+      if (this.collateralData.paripasuStatus === 'Y') {
+        if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+          const tempCollateralProductRelationObject = {
+            collateralId: this.collateralInfo.id,
+            bindingValue: this.bindingValueHelper[index],
+            applicationProduct: this.applicationProductData[index],
+          };
+          this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+        }
       }
     }
   }
@@ -56,6 +89,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
+        this.setCrossCollateral(i);
         if (this.creditProposalData.collateralProductRelations) {
           if (this.creditProposalData.collateralProductRelations.length > 0) {
             for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
