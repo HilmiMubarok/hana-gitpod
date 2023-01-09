@@ -30,6 +30,7 @@ import { MessageService } from 'primeng/api';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { IPartyGroup } from 'app/entities/party-group/party-group.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -128,7 +129,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   private setAvailableCollateralForAppraise(collaterals: ICollateral[]): void {
     this.collateralsData = lodash.filter(collaterals, function (e) {
-      return e.collateralTypeAppraise === true;
+      return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL;
     });
   }
 
