@@ -66,6 +66,9 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IApp
     const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
       .body;
     if (persons.length > 0) {
+      if (persons.length > 1) {
+        this._snackBar.open('person with this userlogin more than 1');
+      }
       this.whoAmI = persons[0];
     }
   }
