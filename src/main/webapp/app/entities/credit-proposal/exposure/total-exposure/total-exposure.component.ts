@@ -137,7 +137,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   private getMyBusinessGroup(): void {
-    this.partyCifService.getMyBusinessGroup(this.creditProposal.customerNumber).subscribe(res => {
+    this.partyCifService.getBusinessGroup(this.creditProposal.customerNumber).subscribe(res => {
       this.filterBusinessGroupDebtorData(res.body);
     });
   }
@@ -156,7 +156,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               const parsedAny = parsed;
               no = no + 1;
               parsed.no = no;
-              parsed.GroupName = '';
+              parsed.GroupName = param[i].customerName;
               parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
               parsed.FacilityType = source[y].FILN11_COM_NM;
               parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
