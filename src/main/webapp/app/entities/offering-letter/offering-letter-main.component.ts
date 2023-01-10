@@ -119,7 +119,12 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-    if (this.applicationRole.id) {
+	this.messageService.add({
+	  severity: 'success',
+	  summary: 'Success',
+	  detail: 'Save Success',
+	});
+    /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.messageService.add({
           severity: 'success',
@@ -135,7 +140,7 @@ export class OfferingLetterMainComponent implements OnInit {
           detail: 'Save Success',
         });
       });
-    }
+    } */
   }
 
   ngOnInit() {
@@ -214,42 +219,6 @@ export class OfferingLetterMainComponent implements OnInit {
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    let tempHelper = 0;
-    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
-      if (copyCreditProposal.notes.length > 0) {
-        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-            copyCreditProposal.notes[i].message = copyCreditProposal.attributes['tempLoggedInNotes'];
-            copyCreditProposal.notes[i].recomendation = copyCreditProposal.attributes['tempLoggedInRecomendation'];
-            copyCreditProposal.notes[i].condition = copyCreditProposal.attributes['tempLoggedInCondition'];
-            tempHelper = tempHelper + 1;
-          }
-        }
-
-        if (tempHelper === 0) {
-          copyCreditProposal.notes.push(
-            this.addNewNotes(
-              copyCreditProposal.attributes['tempLoggedInNotes'],
-              copyCreditProposal.attributes['tempLoggedInRecomendation'],
-              copyCreditProposal.attributes['tempLoggedInCondition'],
-              this.currentAccount.login
-            )
-          );
-        }
-      } else {
-        copyCreditProposal.notes.push(
-          this.addNewNotes(
-            copyCreditProposal.attributes['tempLoggedInNotes'],
-            copyCreditProposal.attributes['tempLoggedInRecomendation'],
-            copyCreditProposal.attributes['tempLoggedInCondition'],
-            this.currentAccount.login
-          )
-        );
-      }
-      delete copyCreditProposal.attributes['tempLoggedInNotes'];
-      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-      delete copyCreditProposal.attributes['tempLoggedInCondition'];
-    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -289,9 +258,7 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
@@ -322,7 +289,6 @@ export class OfferingLetterMainComponent implements OnInit {
   getTitleUrl() {
     const x = this.router.url.split('/')[3];
     this.titleUrl = x;
-    // console.log('navigasi', this.titleUrl);
   }
 
   getText(value: any) {
@@ -429,6 +395,5 @@ export class OfferingLetterMainComponent implements OnInit {
 
   getTitleMenu() {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
-    console.log('ini appNameMenu', this.appNameMenu);
   }
 }
