@@ -4,7 +4,6 @@ import { ICollateralAppraisal } from '../collateral-appraisal/collateral-apprais
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { StorageService } from '../storage/storage.service';
-import { DocumentDetailDialogComponent } from './document-detail-dialog.component';
 import { DocumentUploadDialogComponent } from './document-upload-dialog.component';
 import lodash from 'lodash';
 import { DocumentDialogDialogV2Component } from './document-detail-dialog-v2.component';
@@ -200,8 +199,10 @@ export class DocumentComponent implements OnChanges, OnInit {
           folder: key,
           date: val[0]['tags']['docDate'],
           files: val,
+          nameFile: val[0]['name'],
         }))
         .value();
+      console.log('folder', this.folders);
     }
   }
 
@@ -294,7 +295,6 @@ export class DocumentComponent implements OnChanges, OnInit {
     return this.account.authorities.includes('ROLE_RM');
   }
   private setMatrixInput() {
-    // ---------- Condition if login RM, status approve enabled.
     if (this.isRm()) {
       if (this.account.authorities.length <= 2) {
         if (this.status !== STATUS.COMPLETE) {
@@ -304,7 +304,6 @@ export class DocumentComponent implements OnChanges, OnInit {
         }
       }
     } else {
-      //------------ Condition if status complete and approve
       if (this.status === STATUS.COMPLETE || this.status === STATUS.APPROVE) {
         this.IfRmEnable = true;
       } else {
