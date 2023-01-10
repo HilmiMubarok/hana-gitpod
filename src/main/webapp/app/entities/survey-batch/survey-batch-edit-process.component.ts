@@ -1502,12 +1502,12 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
-            this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.collateralAppraisalSummaryComponent.triggeredSave(this.collateralAppraisal.statusId);
             this.getWord();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
-            this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.collateralAppraisalSummaryComponent.triggeredSave(this.collateralAppraisal.statusId);
             this.getWord();
           }
           this.messageService.add({
