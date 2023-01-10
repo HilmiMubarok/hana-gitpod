@@ -591,14 +591,17 @@ export class LoanAnalysMainComponent implements OnInit {
 			this.loanAnalysOpinionComponent.onCreateCondition();
           }
 		}
-        
-        if (this.loanAnalysOpinionCompliancePartComponent) {
-          this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-          this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
-          this.loanAnalysOpinionCompliancePartComponent.refresh();
-          this.loanAnalysOpinionCompliancePartComponent.onCreate();
-          this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
-        }
+
+		if (tempRouter === 'cc-review') {
+		  if (this.loanAnalysOpinionCompliancePartComponent) {
+			this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+			this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
+			this.loanAnalysOpinionCompliancePartComponent.refresh();
+			this.loanAnalysOpinionCompliancePartComponent.onCreate();
+			this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
+          }
+		}
+
         this.saveDoc = true;
         this.saveApplicationRole();
       });
@@ -614,14 +617,17 @@ export class LoanAnalysMainComponent implements OnInit {
 			this.loanAnalysOpinionComponent.onCreateCondition();
 		  }
 		}
-        
-        if (this.loanAnalysOpinionCompliancePartComponent) {
-          this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-          this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
-          this.loanAnalysOpinionCompliancePartComponent.refresh();
-          this.loanAnalysOpinionCompliancePartComponent.onCreate();
-          this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
-        }
+
+		if (tempRouter === 'cc-review') {
+		  if (this.loanAnalysOpinionCompliancePartComponent) {
+			this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+			this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
+			this.loanAnalysOpinionCompliancePartComponent.refresh();
+			this.loanAnalysOpinionCompliancePartComponent.onCreate();
+			this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
+          }
+		}
+
         this.saveDoc = true;
         this.saveApplicationRole();
       });

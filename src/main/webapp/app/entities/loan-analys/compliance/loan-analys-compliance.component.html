@@ -69,7 +69,7 @@
           </e-columns>
         </ejs-grid>
 
-        <div class="e-card-header">
+        <div *ngIf="isShowOpinionFieldInput" class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header-title">ANALYST RECOMMENDATION</div>
             <ejs-documenteditorcontainer
@@ -82,6 +82,21 @@
               [enableSpellCheck]="false"
               (keyDown)="onKeyDown($event)"
               (created)="onCreate()"
+            ></ejs-documenteditorcontainer>
+          </div>
+        </div>
+		<div *ngIf="!isShowOpinionFieldInput"class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">ANALYST RECOMMENDATION</div>
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="false"
+              [enableLocalPaste]="true"
+              height="100vh"
+              style="display: block"
+			  (documentChange)="onDocumentChange()"
+              [enableEditor]="false"
+			  [isReadOnly]="true"
             ></ejs-documenteditorcontainer>
           </div>
         </div>

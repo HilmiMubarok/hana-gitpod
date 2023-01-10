@@ -38,6 +38,9 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
   public view: boolean;
   public _word: boolean;
 
+  private tempRouter: string = '';
+  public isShowOpinionFieldInput: boolean = false;
+
   @Input()
   get word() {
     return this._word;
@@ -67,6 +70,11 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       this.id = params['id'];
     });
     this.view = false;
+
+	this.tempRouter = this.router.url.split('/')[1];
+	if (this.tempRouter === 'cc-checking') {
+	  this.isShowOpinionFieldInput = true;
+	}
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -325,41 +333,43 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
-    const paramsId = this.creditProposal.id;
+	if (this.tempRouter === 'cc-checking') {
+	  const paramsId = this.creditProposal.id;
 
-    const key = 'singgle-assign/compliance-recommendation';
+      const key = 'singgle-assign/compliance-recommendation';
 
-    const timeStamp = Math.floor(Date.now() / 1000);
+      const timeStamp = Math.floor(Date.now() / 1000);
 
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-    if (docEditor !== undefined) {
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName = 'singgle-assign-' + paramsId + '-loan-analys-compile-' + '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+      if (docEditor !== undefined) {
+		docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+          const fileType = 'word';
+          const fileName = 'singgle-assign-' + paramsId + '-loan-analys-compile-' + '.docs';
+          const metaData = {
+			objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+          };
+		  const formData = new FormData();
+          formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.getBucketName().subscribe((res: any) => {
-          this.storageService.uploadMeta(res.body.bucket, formData, metaData).subscribe();
-        });
-      });
+          this.storageService.getBucketName().subscribe((res: any) => {
+			this.storageService.uploadMeta(res.body.bucket, formData, metaData).subscribe();
+          });
+		});
 
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName = 'singgle-assign-' + paramsId + '-loan-analys-compile-' + '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-        this.storageService.getBucketName().subscribe((res: any) => {
-          this.storageService.uploadMeta(res.body.bucket, formData, metaData).subscribe();
-        });
-      });
-    }
+		docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+          const fileType = 'sfdt';
+          const fileName = 'singgle-assign-' + paramsId + '-loan-analys-compile-' + '.sfdt';
+          const metaData = {
+            objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+		  };
+          const formData = new FormData();
+          formData.append('file', new File([exportedDocument], fileName));
+		  this.storageService.getBucketName().subscribe((res: any) => {
+			this.storageService.uploadMeta(res.body.bucket, formData, metaData).subscribe();
+          });
+		});
+      }
+	}
   }
 }
