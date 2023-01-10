@@ -26,7 +26,7 @@
         matInput
         disabled
         type="number"
-        [disabled]="sableFeild()"
+        [disabled]="field"
         [(ngModel)]="bindingValueHelper[i]"
         (change)="onChangeBindingValue($event, i)"
       />
@@ -38,7 +38,7 @@
       <mat-checkbox
         [checked]="mappingStatusHelper[i] === 'yes'"
         (change)="changeBuildingFacility($event, i)"
-        [disabled]="sableFeild()"
+        [disabled]="field"
       ></mat-checkbox>
     </td>
   </ng-container>
