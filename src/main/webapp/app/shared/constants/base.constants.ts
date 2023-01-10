@@ -1314,6 +1314,10 @@ export const SUBMENU_LOAN_DAR: object[] = [
         text: 'Collateral Info',
       },
       {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
         id: 'management-information',
         text: 'management information',
       },
@@ -1324,6 +1328,10 @@ export const SUBMENU_LOAN_DAR: object[] = [
       {
         id: 'bank-account-analyst',
         text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
       },
       {
         id: 'trade-checking',
