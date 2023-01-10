@@ -25,6 +25,33 @@
       <div class="col col-lg-3">{{ nilaiRac.nilaiPembelian}}</div>
     </div>
   </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="mb-2">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ccy</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlCurrency"
+          [matAutocomplete]="auto"
+          [(ngModel)]="nilaiRac.ccy"
+          (ngModelChange)="getAmountCcy()"
+        />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
+          <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option">
+            {{ option.abbreviation }} - {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="fontsebled row py-1">
+      <div class="col-3">CCY</div>
+      <div class="col-md-auto">:</div>
+      <div class="col">{{ nilaiRac.ccy }}</div>
+    </div>
+  </section>
 
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <div class="form-group">
