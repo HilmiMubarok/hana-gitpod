@@ -114,6 +114,27 @@
           <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.vehicleMarketValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Liquidation Value</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field> -->
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="Ccy" (ngModelChange)="getCcy()" />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Liquidation Value</mat-label>
           <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
@@ -191,9 +212,9 @@
             currencyMask
             matInput
             type="text"
-            [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependent"
-            disabled
+            [(ngModel)]="collateralPropertyExternal.vehicleMarketValue"
             [options]="logoCcy"
+            disabled
           />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
@@ -205,10 +226,31 @@
             currencyMask
             matInput
             type="text"
-            [(ngModel)]="collateralPropertyExternal.attributes.appraisalValueIMBIndependentCCY"
+            [(ngModel)]="collateralPropertyExternal.attributes.vehicleMVCcy"
             disabled
             [options]="logoCcy"
           />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Liquidation Value Independent</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralPropertyExternal.liquidationValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="Ccy" (ngModelChange)="getCcy()" />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>

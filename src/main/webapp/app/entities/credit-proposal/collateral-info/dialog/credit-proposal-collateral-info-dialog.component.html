@@ -304,8 +304,10 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <mat-label>Certificates Due Date</mat-label>
-              <div [innerHTML]="getCertificateDueDate()"></div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Certificates Due Date</mat-label>
+                <input matInput type="text" [(ngModel)]="dataCertDueDate" disabled />
+              </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -313,10 +315,26 @@
               <div class="col-4">Certificates Due Date</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ getCertificateDueDate() }}
+                {{ dataCertDueDate }}
               </div>
             </div>
           </section>
+
+          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-label>Certificates Due Date</mat-label>
+              <div [innerHTML]="getCertificateDueDate()"></div>
+            </div>
+          </section> -->
+          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-4">Certificates Due Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ getCertificateDueDate() }}
+              </div>
+            </div>
+          </section> -->
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">

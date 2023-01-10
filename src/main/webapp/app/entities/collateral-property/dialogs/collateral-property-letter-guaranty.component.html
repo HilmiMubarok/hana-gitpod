@@ -115,8 +115,10 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Guarantee Coverage</mat-label>
-        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.guaranteeCoverage" [disabled]="dataSource()" />
-        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+        <mat-select [(ngModel)]="collateralProperty.attributes.guaranteeCoverage" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of guaranteeCoverage | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+        </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

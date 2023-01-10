@@ -28,6 +28,7 @@ import {
   OTHER_COLLATERAL_DETAIL_TYPE,
   GUARANTEE_BIS_COL_DETAIL_TYPE,
   MANAGEMENT_BRANCH,
+  GUARANTEE_COVERAGE,
 } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 @Component({
@@ -39,6 +40,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
   guaranteeType: any;
+  guaranteeCoverage: any;
   debitBlock: any;
   public guaranteeBisColDetailType: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
@@ -110,6 +112,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
+    this.guaranteeCoverage = GUARANTEE_COVERAGE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
     this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
