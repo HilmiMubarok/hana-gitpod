@@ -51,201 +51,209 @@
     </jhi-party-cif-customer-info-postal-address>
   </div>
 </div>
-<div [hidden]="view">
+<!-- <div [hidden]="view"> -->
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Domicile Address</div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <!-- <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view> -->
+    <jhi-party-cif-customer-info-postal-address
+      [disabled]="true"
+      [partyPostalAddress]="generalLocation"
+      [partyCif]="partyCif"
+    ></jhi-party-cif-customer-info-postal-address>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- <div [hidden]="view"> -->
+<div *ngIf="creditProposal.partyTypeId !== 'PERSON'">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
-        <div class="e-card-header-title">Domicile Address</div>
+        <div class="e-card-header-title">Warehouse Address</div>
       </div>
     </div>
     <div class="e-card-content">
-      <!-- <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view> -->
-      <jhi-party-cif-customer-info-postal-address
-        [disabled]="true"
-        [partyPostalAddress]="generalLocation"
-        [partyCif]="partyCif"
-      ></jhi-party-cif-customer-info-postal-address>
-    </div>
-  </div>
-</div>
-<div [hidden]="view">
-  <div *ngIf="creditProposal.partyTypeId !== 'PERSON'">
-    <div class="e-card">
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">Warehouse Address</div>
-        </div>
-      </div>
-      <div class="e-card-content">
-        <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="warehouseLocation">
-        </jhi-party-cif-customer-info-postal-address>
-        <!-- <jhi-party-cif-customer-info-postal-address-warehouse
+      <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="warehouseLocation">
+      </jhi-party-cif-customer-info-postal-address>
+      <!-- <jhi-party-cif-customer-info-postal-address-warehouse
           [disabled]="true"
           [partyPostalAddress]="warehouseLocation"
           [partyCif]="partyCif"
         >
         </jhi-party-cif-customer-info-postal-address-warehouse> -->
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- <div [hidden]="view"> -->
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Account Status</div>
+      <div class="wording">
+        <div>Kosongkan jika status Akun adalah Current</div>
+        <div>Leave uncheck if account status is Current</div>
+      </div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row">
+      <div class="col-md-4">
+        <ejs-checkbox
+          [disabled]="view"
+          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
+          label="Watch List"
+          (ngModelChange)="watchListChange()"
+        ></ejs-checkbox>
+      </div>
+      <div class="col-md-4">
+        <ejs-checkbox
+          [disabled]="view"
+          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
+          label="Restructured"
+          (ngModelChange)="watchListChange()"
+        ></ejs-checkbox>
+      </div>
+      <div class="col-md-4">
+        <ejs-checkbox
+          [disabled]="view"
+          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
+          label="Related Party"
+        >
+        </ejs-checkbox>
       </div>
     </div>
   </div>
 </div>
+<!-- </div> -->
 
-<div [hidden]="view">
-  <div class="e-card mb-5">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Account Status</div>
-        <div class="wording">
-          <div>Kosongkan jika status Akun adalah Current</div>
-          <div>Leave uncheck if account status is Current</div>
-        </div>
-      </div>
+<!-- <div [hidden]="view"> -->
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Watchlist Debtors</div>
     </div>
-    <div class="e-card-content">
-      <div class="row">
-        <div class="col-md-4">
-          <ejs-checkbox
-            [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
-            label="Watch List"
-            (ngModelChange)="watchListChange()"
-          ></ejs-checkbox>
-        </div>
-        <div class="col-md-4">
-          <ejs-checkbox
-            [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
-            label="Restructured"
-            (ngModelChange)="watchListChange()"
-          ></ejs-checkbox>
-        </div>
-        <div class="col-md-4">
-          <ejs-checkbox
-            [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
-            label="Related Party"
-          ></ejs-checkbox>
-        </div>
+  </div>
+  <div class="e-card-content">
+    <div class="row">
+      <div class="col-md-6">
+        <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
+        <textarea
+          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
+          cssClass="e-outline"
+          class="text-area-input"
+          id="multiline-always"
+          name="typeAlways"
+          [disabled]="watchList"
+          [readonly]="view"
+        ></textarea>
+      </div>
+      <div class="col-md-6">
+        <h6 style="margin-bottom: 20px">
+          Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high risk
+          category
+        </h6>
+        <textarea
+          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
+          cssClass="e-outline"
+          class="text-area-input"
+          id="multiline-always"
+          name="typeAlways"
+          [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
+          [readonly]="view"
+        ></textarea>
       </div>
     </div>
   </div>
 </div>
+<!-- </div> -->
 
-<div [hidden]="view">
-  <div class="e-card mb-5">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Watchlist Debtors</div>
-      </div>
-    </div>
-    <div class="e-card-content">
-      <div class="row">
-        <div class="col-md-6">
-          <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
-          <textarea
-            [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
-            cssClass="e-outline"
-            class="text-area-input"
-            id="multiline-always"
-            name="typeAlways"
-            [disabled]="watchList"
-          ></textarea>
-        </div>
-        <div class="col-md-6">
-          <h6 style="margin-bottom: 20px">
-            Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high
-            risk category
-          </h6>
-          <textarea
-            [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
-            cssClass="e-outline"
-            class="text-area-input"
-            id="multiline-always"
-            name="typeAlways"
-            [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
-          ></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div [hidden]="view">
-  <div class="e-card mb-5">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Group Usaha</div>
-        <div class="e-card-content">
-          <ejs-grid [dataSource]="gridCreditProposal" [allowPaging]="true">
-            <e-columns>
-              <e-column field="customerCIF" headerText="Cif" width="90" id="getCif"></e-column>
-              <e-column field="customerName" headerText="Company Name" width="120"></e-column>
-              <!-- <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
+<!-- <div [hidden]="view"> -->
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Group Usaha</div>
+      <div class="e-card-content">
+        <ejs-grid [dataSource]="gridCreditProposal" [allowPaging]="true">
+          <e-columns>
+            <e-column field="customerCIF" headerText="Cif" width="90" id="getCif"></e-column>
+            <e-column field="customerName" headerText="Company Name" width="120"></e-column>
+            <!-- <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
               <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column> -->
-            </e-columns>
-          </ejs-grid>
-        </div>
+          </e-columns>
+        </ejs-grid>
       </div>
     </div>
   </div>
 </div>
+<!-- </div> -->
 
-<div [hidden]="view">
-  <div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-subtitle class="e-card-header-title">Co-Borrower Info</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <table mat-table [dataSource]="data" class="w-100">
-          <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef>No</th>
-            <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-          </ng-container>
-          <ng-container matColumnDef="customerNumber">
-            <th mat-header-cell *matHeaderCellDef>CIF</th>
-            <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
-          </ng-container>
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Company Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-          </ng-container>
-          <ng-container matColumnDef="taxIdNumber">
-            <th mat-header-cell *matHeaderCellDef>NPWP</th>
-            <td mat-cell *matCellDef="let element">{{ element.taxIdNumber }}</td>
-          </ng-container>
-          <ng-container matColumnDef="address">
-            <th mat-header-cell *matHeaderCellDef>Address</th>
-            <td mat-cell *matCellDef="let element">{{ element.address }}</td>
-          </ng-container>
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="onDelete(element)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
-          </tr>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-      </mat-card-content>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button (click)="onOpenDialog($event)" class="btn btn-info">Add</button>
-      </div>
-    </mat-card>
-  </div>
+<!-- <div [hidden]="view"> -->
+<div [hidden]="this.creditProposal.attributes.proposalType !== 'Total Exposure > IDR 15 Bn'" class="e-card mb-5">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-subtitle class="e-card-header-title">Co-Borrower Info</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="data" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="customerNumber">
+          <th mat-header-cell *matHeaderCellDef>CIF</th>
+          <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Company Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="taxIdNumber">
+          <th mat-header-cell *matHeaderCellDef>NPWP</th>
+          <td mat-cell *matCellDef="let element">{{ element.taxIdNumber }}</td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card-content>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button [disabled]="view" (click)="onOpenDialog($event)" class="btn btn-info">Add</button>
+    </div>
+  </mat-card>
 </div>
+<!-- </div> -->
 
-<div [hidden]="view">
-  <div class="e-card mb-5">
-    <div class="e-card-header">
-      <div class="e-card-header-caption">
-        <div class="e-card-header-title">Remark</div>
-        <div class="e-card-content">
-          <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool"> </ejs-richtexteditor>
-        </div>
+<!-- <div [hidden]="view"> -->
+<div class="e-card mb-5">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Remark</div>
+      <div class="e-card-content">
+        <ejs-richtexteditor [disabled]="view" [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool">
+        </ejs-richtexteditor>
       </div>
     </div>
   </div>
 </div>
+<!-- </div> -->

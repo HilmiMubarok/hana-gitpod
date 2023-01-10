@@ -199,6 +199,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
           page: this.page - 1,
           query: this.currentSearch,
           size: this.itemsPerPage,
+          target: 'credit_proposal',
           sort: this.sortData(),
         })
         .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))

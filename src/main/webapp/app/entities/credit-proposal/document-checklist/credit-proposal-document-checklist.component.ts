@@ -57,6 +57,15 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
     });
   }
 
+  private getFiles(id: any): void {
+    const predicate: Object = {
+      key: `/credit_proposal/${id}/document`,
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      this.groupByFolder(res.body);
+    });
+  }
+
   private groupByFolder(param: any[]): void {
     this.folders = [];
     if (param.length > 0) {
@@ -81,15 +90,6 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
     } else {
       this.folders = [];
     }
-  }
-
-  private getFiles(id: any): void {
-    const predicate: Object = {
-      key: `/credit_proposal/${id}/document`,
-    };
-    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.groupByFolder(res.body);
-    });
   }
 
   public openDialog(element: IDocumentChecklist = null, view: string): void {

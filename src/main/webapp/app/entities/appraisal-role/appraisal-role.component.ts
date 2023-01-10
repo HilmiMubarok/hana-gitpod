@@ -9,6 +9,7 @@ import { IPerson } from '../person/person.model';
 import { PersonService } from '../person/person.service';
 import { IAppraisalRole } from './appraisal-role.model';
 import { AppraisalRoleService } from './appraisal-role.service';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-appraisal-role',
@@ -74,13 +75,25 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IApp
   }
 
   public selRelType(value: string): void {
-    this.selectedRelationType = value;
-    this.filteringItems = [];
-    for (let i = 0; i < this.items.length; i++) {
-      const each: IAppraisalRole = this.items[i];
-      if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
-        this.filteringItems.push(each);
+    if (this.whoAmI) {
+      this.selectedRelationType = value;
+      this.filteringItems = [];
+      for (let i = 0; i < this.items.length; i++) {
+        const each: IAppraisalRole = this.items[i];
+        if (
+          each.relationTypeId &&
+          each.relationTypeId.toLowerCase() === value.toLowerCase() &&
+          moment().diff(moment(each.thruDate), 'days') <= 0
+        ) {
+          this.filteringItems.push(each);
+        }
       }
+    } else {
+      this._snackBar.open('This user doesnt have person!', null, {
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
     }
   }
 

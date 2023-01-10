@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
 import lodash from 'lodash';
@@ -28,8 +28,12 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   public selectedRelationType: string;
   public filteringItems: IApplicationRole[];
   public whoAmI: IPerson;
+  public patch: any;
+  public view: boolean;
+  // public field = false;
 
   constructor(
+    protected router: Router,
     protected positionReportingStructureService: PositionReportingStructureService,
     protected snackbar: MatSnackBar,
     protected loanAnalysService: LoanAnalysService,
@@ -49,7 +53,18 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   ngOnInit(): void {
     this.getWhoAmI().then(res => {
       this.getApplicationRolesByApplicationId();
+      console.log('sata', this.filteringItems);
+      console.log('sata1', this.applicationRoleService);
+
+      this.sableFeild();
     });
+  }
+  public sableFeild() {
+    //    public removefield() {
+    this.patch = this.router.url.split('/')[1];
+    if (this.patch === 'la-analyst' || this.patch === 'la-SME-CRC' || this.patch === 'la-approval') {
+      this.view = true;
+    }
   }
 
   singleCheck(checkNode: any) {

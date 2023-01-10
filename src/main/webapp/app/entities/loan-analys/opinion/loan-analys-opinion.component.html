@@ -52,7 +52,7 @@
       </mat-form-field>
     </div>
 
-    <div class="e-card-content">
+    <div *ngIf="isShowOpinionFieldInput" class="e-card-content">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
         <section
@@ -101,8 +101,8 @@
           <div class="d-flex justify-content-around">
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="recomendasi === 'Recommend as Propose'"
-				(change)="change('Recommend as Propose')"
+                [checked]="recomendasi === 'Recommend as Propose'"
+                (change)="change('Recommend as Propose')"
                 label="{{ radioButtonPurpose }}"
                 value="Recommend as Propose"
                 [disabled]="disabledOpinion"
@@ -110,8 +110,8 @@
             </div>
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="recomendasi === 'Recommend With Condition'"
-				(change)="change('Recommend With Condition')"
+                [checked]="recomendasi === 'Recommend With Condition'"
+                (change)="change('Recommend With Condition')"
                 label="{{ radioButtonCondition }}"
                 value="Recommend With Condition"
                 [disabled]="disabledOpinion"
@@ -119,8 +119,8 @@
             </div>
             <div class="mx-2">
               <ejs-radiobutton
-				[checked]="recomendasi === 'Not Recommend'"
-				(change)="change('Not Recommend')"
+                [checked]="recomendasi === 'Not Recommend'"
+                (change)="change('Not Recommend')"
                 label="{{ radioButtonNotRecommend }}"
                 value="Not Recommend"
                 [disabled]="disabledOpinion"
@@ -139,7 +139,7 @@
                 label="Approved as Propose"
                 value="Approved as Propose"
                 [checked]="recomendasi === 'Approved as Propose'"
-				(change)="change('Approved as Propose')"
+                (change)="change('Approved as Propose')"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -148,7 +148,7 @@
                 label="Approved With Condition"
                 value="Approved With Condition"
                 [checked]="recomendasi === 'Approved With Condition'"
-				(change)="change('Approved With Condition')"
+                (change)="change('Approved With Condition')"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>
@@ -157,7 +157,7 @@
                 label="Not Approved"
                 value="Not Approved"
                 [checked]="recomendasi === 'Not Approved'"
-				(change)="change('Not Approved')"
+                (change)="change('Not Approved')"
                 [disabled]="disabledOpinion"
               ></ejs-radiobutton>
             </div>

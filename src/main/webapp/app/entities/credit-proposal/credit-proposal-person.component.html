@@ -791,7 +791,7 @@
                       <mat-label>Klasifikasi UMKM</mat-label>
                       <mat-select [(ngModel)]="deptorData.debtorData.umkmClassification" [disabled]="true">
                         <mat-option value="">Please Select</mat-option>
-                        <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
+                        <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </section>

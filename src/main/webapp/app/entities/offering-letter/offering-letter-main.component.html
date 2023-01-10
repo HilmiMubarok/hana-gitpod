@@ -124,7 +124,11 @@
         <!-- loan facility -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail
+              [parentSource]="'loan-analys'"
+              [isViewMode]="true"
+              [creditProposal]="creditProposal"
+            >
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>
@@ -139,7 +143,13 @@
         <!-- collateral info -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-collateral-info [isViewMode]="true" [parentSource]="'loan-analys'" [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+            <jhi-credit-proposal-collateral-info
+              #creditProposalCollateralInfoComponent
+              [creditProposal]="creditProposal"
+              [parentSource]="'loan-analys'"
+              [isViewMode]="true"
+            >
+            </jhi-credit-proposal-collateral-info>
           </mat-card-content>
         </mat-card>
 
@@ -157,7 +167,7 @@
               [saveWordOpinionCondition]="saveWordOpinionCondition"
               [saveWordMinio]="saveWord"
               [creditProposalItem]="creditProposal"
-			  [cp]="cp"
+              [cp]="cp"
             ></jhi-loan-analys-opinion>
           </mat-card-content>
         </mat-card>
@@ -267,7 +277,6 @@
               <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
             </mat-card-content>
           </mat-card>
-
         </div>
       </div>
 
@@ -289,11 +298,14 @@
       >
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail
+              [parentSource]="'loan-analys'"
+              [isViewMode]="true"
+              [creditProposal]="creditProposal"
+            >
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>
-
       </div>
 
       <!-- Exposure -->
@@ -303,7 +315,6 @@
             <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
           </mat-card-content>
         </mat-card>
-
       </div>
 
       <!-- Risk Acceptance Criteria -->
@@ -315,11 +326,15 @@
       <div *ngIf="selectedMenu === 'collateral-info'" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-collateral-info [isViewMode]="true" [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-collateral-info
+              #creditProposalCollateralInfoComponent
+              [creditProposal]="creditProposal"
+              [parentSource]="'loan-analys'"
+              [isViewMode]="true"
+            >
             </jhi-credit-proposal-collateral-info>
           </mat-card-content>
         </mat-card>
-
       </div>
 
       <!-- Management Information -->
@@ -411,11 +426,11 @@
       <!-- complience rec -->
       <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
-		<jhi-loan-analys-opinion-compliance-part
-		  #loanAnalysOpinionCompliancePartComponent
-		  [creditProposalItem]="creditProposal"
-		  [cp]="cp"
-		></jhi-loan-analys-opinion-compliance-part>
+        <jhi-loan-analys-opinion-compliance-part
+          #loanAnalysOpinionCompliancePartComponent
+          [creditProposalItem]="creditProposal"
+          [cp]="cp"
+        ></jhi-loan-analys-opinion-compliance-part>
       </div>
     </div>
 

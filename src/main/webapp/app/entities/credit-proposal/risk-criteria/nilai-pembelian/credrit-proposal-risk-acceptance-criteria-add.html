@@ -31,13 +31,52 @@
     </div>
   </section>
 
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="mb-2">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Ccy</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="myControlCurrency"
+          [matAutocomplete]="auto"
+          [(ngModel)]="nilaiRac.ccy"
+          (ngModelChange)="getAmountCcy()"
+        />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
+          <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option">
+            {{ option.abbreviation }} - {{ option.description }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </section>
+  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="fontsebled row py-1">
+      <div class="col-3">CCY</div>
+      <div class="col-md-auto">:</div>
+      <div class="col">{{ nilaiRac.ccy}}</div>
+    </div>
+  </section>
+  <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
+            <input matInput type="text" [(ngModel)]="nilaiRac.facilityType" />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
     <div class="fontsebled row">
       <div class="col-3">Facility Type</div>
       <div class="col-md-auto">:</div>
       <div class="col col-lg-2">{{ nilaiRac.facilityType [disabled]="view" }}</div>
     </div>
-  </section>
+  </section> -->
 
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <div class="form-group">

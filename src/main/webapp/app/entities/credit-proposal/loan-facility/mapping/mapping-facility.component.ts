@@ -62,6 +62,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     this.disableField = this.router.url.split('/')[1];
     if (
       this.disableField === 'cp-status-approval' ||
+      this.disableField === 'la-analyst' ||
       this.disableField === 'la-approval-inquiry' ||
       this.disableField === 'la-approval' ||
       this.disableField === 'la-SME-CRC'
