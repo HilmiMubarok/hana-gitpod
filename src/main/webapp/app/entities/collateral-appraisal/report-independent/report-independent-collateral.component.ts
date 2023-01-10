@@ -65,7 +65,8 @@ export class ReportIndependentCollateralComponent extends AbstractEntityMaterial
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
 
-  moment = _rollupMoment || _moment;
+  apprDate = new FormControl(moment().toDate());
+  reportDate = new FormControl(moment().toDate());
   date = new FormControl(moment());
   public items: any;
   // public displayedColumns: string[] = ['no', 'fileName', 'SizeFile', 'typeFile', 'modifiedDate', 'modifiedBy', 'action'];

@@ -8,12 +8,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { IEmployee } from './employee.model';
 import { EmployeeService } from './employee.service';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 import { EMPLOYEE } from 'app/shared/constants/base.constants';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-employee',
