@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,7 +46,7 @@ import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { IPartyPostalAddress } from '../party-postal-address/party-postal-address.model';
 import { Cif, ICif } from '../cif/cif.model';
 import { IOptionNode } from 'app/shared/model/option-node.model';
-import { firstValueFrom, Subject, takeUntil } from 'rxjs';
+import { first, firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
@@ -272,10 +273,21 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     ).body;
   }
 
-  private ngUnsubscribe = new Subject();
-  public totalKeteranganObjectJaminan;
+  // create function to read content of Blob file and return as string
+  private async readFile(file: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(JSON.parse(reader.result as string));
+      };
+      reader.onerror = error => reject(error);
+
+      reader.readAsText(file);
+    });
+  }
+
   // get keterangan objek jaminan
-  private getContainer(): void {
+  private getKeteranganObjectJaminan(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -283,34 +295,37 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     const obj = {
       key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
     };
+    // eslint-disable-next-line @typescript-eslint/require-await
+    this.storageService.getBucketName().subscribe(async bucket => {
+      this.storageService
+        .getObjects(bucket.body['bucket'], obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(async response => {
+          // return new file from response
+          const document_file = await firstValueFrom(this.storageService.fileBlob(response.body[0]['url']));
+          // return content of file as string
+          this.totalKeteranganObjectJaminan = await this.readFile(document_file.body);
+          // return this.totalKeteranganObjectJaminan = array of block in section;
+          this.totalKeteranganObjectJaminan = await this.totalKeteranganObjectJaminan.sections[0].blocks;
 
-    this.storageService
-      .getObjects(this.bucket, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        this.totalKeteranganObjectJaminan = response.body;
+          const arr = [];
+          this.totalKeteranganObjectJaminan.forEach(el => {
+            if (el.inlines) {
+              el.inlines.forEach(inline => {
+                if (inline.text) {
+                  arr.push(inline.text);
+                }
+              });
+            }
+          });
 
-        // if (response.body.length > 0) {
-        //   this.totalKeteranganObjectJaminan = true;
-        console.log('vvvvv', this.totalKeteranganObjectJaminan);
-        // }
-      });
-  }
-
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.bucket = val.body['bucket'];
-      this.getContainer();
+          this.totalKeteranganObjectJaminan = arr;
+        });
     });
   }
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
-  }
+
+  private ngUnsubscribe = new Subject();
+  public totalKeteranganObjectJaminan;
 
   public collateralAppraisalFunc(item: ICollateralAppraisal) {
     this.loadData(item.collateral);
@@ -318,7 +333,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-    this.getWord();
+    this.getKeteranganObjectJaminan();
 
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
@@ -550,6 +565,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
   private async initialize(): Promise<void> {
     this.bucket = this.getBucketName()['bucket'];
+
+    this.getKeteranganObjectJaminan();
+
+    // console totalKeteranganJaminan after await
 
     let key: string;
     key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
@@ -1412,6 +1431,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
+    console.log(this.totalKeteranganObjectJaminan);
     if (this.totalKeteranganObjectJaminan.length < MINIMUM_KETERANGAN_JAMINAN) {
       this._showNotification('error', 'Masukkan Keterangan Object Jaminan Dahulu, Lalu Save');
       mustValidatedOnVisited.keterangan = false;
@@ -1502,13 +1522,13 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
-            this.collateralAppraisalSummaryComponent.triggeredSave(this.collateralAppraisal.statusId);
-            this.getWord();
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getKeteranganObjectJaminan();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
-            this.collateralAppraisalSummaryComponent.triggeredSave(this.collateralAppraisal.statusId);
-            this.getWord();
+            this.collateralAppraisalSummaryComponent.triggeredSave();
+            this.getKeteranganObjectJaminan();
           }
           this.messageService.add({
             severity: 'success',
@@ -1523,12 +1543,12 @@ export class SurveyBatchEditProcessComponent implements OnInit {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
-            this.getWord();
+            this.getKeteranganObjectJaminan();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
-            this.getWord();
+            this.getKeteranganObjectJaminan();
           }
           this.messageService.add({
             severity: 'success',
