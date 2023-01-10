@@ -17,18 +17,21 @@
         #creditProposalCollateralInfoRemarksInfoComponentAbove
         [creditProposal]="creditProposal"
         [parentSource]="parentSource"
-      ></jhi-credit-proposal-collateral-info-remarks-information>
+      >
+      </jhi-credit-proposal-collateral-info-remarks-information>
     </div>
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <div *ngIf="selectedMenu === 'CHECKLIST'">
       <div class="card-content">
-        <jhi-credit-proposal-collateral-info-checklist [hidden]="isViewMode == true" [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-checklist>
+        <jhi-credit-proposal-collateral-info-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+        </jhi-credit-proposal-collateral-info-checklist>
         <jhi-credit-proposal-collateral-info-remarks-checklist
           #creditProposalCollateralInfoRemarksCheckComponent
           [creditProposal]="creditProposal"
           [parentSource]="parentSource"
-        ></jhi-credit-proposal-collateral-info-remarks-checklist>
+        >
+        </jhi-credit-proposal-collateral-info-remarks-checklist>
       </div>
     </div>
   </div>
@@ -40,17 +43,17 @@
     #creditProposalCollateralInfoRemarksInfoComponentBelow
     [creditProposal]="creditProposal"
     [parentSource]="parentSource"
-  ></jhi-credit-proposal-collateral-info-remarks-information>
+  >
+  </jhi-credit-proposal-collateral-info-remarks-information>
 </div>
 
 <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-  <jhi-credit-proposal-collateral-info-btb
-    [isViewMode]="isViewMode"
-    [creditProposal]="creditProposal"
-  ></jhi-credit-proposal-collateral-info-btb>
+  <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+  </jhi-credit-proposal-collateral-info-btb>
   <jhi-credit-proposal-collateral-info-remarks-information
     #creditProposalCollateralInfoRemarksInfoComponentBtb
     [creditProposal]="creditProposal"
     [parentSource]="parentSource"
-  ></jhi-credit-proposal-collateral-info-remarks-information>
+  >
+  </jhi-credit-proposal-collateral-info-remarks-information>
 </div>

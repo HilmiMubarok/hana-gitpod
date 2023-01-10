@@ -23,6 +23,7 @@ import { IApplicationRole, ApplicationRole } from '../application-role/applicati
 import { ApplicationRoleService } from '../application-role/application-role.service';
 import _ from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -30,6 +31,10 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
   styleUrls: ['./offering-letter-main.css'],
 })
 export class OfferingLetterMainComponent implements OnInit {
+  @ViewChild('creditProposalCollateralInfoComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
   private id: number;
 
   public url: string;
@@ -119,11 +124,11 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-	this.messageService.add({
-	  severity: 'success',
-	  summary: 'Success',
-	  detail: 'Save Success',
-	});
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Save Success',
+    });
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.messageService.add({
@@ -142,7 +147,17 @@ export class OfferingLetterMainComponent implements OnInit {
       });
     } */
   }
+  private saveCollateralInfo(): void {
+    if (this.creditProposalCollateralInfoComponent) {
+      this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+    }
 
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Save Success',
+    });
+  }
   ngOnInit() {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -258,7 +273,9 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
@@ -271,11 +288,14 @@ export class OfferingLetterMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.saveApplicationRole();
+        this.saveCollateralInfo();
+        // this.saveApplicationRole();
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.saveApplicationRole();
+        this.saveCollateralInfo();
+
+        // this.saveApplicationRole();
       });
     }
     this.saveWordOpinionCondition = true;
