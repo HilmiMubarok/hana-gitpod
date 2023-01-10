@@ -1501,12 +1501,12 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
         if (source === 'process') {
           this.saveProcess();
-          if (this.collateralAppraisalSummaryComponent) {
+          if (this.collateralAppraisalSummaryComponent && this.collateralAppraisal.statusId === STATUS.VISITED) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
             this.getWord();
           }
         } else if (source === 'default') {
-          if (this.collateralAppraisalSummaryComponent) {
+          if (this.collateralAppraisalSummaryComponent && this.collateralAppraisal.statusId === STATUS.VISITED) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
             this.getWord();
           }
