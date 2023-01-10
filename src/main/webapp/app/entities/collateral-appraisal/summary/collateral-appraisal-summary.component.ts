@@ -111,7 +111,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     }
   }
 
-  public triggeredSave(status: String = ''): void {
+  public triggeredSave(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -132,9 +132,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       formData.append('file', new File([exportedDocument], fileName));
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe(res => {
-        if (res.status === 200 && status === STATUS.VISITED) {
-          this.totalKeteranganObjectJaminan = res.body;
-        }
+        this.totalKeteranganObjectJaminan = res.body;
       });
     });
 
@@ -148,10 +146,8 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
       formData.append('file', new File([exportedDocument], fileName));
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe(res => {
-        if (res.status === 200 && status === STATUS.VISITED) {
-          // this.mainComponent.totalKeteranganObjectJaminan = true;
-          this.totalKeteranganObjectJaminan = res.body;
-        }
+        // this.mainComponent.totalKeteranganObjectJaminan = true;
+        this.totalKeteranganObjectJaminan = res.body;
       });
     });
   }
