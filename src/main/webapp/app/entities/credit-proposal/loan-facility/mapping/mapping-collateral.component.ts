@@ -29,7 +29,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
   public disableField: any;
-  public field: boolean;
+  public field = false;
 
   constructor(
     private router: Router,
@@ -63,12 +63,12 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     this.sableFeild();
   }
   public sableFeild() {
-    this.disableField = this.router.url.split('/')[1];
     if (
-      this.disableField === 'cp-status-approval' ||
-      this.disableField === 'la-approval-inquiry' ||
-      this.disableField === 'la-approval' ||
-      this.disableField === 'la-SME-CRC'
+      this.creditProposalData.statusId === 'CP_APPROVAL_BM' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_SME_HEAD' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_SDH' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_DH' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_DEPTHEAD'
     ) {
       this.field = true;
     }
