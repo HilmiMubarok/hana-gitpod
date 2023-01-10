@@ -82,7 +82,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public dataAttrMgn = [
     {
       No: 1,
-      Management: 'Year in Business with the same idustry / in the same company > 5 years',
+      Management: 'Year in Business with the same industry / in the same company > 5 years',
       value: 'No',
     },
     {
@@ -95,58 +95,58 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       Management: 'The Business is managed / handled by owner of family',
       value: 'No',
     },
+    // {
+    //   No: 4,
+    //   Management: 'The Business is managed /handled by owner or family',
+    //   value: 'No',
+    // },
     {
       No: 4,
-      Management: 'The Business is managed /handled by owner or family',
-      value: 'No',
-    },
-    {
-      No: 5,
       Management: 'Delinquency / DPD in the last 12 months for debtor /spouse / shaeholder < 50% / management',
       value: 'No',
     },
     {
-      No: 6,
+      No: 5,
       Management: 'Bounce cheque due any reason',
       value: 'No',
     },
     {
-      No: 7,
+      No: 6,
       Management: 'Credit Card Ultilization of debtor / spouse / shareholder  < 50% / management',
       value: 'No',
     },
     {
-      No: 8,
+      No: 7,
       Management: 'Ownership of Business premise is self-owned',
       value: 'No',
     },
     {
-      No: 9,
+      No: 8,
       Management: 'Number of buyer > 5 (no concentration in one or tow buyer)',
       value: 'No',
     },
     {
-      No: 10,
+      No: 9,
       Management: '80% of Sales reflected in Bank Statement',
       value: 'No',
     },
     {
-      No: 11,
+      No: 10,
       Management: 'Distance  from Business location to booking unit < 30 km ',
       value: 'No',
     },
     {
-      No: 12,
+      No: 11,
       Management: 'Checking result  from google is positive & no issue',
       value: 'No',
     },
     {
-      No: 13,
+      No: 12,
       Management: 'Relationship among shareholder is family (not patner)',
       value: 'No',
     },
     {
-      No: 14,
+      No: 13,
       Management: 'The collateral is occupied by debitor / family / Shareholder',
       value: 'No',
     },

@@ -38,12 +38,12 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
     {
       No: 2,
       Parameter:
-        'Is the result of SlLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
+        'Is the result of SLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
       value: 'Yes',
     },
     {
       No: 3,
-      Parameter: 'Is debtors inustry included on watch list industry?',
+      Parameter: 'Is debtors industry included on watch list industry?',
       value: 'Yes',
     },
     {
@@ -175,13 +175,13 @@ export const dataAttr: Object[] = [
   {
     No: 2,
     Parameter:
-      'Is the result of SlLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
+      'Is the result of SLICK Checking historucally and currently positive condition?Not for debtor,including shareholders,spouse,BOD/BOC.Exception only for CC with maximum usage rp.5mio or 5% of CC limit (which ever lower).',
     Verified: !2,
     value: 'B',
   },
   {
     No: 3,
-    Parameter: 'Is debtors inustry included on watch list industry?',
+    Parameter: 'Is debtors industry included on watch list industry?',
     Verified: !3,
     value: 'C',
   },
