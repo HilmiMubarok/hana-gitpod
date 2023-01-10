@@ -43,6 +43,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public _creditProposalItem: ICreditProposal;
   public notes: any;
+  public note = {
+	attributes: {},
+	condition: '',
+	createdDate: new Date(),
+	id: 0,
+	message: '',
+	positionUserId: '',
+	recomendation: '',
+	type: '',
+	userId: ''
+  };
   public route: any;
   public parentPath = this.router.url.split('/')[1];
   public position: IPosition[];
@@ -92,10 +103,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     if (changes.cp.currentValue.notes.length > 0) {
 	  for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
 		if (changes.cp.currentValue.notes[i].type === '' || changes.cp.currentValue.notes[i].type === null) {
-		  this.notes[i]['message'] = '';
-		  this.notes[i]['condition'] = '';
-          this.notes[i]['createDate'] = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-          this.notes[i]['recomendation'] = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.attributes = changes.cp.currentValue.notes[i].attributes;
+		  this.note.type = '';
+		  this.note.message = '';
+		  this.note.condition = '';
+          this.note.createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? this.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.userId = changes.cp.currentValue.notes[i].userId ? this.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.id = changes.cp.currentValue.notes[i].id ? this.notes[i].id.replace(/<(?:.|\n)*?>/gm, '') : '';
+
+		  this.notes.push(this.note);
 		}
 	  }
     }
@@ -521,10 +539,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	  if (res.body.notes.length > 0) {
 		for (let i = 0; i < res.body.notes.length; i++) {
 		  if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
-			this.notes[i]['message'] = '';
-			this.notes[i]['condition'] = '';
-			this.notes[i]['createDate'] = res.body.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-			this.notes[i]['recomendation'] = res.body.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.attributes = changes.cp.currentValue.notes[i].attributes;
+			this.note.type = '';
+			this.note.message = '';
+			this.note.condition = '';
+			this.note.createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+			this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? this.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.userId = changes.cp.currentValue.notes[i].userId ? this.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.id = changes.cp.currentValue.notes[i].id ? this.notes[i].id.replace(/<(?:.|\n)*?>/gm, '') : '';
+
+			this.notes.push(this.note);
 		  }
 		}
       }
