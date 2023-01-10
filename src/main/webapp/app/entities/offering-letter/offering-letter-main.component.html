@@ -124,7 +124,7 @@
         <!-- loan facility -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="false" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [isViewMode]="true" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>
@@ -136,10 +136,10 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- collaterla info -->
+        <!-- collateral info -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-collateral-info [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+            <jhi-credit-proposal-collateral-info [isViewMode]="true" [parentSource]="'loan-analys'" [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
           </mat-card-content>
         </mat-card>
 
@@ -157,17 +157,11 @@
               [saveWordOpinionCondition]="saveWordOpinionCondition"
               [saveWordMinio]="saveWord"
               [creditProposalItem]="creditProposal"
+			  [cp]="cp"
             ></jhi-loan-analys-opinion>
           </mat-card-content>
         </mat-card>
 
-        <!-- assign to -->
-        <!-- <div *ngIf="url !== 'finalize' && url !== 'review' && url !== 'confirmation' && creditProposal.statusDescription !== 'Ol Assigned'
-                 && creditProposal.statusDescription!=='Ol Finalize' && creditProposal.statusDescription!=='Ol Confirmation'
-                 && creditProposal.statusDescription!=='Ol Complete' && creditProposal.statusDescription!=='Ol
-                 Cancel'">
-          <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"></jhi-assign-to>
-        </div> -->
         <div *ngIf="url === 'distribution' && creditProposal.statusDescription === 'Ol Distribution'">
           <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
         </div>
@@ -274,23 +268,6 @@
             </mat-card-content>
           </mat-card>
 
-          <!-- <mat-card class="mt-3">
-            <mat-card-content>
-              <div class="row">
-                <div class="col-4">
-                  <p>Assign To</p>
-                  <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Please Select</mat-label>
-                    <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                      <mat-option *ngFor="let item of position" [value]="item.id">
-                        {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card> -->
         </div>
       </div>
 
@@ -312,28 +289,11 @@
       >
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [isViewMode]="true" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>
 
-        <!-- <mat-card class="mt-3">
-          <mat-card-content>
-            <div class="row">
-              <div class="col-4">
-                <p>Assign To</p>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Please Select</mat-label>
-                  <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                    <mat-option *ngFor="let item of position" [value]="item.id">
-                      {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card> -->
       </div>
 
       <!-- Exposure -->
@@ -344,23 +304,6 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- <mat-card class="mt-3">
-          <mat-card-content>
-            <div class="row">
-              <div class="col-4">
-                <p>Assign To</p>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Please Select</mat-label>
-                  <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                    <mat-option *ngFor="let item of position" [value]="item.id">
-                      {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card> -->
       </div>
 
       <!-- Risk Acceptance Criteria -->
@@ -372,28 +315,11 @@
       <div *ngIf="selectedMenu === 'collateral-info'" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-collateral-info [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-credit-proposal-collateral-info [isViewMode]="true" [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-collateral-info>
           </mat-card-content>
         </mat-card>
 
-        <mat-card class="mt-3">
-          <!-- <mat-card-content>
-            <div class="row">
-              <div class="col-4">
-                <p>Assign To</p>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Please Select</mat-label>
-                  <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                    <mat-option *ngFor="let item of position" [value]="item.id">
-                      {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-card-content> -->
-        </mat-card>
       </div>
 
       <!-- Management Information -->
@@ -407,13 +333,6 @@
           *ngIf="creditProposal.attributes.proposalType === '' || creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'"
           [creditProposal]="creditProposal"
         ></jhi-credit-proposal-financial-statement>
-        <!-- <jhi-repayment-spreadsheet
-          *ngIf="
-            creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' ||
-            creditProposal.attributes.proposalType === 'Total Exposure Back to Back'
-          "
-          [jhifilter]="creditProposal.attributes.proposalType"
-        ></jhi-repayment-spreadsheet> -->
 
         <jhi-repayment-spreadsheet
           [creditProposalItem]="creditProposal"
@@ -427,10 +346,6 @@
         </jhi-repayment-spreadsheet>
         <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-remarks>
       </div>
-
-      <!-- <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-management-info [creditProposalItem]="creditProposal"> </jhi-credit-proposal-management-info>
-      </div> -->
 
       <!-- Financial Statement -->
       <div *ngIf="selectedMenu === 'financial-statement'" class="e-sample-resize-container e-card-resize-container">
@@ -474,27 +389,8 @@
       </div>
 
       <!-- Summary -->
-      <!-- Summary -->
       <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
         <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
-
-        <mat-card class="mt-3">
-          <!-- <mat-card-content>
-            <div class="row">
-              <div class="col-4">
-                <p>Assign To</p>
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Please Select</mat-label>
-                  <mat-select [(ngModel)]="creditProposal.rm.partyName">
-                    <mat-option *ngFor="let item of position" [value]="item.id">
-                      {{ item.employeeFirstName }} {{ item.employeeLastName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-card-content> -->
-        </mat-card>
       </div>
 
       <!-- opinion -->
@@ -515,6 +411,11 @@
       <!-- complience rec -->
       <div *ngIf="selectedMenu === 'compliance-recomendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance [creditProposal]="creditProposal"></jhi-loan-analys-compliance>
+		<jhi-loan-analys-opinion-compliance-part
+		  #loanAnalysOpinionCompliancePartComponent
+		  [creditProposalItem]="creditProposal"
+		  [cp]="cp"
+		></jhi-loan-analys-opinion-compliance-part>
       </div>
     </div>
 

@@ -2,18 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
-// import { IPartner } from './partner.model';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-// import { PartnerService } from './partner.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-// import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-// import { InternalService } from './internal.service';
-// import { IInternal } from './internal.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { IEmployee } from './employee.model';
 import { EmployeeService } from './employee.service';
@@ -34,11 +29,11 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
   public subMenu: object[];
   globalSearchValModel: any;
   currentSearch: any;
-  // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
   filterData: {
     id: string;
     description: string;
   }[];
+
   constructor(
     private employeeService: EmployeeService,
     protected _snackBar: MatSnackBar,
@@ -61,9 +56,7 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
 
   ngOnInit(): void {
     this.subMenu = EMPLOYEE;
-    // this.activatedRoute.data.subscribe(({ partner }) => (this.partner = partner));
     this.loadAll();
-    // console.log("hahah");
   }
 
   protected postLoadDataLazy(): void {
@@ -71,15 +64,12 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
   }
 
   public doChange(e) {
-    console.log('event', e);
     if (e.value === '') {
       this.currentSearch = '';
     }
   }
 
   public doSearch(args: any): void {
-    console.log('globalSearchValModel', this.globalSearchValModel);
-    console.log('currentSearch', this.currentSearch);
     if (this.currentSearch) {
       this.router.navigate(['employee'], { queryParams: { search: this.currentSearch } });
       this.loadAll();
@@ -88,10 +78,37 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
       this.loadAll();
     }
   }
+  
+  private removeAdmin(data: any) {
+	let indexAdmin = 0;
+
+	if (data.length > 0 && data) {
+      for (let i = 0; i < data.length; i++) {
+		if (data[i]['id'] === 1) {
+		  indexAdmin = i;
+		}
+      }
+    }
+	
+	data.splice(indexAdmin, 1);
+
+    return data;
+  }
+
+  initDataForMatTable(data: any, headers: HttpHeaders) {
+	this.items = this.removeAdmin(data.body);
+    this.items = new MatTableDataSource(this.addIdx(data.body));
+    if (!this.items) {
+      this.items.paginator = this.paginator;
+    }
+    this.items.sort = this.sort;
+    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSize = this.paginator.pageSize;
+    this.loading = false;
+  }
 
   private loadAll(): void {
     this.loading = true;
-    console.log('this role');
     this.filterData = [
       {
         id: 'Fname',
@@ -127,10 +144,8 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
         sort: ['id,desc'],
         [flagSrc]: this.currentSearch,
       };
-      console.log('obj', obj);
       this.employeeService.queryFilterBy(obj).subscribe({
         next: (res: HttpResponse<IEmployee[]>) => {
-          console.log('res', res);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -139,7 +154,6 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
     }
 
     this.employeeService
-      // .query({
       .query({
         page: this.page,
         size: this.itemsPerPage,
@@ -147,7 +161,6 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
       })
       .subscribe({
         next: (res: HttpResponse<IEmployee[]>) => {
-          console.log('res', res);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -159,119 +172,6 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
   }
 
   public routeSubMenu(menu: object): void {
-    // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
     this.router.navigate(['./employee/' + menu['id']]);
   }
 }
-
-// import { Component, ViewChild, ElementRef } from '@angular/core';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { AccountService } from 'app/core/auth/account.service';
-// import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-// import { IEmployee } from './employee.model';
-// import { EmployeeService } from './employee.service';
-// import { IEmployee as IEmployeeStrapi, Employee as EmployeeStrapi } from '../../shared/integration/models/employees-page.model';
-// import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
-// import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { saveAs } from 'file-saver';
-// import { ReportUtilService } from 'app/shared/base/report-util.service';
-// import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-// import { ParseLinks } from 'app/core/util/parse-links.service';
-// import { AlertService } from 'app/core/util/alert.service';
-// import { EventManager } from 'app/core/util/event-manager.service';
-// import { StrapiService } from 'app/shared/integration/strapi.service';
-// import { HttpResponse } from '@angular/common/http';
-// import { AbstractEntityEj2GridComponent } from 'app/shared/base/abstract-entity-ej2-grid.component';
-// import { Button, IButton } from 'app/shared/integration/models/button.model';
-// import { EMPLOYEE } from 'app/shared/constants/base.constants';
-
-// @Component({
-//   selector: 'jhi-employee',
-//   templateUrl: './employee.component.html',
-//   styleUrls: ['./employee.css'],
-// })
-// export class EmployeeComponent extends AbstractEntityEj2GridComponent<IEmployee> {
-//   @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
-
-//   public label: IEmployeeStrapi;
-//   public button: IButton;
-//   public subMenu: object[];
-
-//   constructor(
-//     protected employeeService: EmployeeService,
-//     protected parseLinks: ParseLinks,
-//     protected alertService: AlertService,
-//     public accountService: AccountService,
-//     protected activatedRoute: ActivatedRoute,
-//     protected dataUtils: BaseDataUtils,
-//     protected router: Router,
-//     protected eventManager: EventManager,
-//     protected messageService: MessageService,
-//     protected modalService: NgbModal,
-//     protected confirmationService: ConfirmationService,
-//     protected reportUtils: ReportUtilService,
-//     private strapiService: StrapiService
-//   ) {
-//     super(
-//       employeeService,
-//       parseLinks,
-//       accountService,
-//       activatedRoute,
-//       dataUtils,
-//       router,
-//       eventManager,
-//       messageService,
-//       confirmationService
-//     );
-
-//     this.label = new EmployeeStrapi();
-//     this.button = new Button();
-
-//     this.parentRoute = '/employee';
-//     this.listChangeEventName = 'employeeListModification';
-//     this.entityKeyName = 'id';
-
-//     this.routeData = this.activatedRoute.data.subscribe(data => {
-//       this.page = data.pagingParams.page;
-//       this.previousPage = data.pagingParams.page;
-//       this.reverse = data.pagingParams.ascending;
-//       this.predicate = data.pagingParams.predicate;
-//       activatedRoute.queryParams.subscribe(params => {
-//         this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-//         this.first = (this.page - 1) * this.itemsPerPage || 0;
-//       });
-//     });
-//     this.currentSearch =
-//       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-//   }
-
-//   protected initialize(): void {
-//     this.subMenu = EMPLOYEE;
-
-//     this.strapiService.getEmployees({ pageAt: 'index' }).subscribe((res: HttpResponse<IEmployeeStrapi[]>) => {
-//       if (res.body.length > 0) {
-//         this.label = res.body[0];
-//       }
-//     });
-
-//     this.strapiService.getButton().subscribe((res: HttpResponse<IButton>) => {
-//       if (res.body) {
-//         this.button = res.body;
-//       }
-//     });
-//   }
-
-//   trackId(index: number, item: IEmployee) {
-//     return item.id;
-//   }
-
-//   previousState(): void {
-//     window.history.back();
-//   }
-
-//   public routeSubMenu(menu: object): void {
-//     // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
-//     this.router.navigate(['./employee/' + menu['id']]);
-//   }
-// }

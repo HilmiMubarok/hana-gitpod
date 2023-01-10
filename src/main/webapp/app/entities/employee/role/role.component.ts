@@ -2,18 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
-// import { IPartner } from './partner.model';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-// import { PartnerService } from './partner.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-// import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
 import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-// import { InternalService } from './internal.service';
-// import { IInternal } from './internal.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { IEmployee } from '../employee.model';
 import { EmployeeService } from '../employee.service';
@@ -38,7 +33,6 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
     id: string;
     description: string;
   }[];
-  // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
   constructor(
     private employeeService: EmployeeService,
@@ -62,9 +56,7 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
 
   ngOnInit(): void {
     this.subMenu = EMPLOYEE;
-    // this.activatedRoute.data.subscribe(({ partner }) => (this.partner = partner));
     this.loadAll();
-    // console.log("hahah");
   }
 
   protected postLoadDataLazy(): void {
@@ -72,15 +64,12 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
   }
 
   public doChange(e) {
-    console.log('event', e);
     if (e.value === '') {
       this.currentSearch = '';
     }
   }
 
   public doSearch(args: any): void {
-    console.log('globalSearchValModel', this.globalSearchValModel);
-    console.log('currentSearch', this.currentSearch);
     if (this.currentSearch) {
       this.router.navigate(['employee/role'], { queryParams: { search: this.currentSearch } });
       this.loadAll();
@@ -90,9 +79,36 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
     }
   }
 
+  private removeAdmin(data: any) {
+	let indexAdmin = 0;
+
+	if (data.length > 0 && data) {
+      for (let i = 0; i < data.length; i++) {
+		if (data[i]['id'] === 1) {
+		  indexAdmin = i;
+		}
+      }
+    }
+	
+	data.splice(indexAdmin, 1);
+
+    return data;
+  }
+
+  initDataForMatTable(data: any, headers: HttpHeaders) {
+	this.items = this.removeAdmin(data.body);
+    this.items = new MatTableDataSource(this.addIdx(data.body));
+    if (!this.items) {
+      this.items.paginator = this.paginator;
+    }
+    this.items.sort = this.sort;
+    this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
+    this.paginatorPageSize = this.paginator.pageSize;
+    this.loading = false;
+  }
+
   private loadAll(): void {
     this.loading = true;
-    console.log('this role');
     this.filterData = [
       {
         id: 'Fname',
@@ -128,10 +144,8 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
         sort: ['id,desc'],
         [flagSrc]: this.currentSearch,
       };
-      console.log('obj', obj);
       this.employeeService.queryFilterBy(obj).subscribe({
         next: (res: HttpResponse<IEmployee[]>) => {
-          console.log('res', res);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -140,7 +154,6 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
     }
 
     this.employeeService
-      // .query({
       .query({
         page: this.page,
         size: this.itemsPerPage,
@@ -148,7 +161,6 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
       })
       .subscribe({
         next: (res: HttpResponse<IEmployee[]>) => {
-          console.log('res', res);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -160,7 +172,6 @@ export class RoleComponent extends AbstractEntityMaterialComponent<IEmployee> im
   }
 
   public routeSubMenu(menu: object): void {
-    // this.router.navigate([this.router.url], { queryParams: { subroute: menu['id'] } });
     this.router.navigate(['./employee/' + menu['id']]);
   }
 }
