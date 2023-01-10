@@ -46,7 +46,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public note = {
 	attributes: {},
 	condition: '',
-	createDate: new Date(),
+	createDate: '',
 	id: 0,
 	message: '',
 	positionUserId: '',
