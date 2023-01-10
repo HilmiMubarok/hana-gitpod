@@ -523,8 +523,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 		  if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
 			this.notes[i].message = '';
 			this.notes[i].condition = '';
-			this.notes[i].createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-			this.notes[i].recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.notes[i].createDate = res.body.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+			this.notes[i].recomendation = res.body.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
 		  }
 		}
       }
