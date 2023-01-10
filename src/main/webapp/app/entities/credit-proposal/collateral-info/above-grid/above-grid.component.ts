@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterVie
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE, REALESTATE_CERTIFICATE_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -22,6 +22,8 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { creditRatingRoute } from 'app/entities/credit-rating/credit-rating.route';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
@@ -56,6 +58,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
+  public certificateType: any;
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -79,7 +82,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private partyCifService: PartyCifService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -100,6 +104,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
+    this.setCertyficateType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -296,7 +301,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         if (data.propertyMarketValue === null) {
           result = 0;
         } else {
-          result = data.propertyMarketValue;
+          result = data.marketValue;
         }
       }
     } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
@@ -482,7 +487,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
             (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
             collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
           ) {
-            result = result + data.propertyMarketValue;
+            result = result + data.marketValue;
           }
           if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
             result = result + data.vehicleMarketValue;
@@ -490,24 +495,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
           if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
             result = result + data.machineMarketValue;
           }
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId !== COLLATERAL_TYPE['vehicle']) ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
-          ) {
-            // kondisi ditambahkan berdasarkan CRECAS-1194
-            // console.log("yang masuk di count total mv",collaterals[i]);
-            // console.log("data count total mv",data);
-            if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
-              result = result + collaterals[i].unitFaceAmount;
-            } else if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-              result = result + collaterals[i].guaranteeAmount;
-            } else if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
-              result = result + collaterals[i].amount;
-            } else {
-              result = result + data.marketValue;
-            }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
+            result = result + data.attributes.amount;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
+            result = result + data.attributes.totalFaceAmount;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+            result = result + data.attributes.amount;
           }
         }
       }
@@ -666,7 +661,9 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         if (data.attributes.certificateType === undefined) {
           string1 = '';
         } else {
-          string1 = data.attributes.certificateType;
+          // const dataCert = this.certificateType.find(obj => obj.id === data.attributes.certificateType);
+          console.log('ini data cer', this.certificateType);
+          string1 = this.certificateType['001'];
         }
         if (data.attributes.certificateNumber === undefined) {
           string2 = '';
@@ -745,5 +742,11 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return '';
     }
     return '';
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
+    });
   }
 }

@@ -483,7 +483,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
             (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
             collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
           ) {
-            result = result + data.propertyMarketValue;
+            result = result + data.marketValue;
           }
           if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
             result = result + data.vehicleMarketValue;
@@ -491,24 +491,14 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
             result = result + data.machineMarketValue;
           }
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId !== COLLATERAL_TYPE['vehicle']) ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
-          ) {
-            // kondisi ditambahkan berdasarkan CRECAS-1194
-            // console.log("yang masuk di count total mv",collaterals[i]);
-            // console.log("data count total mv",data);
-            if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
-              result = result + collaterals[i].unitFaceAmount;
-            } else if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-              result = result + collaterals[i].guaranteeAmount;
-            } else if (collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
-              result = result + collaterals[i].amount;
-            } else {
-              result = result + data.marketValue;
-            }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
+            result = result + data.attributes.amount;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
+            result = result + data.attributes.totalFaceAmount;
+          }
+          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+            result = result + data.attributes.amount;
           }
         }
       }
