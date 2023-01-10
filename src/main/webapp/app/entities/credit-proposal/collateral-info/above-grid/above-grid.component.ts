@@ -663,7 +663,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         } else {
           // const dataCert = this.certificateType.find(obj => obj.id === data.attributes.certificateType);
           console.log('ini data cer', this.certificateType);
-          string1 = this.certificateType['001'];
+          string1 = data.attributes.certificateType;
         }
         if (data.attributes.certificateNumber === undefined) {
           string2 = '';
