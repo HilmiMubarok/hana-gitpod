@@ -107,7 +107,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 		  this.note.type = '';
 		  this.note.message = '';
 		  this.note.condition = '';
-          this.note.createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+          this.note.createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(changes.cp.currentValue.notes[i].createDate, 'yyyy-MM-dd') : '';
           this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
 		  this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? this.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
 		  this.note.userId = changes.cp.currentValue.notes[i].userId ? this.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
@@ -539,11 +539,11 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	  if (res.body.notes.length > 0) {
 		for (let i = 0; i < res.body.notes.length; i++) {
 		  if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
-			this.note.attributes = changes.cp.currentValue.notes[i].attributes;
+			this.note.attributes = res.body.notes[i].attributes;
 			this.note.type = '';
 			this.note.message = '';
 			this.note.condition = '';
-			this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+			this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
 			this.note.recomendation = res.body.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
 			this.note.positionUserId = res.body.notes[i].positionUserId ? this.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
 			this.note.userId = res.body.notes[i].userId ? this.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
