@@ -83,6 +83,10 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     }
   }
 
+  onDocumentChange() {
+    this.container.restrictEditing = true;
+  }
+
   public onSelect(value: string, data: any): void {
     this.dataCompliance[data.No - 1].value = value;
     this.creditProposal.attributes['complienceReccomendation'].complienceRec = this.dataCompliance;

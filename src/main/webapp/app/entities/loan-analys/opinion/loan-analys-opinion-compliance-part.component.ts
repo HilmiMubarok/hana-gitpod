@@ -87,6 +87,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
+	this.notes = [];
     if (changes.cp.currentValue.notes.length > 0) {
       for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
 		if (changes.cp.currentValue.notes[i].type === 'compliance') {
@@ -444,7 +445,18 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-      this.notes = res.body.notes;
+	  this.notes = [];
+	  if (res.body.notes.length > 0) {
+		for (let i = 0; i < res.body.notes.length; i++) {
+		  if (res.body.notes[i].type === 'compliance') {
+			this.notes[i].type = 'compliance';
+			this.notes[i].message = '';
+			this.notes[i].condition = '';
+			this.notes[i].createDate = res.body.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+			this.notes[i].recomendation = res.body.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  }
+		}
+	  }
 	  this.accountService.identity().subscribe(account => {
 		this.currentAccount = account;
 		this.creditProposalItem.attributes['tempLoggedInNotes'] = '';

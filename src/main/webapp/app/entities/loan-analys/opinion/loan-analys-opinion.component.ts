@@ -88,14 +88,16 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
+	this.notes = [];
     if (changes.cp.currentValue.notes.length > 0) {
-      this.notes = lodash.cloneDeep(changes.cp.currentValue.notes);
-      for (let i = 0; i < this.notes.length; i++) {
-        this.notes[i].message = this.notes[i].message ? this.notes[i].message.replace(/<(?:.|\n)*?>/gm, '') : '';
-        this.notes[i].condition = this.notes[i].condition ? this.notes[i].condition.replace(/<(?:.|\n)*?>/gm, '') : '';
-        this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-        this.notes[i].recomendation = this.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-      }
+	  for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
+		if (changes.cp.currentValue.notes[i].type === '' || changes.cp.currentValue.notes[i].type === null) {
+		  this.notes[i].message = '';
+		  this.notes[i].condition = '';
+          this.notes[i].createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+          this.notes[i].recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		}
+	  }
     }
   }
 
@@ -515,7 +517,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-      this.notes = res.body.notes;
+      this.notes = [];
+	  if (res.body.notes.length > 0) {
+		for (let i = 0; i < res.body.notes.length; i++) {
+		  if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
+			this.notes[i].message = '';
+			this.notes[i].condition = '';
+			this.notes[i].createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+			this.notes[i].recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  }
+		}
+      }
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
         this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
