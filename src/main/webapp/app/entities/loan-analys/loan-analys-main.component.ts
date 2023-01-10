@@ -604,7 +604,7 @@ export class LoanAnalysMainComponent implements OnInit {
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-		const tempRoute = this.router.url.split('/')[1];
+		const tempRouter = this.router.url.split('/')[1];
 		if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
 		  if (this.loanAnalysOpinionComponent) {
 			this.loanAnalysOpinionComponent.triggeredSave();
