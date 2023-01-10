@@ -357,12 +357,12 @@ export class LoanAnalysMainComponent implements OnInit {
       this.extPreSave(copyCreditProposal);
     } */
 
-    const tempRoute = this.router.url.split('/')[1];
+    const tempRouter = this.router.url.split('/')[1];
     if (
-      tempRoute === 'la-analyst' ||
-      tempRoute === 'la-SME-CRC' ||
-      tempRoute === 'la-approval' ||
-      tempRoute === 'loan-committee-approval'
+      tempRouter === 'la-analyst' ||
+      tempRouter === 'la-SME-CRC' ||
+      tempRouter === 'la-approval' ||
+      tempRouter === 'loan-committee-approval'
     ) {
       let tempHelper = 0;
       let tempOpinionType = '';
@@ -588,12 +588,12 @@ export class LoanAnalysMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        const tempRoute = this.router.url.split('/')[1];
+        const tempRouter = this.router.url.split('/')[1];
         if (
-          tempRoute === 'la-analyst' ||
-          tempRoute === 'la-SME-CRC' ||
-          tempRoute === 'la-approval' ||
-          tempRoute === 'loan-committee-approval'
+          tempRouter === 'la-analyst' ||
+          tempRouter === 'la-SME-CRC' ||
+          tempRouter === 'la-approval' ||
+          tempRouter === 'loan-committee-approval'
         ) {
           if (this.loanAnalysOpinionComponent) {
             this.loanAnalysOpinionComponent.triggeredSave();
@@ -616,12 +616,12 @@ export class LoanAnalysMainComponent implements OnInit {
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        const tempRoute = this.router.url.split('/')[1];
+        const tempRouter = this.router.url.split('/')[1];
         if (
-          tempRoute === 'la-analyst' ||
-          tempRoute === 'la-SME-CRC' ||
-          tempRoute === 'la-approval' ||
-          tempRoute === 'loan-committee-approval'
+          tempRouter === 'la-analyst' ||
+          tempRouter === 'la-SME-CRC' ||
+          tempRouter === 'la-approval' ||
+          tempRouter === 'loan-committee-approval'
         ) {
           if (this.loanAnalysOpinionComponent) {
             this.loanAnalysOpinionComponent.triggeredSave();
