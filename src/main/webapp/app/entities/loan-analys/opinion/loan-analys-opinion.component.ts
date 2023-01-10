@@ -108,10 +108,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 		  this.note.message = '';
 		  this.note.condition = '';
           this.note.createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(changes.cp.currentValue.notes[i].createDate, 'yyyy-MM-dd') : '';
-          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? this.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.userId = changes.cp.currentValue.notes[i].userId ? this.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.id = changes.cp.currentValue.notes[i].id ? this.notes[i].id.replace(/<(?:.|\n)*?>/gm, '') : '';
+          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? changes.cp.currentValue.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? changes.cp.currentValue.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.userId = changes.cp.currentValue.notes[i].userId ? changes.cp.currentValue.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
+		  this.note.id = changes.cp.currentValue.notes[i].id ? changes.cp.currentValue.notes[i].id.replace(/<(?:.|\n)*?>/gm, '') : '';
 
 		  this.notes.push(this.note);
 		}
@@ -544,9 +544,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 			this.note.message = '';
 			this.note.condition = '';
 			this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
-			this.note.recomendation = res.body.notes[i].recomendation ? this.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-			this.note.positionUserId = res.body.notes[i].positionUserId ? this.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
-			this.note.userId = res.body.notes[i].userId ? this.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.recomendation = res.body.notes[i].recomendation ? res.body.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.positionUserId = res.body.notes[i].positionUserId ? res.body.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
+			this.note.userId = res.body.notes[i].userId ? res.body.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
 			this.note.id = res.body.notes[i].id ? this.notes[i].id.replace(/<(?:.|\n)*?>/gm, '') : '';
 
 			this.notes.push(this.note);
