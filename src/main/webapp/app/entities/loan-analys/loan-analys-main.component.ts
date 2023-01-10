@@ -357,75 +357,80 @@ export class LoanAnalysMainComponent implements OnInit {
       this.extPreSave(copyCreditProposal);
     } */
 
-	const tempRoute = this.router.url.split('/')[1];
-	if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
-	  let tempHelper = 0;
-	  let tempOpinionType = '';
+    const tempRoute = this.router.url.split('/')[1];
+    if (
+      tempRoute === 'la-analyst' ||
+      tempRoute === 'la-SME-CRC' ||
+      tempRoute === 'la-approval' ||
+      tempRoute === 'loan-committee-approval'
+    ) {
+      let tempHelper = 0;
+      let tempOpinionType = '';
 
-	  tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+      tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
 
       if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-		if (copyCreditProposal.notes.length > 0) {
+        if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			if (copyCreditProposal.notes[i].userId === this.userId) {
+            if (copyCreditProposal.notes[i].userId === this.userId) {
               copyCreditProposal.notes[i].condition = '';
               copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
               copyCreditProposal.notes[i].recomendation = this.recomendation;
               copyCreditProposal.notes[i].type = tempOpinionType;
               tempHelper = tempHelper + 1;
-			}
+            }
           }
 
           if (tempHelper === 0) {
-			copyCreditProposal.notes.push(
+            copyCreditProposal.notes.push(
               this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
-			);
+            );
           }
-		} else {
+        } else {
           copyCreditProposal.notes.push(
-			this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
           );
-		}
+        }
 
-		delete copyCreditProposal.attributes['tempLoggedInNotes'];
-		delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-		delete copyCreditProposal.attributes['tempLoggedInCondition'];
-		delete copyCreditProposal.attributes['positionLogin'];
-		if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+        delete copyCreditProposal.attributes['tempLoggedInNotes'];
+        delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+        delete copyCreditProposal.attributes['tempLoggedInCondition'];
+        delete copyCreditProposal.attributes['positionLogin'];
+        if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
           delete copyCreditProposal.attributes['position'];
-		}
-	  } else {
-		if (copyCreditProposal.notes.length > 0) {
+        }
+      } else {
+        if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
               copyCreditProposal.notes[i].message = '';
-              opyCreditProposal.notes[i].recomendation = this.recomendation;
+              copyCreditProposal.notes[i].recomendation = this.recomendation;
               copyCreditProposal.notes[i].condition = '';
               copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
               copyCreditProposal.notes[i].type = tempOpinionType;
               tempHelper = tempHelper + 1;
-			}
+            }
           }
 
           if (tempHelper === 0) {
-			copyCreditProposal.notes.push(
+            copyCreditProposal.notes.push(
               this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
-			);
+            );
           }
-		} else {
+        } else {
           copyCreditProposal.notes.push(
-			this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
           );
-		}
-		delete copyCreditProposal.attributes['tempLoggedInNotes'];
-		delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-		delete copyCreditProposal.attributes['tempLoggedInCondition'];
-		delete copyCreditProposal.attributes['positionLogin'];
-		if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
+        }
+        delete copyCreditProposal.attributes['tempLoggedInNotes'];
+        delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+        delete copyCreditProposal.attributes['tempLoggedInCondition'];
+        delete copyCreditProposal.attributes['positionLogin'];
+        if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
           delete copyCreditProposal.attributes['position'];
-		}
+        }
       }
-	}
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -465,7 +470,9 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
@@ -581,17 +588,22 @@ export class LoanAnalysMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-		const tempRoute = this.router.url.split('/')[1];
-		if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
-		  if (this.loanAnalysOpinionComponent) {
-			this.loanAnalysOpinionComponent.triggeredSave();
-			this.loanAnalysOpinionComponent.triggeredSaveCondition();
-			this.loanAnalysOpinionComponent.refresh();
-			this.loanAnalysOpinionComponent.onCreate();
-			this.loanAnalysOpinionComponent.onCreateCondition();
+        const tempRoute = this.router.url.split('/')[1];
+        if (
+          tempRoute === 'la-analyst' ||
+          tempRoute === 'la-SME-CRC' ||
+          tempRoute === 'la-approval' ||
+          tempRoute === 'loan-committee-approval'
+        ) {
+          if (this.loanAnalysOpinionComponent) {
+            this.loanAnalysOpinionComponent.triggeredSave();
+            this.loanAnalysOpinionComponent.triggeredSaveCondition();
+            this.loanAnalysOpinionComponent.refresh();
+            this.loanAnalysOpinionComponent.onCreate();
+            this.loanAnalysOpinionComponent.onCreateCondition();
           }
-		}
-        
+        }
+
         if (this.loanAnalysOpinionCompliancePartComponent) {
           this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
           this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
@@ -604,17 +616,22 @@ export class LoanAnalysMainComponent implements OnInit {
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-		const tempRoute = this.router.url.split('/')[1];
-		if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
-		  if (this.loanAnalysOpinionComponent) {
-			this.loanAnalysOpinionComponent.triggeredSave();
-			this.loanAnalysOpinionComponent.triggeredSaveCondition();
-			this.loanAnalysOpinionComponent.refresh();
-			this.loanAnalysOpinionComponent.onCreate();
-			this.loanAnalysOpinionComponent.onCreateCondition();
-		  }
-		}
-        
+        const tempRoute = this.router.url.split('/')[1];
+        if (
+          tempRoute === 'la-analyst' ||
+          tempRoute === 'la-SME-CRC' ||
+          tempRoute === 'la-approval' ||
+          tempRoute === 'loan-committee-approval'
+        ) {
+          if (this.loanAnalysOpinionComponent) {
+            this.loanAnalysOpinionComponent.triggeredSave();
+            this.loanAnalysOpinionComponent.triggeredSaveCondition();
+            this.loanAnalysOpinionComponent.refresh();
+            this.loanAnalysOpinionComponent.onCreate();
+            this.loanAnalysOpinionComponent.onCreateCondition();
+          }
+        }
+
         if (this.loanAnalysOpinionCompliancePartComponent) {
           this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
           this.loanAnalysOpinionCompliancePartComponent.triggeredSaveCondition();
