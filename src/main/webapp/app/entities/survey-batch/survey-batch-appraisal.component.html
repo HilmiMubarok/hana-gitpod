@@ -18,36 +18,35 @@
       </div>
     </div>
     <div class="e-card-content">
-      <div class="mt-3">
-        <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" *jhiHasAnyAuthority="['ROLE_ADMIN']">
-          REBUILD INDEX
-        </button>
-      </div>
       <mat-card class="mt-3">
         <mat-card-content>
           <div style="display: flex; justify-content: space-between">
-            <div class="w-100">
+            <!-- <div class="w-100">
               <mat-form-field appearance="outline" class="w-100 pr-1">
-                <mat-select>
-                  <!-- [(ngModel)]="globalSearchValModel" -->
-                  <!-- (selectionChange)="onSelectTown($event)" -->
-                  <mat-option value="">Select data in here</mat-option>
-                  <!-- <mat-option *ngFor="let item of filterData" [value]="item.description">
+                <mat-select
+                  [(ngModel)]="globalSearchValModel"
+                  (selectionChange)="onSelectTown()">
+                  <mat-option value="">Select city in here</mat-option>
+                  <mat-option *ngFor="let item of filterData" [value]="item.description">
                     {{ item.description }}
-                  </mat-option> -->
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
-            </div>
-            <div style="width: 50px"></div>
+            </div> -->
+            <!-- <div style="width: 50px"></div> -->
             <div class="w-100">
               <mat-form-field appearance="outline" class="w-100 pl-1">
                 <input matInput placeholder="Search in here..." type="text" [(ngModel)]="currentSearch" />
-                <button matSuffix mat-icon-button aria-label="Clear">
-                  <!-- (click)="doSearch($event)" -->
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="doSearch()">
                   <mat-icon>search</mat-icon>
                 </button>
               </mat-form-field>
             </div>
+          </div>
+          <div class="mt-3">
+            <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+              REBUILD INDEX
+            </button>
           </div>
         </mat-card-content>
       </mat-card>
@@ -119,7 +118,6 @@
         <button class="button-info" mat-raised-button [routerLink]="['./new']">ADD BATCH</button>
       </div>
     </div>
-
 
     <mat-sidenav-container [hasBackdrop]="true">
       <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

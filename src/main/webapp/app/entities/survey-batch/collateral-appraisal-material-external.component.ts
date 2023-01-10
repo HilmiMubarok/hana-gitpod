@@ -188,7 +188,7 @@ export class CollateralAppraisalMaterialExternalComponent extends AbstractEntity
 
     if (this.currentSearch && this.currentSearch !== '') {
       this.surveyAppraisalService
-        .searchExternal(
+        .searchReqExternal(
           {
             page: this.page,
             // query: this.currentSearch,
