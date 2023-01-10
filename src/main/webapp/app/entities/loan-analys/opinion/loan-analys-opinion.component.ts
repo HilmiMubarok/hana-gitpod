@@ -103,6 +103,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     if (changes.cp.currentValue.notes.length > 0) {
 	  for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
 		if (changes.cp.currentValue.notes[i].type === '' || changes.cp.currentValue.notes[i].type === null) {
+		  this.note = {
+			attributes: {},
+			condition: '',
+			createDate: '',
+			id: 0,
+			message: '',
+			positionUserId: '',
+			recomendation: '',
+			type: '',
+			userId: ''
+		  };
 		  this.note.attributes = changes.cp.currentValue.notes[i].attributes;
 		  this.note.type = '';
 		  this.note.message = '';
@@ -539,6 +550,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	  if (res.body.notes.length > 0) {
 		for (let i = 0; i < res.body.notes.length; i++) {
 		  if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
+			this.note = {
+			  attributes: {},
+			  condition: '',
+			  createDate: '',
+			  id: 0,
+			  message: '',
+			  positionUserId: '',
+			  recomendation: '',
+			  type: '',
+			  userId: ''
+			};
 			this.note.attributes = res.body.notes[i].attributes;
 			this.note.type = '';
 			this.note.message = '';
