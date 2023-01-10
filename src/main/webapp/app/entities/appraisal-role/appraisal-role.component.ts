@@ -9,6 +9,7 @@ import { IPerson } from '../person/person.model';
 import { PersonService } from '../person/person.service';
 import { IAppraisalRole } from './appraisal-role.model';
 import { AppraisalRoleService } from './appraisal-role.service';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-appraisal-role',
@@ -79,7 +80,11 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IApp
       this.filteringItems = [];
       for (let i = 0; i < this.items.length; i++) {
         const each: IAppraisalRole = this.items[i];
-        if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
+        if (
+          each.relationTypeId &&
+          each.relationTypeId.toLowerCase() === value.toLowerCase() &&
+          moment().diff(moment(each.thruDate), 'days') <= 0
+        ) {
           this.filteringItems.push(each);
         }
       }
