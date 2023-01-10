@@ -16,7 +16,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public searchCifInput: string;
   private _partyCif: IDebtorData;
   private dataKey: any;
-  public folders: Object[];
+  public folders = [];
   constructor(private storageService: StorageService, public dialog: MatDialog, private messageService: MessageService) {}
   @Input()
   get partyCif() {
@@ -39,6 +39,15 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
         this.bucket = res.body['bucket'];
         resolve();
       });
+    });
+  }
+
+  private getFiles(id: string): void {
+    const predicate: Object = {
+      key: `/cif/${id}/document`,
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+      this.groupByFolder(res.body);
     });
   }
 
@@ -65,16 +74,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     } else {
       this.folders = [];
     }
-  }
-
-  private getFiles(id: string): void {
-    const predicate: Object = {
-      key: `/cif/${id}/document`,
-    };
-    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      console.log('file data', res.body);
-      this.groupByFolder(res.body);
-    });
   }
 
   public deleteFile(element: IDocumentChecklistDebtorData = null): void {
