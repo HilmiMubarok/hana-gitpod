@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -40,7 +40,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   public totalLVInt: number;
   public isChecked: boolean;
   private _creditProposal: ICreditProposal;
-
+  private bindingTypeVal: any;
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
@@ -64,6 +64,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     private collateralService: CollateralService
   ) {
     this.collateralProperties = [];
+    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }
@@ -129,6 +130,7 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         if (res.action === 'cancel') {
           this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         }
+        console.log('after closed ', this.creditProposal.attributes);
       }
 
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
@@ -364,5 +366,46 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
       return '';
     }
     return '';
+  }
+
+  public getBindingType(element: string) {
+    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    return this.bindingTypeVal[keyy];
+  }
+
+  public getExpiry(collateral: ICollateral) {
+    let result: any;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.expiry === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.expiry;
+        }
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    return result;
   }
 }

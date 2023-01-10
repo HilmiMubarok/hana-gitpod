@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -16,7 +16,10 @@ import { FormControl } from '@angular/forms';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
-import { COLLATERAL_BINDING_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -47,14 +50,17 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class DialogCreditProposalCollateralInfoDialogBTBComponent {
+export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnInit {
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
   public creditProposalOpenState: ICreditProposal;
   public binding: ICreditProposalCollateralBinding;
   public empty: IEmptyField;
+  private bindingTypeVal: any;
   public properties: ICollateralProperty[];
   public filteredOptionBindingTypes: Observable<string[]>;
+  public collateralProperty: ICollateralProperty;
+  public collateralPropertyExternal: ICollateralProperty;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -70,8 +76,17 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   public paripasuStatus: any;
   public bindingTypes: any;
   public isViewMode: Boolean;
+
+  public collateralValue: number;
+  public accountCustomer: any;
+  public lembagaPenjamin: string;
+  public sifatJaminan: string;
+  public noDocumentJaminan: string;
+  public jenis: string;
+
   constructor(
     private creditProposalService: CreditProposalService,
+    private collateralPropertyService: CollateralPropertyService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -93,6 +108,10 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
     this.paripasuStatus = PARIPASU_STATUS;
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.isViewMode = this.data.isViewMode;
+  }
+  ngOnInit(): void {
+    this.loadByCollateral(this.collateral.id);
+    console.log('ini credit proposal ', this.creditProposal);
   }
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
@@ -138,5 +157,65 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent {
   }
   public getCertificateDueDate(): string {
     return this.creditProposalService.getCertificationDate(this.collateral, this.properties);
+  }
+
+  private loadByCollateral(collateralId: number): void {
+    this.collateralPropertyService
+      .queryFilterBy({
+        page: 0,
+        idCollateral: collateralId,
+        idPropertyType: CollateralPropertyType.GENERAL,
+        size: 9999,
+      })
+      .subscribe(res => {
+        if (res.body.length > 0) {
+          this.collateralProperty = lodash.find(res.body, function (o) {
+            return !o.external;
+          });
+          this.collateralPropertyExternal = lodash.find(res.body, function (o) {
+            return o.external;
+          });
+          this.setValue();
+        }
+      });
+  }
+
+  public setValue() {
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      this.noDocumentJaminan = this.collateralProperty.attributes.certificateNumber;
+      this.collateralValue = this.collateralProperty.attributes.amount;
+      this.accountCustomer = this.collateralProperty.attributes.lGApp;
+      this.lembagaPenjamin = this.collateralProperty.attributes.issuingInstitusi;
+      this.sifatJaminan = this.collateralProperty.attributes.charCollateral;
+      this.jenis = this.collateral.attributes['collateralCode'];
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      this.collateralValue = this.collateralProperty.attributes.amount;
+      this.lembagaPenjamin = this.collateralProperty.attributes.bicCode;
+      this.noDocumentJaminan = this.collateralProperty.attributes.accountNumber;
+      this.accountCustomer = this.collateralProperty.attributes.accountCustomerNo;
+      this.jenis = this.collateral.attributes['collateralCode'];
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      this.collateralValue = this.collateralProperty.attributes.totalFaceAmount;
+      this.accountCustomer = this.collateralProperty.attributes.securityName;
+      this.lembagaPenjamin = this.collateralProperty.attributes.issuer;
+      this.jenis = this.collateral.attributes['collateralCode'];
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
+      this.jenis = this.collateralProperty.attributes.collateralDetailType;
+      this.collateralValue = this.collateralProperty.attributes.marketValue;
+      this.sifatJaminan = this.collateralProperty.attributes.issuer;
+      this.collateralValue = this.collateralProperty.attributes.totalFaceAmount;
+    }
+  }
+
+  public getBindingType(element: string) {
+    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    return this.bindingTypeVal[keyy];
+  }
+
+  public print() {
+    console.log(this.creditProposal);
   }
 }

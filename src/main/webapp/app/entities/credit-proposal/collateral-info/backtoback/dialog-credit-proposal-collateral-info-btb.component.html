@@ -8,7 +8,7 @@
               <div class="form-group">
                 <ejs-textbox
                   disabled
-                  [(ngModel)]="collateral.managementBranch"
+                  [(ngModel)]="collateralProperty.attributes.branch"
                   placeholder="Management Branch"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -18,7 +18,7 @@
               <div class="form-group">
                 <ejs-textbox
                   disabled
-                  [(ngModel)]="collateral.guaranteType"
+                  [(ngModel)]="jenis"
                   placeholder="Jenis Jaminan"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -28,7 +28,7 @@
               <div class="form-group">
                 <ejs-textbox
                   disabled
-                  [(ngModel)]="collateral.installmentTime"
+                  [(ngModel)]="collateralValue"
                   placeholder="Collateral Value"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -36,13 +36,20 @@
               </div>
 
               <div class="form-group">
-                <ejs-textbox disabled placeholder="NO Ducument Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                <ejs-textbox
+                  disabled
+                  placeholder="NO Ducument Jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  [(ngModel)]="noDocumentJaminan"
+                >
+                </ejs-textbox>
               </div>
 
               <div class="form-group">
                 <ejs-textbox
                   disabled
-                  [(ngModel)]="collateral.accountCustName"
+                  [(ngModel)]="accountCustomer"
                   placeholder="Account Customer"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -52,7 +59,7 @@
               <div class="form-group">
                 <ejs-textbox
                   disabled
-                  [(ngModel)]="collateral.issuer"
+                  [(ngModel)]="lembagaPenjamin"
                   placeholder="Status Lembaga Penjamin"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -62,7 +69,7 @@
               <div class="form-group">
                 <ejs-textbox
                   disabled
-                  [(ngModel)]="collateral.collCharacteristic"
+                  [(ngModel)]="sifatJaminan"
                   placeholder="Sifat jaminan"
                   cssClass="e-outline"
                   floatLabelType="Always"
@@ -70,7 +77,13 @@
               </div>
 
               <div class="form-group">
-                <ejs-textbox disabled placeholder="Periode Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
+                <ejs-textbox
+                  placeholder="Periode Jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  [(ngModel)]="creditProposal.attributes['guaranteePeriode']"
+                >
+                </ejs-textbox>
               </div>
             </div>
 
@@ -166,10 +179,19 @@
               </div>
 
               <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline">
+                <mat-form-field class="w-200" appearance="outline">
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <mat-label>Tanggal Verifikasi</mat-label>
                     <input
+                      [matDatepicker]="bindingDate"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                      [disabled]="isViewMode === true"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="isViewMode === true"></mat-datepicker-toggle>
+                    <mat-datepicker #bindingDate [disabled]="isViewMode === true"></mat-datepicker>
+                    <!-- <input
                       [disabled]="isViewMode === true"
                       [matDatepicker]="bindingDate"
                       [formControl]="date"
@@ -178,7 +200,7 @@
                       [(ngModel)]="collateral.bindingDate"
                     />
                     <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
-                    <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker>
+                    <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker> -->
                   </section>
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <input
@@ -235,6 +257,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
             <button mat-button (click)="save()">Save</button>
+            <button mat-button (click)="print()">Print</button>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
