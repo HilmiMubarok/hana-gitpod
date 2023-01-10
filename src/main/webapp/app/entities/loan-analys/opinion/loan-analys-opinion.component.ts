@@ -69,6 +69,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public recomendasi: string;
   private positionLoanComitee: string;
+  public isShowOpinionFieldInput: boolean = false;
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -110,7 +111,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
 	protected messageService: MessageService
-  ) {}
+  ) {
+	const tempRouter = this.router.url.split('/')[1];
+	if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+	  this.isShowOpinionFieldInput = true;
+	}
+  }
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');

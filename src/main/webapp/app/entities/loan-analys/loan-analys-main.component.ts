@@ -357,7 +357,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.extPreSave(copyCreditProposal);
     } */
 
-	const tempRoute = this.router.url.split('/')[1];
+	const tempRouter = this.router.url.split('/')[1];
 	if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
 	  let tempHelper = 0;
 	  let tempOpinionType = '';
@@ -399,7 +399,7 @@ export class LoanAnalysMainComponent implements OnInit {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
 			if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
               copyCreditProposal.notes[i].message = '';
-              opyCreditProposal.notes[i].recomendation = this.recomendation;
+              copyCreditProposal.notes[i].recomendation = this.recomendation;
               copyCreditProposal.notes[i].condition = '';
               copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
               copyCreditProposal.notes[i].type = tempOpinionType;
@@ -581,7 +581,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-		const tempRoute = this.router.url.split('/')[1];
+		const tempRouter = this.router.url.split('/')[1];
 		if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
 		  if (this.loanAnalysOpinionComponent) {
 			this.loanAnalysOpinionComponent.triggeredSave();
