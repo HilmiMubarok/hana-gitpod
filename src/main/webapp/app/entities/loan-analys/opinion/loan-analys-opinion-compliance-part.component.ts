@@ -110,7 +110,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
           this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? changes.cp.currentValue.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
 		  this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? changes.cp.currentValue.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
 		  this.note.userId = changes.cp.currentValue.notes[i].userId ? changes.cp.currentValue.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.id = changes.cp.currentValue.notes[i].id ? changes.cp.currentValue.notes[i].id : '';
+		  this.note.id = changes.cp.currentValue.notes[i].id;
 
 		  this.notes.push(this.note);
 		}
@@ -474,7 +474,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 			this.note.recomendation = res.body.notes[i].recomendation ? res.body.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
 			this.note.positionUserId = res.body.notes[i].positionUserId ? res.body.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
 			this.note.userId = res.body.notes[i].userId ? res.body.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-			this.note.id = res.body.notes[i].id ? res.body.notes[i].id : '';
+			this.note.id = res.body.notes[i].id;
 
 			this.notes.push(this.note);
 		  }
