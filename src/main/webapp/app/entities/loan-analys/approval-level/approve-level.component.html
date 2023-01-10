@@ -37,7 +37,7 @@
       <ng-container matColumnDef="available_status">
         <th mat-header-cell *matHeaderCellDef>Available Status</th>
         <td mat-cell *matCellDef="let element">
-          <input type="checkbox" (click)="singleCheck($event)" />
+          <input type="checkbox" [disabled]="view" (click)="singleCheck($event)" />
         </td>
       </ng-container>
       <ng-container matColumnDef="recomendation">
