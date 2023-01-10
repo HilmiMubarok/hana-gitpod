@@ -26,6 +26,7 @@ import { FormControl } from '@angular/forms';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
+import { IPosition } from '@syncfusion/ej2-angular-grids';
 // import { PositionService } from 'app/entities/position/position.service';
 
 export const MY_FORMATS = {
@@ -43,6 +44,7 @@ export const MY_FORMATS = {
   selector: 'jhi-report-independent',
   templateUrl: './report-independent.component.html',
   styleUrls: ['./report-independent.css'],
+
   providers: [
     // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
     // application's root module. We provide it at the component level here, due to limitations of
@@ -61,8 +63,9 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
   formGroupPartner: FormGroup;
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
-  moment = _rollupMoment || _moment;
-  date = new FormControl(moment());
+  // moment = _rollupMoment || _moment;
+  apprDate = new FormControl(moment().toDate());
+  reportDate = new FormControl(moment().toDate());
   public items: any;
   public displayedColumns: string[] = ['no', 'fileName', 'SizeFile', 'typeFile', 'modifiedDate', 'modifiedBy', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns];
@@ -89,29 +92,17 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
     public dialog: MatDialog,
     protected messageService: MessageService,
     public surveyBatchService: SurveyBatchService,
-    protected activatedRoute: ActivatedRoute // private positionService: PositionService
+    protected activatedRoute: ActivatedRoute
   ) {
     super(_snackBar, surveyBatchService);
     this.page = 0;
     this.itemsPerPage = 10;
   }
 
-  ngOnInit(): void {
-    console.log('masukss report');
-    this.getReport();
+  public position: IPosition[];
 
-    // this.testReview();
-    // this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    // this.collateralAppraisalService.find(this.id).subscribe(result => {
-    //   console.log('result', result);
-    //   this.mData = result.body.attributes;
-    //   this.mData.remark = result.body.remark;
-    //   this.mData.marketValue = result.body.collateral.marketValue;
-    //   this.mData.apprReportNum = result.body.apprReportNum;
-    //   this.mData.apprDate = result.body.apprDate;
-    //   this.mData.reportDate = result.body.reportDate;
-    //   this.mData.reviewedBy = result.body.reviewedBy;
-    // });
+  ngOnInit(): void {
+    this.getReport();
   }
   public getReport() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -120,6 +111,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
       this.mData.appraisalNumber = result.body.appraisalNumber;
       this.mData.apprDate = result.body.apprDate;
       this.mData.reportDate = result.body.reportDate;
+
       this.mData.reviewedBy = result.body.reviewedBy;
       this.mData.marketValue = result.body.totalMarketValue;
       this.mData.remark = result.body.remark;
