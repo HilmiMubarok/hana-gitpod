@@ -7,7 +7,7 @@ import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from './credit-proposal-process.service';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
-import lodash from 'lodash';
+import lodash, { replace } from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
@@ -39,6 +39,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
+import { animate } from '@angular/animations';
+import { replaceAll } from '@syncfusion/ej2-angular-spreadsheet';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -97,7 +99,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
   public routeHelper: string;
-
   public resAttr: IProcessTask;
 
   appName: any;
@@ -562,6 +563,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.saveWord = true;
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
+          this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
@@ -607,6 +609,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
+          this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
