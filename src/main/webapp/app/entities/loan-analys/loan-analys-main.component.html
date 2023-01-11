@@ -35,16 +35,6 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <ejs-combobox
-                    cssClass="e-outline"
-                    placeholder="Proposal Type"
-                    (change)="onProposalTypeChange($event)"
-                    [(ngModel)]="creditProposal.attributes.proposalType"
-                    [dataSource]="proposalType"
-                    disabled
-                  ></ejs-combobox>
-                </div>
-                <div class="form-group mb-3">
                   <ejs-textbox
                     required
                     disabled
@@ -64,8 +54,38 @@
                     floatLabelType="Always"
                   ></ejs-textbox>
                 </div>
+                <div class="form-group mb-3">
+                  <ejs-textbox
+                    cssClass="e-outline"
+                    placeholder="CIF Number"
+                    (change)="onProposalTypeChange($event)"
+                    [(ngModel)]="creditProposal.customerNumber"
+                    [dataSource]="proposalType"
+                    disabled
+                  ></ejs-textbox>
+                </div>
+                <div class="form-group mb-3">
+                  <ejs-textbox
+                    cssClass="e-outline"
+                    placeholder="Customer Name"
+                    (change)="onProposalTypeChange($event)"
+                    [(ngModel)]="creditProposal.cif.name"
+                    [dataSource]="proposalType"
+                    disabled
+                  ></ejs-textbox>
+                </div>
               </div>
               <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    placeholder="Proposal Type"
+                    (change)="onProposalTypeChange($event)"
+                    [(ngModel)]="creditProposal.attributes.proposalType"
+                    [dataSource]="proposalType"
+                    disabled
+                  ></ejs-combobox>
+                </div>
                 <div class="form-group mb-3">
                   <ejs-textbox
                     [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
@@ -497,7 +517,7 @@
         <div *ngIf="parentPath === 'cc-review'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
-			(typeOpinion)="setTypeOpinion($event)"
+            (typeOpinion)="setTypeOpinion($event)"
             [creditProposalItem]="creditProposal"
             [cp]="cp"
           ></jhi-loan-analys-opinion-compliance-part>

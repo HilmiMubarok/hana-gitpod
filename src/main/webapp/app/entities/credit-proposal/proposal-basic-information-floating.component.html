@@ -35,7 +35,7 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-combobox
                   cssClass="e-outline"
                   placeholder="Proposal Type"
@@ -49,7 +49,6 @@
                 >
                 </ejs-combobox>
               </section>
-
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row">
                   <div class="col-4">Proposal Type</div>
@@ -58,7 +57,7 @@
                     {{ creditProposal.attributes.proposalType }}
                   </div>
                 </div>
-              </section>
+              </section> -->
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -99,8 +98,73 @@
                   </div>
                 </section>
               </div>
+              <div class="form-group">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="creditProposal.customerNumber"
+                    placeholder="CIF Number"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <div class="fontsebled row">
+                    <div class="col-4">CIF Number</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.customerNumber }}
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="form-group">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="creditProposal.cif.name"
+                    placeholder=" Customer Name"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <div class="fontsebled row">
+                    <div class="col-4">Customer Name</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.cif.name }}
+                    </div>
+                  </div>
+                </section>
+              </div>
             </div>
             <div class="col-md-6">
+              <div class="form-group">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-combobox
+                    cssClass="e-outline"
+                    placeholder="Proposal Type"
+                    (change)="setSubmenu($event.itemData)"
+                    [(ngModel)]="creditProposal.attributes.proposalType"
+                    placeholder="Please select proposal type"
+                    [dataSource]="proposalType"
+                    fields="{text:'text', value:'id'}"
+                    required
+                    [disabled]="disabledProptype()"
+                  >
+                  </ejs-combobox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <div class="fontsebled row">
+                    <div class="col-4">Proposal Type</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ creditProposal.attributes.proposalType }}
+                    </div>
+                  </div>
+                </section>
+              </div>
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-combobox
