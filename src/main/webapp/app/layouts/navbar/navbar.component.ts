@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit {
   private durationInSecond: Number = 2;
   protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   protected verticalPosition: MatSnackBarVerticalPosition = 'top';
+  public isAdministrator: boolean = false;
   constructor(
     private accountService: AccountService,
     private loginService: LoginService,
@@ -66,6 +67,9 @@ export class NavbarComponent implements OnInit {
   private setUpAcc(res: any, account: any): void {
 	this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
 	this.lastLogin = account.lastModifiedDate.substring(0,19);
+	if (this.account.login === 'admin') {
+	  this.isAdministrator = true;
+	}
   }
   
   private onError(errorMessage: string) {

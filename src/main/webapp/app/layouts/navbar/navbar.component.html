@@ -9,10 +9,7 @@
   <div>
 	<div *ngIf="isLogin">
 	  <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
-	  <div><span style="font-size: 14px; line-height: 36px">Last Login : {{ lastLogin }}</span></div>
-	</div>
-	<div *ngIf="!isLogin">
-	  <button mat-button style="opacity: 0">Administration</button>
+	  <img *ngIf="!isAdministrator" src='' style="opacity: 0">
 	  <div><span style="font-size: 14px; line-height: 36px">Last Login : {{ lastLogin }}</span></div>
 	</div>
   </div>
