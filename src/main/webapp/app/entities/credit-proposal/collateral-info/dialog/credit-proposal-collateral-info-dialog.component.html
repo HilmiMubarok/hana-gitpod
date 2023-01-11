@@ -515,7 +515,7 @@
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Rank</mat-label>
-                  <mat-select>
+                  <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank">
                     <mat-option value=" ">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of lovRank" [value]="item">
                       {{ item }}
@@ -528,7 +528,7 @@
                   <div class="col-4">Rank</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
-                    {{ item }}
+                    {{ collateral.attributes['rank'] }}
                   </div>
                 </div>
               </section>
@@ -632,14 +632,16 @@
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>REMARKS</mat-label>
-          <textarea matInput style="height: 200px"></textarea>
+          <textarea matInput style="height: 200px" [(ngModel)]="collateral.attributes['collateralRemaks']"></textarea>
         </mat-form-field>
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <div class="fontsebled row">
           <div class="col-4">REMARKS</div>
           <div class="col-md-auto">:</div>
-          <div class="col"></div>
+          <div class="col">
+            {{ collateral.attributes['collateralRemaks'] }}
+          </div>
         </div>
       </section>
     </mat-card-content>
