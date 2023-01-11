@@ -359,10 +359,30 @@
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
     <div class="p-3" style="padding-top: 90px !important">
       <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
+
       <mat-list role="list">
-        <mat-list-item role="listitem" *ngFor="let item of subMenu">
-          <a class="text-capitalize" (click)="routeSubMenu(item); drawer.toggle()">{{ item.text }}</a>
-        </mat-list-item>
+        <div *ngFor="let item of subMenu">
+          <mat-list-item role="listitem">
+            <a
+              *ngIf="!item.hasOwnProperty('child')"
+              href="javascript:void(0)"
+              class="text-capitalize"
+              (click)="routeSubMenu(item); drawer.toggle()"
+              >{{ item.text }}</a
+            >
+          </mat-list-item>
+          <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
+            item.text
+          }}</mat-list-item>
+          <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
+            <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
+              <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
+              <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
+                itemChild.text
+              }}</a>
+            </mat-list-item>
+          </mat-list>
+        </div>
       </mat-list>
     </div>
   </mat-sidenav>
