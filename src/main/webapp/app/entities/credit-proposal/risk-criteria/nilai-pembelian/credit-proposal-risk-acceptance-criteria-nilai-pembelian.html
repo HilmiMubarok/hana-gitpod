@@ -27,7 +27,13 @@
             </div>
           </div>
         </div>
-        <table mat-table id="tblOtherCovenant" *ngIf="item && !loading" [dataSource]="item.attributes['cpRacBelow'].lovBelow" class="w-100">
+        <table
+          mat-table
+          id="tblOtherCovenant"
+          *ngIf="item && !loading"
+          [dataSource]="item.attributes['cpRacBelow']['lovBelow']"
+          class="w-100"
+        >
           <!-- -->
           <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef>No</th>
@@ -54,9 +60,6 @@
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button (click)="openDialog(element)">
-                  <mat-icon>remove_red_eye</mat-icon>
-                </button>
                 <button mat-icon-button (click)="editDialog(element)">
                   <mat-icon>edit</mat-icon>
                 </button>
@@ -67,8 +70,8 @@
             </section>
             <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button (click)="openDialog(element)">
-                  <mat-icon>remove_red_eye</mat-icon>
+                <button mat-icon-button (click)="editDialog(element)">
+                  <mat-icon>edit</mat-icon>
                 </button>
               </td>
             </section>

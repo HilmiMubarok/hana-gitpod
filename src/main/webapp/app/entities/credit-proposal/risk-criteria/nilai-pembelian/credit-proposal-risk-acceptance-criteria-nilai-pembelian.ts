@@ -6,6 +6,7 @@ import { INilaiRac, NilaiRac } from './nilai-pembelian.model';
 
 import { CreditProposalRacNilaiPembelianAddComponent } from './credrit-proposal-risk-acceptance-criteria-add';
 import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal-risk-acceptance-criteria-edit';
+import { CpRacBelow } from '../below/risk-criteria-below.model';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian',
@@ -84,19 +85,18 @@ export class CreditProposalRacNilaiPembelianComponent {
 
     const dialogRef = this.dialog.open(CreditProposalRacNilaiPembelianEditComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const lovBelowsIndex: number = lodash.findIndex(this.item.attributes['lovBelow'], function (o: INilaiRac) {
-        return o.id === res['cpRacBelow']['lovBelow'].id;
+      console.log('ini res', res);
+      const lovBelowsIndex: number = lodash.findIndex(this.item.attributes['cpRacBelow']['lovBelow'], function (o: INilaiRac) {
+        return o.id === res['id'];
       });
-      if (lovBelowsIndex > -1) {
-        this.item.attributes['cpRacBelow']['lovBelow'][lovBelowsIndex] = res['cpRacBelow']['lovBelows'];
-      } else {
-        this.item.attributes['cpRacBelow']['lovBelow'] = [...this.item.attributes['cpRacBelow']['lovBelow'], res['cpRacBelow']['lovBelow']];
+      if (lovBelowsIndex !== -1) {
+        this.item.attributes['cpRacBelow']['lovBelow'].splice(lovBelowsIndex, 1);
+        this.item.attributes['cpRacBelow']['lovBelow'] = [...this.item.attributes['cpRacBelow']['lovBelow'], res];
       }
     });
   }
 
   // DELETE
-
   public onDelete(element: ICreditProposal) {
     const dataGridNilai = this.item.attributes['cpRacBelow']['lovBelow'].filter(({ id }) => id !== element.id);
     this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
