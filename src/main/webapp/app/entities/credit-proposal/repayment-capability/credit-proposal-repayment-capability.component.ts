@@ -22,12 +22,15 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
     this._creditProposal = data;
   }
 
-  public creditMutation = 0;
+  public statusSalesEbit?: Boolean = false;
+  public statusCreditMutation?: Boolean = false;
+  public creditMutation: any;
   public creditMutationAv = 0;
   public debitMutationAv = 0;
   public totalAv = 0;
   public totalIncome = 0;
   public existingFs = 0;
+  public monthlySalesEbit: any;
   public idAnalis = '';
   public repayment: IRepaymentCapabilityDetail;
 
@@ -38,44 +41,39 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.fungsiCreditMutation();
-    this.test();
-    console.log('bankAnalist', this._creditProposal.attributes['bankAnalyst']);
+    this.AverageBalance();
+    this.bufferFs();
+    this.bufferAverage();
+    this.bufferCredit();
+    this.bufferIncomeFs();
+    this.bufferIncomeAvg();
+    this.bufferIncomeCredit();
   }
 
-  fungsiCreditMutation() {
-    for (let i = 0; i < this._creditProposal.attributes['bankAnalyst'][i]['detail'].length; i++) {
-      // console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
-      if (
-        this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit'] === undefined ||
-        this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['debit'] === undefined
-      ) {
-        console.log('masuk');
-      } else {
-        this.creditMutation =
-          this.creditMutation +
-          Number(
-            (this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit'] / 1000000) *
-              (this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] /
-                  this.creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'])
-          );
+  public valueMonthlySalesEbit() {
+    const margin = 12;
 
-        //     this.totalAv =
-        //       this.totalAv +
-        //       Number(
-        //         this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance'] +
-        //           this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['balance']
-        //       );
-        //     console.log('Credit', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+    const ebit = this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'];
 
-        //     console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
-      }
-    }
+    this.monthlySalesEbit = Number(ebit / margin);
+
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] = this.monthlySalesEbit;
   }
+
+  // public fungsiCreditMutation() {
+  //   for (let i = 0; i < this._creditProposal.attributes['bankAnalyst'].length; i++) {
+  //     // console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+  //     this.creditMutation =
+  //       this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] *
+  //       Number(this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit'] / 1000000);
+
+  //     console.log('Tester', this._creditProposal.attributes['bankAnalyst'][i]['detail'][i]['credit']);
+  //   }
+  //   this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] = this.creditMutation;
+  // }
+
   public limitBank: any;
-  public test() {
+  public AverageBalance() {
     for (let i = 0; i < this.creditProposal.attributes['bankAnalyst'].length; i++) {
       if (this._creditProposal.attributes['bankAnalyst'] === undefined) {
         console.log('masuk');
@@ -83,8 +81,59 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
         this.totalAv = this.totalAv + this._creditProposal.attributes['bankAnalyst'][i]['average_other'].balance / 1000000;
       }
 
-      console.log('datalll', this.totalAv);
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] = this.totalAv;
     }
+  }
+
+  public bufferFs(): Number {
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = Number(
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
+    );
+    return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'];
+  }
+
+  public bufferAverage() {
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] = Number(
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
+    );
+    return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'];
+  }
+
+  public bufferCredit() {
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = Number(
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']
+    );
+    return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'];
+  }
+
+  public bufferIncomeFs() {
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] = Number(
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] /
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit']
+    );
+    return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'];
+  }
+
+  public bufferIncomeAvg() {
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] = Number(
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] /
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance']
+    );
+    return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'];
+  }
+
+  public bufferIncomeCredit() {
+    this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = Number(
+      this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] /
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin']
+    );
+    return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'];
   }
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');

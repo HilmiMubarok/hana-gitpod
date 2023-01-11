@@ -27,29 +27,42 @@
           <tr>
             <td style="vertical-align: middle; text-align: center">Monthly Sales (EBIT)</td>
             <td width="1%" style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100 disable" appearance="outline">
+              <mat-form-field class="w-100" appearance="outline">
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] | number: '1.0-0'
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] | number: '1.0-0'"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] = numberInputChanged($event)
                   "
-                  disabled
                 />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center">Average Balance</td>
             <td width="1%" style="vertical-align: middle; text-align: center">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="totalAv | number: '1.0-0'" disabled />
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] | number: '1.0-0'"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] = numberInputChanged($event)
+                  "
+                  disabled
+                />
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center">Credit Mutation</td>
             <td width="1%" style="vertical-align: middle; text-align: center">
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [value]="creditMutation | number: '1.0-0'" disabled />`
+                <input
+                  matInput
+                  type="text"
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] | number: '1.0-0'"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] = numberInputChanged($event)
+                  "
+                />
               </mat-form-field>
             </td>
           </tr>
@@ -198,7 +211,7 @@
                     [formControl]="validCurrentProposalFS"
                     required
                   />
-                  <mat-error *ngIf="validCurrentProposalFS.hasError('required')">Current Proposal is Required</mat-error>
+                  <mat-error *ngIf="validCurrentProposalFS.hasError('required')">Current Proposal is Required </mat-error>
                 </mat-form-field>
               </td>
             </section>
@@ -272,14 +285,9 @@
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
-                      (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
-                        creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']) -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'
-                  "
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs']"
+                  [value]="bufferFs()"
+                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = numberInputChanged($event)"
                   disabled
                 />
               </mat-form-field>
@@ -290,14 +298,9 @@
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
-                      (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
-                        creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']) -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'
-                  "
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage']"
+                  [value]="bufferAverage()"
+                  (ngModelChange)="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = numberInputChanged($event)"
                   disabled
                 />
               </mat-form-field>
@@ -308,12 +311,10 @@
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    creditMutation -
-                      (creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] +
-                        creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']) -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit']"
+                  [value]="bufferCredit()"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = numberInputChanged($event)
                   "
                   disabled
                 />
@@ -327,16 +328,10 @@
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
-                      (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
-                        creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']) -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']) /
-                      (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                        creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                        creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']) | number: '1.0-0'
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs']"
+                  [value]="bufferIncomeFs()"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] = numberInputChanged($event)
                   "
                   disabled
                 />
@@ -348,16 +343,10 @@
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                      creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga'] -
-                      (creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
-                        creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']) -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']) /
-                      (creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['totalSales'] -
-                        creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['cogs'] -
-                        creditProposal.attributes['proformaLaporanKeuangan'][0]['detail']['sga']) | number: '1.0-0'
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage']"
+                  [value]="bufferIncomeAvg()"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] = numberInputChanged($event)
                   "
                   disabled
                 />
@@ -369,13 +358,10 @@
                 <input
                   matInput
                   type="text"
-                  [value]="
-                    (creditMutation -
-                      (creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] +
-                        creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']) -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] -
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']) /
-                      creditMutation | number: '1.0-0'
+                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit']"
+                  [value]="bufferIncomeCredit()"
+                  (ngModelChange)="
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = numberInputChanged($event)
                   "
                   disabled
                 />
@@ -386,4 +372,7 @@
       </div>
     </div>
   </mat-card-content>
+  <div>
+    <!-- <button (click)="calculateRepaymentCapability()">Calculate</button> -->
+  </div>
 </mat-card>
