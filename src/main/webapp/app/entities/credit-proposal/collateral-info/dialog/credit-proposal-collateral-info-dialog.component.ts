@@ -102,6 +102,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       marketability: string;
       internalMV: number;
       internalLV: number;
+      externalMV: number;
+      externalLV: number;
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       insurance: ICreditProposalCollateralInsurance;
@@ -117,6 +119,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
     this.internalLV = this.data.internalLV;
+    this.kjjpMV = this.data.externalMV;
+    this.kjjpLV = this.data.externalLV;
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
