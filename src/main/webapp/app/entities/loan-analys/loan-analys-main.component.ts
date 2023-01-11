@@ -161,18 +161,22 @@ export class LoanAnalysMainComponent implements OnInit {
           ? (this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
               { id: 'opinion', text: 'Opinion' },
-              ...SUBMENU_LOAN_CP,
+
               { id: 'compare-data', text: 'Compare Data' },
             ])
           : (this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
               { id: 'opinion', text: 'Opinion' },
-              ...SUBMENU_LOAN_CP,
+
               { id: 'compare-data', text: 'Compare Data' },
             ]);
         break;
       case 'dar-final':
-        this.subMenu = SUBMENU_LOAN_ANALYS_DAR_FINAL;
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+        break;
+
+      case 'dar-notif':
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'dar-checker':
@@ -180,9 +184,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'loan-committee-approval':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
-          ? (this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB);
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'cc-checking':
@@ -470,7 +472,9 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
