@@ -91,7 +91,7 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
         this.partySlik.lastCollectability = Number(res.body[0].kolTerakhir.substring(0, 1));
         this.partySlik.worstCollectability = Number(res.body[0].kolTerburuk.substring(0, 1));
         this.partySlik.collateralType = this.partySlik.collateralType == null ? '' : this.partySlik.collateralType;
-        this.partySlik.facilityType = 0;
+        this.partySlik.facilityType = this.partySlik.facilityType == null ? '' : this.partySlik.facilityType;
         this.partySlik.attributes = {};
         this.partySlik.period = this.partySlik.period == null ? '' : this.partySlik.period;
 

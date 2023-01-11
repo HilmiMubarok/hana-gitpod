@@ -1,3 +1,5 @@
+import { String } from 'lodash';
+
 export interface IPartySlik {
   id?: number;
   partyId?: string;
@@ -6,7 +8,7 @@ export interface IPartySlik {
   outstanding?: number;
   collateralType?: string;
   collateralIdrMio?: number;
-  facilityType?: number;
+  facilityType?: string;
   rate?: number;
   period?: string;
   tenor?: number;
@@ -35,7 +37,7 @@ export class PartySlik implements IPartySlik {
     public outstanding?: number,
     public collateralType?: string,
     public collateralIdrMio?: number,
-    public facilityType?: number,
+    public facilityType?: string,
     public rate?: number,
     public period?: string,
     public tenor?: number,
