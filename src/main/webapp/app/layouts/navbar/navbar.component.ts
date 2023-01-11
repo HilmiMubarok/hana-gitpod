@@ -8,7 +8,7 @@ import { TemplateService } from '../template/template.service';
 import { SessionStorageService } from 'ngx-webstorage';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { IEmployee } from '../../entities/employee/employee.model';
 import { EmployeeService } from '../../entities/employee/employee.service';
 
@@ -21,9 +21,12 @@ export class NavbarComponent implements OnInit {
   public menuListItems: CustomMatMenu[] = [];
   public isLogin: Boolean = false;
   public account: Account | null = null;
+  
   public loginName: string;
   public lastLogin: string;
   private durationInSecond: Number = 2;
+  protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  protected verticalPosition: MatSnackBarVerticalPosition = 'top';
   constructor(
     private accountService: AccountService,
     private loginService: LoginService,
