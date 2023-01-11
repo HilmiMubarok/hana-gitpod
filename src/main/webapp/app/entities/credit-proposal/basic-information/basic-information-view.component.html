@@ -303,9 +303,14 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="onDelete(element)">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <button mat-icon-button (click)="onDelete(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <button hidden (click)="onDelete(element)"></button>
+            </section>
           </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
@@ -322,7 +327,7 @@
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button (click)="onOpenDialog($event)" class="btn btn-info" disabled>Add</button>
+        <button (click)="onOpenDialog($event)" class="btn btn-info" hidden>Add</button>
       </div>
     </section>
   </mat-card>
