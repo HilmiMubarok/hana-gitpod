@@ -34,7 +34,7 @@
           matInput
           [formControl]="myControlCurrency"
           [matAutocomplete]="auto"
-          [(ngModel)]="nilaiRac.ccy"
+          [(ngModel)]="amountCcy"
           (ngModelChange)="getAmountCcy()"
         />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
@@ -49,29 +49,9 @@
     <div class="fontsebled row py-1">
       <div class="col-3">CCY</div>
       <div class="col-md-auto">:</div>
-      <div class="col">{{ nilaiRac.ccy }}</div>
+      <div class="col">{{ nilaiRac.ccy}}</div>
     </div>
   </section>
-
-  <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-    <div class="form-group">
-      <div class="col">
-        <div class="mb-2">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Facility Type</mat-label>
-            <input matInput type="text" [(ngModel)]="nilaiRac.facilityType" />
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <div class="fontsebled row">
-      <div class="col-3">Facility Type</div>
-      <div class="col-md-auto">:</div>
-      <div class="col col-lg-3">{{ nilaiRac.facilityType}}</div>
-    </div>
-  </section> -->
 
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <div class="form-group">
@@ -114,8 +94,13 @@
   </section>
 
   <mat-dialog-actions align="center">
-    <button mat-button *ngIf="edit" (click)="save()">Save</button>
-    <button mat-button mat-dialog-close>Close</button>
+    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <button mat-button *ngIf="edit" (click)="save()">Save</button>
+      <button mat-button mat-dialog-close>Close</button>
+    </section>
+    <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <button mat-button mat-dialog-close>Close</button>
+    </section>
   </mat-dialog-actions>
 </mat-dialog-content>
 <!-- andi coba -->
