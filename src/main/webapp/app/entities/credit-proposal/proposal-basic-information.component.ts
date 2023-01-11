@@ -22,6 +22,7 @@ import {
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
+  SUBMENU_LOAN_ANALYS_CP_SUMMARY,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -110,6 +111,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public cp: ICreditProposal;
   public saveWord: Boolean = false;
   public saveWordOpinionCondition: Boolean = false;
+  public dataChil: any;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -273,47 +275,20 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-approval',
-            text: 'Credit Proposal Summary',
-          },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
-          {
-            id: 'opinion',
-            text: 'Opinion',
-          },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.dataChil = 'child';
       } else if (
         this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-approval',
-            text: 'Credit Proposal Summary',
-          },
-          ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
-          {
-            id: 'opinion',
-            text: 'Opinion',
-          },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.dataChil = 'child';
       } else if (
         this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = [
-          {
-            id: 'credit-proposal-approval',
-            text: 'Credit Proposal Summary',
-          },
-          ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
-          {
-            id: 'opinion',
-            text: 'Opinion',
-          },
-        ];
+        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.dataChil = 'child';
       } else {
         this.subMenu = PROPOSAL_TYPE;
       }

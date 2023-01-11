@@ -114,11 +114,6 @@
           <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.vehicleMarketValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
-        <!-- <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Liquidation Value</mat-label>
-          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field> -->
       </div>
       <div class="col-4">
         <mat-form-field appearance="outline" class="w-100">
@@ -137,7 +132,7 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Liquidation Value</mat-label>
-          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+          <input currencyMask matInput type="text" [(ngModel)]="liquidValueMV" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>

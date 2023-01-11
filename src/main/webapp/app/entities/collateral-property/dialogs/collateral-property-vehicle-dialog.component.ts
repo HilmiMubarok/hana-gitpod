@@ -1,7 +1,5 @@
-import { ThisReceiver } from '@angular/compiler';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
@@ -10,7 +8,6 @@ import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import {
   COLLATERAL_DEPOSIT_DEBIT_BLOCK,
-  COLLATERAL_TYPE,
   GEO_BOUNDARY_TYPE,
   GUARANTEE_TYPE,
   REALESTATE_CERTIFICATE_TYPE,
@@ -26,14 +23,17 @@ import {
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
-import { map, Observable, startWith } from 'rxjs';
+import { firstValueFrom, map, Observable, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { CollateralPropertyService } from '../collateral-property.service';
+import lodash from 'lodash';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-collateral-property-vehicle-dialog',
   templateUrl: './collateral-property-vehicle-dialog.component.html',
 })
-export class CollateralPropertyVehicleDialogComponent implements OnInit {
+export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChanges {
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
@@ -96,31 +96,56 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
   public cities: IStateBoundary[];
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
-  public detailType;
+  public detailType: any;
+  public collPropVehicle: ICollateralProperty[];
+  public liquidValueMV: number;
 
   constructor(
     private uomService: UomService,
-    private stateBoundaryService: StateBoundaryService,
-    protected partyCifService: PartyCifService
+    protected partyCifService: PartyCifService,
+    protected collateralPropertyService: CollateralPropertyService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
+    this.collPropVehicle = [];
+    this.liquidValueMV = 0;
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes['collateral']) {
+      await this.loadCollateralProperty(this.collateral.id);
+      this.setLiquidValueMV();
+    }
   }
 
   ngOnInit(): void {
     this.detailTypeChange(this.collateral.collateralTypeId);
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
-    this.loadProvince();
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
     this.setCertyficateType();
     this.cekDataSource();
     this.cekData();
+  }
+
+  private async loadCollateralProperty(collateralId: number): Promise<void> {
+    const collProp: ICollateralProperty[] = (
+      await firstValueFrom(this.collateralPropertyService.queryFilterBy({ idCollateral: collateralId, size: 9999, page: 0 }))
+    ).body;
+    if (collProp.length > 0) {
+      this.collPropVehicle = lodash.filter(collProp, function (o) {
+        return o.propertyType === CollateralPropertyType.VEHICLE;
+      });
+    }
+  }
+
+  private setLiquidValueMV(): void {
+    this.liquidValueMV = this.collateralPropertyService.countVehicleLiquidationMarketValueRounding(this.collPropVehicle);
   }
 
   public cekData() {
@@ -197,72 +222,21 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit {
       data.attributes.province = parseInt(data.attributes.province, 10);
       const eventProvince: MatSelectChange = new MatSelectChange(null, null);
       eventProvince.value = data.attributes.province;
-      this.loadCity(eventProvince);
     }
     if (data.attributes.city) {
       data.attributes.city = parseInt(data.attributes.city, 10);
       const eventCity: MatSelectChange = new MatSelectChange(null, null);
       eventCity.value = data.attributes.city;
-      this.loadDistrict(eventCity);
     }
     if (data.attributes.district) {
       data.attributes.district = parseInt(data.attributes.district, 10);
       const eventDistrict: MatSelectChange = new MatSelectChange(null, null);
       eventDistrict.value = data.attributes.district;
-      this.loadVillage(eventDistrict);
     }
     if (data.attributes.village) {
       data.attributes.village = parseInt(data.attributes.village, 10);
     }
     return data;
-  }
-
-  public loadVillage(event: MatSelectChange): void {
-    this.stateBoundaryService
-      .queryFilterBy({
-        idParent: event.value,
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.villages = res.body;
-      });
-  }
-
-  public loadDistrict(event: MatSelectChange): void {
-    this.stateBoundaryService
-      .queryFilterBy({
-        idParent: event.value,
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.districts = res.body;
-      });
-  }
-
-  public loadCity(event: MatSelectChange): void {
-    this.stateBoundaryService
-      .queryFilterBy({
-        idParent: event.value,
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.cities = res.body;
-      });
-  }
-
-  public loadProvince(): void {
-    this.stateBoundaryService
-      .queryFilterBy({
-        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.provinces = res.body;
-      });
   }
 
   private loadCurrencyMeasure(): void {

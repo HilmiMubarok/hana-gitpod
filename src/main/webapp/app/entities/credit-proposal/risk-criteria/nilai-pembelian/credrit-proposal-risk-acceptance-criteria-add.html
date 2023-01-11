@@ -27,7 +27,7 @@
     <div class="fontsebled row">
       <div class="col-3">Nilai Pembelian</div>
       <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.nilaiPembelian [disabled]="view" }}</div>
+      <div class="col col-lg-2">{{ nilaiRac.nilaiPembelian }}</div>
     </div>
   </section>
 
@@ -41,6 +41,7 @@
           [formControl]="myControlCurrency"
           [matAutocomplete]="auto"
           [(ngModel)]="nilaiRac.ccy"
+          [disabled]="view"
           (ngModelChange)="getAmountCcy()"
         />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
@@ -55,7 +56,7 @@
     <div class="fontsebled row py-1">
       <div class="col-3">CCY</div>
       <div class="col-md-auto">:</div>
-      <div class="col">{{ nilaiRac.ccy}}</div>
+      <div class="col">{{ nilaiRac.ccy }}</div>
     </div>
   </section>
   <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -84,7 +85,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Jenis Jaminan</mat-label>
-            <input matInput type="text" [(ngModel)]="nilaiRac.jenisJaminan" [disabled]="view" />
+            <input matInput type="text" [(ngModel)]="nilaiRac.jenisJaminan" />
           </mat-form-field>
         </div>
       </div>
@@ -94,7 +95,7 @@
     <div class="fontsebled row">
       <div class="col-3">Jenis Jaminan</div>
       <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.jenisJaminan [disabled]="view" }}</div>
+      <div class="col col-lg-2">{{ nilaiRac.jenisJaminan }}</div>
     </div>
   </section>
 
@@ -104,7 +105,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Keterangan Jaminan</mat-label>
-            <input matInput type="text" [(ngModel)]="nilaiRac.keteranganJaminan" [disabled]="view" />
+            <input matInput type="text" [(ngModel)]="nilaiRac.keteranganJaminan" />
           </mat-form-field>
         </div>
       </div>
@@ -114,7 +115,7 @@
     <div class="fontsebled row">
       <div class="col-3">Keterangan Jaminan</div>
       <div class="col-md-auto">:</div>
-      <div class="col col-lg-2">{{ nilaiRac.keteranganJaminan [disabled]="view" }}</div>
+      <div class="col col-lg-2">{{ nilaiRac.keteranganJaminan }}</div>
     </div>
   </section>
   <mat-dialog-actions align="center">

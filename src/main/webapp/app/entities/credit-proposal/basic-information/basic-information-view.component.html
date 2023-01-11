@@ -104,29 +104,70 @@
   </div>
   <div class="e-card-content">
     <div class="row">
-      <div class="col-md-4">
-        <ejs-checkbox
-          [disabled]="view"
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
-          label="Watch List"
-          (ngModelChange)="watchListChange()"
-        ></ejs-checkbox>
+      <!-- matrik watch list -->
+      <div class="col-4">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="col-md-4">
+            <ejs-checkbox
+              [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
+              label="Watch List"
+              (ngModelChange)="watchListChange()"
+            ></ejs-checkbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="col-md-4">
+            <ejs-checkbox
+              disabled
+              [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.watchList"
+              label="Watch List"
+              (ngModelChange)="watchListChange()"
+            ></ejs-checkbox>
+          </div>
+        </section>
       </div>
-      <div class="col-md-4">
-        <ejs-checkbox
-          [disabled]="view"
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
-          label="Restructured"
-          (ngModelChange)="watchListChange()"
-        ></ejs-checkbox>
+
+      <!-- matrik Restructured -->
+      <div class="col-4">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="col-md-4">
+            <ejs-checkbox
+              [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
+              label="Restructured"
+              (ngModelChange)="watchListChange()"
+            ></ejs-checkbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="col-md-4">
+            <ejs-checkbox
+              disabled
+              [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.restructured"
+              label="Restructured"
+              (ngModelChange)="watchListChange()"
+            ></ejs-checkbox>
+          </div>
+        </section>
       </div>
-      <div class="col-md-4">
-        <ejs-checkbox
-          [disabled]="view"
-          [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
-          label="Related Party"
-        >
-        </ejs-checkbox>
+
+      <!-- matrik Related Party -->
+      <div class="col-4">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="col-md-4">
+            <ejs-checkbox [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty" label="Related Party">
+            </ejs-checkbox>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="col-md-4">
+            <ejs-checkbox
+              disabled
+              [(ngModel)]="creditProposal.attributes['basicInformation'].accountStatus.relatedParty"
+              label="Related Party"
+            >
+            </ejs-checkbox>
+          </div>
+        </section>
       </div>
     </div>
   </div>
@@ -142,32 +183,69 @@
   </div>
   <div class="e-card-content">
     <div class="row">
-      <div class="col-md-6">
-        <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
-        <textarea
-          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-          [disabled]="watchList"
-          [readonly]="view"
-        ></textarea>
+      <div class="col-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="col-md-12">
+            <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
+            <textarea
+              [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
+              cssClass="e-outline"
+              class="text-area-input"
+              id="multiline-always"
+              name="typeAlways"
+              [disabled]="watchList"
+            ></textarea>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="col-md-12">
+            <h6 class="mb-5">Is Debtor Listed on Watchlist or Resturing ?</h6>
+            <textarea
+              [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.isDebtor"
+              cssClass="e-outline"
+              class="text-area-input"
+              id="multiline-always"
+              name="typeAlways"
+              [disabled]="watchList"
+              readonly
+            ></textarea>
+          </div>
+        </section>
       </div>
-      <div class="col-md-6">
-        <h6 style="margin-bottom: 20px">
-          Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high risk
-          category
-        </h6>
-        <textarea
-          [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
-          cssClass="e-outline"
-          class="text-area-input"
-          id="multiline-always"
-          name="typeAlways"
-          [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
-          [readonly]="view"
-        ></textarea>
+      <div class="col-6">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <div class="col-md-12">
+            <h6 style="margin-bottom: 15px">
+              Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high
+              risk category
+            </h6>
+            <textarea
+              [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
+              cssClass="e-outline"
+              class="text-area-input"
+              id="multiline-always"
+              name="typeAlways"
+              [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
+            ></textarea>
+          </div>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <div class="col-md-12">
+            <h6 style="margin-bottom: 15px">
+              Are the classification based on International Finance Corporation (IFC) Environmental and social (e&s) not Classified as high
+              risk category
+            </h6>
+            <textarea
+              [(ngModel)]="creditProposal.attributes['basicInformation'].watchlistDebtors.Classification"
+              cssClass="e-outline"
+              class="text-area-input"
+              id="multiline-always"
+              name="typeAlways"
+              [disabled]="creditProposal.debtorData.ifcRiskCategory !== 'High' ? true : false"
+              readonly
+            ></textarea>
+          </div>
+        </section>
       </div>
     </div>
   </div>
@@ -237,9 +315,16 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </mat-card-content>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button [disabled]="view" (click)="onOpenDialog($event)" class="btn btn-info">Add</button>
-    </div>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button (click)="onOpenDialog($event)" class="btn btn-info">Add</button>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button (click)="onOpenDialog($event)" class="btn btn-info" disabled>Add</button>
+      </div>
+    </section>
   </mat-card>
 </div>
 <!-- </div> -->
@@ -250,8 +335,13 @@
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Remark</div>
       <div class="e-card-content">
-        <ejs-richtexteditor [disabled]="view" [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool">
-        </ejs-richtexteditor>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <ejs-richtexteditor [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool"> </ejs-richtexteditor>
+        </section>
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <ejs-richtexteditor disabled [(ngModel)]="creditProposal.attributes['basicInformation'].remark" id="rteTool">
+          </ejs-richtexteditor>
+        </section>
       </div>
     </div>
   </div>
