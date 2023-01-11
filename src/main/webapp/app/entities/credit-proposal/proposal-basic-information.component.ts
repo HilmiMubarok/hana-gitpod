@@ -276,19 +276,49 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Summary',
+          },
+          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
+        ];
         this.dataChil = 'child';
       } else if (
         this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Summary',
+          },
+          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
+        ];
         this.dataChil = 'child';
       } else if (
         this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY, { id: 'opinion', text: 'Opinion' }];
+        this.subMenu = [
+          {
+            id: 'credit-proposal-approval',
+            text: 'Credit Proposal Summary',
+          },
+          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          {
+            id: 'opinion',
+            text: 'Opinion',
+          },
+        ];
         this.dataChil = 'child';
       } else {
         this.subMenu = PROPOSAL_TYPE;
