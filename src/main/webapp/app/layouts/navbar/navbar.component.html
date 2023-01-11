@@ -1,6 +1,6 @@
 <mat-toolbar>
   <span>
-    <img src="../../../content/images/cash_logo.png" style="max-width: 200px; width: 100%" />
+    <img src="../../../content/images/cash_logo.png" style="max-width: 100px; width: 100%" />
   </span>
   <button style="margin-left: 50px" mat-icon-button *ngIf="isLogin" (click)="toggleSidebar()">
     <mat-icon>dehaze</mat-icon>
@@ -25,8 +25,8 @@
     <button mat-menu-item routerLink="admin/logs" routerLinkActive="active">Logs</button>
     <button mat-menu-item routerLink="admin/docs" routerLinkActive="active">API</button>
   </mat-menu>
-  <div>
-	<img src="../../../content/images/default_avatar_transp_small.png" style="max-width: 200px; width: 100%">
+  <div style="text-align: center">
+	<img src="../../../content/images/default_avatar_transp_small.png" style="max-width: 36px; width: 100%">
 	<div>
 	  <button mat-button [matMenuTriggerFor]="account">{{ loginName }}</button>
 	</div>
