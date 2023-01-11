@@ -19,6 +19,13 @@ export class CreditProposalRacNilaiPembelianEditComponent {
   public filteredOptionsCurrency: Observable<IUom[]>;
   public myControlCurrency = new FormControl();
   public amountCcy: IUom;
+  public nilaiRacA = {
+    nilaiPembelian: '',
+    jenisJaminan: '',
+    facilityType: '',
+    id: '',
+    lovBelow: {},
+  };
 
   public optionsCurrency: IUom[];
 
@@ -37,10 +44,17 @@ export class CreditProposalRacNilaiPembelianEditComponent {
     this.edit = this.data.edit;
     this.nilaiRac = this.data.lovBelow;
     this.loadCurrencyMeasure();
+    console.log('ini nilai ', this.nilaiRac);
   }
 
   public save(): void {
-    this._dialog.close(this.nilaiRac);
+    this.nilaiRacA['nilaiPembelian'] = this.nilaiRac['nilaiPembelian'];
+    this.nilaiRacA['jenisJaminan'] = this.nilaiRac.jenisJaminan;
+    this.nilaiRacA['facilityType'] = this.nilaiRac.facilityType;
+    this.nilaiRacA['keteranganJaminan'] = this.nilaiRac.keteranganJaminan;
+    this.nilaiRacA['id'] = this.nilaiRac.id;
+    this.nilaiRacA['ccy'] = this.amountCcy['id'];
+    this._dialog.close(this.nilaiRacA);
   }
 
   private _filterCurrency(description: string): IUom[] {
@@ -74,7 +88,5 @@ export class CreditProposalRacNilaiPembelianEditComponent {
         this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.nilaiRac.ccy);
       });
   }
-  public getAmountCcy() {
-    this.nilaiRac.ccy = this.amountCcy.id;
-  }
+  public getAmountCcy() {}
 }

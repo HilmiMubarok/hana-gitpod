@@ -47,7 +47,7 @@ export class CreditProposalRacNilaiPembelianAddComponent {
   }
 
   public save(): void {
-    this.nilaiRacA['nilaiPembelian'] = this.nilaiRac['nilaiPembelian'];
+    this.nilaiRacA['nilaiPembelian'] = this.nilaiRac.nilaiPembelian;
     this.nilaiRacA['jenisJaminan'] = this.nilaiRac.jenisJaminan;
     this.nilaiRacA['facilityType'] = this.nilaiRac.facilityType;
     this.nilaiRacA['keteranganJaminan'] = this.nilaiRac.keteranganJaminan;
