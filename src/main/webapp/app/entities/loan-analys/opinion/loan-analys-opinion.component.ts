@@ -80,7 +80,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public recomendasi: string;
   private positionLoanComitee: string;
-  public isShowOpinionFieldInput = false;
+  public isShowOpinionFieldInput: boolean = false;
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
