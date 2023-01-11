@@ -205,90 +205,67 @@
 
       <!-- Basic Information -->
       <div *ngIf="selectedMenu === 'basic-information'" class="e-sample-resize-container e-card-resize-container">
-        <!-- Proposal Info -->
         <div>
+          <mat-card class="mb-3">
+            <mat-card-content>
+              <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
+              <!-- <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info> -->
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <!-- Proposal Info -->
+        <!-- <div>
           <mat-card class="mb-3">
             <mat-card-content>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <ejs-combobox
-                      cssClass="e-outline"
-                      placeholder="Proposal Type"
-                      (change)="onProposalTypeChange($event)"
-                      [(ngModel)]="creditProposal.attributes.proposalType"
-                      [dataSource]="proposalType"
-                    ></ejs-combobox>
+                    <ejs-combobox cssClass="e-outline" placeholder="Proposal Type"
+                      (change)="onProposalTypeChange($event)" [(ngModel)]="creditProposal.attributes.proposalType"
+                      [dataSource]="proposalType"></ejs-combobox>
                   </div>
                   <div class="form-group mb-3">
-                    <ejs-textbox
-                      required
-                      disabled
-                      [(ngModel)]="creditProposal.applicationNumber"
-                      placeholder="Proposal Number"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
+                    <ejs-textbox required disabled [(ngModel)]="creditProposal.applicationNumber"
+                      placeholder="Proposal Number" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                   </div>
                   <div class="form-group mb-3">
-                    <ejs-textbox
-                      required
-                      disabled
-                      [value]="creditProposal.createdDate | formatMediumDate"
-                      placeholder="Proposal Date"
-                      cssClass="e-outline"
-                      floatLabelType="Always"
-                    ></ejs-textbox>
+                    <ejs-textbox required disabled [value]="creditProposal.createdDate | formatMediumDate"
+                      placeholder="Proposal Date" cssClass="e-outline" floatLabelType="Always"></ejs-textbox>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group mb-3">
-                    <ejs-textbox
-                      [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
-                      placeholder="Referral"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
+                    <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].refferal"
+                      placeholder="Referral" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                   </div>
                   <div class="form-group mb-3">
-                    <ejs-textbox
-                      [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
-                      placeholder="Booking Branch"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    ></ejs-textbox>
+                    <ejs-textbox [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
+                      placeholder="Booking Branch" cssClass="e-outline" floatLabelType="Auto"></ejs-textbox>
                   </div>
                 </div>
               </div>
             </mat-card-content>
           </mat-card>
-        </div>
+        </div> -->
 
         <!-- RM Info -->
-        <div>
+        <!-- <div>
           <mat-card class="mb-3">
             <mat-card-content>
               <jhi-credit-proposal-personal-info [creditProposal]="creditProposal"></jhi-credit-proposal-personal-info>
             </mat-card-content>
           </mat-card>
-        </div>
+        </div> -->
 
         <!-- Customer Info -->
-        <div>
+        <!-- <div>
           <mat-card class="mb-3">
             <mat-card-content>
-              <jhi-credit-proposal-person
-                *ngIf="creditProposal.partyTypeId === 'PERSON'"
-                [item]="creditProposal.prospectPerson"
-                [deptorData]="creditProposal"
-                mode="view"
-              >
+              <jhi-credit-proposal-person *ngIf="creditProposal.partyTypeId === 'PERSON'"
+                [item]="creditProposal.prospectPerson" [deptorData]="creditProposal" mode="view">
               </jhi-credit-proposal-person>
-              <jhi-party-group-view
-                [mode]="'view'"
-                *ngIf="creditProposal.partyTypeId !== 'PERSON'"
-                [item]="creditProposal"
-              ></jhi-party-group-view>
+              <jhi-party-group-view [mode]="'view'" *ngIf="creditProposal.partyTypeId !== 'PERSON'"
+                [item]="creditProposal"></jhi-party-group-view>
             </mat-card-content>
           </mat-card>
 
@@ -297,7 +274,7 @@
               <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
             </mat-card-content>
           </mat-card>
-        </div>
+        </div> -->
       </div>
 
       <!-- Document Checklist -->
