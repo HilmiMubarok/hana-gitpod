@@ -453,7 +453,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Debitur Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ totalDebiturNonCashLoan | number }}</div>
+              <div class="col col-lg-2">{{ totalDebiturNonCashLoan | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -499,7 +499,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Grand Total Debtor</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ init }}</div>
+              <div class="col col-lg-2">{{ init | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
@@ -596,7 +596,7 @@
             <div class="fontsebled row py-3">
               <div class="col-5">Total Group Non cash Loan</div>
               <div class="col-md-auto">:</div>
-              <div class="col col-lg-2">{{ totalDebiturNonCashLoanGroup }}</div>
+              <div class="col col-lg-2">{{ totalDebiturNonCashLoanGroup | currency: 'IDR':'symbol' }}</div>
             </div>
           </section>
         </div>
