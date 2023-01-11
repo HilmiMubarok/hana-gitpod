@@ -12,7 +12,7 @@
 	  <div><span style="font-size: 14px; line-height: 36px">Last Login : {{ lastLogin }}</span></div>
 	</div>
 	<div *ngIf="!isLogin">
-	  <img src="" style="opacity: 0">
+	  <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'" style="opacity: 0">Administration</button>
 	  <div><span style="font-size: 14px; line-height: 36px">Last Login : {{ lastLogin }}</span></div>
 	</div>
   </div>
