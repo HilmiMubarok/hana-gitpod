@@ -216,7 +216,7 @@
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KJJP MV</mat-label>
-                    <input matInput type="text" [value]="kjjpMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                    <input matInput type="text" [value]="" disabled />
                   </mat-form-field>
                 </div>
               </section>
@@ -224,16 +224,14 @@
                 <div class="fontsebled row">
                   <div class="col-8">KJJP MV</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col">
-                    {{ kjjpMV | currency: 'IDR ':'symbol':'1.0-0' }}
-                  </div>
+                  <div class="col"></div>
                 </div>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>KJJP LV</mat-label>
-                    <input matInput type="text" [value]="kjjpLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+                    <input matInput type="text" [value]="" disabled />
                   </mat-form-field>
                 </div>
               </section>
@@ -241,9 +239,7 @@
                 <div class="fontsebled row">
                   <div class="col-8">KJJP LV</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col">
-                    {{ kjjpLV | currency: 'IDR ':'symbol':'1.0-0' }}
-                  </div>
+                  <div class="col"></div>
                 </div>
               </section>
             </div>
