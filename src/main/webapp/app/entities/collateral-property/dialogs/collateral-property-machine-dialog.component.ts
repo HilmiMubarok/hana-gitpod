@@ -1,7 +1,5 @@
-import { ThisReceiver } from '@angular/compiler';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
@@ -11,7 +9,6 @@ import { UomService } from 'app/entities/uom/uom.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import {
   COLLATERAL_DEPOSIT_DEBIT_BLOCK,
-  COLLATERAL_TYPE,
   GEO_BOUNDARY_TYPE,
   GUARANTEE_TYPE,
   REALESTATE_CERTIFICATE_TYPE,
@@ -26,14 +23,17 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
+import lodash from 'lodash';
 import { FormControl } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
+import { firstValueFrom, map, Observable, startWith } from 'rxjs';
+import { CollateralPropertyService } from '../collateral-property.service';
+import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 
 @Component({
   selector: 'jhi-collateral-property-machine-dialog',
   templateUrl: './collateral-property-machine-dialog.component.html',
 })
-export class CollateralPropertyMachineDialogComponent implements OnInit {
+export class CollateralPropertyMachineDialogComponent implements OnInit, OnChanges {
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
@@ -45,14 +45,16 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
   public options: IUom[];
   public filteredOptions: Observable<IUom[]>;
   public Ccy: IUom;
+  public collPropMachine: ICollateralProperty[];
+  public liquidValueMV: number;
 
   public myControlMVImb = new FormControl();
   public optionsMVImb: IUom[];
   public filteredOptionsMVImb: Observable<IUom[]>;
   public MVImbCcy: IUom;
 
-  @Input() public officerName;
-  @Input() public branchId;
+  @Input() public officerName: string;
+  @Input() public branchId: string;
 
   @Input()
   get collateralPropertyExternal() {
@@ -89,20 +91,30 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
   public cities: IStateBoundary[];
   public districts: IStateBoundary[];
   public villages: IStateBoundary[];
-  public detailType;
+  public detailType: any;
   public branceManagement: any;
   public branchesNames: any;
 
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private collateralPropertyService: CollateralPropertyService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
+    this.collPropMachine = [];
+    this.liquidValueMV = 0;
+  }
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (changes['collateral']) {
+      await this.loadCollateralProperty(this.collateral.id);
+      this.setLiquidValueMV();
+    }
   }
 
   ngOnInit(): void {
@@ -116,6 +128,21 @@ export class CollateralPropertyMachineDialogComponent implements OnInit {
     this.setCertyficateType();
     this.dataSource();
     this.cekData();
+  }
+
+  private async loadCollateralProperty(collateralId: number): Promise<void> {
+    const collProp: ICollateralProperty[] = (
+      await firstValueFrom(this.collateralPropertyService.queryFilterBy({ idCollateral: collateralId, size: 9999, page: 0 }))
+    ).body;
+    if (collProp.length > 0) {
+      this.collPropMachine = lodash.filter(collProp, function (o) {
+        return o.propertyType === CollateralPropertyType.MACHINE;
+      });
+    }
+  }
+
+  private setLiquidValueMV(): void {
+    this.liquidValueMV = this.collateralPropertyService.countMachineLiquidationMarketValueRounding(this.collPropMachine);
   }
 
   public cekData() {

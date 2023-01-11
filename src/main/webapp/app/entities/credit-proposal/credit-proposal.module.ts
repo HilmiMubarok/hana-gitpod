@@ -20,7 +20,6 @@ import { CreditProposalSlikSummaryDetailComponent } from './credit-proposal-slik
 import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal-tab-repayment-capability.component';
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
-import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
 import { CreditProposalTradeCheckingBuyersComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
 import { CreditProposalTradeCheckingBuyersDialogComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
@@ -55,7 +54,6 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collater
     CreditProposalTabRepaymentCapabilityComponent,
     CreditProposalApprovalListComponent,
     CreditProposalGroupGuarantorAnalysisComponent,
-    ProposalBasicInformationViewComponent,
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
