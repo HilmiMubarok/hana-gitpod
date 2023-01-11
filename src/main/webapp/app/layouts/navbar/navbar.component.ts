@@ -7,6 +7,10 @@ import { LoginService } from 'app/login/login.service';
 import { TemplateService } from '../template/template.service';
 import { SessionStorageService } from 'ngx-webstorage';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IEmployee } from '../../entities/employee/employee.model';
+import { EmployeeService } from '../../entities/employee/employee.service';
 
 @Component({
   selector: 'jhi-navbar',
@@ -17,13 +21,18 @@ export class NavbarComponent implements OnInit {
   public menuListItems: CustomMatMenu[] = [];
   public isLogin: Boolean = false;
   public account: Account | null = null;
+  public loginName: string;
+  public lastLogin: string;
+  private durationInSecond: Number = 2;
   constructor(
     private accountService: AccountService,
     private loginService: LoginService,
     private templateService: TemplateService,
     private router: Router,
     private sessionStorageService: SessionStorageService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+	private employeeService: EmployeeService,
+	private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +44,32 @@ export class NavbarComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.isLogin = true;
+
+		this.employeeService
+          .queryFilterBy({
+            page: 0,
+			query: 999,
+			login: account.login,
+			sort: ['id,desc']
+          })
+          .subscribe({
+            next: (res: HttpResponse<IEmployee[]>) => this.setUpAcc(res, account),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
       }
+    });
+  }
+
+  private setUpAcc(res: any, account: any): void {
+	this.loginName = res.body[0].person.firstName + res.body[0].person.lastName;
+	this.lastLogin = account.lastModifiedDate.substring(0,19);
+  }
+  
+  private onError(errorMessage: string) {
+    this._snackBar.open(errorMessage, '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSecond.valueOf() * 1000,
     });
   }
 
