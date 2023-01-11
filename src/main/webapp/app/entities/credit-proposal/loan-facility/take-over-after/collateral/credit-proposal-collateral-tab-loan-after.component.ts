@@ -17,6 +17,7 @@ import {
   CreditProposalCollateralBinding,
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal-collateral-tab-loan-after-dialog.component';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
@@ -28,6 +29,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
+  public dataItem: any;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
@@ -49,13 +51,25 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
   constructor(
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private collateralService: CollateralService
   ) {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.dataItem = res.body;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -65,6 +79,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
+          this.loadByPartyId(collateral.partyId);
         }
       }
     }
