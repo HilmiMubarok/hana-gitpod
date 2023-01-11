@@ -21,6 +21,53 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
 
   protected preSave(entity: ICollateralProperty) {}
 
+  private roundHundred(value: number): number {
+    let round: number;
+    round = 0;
+    if (value === 0) {
+      round = 0;
+    } else {
+      round = Math.round(value / 1000000) * 1000000;
+    }
+
+    return round;
+  }
+
+  public fnCountTotalLiquidBuilding(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValuePerMeter && this.countTotalArea(param[i]) && param[i].propertyPercentage / 100) {
+          result = result + param[i].propertyMarketValuePerMeter * this.countTotalArea(param[i]) * (param[i].propertyPercentage / 100);
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  public fnCountTotalLiquidLand(param: ICollateralProperty[] = null): number {
+    if (param.length > 0 && param) {
+      let result: number;
+      result = 0;
+      for (let i = 0; i < param.length; i++) {
+        if (param[i].propertyMarketValuePerMeter && param[i].landSizePerCertificate && param[i].propertyPercentage) {
+          result = result + param[i].propertyMarketValuePerMeter * param[i].landSizePerCertificate * (param[i].propertyPercentage / 100);
+        }
+      }
+      return result;
+    }
+    return 0;
+  }
+
+  public countRealEstateLiquidationMarketValueRounding(
+    colPropLand: ICollateralProperty[] = null,
+    colPropBuilding: ICollateralProperty[]
+  ): number {
+    return this.roundHundred(this.fnCountTotalLiquidLand(colPropLand) + this.fnCountTotalLiquidBuilding(colPropBuilding));
+  }
+
   public countTotalArea(element: ICollateralProperty): number {
     let total: number;
     total = 0;
