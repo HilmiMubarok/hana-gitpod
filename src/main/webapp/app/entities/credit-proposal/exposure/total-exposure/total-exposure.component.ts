@@ -125,6 +125,16 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.defaultCurrency();
     this.setMenu('');
     this.getCurrency();
+
+    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
+    this.creditProposal.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
+    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroub = this.fungsiSumOSGroub();
+    this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
+
+    this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
+    this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
+    this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
+    this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
   }
 
   ngAfterViewInit(): void {
@@ -345,6 +355,15 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.totalCashLoan();
     this.getMyBusinessGroup();
     this.grandTotalDebitur();
+    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
+    this.creditProposal.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
+    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroub = this.fungsiSumOSGroub();
+    this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
+
+    this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
+    this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
+    this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
+    this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
   }
 
   totalCashLoan() {

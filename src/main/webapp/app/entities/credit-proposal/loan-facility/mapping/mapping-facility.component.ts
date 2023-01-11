@@ -28,7 +28,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
 
   public bindingValueHelper: any = [];
   public mappingStatusHelper: any = [];
-
   constructor(
     private router: Router,
     @Inject(MAT_DIALOG_DATA)
@@ -44,7 +43,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     console.log('data', this.creditProposalData);
     this.setUp();
     this.checked = false;
-    // this.disableField = this.data.hideField;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralData']) {
@@ -60,7 +58,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.field === true;
     }
     this.sableFeild();
-    // console.log('return type sable', this.sableFeild());
   }
   public sableFeild() {
     this.disableField = this.router.url.split('/')[1];
@@ -132,7 +129,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
         bindingValue: this.bindingValueHelper[index],
         applicationProduct: this.applicationProductData[index],
       };
-
       this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
     } else if (event.checked === false) {
       if (this.creditProposalData.collateralProductRelations.length > 0) {

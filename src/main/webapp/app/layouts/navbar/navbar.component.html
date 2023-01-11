@@ -6,9 +6,19 @@
     <mat-icon>dehaze</mat-icon>
   </button>
   <span class="spacer"></span>
-  <div *ngIf="isLogin">
-    <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
+  <div>
+    <div *ngIf="isLogin">
+      <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
+      <div *ngIf="isAdministrator">
+        <span style="font-size: 14px; line-height: 36px">Last Login : {{ lastLogin }}</span>
+      </div>
+      <img *ngIf="!isAdministrator" src="" style="opacity: 0" />
+      <div *ngIf="!isAdministrator" src="">
+        <span style="font-size: 14px; line-height: 1px">Last Login : {{ lastLogin }}</span>
+      </div>
+    </div>
   </div>
+
   <mat-menu #adminsitration="matMenu">
     <button mat-menu-item routerLink="admin/gateway" routerLinkActive="active">Gateway</button>
     <button mat-menu-item routerLink="admin/metrics" routerLinkActive="active">Metrics</button>
@@ -17,7 +27,12 @@
     <button mat-menu-item routerLink="admin/logs" routerLinkActive="active">Logs</button>
     <button mat-menu-item routerLink="admin/docs" routerLinkActive="active">API</button>
   </mat-menu>
-  <button mat-button [matMenuTriggerFor]="account">Accounts</button>
+  <div style="text-align: center">
+    <img src="../../../content/images/default_avatar_transp_small.png" style="max-width: 36px; width: 100%" />
+    <div>
+      <button mat-button [matMenuTriggerFor]="account">{{ loginName }}</button>
+    </div>
+  </div>
   <mat-menu #account="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="language">Language</button>
     <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">

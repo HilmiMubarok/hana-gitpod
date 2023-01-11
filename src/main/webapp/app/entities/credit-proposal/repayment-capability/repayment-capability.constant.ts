@@ -9,6 +9,15 @@ export interface IRepaymentCapabilityDetail {
   existingCreditMutation?: number;
   currentProposalFs?: number;
   currentProposalCredit?: number;
+  monthlySalesEbit?: number;
+  averageBalance?: number;
+  creditMutationMargin?: number;
+  bufferFs?: number;
+  bufferAvverage?: number;
+  bufferCredit?: number;
+  bufferIncomeFs?: number;
+  bufferIncomeAverage?: number;
+  bufferIncomeCredit?: number;
 }
 
 export class RepaymentCapabilityDetail implements IRepaymentCapabilityDetail {
@@ -18,13 +27,20 @@ export class RepaymentCapabilityDetail implements IRepaymentCapabilityDetail {
     public existingCreditMutation?: number,
     public currentProposalFs?: number,
     public currentProposalCredit?: number,
-  )
-  {
+    public monthlySalesEbit?: number,
+    public averageBalance?: number,
+    public creditMutationMargin?: number,
+    public bufferFs?: number,
+    public bufferAvverage?: number,
+    public bufferCredit?: number,
+    public bufferIncomeFs?: number,
+    public bufferIncomeAverage?: number,
+    public bufferIncomeCredit?: number
+  ) {
     this.existingFs = 0;
     this.existingCreditMutation = 0;
     this.currentProposalFs = 0;
     this.currentProposalCredit = 0;
-
   }
 }
 

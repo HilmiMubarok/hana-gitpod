@@ -38,8 +38,8 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
   public view: boolean;
   public _word: boolean;
 
-  private tempRouter: string = '';
-  public isShowOpinionFieldInput: boolean = false;
+  private tempRouter = '';
+  public isShowOpinionFieldInput = false;
 
   @Input()
   get word() {
