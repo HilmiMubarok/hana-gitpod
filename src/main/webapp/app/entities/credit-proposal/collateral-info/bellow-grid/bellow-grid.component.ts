@@ -22,6 +22,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-bellow-grid',
@@ -51,7 +52,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     'action',
   ];
 
+  public certificateType: any;
+
   public dataItem: any;
+  public dataCertyficate: any;
   private bindingTypeVal: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
@@ -80,7 +84,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private partyCifService: PartyCifService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -101,6 +106,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
+    this.setCertyficateType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -164,7 +170,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
-        ownerShip: this.getOwnerShip(element),
+        ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
       },
     };
@@ -654,20 +660,14 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.certificateType === undefined) {
-          string1 = '';
-        } else {
-          string1 = data.attributes.certificateType;
-        }
         if (data.attributes.certificateNumber === undefined) {
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
         }
-        result = string1 + ' ' + string2;
       }
     }
-    return result;
+    return string2;
   }
 
   public getExpiry(collateral: ICollateral) {
@@ -736,5 +736,21 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       return '';
     }
     return '';
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
+    });
+  }
+
+  public findCertyficate(id) {
+    if (this.certificateType) {
+      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
+      if (this.dataCertyficate) {
+        return this.dataCertyficate.label;
+      }
+      return '';
+    }
   }
 }

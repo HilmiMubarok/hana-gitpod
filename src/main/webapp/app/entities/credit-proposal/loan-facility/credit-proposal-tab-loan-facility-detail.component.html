@@ -1,4 +1,4 @@
-<div class="e-card" [hidden]="isViewMode == false">
+<div class="e-card" [hidden]="isViewMode === false">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Facility Details</div>
@@ -15,8 +15,7 @@
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSuminit()"
-              [ngModel]="totallimt"
-              placeholder="Total Initial Limit"
+              placeholder="Total Changes"
               cssClass="e-outline"
               floatLabelType="Always"
               format="IDR 0,"
@@ -172,7 +171,7 @@
   </div>
 </div>
 
-<div class="e-card" [hidden]="isViewMode == true">
+<div class="e-card" [hidden]="isViewMode">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Facility Details</div>
@@ -189,7 +188,6 @@
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSuminit()"
-              [ngModel]="totallimt"
               placeholder="Total Initial Limit"
               cssClass="e-outline"
               floatLabelType="Always"

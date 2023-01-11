@@ -53,12 +53,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   ];
 
   public dataItem: any;
+  public dataCertyficate: any;
   private bindingTypeVal: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public certificateType: any;
+  public dataString1: string;
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -168,7 +170,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
-        ownerShip: this.getOwnerShip(element),
+        ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
       },
     };
@@ -658,22 +660,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.certificateType === undefined) {
-          string1 = '';
-        } else {
-          // const dataCert = this.certificateType.find(obj => obj.id === data.attributes.certificateType);
-          console.log('ini data cer', this.certificateType);
-          string1 = data.attributes.certificateType;
-        }
         if (data.attributes.certificateNumber === undefined) {
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
         }
-        result = string1 + ' ' + string2;
       }
     }
-    return result;
+    return string2;
   }
 
   public getExpiry(collateral: ICollateral) {
@@ -748,5 +742,15 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
     });
+  }
+
+  public findCertyficate(id) {
+    if (this.certificateType) {
+      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
+      if (this.dataCertyficate) {
+        return this.dataCertyficate.label;
+      }
+      return '';
+    }
   }
 }

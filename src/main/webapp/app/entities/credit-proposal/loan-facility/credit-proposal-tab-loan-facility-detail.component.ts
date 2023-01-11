@@ -8,7 +8,7 @@ import {
   DocumentEditorKeyDownEventArgs,
   EditorService,
   SelectionService,
-  SfdtExportService
+  SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -101,24 +101,24 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onDocumentChange() {
-	if (this.isViewMode === true) {
-	  if (this.parentSource === '') {
-		this.container_view_false.restrictEditing = true;
-	  } else if (this.parentSource === 'loan-analys') {
-		this.container_view_false_loan_analys.restrictEditing = true;
-	  }
-	} else if (this.isViewMode === false) {
-	  if (this.parentSource === '') {
-		this.container.restrictEditing = true;
-	  } else if (this.parentSource === 'loan-analys') {
-		this.container_loan_analys.restrictEditing = true;
-	  }
-	}
+    if (this.isViewMode === true) {
+      if (this.parentSource === '') {
+        this.container_view_false.restrictEditing = true;
+      } else if (this.parentSource === 'loan-analys') {
+        this.container_view_false_loan_analys.restrictEditing = true;
+      }
+    } else if (this.isViewMode === false) {
+      if (this.parentSource === '') {
+        this.container.restrictEditing = true;
+      } else if (this.parentSource === 'loan-analys') {
+        this.container_loan_analys.restrictEditing = true;
+      }
+    }
   }
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-	if (this.router.url.split('/')[1] === 'cp-status-approval') {
+    if (this.router.url.split('/')[1] === 'cp-status-approval') {
       this.parentSource = 'loan-analys';
     }
     this.getWord();
@@ -164,11 +164,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
                 let docEditor: any;
 
                 if (this.isViewMode === true) {
-				  if (this.parentSource === '') {
-					docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-				  } else if (this.parentSource === 'loan-analys') {
-					docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-				  }
+                  if (this.parentSource === '') {
+                    docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+                  } else if (this.parentSource === 'loan-analys') {
+                    docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+                  }
                 } else if (this.isViewMode === false) {
                   if (this.parentSource === '') {
                     docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -194,8 +194,6 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
     // 67 is the character code for 'C'
-    console.log('keycode', keyCode);
-    console.log('isCtrlKey', isCtrlKey);
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
@@ -214,18 +212,18 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     let docEditor: any;
 
     if (this.isViewMode === true) {
-	  if (this.parentSource === '') {
-		docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-	  } else if (this.parentSource === 'loan-analys') {
-		docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-	  }
-	} else if (this.isViewMode === false) {
-	  if (this.parentSource === '') {
-		docEditor = this.container?.documentEditor as DocumentEditorComponent;
-	  } else if (this.parentSource === 'loan-analys') {
-		docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-	  }
-	}
+      if (this.parentSource === '') {
+        docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+      } else if (this.parentSource === 'loan-analys') {
+        docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+      }
+    } else if (this.isViewMode === false) {
+      if (this.parentSource === '') {
+        docEditor = this.container?.documentEditor as DocumentEditorComponent;
+      } else if (this.parentSource === 'loan-analys') {
+        docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+      }
+    }
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
       const fileType = 'word';

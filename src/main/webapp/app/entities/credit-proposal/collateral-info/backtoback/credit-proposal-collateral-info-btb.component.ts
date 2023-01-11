@@ -14,13 +14,17 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './dialog-c
 import { IEmptyField } from './empty-field.model';
 import lodash from 'lodash';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnInit {
+export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -34,8 +38,11 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     'action',
   ];
 
+  public certificateType: any;
+  public dataCertyficate: any;
+
   public collateralProperties: ICollateralProperty[];
-  public dataItem: ICollateral[];
+  public dataItem: any;
   public totalMVInt: number;
   public totalLVInt: number;
   public isChecked: boolean;
@@ -58,11 +65,16 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
   }
 
   constructor(
+    protected _snackbar: MatSnackBar,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private partyCifService: PartyCifService
   ) {
+    super(_snackbar, collateralService);
+    this.itemsPerPage = 10;
+    this.page = 0;
     this.collateralProperties = [];
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.totalMVInt = 0;
@@ -77,6 +89,8 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
+
+    this.setCertyficateType();
     // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
@@ -87,7 +101,8 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = res.body;
+        this.dataItem = new MatTableDataSource(res.body);
+        this.dataItem.paginator = this.paginator;
       });
   }
 
@@ -407,5 +422,44 @@ export class CreditProposalCollateralInfoBTPComponent implements OnChanges, OnIn
       }
     }
     return result;
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
+    });
+  }
+
+  public findCertyficate(id) {
+    if (this.certificateType) {
+      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
+      if (this.dataCertyficate) {
+        return this.dataCertyficate.label;
+      }
+      return '';
+    }
+  }
+
+  public getOwnerShip(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    let string1: string;
+    let string2: string;
+    let result: string;
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    return string2;
   }
 }

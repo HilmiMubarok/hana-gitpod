@@ -20,6 +20,7 @@ import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/b
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -51,6 +52,11 @@ export const MY_FORMATS = {
   ],
 })
 export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnInit {
+  private branceManagement: any;
+  private branchesNames: any;
+  private dataBranch: any;
+  private dataBranchName: any;
+  public branch: string;
   public collateral: ICollateral;
   public creditProposal: ICreditProposal;
   public creditProposalOpenState: ICreditProposal;
@@ -87,6 +93,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   constructor(
     private creditProposalService: CreditProposalService,
     private collateralPropertyService: CollateralPropertyService,
+    private partyCifService: PartyCifService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -108,10 +115,13 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.paripasuStatus = PARIPASU_STATUS;
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.isViewMode = this.data.isViewMode;
+    this.setManagementBrance();
+    this.setBranches();
   }
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
     console.log('ini credit proposal ', this.creditProposal);
+    this.setBranches();
   }
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
@@ -217,5 +227,43 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
 
   public print() {
     console.log(this.creditProposal);
+  }
+
+  public setManagementBrance() {
+    this.partyCifService.getManagementBranc().subscribe(res => {
+      this.branceManagement = res.body;
+      this.branch = this.findBranchName(this.collateralProperty.attributes.branch);
+    });
+  }
+
+  public setBranches() {
+    this.partyCifService.geBranches().subscribe(res => {
+      this.branchesNames = res.body;
+    });
+  }
+
+  public findBranch(id) {
+    if (this.branceManagement) {
+      this.dataBranch = this.branceManagement.find(obj => obj.id === id);
+      if (this.dataBranch) {
+        return this.branceManagement.label;
+      }
+      return '';
+    }
+  }
+
+  public findBranchName(id) {
+    console.log('ini branch name ', this.branchesNames);
+    for (let i = 0; i < this.branchesNames.length; i++) {
+      console.log('id branch', this.branchesNames[i]);
+    }
+    console.log('ini id', id);
+    if (this.branchesNames) {
+      this.dataBranchName = this.branchesNames.find(obj => obj.id === id);
+      if (this.dataBranchName) {
+        return this.branchesNames.label;
+      }
+      return '';
+    }
   }
 }
