@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { Account } from 'app/core/auth/account.model';
 import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 
 @Component({
   selector: 'jhi-loan-facility-approve-level',
@@ -30,7 +31,20 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   public whoAmI: IPerson;
   public patch: any;
   public view: boolean;
+  public statusId: boolean;
   // public field = false;
+
+  public statusList = [
+    'CP_DRAFT',
+    'CP_RETURN_TO_RM_BU',
+    'CP_APPROVAL_BM',
+    'CP_APPROVAL_SME_HEAD',
+    'CP_APPROVAL_DEPTHEAD',
+    'CP_APPROVAL_DH',
+    'CP_CANCEL',
+    'CP_REJECT',
+    'CP_COMPLETE',
+  ];
 
   constructor(
     protected router: Router,
@@ -40,7 +54,8 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     protected activatedRoute: ActivatedRoute,
     protected applicationRoleService: ApplicationRoleService,
     protected personService: PersonService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    public creditProposalService: CreditProposalService
   ) {
     super(snackbar, positionReportingStructureService);
     this.loading = false;
@@ -89,7 +104,6 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   }
 
   public selRelType(value: string): void {
-    this.selectedRelationType = value;
     this.filteringItems = [];
 
     if (value !== '') {
@@ -98,6 +112,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
           const each: IApplicationRole = this.items[i];
           if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
             this.filteringItems.push(each);
+            console.log('gemuk', each.relationTypeId.toLowerCase());
           }
         }
       } else {
@@ -121,7 +136,18 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       .subscribe(res => {
         this.items = res.body;
         this.filteringRelType(this.items);
-        this.selRelType(this.relType[0].id);
+
+        this.creditProposalService.find(this.idApp).subscribe((response: any) => {
+          for (let i = 0; i < this.statusList.length; i++) {
+            if (this.statusList[i] === response.body.statusId) {
+              this.selectedRelationType = 'CREDIT_PROPOSAL';
+              this.selRelType('CREDIT_PROPOSAL');
+            } else {
+              this.selectedRelationType = this.relType[1].id;
+              this.selRelType(this.relType[1].id);
+            }
+          }
+        });
       });
   }
 }
