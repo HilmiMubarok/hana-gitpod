@@ -164,7 +164,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
     const collProp: ICollateralProperty[] = (
-      await firstValueFrom(this.collateralPropertyService.queryFilterBy({ idCollateral: collateralId, size: 9999 }))
+      await firstValueFrom(this.collateralPropertyService.queryFilterBy({ idCollateral: collateralId, size: 9999, page: 0 }))
     ).body;
     if (collProp.length > 0) {
       this.collPropBuilding = lodash.filter(collProp, function (o) {
