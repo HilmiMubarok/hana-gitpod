@@ -21,6 +21,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -53,7 +54,9 @@ export const MY_FORMATS = {
 })
 export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnInit {
   private branceManagement: any;
-  private branchesNames: any;
+  public branchesNames: any;
+  public collateralCode: any;
+  public collateralDetails: object[];
   private dataBranch: any;
   private dataBranchName: any;
   public branch: string;
@@ -94,6 +97,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     private creditProposalService: CreditProposalService,
     private collateralPropertyService: CollateralPropertyService,
     private partyCifService: PartyCifService,
+    private cashCollateralService: CashCollateralService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -121,6 +125,9 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
     console.log('ini credit proposal ', this.creditProposal);
+    this.loadCollateralDetailOption().then(resolve => {
+      this.setCollateralDetail();
+    });
     this.setBranches();
   }
   moment = _rollupMoment || _moment;
@@ -239,6 +246,24 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public setBranches() {
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
+    });
+  }
+
+  private setCollateralDetail(): void {
+    if (this.collateral.id) {
+      const collateral = this.collateral;
+      this.collateralCode = lodash.find(this.collateralDetails, function (o) {
+        return o['id'] === collateral.collateralTypeId;
+      })['child'];
+    }
+  }
+
+  private loadCollateralDetailOption(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.cashCollateralService.loadDetailType().subscribe(res => {
+        this.collateralDetails = res.body;
+        resolve();
+      });
     });
   }
 

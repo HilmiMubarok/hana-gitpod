@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
   private durationInSecond: Number = 2;
   protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   protected verticalPosition: MatSnackBarVerticalPosition = 'top';
-  public isAdministrator: boolean = false;
+  public isAdministrator = false;
   constructor(
     private accountService: AccountService,
     private loginService: LoginService,
