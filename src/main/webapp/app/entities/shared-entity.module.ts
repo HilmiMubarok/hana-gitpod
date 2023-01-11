@@ -333,6 +333,7 @@ import { LoanFacilityDetailPreviousComponent } from './credit-proposal/loan-faci
 import { CreditProposalCollateralInfoRemarksInformationComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-proposal/collateral-info/remarks/credit-proposal-collateral-info-remarks-checklist.component';
 import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.component';
+import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -570,6 +571,7 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBookingBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
+    ProposalBasicInformationViewComponent,
 
     // === Previous === //
 
@@ -966,9 +968,9 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     GroupCollateralComponent,
     CollateralPropertyListPersonalPropertyTemplateComponent,
     LoanAnalysOpinionComponent,
-	LoanAnalysOpinionCompliancePartComponent,
+    LoanAnalysOpinionCompliancePartComponent,
     LoanAnalysDialogOpinionComponent,
-	LoanAnalysDialogOpinionCompliancePartComponent,
+    LoanAnalysDialogOpinionCompliancePartComponent,
     CollateralAppraisalPartyGroupViewComponent,
     CollateralAppraisalPersonViewComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
@@ -1073,6 +1075,7 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
     CollateralAppraisalForwardToComponent,
     DialogBorrowerComponent,
     AppraisalRoleComponent,
+    ProposalBasicInformationViewComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
