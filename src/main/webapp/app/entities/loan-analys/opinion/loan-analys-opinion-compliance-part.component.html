@@ -41,7 +41,7 @@
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
 
-    <div class="e-card-content">
+    <div *ngIf="isShowOpinionFieldInput" class="e-card-content">
       <div class="form-group">
         <p class="e-card-sub-title">Opinion</p>
         <section *ngIf="this.creditProposalItem.statusId === 'CP_CC_DEPT_HEAD'">

@@ -80,6 +80,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   public recomendasi: string;
   private positionLoanComitee: string;
 
+  public isShowOpinionFieldInput: boolean = false;
+
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
   @Input() saveWordOpinionCondition;
@@ -129,7 +131,12 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService
-  ) {}
+  ) {
+	const tempRouter = this.router.url.split('/')[1];
+    if (tempRouter === 'cc-review') {
+      this.isShowOpinionFieldInput = true;
+    }
+  }
 
   ngOnInit(): void {
 	this.typeOpinion.emit('compliance');
