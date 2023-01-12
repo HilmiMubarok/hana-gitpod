@@ -1415,7 +1415,7 @@ export const SUBMENU_LOAN_DAR: object[] = [
         text: 'propose pricing',
       },
       {
-        id: 'dar-convenant',
+        id: 'convenant-tbo',
         text: 'covenant & TBO',
       },
       {

@@ -38,7 +38,7 @@
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button mat-icon-button (click)="deleteFile(element)">
+          <button mat-icon-button (click)="deleteFile(element)" *ngIf="isViewMode">
             <mat-icon>delete_forever</mat-icon>
           </button>
         </td>

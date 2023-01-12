@@ -439,8 +439,10 @@
 
       <!-- Covenant & TBO -->
       <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-covenant [isViewMode]="true" [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
-        <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+        {{ creditProposal.attributes.proposalType }}
+        <jhi-credit-proposal-tab-covenant [isViewMode]="true" *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
+        </jhi-credit-proposal-tab-covenant>
+        <jhi-credit-proposal-tab-covenant-history [isViewMode]="true" *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
         </jhi-credit-proposal-tab-covenant-history>
       </div>
 
