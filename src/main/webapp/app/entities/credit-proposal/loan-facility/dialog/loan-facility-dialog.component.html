@@ -77,8 +77,8 @@
             <mat-autocomplete #auto="matAutocomplete">
               <!-- <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType" (ngModelChange)="berubah($event)"> -->
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{ option }}
+              <mat-option *ngFor="let option of listFacicility" [value]="option.label">
+                {{ option.label }}
               </mat-option>
               <!-- </mat-select> -->
             </mat-autocomplete>
@@ -100,8 +100,8 @@
             <mat-label>Loan Type</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['loanType']" [disabled]="statusFacilityDisabled">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of lovLoanType" [value]="item">
-                {{ item }}
+              <mat-option *ngFor="let item of listLoanType" [value]="item.label">
+                {{ item.label }}
               </mat-option>
             </mat-select>
           </mat-form-field>
