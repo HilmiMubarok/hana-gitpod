@@ -97,6 +97,11 @@
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Liquidation Value</mat-label>
+      <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    </mat-form-field>
     <div class="row form-group">
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">

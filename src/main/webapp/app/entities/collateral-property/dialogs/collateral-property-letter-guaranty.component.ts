@@ -131,6 +131,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setGurantee();
     this.cekDataSource();
     this.cekData();
+    this.setData();
   }
 
   public cekData() {
@@ -392,5 +393,13 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
 
   public getAmountCcy() {
     this.collateralProperty.attributes.amountUomId = this.amountCcy.id;
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount;
+  }
+
+  public amountChange() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount;
   }
 }

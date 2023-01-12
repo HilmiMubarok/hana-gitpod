@@ -119,6 +119,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.cekDataSource();
     this.cekData();
     this.setBranches();
+    this.setData();
   }
 
   public cekData() {
@@ -370,5 +371,13 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
 
   public sliceText(text: string) {
     return text.slice(5);
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount;
+  }
+
+  public amountChange() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount;
   }
 }

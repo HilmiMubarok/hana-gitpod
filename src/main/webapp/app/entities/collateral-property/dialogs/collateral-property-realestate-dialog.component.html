@@ -151,7 +151,7 @@
       <div class="col-8">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Liquidation Value</mat-label>
-          <input currencyMask matInput type="text" [(ngModel)]="liquidationValueMV" [options]="logoCcy" disabled />
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
       </div>
@@ -237,7 +237,7 @@
           [matDatepicker]="realestateAppraisalDateIndependent"
           matInput
           type="text"
-          [(ngModel)]="collateralPropertyExternal.appraisalDateExternal"
+          [(ngModel)]="collateralProperty.appraisalDateExternal"
           disabled
         />
         <mat-datepicker-toggle matSuffix [for]="realestateAppraisalDateIndependent" disabled> </mat-datepicker-toggle>

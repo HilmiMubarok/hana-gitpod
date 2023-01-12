@@ -123,6 +123,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
     this.setDebitBlock();
     this.cekDataSource();
     this.cekData();
+    this.setData();
   }
 
   cekData() {
@@ -376,5 +377,13 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
 
   public getQty() {
     this.collateralProperty.attributes.quantitySizeUomId = this.qty.abbreviation;
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount;
+  }
+
+  public amountChange() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount;
   }
 }
