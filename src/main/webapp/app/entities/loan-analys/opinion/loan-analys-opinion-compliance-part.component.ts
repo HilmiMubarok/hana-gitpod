@@ -96,8 +96,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   @Output() typeOpinion = new EventEmitter<string>();
-  @Output() newItemEvent = new EventEmitter<string>();
-  @Output() positionLoginEmit = new EventEmitter<string>();
+  @Output() newItemEventCompliance = new EventEmitter<string>();
+  @Output() positionLoginEmitCompliance = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
     this.notes = [];
@@ -161,7 +161,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   public change(event: string) {
-    this.newItemEvent.emit(event);
+    this.newItemEventCompliance.emit(event);
     this.recomendasi = event;
   }
 
@@ -518,7 +518,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
       }
-      this.positionLoginEmit.emit(this.creditProposalItem.attributes['positionLogin']);
+      this.positionLoginEmitCompliance.emit(this.creditProposalItem.attributes['positionLogin']);
     });
   }
 

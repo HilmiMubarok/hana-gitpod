@@ -490,6 +490,14 @@ export class LoanAnalysMainComponent implements OnInit {
   setPositionLogin(newItem: string) {
     this.positionLoginFromEmit = newItem;
   }
+  
+  setOpinionRecomendationCompliance(newItem: string) {
+    this.recomendation = newItem;
+  }
+
+  setPositionLoginCompliance(newItem: string) {
+    this.positionLoginFromEmit = newItem;
+  }
 
   setTypeOpinion(type: string) {
     this.opinionType = type;
