@@ -5,4 +5,8 @@ export enum Authority {
   ADMIN_APPRAISER = 'ROLE_ADMIN_APPRAISER',
   SURVEYOR = 'ROLE_SURVEYOR',
   TL = 'ROLE_TL',
+  BM = 'ROLE_BM',
+  SME_HEAD = 'ROLE_SME_HEAD',
+  SDH = 'ROLE_SDH',
+  DH = 'ROLE_DH',
 }
