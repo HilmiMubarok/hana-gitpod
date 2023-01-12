@@ -168,7 +168,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.no = no;
               parsed.GroupName = param[i].customerName;
               parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
-              parsed.FacilityType = source[y].FILN11_COM_NM;
+              parsed.FacilityType = source[y].FACILITY_TYPE;
               parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
