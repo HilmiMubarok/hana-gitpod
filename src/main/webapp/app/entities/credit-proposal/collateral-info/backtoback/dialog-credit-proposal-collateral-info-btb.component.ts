@@ -16,7 +16,7 @@ import { FormControl } from '@angular/forms';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE, OTHER_COLLATERAL_DETAIL_TYPE } from 'app/shared/constants/base.constants';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -70,6 +70,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public filteredOptionBindingTypes: Observable<string[]>;
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
+  public collateralDetailType: any;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -118,12 +119,13 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
+    this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
     this.isViewMode = this.data.isViewMode;
     this.setManagementBrance();
     this.setBranches();
+    this.loadByCollateral(this.collateral.id);
   }
   ngOnInit(): void {
-    this.loadByCollateral(this.collateral.id);
     console.log('ini credit proposal ', this.creditProposal);
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();
@@ -198,12 +200,12 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public setValue() {
+    console.log('ini collateral ', this.collateralProperty);
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
       this.noDocumentJaminan = this.collateralProperty.attributes.certificateNumber;
       this.collateralValue = this.collateralProperty.attributes.amount;
       this.accountCustomer = this.collateralProperty.attributes.lGApp;
       this.lembagaPenjamin = this.collateralProperty.attributes.issuingInstitusi;
-      this.sifatJaminan = this.collateralProperty.attributes.charCollateral;
       this.jenis = this.collateral.attributes['collateralCode'];
     }
     if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
@@ -278,7 +280,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public findBranchName(id) {
-    console.log('ini branch name ', this.branchesNames);
+    console.log('ini branch name', this.branchesNames);
     for (let i = 0; i < this.branchesNames.length; i++) {
       console.log('id branch', this.branchesNames[i]);
     }

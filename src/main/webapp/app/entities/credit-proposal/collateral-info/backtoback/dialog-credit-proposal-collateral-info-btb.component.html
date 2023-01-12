@@ -27,11 +27,19 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Jenis jaminan</mat-label>
-                  <mat-select name="collateralCode" [(ngModel)]="collateral.attributes.collateralCode" disabled>
+                  <mat-select *ngIf="collateral.collateralTypeId !== 'OTHER'" [(ngModel)]="collateral.attributes.collateralCode" disabled>
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of collateralCode" [value]="item.id">
                       {{ item.description }}
                     </mat-option>
+                  </mat-select>
+                  <mat-select
+                    *ngIf="collateral.collateralTypeId === 'OTHER'"
+                    [(ngModel)]="collateralProperty.attributes.collateralDetailType"
+                    disabled
+                  >
+                    <mat-option value="">Please Select</mat-option>
+                    <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -78,13 +86,14 @@
               </div>
 
               <div class="form-group">
-                <ejs-textbox
-                  disabled
-                  [(ngModel)]="sifatJaminan"
-                  placeholder="Sifat jaminan"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                ></ejs-textbox>
+                <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'">
+                  <mat-label>Sifat Jaminan</mat-label>
+                  <input matInput type="text" [(ngModel)]="collateralProperty.attributes.charCollateral" disabled />
+                </mat-form-field>
+                <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId !== 'LETTER_OF_GUARANTY'">
+                  <mat-label>Sifat Jaminan</mat-label>
+                  <input matInput type="text" [(ngModel)]="creditProposal.attributes.charCollateral" />
+                </mat-form-field>
               </div>
 
               <div class="form-group">
@@ -268,7 +277,6 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
             <button mat-button (click)="save()">Save</button>
-            <button mat-button (click)="print()">Print</button>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
