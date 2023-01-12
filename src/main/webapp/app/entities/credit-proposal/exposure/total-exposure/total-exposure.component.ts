@@ -168,7 +168,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.no = no;
               parsed.GroupName = param[i].customerName;
               parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
-              parsed.FacilityType = source[y].FILN11_COM_NM;
+              parsed.FacilityType = source[y].FACILITY_TYPE;
               parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
@@ -355,10 +355,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.totalCashLoan();
     this.getMyBusinessGroup();
     this.grandTotalDebitur();
-    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
-    this.creditProposal.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
-    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroub = this.fungsiSumOSGroub();
-    this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
 
     this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
     this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
@@ -574,7 +570,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
-
+    this.creditProposal.attributes['calculationExposure'].totalChangeGroub = result + dolar;
     return result + dolar;
   }
 
@@ -600,7 +596,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
-
+    this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = result + dolar;
     return result + dolar;
   }
 
@@ -626,7 +622,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
-
+    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = result + dolar;
     return result + dolar;
   }
 
@@ -652,7 +648,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
-
+    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = result + dolar;
     return result + dolar;
   }
 

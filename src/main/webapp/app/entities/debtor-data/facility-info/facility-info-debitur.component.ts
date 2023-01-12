@@ -34,6 +34,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     'no',
     'bank',
     'limit',
+    'loantype',
     'os',
     'facilityType',
     'rate',
