@@ -79,21 +79,19 @@ export class MappingFacilityTempComponent {
         bindingValue: this.bindingValueHelper[index],
         applicationProduct: this.applicationProductData[index],
       };
-
       this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
     } else if (event.checked === false) {
       if (this.creditProposalData.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++) {
           if (
-            this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id &&
-            this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id
+            this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
+            this.creditProposalData.collateralProductRelations[i].applicationProduct === this.applicationProductData[index]
           ) {
-            this.creditProposalData.collateralProductRelations.splice(i, 1);
+            this.creditProposalData.collateralProductRelations.splice(i);
           }
         }
       }
     }
-
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
   }
   public sableFeild() {
