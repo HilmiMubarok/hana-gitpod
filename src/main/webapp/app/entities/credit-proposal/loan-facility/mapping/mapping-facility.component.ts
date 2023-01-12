@@ -52,6 +52,11 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
 
   ngOnInit(): void {
     console.log('collateral ', this.collateralData);
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.field === false;
+    } else {
+      this.field === true;
+    }
     this.sableFeild();
   }
   public sableFeild() {
@@ -68,15 +73,13 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   }
   public setCrossCollateral(index: number) {
     if (this.collateralData) {
-      if (this.collateralData.paripasuStatus === 'Y') {
-        if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-          const tempCollateralProductRelationObject = {
-            collateralId: this.collateralInfo.id,
-            bindingValue: this.bindingValueHelper[index],
-            applicationProduct: this.applicationProductData[index],
-          };
-          this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
-        }
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+        const tempCollateralProductRelationObject = {
+          collateralId: this.collateralInfo.id,
+          bindingValue: this.bindingValueHelper[index],
+          applicationProduct: this.applicationProductData[index],
+        };
+        this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
       }
     }
   }

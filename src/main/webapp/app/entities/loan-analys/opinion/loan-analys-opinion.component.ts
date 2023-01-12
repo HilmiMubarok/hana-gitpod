@@ -44,15 +44,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public _creditProposalItem: ICreditProposal;
   public notes: any;
   public note = {
-	attributes: {},
-	condition: '',
-	createDate: '',
-	id: 0,
-	message: '',
-	positionUserId: '',
-	recomendation: '',
-	type: '',
-	userId: ''
+    attributes: {},
+    condition: '',
+    createDate: '',
+    id: 0,
+    message: '',
+    positionUserId: '',
+    recomendation: '',
+    type: '',
+    userId: '',
   };
   public route: any;
   public parentPath = this.router.url.split('/')[1];
@@ -99,34 +99,42 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
-	this.notes = [];
+    this.notes = [];
     if (changes.cp.currentValue.notes.length > 0) {
-	  for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
-		if (changes.cp.currentValue.notes[i].type === '' || changes.cp.currentValue.notes[i].type === null) {
-		  this.note = {
-			attributes: {},
-			condition: '',
-			createDate: '',
-			id: 0,
-			message: '',
-			positionUserId: '',
-			recomendation: '',
-			type: '',
-			userId: ''
-		  };
-		  this.note.attributes = changes.cp.currentValue.notes[i].attributes;
-		  this.note.type = '';
-		  this.note.message = '';
-		  this.note.condition = '';
-          this.note.createDate = changes.cp.currentValue.notes[i].createDate ? this.datePipe.transform(changes.cp.currentValue.notes[i].createDate, 'yyyy-MM-dd') : '';
-          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation ? changes.cp.currentValue.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId ? changes.cp.currentValue.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.userId = changes.cp.currentValue.notes[i].userId ? changes.cp.currentValue.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-		  this.note.id = changes.cp.currentValue.notes[i].id;
+      for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
+        if (changes.cp.currentValue.notes[i].type === '' || changes.cp.currentValue.notes[i].type === null) {
+          this.note = {
+            attributes: {},
+            condition: '',
+            createDate: '',
+            id: 0,
+            message: '',
+            positionUserId: '',
+            recomendation: '',
+            type: '',
+            userId: '',
+          };
+          this.note.attributes = changes.cp.currentValue.notes[i].attributes;
+          this.note.type = '';
+          this.note.message = '';
+          this.note.condition = '';
+          this.note.createDate = changes.cp.currentValue.notes[i].createDate
+            ? this.datePipe.transform(changes.cp.currentValue.notes[i].createDate, 'yyyy-MM-dd')
+            : '';
+          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation
+            ? changes.cp.currentValue.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '')
+            : '';
+          this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId
+            ? changes.cp.currentValue.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '')
+            : '';
+          this.note.userId = changes.cp.currentValue.notes[i].userId
+            ? changes.cp.currentValue.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '')
+            : '';
+          this.note.id = changes.cp.currentValue.notes[i].id;
 
-		  this.notes.push(this.note);
-		}
-	  }
+          this.notes.push(this.note);
+        }
+      }
     }
   }
 
@@ -547,33 +555,35 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
       this.notes = [];
-	  if (res.body.notes.length > 0) {
-		for (let i = 0; i < res.body.notes.length; i++) {
-		  if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
-			this.note = {
-			  attributes: {},
-			  condition: '',
-			  createDate: '',
-			  id: 0,
-			  message: '',
-			  positionUserId: '',
-			  recomendation: '',
-			  type: '',
-			  userId: ''
-			};
-			this.note.attributes = res.body.notes[i].attributes;
-			this.note.type = '';
-			this.note.message = '';
-			this.note.condition = '';
-			this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
-			this.note.recomendation = res.body.notes[i].recomendation ? res.body.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-			this.note.positionUserId = res.body.notes[i].positionUserId ? res.body.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '') : '';
-			this.note.userId = res.body.notes[i].userId ? res.body.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-			this.note.id = res.body.notes[i].id;
+      if (res.body.notes.length > 0) {
+        for (let i = 0; i < res.body.notes.length; i++) {
+          if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
+            this.note = {
+              attributes: {},
+              condition: '',
+              createDate: '',
+              id: 0,
+              message: '',
+              positionUserId: '',
+              recomendation: '',
+              type: '',
+              userId: '',
+            };
+            this.note.attributes = res.body.notes[i].attributes;
+            this.note.type = '';
+            this.note.message = '';
+            this.note.condition = '';
+            this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
+            this.note.recomendation = res.body.notes[i].recomendation ? res.body.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
+            this.note.positionUserId = res.body.notes[i].positionUserId
+              ? res.body.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '')
+              : '';
+            this.note.userId = res.body.notes[i].userId ? res.body.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
+            this.note.id = res.body.notes[i].id;
 
-			this.notes.push(this.note);
-		  }
-		}
+            this.notes.push(this.note);
+          }
+        }
       }
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         this.creditProposalItem.attributes['tempLoggedInNotes'] = '';

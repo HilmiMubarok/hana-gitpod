@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   public menuListItems: CustomMatMenu[] = [];
   public isLogin: Boolean = false;
   public account: Account | null = null;
-  
+
   public loginName: string;
   public lastLogin: string;
   private durationInSecond: Number = 2;
@@ -35,8 +35,8 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private sessionStorageService: SessionStorageService,
     private translateService: TranslateService,
-	private employeeService: EmployeeService,
-	private _snackBar: MatSnackBar
+    private employeeService: EmployeeService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -49,12 +49,12 @@ export class NavbarComponent implements OnInit {
       if (account) {
         this.isLogin = true;
 
-		this.employeeService
+        this.employeeService
           .queryFilterBy({
             page: 0,
-			query: 999,
-			login: account.login,
-			sort: ['id,desc']
+            query: 999,
+            login: account.login,
+            sort: ['id,desc'],
           })
           .subscribe({
             next: (res: HttpResponse<IEmployee[]>) => this.setUpAcc(res, account),
@@ -65,13 +65,13 @@ export class NavbarComponent implements OnInit {
   }
 
   private setUpAcc(res: any, account: any): void {
-	this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
-	this.lastLogin = account.lastModifiedDate.substring(0,19);
-	if (this.account.login === 'admin') {
-	  this.isAdministrator = true;
-	}
+    this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
+    this.lastLogin = account.lastModifiedDate.substring(0, 19);
+    if (this.account.login === 'admin') {
+      this.isAdministrator = true;
+    }
   }
-  
+
   private onError(errorMessage: string) {
     this._snackBar.open(errorMessage, '', {
       horizontalPosition: this.horizontalPosition,
