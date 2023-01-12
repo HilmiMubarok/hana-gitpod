@@ -93,6 +93,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public positionLoginFromEmit: string;
   public opinionType = '';
 
+  public resAttr: IProcessTask;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -255,9 +257,13 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.creditProposalProcessService.processTask(task).subscribe(res => {
+		this.resAttr = _res;
+
+		this.save();
+
+        /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
-        });
+        }); */
       }
     });
   }
@@ -308,11 +314,16 @@ export class LoanAnalysMainComponent implements OnInit {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
 
-    this.messageService.add({
+	this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+	  this.router.navigate([this.router.url.split('/')[1]]);
+	});
+
+    /* this.messageService.add({
       severity: 'success',
       summary: 'Success',
       detail: 'Save Success',
-    });
+    }); */
+
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {

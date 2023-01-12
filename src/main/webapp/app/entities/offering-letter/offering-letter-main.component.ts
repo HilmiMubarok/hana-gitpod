@@ -60,6 +60,8 @@ export class OfferingLetterMainComponent implements OnInit {
   public saveWordOpinionCondition: Boolean = false;
   public saveWord: Boolean = false;
 
+  public resAttr: IProcessTask;
+
   @Input('item')
   get item() {
     return this.creditProposal;
@@ -162,11 +164,11 @@ export class OfferingLetterMainComponent implements OnInit {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
 
-    this.messageService.add({
+    /* this.messageService.add({
       severity: 'success',
       summary: 'Success',
       detail: 'Save Success',
-    });
+    }); */
   }
 
   ngOnInit() {
@@ -205,9 +207,13 @@ export class OfferingLetterMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.creditProposalProcessService.processTask(task).subscribe(res => {
+		this.resAttr = _res;
+
+		this.save();
+
+        /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
-        });
+        }); */
       }
     });
   }
