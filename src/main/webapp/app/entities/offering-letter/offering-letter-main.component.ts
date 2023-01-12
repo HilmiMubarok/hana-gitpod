@@ -125,16 +125,18 @@ export class OfferingLetterMainComponent implements OnInit {
     this.applicationRoleId = ev.applicationRoleId;
   }
 
-  private saveApplicationRole(): void {
-	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-      this.router.navigate([this.router.url.split('/')[1]]);
-    });
-
-	/* this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Save Success',
-    }); */
+  private saveApplicationRole(source: string): void {
+	if (source === 'process') {
+	  this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+		this.router.navigate([this.router.url.split('/')[1]]);
+	  });
+	} else if (source === 'default') {
+	  this.messageService.add({
+		severity: 'success',
+		summary: 'Success',
+		detail: 'Save Success',
+      });
+	}
 
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
@@ -155,20 +157,22 @@ export class OfferingLetterMainComponent implements OnInit {
     } */
   }
 
-  private saveCollateralInfo(): void {
+  private saveCollateralInfo(source: string): void {
     if (this.creditProposalCollateralInfoComponent) {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
 
-	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-      this.router.navigate([this.router.url.split('/')[1]]);
-    });
-
-    /* this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Save Success',
-    }); */
+	if (source === 'process') {
+	  this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+		this.router.navigate([this.router.url.split('/')[1]]);
+      });
+	} else if (source === 'default') {
+	  this.messageService.add({
+		severity: 'success',
+		summary: 'Success',
+		detail: 'Save Success',
+      });
+	}
   }
 
   ngOnInit() {
@@ -209,7 +213,7 @@ export class OfferingLetterMainComponent implements OnInit {
       if (_res) {
 		this.resAttr = _res;
 
-		this.onSave();
+		this.onSave('process');
 
         /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
@@ -300,16 +304,16 @@ export class OfferingLetterMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
-  public onSave(): void {
+  public onSave(source: string): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.saveCollateralInfo();
-        // this.saveApplicationRole();
+        this.saveCollateralInfo(source);
+        // this.saveApplicationRole(source);
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.saveCollateralInfo();
-        // this.saveApplicationRole();
+        this.saveCollateralInfo(source);
+        // this.saveApplicationRole(source);
       });
     }
     this.saveWordOpinionCondition = true;
