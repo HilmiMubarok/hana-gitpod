@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -18,6 +18,8 @@ import {
 } from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { CreditProposalCollateralTabLoanAfterDialogComponent } from './credit-proposal-collateral-tab-loan-after-dialog.component';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
@@ -33,7 +35,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
-
+  @ViewChild('paginator') paginator: MatPaginator;
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
@@ -69,6 +71,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
       })
       .subscribe(res => {
         this.dataItem = res.body;
+        this.dataItem = new MatTableDataSource(this.dataItem);
+        this.dataItem.paginator = this.paginator;
       });
   }
 
@@ -473,26 +477,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
-            collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
-          ) {
-            result = result + data.marketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-            result = result + data.vehicleMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
-            result = result + data.machineMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
-            result = result + data.attributes.amount;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
-            result = result + data.attributes.totalFaceAmount;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-            result = result + data.attributes.amount;
+          if (data !== undefined) {
+            result = result + Number(data.marketValue);
           }
         }
       }
