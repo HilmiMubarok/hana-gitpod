@@ -124,11 +124,16 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   private saveApplicationRole(): void {
-    this.messageService.add({
+	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+      this.router.navigate([this.router.url.split('/')[1]]);
+    });
+
+	/* this.messageService.add({
       severity: 'success',
       summary: 'Success',
       detail: 'Save Success',
-    });
+    }); */
+
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.messageService.add({
@@ -147,10 +152,15 @@ export class OfferingLetterMainComponent implements OnInit {
       });
     } */
   }
+
   private saveCollateralInfo(): void {
     if (this.creditProposalCollateralInfoComponent) {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
+
+	this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+      this.router.navigate([this.router.url.split('/')[1]]);
+    });
 
     this.messageService.add({
       severity: 'success',
@@ -158,6 +168,7 @@ export class OfferingLetterMainComponent implements OnInit {
       detail: 'Save Success',
     });
   }
+
   ngOnInit() {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
