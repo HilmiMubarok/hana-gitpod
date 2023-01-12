@@ -64,7 +64,8 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.disableField === 'la-analyst' ||
       this.disableField === 'la-approval-inquiry' ||
       this.disableField === 'la-approval' ||
-      this.disableField === 'la-SME-CRC'
+      this.disableField === 'la-SME-CRC' ||
+      this.disableField === 'la-distribution'
     ) {
       this.field = true;
     }

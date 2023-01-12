@@ -68,7 +68,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       this.creditProposalData.statusId === 'CP_APPROVAL_SME_HEAD' ||
       this.creditProposalData.statusId === 'CP_APPROVAL_SDH' ||
       this.creditProposalData.statusId === 'CP_APPROVAL_DH' ||
-      this.creditProposalData.statusId === 'CP_APPROVAL_DEPTHEAD'
+      this.creditProposalData.statusId === 'CP_APPROVAL_DEPTHEAD' ||
+      this.creditProposalData.statusId === 'CP_ASSIGNMENT'
     ) {
       this.field = true;
     }
