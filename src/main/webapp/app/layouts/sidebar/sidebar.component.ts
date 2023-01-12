@@ -19,6 +19,9 @@ import {
   SIDEBAR_MENU_ROLE_SME_HEAD,
   SIDEBAR_MENU_DH,
   APPRAISAL_MENU_TL,
+  APPRAISAL_MENU_CRA,
+  APPRAISAL_MENU_CRC,
+  APPRAISAL_MENU_HCR,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 
@@ -69,6 +72,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = SIDEBAR_MENU_DH;
         } else if (lodash.indexOf(account.authorities, Authority.TL) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_TL;
+        } else if (lodash.indexOf(account.authorities, Authority.CRA) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CRA;
+        } else if (lodash.indexOf(account.authorities, Authority.CRC) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CRC;
+        } else if (lodash.indexOf(account.authorities, Authority.HCR) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_HCR;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN_APPRAISER) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN_APPRAISAL;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {

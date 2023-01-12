@@ -9,4 +9,7 @@ export enum Authority {
   SME_HEAD = 'ROLE_SME_HEAD',
   SDH = 'ROLE_SDH',
   DH = 'ROLE_DH',
+  CRA = 'ROLE_CRA',
+  CRC = 'ROLE_CRC',
+  HCR = 'ROLE_HCR1',
 }
