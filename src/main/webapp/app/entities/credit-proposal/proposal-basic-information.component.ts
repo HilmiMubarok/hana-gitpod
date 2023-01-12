@@ -22,7 +22,7 @@ import {
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
-  SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  CP_APPROVAL_MENU,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -281,7 +281,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -297,7 +297,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -313,7 +313,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
