@@ -209,7 +209,7 @@ export class OfferingLetterMainComponent implements OnInit {
       if (_res) {
 		this.resAttr = _res;
 
-		this.save();
+		this.onSave();
 
         /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
