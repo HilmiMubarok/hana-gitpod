@@ -18,6 +18,9 @@ export class CollateralAppraisalDataNasabahComponent {
 
   public onCreateSearchTextBox() {
     this.searchTextBox.addIcon('append', 'e-icons e-search');
+    document.getElementsByClassName('e-search')[0].addEventListener('click', e => {
+      this.searchInputOnEnter = this.searchInput;
+    });
   }
 
   public onKeyUpSearchBox(args: any): void {

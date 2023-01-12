@@ -15,7 +15,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 export class IndustryLimitComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public dateAsOf: string;
-  public limitPercentage: number;
+  public limitPercentage: any;
   public remainingBalance: number;
   public industryLimitExposure: number;
   public limitNominal: number;
@@ -64,10 +64,10 @@ export class IndustryLimitComponent implements OnInit {
           response.body[i].id === this.creditProposal.attributes['purposePricing'].industryCode
         ) {
           this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
-            this.limitPercentage = res.body.limitPercentage;
+            this.limitPercentage = res.body.limitPercentage / 100;
             this.remainingBalance = res.body.remainingBalance;
             this.industryLimitExposure = res.body.industryLimitExposure;
-            this.limitNominal = Number(res.body.limitPercentage) * Number(res.body.industryLimitExposure);
+            this.limitNominal = this.limitPercentage * Number(res.body.industryLimitExposure);
             // this.totalAmmountFunc(this.remainingBalance);
           });
         }
