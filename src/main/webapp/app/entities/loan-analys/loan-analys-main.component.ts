@@ -93,6 +93,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public positionLoginFromEmit: string;
   public opinionType = '';
 
+  public resAttr: IProcessTask;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -255,9 +257,13 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.creditProposalProcessService.processTask(task).subscribe(res => {
+		this.resAttr = _res;
+
+		this.onSave();
+
+        /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
-        });
+        }); */
       }
     });
   }
@@ -308,11 +314,16 @@ export class LoanAnalysMainComponent implements OnInit {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
 
-    this.messageService.add({
+	this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+	  this.router.navigate([this.router.url.split('/')[1]]);
+	});
+
+    /* this.messageService.add({
       severity: 'success',
       summary: 'Success',
       detail: 'Save Success',
-    });
+    }); */
+
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
@@ -364,7 +375,8 @@ export class LoanAnalysMainComponent implements OnInit {
       tempRouter === 'la-analyst' ||
       tempRouter === 'la-SME-CRC' ||
       tempRouter === 'la-approval' ||
-      tempRouter === 'loan-committee-approval'
+      tempRouter === 'loan-committee-approval' ||
+	  tempRouter === 'cc-review'
     ) {
       let tempHelper = 0;
       let tempOpinionType = '';
@@ -472,9 +484,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
@@ -489,6 +499,14 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   setPositionLogin(newItem: string) {
+    this.positionLoginFromEmit = newItem;
+  }
+  
+  setOpinionRecomendationCompliance(newItem: string) {
+    this.recomendation = newItem;
+  }
+
+  setPositionLoginCompliance(newItem: string) {
     this.positionLoginFromEmit = newItem;
   }
 
@@ -590,6 +608,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public onSave(): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
+		this.creditProposal.products = res.body.products;
         const tempRouter = this.router.url.split('/')[1];
         if (
           tempRouter === 'la-analyst' ||
@@ -621,6 +640,7 @@ export class LoanAnalysMainComponent implements OnInit {
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
+		this.creditProposal.products = res.body.products;
         const tempRouter = this.router.url.split('/')[1];
         if (
           tempRouter === 'la-analyst' ||

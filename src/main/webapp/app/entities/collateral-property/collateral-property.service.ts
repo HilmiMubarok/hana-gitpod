@@ -21,7 +21,7 @@ export class CollateralPropertyService extends AbstractEntityService<ICollateral
 
   protected preSave(entity: ICollateralProperty) {}
 
-  private roundHundred(value: number): number {
+  public roundHundred(value: number): number {
     const limit: Number = 500000;
     if (value < limit) {
       // under 500k

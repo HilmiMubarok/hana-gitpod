@@ -4,10 +4,10 @@ import { dataCovenantAbove } from '../../convenant.constant';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-credit-proposal-deviation-above',
+  selector: 'jhi-credit-proposal-deviation-dar-above',
   templateUrl: './credit-proposal-deviation-above.component.html',
 })
-export class CreditProposalDeviationAboveComponent implements OnInit {
+export class CreditProposalDeviationDarAboveComponent implements OnInit {
   public creditProposal: ICreditProposal = new CreditProposal();
   public _creditProposalItem: ICreditProposal;
   attributes: any;

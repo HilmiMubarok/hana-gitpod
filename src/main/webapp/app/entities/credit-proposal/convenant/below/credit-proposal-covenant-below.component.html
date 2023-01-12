@@ -1,4 +1,4 @@
-<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" [hidden]="isViewMode == false">
+<!-- <ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" [hidden]="isViewMode == false">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="left" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
@@ -31,8 +31,8 @@
           </ejs-dropdownlist>
         </ng-template>
       </section>
-    </e-column>
-    <!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+    </e-column> -->
+<!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
       <ng-template #template let-data>
         <ejs-textbox
           [multiline]="true"
@@ -58,10 +58,10 @@
         </ejs-textbox>
       </ng-template>
     </e-column> -->
-  </e-columns>
-</ejs-grid>
+<!-- </e-columns>
+</ejs-grid> -->
 
-<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" [hidden]="isViewMode == true">
+<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">

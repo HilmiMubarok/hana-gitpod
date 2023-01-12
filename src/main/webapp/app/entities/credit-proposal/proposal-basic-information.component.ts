@@ -22,7 +22,7 @@ import {
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
-  SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  CP_APPROVAL_MENU,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -281,7 +281,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -297,7 +297,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -313,7 +313,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -567,13 +567,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
-      this.creditProposal.attributes['remarksFinancialStatement']
-    );
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(this.creditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);

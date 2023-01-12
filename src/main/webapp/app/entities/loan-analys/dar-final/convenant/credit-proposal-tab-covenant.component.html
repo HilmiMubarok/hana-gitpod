@@ -63,8 +63,8 @@
 <div *ngIf="setActiveMenu === 'DEVIATION' || selectedMenu === 'DEVIATION'">
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
     <div class="card-content">
-      <jhi-credit-proposal-deviation-above [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
-      </jhi-credit-proposal-deviation-above>
+      <jhi-credit-proposal-deviation-dar-above [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
+      </jhi-credit-proposal-deviation-dar-above>
     </div>
   </div>
   <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">

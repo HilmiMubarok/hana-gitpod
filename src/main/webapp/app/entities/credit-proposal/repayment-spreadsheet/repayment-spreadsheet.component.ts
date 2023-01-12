@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { ActivatedRoute } from '@angular/router';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import {
@@ -15,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { ICreditProposal } from '../credit-proposal.model';
 
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+
 @Component({
   selector: 'jhi-repayment-spreadsheet',
   templateUrl: './repayment-spreadsheet.component.html',
@@ -23,13 +23,14 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | 'Total Exposure <= IDR 15 Bn';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
-  public saveWord: Boolean = false;
+  @ViewChild('spreadsheetDisabled') public spreadsheetDisabledObj: SpreadsheetComponent;
+  public saveWord = false;
   private bucket: string;
-  private key: string = 'credit_proposal/financial_analysis';
-  private updateKey: string = '';
+  private key = 'credit_proposal/financial_analysis';
+  private updateKey = '';
   private paramsId: string;
-  private isIdHasData: boolean = true;
-  private isMasterDataExist: boolean = false;
+  private isIdHasData = true;
+  private isMasterDataExist = false;
   @Input() saveWordMinio: any;
   private fileBeforeOpen: File = null;
 
@@ -183,6 +184,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
               this.isMasterDataExist = false;
               this.spreadsheetObj.open({});
               this.spreadsheetObj.clear({});
+
+              this.spreadsheetDisabledObj.open({});
+              this.spreadsheetDisabledObj.clear({});
               return;
             } else {
               this.isIdHasData = false;
@@ -218,6 +222,14 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
         });
 
         this.spreadsheetObj.clear({});
+
+        this.spreadsheetDisabledObj?.open({ file });
+        this.spreadsheetDisabledObj.clear({
+          type: 'Clear All',
+          range: 'A1:A2',
+        });
+
+        this.spreadsheetDisabledObj.clear({});
       });
   }
 
@@ -320,7 +332,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   onclick() {
-    const startCell: number = 5;
+    const startCell = 5;
     for (let i = 0; i < this.mockData.length; i++) {
       this.spreadsheetObj.updateCell({ value: `Fac-00${this.mockData[i].id}` }, `calculator2!A${startCell + i}`);
       this.spreadsheetObj.updateCell({ value: `${this.mockData[i].facilityType}` }, `calculator2!B${startCell + i}`);

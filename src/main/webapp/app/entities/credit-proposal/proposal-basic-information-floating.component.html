@@ -35,29 +35,6 @@
         <div class="e-card-content">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
-              <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-combobox
-                  cssClass="e-outline"
-                  placeholder="Proposal Type"
-                  (change)="setSubmenu($event.itemData)"
-                  [(ngModel)]="creditProposal.attributes.proposalType"
-                  placeholder="Please select proposal type"
-                  [dataSource]="proposalType"
-                  fields="{text:'text', value:'id'}"
-                  required
-                  [disabled]="disabledProptype()"
-                >
-                </ejs-combobox>
-              </section>
-              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                <div class="fontsebled row">
-                  <div class="col-4">Proposal Type</div>
-                  <div class="col-md-auto">:</div>
-                  <div class="col col-lg-4">
-                    {{ creditProposal.attributes.proposalType }}
-                  </div>
-                </div>
-              </section> -->
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -387,18 +364,6 @@
               ></jhi-collateral-info-history>
             </div>
           </div>
-          <!-- <div *ngIf="parentPath === 'cp-status-approval'">
-            <jhi-forward-to
-              (forwardTo)="onForwardTo($event)"
-              *ngIf="
-                creditProposal.statusId === 'CP_APPROVAL_SME_HEAD' ||
-                creditProposal.statusId === 'CP_APPROVAL_BM' ||
-                creditProposal.statusId === 'CP_APPROVAL_SDH' ||
-                creditProposal.statusId === 'CP_APPROVAL_DH' ||
-				creditProposal.statusId === 'CP_APPROVAL_DEPTHEAD'
-              " [creditProposal]="creditProposal">
-            </jhi-forward-to>
-          </div> -->
         </div>
       </div>
     </div>
@@ -423,9 +388,28 @@
       <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
 
       <mat-list role="list">
-        <mat-list-item role="listitem" *ngFor="let item of subMenu">
-          <a class="text-capitalize" (click)="routeSubMenu(item); drawer.toggle()">{{ item.text }}</a>
-        </mat-list-item>
+        <div *ngFor="let item of subMenu">
+          <mat-list-item role="listitem">
+            <a
+              *ngIf="!item.hasOwnProperty('child')"
+              href="javascript:void(0)"
+              class="text-capitalize"
+              (click)="routeSubMenu(item); drawer.toggle()"
+              >{{ item.text }}</a
+            >
+          </mat-list-item>
+          <mat-list-item class="text-capitalize" style="margin-top: -45px" *ngIf="item.hasOwnProperty('child')">{{
+            item.text
+          }}</mat-list-item>
+          <mat-list role="list" *ngIf="item.hasOwnProperty('child')" style="margin-left: 10px; margin-top: -10px">
+            <mat-list-item role="listitem" *ngFor="let itemChild of item.child">
+              <mat-icon matListIcon style="font-size: 10px; display: flex; align-items: center">panorama_fish_eye </mat-icon>
+              <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
+                itemChild.text
+              }}</a>
+            </mat-list-item>
+          </mat-list>
+        </div>
       </mat-list>
     </div>
   </mat-sidenav>

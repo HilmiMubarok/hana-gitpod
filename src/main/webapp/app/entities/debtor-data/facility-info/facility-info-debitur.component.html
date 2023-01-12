@@ -9,6 +9,10 @@
   </ng-container>
   <ng-container matColumnDef="limit">
     <th mat-header-cell *matHeaderCellDef style="width: 150px">Facility Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.FACILITY_TYPE }}</td>
+  </ng-container>
+  <ng-container matColumnDef="loantype">
+    <th mat-header-cell *matHeaderCellDef style="width: 150px">Loan Type</th>
     <td mat-cell *matCellDef="let element">{{ element.FILN11_COM_NM }}</td>
   </ng-container>
   <ng-container matColumnDef="os">

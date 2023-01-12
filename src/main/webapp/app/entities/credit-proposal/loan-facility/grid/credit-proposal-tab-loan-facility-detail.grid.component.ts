@@ -174,7 +174,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           currentInterestRate: cpFacility[i].FILN11_SPREAD_RT,
           dateOS: '2022-11-24T10:57:14.435Z',
           disbursementCondition: '',
-          facilityType: cpFacility[i].FILN11_COM_NM,
+          facilityType: cpFacility[i].FACILITY_TYPE,
           gracePeriod: '0',
           gracePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB,
           indexFacilityMain: '',
