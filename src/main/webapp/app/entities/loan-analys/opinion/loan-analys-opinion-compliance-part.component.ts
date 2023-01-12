@@ -528,8 +528,19 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
       if (res.body.notes.length > 0) {
         for (let i = 0; i < res.body.notes.length; i++) {
           if (res.body.notes[i].type === 'compliance') {
+			this.note = {
+              attributes: {},
+              condition: '',
+              createDate: '',
+              id: 0,
+              message: '',
+              positionUserId: '',
+              recomendation: '',
+              type: '',
+              userId: '',
+            };
             this.note.attributes = res.body.notes[i].attributes;
-            this.note.type = '';
+            this.note.type = 'compliance';
             this.note.message = '';
             this.note.condition = '';
             this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
