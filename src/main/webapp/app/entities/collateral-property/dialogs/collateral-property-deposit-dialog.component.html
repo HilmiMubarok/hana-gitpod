@@ -63,6 +63,7 @@
             type="text"
             [(ngModel)]="collateralProperty.attributes.amount"
             [options]="logoCcy"
+            (ngModelChange)="amountChange()"
             [disabled]="dataSource()"
           />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
@@ -92,6 +93,11 @@
         </mat-form-field>
       </div>
     </div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Liquidation Value</mat-label>
+      <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    </mat-form-field>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Contract Amount</mat-label>

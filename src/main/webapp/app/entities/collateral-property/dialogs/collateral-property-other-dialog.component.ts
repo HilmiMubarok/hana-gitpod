@@ -115,6 +115,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
     this.cekDataSource();
     this.cekData();
     this.setBranches();
+    this.setData();
   }
 
   public cekData() {
@@ -335,5 +336,13 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
 
   public getMVImbPsCcy() {
     this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.marketValue;
+  }
+
+  public amountChange() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.marketValue;
   }
 }
