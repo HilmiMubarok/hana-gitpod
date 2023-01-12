@@ -36,6 +36,7 @@ import { CollateralInfoDialogBTBDarFinalComponent } from './dar-final/collateral
 import { LoanAnalysGroupGuarantorAnalysisComponent } from './guarantour/loan-analys-group-guarantor-analysis.component';
 import { LoanAnalysSlikSummaryComponent } from './slik-summary/loan-analys-slik-summary.component';
 import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys-credit-rating-view.component';
+import { CreditProposalDeviationDarAboveComponent } from './dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
@@ -67,6 +68,7 @@ import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys
     LoanAnalysGroupGuarantorAnalysisComponent,
     LoanAnalysSlikSummaryComponent,
     LoanAnalysCreditRatingViewComponent,
+    CreditProposalDeviationDarAboveComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
