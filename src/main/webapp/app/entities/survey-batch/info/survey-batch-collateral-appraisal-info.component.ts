@@ -85,6 +85,9 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
   @Output() outputWilayahKota = new EventEmitter();
   @Output() outputTeamReviewer = new EventEmitter();
   @Output() outputOfficerAppraisal = new EventEmitter();
+
+  @Output() outputWilayahKotaInternal = new EventEmitter();
+  @Output() outputSurveyor = new EventEmitter();
   public branch?: string;
   public bmRm?: string;
   public segmentProductFields: Object = { text: 'description', value: 'id' };
@@ -143,6 +146,7 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
   public wilayahKotaInternalValue?: string;
   public wilayahKotaExternalValue?: string;
   public teamReviewer: any[];
+  public officer: any[];
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
   public teamReviewerValue: string;
   public officerAppraisal = [
@@ -487,6 +491,35 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
 
   public selectOfficerAppraisal(args: ChangeEventArgs): void {
     this.outputOfficerAppraisal.emit(args['value']);
+  }
+
+  public selectWilayahKotaInternal(args: ChangeEventArgs): void {
+    this.outputWilayahKotaInternal.emit(args['value']);
+    this.positionService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idInternal: args['value'],
+      })
+      .subscribe(res => {
+        const surveyor = [];
+        for (let i = 0; i < res.body.length; i++) {
+          if (res.body[i].positionTypeDescription === 'Surveyor') {
+            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
+          }
+        }
+
+        this.officer = surveyor;
+      });
+    this.cdr.detectChanges();
+    this.surveyAppraisal.surveyorArea = args['itemData'].id;
+  }
+
+  public selectSurveyor(args: ChangeEventArgs): void {
+    this.surveyAppraisal.surveyorId = args['itemData'].id;
+    this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
+    this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
+    this.outputSurveyor.emit(args['value']);
   }
 
   // Get From Partner KJPP
