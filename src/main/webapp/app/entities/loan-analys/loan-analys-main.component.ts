@@ -387,7 +387,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
       if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
 		copyCreditProposal.notes.push(
-		  this.addNewNotes('', this.recomendation, '', this.positionLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
+		  this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
 		);
         /* if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -421,7 +421,7 @@ export class LoanAnalysMainComponent implements OnInit {
       } else {
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-            if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
               copyCreditProposal.notes[i].message = '';
               copyCreditProposal.notes[i].recomendation = this.recomendation;
               copyCreditProposal.notes[i].condition = '';
@@ -433,12 +433,12 @@ export class LoanAnalysMainComponent implements OnInit {
 
           if (tempHelper === 0) {
             copyCreditProposal.notes.push(
-              this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
+              this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, this.positionLoginFromEmit, tempOpinionType)
             );
           }
         } else {
           copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, this.positionLoginFromEmit, tempOpinionType)
           );
         }
         delete copyCreditProposal.attributes['tempLoggedInNotes'];
