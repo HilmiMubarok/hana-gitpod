@@ -74,9 +74,9 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
       for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
         this.recommendation = this.creditProposalItem.notes[i].recomendation;
         if (
-          this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
-          this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-          this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
+          this.recommendation === 'Approved as Propose' ||
+          this.recommendation === 'Approved With Condition' ||
+          this.recommendation === 'Not Approved'
         ) {
 		  this.nameLabel = 'Approved Status';
 		  this.radioButtonPurpose = 'Approved as Propose';

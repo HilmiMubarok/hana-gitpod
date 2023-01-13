@@ -3,7 +3,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Address</mat-label>
-        <input matInput type="text" [(ngModel)]="partyCif.addresses[index].address.address1"/>
+        <input matInput type="text" [(ngModel)]="partyCif.addresses[index].address.address1" />
       </mat-form-field>
     </div>
     <div class="form-group">
@@ -17,7 +17,11 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Province</mat-label>
-        <mat-select (selectionChange)="loadCity($event.value)" [(ngModel)]="partyCif.addresses[index].address.provinceId">
+        <mat-select
+          [formControl]="myControlProvince"
+          (selectionChange)="loadCity($event.value)"
+          [(ngModel)]="partyCif.addresses[index].address.provinceId"
+        >
           <mat-option *ngFor="let item of provinces" [value]="item.id">{{ item.description }} </mat-option>
         </mat-select>
         <mat-hint align="end" *ngIf="!partyCif.addresses[index].address.countryId">Select country to get list of province </mat-hint>

@@ -47,11 +47,6 @@
             {{ option.description }}
           </mat-option>
         </mat-autocomplete>
-        <!-- <mat-select (selectionChange)="selectCountry($event)" [(ngModel)]="postalAddress.countryId" [disabled]="dataSource()">
-          <mat-option *ngFor="let item of country" [value]="item.id">
-            {{ item.description }}
-          </mat-option>
-        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -71,11 +66,6 @@
             {{ option.description }}
           </mat-option>
         </mat-autocomplete>
-        <!-- <mat-select (selectionChange)="selectProvince($event)" [(ngModel)]="postalAddress.provinceId" [disabled]="dataSource()">
-          <mat-option *ngFor="let item of province" [value]="item.id">
-            {{ item.description }}
-          </mat-option>
-        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -95,11 +85,6 @@
             {{ option.description }}
           </mat-option>
         </mat-autocomplete>
-        <!-- <mat-select [(ngModel)]="postalAddress.cityId" [disabled]="dataSource()">
-          <mat-option *ngFor="let item of cities" [value]="item.id">
-            {{ item.description }}
-          </mat-option>
-        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -119,11 +104,6 @@
             {{ option.description }}
           </mat-option>
         </mat-autocomplete>
-        <!-- <mat-select  [(ngModel)]="postalAddress.districtId" [disabled]="dataSource()">
-          <mat-option *ngFor="let item of districts" [value]="item.id">
-            {{ item.description }}
-          </mat-option>
-        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
@@ -143,9 +123,6 @@
             {{ option.description }}
           </mat-option>
         </mat-autocomplete>
-        <!-- <mat-select [(ngModel)]="postalAddress.villageId" [disabled]="dataSource()">
-          <mat-option *ngFor="let item of villages" [value]="item.id">{{ item.description }} </mat-option>
-        </mat-select> -->
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

@@ -116,9 +116,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
+      if (this.parsedData.previousHistroy.collaterals.length > 0) {
+        for (let i = 0; i < this.parsedData.previousHistroy.collaterals.length; i++) {
+          const collateral = this.parsedData.previousHistroy.collaterals[i];
           this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -129,8 +129,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
   public openDialogBTB(value: ICollateral): void {
     let cp = {};
-    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
+    for (let index = 0; index < this.parsedData.previousHistroy.collaterals.length; index++) {
+      if (this.parsedData.previousHistroy.collaterals[index].collateralId === value.collateralId) {
         cp = this.creditProposal;
       }
     }
@@ -154,11 +154,12 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         }
       }
 
-      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+      const arr = this.parsedData.previousHistroy.collaterals;
+      const collateralIdx: number = lodash.findIndex(arr, function (o: any) {
         return o.id === res['collateral'].id;
       });
       if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+        this.parsedData.previousHistroy.collaterals[collateralIdx] = res['collateral'];
       }
 
       const emptyIdx: number = lodash.findIndex(
@@ -299,7 +300,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public countTotalLV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -322,7 +323,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public countTotalMV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
