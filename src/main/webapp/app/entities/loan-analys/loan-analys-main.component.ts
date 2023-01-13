@@ -386,11 +386,11 @@ export class LoanAnalysMainComponent implements OnInit {
       tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
 
       if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-        if (copyCreditProposal.notes.length > 0) {
-		  copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.positionLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
-          );
-          /* for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+		copyCreditProposal.notes.push(
+		  this.addNewNotes('', this.recomendation, '', this.positionLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
+		);
+        /* if (copyCreditProposal.notes.length > 0) {
+          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
             if (copyCreditProposal.notes[i].userId === this.userId) {
               copyCreditProposal.notes[i].condition = '';
               copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
