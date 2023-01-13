@@ -15,7 +15,7 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { PositionService } from 'app/entities/position/position.service';
 import { IPosition } from 'app/entities/position/position.model';
@@ -29,7 +29,10 @@ import { MessageService } from 'primeng/api';
 
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
+import { Account } from 'app/core/auth/account.model';
+import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
+import { IOptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -89,6 +92,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public items: any;
   public approvalUserData: any[];
   public whoAmI: IPerson;
+  public relType: IOptionNode[];
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -158,7 +162,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
     protected messageService: MessageService,
-	protected applicationRoleService: ApplicationRoleService
+	protected applicationRoleService: ApplicationRoleService,
+	protected personService: PersonService,
   ) {
     const tempRouter = this.router.url.split('/')[1];
     if (
@@ -169,6 +174,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     ) {
       this.isShowOpinionFieldInput = true;
     }
+	this.approvalUserData = [];
+	this.relType = [];
   }
 
   ngOnInit(): void {
@@ -196,6 +203,35 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
+  public filteringRelationTypes(params: IApplicationRole[]): IOptionNode[] {
+    const result: IOptionNode[] = [];
+    if (params.length > 0) {
+      for (let i = 0; i < params.length; i++) {
+        const each: IApplicationRole = params[i];
+        if (
+          each.relationTypeId &&
+          lodash.find(result, function (o) {
+            return o.id === each.relationTypeId;
+          }) === undefined
+        ) {
+		  if (each.relationTypeId !== 'CREDIT_PROPOSAL') {
+			const newOptionNode: IOptionNode = new OptionNode();
+			newOptionNode.id = each.relationTypeId;
+			newOptionNode.label = each.relationTypeDescription;
+
+			result.push(newOptionNode);
+		  }
+          
+        }
+      }
+    }
+    return result;
+  }
+
+  private filteringRelType(params: IApplicationRole[]): void {
+    this.relType = this.filteringRelationTypes(params);
+  }
+
   private loadApprovalUser(): void {
 	this.applicationRoleService
       .queryFilterBy({
@@ -205,9 +241,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         this.items = res.body;
+		this.filteringRelType(this.items);
         for (let i = 0; i < this.items.length; i++) {
           const each: IApplicationRole = this.items[i];
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].toLowerCase() && each.fromPartyId === this.whoAmI.id) {
             this.approvalUserData.push(each);
           }
         }
