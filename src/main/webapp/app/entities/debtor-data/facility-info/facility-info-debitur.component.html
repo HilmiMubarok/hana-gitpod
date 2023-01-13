@@ -44,7 +44,7 @@
   </ng-container>
   <ng-container matColumnDef="tenor">
     <th mat-header-cell *matHeaderCellDef>Maturity</th>
-    <td mat-cell *matCellDef="let i = index" [innerHTML]="aYear[i]"></td>
+    <td mat-cell *matCellDef="let element">{{ element.TENOR }}{{ element.PERIOD_TYPE }}</td>
   </ng-container>
   <ng-container matColumnDef="lastKol">
     <th mat-header-cell *matHeaderCellDef>MaturityDate</th>

@@ -99,20 +99,14 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
       this.mapingData();
     }
     if (changes['partyCif']) {
-      console.log('ini party cif', this.partyCif);
       if (this.dialogType === 'debitur') {
         this.dataFacility = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
-        console.log(this.partyCif.debtorData.attributes['cpFacility']);
       }
-
-      console.log('ini data faility', this.dataFacility);
     }
     if (changes['dataGroup']) {
-      console.log('data group jalan');
       if (this.dialogType === 'group') {
         this.dataFacility = this.dataGroup;
-        this.mapingData();
-        console.log('in group', this.dataFacility);
+        // this.mapingData();
       }
     }
   }
@@ -126,7 +120,6 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     for (let i = 0; i < this.dataFacility.length; i++) {
       const date1 = new Date(this.dataFacility[i].FXFIG_TRX_DT);
       const date2 = new Date(this.dataFacility[i].FILN10_TOT_EXP_IL);
-      this.aYear[i] = Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)) + ' ' + 'years';
     }
   }
 
@@ -150,11 +143,8 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
         if (data) {
           const objectCPF: ICPFacility[] = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
           const index = objectCPF.findIndex(x => x.LNB_BASE_AGR_REF_NO === params.LNB_BASE_AGR_REF_NO);
-          console.log('ini index', index);
 
           objectCPF[index] = data;
-          console.log('1', objectCPF);
-          console.log('2', JSON.parse(this.partyCif.debtorData.attributes['cpFacility']));
           this.partyCif.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
           console.log(this.partyCif.debtorData);
           this.debtorDataService.update(this.partyCif.debtorData).subscribe(res => {
