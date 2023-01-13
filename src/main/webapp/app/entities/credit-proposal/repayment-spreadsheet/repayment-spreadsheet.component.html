@@ -1,66 +1,69 @@
-<div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
-  <ejs-menu
-    [enableScrolling]="true"
-    cssClass="e-rounded-menu e-custom-scroll"
-    [items]="menuItems"
-    (select)="selectMenuItem($event)"
-  ></ejs-menu>
-</div>
+<div *ngIf="creditProposalItem !== undefined">
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+    <ejs-menu
+      [enableScrolling]="true"
+      cssClass="e-rounded-menu e-custom-scroll"
+      [items]="menuItems"
+      (select)="selectMenuItem($event)"
+    ></ejs-menu>
+  </div>
 
-<div
-  *ngIf="
-    creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' ||
-    creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'
-  "
->
-  <ejs-menu
-    [enableScrolling]="true"
-    cssClass="e-rounded-menu e-custom-scroll"
-    [items]="menuItemsLainnya"
-    (select)="selectMenuItemLainnya($event)"
-  ></ejs-menu>
-</div>
+  <div
+    *ngIf="
+      creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' ||
+      creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'
+    "
+  >
+    <ejs-menu
+      [enableScrolling]="true"
+      cssClass="e-rounded-menu e-custom-scroll"
+      [items]="menuItemsLainnya"
+      (select)="selectMenuItemLainnya($event)"
+    ></ejs-menu>
+  </div>
 
-<div *ngIf="selectedMenu === 'UPLOAD'">
-  <div class="mb-5">
-    <div class="e-sample-resize-container e-card-resize-container">
-      <div class="row">
-        <div class="card-layout">
-          <div class="e-card">
-            <div class="e-card-header">
-              <div class="e-card-header-caption">
-                <div class="e-card-header-title"></div>
-                <div class="e-card-sub-title"></div>
+  <div *ngIf="selectedMenu === 'UPLOAD'">
+    <div class="mb-5">
+      <div class="e-sample-resize-container e-card-resize-container">
+        <div class="row">
+          <div class="card-layout">
+            <div class="e-card">
+              <div class="e-card-header">
+                <div class="e-card-header-caption">
+                  <div class="e-card-header-title"></div>
+                  <div class="e-card-sub-title"></div>
+                </div>
               </div>
-            </div>
-            <div class="e-card-content">
-              <button class="e-btn" (click)="onclick()">Sync</button>
-              <ejs-spreadsheet
-                [height]="700"
-                #spreadsheet
-                (created)="created()"
-                (beforeOpen)="beforeOpen($event)"
-                (beforeSave)="beforeSave($event)"
-                [showSheetTabs]="false"
-                [showRibbon]="false"
-                [isProtected]="true"
-                openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
-                saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
-                allowSave="true"
-                [allowEditing]="true"
-              ></ejs-spreadsheet>
+              <div class="e-card-content">
+                <button class="e-btn" (click)="onclick()">Sync</button>
+                <ejs-spreadsheet
+                  [height]="700"
+                  #spreadsheet
+                  (created)="created()"
+                  (beforeOpen)="beforeOpen($event)"
+                  (beforeSave)="beforeSave($event)"
+                  [showSheetTabs]="false"
+                  [showRibbon]="false"
+                  [isProtected]="true"
+                  openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
+                  saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
+                  allowSave="true"
+                  [allowEditing]="true"
+                ></ejs-spreadsheet>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="selectedMenu === 'RETRIEVE'">
-  <jhi-retrive [creditProposalItem]="creditProposalItem"></jhi-retrive>
-</div>
+  <div *ngIf="selectedMenu === 'RETRIEVE'">
+    <jhi-retrive [creditProposalItem]="creditProposalItem"></jhi-retrive>
+  </div>
 
-<div *ngIf="selectedMenu === 'FINANCIAL ANALYSIS'">
-  <jhi-financial-statement-remarks [saveWordMinio]="saveWord" [creditProposalItem]="creditProposalItem"> </jhi-financial-statement-remarks>
+  <div *ngIf="selectedMenu === 'FINANCIAL ANALYSIS'">
+    <jhi-financial-statement-remarks [saveWordMinio]="saveWord" [creditProposalItem]="creditProposalItem">
+    </jhi-financial-statement-remarks>
+  </div>
 </div>

@@ -118,6 +118,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
+    console.log('dataikeh', item);
   }
 
   private getBucket(): Promise<void> {
@@ -130,6 +131,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   ngOnInit(): void {
+    console.log('okeee', this.creditProposalItem);
     this.getBucket().then(res => {
       const predicateIdd: Object = {
         key: `/cif/${this.creditProposalItem.cif.partyId}/financial_analysis/`,
