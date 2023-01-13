@@ -21,8 +21,10 @@
                               value="Yes"
                               (change)="onSelect('Yes', data)"
                               [checked]="data.value === 'Yes'"
+                              [disabled]="isViewMode"
                               name="{{ data.No }}"
-                            ></ejs-radiobutton>
+                            >
+                            </ejs-radiobutton>
                           </section>
                           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                             <ejs-radiobutton
@@ -50,8 +52,10 @@
                               value="No"
                               (change)="onSelect('No', data)"
                               [checked]="data.value === 'No'"
+                              [disabled]="isViewMode"
                               name="{{ data.No }}"
-                            ></ejs-radiobutton>
+                            >
+                            </ejs-radiobutton>
                           </section>
                           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                             <ejs-radiobutton
