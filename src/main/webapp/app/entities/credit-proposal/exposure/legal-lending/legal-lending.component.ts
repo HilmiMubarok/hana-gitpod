@@ -53,6 +53,14 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   public ccy: any;
   public totalExposureDebtorAndGroub: number;
   public currencyMaster: any;
+  public totalWclGroub = 0;
+  public totalDlGroub = 0;
+  public totalODGroub = 0;
+  public totalMMLGroub = 0;
+  public totalFLGroub = 0;
+  public totalILGroub = 0;
+  public totalBGGroub = 0;
+  public totalLCGroub = 0;
 
   @Input()
   get creditProposal() {
@@ -106,16 +114,6 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.grandTotalDebitur();
     this.getMyBusinessGroup();
     this.getCurrency();
-    this.exposureDebiturGroubTotal();
-  }
-
-  public exposureDebiturGroubTotal() {
-    this.totalExposureDebtorAndGroub =
-      this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup + this.totalDebiturNonCashLoan + this.totalDebiturCashLoan;
-    console.log('1', this.totalDebiturCashLoanGroup);
-    console.log('2', this.totalDebiturNonCashLoanGroup);
-    console.log('3', this.totalDebiturNonCashLoan);
-    console.log('4', this.totalDebiturCashLoan);
   }
 
   public getApplicationOption() {
@@ -306,6 +304,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
               parsed.GroupName = '';
               parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
               parsed.FacilityType = source[y].FILN11_COM_NM;
+              parsed.FacilityType = source[y].FACILITY_TYPE;
               parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;
@@ -318,17 +317,57 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
 
-              if (source[y].LNB_BASE_LON_CCY === 'IDR') {
-                if (parsed.LoanType === 'Cash Loan') {
-                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit;
-                } else if (parsed.LoanType === 'Non Cash Loan') {
-                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit;
+              if (parsed.CCY === 'IDR') {
+                if (parsed.FacilityType === 'WCI') {
+                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS);
                 }
-              } else if (source[y].LNB_BASE_LON_CCY !== 'IDR') {
-                if (parsed.LoanType === 'Cash Loan') {
-                  this.totalDebiturCashLoanGroup = this.totalDebiturCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
-                } else if (parsed.LoanType === 'Non Cash Loan') {
-                  this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + parsed.InitialLimit * Number(this.currencyMaster);
+                if (parsed.FacilityType === 'IL') {
+                  this.totalILGroub = this.totalILGroub + Number(parsed.OS);
+                }
+                if (parsed.FacilityType === 'FL') {
+                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS);
+                }
+                if (parsed.FacilityType === 'MML') {
+                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond);
+                }
+                if (parsed.FacilityType === 'DL') {
+                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond);
+                }
+                if (parsed.FacilityType === 'OD') {
+                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond);
+                }
+                if (parsed.FacilityType === 'LC') {
+                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond);
+                }
+
+                if (parsed.FacilityType === 'BG') {
+                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond);
+                }
+              } else if (parsed.CCY !== 'IDR') {
+                if (parsed.FacilityType === 'WCI') {
+                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS);
+                }
+                if (parsed.FacilityType === 'IL') {
+                  this.totalILGroub = this.totalILGroub + Number(parsed.OS);
+                }
+                if (parsed.FacilityType === 'FL') {
+                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS);
+                }
+                if (parsed.FacilityType === 'MML') {
+                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond);
+                }
+                if (parsed.FacilityType === 'DL') {
+                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond);
+                }
+                if (parsed.FacilityType === 'OD') {
+                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond);
+                }
+                if (parsed.FacilityType === 'LC') {
+                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond);
+                }
+
+                if (parsed.FacilityType === 'BG') {
+                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond);
                 }
               }
 
@@ -337,13 +376,32 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
           }
         }
       }
-      this.exposureDebiturGroubTotal();
     }
-    this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
+    this.totalGroubCashLoanNonCashLoan();
   }
   // currency code
   getCurrency() {
     this.ccy = this.creditProposal.products[0].attributes.currency;
+  }
+
+  public totalGroubCashLoanNonCashLoan() {
+    this.totalDebiturCashLoanGroup =
+      this.totalDebiturCashLoanGroup +
+      this.totalDlGroub +
+      this.totalWclGroub +
+      this.totalMMLGroub +
+      this.totalFLGroub +
+      this.totalILGroub +
+      this.totalODGroub;
+    this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + this.totalBGGroub + this.totalFLGroub;
+    this.grandTotalGroup = this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup;
+
+    this.exposureDebiturGroubTotal();
+  }
+
+  public exposureDebiturGroubTotal() {
+    this.totalExposureDebtorAndGroub =
+      this.totalDebiturCashLoanGroup + this.totalDebiturNonCashLoanGroup + this.totalDebiturNonCashLoan + this.totalDebiturCashLoan;
   }
 
   // Select Limit Type
