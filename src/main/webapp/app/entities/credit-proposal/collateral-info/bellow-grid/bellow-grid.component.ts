@@ -485,26 +485,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
-            collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
-          ) {
-            result = result + data.marketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-            result = result + data.vehicleMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
-            result = result + data.machineMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
-            result = result + data.attributes.amount;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
-            result = result + data.attributes.totalFaceAmount;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-            result = result + data.attributes.amount;
+          if (data !== undefined) {
+            result = result + Number(data.marketValue);
           }
         }
       }

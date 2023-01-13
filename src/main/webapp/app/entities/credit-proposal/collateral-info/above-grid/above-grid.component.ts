@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterVie
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE, REALESTATE_CERTIFICATE_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -22,7 +22,6 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { creditRatingRoute } from 'app/entities/credit-rating/credit-rating.route';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 @Component({
   selector: 'jhi-above-grid',
@@ -52,6 +51,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     'action',
   ];
 
+  public certificateType: any;
+
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
@@ -59,8 +60,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
-  public certificateType: any;
-  public dataString1: string;
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -303,7 +302,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         if (data.propertyMarketValue === null) {
           result = 0;
         } else {
-          result = data.marketValue;
+          result = data.propertyMarketValue;
         }
       }
     } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
@@ -485,26 +484,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
-            collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
-          ) {
-            result = result + data.marketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-            result = result + data.vehicleMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
-            result = result + data.machineMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['deposit']) {
-            result = result + data.attributes.amount;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['securities']) {
-            result = result + data.attributes.totalFaceAmount;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-            result = result + data.attributes.amount;
+          if (data !== undefined) {
+            result = result + Number(data.marketValue);
           }
         }
       }
