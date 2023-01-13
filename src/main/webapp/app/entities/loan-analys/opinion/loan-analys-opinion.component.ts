@@ -86,6 +86,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public positionLogin: any;
 
   public recomendasi: string;
+  private nameLoanComitee: string;
   private positionLoanComitee: string;
   public isShowOpinionFieldInput: boolean = false;
 
@@ -108,6 +109,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   @Output() newItemEvent = new EventEmitter<string>();
+  @Output() nameLoginEmit = new EventEmitter<string>();
   @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -280,14 +282,23 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   setApproval(event: any) {
+	let partyIdPos = '';
     for (let i = 0; i < this.approvalUserData.length; i++) {
-      if (event.value === this.approvalUserData[i].id) {
-        this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].label;
-        this.creditProposalItem.attributes['position'] = this.approvalUserData[i].label;
+      if (event.value === this.approvalUserData[i].partyId) {
+        this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].partyName;
+        this.creditProposalItem.attributes['position'] = this.approvalUserData[i].partyName;
+		partyIdPos = this.approvalUserData[i].partyId;
       }
-      this.positionLoanComitee = this.creditProposalItem.attributes['position'];
-      this.positionLoginEmit.emit(this.creditProposalItem.attributes['position']);
     }
+	this.nameLoanComitee = partyIdPos;
+	this.nameLoginEmit.emit(partyIdPos);
+
+	this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
+	  if (res.body.length > 0) {
+		this.positionLoanComitee = res.body[0].positionTypeDescription;
+		this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
+	  }
+	});
   }
 
   public conditionOpinion() {
@@ -354,7 +365,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.positionService.findByLogin().subscribe(posisi => {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         if (this.positionLoanComitee) {
-		  this.userId = this.positionLoanComitee;
+		  this.userId = this.nameLoanComitee;
           this.positionUserId = this.positionLoanComitee;
         } else {
           this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
@@ -485,7 +496,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.positionService.findByLogin().subscribe(posisi => {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         if (this.positionLoanComitee) {
-          this.userId = this.positionLoanComitee;
+          this.userId = this.nameLoanComitee;
           this.positionUserId = this.positionLoanComitee;
         } else {
           this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
@@ -664,20 +675,24 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         }
       }
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-        this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-        this.creditProposalItem.attributes['position'] = '';
-        if (this.notes.length > 0) {
-          for (let i = 0; i < this.notes.length; i++) {
-            this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-            this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-            this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
-            this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
-			if (this.notes[i].userId === this.currentAccount.login) {
-			  this.newItemEvent.emit(this.notes[i].recomendation);
+		this.accountService.identity().subscribe(account => {
+          this.currentAccount = account;
+		  this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+		  this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+          this.creditProposalItem.attributes['position'] = '';
+          if (this.notes.length > 0) {
+			for (let i = 0; i < this.notes.length; i++) {
+              this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+              this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
+              this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
+			  if (this.notes[i].userId === this.currentAccount.login) {
+				this.newItemEvent.emit(this.notes[i].recomendation);
+			  }
 			}
           }
-        }
+		}
+        
       } else {
         this.accountService.identity().subscribe(account => {
           this.currentAccount = account;
