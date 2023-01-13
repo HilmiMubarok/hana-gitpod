@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -100,7 +101,8 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
-    protected partyCifService: PartyCifService
+    protected partyCifService: PartyCifService,
+    public creditProposalService: CreditProposalService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -356,6 +358,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
       this.branceManagement = res.body;
     });
   }
+  public currency = 0;
 
   public getMVImbCcy() {
     this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
@@ -363,6 +366,21 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
 
   public getMVImbPsCcy() {
     this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
+
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService
+      .getCurrency(this.collateralProperty.attributes.marketValueCcy, 'IDR', setDate.replace(/-/g, ''))
+      .subscribe(res => {
+        if (res.body[0]?.factor !== undefined) {
+          this.currency = Number(res.body[0]?.factor);
+          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
+        } else {
+          this.currency = 0;
+          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
+        }
+      });
   }
 
   public getQty() {
@@ -375,9 +393,11 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
 
   public setData() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.totalFaceAmount;
   }
 
   public amountChange() {
-    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount;
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
   }
 }
