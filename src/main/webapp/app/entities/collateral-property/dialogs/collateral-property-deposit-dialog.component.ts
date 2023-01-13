@@ -26,7 +26,7 @@ import {
 } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
-
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 export interface User {
   name: string;
 }
@@ -50,6 +50,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public optionsQuantity: IUom[];
   public filteredOptionsQuantity: Observable<IUom[]>;
   public qty: IUom;
+  public currency = 0;
 
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
@@ -103,7 +104,8 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    public creditProposalService: CreditProposalService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -369,6 +371,20 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
 
   public getAmountCcy() {
     this.collateralProperty.attributes.amountCcy = this.amountCcy.id;
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService
+      .getCurrency(this.collateralProperty.attributes.amountCcy, 'IDR', setDate.replace(/-/g, ''))
+      .subscribe(res => {
+        if (res.body[0]?.factor !== undefined) {
+          this.currency = Number(res.body[0]?.factor);
+          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+        } else {
+          this.currency = 0;
+          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+        }
+      });
   }
 
   public getMVImbCcy() {
@@ -381,9 +397,11 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
 
   public setData() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.amount;
   }
 
   public amountChange() {
-    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount;
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
   }
 }
