@@ -223,7 +223,7 @@
                 <td style="vertical-align: middle; text-align: center; border-bottom: none">Profit 1 Year</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center; border-bottom: none">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].profit" type="number" [value]="totalProfit()" />
+                    <input [(ngModel)]="item.attributes['tabCustomer'].profit" type="number" [value]="totalProfit()" [disabled]="true" />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
