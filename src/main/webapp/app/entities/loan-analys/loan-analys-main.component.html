@@ -439,7 +439,6 @@
 
       <!-- Covenant & TBO -->
       <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        {{ creditProposal.attributes.proposalType }}
         <jhi-credit-proposal-tab-covenant [isViewMode]="true" *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
         </jhi-credit-proposal-tab-covenant>
         <jhi-credit-proposal-tab-covenant-history [isViewMode]="true" *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
@@ -494,8 +493,8 @@
         <div *ngIf="parentPath === 'cc-review'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
-			(positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
-			(newItemEventCompliance)="setOpinionRecomendationCompliance($event)"
+            (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
+            (newItemEventCompliance)="setOpinionRecomendationCompliance($event)"
             (typeOpinion)="setTypeOpinion($event)"
             [creditProposalItem]="creditProposal"
             [cp]="cp"

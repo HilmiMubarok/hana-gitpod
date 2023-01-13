@@ -18,6 +18,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
   public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
   public files: Object[];
   private bucket: string;
+  public _isViewMode: boolean;
 
   @Input()
   get creditProposal() {
@@ -26,7 +27,15 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
 
   set creditProposal(data: ICreditProposal) {
     this._creditProposal = data;
-    console.log('cp', data.cif.partyId);
+  }
+
+  @Input()
+  get isViewMode() {
+    return this._isViewMode;
+  }
+
+  set isViewMode(data: boolean) {
+    this._isViewMode = data;
   }
 
   constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {

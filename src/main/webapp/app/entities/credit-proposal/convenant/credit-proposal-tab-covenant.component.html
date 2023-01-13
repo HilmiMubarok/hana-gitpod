@@ -104,6 +104,7 @@
 
 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
   <div>
-    <jhi-credit-proposal-document-checklist [creditProposal]="creditProposalItem"> </jhi-credit-proposal-document-checklist>
+    <jhi-credit-proposal-document-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposalItem">
+    </jhi-credit-proposal-document-checklist>
   </div>
 </div>
