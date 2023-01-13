@@ -86,7 +86,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public isShowOpinionFieldInput: boolean = false;
 
   public items: any;
-  public approvalUser: any[];
+  public approvalUserData: any[];
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -184,7 +184,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   private filteringRelType(params: IApplicationRole[]): void {
-    this.approvalUser = this.applicationRoleService.filteringRelationTypesMod(params);
+    this.approvalUserData = this.applicationRoleService.filteringRelationTypesMod(params);
   }
 
   private loadApprovalUser(): void {
@@ -229,10 +229,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   setApproval(event: any) {
-    for (let i = 0; i < this.approvalUser.length; i++) {
-      if (event.value === this.approvalUser[i].id) {
-        this.creditProposalItem.attributes['userId'] = this.approvalUser[i].label;
-        this.creditProposalItem.attributes['position'] = this.approvalUser[i].label;
+    for (let i = 0; i < this.approvalUserData.length; i++) {
+      if (event.value === this.approvalUserData[i].id) {
+        this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].label;
+        this.creditProposalItem.attributes['position'] = this.approvalUserData[i].label;
       }
       this.positionLoanComitee = this.creditProposalItem.attributes['position'];
       this.positionLoginEmit.emit(this.creditProposalItem.attributes['position']);
