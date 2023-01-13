@@ -387,7 +387,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
       if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
 		copyCreditProposal.notes.push(
-		  this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
+		  this.addNewNotes('', this.recomendation, '', this.positionLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
 		);
         /* if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {

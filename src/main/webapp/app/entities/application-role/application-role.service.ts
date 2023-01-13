@@ -58,4 +58,26 @@ export class ApplicationRoleService extends AbstractEntityService<IApplicationRo
     }
     return result;
   }
+  
+  public filteringRelationTypesMod(params: IApplicationRole[]): IOptionNode[] {
+    const result: IOptionNode[] = [];
+    if (params.length > 0) {
+      for (let i = 0; i < params.length; i++) {
+        const each: IApplicationRole = params[i];
+        if (
+          each.relationTypeId &&
+          lodash.find(result, function (o) {
+            return o.id === each.relationTypeId;
+          }) === undefined
+        ) {
+          const newOptionNode: IOptionNode = new OptionNode();
+          newOptionNode.id = each.relationTypeId;
+          newOptionNode.label = each.partyName;
+
+          result.push(newOptionNode);
+        }
+      }
+    }
+    return result;
+  }
 }

@@ -45,8 +45,8 @@
       <mat-form-field class="w-100" appearance="outline" [hidden]="approvalUser">
         <mat-label>Approval User</mat-label>
         <mat-select (selectionChange)="setApproval($event)" [(ngModel)]="creditProposalItem.attributes['userId']">
-          <mat-option *ngFor="let item of position" [value]="item.employeeFirstName">
-            {{ item.employeeFirstName }}
+          <mat-option *ngFor="let item of approvalUser" [value]="item.id">
+            {{ item.label }}
           </mat-option>
         </mat-select>
       </mat-form-field>

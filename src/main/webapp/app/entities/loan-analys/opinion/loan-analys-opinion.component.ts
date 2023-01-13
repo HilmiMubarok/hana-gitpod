@@ -27,6 +27,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { MessageService } from 'primeng/api';
 
+import { IApplicationRole } from 'app/entities/application-role/application-role.model';
+
 @Component({
   selector: 'jhi-loan-analys-opinion',
   templateUrl: './loan-analys-opinion.component.html',
@@ -81,6 +83,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public recomendasi: string;
   private positionLoanComitee: string;
   public isShowOpinionFieldInput: boolean = false;
+
+  public items: any;
+  public approvalUser: any[];
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -149,7 +154,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+	protected applicationRoleService: ApplicationRoleService
   ) {
     const tempRouter = this.router.url.split('/')[1];
     if (
@@ -172,7 +178,25 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.conditionOpinion();
     this.conditionEnableOpinion();
     this.hiddenApprovalUser();
-    this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
+    // this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
+	this.loadApprovalUser();
+  }
+
+  private filteringRelType(params: IApplicationRole[]): void {
+    this.approvalUser = this.applicationRoleService.filteringRelationTypesMod(params);
+  }
+
+  private loadApprovalUser(): void {
+	this.applicationRoleService
+      .queryFilterBy({
+        idApplication: this.creditProposalItem.id,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.items = res.body;
+        this.filteringRelType(this.items);
+      });
   }
 
   public getWord() {
@@ -204,13 +228,13 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   setApproval(event: any) {
-    for (let i = 0; i < this.position.length; i++) {
-      if (event.value === this.position[i].employeeFirstName) {
-        this.creditProposalItem.attributes['userId'] = this.position[i].employeeFirstName;
-        this.creditProposalItem.attributes['position'] = this.position[i].positionTypeDescription;
+    for (let i = 0; i < this.approvalUser.length; i++) {
+      if (event.value === this.approvalUser[i].id) {
+        this.creditProposalItem.attributes['userId'] = this.approvalUser[i].label;
+        this.creditProposalItem.attributes['position'] = this.approvalUser[i].label;
       }
       this.positionLoanComitee = this.creditProposalItem.attributes['position'];
-      this.positionLoginEmit.emit(this.positionLoanComitee);
+      this.positionLoginEmit.emit(this.creditProposalItem.attributes['position']);
     }
   }
 
@@ -278,6 +302,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.positionService.findByLogin().subscribe(posisi => {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         if (this.positionLoanComitee) {
+		  this.userId = this.positionLoanComitee;
           this.positionUserId = this.positionLoanComitee;
         } else {
           this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
@@ -408,6 +433,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.positionService.findByLogin().subscribe(posisi => {
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
         if (this.positionLoanComitee) {
+          this.userId = this.positionLoanComitee;
           this.positionUserId = this.positionLoanComitee;
         } else {
           this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
@@ -610,7 +636,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
           if (this.notes.length > 0) {
             for (let i = 0; i < this.notes.length; i++) {
               this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-              if (this.notes[i].userId === this.currentAccount.login) {
+              if (this.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
                 this.creditProposalItem.notes[i].message = '';
                 this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
