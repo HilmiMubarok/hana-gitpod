@@ -290,11 +290,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 		partyIdPos = this.approvalUserData[i].partyId;
       }
     }
-	this.nameLoanComitee = partyIdPos;
-	this.nameLoginEmit.emit(partyIdPos);
 
-	this.positionService.queryFilterBy({ idParty: this.nameLoanComitee, size: 1, page: 0 }).subscribe(res => {
+	this.positionService.queryFilterBy({ idParty: partyIdPos, size: 1, page: 0 }).subscribe(res => {
 	  if (res.body.length > 0) {
+		this.nameLoanComitee = this.creditProposalItem.attributes['userId'];
+		this.nameLoginEmit.emit(this.creditProposalItem.attributes['userId']);
+
 		this.positionLoanComitee = res.body[0].positionTypeDescription;
 		this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
 	  }
