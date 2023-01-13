@@ -90,6 +90,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public isHistoryExist: boolean;
 
   public recomendation: string;
+  public nameLoginFromEmit: string;
   public positionLoginFromEmit: string;
   public opinionType = '';
 
@@ -387,7 +388,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
       if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
 		copyCreditProposal.notes.push(
-		  this.addNewNotes('', this.recomendation, '', this.positionLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
+		  this.addNewNotes('', this.recomendation, '', this.nameLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
 		);
         /* if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -501,6 +502,10 @@ export class LoanAnalysMainComponent implements OnInit {
 
   setOpinionRecomendation(newItem: string) {
     this.recomendation = newItem;
+  }
+
+  setNameLogin(newItem: string) {
+    this.nameLoginFromEmit = newItem;
   }
 
   setPositionLogin(newItem: string) {
