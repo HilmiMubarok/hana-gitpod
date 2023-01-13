@@ -44,7 +44,7 @@
     <div class="mb-2 col-md-2" style="margin-top: 20px">
       <mat-form-field class="w-100" appearance="outline" [hidden]="approvalUser">
         <mat-label>Approval User</mat-label>
-        <mat-select (selectionChange)="setApproval($event)" [(ngModel)]="creditProposalItem.attributes['userId']">
+        <mat-select (selectionChange)="setApproval($event)">
           <mat-option *ngFor="let item of approvalUserData" [value]="item.partyId">
             {{ item.partyName }}
           </mat-option>
