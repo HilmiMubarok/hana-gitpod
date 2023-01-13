@@ -128,6 +128,7 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     this.setCertyficateType();
     this.dataSource();
     this.cekData();
+    this.cekDataSource();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
