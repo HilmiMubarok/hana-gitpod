@@ -293,7 +293,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	this.nameLoanComitee = partyIdPos;
 	this.nameLoginEmit.emit(partyIdPos);
 
-	this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
+	this.positionService.queryFilterBy({ idParty: this.nameLoanComitee, size: 1, page: 0 }).subscribe(res => {
 	  if (res.body.length > 0) {
 		this.positionLoanComitee = res.body[0].positionTypeDescription;
 		this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
@@ -691,8 +691,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 			  }
 			}
           }
-		}
-        
+		});
       } else {
         this.accountService.identity().subscribe(account => {
           this.currentAccount = account;
