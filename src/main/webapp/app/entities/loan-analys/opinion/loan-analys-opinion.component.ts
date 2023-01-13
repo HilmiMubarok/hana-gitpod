@@ -32,7 +32,7 @@ import { ApplicationRoleService } from 'app/entities/application-role/applicatio
 import { Account } from 'app/core/auth/account.model';
 import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
-import { IOptionNode } from 'app/shared/model/option-node.model';
+import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -203,7 +203,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
-  public filteringRelationTypes(params: IApplicationRole[]): IOptionNode[] {
+  private filteringRelationTypes(params: IApplicationRole[]): IOptionNode[] {
     const result: IOptionNode[] = [];
     if (params.length > 0) {
       for (let i = 0; i < params.length; i++) {
@@ -244,7 +244,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 		this.filteringRelType(this.items);
         for (let i = 0; i < this.items.length; i++) {
           const each: IApplicationRole = this.items[i];
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].toLowerCase() && each.fromPartyId === this.whoAmI.id) {
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
             this.approvalUserData.push(each);
           }
         }
