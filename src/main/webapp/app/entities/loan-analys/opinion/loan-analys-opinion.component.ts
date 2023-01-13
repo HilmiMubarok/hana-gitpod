@@ -28,6 +28,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { MessageService } from 'primeng/api';
 
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
+import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
