@@ -292,7 +292,16 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
 
 	this.nameLoanComitee = this.creditProposalItem.attributes['userId'];
+	this.userId = this.nameLoanComitee;
 	this.nameLoginEmit.emit(this.nameLoanComitee);
+
+	this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
+	  if (res.body.length > 0) {
+		this.positionLoanComitee = res.body[0].positionTypeDescription;
+		this.positionUserId = this.positionLoanComitee;
+		this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
+	  }
+	});
   }
 
   public conditionOpinion() {
@@ -470,15 +479,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public triggeredSave(): void {
 	if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
 	  if (this.nameLoanComitee) {
-		this.userId = this.nameLoanComitee;
-		this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
-		  if (res.body.length > 0) {
-			this.positionLoanComitee = res.body[0].positionTypeDescription;
-			this.positionUserId = this.positionLoanComitee;
-			this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
-			this.saveFileLC();
-		  }
-		});
+		this.saveFileLC();
 	  } else {
 		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
 	  }
@@ -672,16 +673,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public triggeredSaveCondition(): void {
 	if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-	  if (this.positionLoanComitee) {
-		this.userId = this.nameLoanComitee;
-		this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
-		  if (res.body.length > 0) {
-			this.positionLoanComitee = res.body[0].positionTypeDescription;
-			this.positionUserId = this.positionLoanComitee;
-			this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
-			this.saveFileConLC();
-		  }
-		});
+	  if (this.nameLoanComitee) {
+		this.saveFileConLC();
 	  } else {
 		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
 	  }
