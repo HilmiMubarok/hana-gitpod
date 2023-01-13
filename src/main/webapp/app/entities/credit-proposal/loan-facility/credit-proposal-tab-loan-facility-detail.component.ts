@@ -131,6 +131,12 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     if (this.saveWord === true) {
       this.triggeredSave();
     }
+    if (changes['creditProposal']) {
+      this.fungsiSuminit();
+      this.fungsiSumchange();
+      this.fungsiSumOS();
+      this.fungsiSumavailable();
+    }
   }
   // WORD
   public getWord() {
@@ -274,6 +280,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   fungsiSuminit() {
     let result: number;
     let dolar: number;
+    let hasil: number;
     result = 0;
     dolar = 0;
 
