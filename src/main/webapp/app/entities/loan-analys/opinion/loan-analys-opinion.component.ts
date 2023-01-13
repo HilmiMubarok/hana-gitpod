@@ -29,6 +29,7 @@ import { MessageService } from 'primeng/api';
 
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
+import { IPerson } from 'app/entities/person/person.model';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -87,6 +88,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public items: any;
   public approvalUserData: any[];
+  public whoAmI: IPerson;
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -180,11 +182,18 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.conditionEnableOpinion();
     this.hiddenApprovalUser();
     // this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
-	this.loadApprovalUser();
+	this.getWhoAmI().then(res => {
+	  this.loadApprovalUser();
+    });
   }
 
-  private filteringRelType(params: IApplicationRole[]): void {
-    this.approvalUserData = this.applicationRoleService.filteringRelationTypesMod(params);
+  private async getWhoAmI(): Promise<void> {
+    const account: Account = await firstValueFrom(this.accountService.identity());
+    const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
+      .body;
+    if (persons.length > 0) {
+      this.whoAmI = persons[0];
+    }
   }
 
   private loadApprovalUser(): void {
@@ -196,7 +205,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         this.items = res.body;
-        this.filteringRelType(this.items);
+        for (let i = 0; i < this.items.length; i++) {
+          const each: IApplicationRole = this.items[i];
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
+            this.approvalUserData.push(each);
+          }
+        }
       });
   }
 
