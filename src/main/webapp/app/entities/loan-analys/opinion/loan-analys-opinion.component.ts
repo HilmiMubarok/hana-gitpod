@@ -471,7 +471,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
 	  if (this.nameLoanComitee) {
 		this.userId = this.nameLoanComitee;
-		this.positionService.queryFilterBy({ idParty: partyIdPos, size: 1, page: 0 }).subscribe(res => {
+		this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
 		  if (res.body.length > 0) {
 			this.positionLoanComitee = res.body[0].positionTypeDescription;
 			this.positionUserId = this.positionLoanComitee;
@@ -674,7 +674,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
 	  if (this.positionLoanComitee) {
 		this.userId = this.nameLoanComitee;
-		this.positionService.queryFilterBy({ idParty: partyIdPos, size: 1, page: 0 }).subscribe(res => {
+		this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
 		  if (res.body.length > 0) {
 			this.positionLoanComitee = res.body[0].positionTypeDescription;
 			this.positionUserId = this.positionLoanComitee;
