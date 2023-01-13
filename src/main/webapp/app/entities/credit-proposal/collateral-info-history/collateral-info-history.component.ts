@@ -46,24 +46,28 @@ export class CollateralInfoHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // View Sub Menu Collateral Info in Loan And Offering Letter
     if (
-      this.router.url.split('/')[1] === 'la-distribution' ||
+      // this.router.url.split('/')[1] === 'la-distribution' ||
       this.router.url.split('/')[1] === 'la-analyst' ||
       this.router.url.split('/')[1] === 'la-SME-CRC' ||
       this.router.url.split('/')[1] === 'la-approval' ||
-      this.router.url.split('/')[1] === 'la-approval-inquiry' ||
+      this.router.url.split('/')[1] === 'loan-committee-approval' ||
+      // this.router.url.split('/')[1] === 'la-approval-inquiry' ||
       this.router.url.split('/')[1] === 'dar-final' ||
       this.router.url.split('/')[1] === 'dar-checker' ||
-      this.router.url.split('/')[1] === 'dar-notif' ||
-      this.router.url.split('/')[1] === 'cc-distribution' ||
+      // this.router.url.split('/')[1] === 'dar-notif' ||
+      // this.router.url.split('/')[1] === 'cc-distribution' ||
       this.router.url.split('/')[1] === 'cc-checking' ||
       this.router.url.split('/')[1] === 'cc-review' ||
-      this.router.url.split('/')[1] === 'cc-inquiry' ||
-      this.router.url.split('/')[1] === 'loan-analys-and-approval-monitoring'
+      // this.router.url.split('/')[1] === 'cc-inquiry' ||
+      // this.router.url.split('/')[1] === 'loan-analys-and-approval-monitoring' ||
+      this.router.url.split('/')[1] === 'finalize' ||
+      this.router.url.split('/')[1] === 'review' ||
+      this.router.url.split('/')[1] === 'confirmation'
     ) {
       this.customPath = true;
     }
-    // this.removemenu();
   }
 
   @Input() isViewMode?: Boolean = false;

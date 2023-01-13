@@ -16,6 +16,7 @@ export class CollateralInfoChecklistHistoryComponent implements OnInit {
   public remarks: string;
 
   constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {}
+  @Input() isViewMode?: Boolean = false;
 
   @Input()
   get creditProposal() {

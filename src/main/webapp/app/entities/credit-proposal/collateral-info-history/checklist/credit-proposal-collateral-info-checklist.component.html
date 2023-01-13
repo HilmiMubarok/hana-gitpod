@@ -20,8 +20,10 @@
                             value="Yes"
                             (change)="onSelect('Yes', data)"
                             [checked]="data.value === 'Yes'"
+                            [disabled]="isViewMode"
                             name="{{ data.No }}"
-                          ></ejs-radiobutton>
+                          >
+                          </ejs-radiobutton>
                         </div>
                       </div>
                     </ng-template>
@@ -37,8 +39,10 @@
                             value="No"
                             (change)="onSelect('No', data)"
                             [checked]="data.value === 'No'"
+                            [disabled]="isViewMode"
                             name="{{ data.No }}"
-                          ></ejs-radiobutton>
+                          >
+                          </ejs-radiobutton>
                         </div>
                       </div>
                     </ng-template>
