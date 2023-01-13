@@ -22,6 +22,19 @@ import {
   APPRAISAL_MENU_CRA,
   APPRAISAL_MENU_CRC,
   APPRAISAL_MENU_HCR,
+  APPRAISAL_MENU_BUSINESS_DIR,
+  APPRAISAL_MENU_CREDIT_DIR,
+  APPRAISAL_MENU_FINANCE_DIR,
+  APPRAISAL_MENU_CC_ANALYST,
+  APPRAISAL_MENU_CC_ADMIN,
+  APPRAISAL_MENU_CC_DEPT_HEAD,
+  APPRAISAL_MENU_CC_DH,
+  APPRAISAL_MENU_CC_DIR,
+  APPRAISAL_MENU_LEGAL_HEAD,
+  APPRAISAL_MENU_LEGAL_OFFICER,
+  APPRAISAL_MENU_CRO,
+  APPRAISAL_DEPT_HEAD,
+  APPRAISAL_DEPT_CREDIT_LEGAL_LEAD,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 
@@ -78,6 +91,32 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_CRC;
         } else if (lodash.indexOf(account.authorities, Authority.HCR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_HCR;
+        } else if (lodash.indexOf(account.authorities, Authority.BUSINESS_DIR) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_BUSINESS_DIR;
+        } else if (lodash.indexOf(account.authorities, Authority.CREDIT_DIR) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CREDIT_DIR;
+        } else if (lodash.indexOf(account.authorities, Authority.CC_ANALYST) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CC_ANALYST;
+        } else if (lodash.indexOf(account.authorities, Authority.FINANCE_DIR) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_FINANCE_DIR;
+        } else if (lodash.indexOf(account.authorities, Authority.CC_ADMIN) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CC_ADMIN;
+        } else if (lodash.indexOf(account.authorities, Authority.CC_DEPT_HEAD) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CC_DEPT_HEAD;
+        } else if (lodash.indexOf(account.authorities, Authority.CC_DH) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CC_DH;
+        } else if (lodash.indexOf(account.authorities, Authority.CC_DIR) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CC_DIR;
+        } else if (lodash.indexOf(account.authorities, Authority.LEGAL_HEAD) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_LEGAL_HEAD;
+        } else if (lodash.indexOf(account.authorities, Authority.LEGAL_OFFICER) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_LEGAL_OFFICER;
+        } else if (lodash.indexOf(account.authorities, Authority.CRO) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CRO;
+        } else if (lodash.indexOf(account.authorities, Authority.DEPT_HEAD) >= 0) {
+          this.dataSource.data = APPRAISAL_DEPT_HEAD;
+        } else if (lodash.indexOf(account.authorities, Authority.CREDIT_LEGAL_LEAD) >= 0) {
+          this.dataSource.data = APPRAISAL_DEPT_CREDIT_LEGAL_LEAD;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN_APPRAISER) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_ADMIN_APPRAISAL;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
