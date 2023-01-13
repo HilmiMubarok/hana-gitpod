@@ -246,7 +246,11 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
       .subscribe(res => {
         this.optionsProvince = res.body;
         this.filteredProvince();
-        this.province = this.optionsProvince.find(obj => obj.id === this.postalAddress.provinceId);
+        if (this.country.id === 199) {
+          this.province = this.optionsProvince.find(obj => obj.id === this.postalAddress.provinceId);
+        } else {
+          this.myControlProvince.setValue({ description: 'DI LUAR INDONESIA' });
+        }
       });
   }
 
