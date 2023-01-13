@@ -530,7 +530,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
     } else if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']
+      collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

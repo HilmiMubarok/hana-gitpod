@@ -92,6 +92,7 @@
           type="text"
           [(ngModel)]="collateralProperty.attributes.totalFaceAmount"
           [options]="logoCcy"
+          (ngModelChange)="amountChange()"
           [disabled]="dataSource()"
         />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>

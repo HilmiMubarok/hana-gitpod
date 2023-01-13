@@ -266,24 +266,18 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   }
 
   public countLV(collateral: ICollateral): number {
+    let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const properties: ICollateralProperty[] = this.filterProperties(collateral);
-    if (properties.length > 0) {
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].machineMarketValue * (properties[i].machinePercentage / 100);
-        }
-      } else if (
-        collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-        collateral.collateralTypeId === COLLATERAL_TYPE['property']
-      ) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].propertyMarketValue * (properties[i].propertyPercentage / 100);
-        }
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].vehicleMarketValue * (properties[i].vehiclePercentage / 100);
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
+          }
         }
       }
     }

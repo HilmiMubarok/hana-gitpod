@@ -225,7 +225,6 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       this.jenis = this.collateralProperty.attributes.collateralDetailType;
       this.collateralValue = this.collateralProperty.attributes.marketValue;
       this.sifatJaminan = this.collateralProperty.attributes.issuer;
-      this.collateralValue = this.collateralProperty.attributes.totalFaceAmount;
     }
   }
 
