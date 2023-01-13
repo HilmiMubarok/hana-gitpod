@@ -51,6 +51,7 @@
             [(ngModel)]="collateralProperty.marketValue"
             [options]="logoCcy"
             [disabled]="dataSource()"
+            (ngModelChange)="amountChange()"
           />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
