@@ -614,6 +614,7 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
 		this.creditProposal.products = res.body.products;
+		this.creditProposal.notes = res.body.notes;
         const tempRouter = this.router.url.split('/')[1];
         if (
           tempRouter === 'la-analyst' ||
@@ -646,6 +647,7 @@ export class LoanAnalysMainComponent implements OnInit {
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
 		this.creditProposal.products = res.body.products;
+		this.creditProposal.notes = res.body.notes;
         const tempRouter = this.router.url.split('/')[1];
         if (
           tempRouter === 'la-analyst' ||
