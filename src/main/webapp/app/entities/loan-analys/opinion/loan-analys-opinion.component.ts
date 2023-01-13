@@ -292,7 +292,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
 
 	this.nameLoanComitee = this.creditProposalItem.attributes['userId'];
-	this.nameLoginEmit.emit(this.creditProposalItem.attributes['userId']);
+	this.nameLoginEmit.emit(this.nameLoanComitee);
   }
 
   public conditionOpinion() {
