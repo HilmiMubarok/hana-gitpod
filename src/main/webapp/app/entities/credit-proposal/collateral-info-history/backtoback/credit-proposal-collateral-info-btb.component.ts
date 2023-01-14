@@ -38,6 +38,7 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
     'action',
   ];
 
+  public collaterals: ICollateral[];
   public collateralProperties: ICollateralProperty[];
   public parsedData: any;
   public dataItem: ICollateral[];
@@ -71,10 +72,19 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
+    this.collaterals = [];
   }
 
   ngOnInit() {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
+
+    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
+    if (collaterals.length > 0) {
+      this.collaterals = collaterals.filter(function (o) {
+        return o.collateralTypeId !== COLLATERAL_TYPE['machine'] && COLLATERAL_TYPE['realestate'] && COLLATERAL_TYPE['vehicle'];
+      });
+    }
+
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }

@@ -1,13 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ICreditProposal, CreditProposal } from './credit-proposal.model';
+import { ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from './credit-proposal-process.service';
-import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
-import lodash, { replace } from 'lodash';
+import lodash from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
@@ -22,25 +21,20 @@ import {
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
-  SUBMENU_LOAN_ANALYS_CP_SUMMARY,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { INotes, Notes } from 'app/entities/notes/notes.model';
-import { Previous } from '../loan-analys/previous/previous.model';
 import _ from 'lodash';
-import { IEJOptionNode, IOptionNode } from 'app/shared/model/option-node.model';
+import { IEJOptionNode } from 'app/shared/model/option-node.model';
 import { IApplicationRole } from '../application-role/application-role.model';
 import { ApplicationRoleService } from '../application-role/application-role.service';
-import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
 import { CreditProposalOpinionHistoryComponent } from './opinion-history/credit-proposal-opinion-history.component';
 import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary.component';
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
-import { animate } from '@angular/animations';
-import { replaceAll } from '@syncfusion/ej2-angular-spreadsheet';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',

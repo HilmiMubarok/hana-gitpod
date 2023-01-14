@@ -4,16 +4,19 @@ import { CreditProposalService } from '../credit-proposal.service';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import lodash from 'lodash';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { COLLATERAL_TYPE, ID_BACK_TO_BACK } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-list',
   templateUrl: './credit-proposal-tab-collateral-info-list.component.html',
   styleUrls: ['./credit-proposal-tab-collateral-info-list.css'],
 })
-export class CreditProposalTabCollateralInfoListComponent implements OnInit {
+export class CreditProposalTabCollateralInfoListComponent implements OnInit, OnChanges {
   public _creditProposal: ICreditProposal;
 
   public numericFormatOptions: Object;
+  public collaterals: ICollateral[];
 
   @Input()
   get creditProposal() {
@@ -23,6 +26,9 @@ export class CreditProposalTabCollateralInfoListComponent implements OnInit {
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
+  @Input()
+  public proposalType: string;
 
   private collateralRowInfoTemplate = {
     collateralType: '',
@@ -58,9 +64,33 @@ export class CreditProposalTabCollateralInfoListComponent implements OnInit {
   public height = 'auto';
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
 
-  constructor(protected creditProposalService: CreditProposalService) {}
+  constructor(protected creditProposalService: CreditProposalService) {
+    this.collaterals = [];
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['proposalType'] && changes['creditProposal']) {
+      this.filterCollateral();
+    }
+  }
+  ngOnInit(): void {
+    this.numericFormatOptions = { format: 'N' };
+  }
 
-  onOpenDialog(data: any): void {
+  private filterCollateral() {
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    let filter: ICollateral[];
+    filter = [];
+    if (this.proposalType === ID_BACK_TO_BACK) {
+      filter = collaterals.filter(function (o) {
+        return o.collateralTypeId !== COLLATERAL_TYPE['machine'] && COLLATERAL_TYPE['realestate'] && COLLATERAL_TYPE['vehicle'];
+      });
+    } else {
+      filter = collaterals;
+    }
+    this.collaterals = filter;
+  }
+
+  public onOpenDialog(data: any): void {
     this.collateralRowInfo = lodash.clone(this.collateralRowInfoTemplate);
     this.collateralRowInfo.collateralType = data.collateralTypeDescription;
     this.collateralRowInfo.address = data.collateralAddress.address1;
@@ -80,9 +110,5 @@ export class CreditProposalTabCollateralInfoListComponent implements OnInit {
 
   public onOverlayClick(): void {
     this.ejAddDialog.hide();
-  }
-
-  ngOnInit(): void {
-    this.numericFormatOptions = { format: 'N' };
   }
 }

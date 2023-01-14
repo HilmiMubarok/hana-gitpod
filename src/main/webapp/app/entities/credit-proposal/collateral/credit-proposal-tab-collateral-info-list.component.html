@@ -9,7 +9,7 @@
           </div>
         </div>
         <div class="e-card-content" style="margin-top: 30px">
-          <ejs-grid #grid [dataSource]="_creditProposal.collaterals" [allowPaging]="true">
+          <ejs-grid #grid [dataSource]="collaterals" [allowPaging]="true">
             <e-columns>
               <e-column field="collateralTypeDescription" headerText="Type Collateral" width="100" textAlign="center"> </e-column>
               <e-column field="collateralAddress.address1" headerText="Address" width="100" textAlign="left" headerTextAlign="center">

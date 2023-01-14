@@ -22,17 +22,48 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   // The Dialog shows within the target element.
   @ViewChild('container', { read: ElementRef, static: true }) container: ElementRef;
+
   private _creditProposal: ICreditProposal;
-  public data = [];
-  public watchList;
-  public route: any;
-  public partyCif: IPartyCif;
   @Input()
   get creditProposal() {
     return this._creditProposal;
   }
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+  }
+
+  @Input()
+  public proposalType: string;
+
+  public data: any[] = [];
+  public watchList: any;
+  public route: any;
+  public partyCif: IPartyCif;
+
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private partyCifService: PartyCifService) {}
+
+  ngOnInit() {
+    this.data = this.creditProposal.attributes['basicInformation'].coborowed;
+    this.postalAdresss = this.creditProposal.addresses.find(function (e) {
+      return e.purposeTypeId === 'PRIMARY_LOCATION';
+    });
+
+    this.generalLocation = this.creditProposal.addresses.find(function (e) {
+      return e.purposeTypeId === 'DOMICILE_LOCATION';
+    });
+    this.warehouseLocation = this.creditProposal.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+    if (this.warehouseLocation === undefined) {
+      this.warehouseLocation = new PartyPostalAddressWarehouse();
+      this.warehouseLocation.purposeTypeId = PURPOSE_TYPE.WAREHOUSE;
+    } else {
+      this.warehouseLocation = this.creditProposal.addresses.find(function (e) {
+        return e.purposeTypeId === 'WAREHOUSE_LOCATION';
+      });
+    }
+
+    this.watchListChange();
+    this.hiddenData();
+    this.setBusinessGroup();
   }
 
   public addItem(event: any) {
@@ -82,32 +113,6 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   public onOverlayClick: EmitType<object> = () => {
     this.ejDialog.hide();
   };
-
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private partyCifService: PartyCifService) {}
-
-  ngOnInit() {
-    this.data = this.creditProposal.attributes['basicInformation'].coborowed;
-    this.postalAdresss = this.creditProposal.addresses.find(function (e) {
-      return e.purposeTypeId === 'PRIMARY_LOCATION';
-    });
-
-    this.generalLocation = this.creditProposal.addresses.find(function (e) {
-      return e.purposeTypeId === 'DOMICILE_LOCATION';
-    });
-    this.warehouseLocation = this.creditProposal.addresses.find(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
-    if (this.warehouseLocation === undefined) {
-      this.warehouseLocation = new PartyPostalAddressWarehouse();
-      this.warehouseLocation.purposeTypeId = PURPOSE_TYPE.WAREHOUSE;
-    } else {
-      this.warehouseLocation = this.creditProposal.addresses.find(function (e) {
-        return e.purposeTypeId === 'WAREHOUSE_LOCATION';
-      });
-    }
-
-    this.watchListChange();
-    this.hiddenData();
-    this.setBusinessGroup();
-  }
 
   public displayedColumns: string[] = ['no', 'customerNumber', 'name', 'taxIdNumber', 'address', 'action'];
 
