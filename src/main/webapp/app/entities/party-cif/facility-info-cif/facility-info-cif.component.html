@@ -19,6 +19,17 @@
   <mat-card-content>
     <jhi-facility-info-debitur [partyCif]="partyCif" [dataGroup]="dataGroup" [dialogType]="'group'"></jhi-facility-info-debitur>
   </mat-card-content>
+  <mat-card-header>
+    <mat-card-header-subtitle class="text-capitalize">Facility Group</mat-card-header-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <jhi-facility-info-group
+      [partyCif]="partyCif"
+      [debtorDataGroup]="debtorDataGroup"
+      [dataGroup]="dataGroup"
+      [dialogType]="'group'"
+    ></jhi-facility-info-group>
+  </mat-card-content>
 
   <button mat-raised-button (click)="loadDataBy(); loadDataGroup()">SYNC from HOBIS</button>
 </mat-card>

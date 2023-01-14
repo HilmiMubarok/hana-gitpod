@@ -372,9 +372,11 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     this.myControlMVImb.disable();
     this.myControlMVEx.disable();
     this.myControlMVPs.disable();
+    this.myControlMVTk.disable();
     this.collateralProperty.attributes.marketValueCcy = 'IDR';
     this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
     this.collateralPropertyExternal.attributes.marketValueCcy = 'IDR';
+    this.collateralProperty.attributes.marketValueTkCcy = 'IDR';
   }
 
   public setManagementBrance() {
