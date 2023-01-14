@@ -725,20 +725,13 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   private loadPartyPostalAddress(partyId: string): void {
-    this.partyPostalAddressService
-      .queryFilterBy({
-        idParty: partyId,
-      })
-      .subscribe(res => {
-        if (res.body.length > 0) {
-          const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
-            return o.purposeTypeId === 'PRIMARY_LOCATION';
-          });
-          if (partyPostalAddress) {
-            this.postalAddress = partyPostalAddress.address;
-          }
-        }
-      });
+    this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
+      if (res.body.length > 0) {
+        this.postalAddress = lodash.find(res.body, function (o) {
+          return o.purposeTypeId === 'PRIMARY_LOCATION';
+        });
+      }
+    });
   }
 
   public onValTipeOfficerAppraisalChanged(ev: any): void {
