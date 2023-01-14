@@ -27,14 +27,14 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Internal MV</mat-label>
+                <mat-label>MV Internal in IDR</mat-label>
                 <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">Internal MV</div>
+              <div class="col-2">MV Internal in IDR</div>
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ internalMV | currency: 'IDR ':'symbol':'1.0-0' }}
@@ -47,14 +47,14 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Internal LV</mat-label>
+                <mat-label>LV Internal in IDR</mat-label>
                 <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
               </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">Internal LV</div>
+              <div class="col-2">LV Internal in IDR</div>
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ internalLV | currency: 'IDR ':'symbol':'1.0-0' }}

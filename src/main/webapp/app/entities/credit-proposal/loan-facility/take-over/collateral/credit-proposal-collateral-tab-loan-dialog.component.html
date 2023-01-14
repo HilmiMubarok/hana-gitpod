@@ -27,7 +27,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>MV</mat-label>
+                <mat-label>MV Internal in IDR</mat-label>
                 <input
                   matInput
                   type="text"
@@ -40,7 +40,7 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">MV</div>
+              <div class="col-2">MV Internal in IDR</div>
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}
@@ -53,7 +53,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>LV</mat-label>
+                <mat-label>LV Internal in IDR</mat-label>
                 <input
                   matInput
                   type="text"
@@ -66,7 +66,7 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">LV</div>
+              <div class="col-2">LV Internal in IDR</div>
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}
