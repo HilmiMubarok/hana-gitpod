@@ -568,7 +568,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
             copyCreditProposal.notes[i].message = '';
             copyCreditProposal.notes[i].recomendation = this.recomendation;
             copyCreditProposal.notes[i].condition = '';
@@ -579,12 +579,12 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
           );
         }
       } else {
         copyCreditProposal.notes.push(
-          this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
+          this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
         );
       }
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
