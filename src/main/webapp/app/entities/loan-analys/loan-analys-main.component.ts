@@ -422,7 +422,7 @@ export class LoanAnalysMainComponent implements OnInit {
       } else {
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-            if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
+            if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName) {
               copyCreditProposal.notes[i].message = '';
               copyCreditProposal.notes[i].recomendation = this.recomendation;
               copyCreditProposal.notes[i].condition = '';
@@ -434,12 +434,12 @@ export class LoanAnalysMainComponent implements OnInit {
 
           if (tempHelper === 0) {
             copyCreditProposal.notes.push(
-              this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, this.positionLoginFromEmit, tempOpinionType)
+              this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName, this.positionLoginFromEmit, tempOpinionType)
             );
           }
         } else {
           copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, this.positionLoginFromEmit, tempOpinionType)
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName, this.positionLoginFromEmit, tempOpinionType)
           );
         }
         delete copyCreditProposal.attributes['tempLoggedInNotes'];
