@@ -332,120 +332,40 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    result = 0;
-
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
         if (data.liquidationValue === null) {
-          result = 0;
+          return 0;
         } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
+          return data.liquidationValue;
         }
       }
     }
-    return result;
+    return 0;
   }
 
   public countLVKJJP(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    result = 0;
-
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
       );
       if (data !== undefined) {
         if (data.liquidationValue === null) {
-          result = 0;
+          return 0;
         } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['property']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId !== COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['property'] ||
-      collateral.collateralTypeId !== COLLATERAL_TYPE['machine']
-    ) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
-      );
-      if (data !== undefined) {
-        if (data.liquidationValue === null) {
-          result = 0;
-        } else {
-          result = data.liquidationValue;
+          return data.liquidationValue;
         }
       }
     }
-    return result;
+    return 0;
   }
 
   public countTotalLV(): number {
@@ -496,25 +416,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === true);
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['realestate']) ||
-            collaterals[i].collateralTypeId === COLLATERAL_TYPE['property']
-          ) {
-            result = result + data.propertyMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-            result = result + data.vehicleMarketValue;
-          }
-          if (data !== undefined && collaterals[i].collateralTypeId === COLLATERAL_TYPE['machine']) {
-            result = result + data.machineMarketValue;
-          }
-          if (
-            (data !== undefined && collaterals[i].collateralTypeId !== COLLATERAL_TYPE['vehicle']) ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['realestate'] ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['property'] ||
-            collaterals[i].collateralTypeId !== COLLATERAL_TYPE['machine']
-          ) {
-            result = result + data?.marketValue;
+          if (data !== undefined) {
+            result = result + data.marketValue;
           }
         }
       }
@@ -546,77 +449,18 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
     // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.machineMarketValue === null) {
-          result = 0;
-        } else {
-          result = data.machineMarketValue;
-        }
-      }
-    } else if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']
-    ) {
+    if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
         if (data.marketValue === null) {
-          result = 0;
+          return 0;
         } else {
-          result = data.marketValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.vehicleMarketValue === null) {
-          result = 0;
-        } else {
-          result = data.vehicleMarketValue;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.attributes.amount === null) {
-          result = 0;
-        } else {
-          result = data.attributes.amount;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.attributes.totalFaceAmount === null) {
-          result = 0;
-        } else {
-          result = data.attributes.totalFaceAmount;
-        }
-      }
-    } else if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.attributes.amount === null) {
-          result = 0;
-        } else {
-          result = data.attributes.amount;
+          return data.marketValue;
         }
       }
     }
-
-    return result;
+    return 0;
   }
 }
