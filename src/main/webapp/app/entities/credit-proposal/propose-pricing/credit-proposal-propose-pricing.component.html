@@ -24,17 +24,7 @@
               />
               <mat-datepicker-toggle matSuffix [for]="modifiedDate"></mat-datepicker-toggle>
               <mat-datepicker #expiry [disabled]="true"></mat-datepicker>
-              <!-- <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint> -->
             </mat-form-field>
-            <!-- <ejs-textbox
-              type="datetime"
-              placeholder="Modified Date"
-              [(ngModel)]="creditProposal.lastModifiedDate"
-              cssClass="e-outline"
-              floatLabelType="Always"
-              disabled
-            >
-            </ejs-textbox> -->
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
