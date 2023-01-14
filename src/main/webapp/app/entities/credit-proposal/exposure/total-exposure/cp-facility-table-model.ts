@@ -14,6 +14,8 @@ export interface ICPFacilityTable {
   Tenor?: number;
   LoanType?: string;
   CCY?: string;
+  AvailableLimit?: number;
+  CreditLimit?: number;
 }
 
 export class CPFacilityTable implements ICPFacilityTable {
@@ -32,6 +34,10 @@ export class CPFacilityTable implements ICPFacilityTable {
     public FirstDisbursementDate?: string,
     public Tenor?: number,
     public CCY?: string,
-    public LoanType?: string
+    public LoanType?: string,
+    public AvailableLimit?: number,
+    public CreditLimit?: number,
+    public Maturity?: string,
+    public MaturityDate?: any
   ) {}
 }

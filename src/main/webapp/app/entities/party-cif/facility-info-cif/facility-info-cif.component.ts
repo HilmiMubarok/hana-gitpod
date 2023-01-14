@@ -13,6 +13,7 @@ import { PartyCifService } from '../party-cif.service';
 export class FacilityInfoCifComponent implements OnInit {
   public loading: boolean;
   public debtorData: IDebtorData;
+  public debtorDataGroup: IDebtorData;
 
   constructor(public partyCifService: PartyCifService) {}
   public data = [];
@@ -43,9 +44,8 @@ export class FacilityInfoCifComponent implements OnInit {
   }
 
   public loadDataGroup(): void {
-    this.partyCifService.getMyBusinessGroup(this.partyCif.customerNumber).subscribe((res: any) => {
-      console.log('party-cif', this.partyCif);
-
+    this.partyCifService.getBusinessGroup(this.partyCif.customerNumber).subscribe((res: any) => {
+      this.debtorDataGroup = res.body;
       this.filterBusinessGroupDebtorData(res.body);
     });
   }
