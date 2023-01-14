@@ -262,8 +262,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public getLogin() {
     this.accountService.identity().subscribe(account => {
-      // this.userId = account.login;
-	  this.userId = account.firstName;
+	  this.userId = account.firstName + ' ' + account.lastName;
     });
   }
 
