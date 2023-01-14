@@ -4,8 +4,7 @@
   </mat-card-header>
   <mat-card-content>
     <div class="table-responsive-material">
-      <table mat-table *ngIf="creditProposal && !loading" class="w-100"
-        [dataSource]="creditProposal.attributes['collateralPrevious']">
+      <table mat-table *ngIf="creditProposal && !loading" class="w-100" [dataSource]="creditProposal.attributes['collateralPrevious']">
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef>No</th>
           <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
@@ -17,12 +16,12 @@
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="marketValue">
-          <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV</th>
+          <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV Internal in IDR</th>
           <td mat-cell *matCellDef="let element">{{ element.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="liquidValue">
-          <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV</th>
+          <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV Internal in IDR</th>
           <td mat-cell *matCellDef="let element">{{ element.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
@@ -33,8 +32,7 @@
               <mat-icon>remove_red_eye</mat-icon>
             </button>
 
-            <section
-              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <button mat-icon-button (click)="onDelete(element)">
                 <mat-icon>delete</mat-icon>
               </button>
