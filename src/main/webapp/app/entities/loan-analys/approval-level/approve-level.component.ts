@@ -112,7 +112,6 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
           const each: IApplicationRole = this.items[i];
           if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
             this.filteringItems.push(each);
-            console.log('gemuk', each.relationTypeId.toLowerCase());
           }
         }
       } else {

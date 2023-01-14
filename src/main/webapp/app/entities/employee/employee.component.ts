@@ -79,25 +79,24 @@ export class EmployeeComponent extends AbstractEntityMaterialComponent<IEmployee
       this.loadAll();
     }
   }
-  
-  private removeAdmin(data: any) {
-	let indexAdmin = 0;
 
-	if (data.length > 0 && data) {
+  private removeAdmin(data: any) {
+    let indexAdmin = 0;
+
+    if (data.length > 0 && data) {
       for (let i = 0; i < data.length; i++) {
-		if (data[i]['id'] === 1) {
-		  indexAdmin = i;
-		}
+        if (data[i]['id'] === 1) {
+          indexAdmin = i;
+          data.splice(indexAdmin, 1);
+        }
       }
     }
-	
-	data.splice(indexAdmin, 1);
 
     return data;
   }
 
   initDataForMatTable(data: any, headers: HttpHeaders) {
-	this.items = this.removeAdmin(data.body);
+    // this.items = this.removeAdmin(data.body);
     this.items = new MatTableDataSource(this.addIdx(data.body));
     if (!this.items) {
       this.items.paginator = this.paginator;

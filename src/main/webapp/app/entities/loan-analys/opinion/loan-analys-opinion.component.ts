@@ -15,7 +15,7 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { PositionService } from 'app/entities/position/position.service';
 import { IPosition } from 'app/entities/position/position.model';
@@ -26,6 +26,13 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { MessageService } from 'primeng/api';
+
+import { IApplicationRole } from 'app/entities/application-role/application-role.model';
+import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
+import { Account } from 'app/core/auth/account.model';
+import { PersonService } from 'app/entities/person/person.service';
+import { IPerson } from 'app/entities/person/person.model';
+import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -79,8 +86,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public positionLogin: any;
 
   public recomendasi: string;
+  private nameLoanComitee: string;
   private positionLoanComitee: string;
   public isShowOpinionFieldInput: boolean = false;
+
+  public items: any;
+  public approvalUserData: any[];
+  public whoAmI: IPerson;
+  public relType: IOptionNode[];
+  private partyIdPos = '';
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -96,6 +110,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   @Output() newItemEvent = new EventEmitter<string>();
+  @Output() nameLoginEmit = new EventEmitter<string>();
   @Output() positionLoginEmit = new EventEmitter<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -149,7 +164,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     private creditProposalService: CreditProposalService,
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected applicationRoleService: ApplicationRoleService,
+    protected personService: PersonService
   ) {
     const tempRouter = this.router.url.split('/')[1];
     if (
@@ -160,6 +177,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     ) {
       this.isShowOpinionFieldInput = true;
     }
+    this.approvalUserData = [];
+    this.relType = [];
   }
 
   ngOnInit(): void {
@@ -172,7 +191,70 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this.conditionOpinion();
     this.conditionEnableOpinion();
     this.hiddenApprovalUser();
-    this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
+    // this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
+    this.getWhoAmI().then(res => {
+      this.loadApprovalUser();
+    });
+  }
+
+  private async getWhoAmI(): Promise<void> {
+    const account: Account = await firstValueFrom(this.accountService.identity());
+    const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
+      .body;
+    if (persons.length > 0) {
+      this.whoAmI = persons[0];
+    }
+  }
+
+  private filteringRelationTypes(params: IApplicationRole[]): IOptionNode[] {
+    const result: IOptionNode[] = [];
+    if (params.length > 0) {
+      for (let i = 0; i < params.length; i++) {
+        const each: IApplicationRole = params[i];
+        if (
+          each.relationTypeId &&
+          lodash.find(result, function (o) {
+            return o.id === each.relationTypeId;
+          }) === undefined
+        ) {
+          if (each.relationTypeId !== 'CREDIT_PROPOSAL') {
+            const newOptionNode: IOptionNode = new OptionNode();
+            newOptionNode.id = each.relationTypeId;
+            newOptionNode.label = each.relationTypeDescription;
+
+            result.push(newOptionNode);
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  private filteringRelType(params: IApplicationRole[]): void {
+    this.relType = this.filteringRelationTypes(params);
+  }
+
+  private loadApprovalUser(): void {
+    this.applicationRoleService
+      .queryFilterBy({
+        idApplication: this.creditProposalItem.id,
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.items = res.body;
+        this.filteringRelType(this.items);
+        for (let i = 0; i < this.items.length; i++) {
+          const each: IApplicationRole = this.items[i];
+          if (
+            each.relationTypeId &&
+            each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase() &&
+            each.fromPartyId === this.whoAmI.id
+          ) {
+            this.approvalUserData.push(each);
+          }
+        }
+      });
   }
 
   public getWord() {
@@ -183,7 +265,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public getLogin() {
     this.accountService.identity().subscribe(account => {
-      this.userId = account.login;
+      this.userId = account.firstName + ' ' + account.lastName;
     });
   }
 
@@ -204,14 +286,25 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   setApproval(event: any) {
-    for (let i = 0; i < this.position.length; i++) {
-      if (event.value === this.position[i].employeeFirstName) {
-        this.creditProposalItem.attributes['userId'] = this.position[i].employeeFirstName;
-        this.creditProposalItem.attributes['position'] = this.position[i].positionTypeDescription;
+    for (let i = 0; i < this.approvalUserData.length; i++) {
+      if (event.value === this.approvalUserData[i].partyId) {
+        this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].partyName;
+        this.creditProposalItem.attributes['position'] = this.approvalUserData[i].partyName;
+        this.partyIdPos = this.approvalUserData[i].partyId;
       }
-      this.positionLoanComitee = this.creditProposalItem.attributes['position'];
-      this.positionLoginEmit.emit(this.positionLoanComitee);
     }
+
+    this.nameLoanComitee = this.creditProposalItem.attributes['userId'];
+    this.userId = this.nameLoanComitee;
+    this.nameLoginEmit.emit(this.nameLoanComitee);
+
+    this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
+      if (res.body.length > 0) {
+        this.positionLoanComitee = res.body[0].positionTypeDescription;
+        this.positionUserId = this.positionLoanComitee;
+        this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
+      }
+    });
   }
 
   public conditionOpinion() {
@@ -274,22 +367,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
-  public triggeredSave(): void {
+  private saveFile(): void {
     this.positionService.findByLogin().subscribe(posisi => {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.positionLoanComitee) {
-          this.positionUserId = this.positionLoanComitee;
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
-        }
-      } else {
-        this.positionUserId = posisi.body[0].name;
-      }
-
       let paramsId = '';
       this.activatedRoute.params.subscribe(params => {
         paramsId = params['id'];
       });
+
+      this.positionUserId = posisi.body[0].name;
+
       const key = 'credit_proposal/remark/opinion-history/opinion';
 
       const timeStamp = Math.floor(Date.now() / 1000);
@@ -337,6 +423,72 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
       });
     });
+  }
+
+  private saveFileLC(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+
+    const key = 'credit_proposal/remark/opinion-history/opinion';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId.replace('&', '') +
+        '-' +
+        this.userId.replace('&', '') +
+        '-opinion-' +
+        fileType +
+        '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
+
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId.replace('&', '') +
+        '-' +
+        this.userId.replace('&', '') +
+        '-opinion-' +
+        fileType +
+        '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
+  }
+
+  public triggeredSave(): void {
+    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+      if (this.nameLoanComitee) {
+        this.saveFileLC();
+      } else {
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
+      }
+    } else {
+      this.saveFile();
+    }
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -402,24 +554,15 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     // this.container.documentEditor.openBlank();
   }
 
-  // Condition remark
-
-  public triggeredSaveCondition(): void {
+  private saveFileCon(): void {
     this.positionService.findByLogin().subscribe(posisi => {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.positionLoanComitee) {
-          this.positionUserId = this.positionLoanComitee;
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
-        }
-      } else {
-        this.positionUserId = posisi.body[0].name;
-      }
-
       let paramsId = '';
       this.activatedRoute.params.subscribe(params => {
         paramsId = params['id'];
       });
+
+      this.positionUserId = posisi.body[0].name;
+
       const key = 'credit_proposal/remark/opinion-history/condition';
 
       const timeStamp = Math.floor(Date.now() / 1000);
@@ -470,6 +613,77 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
       });
     });
+  }
+
+  private saveFileConLC(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+
+    const key = 'credit_proposal/remark/opinion-history/condition';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId.replace('&', '') +
+        '-' +
+        this.userId.replace('&', '') +
+        '-opinion' +
+        '-condition-' +
+        fileType +
+        '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
+
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const fileName =
+        'credit-proposal-remark-' +
+        paramsId +
+        '-' +
+        this.positionUserId.replace('&', '') +
+        '-' +
+        this.userId.replace('&', '') +
+        '-opinion' +
+        '-condition-' +
+        fileType +
+        '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
+  }
+
+  // Condition remark
+
+  public triggeredSaveCondition(): void {
+    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+      if (this.nameLoanComitee) {
+        this.saveFileConLC();
+      } else {
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
+      }
+    } else {
+      this.saveFileCon();
+    }
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -586,17 +800,23 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
         }
       }
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-        this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-        this.creditProposalItem.attributes['position'] = '';
-        if (this.notes.length > 0) {
-          for (let i = 0; i < this.notes.length; i++) {
-            this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-            this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-            this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
-            this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
+        this.accountService.identity().subscribe(account => {
+          this.currentAccount = account;
+          this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+          this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+          this.creditProposalItem.attributes['position'] = '';
+          if (this.notes.length > 0) {
+            for (let i = 0; i < this.notes.length; i++) {
+              this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
+              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
+              this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
+              this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
+              if (this.notes[i].userId === this.currentAccount.login) {
+                this.newItemEvent.emit(this.notes[i].recomendation);
+              }
+            }
           }
-        }
+        });
       } else {
         this.accountService.identity().subscribe(account => {
           this.currentAccount = account;
@@ -607,11 +827,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
           if (this.notes.length > 0) {
             for (let i = 0; i < this.notes.length; i++) {
               this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-              if (this.notes[i].userId === this.currentAccount.login) {
+              if (this.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
                 this.creditProposalItem.notes[i].message = '';
                 this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
                 this.recomendasi = this.notes[i].recomendation;
+                this.newItemEvent.emit(this.notes[i].recomendation);
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
                 this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
               }

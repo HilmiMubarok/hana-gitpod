@@ -60,6 +60,8 @@ export class OfferingLetterMainComponent implements OnInit {
   public saveWordOpinionCondition: Boolean = false;
   public saveWord: Boolean = false;
 
+  public resAttr: IProcessTask;
+
   @Input('item')
   get item() {
     return this.creditProposal;
@@ -123,12 +125,19 @@ export class OfferingLetterMainComponent implements OnInit {
     this.applicationRoleId = ev.applicationRoleId;
   }
 
-  private saveApplicationRole(): void {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Save Success',
-    });
+  private saveApplicationRole(source: string): void {
+    if (source === 'process') {
+      this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+        this.router.navigate([this.router.url.split('/')[1]]);
+      });
+    } else if (source === 'default') {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    }
+
     /* if (this.applicationRole.id) {
       this.applicationRoleService.update(this.applicationRole).subscribe(res => {
         this.messageService.add({
@@ -147,17 +156,25 @@ export class OfferingLetterMainComponent implements OnInit {
       });
     } */
   }
-  private saveCollateralInfo(): void {
+
+  private saveCollateralInfo(source: string): void {
     if (this.creditProposalCollateralInfoComponent) {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
 
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Save Success',
-    });
+    if (source === 'process') {
+      this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
+        this.router.navigate([this.router.url.split('/')[1]]);
+      });
+    } else if (source === 'default') {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+    }
   }
+
   ngOnInit() {
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -194,9 +211,13 @@ export class OfferingLetterMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        this.creditProposalProcessService.processTask(task).subscribe(res => {
+        this.resAttr = _res;
+
+        this.onSave('process');
+
+        /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
-        });
+        }); */
       }
     });
   }
@@ -273,26 +294,29 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
     copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
     copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(copyCreditProposal.attributes['creditProposalCollateralData']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
     copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
     copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(copyCreditProposal.attributes['remarksFinancialStatement']);
     copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
     copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
+    copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
 
     return copyCreditProposal;
   }
 
-  public onSave(): void {
+  public onSave(source: string): void {
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.saveCollateralInfo();
-        // this.saveApplicationRole();
+        this.saveCollateralInfo(source);
+        // this.saveApplicationRole(source);
       });
     } else {
       this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.saveCollateralInfo();
-        // this.saveApplicationRole();
+        this.saveCollateralInfo(source);
+        // this.saveApplicationRole(source);
       });
     }
     this.saveWordOpinionCondition = true;

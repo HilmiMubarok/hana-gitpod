@@ -24,7 +24,7 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     this.resourceCurrency = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/uom-conversions');
     this.resourceRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs/cif');
     this.resouceGridRetrive = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/fin-statements/cif/');
-    this.resourcelistCurrency = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api');
+    this.resourceFacility = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.HEIMDALL + '/api/partner-source-ep/');
   }
 
   public totalChanges: Subject<any> = new Subject();
@@ -126,4 +126,24 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   setTotalChanges(message: any) {
     this.totalChanges.next(message);
   }
+
+  public getFacilityTypeProduct(): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceFacility}/lov/product-facilitytype`, { observe: 'response' });
+  }
+
+  public getFacilityType(): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceFacility}/lov/facility-cashtype`, { observe: 'response' });
+  }
+
+  public getFacilityTypeCash(): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceFacility}/lov/product-cashtype`, { observe: 'response' });
+  }
+
+  public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
+  }
+
+  // public getFacilityProductList(): Observable<HttpResponse<any>> {
+  //   return this.http.get<any>(`${this.resourceFacility}/lov/product-list`, { observe: 'response' });
+  // }
 }

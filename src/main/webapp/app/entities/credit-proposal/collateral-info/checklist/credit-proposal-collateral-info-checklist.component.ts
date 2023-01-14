@@ -23,6 +23,7 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
     protected positionService: PositionService,
     protected router: Router
   ) {}
+  @Input() isViewMode?: Boolean = false;
 
   @Input()
   get creditProposal() {

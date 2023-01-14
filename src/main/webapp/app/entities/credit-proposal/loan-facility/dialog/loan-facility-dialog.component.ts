@@ -59,6 +59,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public statusFacilityDisabled: boolean;
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
+  private listFacicility: any;
+  private listLoanType: any;
 
   @Input()
   get collateral() {
@@ -279,10 +281,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || ''))
-    );
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || ''))
+    // );
 
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
@@ -291,7 +293,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     // this.hideMatrixOffering();
     this.getApplicationOption();
     this.getObligation();
-    // this.typeListControl;
+    this.setFacilityType();
   }
 
   public save(): void {
@@ -348,39 +350,47 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else {
       this.status = false;
     }
+    this.creditProposalService.getFacilityProductList(event).subscribe(res => {
+      this.listLoanType = res.body;
+    });
 
-    switch (event) {
-      case 'OD':
-        this.lovLoanType = this.listOfValue.lovOd;
-        break;
-      case 'WCI':
-        this.lovLoanType = this.listOfValue.lovWci;
-        break;
-      case 'DL':
-        this.lovLoanType = this.listOfValue.lovDl;
-        break;
-      case 'MML':
-        this.lovLoanType = this.listOfValue.lovMml;
-        break;
-      case 'FL':
-        this.lovLoanType = this.listOfValue.lovfL;
-        break;
-      case 'IL':
-        this.lovLoanType = this.listOfValue.lovIl;
-        break;
-      case 'BG':
-        this.lovLoanType = this.listOfValue.lovBg;
-        break;
-      case 'LC':
-        this.lovLoanType = this.listOfValue.lovLc;
-        break;
-      default:
-        this.lovLoanType = [];
-    }
+    // console.log('cek',event)
+    // switch (event) {
+    //   case 'OD':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     // console.log('cek od',   this.listLoanType.filter(o => o.id))
+    //     // this.listFacicility
+    //     // this.lovLoanType = this.listOfValue.lovOd;
+    //     break;
+    //   case 'WCI':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'DL':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'MML':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'FL':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'IL':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'BG':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'LC':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   default:
+    //     this.listLoanType = [];
+    // }
 
-    this.facilityType = event;
+    // this.facilityType = event;
 
     this.disableButtonChange(event);
+    // this.setFacilityTypeProduct();
   }
 
   public disableButtonChange(value: string) {
@@ -715,7 +725,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public applicationTypeChange(event: any) {
-    console.log(event.value);
     this.statusFacilityValue = event.value;
     if (this.statusFacilityValue === 'Existing' || this.statusFacilityValue === 'Renewal' || this.statusFacilityValue === 'Renewal') {
       this.myControl.disable();
@@ -728,11 +737,31 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   cekApplicationType() {
     if (this.applicationProduct.attributes['applicationType'] === 'Existing') {
+      // this.getObligation();
       this.myControl.disable();
       this.statusFacilityDisabled = true;
     } else {
       this.myControl.enable();
       this.statusFacilityDisabled = false;
     }
+  }
+
+  // getfacility
+
+  setFacilityType() {
+    this.creditProposalService.getFacilityTypeProduct().subscribe(res => {
+      this.listFacicility = res.body;
+      const dataData = Object.entries(
+        this.listFacicility.reduce((acc, { id, label }) => {
+          if (!acc[label]) {
+            acc[label] = [];
+          }
+          acc[label].push(id);
+
+          return acc;
+        }, {})
+      ).map(([label, id]) => ({ label, id }));
+      this.listFacicility = dataData;
+    });
   }
 }

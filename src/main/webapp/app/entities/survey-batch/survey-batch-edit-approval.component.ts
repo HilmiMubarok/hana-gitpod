@@ -725,20 +725,13 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   private loadPartyPostalAddress(partyId: string): void {
-    this.partyPostalAddressService
-      .queryFilterBy({
-        idParty: partyId,
-      })
-      .subscribe(res => {
-        if (res.body.length > 0) {
-          const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
-            return o.purposeTypeId === 'PRIMARY_LOCATION';
-          });
-          if (partyPostalAddress) {
-            this.postalAddress = partyPostalAddress.address;
-          }
-        }
-      });
+    this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
+      if (res.body.length > 0) {
+        this.postalAddress = lodash.find(res.body, function (o) {
+          return o.purposeTypeId === 'PRIMARY_LOCATION';
+        });
+      }
+    });
   }
 
   public onValTipeOfficerAppraisalChanged(ev: any): void {
@@ -921,7 +914,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       data.attributes['marketbility'] = '';
     }
     if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
-      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = scoreCard;

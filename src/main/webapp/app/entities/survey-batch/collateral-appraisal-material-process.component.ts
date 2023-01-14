@@ -240,6 +240,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
         .queryUrlAppraisalProcess({
           page: this.page,
           size: this.itemsPerPage,
+          apprOfficer: 'Internal',
           sort: ['id,desc'],
         })
         .subscribe({

@@ -92,29 +92,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'tenor',
   ];
 
-  public nonCashLoan = [
-    'Bank Guarantee Bid Bond',
-    'Bank Guarantee Performance Bond',
-    'Bank Guarantee Adnced Payment',
-    'Bank Guarantee Shipping  Guarantee',
-    'Bank Guarantee Standby L/C',
-    'Bank Guarantee Endorsement A/Srt Bhrg',
-    'Bank Guarantee Lainnya',
-    'Bank Guarantee VA Bid Bond',
-    'Bank Guarantee VA Performance Bond',
-    'Bank Guarantee VA Advanced Payment',
-    'Bank Guarantee VA Shipping  Guarantee',
-    'Bank Guarantee VA Standby L/C',
-    'Bank Guarantee VA Endorsement A/Srt Bhrg',
-    'Bank Guarantee VA Lainnya',
-    'Working Capital - Fixed Loan',
-    'Working Capital - Fixed Loan ECL',
-    'Working Capital - Fixed Loan(Foreign)',
-    'Investment Loan - Fixed Loan',
-    'Investment Loan - Fixed Loan(Foreign)',
-    'BG',
-    'LC',
-  ];
+  public nonCashLoan = ['BG', 'LC'];
 
   public numericFormatOptions: Object = { format: 'N' };
   public currencyMaster: any;
@@ -168,7 +146,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.no = no;
               parsed.GroupName = param[i].customerName;
               parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
-              parsed.FacilityType = source[y].FILN11_COM_NM;
+              parsed.FacilityType = source[y].FACILITY_TYPE;
               parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
               parsed.Changes = 0;
               parsed.OS = source[y].LNB_BASE_LON_JAN;

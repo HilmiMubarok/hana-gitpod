@@ -1,8 +1,20 @@
 <ejs-grid [dataSource]="standardDataGridAbove" [hidden]="isViewMode == false" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="250" textAlign="left" headerTextAlign="center"> </e-column>
-    <e-column headerText="Status" textAlign="center">
+    <e-column headerText="Status" textAlign="center" width="150">
       <ng-template #template let-data>
+        <ejs-dropdownlist
+          (change)="onKeyUpEvent('status', $event, data)"
+          [(ngModel)]="statusValue[data.id]"
+          [dataSource]="status"
+          placeholder="Select a Status"
+          cssClass="e-outline"
+          disabled
+          [value]="statusValue[data.id]"
+        >
+        </ejs-dropdownlist>
+      </ng-template>
+      <!-- <ng-template #template let-data>
         <ejs-dropdownlist
           (change)="onKeyUpEvent('status', $event, data)"
           [(ngModel)]="statusValue[data.id]"
@@ -13,10 +25,20 @@
           [value]="statusValue[data.id]"
         >
         </ejs-dropdownlist>
-      </ng-template>
+      </ng-template> -->
     </e-column>
-    <!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+    <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
       <ng-template #template let-data>
+        <ejs-textbox
+          [multiline]="true"
+          (keyup)="onKeyUpEvent('deviation', $event, data)"
+          [(ngModel)]="deviation[data.id]"
+          disabled
+          cssClass="e-outline"
+        >
+        </ejs-textbox>
+      </ng-template>
+      <!-- <ng-template #template let-data>
         <ejs-textbox
           [multiline]="true"
           (keyup)="onKeyUpEvent('deviation', $event, data)"
@@ -26,10 +48,10 @@
           [readonly]="statusValue[data.id] !== 'Applied'"
         >
         </ejs-textbox>
-      </ng-template>
+      </ng-template> -->
     </e-column>
     <e-column field="justification" headerText="Justification" width="130" textAlign="center">
-      <ng-template #template let-data>
+      <!-- <ng-template #template let-data>
         <ejs-textbox
           [multiline]="true"
           (keyup)="onKeyUpEvent('justification', $event, data)"
@@ -39,8 +61,18 @@
           [readonly]="statusValue[data.id] !== 'Applied'"
         >
         </ejs-textbox>
+      </ng-template> -->
+      <ng-template #template let-data>
+        <ejs-textbox
+          [multiline]="true"
+          (keyup)="onKeyUpEvent('justification', $event, data)"
+          [(ngModel)]="justification[data.id]"
+          cssClass="e-outline"
+          disabled
+        >
+        </ejs-textbox>
       </ng-template>
-    </e-column> -->
+    </e-column>
   </e-columns>
 </ejs-grid>
 

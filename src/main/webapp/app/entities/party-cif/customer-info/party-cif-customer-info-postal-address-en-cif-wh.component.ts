@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -12,8 +13,7 @@ import { IPartyCif, PartyCif } from '../party-cif.model';
   templateUrl: './party-cif-customer-info-postal-address-en-cif-wh.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
-{
+export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
   public districts: IStateBoundary[];
@@ -23,6 +23,7 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
   private _partyCif: IPartyCif = new PartyCif();
 
   public index: number;
+  myControlProvince = new FormControl('');
 
   @Input()
   get partyCif() {
@@ -32,17 +33,14 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
   set partyCif(data: IPartyCif) {
     this._partyCif = data;
 
-	this.index = this.partyCif.addresses.findIndex(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
-	this.loadProvince(this._partyCif.addresses[this.index].address.countryId);
-	this.loadCity(this._partyCif.addresses[this.index].address.provinceId);
-	this.loadDistrict(this._partyCif.addresses[this.index].address.cityId);
-	this.loadVillage(this._partyCif.addresses[this.index].address.districtId);
+    this.index = this.partyCif.addresses.findIndex(obj => obj.purposeTypeId === PURPOSE_TYPE.WAREHOUSE);
+    this.loadProvince(this._partyCif.addresses[this.index].address.countryId);
+    this.loadCity(this._partyCif.addresses[this.index].address.provinceId);
+    this.loadDistrict(this._partyCif.addresses[this.index].address.cityId);
+    this.loadVillage(this._partyCif.addresses[this.index].address.districtId);
   }
 
-  constructor(
-    protected activatedRoute: ActivatedRoute,
-    private stateBoundaryService: StateBoundaryService
-  ) {
+  constructor(protected activatedRoute: ActivatedRoute, private stateBoundaryService: StateBoundaryService) {
     this.country = [];
     this.provinces = [];
     this.cities = [];
@@ -78,7 +76,7 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
   }
 
   public loadProvince(idCountry: number = null): void {
-    if (idCountry) {
+    if (idCountry === 199) {
       const predicate: object = {
         idBoundaryType: GEO_BOUNDARY_TYPE['province'],
         page: 0,
@@ -88,6 +86,19 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
 
       this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
         this.provinces = res.body;
+      });
+    } else if (idCountry !== 199) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        page: 0,
+        size: 9999,
+        // idParent: 201,
+      };
+
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        const dataData = res.body;
+        this.provinces = dataData.filter(o => o.code === '99');
+        // ini untuk sementara
       });
     }
   }

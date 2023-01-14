@@ -40,7 +40,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
-    console.log('data', this.creditProposalData);
     this.setUp();
     this.checked = false;
   }
@@ -51,7 +50,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   }
 
   ngOnInit(): void {
-    console.log('collateral ', this.collateralData);
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.field === false;
     } else {
@@ -66,11 +64,13 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.disableField === 'la-analyst' ||
       this.disableField === 'la-approval-inquiry' ||
       this.disableField === 'la-approval' ||
-      this.disableField === 'la-SME-CRC'
+      this.disableField === 'la-SME-CRC' ||
+      this.disableField === 'la-distribution'
     ) {
       this.field = true;
     }
   }
+
   public setCrossCollateral(index: number) {
     if (this.collateralData) {
       if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
@@ -134,7 +134,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       if (this.creditProposalData.collateralProductRelations.length > 0) {
         for (let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++) {
           if (
-            this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id &&
+            this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
             this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id
           ) {
             this.creditProposalData.collateralProductRelations.splice(i, 1);

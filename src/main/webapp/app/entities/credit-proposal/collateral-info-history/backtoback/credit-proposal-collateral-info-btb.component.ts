@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,13 +18,17 @@ import { IEmptyField } from './empty-field.model';
 import lodash from 'lodash';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-collateral-info-btb-history',
   templateUrl: './credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
+export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -39,13 +43,16 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   ];
 
   public collaterals: ICollateral[];
+  public certificateType: any;
+  public dataCertyficate: any;
   public collateralProperties: ICollateralProperty[];
+  public dataItem: any;
   public parsedData: any;
-  public dataItem: ICollateral[];
   public totalMVInt: number;
   public totalLVInt: number;
   public isChecked: boolean;
   private _creditProposal: ICreditProposal;
+  private bindingTypeVal: any;
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -64,12 +71,18 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   }
 
   constructor(
+    protected _snackbar: MatSnackBar,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
-    private collateralService: CollateralService
+    private collateralService: CollateralService,
+    private partyCifService: PartyCifService
   ) {
+    super(_snackbar, collateralService);
+    this.itemsPerPage = 10;
+    this.page = 0;
     this.collateralProperties = [];
+    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
     this.collaterals = [];
@@ -77,14 +90,6 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-
-    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
-    if (collaterals.length > 0) {
-      this.collaterals = collaterals.filter(function (o) {
-        return o.collateralTypeId !== COLLATERAL_TYPE['machine'] && COLLATERAL_TYPE['realestate'] && COLLATERAL_TYPE['vehicle'];
-      });
-    }
-
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -92,6 +97,9 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
+
+    this.setCertyficateType();
+    // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
     this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
@@ -102,16 +110,21 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = res.body;
+        this.dataItem = new MatTableDataSource(
+          res.body.filter(function (o) {
+            return o.collateralTypeId !== COLLATERAL_TYPE['machine'] || COLLATERAL_TYPE['realestate'] || COLLATERAL_TYPE['vehicle'];
+          })
+        );
+        this.dataItem.paginator = this.paginator;
       });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.creditProposal.collaterals.length > 0) {
-        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          const collateral = this.creditProposal.collaterals[i];
+      if (this.parsedData.previousHistroy.collaterals.length > 0) {
+        for (let i = 0; i < this.parsedData.previousHistroy.collaterals.length; i++) {
+          const collateral = this.parsedData.previousHistroy.collaterals[i];
           this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -122,18 +135,21 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   }
   public openDialogBTB(value: ICollateral): void {
     let cp = {};
-    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
+    for (let index = 0; index < this.parsedData.previousHistroy.collaterals.length; index++) {
+      if (this.parsedData.previousHistroy.collaterals[index].collateralId === value.collateralId) {
         cp = this.creditProposal;
       }
     }
     const predicate: object = {
       width: '80vw',
       data: {
+        cp: this._creditProposal,
         collateral: value,
         binding: this.getBinding(value),
         emptyField: this.getEmptyField(value),
         applicationProduct: this.creditProposal.products,
+        properties: this.collateralProperties,
+        isViewMode: this.isViewMode,
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoDialogBTBHistoryComponent, predicate);
@@ -144,11 +160,12 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
         }
       }
 
-      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+      const arr = this.parsedData.previousHistroy.collaterals;
+      const collateralIdx: number = lodash.findIndex(arr, function (o: any) {
         return o.id === res['collateral'].id;
       });
       if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+        this.parsedData.previousHistroy.collaterals[collateralIdx] = res['collateral'];
       }
 
       const emptyIdx: number = lodash.findIndex(
@@ -289,7 +306,7 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   public countTotalLV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -312,7 +329,7 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
   public countTotalMV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -364,5 +381,91 @@ export class CollateralInfoBTPHistoryComponent implements OnChanges, OnInit {
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
+  }
+
+  public getCrossStatus(status: string) {
+    if (status === 'N') {
+      return 'NO';
+    }
+    if (status === 'Y') {
+      return 'YES';
+    }
+    if (status === undefined) {
+      return '';
+    }
+    return '';
+  }
+  public getBindingType(element: string) {
+    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    return this.bindingTypeVal[keyy];
+  }
+  public getExpiry(collateral: ICollateral) {
+    let result: any;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.expiry === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.expiry;
+        }
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    return result;
+  }
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
+    });
+  }
+  public findCertyficate(id) {
+    if (this.certificateType) {
+      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
+      if (this.dataCertyficate) {
+        return this.dataCertyficate.label;
+      }
+      return '';
+    }
+  }
+  public getOwnerShip(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    let string1: string;
+    let string2: string;
+    let result: string;
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    return string2;
   }
 }

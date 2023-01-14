@@ -106,7 +106,7 @@ export interface ISurveyAppraisals {
   tasks?: IProcessTask[];
   collateral?: ICollateral;
   attributes?: any;
-  surveyorArea?: string;
+  surveyorArea?: number;
   rm?: IApplicationRole;
   prospectPerson?: IPerson;
   prospectOrganization?: IPartyGroup;
@@ -226,7 +226,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public collateral?: ICollateral,
     public attributes?: any,
     public rm?: IApplicationRole,
-    public surveyorArea?: string,
+    public surveyorArea?: number,
     public prospectPerson?: IPerson,
 
     public prospectOrganization?: IPartyGroup,

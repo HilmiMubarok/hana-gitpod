@@ -5,6 +5,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { IOtherCovenant, OtherCovenant } from './other-convenant.model';
 import { CreditProposalOtherCovenantDialogHistoryComponent } from './add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditHistoryComponent } from './edit/credit-proposal-other-covenant-edit.component';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-other-covenant-history',
@@ -16,7 +17,9 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
 
   public _creditProposalItem: ICreditProposal;
 
+  public parsedData: any;
   ngOnInit() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
   }

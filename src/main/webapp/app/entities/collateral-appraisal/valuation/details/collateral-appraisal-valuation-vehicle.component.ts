@@ -76,49 +76,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
     this.totalMarketValue = countData.length > 0 ? countData.reduce((a, b) => Number(a) + Number(b)) : 0;
 
     // rounded
-    const split = this.totalMarketValue.toLocaleString('en-US').split(',');
-    if (Number(split[0]) === 0) {
-      this.roundedtotalMarketValue = 0;
-    } else {
-      if (split.length < 3) {
-        if (Number(split[0]) < 500) {
-          this.roundedtotalMarketValue = 0;
-        } else {
-          if (Number(split[1]) < 500) {
-            if (Number(split[0]) > 499) {
-              this.roundedtotalMarketValue = 1000000;
-            } else {
-              this.roundedtotalMarketValue = Number(split[0] + '000000');
-            }
-          } else {
-            const nilai = [];
-            for (let j = 1; j < split.length; j++) {
-              nilai.push('000');
-            }
-            this.roundedtotalMarketValue = Number(Number(split[0]) + Number(1) + nilai.join(''));
-          }
-        }
-      } else {
-        const rounded = [];
-        for (let i = split.length - 1; i >= 0; i--) {
-          rounded.push(split[i]);
-        }
-
-        if (Number(split[split.indexOf(rounded[1])]) < 500) {
-          const nilai = [];
-          for (let j = 0; j < split.length - 2; j++) {
-            nilai.push(split[j]);
-          }
-          this.roundedtotalMarketValue = Number(nilai.join('') + '000000');
-        } else {
-          const nilai = [];
-          for (let j = 0; j < split.length - 2; j++) {
-            nilai.push(split[j]);
-          }
-          this.roundedtotalMarketValue = Number(Number(nilai.join('')) + 1 + '000000');
-        }
-      }
-    }
+    this.roundedtotalMarketValue = this.collateralPropertyService.roundHundred(this.totalMarketValue);
   }
 
   private countLiquidationValueIndication() {
@@ -129,44 +87,7 @@ export class CollateralAppraisalValuationVehicleComponent implements OnChanges {
       );
     }
     this.totalLiquid = countData.length > 0 ? countData.reduce((a, b) => a + b) : 0;
-
-    const split = this.totalLiquid.toLocaleString('en-US').split(',');
-    if (Number(split[0]) === 0) {
-      this.roundedtotalLiquid = 0;
-    } else {
-      if (split.length < 3) {
-        if (Number(split[0]) < 500) {
-          this.roundedtotalLiquid = 0;
-        } else {
-          if (Number(split[1]) < 500) {
-            if (Number(split[0]) > 499) {
-              this.roundedtotalLiquid = 1000000;
-            } else {
-              this.roundedtotalLiquid = Number(split[0] + '000000');
-            }
-          }
-        }
-      } else {
-        const rounded = [];
-        for (let i = split.length - 1; i >= 0; i--) {
-          rounded.push(split[i]);
-        }
-
-        if (Number(split[split.indexOf(rounded[1])]) < 500) {
-          const nilai = [];
-          for (let j = 0; j < split.length - 2; j++) {
-            nilai.push(split[j]);
-          }
-          this.roundedtotalLiquid = Number(nilai.join('') + '000000');
-        } else {
-          const nilai = [];
-          for (let j = 0; j < split.length - 2; j++) {
-            nilai.push(split[j]);
-          }
-          this.roundedtotalLiquid = Number(Number(nilai.join('')) + 1 + '000000');
-        }
-      }
-    }
+    this.roundedtotalLiquid = this.collateralPropertyService.roundHundred(this.totalLiquid);
   }
 
   public deleteVechile(element): void {

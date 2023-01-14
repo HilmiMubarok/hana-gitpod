@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -107,7 +108,8 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    public creditProposalService: CreditProposalService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = MANAGEMENT_BRANCH;
@@ -131,6 +133,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.setGurantee();
     this.cekDataSource();
     this.cekData();
+    this.setData();
   }
 
   public cekData() {
@@ -390,7 +393,30 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.collateralProperty.attributes.approvedCreditLineCcy = this.CcyApr.id;
   }
 
+  public currency = 0;
   public getAmountCcy() {
     this.collateralProperty.attributes.amountUomId = this.amountCcy.id;
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(this.amountCcy.id, 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      if (res.body[0]?.factor !== undefined) {
+        this.currency = Number(res.body[0]?.factor);
+        this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+        this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+      } else {
+        this.currency = 0;
+        this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+        this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+      }
+    });
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+  }
+
+  public amountChange() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
   }
 }

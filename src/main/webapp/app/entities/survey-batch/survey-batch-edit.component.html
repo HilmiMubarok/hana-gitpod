@@ -47,8 +47,13 @@
             </div>
           </div>
           <div class="e-card-content">
-            <jhi-postal-address-view [collateralAppraisal]="collateralAppraisal" [item]="postalAddress" mode="view">
-            </jhi-postal-address-view>
+            <jhi-party-cif-customer-info-postal-address
+              [disabled]="true"
+              [partyPostalAddress]="postalAddress"
+              [partyId]="surveyAppraisal.cif.partyId"
+              [collateralAppraisal]="collateralAppraisal"
+            >
+            </jhi-party-cif-customer-info-postal-address>
           </div>
         </div>
       </div>

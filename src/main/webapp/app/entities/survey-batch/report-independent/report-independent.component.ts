@@ -115,6 +115,7 @@ export class ReportIndependentComponent extends AbstractEntityMaterialComponent<
       this.mData.reviewedBy = result.body.reviewedBy;
       this.mData.marketValue = result.body.totalMarketValue;
       this.mData.remark = result.body.remark;
+      this.mData.totalLiquidationValue = result.body.totalLiquidationValue;
       // this.reviewedOpinion = result.body.reviewedOpinion;
 
       if (result.body.apprOfficer === 'External') {

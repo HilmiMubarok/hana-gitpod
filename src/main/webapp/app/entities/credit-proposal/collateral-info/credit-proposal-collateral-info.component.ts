@@ -64,7 +64,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
       this.router.url.split('/')[1] === 'la-analyst' ||
       this.router.url.split('/')[1] === 'la-SME-CRC' ||
       this.router.url.split('/')[1] === 'la-approval' ||
-      this.router.url.split('/')[1] === '  loan-committee-approval' ||
+      this.router.url.split('/')[1] === 'loan-committee-approval' ||
       // this.router.url.split('/')[1] === 'la-approval-inquiry' ||
       this.router.url.split('/')[1] === 'dar-final' ||
       this.router.url.split('/')[1] === 'dar-checker' ||

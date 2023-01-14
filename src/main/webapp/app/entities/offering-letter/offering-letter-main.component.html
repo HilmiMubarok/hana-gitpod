@@ -450,10 +450,16 @@
       >
         Generate SPPK
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" *ngIf="creditProposal.statusId === 'OL_COMPLETE'" hidden (click)="onSave()">
+      <button
+        mat-raised-button
+        class="btn-lg text-uppercase"
+        *ngIf="creditProposal.statusId === 'OL_COMPLETE'"
+        hidden
+        (click)="onSave('default')"
+      >
         Save
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" *ngIf="creditProposal.statusId !== 'OL_COMPLETE'" (click)="onSave()">
+      <button mat-raised-button class="btn-lg text-uppercase" *ngIf="creditProposal.statusId !== 'OL_COMPLETE'" (click)="onSave('default')">
         Save
       </button>
     </div>

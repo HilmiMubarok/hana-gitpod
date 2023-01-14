@@ -439,8 +439,9 @@
 
       <!-- Covenant & TBO -->
       <div *ngIf="selectedMenu === 'convenant-tbo'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-credit-proposal-tab-covenant [isViewMode]="true" [creditProposalItem]="creditProposal"> </jhi-credit-proposal-tab-covenant>
-        <jhi-credit-proposal-tab-covenant-history *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
+        <jhi-credit-proposal-tab-covenant [isViewMode]="true" *ngIf="!isHistoryExist" [creditProposalItem]="creditProposal">
+        </jhi-credit-proposal-tab-covenant>
+        <jhi-credit-proposal-tab-covenant-history [isViewMode]="true" *ngIf="isHistoryExist" [creditProposalItem]="creditProposal">
         </jhi-credit-proposal-tab-covenant-history>
       </div>
 
@@ -474,6 +475,7 @@
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-opinion
           #loanAnalysOpinionComponent
+          (nameLoginEmit)="setNameLogin($event)"
           (positionLoginEmit)="setPositionLogin($event)"
           (newItemEvent)="setOpinionRecomendation($event)"
           [creditProposalItem]="creditProposal"
@@ -492,6 +494,8 @@
         <div *ngIf="parentPath === 'cc-review'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
+            (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
+            (newItemEventCompliance)="setOpinionRecomendationCompliance($event)"
             (typeOpinion)="setTypeOpinion($event)"
             [creditProposalItem]="creditProposal"
             [cp]="cp"
@@ -555,7 +559,7 @@
         {{ task.caption }}
       </button>
 
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave()">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave('default')">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

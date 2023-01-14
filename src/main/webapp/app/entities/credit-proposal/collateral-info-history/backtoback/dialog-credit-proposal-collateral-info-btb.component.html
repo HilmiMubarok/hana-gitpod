@@ -1,295 +1,248 @@
-<div class="e-card">
-  <div class="e-sample-resize-container">
-    <div class="e-card-content">
-      <div class="row">
-        <div class="col-md-6" style="padding: 10px">
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="collateral.managementBranch"
-                placeholder="Management Branch"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Management Branch</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.managementBranch }}
+<mat-dialog-content>
+  <div class="row justify-content-between">
+    <div class="e-card">
+      <div class="e-sample-resize-container">
+        <div class="e-card-content">
+          <div class="row">
+            <div class="col-md-6" style="padding: 10px">
+              <div class="form-group">
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Management Branch</mat-label>
+                    <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
+                      <mat-option value="">Please Select</mat-option>
+                      <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="collateral.guaranteType"
-                placeholder="Jenis Jaminan"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Jenis Jaminan</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.guaranteType }}
-              </div>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="collateral.installmentTime"
-                placeholder="Collateral Value"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Collateral Value</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.installmentTime }}
-              </div>
-            </div>
-          </section>
 
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox disabled placeholder="NO Ducument Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">NO Ducument Jaminan</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ ' ' }}
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Jenis jaminan</mat-label>
+                  <mat-select name="collateralCode" [(ngModel)]="collateral.attributes.collateralCode" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of collateralCode" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="collateral.accountCustName"
-                placeholder="Account Customer"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Account Customer</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.accountCustName }}
-              </div>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="collateral.issuer"
-                placeholder="Status Lembaga Penjamin"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Status Lembaga Penjamin</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.issuer }}
-              </div>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                disabled
-                [(ngModel)]="collateral.collCharacteristic"
-                placeholder="Sifat jaminan"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
 
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Sifat jaminan</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.collCharacteristic }}
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="collateralValue"
+                  placeholder="Collateral Value"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  placeholder="NO Ducument Jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  [(ngModel)]="noDocumentJaminan"
+                >
+                </ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="accountCustomer"
+                  placeholder="Account Customer"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="lembagaPenjamin"
+                  placeholder="Status Lembaga Penjamin"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  disabled
+                  [(ngModel)]="sifatJaminan"
+                  placeholder="Sifat jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                ></ejs-textbox>
+              </div>
+
+              <div class="form-group">
+                <ejs-textbox
+                  placeholder="Periode Jaminan"
+                  cssClass="e-outline"
+                  floatLabelType="Always"
+                  [(ngModel)]="creditProposal.attributes['guaranteePeriode']"
+                >
+                </ejs-textbox>
               </div>
             </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox disabled placeholder="Periode Jaminan" cssClass="e-outline" floatLabelType="Always"> </ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Periode Jaminan</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ ' ' }}
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Binding Type</mat-label>
+                  <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="binding.bindingValue"
+                    placeholder="Binding Value"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                  ></ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="binding.bindingValue"
+                    placeholder="Binding Value"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  ></ejs-textbox>
+                </section>
+              </div>
+
+              <!-- <div class="form-group">
+                <ejs-textbox
+                  [(ngModel)]="collateral.statusCode"
+                  placeholder="Collateral Status"
+                  cssClass="e-outline"
+                  floatLabelType="Auto"
+                ></ejs-textbox>
+              </div> -->
+
+              <div class="form-group">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox disabled [(ngModel)]="empty.bunga" placeholder="Bunga" cssClass="e-outline" floatLabelType="Auto">
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox disabled [(ngModel)]="empty.bunga" placeholder="Bunga" cssClass="e-outline" floatLabelType="Auto" disabled>
+                  </ejs-textbox>
+                </section>
+              </div>
+              <div class="form-group">
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <ejs-textbox disabled [(ngModel)]="empty.kondisi" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto">
+                  </ejs-textbox>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <ejs-textbox
+                    disabled
+                    [(ngModel)]="empty.kondisi"
+                    placeholder="Kondisi"
+                    cssClass="e-outline"
+                    floatLabelType="Auto"
+                    disabled
+                  >
+                  </ejs-textbox>
+                </section>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-200" appearance="outline">
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <mat-label>Tanggal Verifikasi</mat-label>
+                    <input [matDatepicker]="bindingDate" matInput type="text" [(ngModel)]="collateral.bindingDate" disabled />
+                    <mat-datepicker-toggle matSuffix [for]="bindingDate" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #bindingDate disabled></mat-datepicker>
+                    <!-- <input
+                      disabled
+                      [matDatepicker]="bindingDate"
+                      [formControl]="date"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                    />
+                    <mat-datepicker-toggle matSuffix disabled [for]="bindingDate"></mat-datepicker-toggle>
+                    <mat-datepicker disabled #bindingDate></mat-datepicker> -->
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <input
+                      disabled
+                      [matDatepicker]="bindingDate"
+                      [formControl]="date"
+                      matInput
+                      type="text"
+                      [(ngModel)]="collateral.bindingDate"
+                    />
+                    <mat-datepicker-toggle matSuffix disabled [for]="bindingDate"></mat-datepicker-toggle>
+                    <mat-datepicker disabled #bindingDate></mat-datepicker>
+                  </section>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Status</mat-label>
+                  <mat-select name="status" [(ngModel)]="collateral.statusId">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of collateralStatus | keyvalue" [value]="item.key">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Cross Collateral Status</mat-label>
+                  <mat-select name="status" [(ngModel)]="collateral.paripasuStatus" disabled>
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of paripasuStatus | keyvalue" [value]="item.key">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
             </div>
-          </section>
+          </div>
         </div>
-
-        <div class="col-md-6">
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Binding Type</mat-label>
-                <mat-select [(ngModel)]="binding.bindingType" name="facilityType">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of optionBindingTypes" [value]="item">
-                    {{ item }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Binding Type</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ item }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                [(ngModel)]="binding.bindingValue"
-                placeholder="Binding Value"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Binding Value</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ binding.bindingValue }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                [(ngModel)]="collateral.statusCode"
-                placeholder="Collateral Status"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Collateral Status</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ collateral.statusCode }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox [(ngModel)]="empty.bunga" placeholder="Bunga" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Bunga</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ empty.bunga }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox [(ngModel)]="empty.kondisi" placeholder="Kondisi" cssClass="e-outline" floatLabelType="Auto"> </ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Kondisi</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ empty.kondisi }}
-              </div>
-            </div>
-          </section>
-
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <ejs-textbox
-                [(ngModel)]="empty.tanggalVerifikasi"
-                placeholder="Tanggal Verifikasi"
-                type="date"
-                cssClass="e-outline"
-                floatLabelType="Always"
-              ></ejs-textbox>
-            </div>
-          </section>
-          <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Tanggal Verifikasi</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ empty.tanggalVerifikasi }}
-              </div>
-            </div>
-          </section>
+        <div>
+          <mat-label>Mapping to Facility</mat-label>
+          <jhi-mapping-facility
+            [collateralData]="collateral"
+            [creditProposal]="creditProposal"
+            (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
+          >
+          </jhi-mapping-facility>
         </div>
+        <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+        <mat-dialog-actions align="center">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+            <button mat-button (click)="save()">Save</button>
+            <button mat-button (click)="print()">Print</button>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+          </section>
+        </mat-dialog-actions>
       </div>
     </div>
-
-    <div>
-      <mat-label>Mapping to Facility</mat-label>
-      <jhi-mapping-facility (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-facility>
-    </div>
-
-    <jhi-paripasu-collateral-history [creditProposal]="creditProposal"></jhi-paripasu-collateral-history>
-
-    <mat-dialog-actions align="center">
-      <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-      <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <button mat-button (click)="save()">Save</button>
-      </section>
-      <section *jhiMatrixDir="collateral.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-        <div class="mt-3 text-center">
-          <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
-        </div>
-      </section>
-    </mat-dialog-actions>
   </div>
-</div>
+</mat-dialog-content>

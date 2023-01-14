@@ -28,6 +28,7 @@ import {
 } from 'app/shared/constants/base.constants';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 
 @Component({
   selector: 'jhi-collateral-property-other-dialog',
@@ -96,7 +97,8 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   constructor(
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    public creditProposalService: CreditProposalService
   ) {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -115,6 +117,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
     this.cekDataSource();
     this.cekData();
     this.setBranches();
+    this.setData();
   }
 
   public cekData() {
@@ -332,8 +335,37 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   public getMVImbCcy() {
     this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
   }
+  public currency = 0;
 
   public getMVImbPsCcy() {
     this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
+
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService
+      .getCurrency(this.collateralProperty.attributes.marketValueCcy, 'IDR', setDate.replace(/-/g, ''))
+      .subscribe(res => {
+        if (res.body[0]?.factor !== undefined) {
+          this.currency = Number(res.body[0]?.factor);
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValueOther * this.currency;
+          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValueOther * this.currency;
+        } else {
+          this.currency = 0;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValueOther * this.currency;
+          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValueOther * this.currency;
+        }
+      });
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.marketValue;
+  }
+
+  public amountChange() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.marketValue;
+  }
+
+  public collateralInfoChange() {
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValueOther * this.currency;
+    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValueOther * this.currency;
   }
 }

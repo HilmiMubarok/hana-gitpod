@@ -169,6 +169,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
       Number(this.item.attributes['tabCustomer']['casa']) +
       Number(this.item.attributes['tabCustomer']['loanProvision']) +
       Number(this.item.attributes['tabCustomer']['insurancePremium']);
+    this.item.attributes['tabCustomer'].profit = result;
     return result;
   }
 

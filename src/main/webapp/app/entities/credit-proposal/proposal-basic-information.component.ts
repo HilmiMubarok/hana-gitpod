@@ -21,6 +21,7 @@ import {
   ID_GREATER_15_BN,
   ID_LOWER_EQUAL_15_BN,
   ID_BACK_TO_BACK,
+  CP_APPROVAL_MENU,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -177,24 +178,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
     this.getTitleUrl();
     this.getTitleMenu();
-
-    // this.getTitleMenu();
-
-    // Main Menu OLD
-    /* this.clickedMenu = 'basic-information';
-    if (this.creditProposal.attributes.proposalType !== undefined) {
-      if (this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
-      } else if (this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn') {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
-      } else if (this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back') {
-        this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
-      } else {
-        this.subMenu = PROPOSAL_TYPE;
-      }
-    } else {
-      this.subMenu = PROPOSAL_TYPE;
-  }*/
   }
 
   public setSubmenu(event: IEJOptionNode): void {
@@ -275,7 +258,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -291,7 +274,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -307,7 +290,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
+          ...CP_APPROVAL_MENU,
           {
             id: 'opinion',
             text: 'Opinion',
@@ -401,7 +384,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
 
-    this.router.navigate([this.routeHelper], { queryParams: { subroute: menu['id'] } });
+    this.router.navigate([this.routeHelper], {
+      queryParams: {
+        subroute: menu['id'],
+      },
+    });
   }
 
   public previousState(): void {
@@ -468,112 +455,6 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
-    /* if (this.applicationRole.id) {
-      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
-        this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-          this.cp = response.body;
-          this.saveWord = false;
-          this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-            this.router.navigate([this.router.url.split('/')[1]]);
-          });
-        });
-      });
-    } else {
-      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
-        this.creditProposalService.find(this.activatedRoute.snapshot.data['content'].id).subscribe((response: any) => {
-          this.cp = response.body;
-          this.saveWord = false;
-          this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
-            this.router.navigate([this.router.url.split('/')[1]]);
-          });
-        });
-      });
-    } */
-  }
-
-  private preSave(): ICreditProposal {
-    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    let tempHelper = 0;
-    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
-      if (copyCreditProposal.notes.length > 0) {
-        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
-            copyCreditProposal.notes[i].message = '';
-            copyCreditProposal.notes[i].recomendation = this.recomendation;
-            copyCreditProposal.notes[i].condition = '';
-            copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
-            tempHelper = tempHelper + 1;
-          }
-        }
-
-        if (tempHelper === 0) {
-          copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
-          );
-        }
-      } else {
-        copyCreditProposal.notes.push(
-          this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
-        );
-      }
-      delete copyCreditProposal.attributes['tempLoggedInNotes'];
-      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-      delete copyCreditProposal.attributes['tempLoggedInCondition'];
-      delete copyCreditProposal.attributes['positionLogin'];
-    }
-
-    copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
-    copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
-    copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
-    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
-    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
-    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
-    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
-    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
-    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
-    copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
-    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
-    copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
-    copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
-    copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
-    copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
-    copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(copyCreditProposal.debtorData.attributes['prospectPerson']);
-    copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
-    copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
-    copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
-    copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
-    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
-    copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
-    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
-    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
-    copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
-    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
-    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
-    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
-    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
-    copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
-    copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
-    copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
-    copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
-    copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
-    copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
-    copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
-    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
-    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
-    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
-    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
-      copyCreditProposal.attributes['creditProposalCollateralData']
-    );
-    copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
-    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
-      this.creditProposal.attributes['remarksFinancialStatement']
-    );
-    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
-    copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
-    copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
-    copyCreditProposal.groupProducts = [];
-
-    return copyCreditProposal;
   }
 
   public save(source: string): void {
@@ -679,6 +560,91 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       }
     }
+  }
+
+  private preSave(): ICreditProposal {
+    const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    let tempHelper = 0;
+    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
+      if (copyCreditProposal.notes.length > 0) {
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].userId === this.currentAccount.login) {
+            copyCreditProposal.notes[i].message = '';
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
+            copyCreditProposal.notes[i].condition = '';
+            copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
+            tempHelper = tempHelper + 1;
+          }
+        }
+
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(
+          this.addNewNotes('', this.recomendation, '', this.currentAccount.login, copyCreditProposal.attributes['positionLogin'])
+        );
+      }
+      delete copyCreditProposal.attributes['tempLoggedInNotes'];
+      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+      delete copyCreditProposal.attributes['tempLoggedInCondition'];
+      delete copyCreditProposal.attributes['positionLogin'];
+    }
+
+    copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
+    copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
+    copyCreditProposal.attributes['correspondence'] = JSON.stringify(copyCreditProposal.attributes['correspondence']);
+    copyCreditProposal.attributes['basicInformation'] = JSON.stringify(copyCreditProposal.attributes['basicInformation']);
+    copyCreditProposal.attributes['guaranturAnalysis'] = JSON.stringify(copyCreditProposal.attributes['guaranturAnalysis']);
+    copyCreditProposal.attributes['riksCriteria'] = JSON.stringify(copyCreditProposal.attributes['riksCriteria']);
+    copyCreditProposal.attributes['convenant'] = JSON.stringify(copyCreditProposal.attributes['convenant']);
+    copyCreditProposal.attributes['creditProposalParent'] = JSON.stringify(copyCreditProposal.attributes['creditProposalParent']);
+    copyCreditProposal.attributes['businessActivity'] = JSON.stringify(copyCreditProposal.attributes['businessActivity']);
+    copyCreditProposal.attributes['analysisOfCalculation'] = JSON.stringify(copyCreditProposal.attributes['analysisOfCalculation']);
+    copyCreditProposal.attributes['bankAnalyst'] = JSON.stringify(copyCreditProposal.attributes['bankAnalyst']);
+    copyCreditProposal.attributes['proformaLaporanKeuangan'] = JSON.stringify(copyCreditProposal.attributes['proformaLaporanKeuangan']);
+    copyCreditProposal.attributes['tabSummary'] = JSON.stringify(copyCreditProposal.attributes['tabSummary']);
+    copyCreditProposal.attributes['insurance'] = JSON.stringify(copyCreditProposal.attributes['insurance']);
+    copyCreditProposal.attributes['binding'] = JSON.stringify(copyCreditProposal.attributes['binding']);
+    copyCreditProposal.debtorData.attributes['prospectPerson'] = JSON.stringify(copyCreditProposal.debtorData.attributes['prospectPerson']);
+    copyCreditProposal.attributes['repaymentCapability'] = JSON.stringify(copyCreditProposal.attributes['repaymentCapability']);
+    copyCreditProposal.attributes['facilityDetail'] = JSON.stringify(this.creditProposal.attributes['facilityDetail']);
+    copyCreditProposal.attributes['opinionHistory'] = JSON.stringify(this.creditProposal.attributes['opinionHistory']);
+    copyCreditProposal.attributes['tabCustomer'] = JSON.stringify(this.creditProposal.attributes['tabCustomer']);
+    copyCreditProposal.attributes['tradeCheckingSupplier'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingSupplier']);
+    copyCreditProposal.attributes['tradeCheckingBuyers'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingBuyers']);
+    copyCreditProposal.attributes['tradeCheckingRemarks'] = JSON.stringify(copyCreditProposal.attributes['tradeCheckingRemarks']);
+    copyCreditProposal.attributes['collateralChecklist'] = JSON.stringify(this.creditProposal.attributes['collateralChecklist']);
+    copyCreditProposal.attributes['tabSummaryMessage'] = JSON.stringify(this.creditProposal.attributes['tabSummaryMessage']);
+    copyCreditProposal.attributes['managementInfo'] = JSON.stringify(this.creditProposal.attributes['managementInfo']);
+    copyCreditProposal.attributes['purposePricing'] = JSON.stringify(copyCreditProposal.attributes['purposePricing']);
+    copyCreditProposal.attributes['cpRacBelow'] = JSON.stringify(copyCreditProposal.attributes['cpRacBelow']);
+    copyCreditProposal.attributes['cpRacBack'] = JSON.stringify(copyCreditProposal.attributes['cpRacBack']);
+    copyCreditProposal.attributes['emptyField'] = JSON.stringify(copyCreditProposal.attributes['emptyField']);
+    copyCreditProposal.attributes['collateralPrevious'] = JSON.stringify(copyCreditProposal.attributes['collateralPrevious']);
+    copyCreditProposal.attributes['facilityTakeOver'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOver']);
+    copyCreditProposal.attributes['facilityTakeOverAfterBank'] = JSON.stringify(copyCreditProposal.attributes['facilityTakeOverAfterBank']);
+    copyCreditProposal.attributes['complienceReccomendation'] = JSON.stringify(copyCreditProposal.attributes['complienceReccomendation']);
+    copyCreditProposal.attributes['industryLimit'] = JSON.stringify(copyCreditProposal.attributes['industryLimit']);
+    copyCreditProposal.attributes['offeringLetter'] = JSON.stringify(copyCreditProposal.attributes['offeringLetter']);
+    copyCreditProposal.attributes['bankAnalystMessage'] = JSON.stringify(copyCreditProposal.attributes['bankAnalystMessage']);
+    copyCreditProposal.attributes['previous'] = JSON.stringify(copyCreditProposal.attributes['previous']);
+    copyCreditProposal.attributes['offeringLetterPreparation'] = JSON.stringify(copyCreditProposal.attributes['offeringLetterPreparation']);
+    copyCreditProposal.attributes['creditProposalCollateralData'] = JSON.stringify(
+      copyCreditProposal.attributes['creditProposalCollateralData']
+    );
+    copyCreditProposal.attributes['retriveData'] = JSON.stringify(copyCreditProposal.attributes['retriveData']);
+    copyCreditProposal.attributes['remarksFinancialStatement'] = JSON.stringify(
+      this.creditProposal.attributes['remarksFinancialStatement']
+    );
+    copyCreditProposal.attributes['rejectReason'] = JSON.stringify(copyCreditProposal.attributes['rejectReason']);
+    copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
+    copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
+    copyCreditProposal.groupProducts = [];
+
+    return copyCreditProposal;
   }
 
   print() {
@@ -814,60 +780,3 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public notes: any;
 }
-
-// EJ 2 Menu Setup
-// public selectedMenu: string;
-// public subMenuItems = '';
-// public menuItems: MenuItemModel[] = [];
-// public menuItemsAll: MenuItemModel[] = [
-//    { text: 'BASIC INFORMATION' },
-//    { text: 'BUSINES ACTIVITY' },
-//    { text: 'LOAN FACILITY DETAIL' },
-//    { text: 'EXPOSURE' },
-//    { text: 'RISK ACCEPTENCE CRITERIA' },
-//    { text: 'COLLATERAL INFO' },
-//    { text: 'MANAGEMENT INFORMATION' },
-//    { text: 'SLIK CHECKING' },
-//    { text: 'FINANCIAL STATEMENT' },
-//    { text: 'BANK ACCOUNT ANALYSIS' },
-//    { text: 'TRADE CHECKING' },
-//    { text: 'CREDIT RATING' },
-//    { text: 'REPAYMENT CAPABILITY' },
-//    { text: 'CONVENANT & TBO' },
-//    { text: 'DOCUMENT CHECKLIST' },
-//    { text: 'PROPOSE PRICING' },
-//    { text: 'GROUP & GUARANTOUR ANALYSIS' },
-//    { text: 'SUMMARY' }
-//  ];
-// this.selectedMenu = 'BASIC INFORMATION';
-// this.setMenu('');
-// public selectMenuItem(args: MenuEventArgs): void {
-//  this.selectedMenu = args.item.text;
-// }
-// private setMenu(value: string): void {
-//  this.menuItems = lodash.clone(this.menuItemsAll);
-//  const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
-//  if (compareVal === 'Total Exposure > IDR 15 Bn' || compareVal === 'Total Exposure Back to Back') {
-//	this.spliceMenus(['REPAYMENT CAPABILITY']);
-//	if (compareVal === 'Total Exposure Back to Back') {
-//	  this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
-//	}
-//  } else {
-//	this.spliceMenus(['TRADE CHECKING', 'GROUP & GUARANTOUR ANALYSIS', 'CREDIT RATING']);
-//  }
-// }
-
-// public onProposalTypeChange(value: any): void {
-//  this.setMenu(value.value);
-//
-//  this.subMenuItems = value.value;
-// }
-// private spliceMenus(menus: string[]): void {
-//  for (let i = 0; i < menus.length; i++) {
-//	for (let j = 0; j < this.menuItems.length; j++) {
-//	  if (this.menuItems[j].text === menus[i]) {
-//		this.menuItems.splice(j, 1);
-//	  }
-//	}
-//  }
-// }

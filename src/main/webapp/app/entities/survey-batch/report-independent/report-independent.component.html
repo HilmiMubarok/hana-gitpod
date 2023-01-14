@@ -109,6 +109,14 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Liquidation Value</mat-label>
+            <input matInput type="text" [disabled]="true" [ngModel]="mData.totalLiquidationValue | currency: 'IDR ':'symbol':'1.0-0'" />
+          </mat-form-field>
+        </div>
+      </div>
       <!-- -======================================== -->
 
       <!-- -======================================== -->
