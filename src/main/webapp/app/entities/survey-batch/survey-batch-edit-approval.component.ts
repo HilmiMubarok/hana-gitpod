@@ -921,7 +921,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       data.attributes['marketbility'] = '';
     }
     if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
-      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
         data.attributes['scoreCard'] = scoreCard;
