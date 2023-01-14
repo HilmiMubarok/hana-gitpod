@@ -177,8 +177,8 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
       });
     }
   }
-
-  private filterBusinessGroupDebtorData(param: IDebtorData[]): void {
+  public cpGroub = [];
+  private filterBusinessGroupDebtorData(param: any[]): void {
     if (param.length > 0) {
       let no = 0;
       for (let i = 0; i < param.length; i++) {
@@ -193,7 +193,24 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
               no = no + 1;
               parsed.no = no;
               parsed.GroupName = param[i].customerName;
-              console.log('group name', parsed.GroupName);
+              parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
+              parsed.FacilityType = source[y].FACILITY_TYPE;
+              parsed.LoanType = source[y].FILN11_COM_NM;
+              parsed.AvailableLimit = source[y].AVAILABLE_LIMIT;
+              parsed.CCY = source[y].LNB_BASE_LON_CCY;
+              parsed.CreditLimit = source[y].FILN10_CONTRACT_AMT;
+              parsed.OS = source[y].LNB_BASE_LON_JAN;
+              parsed.InterestRate =
+                source[y].FILN10_ROLL_GAP +
+                ' ' +
+                source[y].FILN10_ROLL_GAP_GB_NM +
+                ' ' +
+                source[y].FIX_FLT_GB_NM +
+                ' ' +
+                source[y].FILN11_SPREAD_RT;
+              parsed.Maturity = source[y].FXFIG_TRX_DT;
+              parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
+              this.cpGroub = lodash.concat(this.cpGroub, parsed);
             }
           }
         }

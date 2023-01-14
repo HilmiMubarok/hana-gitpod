@@ -1,23 +1,23 @@
-<table mat-table [dataSource]="dataGroup" class="w-100">
+<table mat-table [dataSource]="cpGroub" class="w-100">
   <ng-container matColumnDef="no">
     <th mat-header-cell *matHeaderCellDef>No</th>
     <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
   </ng-container>
   <ng-container matColumnDef="customerName">
     <th mat-header-cell *matHeaderCellDef>Customer Name</th>
-    <td mat-cell *matCellDef="let element">{{ element.LNB_BASE_AGR_REF_NO }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.GroupName }}</td>
   </ng-container>
   <ng-container matColumnDef="bank">
     <th mat-header-cell *matHeaderCellDef>Loan Account</th>
-    <td mat-cell *matCellDef="let element">{{ element.LNB_BASE_AGR_REF_NO }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.LoanAccount }}</td>
   </ng-container>
   <ng-container matColumnDef="limit">
     <th mat-header-cell *matHeaderCellDef style="width: 150px">Facility Type</th>
-    <td mat-cell *matCellDef="let element">{{ element.FACILITY_TYPE }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.FacilityType }}</td>
   </ng-container>
   <ng-container matColumnDef="loantype">
     <th mat-header-cell *matHeaderCellDef style="width: 150px">Loan Type</th>
-    <td mat-cell *matCellDef="let element">{{ element.FILN11_COM_NM }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.LoanType }}</td>
   </ng-container>
   <ng-container matColumnDef="os">
     <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
@@ -25,34 +25,33 @@
   </ng-container>
   <ng-container matColumnDef="facilityType">
     <th mat-header-cell *matHeaderCellDef>Available Limit</th>
-    <td mat-cell *matCellDef="let element">{{ element.AVAILABLE_LIMIT | number: '1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.AvailableLimit | number: '1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="rate">
     <th mat-header-cell *matHeaderCellDef>CCY</th>
-    <td mat-cell *matCellDef="let element" style="width: 20px">{{ element.LNB_BASE_LON_CCY }}</td>
+    <td mat-cell *matCellDef="let element" style="width: 20px">{{ element.CCY }}</td>
   </ng-container>
   <ng-container matColumnDef="period">
     <th mat-header-cell *matHeaderCellDef>Credit Limit</th>
-    <td mat-cell *matCellDef="let element">{{ element.FILN10_CONTRACT_AMT | number: '1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.CreditLimit | number: '1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="collateralType">
     <th mat-header-cell *matHeaderCellDef>O/S</th>
-    <td mat-cell *matCellDef="let element">{{ element.LNB_BASE_LON_JAN | number: '1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.OS | number: '1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="collateralValue">
     <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
     <td mat-cell *matCellDef="let element">
-      {{ element.FILN10_ROLL_GAP }}{{ element.FILN10_ROLL_GAP_GB_NM }} {{ element.FIX_FLT_GB_NM }}
-      {{ element.FILN11_SPREAD_RT }}
+      {{ element.InterestRate }}
     </td>
   </ng-container>
   <ng-container matColumnDef="tenor">
-    <th mat-header-cell *matHeaderCellDef>Maturity</th>
-    <td mat-cell *matCellDef="let element">{{ element.TENOR }}{{ element.PERIOD_TYPE }}</td>
+    <th mat-header-cell *matHeaderCellDef>Disbursement Date</th>
+    <td mat-cell *matCellDef="let element">{{ element.Maturity | date: 'yyyy/MM/dd' }}</td>
   </ng-container>
   <ng-container matColumnDef="lastKol">
     <th mat-header-cell *matHeaderCellDef>MaturityDate</th>
-    <td mat-cell *matCellDef="let element">{{ element.FILN10_TOT_EXP_IL | date: 'yyyy/MM/dd' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.MaturityDate | date: 'yyyy/MM/dd' }}</td>
   </ng-container>
 
   <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
