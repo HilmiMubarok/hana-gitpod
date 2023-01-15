@@ -35,6 +35,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     // 'id',
     'collateralType',
     'collateralAddress',
+    'mvInternalOriginal',
     'marketValue',
     'liquidValue',
     'mValueKjjp',
@@ -53,7 +54,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   ];
 
   public certificateType: any;
-
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
@@ -393,6 +393,144 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
     }
     return 0;
+  }
+
+  public getCurrency(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data.attributes.amountCcy) {
+        return data.attributes.amountCcy;
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data.attributes.marketValueCcy) {
+        return data.attributes.marketValueCcy;
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data.attributes.marketValueCcy) {
+        return data.attributes.marketValueCcy;
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data.attributes.marketValueCcy) {
+        return data.attributes.marketValueCcy;
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data.attributes.marketValueCcy) {
+        return data.attributes.marketValueCcy;
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      return '';
+    }
+    return '';
+  }
+
+  public countMVOriginal(collateral: ICollateral): string {
+    let result: string;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null) {
+          return '0';
+        } else {
+          return data.attributes.amount;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.collateralValue === null) {
+          return '0';
+        } else {
+          return data.attributes.collateralValue;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.totalFaceAmount === null) {
+          return '0';
+        } else {
+          return data.attributes.totalFaceAmount;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        console.log('ini data other ', data.attributes.collateralValueOther);
+        if (data.attributes.collateralValueOther === undefined) {
+          return '0';
+        } else {
+          return data.attributes.collateralValueOther;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null) {
+          return '0';
+        } else {
+          return data.attributes.amount;
+        }
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          return '0';
+        } else {
+          result = 'IDR' + ' ' + data.marketValue;
+          return result;
+        }
+      }
+    }
+    return '0';
   }
 
   public countTotalMVKJJP() {
