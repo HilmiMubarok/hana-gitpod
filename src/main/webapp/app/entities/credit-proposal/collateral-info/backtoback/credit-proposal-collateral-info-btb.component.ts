@@ -101,7 +101,11 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = new MatTableDataSource(res.body);
+        this.dataItem = new MatTableDataSource(
+          res.body.filter(function (o) {
+            return o.collateralTypeId !== COLLATERAL_TYPE['machine'] || COLLATERAL_TYPE['realestate'] || COLLATERAL_TYPE['vehicle'];
+          })
+        );
         this.dataItem.paginator = this.paginator;
       });
   }
