@@ -59,6 +59,7 @@ import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-app
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
+import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
 
 @Component({
   providers: [
@@ -217,7 +218,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
+    private collateralLandCertificateService: CollateralLandCertificateService
   ) {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -1497,6 +1499,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       copySurveyAppraisal.attributes['marketbility'] = this.collateralAppraisal.attributes['marketbility'];
     }
     // copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+
+    copySurveyAppraisal.collateral.attributes['landCertificates'] = this.collateralLandCertificateService.getparam();
+    console.log('simpan : ', copySurveyAppraisal);
+
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']

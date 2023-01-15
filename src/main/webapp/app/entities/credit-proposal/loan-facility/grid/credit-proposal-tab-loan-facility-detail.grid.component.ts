@@ -72,6 +72,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     'provisionAmount',
     'tenor',
     'maturityDate',
+    'firstDisbursementDate',
     'action',
   ];
 
@@ -189,7 +190,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           kurs: '0',
           loanPurpose: '',
           loanType: cpFacility[i].FILN11_COM_NM,
-          maturity: cpFacility[i].TENOR,
+          maturity: '0',
           maturityDate: new Date(cpFacility[i].FILN10_TOT_EXP_IL).toISOString(),
           maturityPeriodType: (cpFacility[i].FILN10_ROLL_GAP_GB_NM = cpFacility[i].PERIOD_TYPE),
           memoDate: '2022-11-24T10:57:14.435Z',
