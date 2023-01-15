@@ -493,7 +493,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        console.log('ini data other ', data.attributes.collateralValueOther);
         if (data.attributes.collateralValueOther === undefined) {
           return '0';
         } else {
