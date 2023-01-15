@@ -284,7 +284,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
 
       for (let i = 0; i < this.aplicationProducts.length; i++) {
 		for (let j = 0; j < res['proposePricing'].length; j++) {
-		  if (this.aplicationProducts[i]['id'] = Number(res['proposePricing'][j]['id'])) {
+		  if (this.aplicationProducts[i]['id'] === Number(res['proposePricing'][j]['id'])) {
 			this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][j]['ftp'] === null ? '0.00%' : res['proposePricing'][j]['ftp'];
 			this.aplicationProducts[i].attributes['ckpn'] =
 			  res['proposePricing'][j]['ckpn'] === null ? '0.00%' : res['proposePricing'][j]['ckpn'];
