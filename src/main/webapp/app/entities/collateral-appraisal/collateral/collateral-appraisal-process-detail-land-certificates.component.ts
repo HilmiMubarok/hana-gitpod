@@ -13,6 +13,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { CollateralLandCertificateService } from './dialogs/collateral-land-certificate.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land-certificates',
@@ -45,7 +46,12 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   public certoy: ICollateralLandAttribute[];
   public account: Account;
   public hiddenRmAdmin: boolean;
-  constructor(private dialog: MatDialog, private collateralService: CollateralService, private accountService: AccountService) {
+  constructor(
+    private dialog: MatDialog,
+    private collateralService: CollateralService,
+    private accountService: AccountService,
+    private collateralLandCertificateService: CollateralLandCertificateService
+  ) {
     this.certificates = [];
   }
   ngOnInit(): void {
@@ -145,6 +151,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
       if (result) {
         this.collateral = lodash.cloneDeep(result);
         this.certificates = lodash.cloneDeep(result.attributes['landCertificates']);
+        this.collateralLandCertificateService.setparam(this.certificates);
         console.log('ini hasil log', this.certificates);
         this.getTotalArea();
       }
