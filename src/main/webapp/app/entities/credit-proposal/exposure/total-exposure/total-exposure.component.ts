@@ -76,6 +76,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'adminFee',
     'firstDisbursmentDate',
     'tenor',
+    'maturityDate',
   ];
   public displayColumns: string[] = [
     'no',
@@ -166,6 +167,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.Tenor = source[y].FXFIG_TRX_DT;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
               parsed.CCY = source[y].LNB_BASE_LON_CCY;
+              parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
               this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
