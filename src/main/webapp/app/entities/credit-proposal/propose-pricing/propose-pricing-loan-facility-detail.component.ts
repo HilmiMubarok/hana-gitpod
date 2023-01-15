@@ -10,7 +10,6 @@ import {
   CollateralProductRelation,
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { ICreditProposal } from '../credit-proposal.model';
-// import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -33,7 +32,6 @@ import { ICPFacility } from 'app/shared/model/cp-facility.models';
   styleUrls: ['./propose-pricing.scss'],
 })
 export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChanges {
-  // @ViewChild('grid') grid: GridComponent;
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @Output() spreadPerFacility = new EventEmitter();
   private _creditProposal: ICreditProposal;
@@ -116,16 +114,9 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         item.products[i].attributes['interestRatePeriod'] +
         ' ' +
         item.products[i].attributes['interestRatePeriodType'];
-      // this.aplicationProduct[i].attributes.
     }
     this.printElement();
   }
-
-  /* public dataBound(args: any) {
-    // this.grid.autoFitColumns(["Name"]); // autoFit particular column
-    this.grid.autoFitColumns(); // autofit all the columns
-    // this.grid.width = (this.grid.getContentTable() as any).offsetWidth;
-  } */
 
   ngOnInit(): void {
     this.dataEdit = {
@@ -190,8 +181,6 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
     this.getName();
     this.printElement();
     this.generate();
-
-    // this.grid.autoFitColumns();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -215,24 +204,6 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
       });
     });
   }
-
-  // public onEdit(element: ProposePricingLoanFacilityDetailDialogComponent = null): void {
-  //   const predicate = {
-  //     width: '80vw',
-  //     data: { object: this.creditProposal },
-  //   };
-  // }
-
-  // public save(): void {
-  //   this.aplicationProduct = this.aplicationProducts;
-  // }
-
-  // onEdit(status: any, data: any) {
-  //   this.initialState = true;
-  //   this.stateOfAction = status;
-  //   this.ejDialog.show();
-  //   this.dataEdit = data.attributes;
-  // }
 
   public onEdit(element: IApplicationProduct = null): void {
     const predicate = { width: '80vw', data: { object: this.creditProposal } };
@@ -296,36 +267,51 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
 
   public generate(): void {
     this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
-      for (let i = 0; i < this.aplicationProducts.length; i++) {
-        this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][i]['ftp'] === null ? '0.00%' : res['proposePricing'][i]['ftp'];
-        this.aplicationProducts[i].attributes['ckpn'] =
-          res['proposePricing'][i]['ckpn'] === null ? '0.00%' : res['proposePricing'][i]['ckpn'];
-        this.aplicationProducts[i].attributes['expectedLoss'] =
-          res['proposePricing'][i]['expectedLoss'] === null ? '0.00%' : res['proposePricing'][i]['expectedLoss'];
-        this.aplicationProducts[i].attributes['industrySpread'] =
-          res['proposePricing'][i]['industrySpread'] === null ? '0.00' : res['proposePricing'][i]['industrySpread'];
-        this.aplicationProducts[i].attributes['targetMargin'] =
-          res['proposePricing'][i]['targetMargin'] === null ? '0.00%' : res['proposePricing'][i]['targetMargin'];
-        this.aplicationProducts[i].attributes['normalRate'] =
-          res['proposePricing'][i]['normalRate'] === null ? '0.00%' : res['proposePricing'][i]['normalRate'];
-        // this.aplicationProducts[i].attributes['discountProposal'] = res['proposePricing'][i]['discountProposal'];
-        this.aplicationProducts[i].attributes['discountProposal'] =
-          res['proposePricing'][i]['discountProposal'] === null ? '0.00%' : res['proposePricing'][i]['discountProposal'];
-        this.aplicationProducts[i].attributes['proposedRate'] =
-          res['proposePricing'][i]['proposedRate'] === null ? '0.00%' : res['proposePricing'][i]['proposedRate'];
-        this.aplicationProducts[i].attributes['referenceRate'] =
-          res['proposePricing'][i]['referenceRate'] === null ? '0.00%' : res['proposePricing'][i]['referenceRate'];
-        this.aplicationProducts[i].attributes['requiredSpread'] =
-          res['proposePricing'][i]['requiredSpread'] === null ? '0.00%' : res['proposePricing'][i]['requiredSpread'];
-        this.aplicationProducts[i].attributes['cost'] =
-          res['proposePricing'][i]['cost'] === null ? '0.00%' : res['proposePricing'][i]['cost'];
-        this.aplicationProducts[i].attributes['roaa'] =
-          res['proposePricing'][i]['roaa'] === null ? '0.00%' : res['proposePricing'][i]['roaa'];
+	  for (let i = 0; i < this.aplicationProducts.length; i++) {
+        this.aplicationProducts[i].attributes['ftp'] = '0.00%';
+        this.aplicationProducts[i].attributes['ckpn'] = '0.00%';
+        this.aplicationProducts[i].attributes['expectedLoss'] = '0.00%';
+        this.aplicationProducts[i].attributes['industrySpread'] = '0.00';
+        this.aplicationProducts[i].attributes['targetMargin'] = '0.00%';
+        this.aplicationProducts[i].attributes['normalRate'] = '0.00%';
+        this.aplicationProducts[i].attributes['discountProposal'] = '0.00%';
+        this.aplicationProducts[i].attributes['proposedRate'] = '0.00%';
+        this.aplicationProducts[i].attributes['referenceRate'] = '0.00%';
+        this.aplicationProducts[i].attributes['requiredSpread'] = '0.00%';
+        this.aplicationProducts[i].attributes['cost'] = '0.00%';
+        this.aplicationProducts[i].attributes['roaa'] = '0.00%';
       }
-      // this.grid.refresh();
-      // this.grid.autoFitColumns();
+
+      for (let i = 0; i < this.aplicationProducts.length; i++) {
+		for (let j = 0; j < res['proposePricing'].length; j++) {
+		  if (this.aplicationProducts[i]['id'] === Number(res['proposePricing'][j]['id'])) {
+			this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][j]['ftp'] === null ? '0.00%' : res['proposePricing'][j]['ftp'];
+			this.aplicationProducts[i].attributes['ckpn'] =
+			  res['proposePricing'][j]['ckpn'] === null ? '0.00%' : res['proposePricing'][j]['ckpn'];
+			this.aplicationProducts[i].attributes['expectedLoss'] =
+			  res['proposePricing'][j]['expectedLoss'] === null ? '0.00%' : res['proposePricing'][j]['expectedLoss'];
+			this.aplicationProducts[i].attributes['industrySpread'] =
+			  res['proposePricing'][j]['industrySpread'] === null ? '0.00' : res['proposePricing'][j]['industrySpread'];
+			this.aplicationProducts[i].attributes['targetMargin'] =
+			  res['proposePricing'][j]['targetMargin'] === null ? '0.00%' : res['proposePricing'][j]['targetMargin'];
+			this.aplicationProducts[i].attributes['normalRate'] =
+			  res['proposePricing'][j]['normalRate'] === null ? '0.00%' : res['proposePricing'][j]['normalRate'];
+			this.aplicationProducts[i].attributes['discountProposal'] =
+			  res['proposePricing'][j]['discountProposal'] === null ? '0.00%' : res['proposePricing'][j]['discountProposal'];
+			this.aplicationProducts[i].attributes['proposedRate'] =
+			  res['proposePricing'][j]['proposedRate'] === null ? '0.00%' : res['proposePricing'][j]['proposedRate'];
+			this.aplicationProducts[i].attributes['referenceRate'] =
+			  res['proposePricing'][j]['referenceRate'] === null ? '0.00%' : res['proposePricing'][j]['referenceRate'];
+			this.aplicationProducts[i].attributes['requiredSpread'] =
+			  res['proposePricing'][j]['requiredSpread'] === null ? '0.00%' : res['proposePricing'][j]['requiredSpread'];
+			this.aplicationProducts[i].attributes['cost'] =
+			  res['proposePricing'][j]['cost'] === null ? '0.00%' : res['proposePricing'][j]['cost'];
+			this.aplicationProducts[i].attributes['roaa'] =
+			  res['proposePricing'][j]['roaa'] === null ? '0.00%' : res['proposePricing'][j]['roaa'];
+		  }
+		}
+      }
       this.spreadPerFacility.emit(this.aplicationProducts);
-      console.log('dataSpred');
     });
   }
 
@@ -356,7 +342,6 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
   public printElement() {
     for (let i = 0; i < this.creditProposal.products.length; i++) {
       if (this.aplicationProducts[i].attributes['subLimit'] === 'true') {
-        // this.subLimit.push('Yes');
         this.aplicationProducts[i].attributes['subLimitFun'] = 'Yes';
       } else if (this.aplicationProducts[i].attributes['subLimit'] === 'false') {
         this.aplicationProducts[i].attributes['subLimitFun'] = 'No';

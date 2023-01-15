@@ -88,7 +88,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public recomendasi: string;
   private nameLoanComitee: string;
   private positionLoanComitee: string;
-  public isShowOpinionFieldInput: boolean = false;
+  public isShowOpinionFieldInput = false;
 
   public items: any;
   public approvalUserData: any[];

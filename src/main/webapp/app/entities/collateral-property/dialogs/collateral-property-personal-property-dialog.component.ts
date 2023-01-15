@@ -354,17 +354,17 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
         if (res.body[0]?.factor !== undefined) {
           this.currency = Number(res.body[0]?.factor);
           this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValue * this.currency;
-          this.collateralProperty.propertyMarketValue = this.collateralProperty.attributes.collateralValue * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValue * this.currency;
         } else {
           this.currency = 0;
           this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValue * this.currency;
-          this.collateralProperty.propertyMarketValue = this.collateralProperty.attributes.collateralValue * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValue * this.currency;
         }
       });
   }
 
   collateralInfoChange() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValue * this.currency;
-    this.collateralProperty.propertyMarketValue = this.collateralProperty.attributes.collateralValue * this.currency;
+    this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValue * this.currency;
   }
 }

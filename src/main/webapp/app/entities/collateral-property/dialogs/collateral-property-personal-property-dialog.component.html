@@ -151,7 +151,7 @@
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Market Value</mat-label>
-          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.propertyMarketValue" [options]="logoCcy" disabled />
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
           <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
         </mat-form-field>
 
