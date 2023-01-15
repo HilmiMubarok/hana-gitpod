@@ -61,6 +61,15 @@
     <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
     <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'yyyy/MM/dd' }}</td>
   </ng-container>
+  <ng-container matColumnDef="firstDisbursementDate">
+    <th mat-header-cell *matHeaderCellDef>FirstDisbursement Date</th>
+    <td mat-cell *matCellDef="let element">
+      <span *ngIf="element.attributes.firstDisbursementDate === undefined">0</span>
+      <span *ngIf="element.attributes.firstDisbursementDate !== undefined">{{
+        element.attributes.firstDisbursementDate | date: 'yyyy/MM/dd'
+      }}</span>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="action" *ngIf="isViewMode === false">
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
@@ -167,6 +176,15 @@
     <ng-container matColumnDef="maturityDate">
       <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
       <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'yyyy/MM/dd' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="firstDisbursementDate">
+      <th mat-header-cell *matHeaderCellDef>FirstDisbursement Date</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.attributes.firstDisbursementDate === undefined">0</span>
+        <span *ngIf="element.attributes.firstDisbursementDate !== undefined">{{
+          element.attributes.firstDisbursementDate | date: 'yyyy/MM/dd'
+        }}</span>
+      </td>
     </ng-container>
     <ng-container matColumnDef="action" *ngIf="isViewMode === false">
       <th mat-header-cell *matHeaderCellDef>Action</th>

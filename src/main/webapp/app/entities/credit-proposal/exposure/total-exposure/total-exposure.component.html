@@ -85,16 +85,19 @@
               {{ getCurrency3(element) + ' ' + (element.attributes.adminFee | number) + ' ' + getCurrency4(element) }}
             </td>
           </ng-container>
+          <ng-container matColumnDef="tenor">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Tenor</th>
+            <td mat-cell *matCellDef="let element">{{ element.attributes.maturity }}</td>
+          </ng-container>
           <ng-container matColumnDef="firstDisbursmentDate">
             <th mat-header-cell *matHeaderCellDef class="text-center">First Disbursment Date</th>
             <td mat-cell *matCellDef="let element">{{ element.attributes.firstDisbursementDate | date: 'yyyy/MM/dd' }}</td>
           </ng-container>
-          <ng-container matColumnDef="tenor">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Tenor</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.attributes.maturity + ' ' + element.attributes.maturityPeriodType }}
-            </td>
+          <ng-container matColumnDef="maturityDate">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Maturity Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'yyyy/MM/dd' }}</td>
           </ng-container>
+
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" [attr.colspan]="displayColumn.length">No records found.</td>
           </tr>
@@ -265,9 +268,10 @@
             <td mat-cell *matCellDef="let element">{{ element.FirstDisbursementDate }}</td>
           </ng-container>
           <ng-container matColumnDef="tenor">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Tenor</th>
-            <td mat-cell *matCellDef="let element">{{ element.Tenor }}</td>
+            <th mat-header-cell *matHeaderCellDef class="text-center">Maturity Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.MaturityDate | date: 'yyyy/MM/dd' }}</td>
           </ng-container>
+
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
           </tr>
