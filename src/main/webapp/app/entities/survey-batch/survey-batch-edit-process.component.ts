@@ -491,7 +491,9 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else if (node.id === 'appraisal-info') {
         return true;
       } else if (node.id === 'summary') {
-        if (this.collateralAppraisal.attributes['marketbility'] !== '' && this.totalKeteranganObjectJaminan.length >= 0) {
+        // if (this.collateralAppraisal.attributes['marketbility'] !== '' && this.totalKeteranganObjectJaminan.length >= 0) {
+        // Solve Sementara
+        if (this.collateralAppraisal.attributes['marketbility'] !== '') {
           return true;
         } else {
           return false;
