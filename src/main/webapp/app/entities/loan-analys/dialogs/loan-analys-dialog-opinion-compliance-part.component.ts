@@ -118,14 +118,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 
   private getContainer(): void {
     const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/opinion/' +
-        this.creditProposalItem.id +
-        '/' +
-        this.notes.positionUserId.replace('&', '') +
-        '-' +
-        this.notes.userId.replace('&', '') +
-        '/opinion-compliance/sfdt',
+      key: 'credit_proposal/remark/opinion-history/compliance/opinion/' + this.creditProposalItem.id + '/' + this.notes.condition + + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -137,14 +130,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  this.creditProposalItem.id +
-                  '-' +
-                  this.notes.positionUserId.replace('&', '') +
-                  '-' +
-                  this.notes.userId.replace('&', '') +
-                  '-opinion-compliance-sfdt.sfdt'
+                [res.body], this.notes.condition + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -161,13 +147,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
   private getContainerCondition(): void {
     const obj = {
       key:
-        'credit_proposal/remark/opinion-history/condition/' +
-        this.creditProposalItem.id +
-        '/' +
-        this.notes.positionUserId.replace('&', '') +
-        '-' +
-        this.notes.userId.replace('&', '') +
-        '/opinion-compliance/sfdt',
+        'credit_proposal/remark/opinion-history/compliance/condition/' + this.creditProposalItem.id + '/' + this.notes.condition + '-condition/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -179,15 +159,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  this.creditProposalItem.id +
-                  '-' +
-                  this.notes.positionUserId.replace('&', '') +
-                  '-' +
-                  this.notes.userId.replace('&', '') +
-                  '-opinion-compliance-' +
-                  'condition-sfdt.sfdt'
+                [res.body], this.notes.condition + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {

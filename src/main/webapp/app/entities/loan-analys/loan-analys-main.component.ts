@@ -89,6 +89,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public isShow = false;
   public isHistoryExist: boolean;
 
+  public uuidPath: any;
   public recomendation: string;
   public nameLoginFromEmit: string;
   public positionLoginFromEmit: string;
@@ -387,30 +388,45 @@ export class LoanAnalysMainComponent implements OnInit {
       tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
 
       if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE') {
-        copyCreditProposal.notes.push(
+        /* copyCreditProposal.notes.push(
           this.addNewNotes('', this.recomendation, '', this.nameLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
-        );
-        /* if (copyCreditProposal.notes.length > 0) {
-          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-            if (copyCreditProposal.notes[i].userId === this.userId) {
-              copyCreditProposal.notes[i].condition = '';
-              copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
-              copyCreditProposal.notes[i].recomendation = this.recomendation;
-              copyCreditProposal.notes[i].type = tempOpinionType;
-              tempHelper = tempHelper + 1;
-            }
-          }
+        ); */
 
-          if (tempHelper === 0) {
-            copyCreditProposal.notes.push(
-              this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
-            );
-          }
-        } else {
-          copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.currentAccount.login, this.positionLoginFromEmit, tempOpinionType)
-          );
-        } */
+		if (copyCreditProposal.notes.length > 0) {
+		  for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+			if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName || copyCreditProposal.notes[i].positionUserId === this.positionLoginFromEmit) {
+			  copyCreditProposal.notes[i].message = '';
+			  copyCreditProposal.notes[i].recomendation = this.recomendation;
+			  copyCreditProposal.notes[i].condition = this.uuidPath;
+			  copyCreditProposal.notes[i].type = tempOpinionType;
+			  tempHelper = tempHelper + 1;
+			}
+		  }
+
+		  if (tempHelper === 0) {
+			copyCreditProposal.notes.push(
+			  this.addNewNotes(
+				'',
+				this.recomendation,
+				this.uuidPath,
+				this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+				this.positionLoginFromEmit,
+				tempOpinionType
+			  )
+			);
+		  }
+		} else {
+		  copyCreditProposal.notes.push(
+			this.addNewNotes(
+			  '',
+			  this.recomendation,
+			  this.uuidPath,
+			  this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+			  this.positionLoginFromEmit,
+			  tempOpinionType
+			)
+		  );
+		}
 
         delete copyCreditProposal.attributes['tempLoggedInNotes'];
         delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
@@ -425,7 +441,7 @@ export class LoanAnalysMainComponent implements OnInit {
             if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
               copyCreditProposal.notes[i].message = '';
               copyCreditProposal.notes[i].recomendation = this.recomendation;
-              copyCreditProposal.notes[i].condition = '';
+              copyCreditProposal.notes[i].condition = this.uuidPath;
               copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
               copyCreditProposal.notes[i].type = tempOpinionType;
               tempHelper = tempHelper + 1;
@@ -437,7 +453,7 @@ export class LoanAnalysMainComponent implements OnInit {
               this.addNewNotes(
                 '',
                 this.recomendation,
-                '',
+                this.uuidPath,
                 this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
                 this.positionLoginFromEmit,
                 tempOpinionType
@@ -449,7 +465,7 @@ export class LoanAnalysMainComponent implements OnInit {
             this.addNewNotes(
               '',
               this.recomendation,
-              '',
+              this.uuidPath,
               this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
               this.positionLoginFromEmit,
               tempOpinionType
@@ -514,6 +530,14 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     return copyCreditProposal;
+  }
+
+  setUuidPathCompliance(newItem: string) {
+    this.uuidPath = newItem;
+  }
+
+  setUuidPath(newItem: string) {
+    this.uuidPath = newItem;
   }
 
   setOpinionRecomendation(newItem: string) {

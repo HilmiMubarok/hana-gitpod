@@ -76,14 +76,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 
   private getContainer(): void {
     const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/opinion/' +
-        this.creditProposalItem.id +
-        '/' +
-        this.notes.positionUserId.replace('&', '') +
-        '-' +
-        this.notes.userId.replace('&', '') +
-        '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.condition + + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -95,14 +88,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  this.creditProposalItem.id +
-                  '-' +
-                  this.notes.positionUserId.replace('&', '') +
-                  '-' +
-                  this.notes.userId.replace('&', '') +
-                  '-opinion-sfdt.sfdt'
+                [res.body], this.notes.condition + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -118,14 +104,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 
   private getContainerCondition(): void {
     const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/condition/' +
-        this.creditProposalItem.id +
-        '/' +
-        this.notes.positionUserId.replace('&', '') +
-        '-' +
-        this.notes.userId.replace('&', '') +
-        '/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.condition + '-condition/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -137,15 +116,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  this.creditProposalItem.id +
-                  '-' +
-                  this.notes.positionUserId.replace('&', '') +
-                  '-' +
-                  this.notes.userId.replace('&', '') +
-                  '-opinion-' +
-                  'condition-sfdt.sfdt'
+                [res.body], this.notes.condition + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {

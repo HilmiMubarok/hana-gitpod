@@ -34,6 +34,8 @@ import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
 import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
+import * as uuid from 'uuid';
+
 @Component({
   selector: 'jhi-loan-analys-opinion',
   templateUrl: './loan-analys-opinion.component.html',
@@ -83,7 +85,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public positionUserId: string;
   public obj: any;
   public InternalId: any;
-  public positionLogin: any;
 
   public recomendasi: string;
   private nameLoanComitee: string;
@@ -95,6 +96,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public whoAmI: IPerson;
   public relType: IOptionNode[];
   private partyIdPos = '';
+
+  private uuid: any;
+
+  private cacheData: any;
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -109,6 +114,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     this._creditProposalItem = item;
   }
 
+  @Output() uuidPath = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
   @Output() nameLoginEmit = new EventEmitter<string>();
   @Output() positionLoginEmit = new EventEmitter<string>();
@@ -179,19 +185,27 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
     this.approvalUserData = [];
     this.relType = [];
+
+	this.uuid = uuid.v4();
+	this.positionUserId = '';
+	this.userId = '';
+	this.cacheData = {
+	  positionUserId: '',
+	  userId: '',
+	};
   }
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.getLogin();
-    this.filterPositionLogin();
+	this.uuidPath.emit(this.uuid);
+
+	this.getLogin();
     this.getWord();
     this.refresh();
 
     this.conditionOpinion();
     this.conditionEnableOpinion();
     this.hiddenApprovalUser();
-    // this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
     this.getWhoAmI().then(res => {
       this.loadApprovalUser();
     });
@@ -266,6 +280,12 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public getLogin() {
     this.accountService.identity().subscribe(account => {
       this.userId = account.firstName + ' ' + account.lastName;
+	  this.cacheData = {
+		positionUserId: this.positionUserId,
+		userId: this.userId,
+	  };
+	  this.nameLoginEmit.emit(this.userId);
+	  this.filterPositionLogin();
     });
   }
 
@@ -302,6 +322,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       if (res.body.length > 0) {
         this.positionLoanComitee = res.body[0].positionTypeDescription;
         this.positionUserId = this.positionLoanComitee;
+		this.cacheData = {
+		  positionUserId: this.positionUserId,
+		  userId: this.userId,
+		};
         this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
       }
     });
@@ -368,123 +392,49 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   private saveFile(): void {
-    this.positionService.findByLogin().subscribe(posisi => {
-      let paramsId = '';
-      this.activatedRoute.params.subscribe(params => {
-        paramsId = params['id'];
-      });
+	let paramsId = '';
+	this.activatedRoute.params.subscribe(params => {
+	  paramsId = params['id'];
+	});
 
-      this.positionUserId = posisi.body[0].name;
+	const key = 'credit_proposal/remark/opinion-history/opinion';
 
-      const key = 'credit_proposal/remark/opinion-history/opinion';
+	const timeStamp = Math.floor(Date.now() / 1000);
 
-      const timeStamp = Math.floor(Date.now() / 1000);
+	const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+	docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+	  const fileType = 'word';
+	  const pathHelper = this.uuid + '-opinion';
+	  const fileName = this.uuid + '.docs';
+	  const metaData = {
+		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+	  };
+	  const formData = new FormData();
+	  formData.append('file', new File([exportedDocument], fileName));
+	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+	});
 
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion-' +
-          fileType +
-          '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+	  const fileType = 'sfdt';
+	  const pathHelper = this.uuid + '-opinion';
+	  const fileName = this.uuid + '.sfdt';
+	  const metaData = {
+		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+	  };
+	  const formData = new FormData();
+	  formData.append('file', new File([exportedDocument], fileName));
 
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion-' +
-          fileType +
-          '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
-    });
-  }
-
-  private saveFileLC(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-
-    const key = 'credit_proposal/remark/opinion-history/opinion';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
-    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName =
-        'credit-proposal-remark-' +
-        paramsId +
-        '-' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '-opinion-' +
-        fileType +
-        '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
-
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName =
-        'credit-proposal-remark-' +
-        paramsId +
-        '-' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '-opinion-' +
-        fileType +
-        '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+	});
   }
 
   public triggeredSave(): void {
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-      if (this.nameLoanComitee) {
-        this.saveFileLC();
+      if (this.nameLoanComitee || this.recomendasi !== '') {
+        this.saveFile();
       } else {
-        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
       }
     } else {
       this.saveFile();
@@ -501,185 +451,57 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
-  // Remark Minio
-
-  private getContainer(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/opinion/' +
-        paramsId +
-        '/' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '/sfdt',
-    };
-    this.storageService
-      .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        if (response.body.length > 0) {
-          this.storageService
-            .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  paramsId +
-                  '-' +
-                  this.positionUserId.replace('&', '') +
-                  '-' +
-                  this.userId.replace('&', '') +
-                  '-opinion-sfdt.sfdt'
-              );
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-                const contents: string = e.target.result;
-                docEditor.open(contents);
-              };
-              fileReader.readAsText(this.fileGet);
-            });
-        }
-      });
-  }
-
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    // this.container.documentEditor.openBlank();
   }
 
   private saveFileCon(): void {
-    this.positionService.findByLogin().subscribe(posisi => {
-      let paramsId = '';
-      this.activatedRoute.params.subscribe(params => {
-        paramsId = params['id'];
-      });
+	let paramsId = '';
+	this.activatedRoute.params.subscribe(params => {
+	  paramsId = params['id'];
+	});
 
-      this.positionUserId = posisi.body[0].name;
+	this.positionUserId = posisi.body[0].name;
 
-      const key = 'credit_proposal/remark/opinion-history/condition';
+	const key = 'credit_proposal/remark/opinion-history/condition';
 
-      const timeStamp = Math.floor(Date.now() / 1000);
+	const timeStamp = Math.floor(Date.now() / 1000);
 
-      const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+	const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion' +
-          '-condition-' +
-          fileType +
-          '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+	docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+	  const fileType = 'word';
+	  const pathHelper = this.uuid + '-condition';
+	  const fileName = this.uuid + '.docs';
+	  const metaData = {
+		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+	  };
+	  const formData = new FormData();
+	  formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+	});
 
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion' +
-          '-condition-' +
-          fileType +
-          '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+	  const fileType = 'sfdt';
+	  const pathHelper = this.uuid + '-condition';
+	  const fileName = this.uuid + '.sfdt';
+	  const metaData = {
+		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+	  };
+	  const formData = new FormData();
+	  formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
-    });
+	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+	});
   }
-
-  private saveFileConLC(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-
-    const key = 'credit_proposal/remark/opinion-history/condition';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
-    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
-
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName =
-        'credit-proposal-remark-' +
-        paramsId +
-        '-' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '-opinion' +
-        '-condition-' +
-        fileType +
-        '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
-
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName =
-        'credit-proposal-remark-' +
-        paramsId +
-        '-' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '-opinion' +
-        '-condition-' +
-        fileType +
-        '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace('&', '')}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
-  }
-
-  // Condition remark
 
   public triggeredSaveCondition(): void {
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-      if (this.nameLoanComitee) {
-        this.saveFileConLC();
+      if (this.nameLoanComitee || this.recomendasi !== '') {
+        this.saveFileCon();
       } else {
-        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Harap periksa / isi approval user' });
+        this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
       }
     } else {
       this.saveFileCon();
@@ -696,56 +518,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
-  private getContainerCondition(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/condition/' +
-        paramsId +
-        '/' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '/sfdt',
-    };
-    this.storageService
-      .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        if (response.body.length > 0) {
-          this.storageService
-            .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  paramsId +
-                  '-' +
-                  this.positionUserId.replace('&', '') +
-                  '-' +
-                  this.userId.replace('&', '') +
-                  '-opinion-' +
-                  'condition-sfdt.sfdt'
-              );
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
-                const contents: string = e.target.result;
-                docEditor.open(contents);
-              };
-              fileReader.readAsText(this.fileGet);
-            });
-        }
-      });
-  }
-
   onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    // this.container_condition.documentEditor.openBlank();
   }
 
   public loadPosition(position: any): void {
@@ -758,10 +532,13 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public filterPositionLogin() {
     this.positionService.findByLogin().subscribe(posisi => {
-      this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
       }
+	  this.cacheData = {
+		positionUserId: this.creditProposalItem.attributes['positionLogin'],
+		userId: this.userId,
+	  };
       this.positionLoginEmit.emit(this.creditProposalItem.attributes['positionLogin']);
     });
   }
@@ -805,17 +582,20 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
           this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
           this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
           this.creditProposalItem.attributes['position'] = '';
+		  this.recomendasi = '';
+
           if (this.notes.length > 0) {
             for (let i = 0; i < this.notes.length; i++) {
               this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
               this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
               this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
               this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
-              if (this.notes[i].userId === this.currentAccount.login) {
-                this.newItemEvent.emit(this.notes[i].recomendation);
-              }
+			  if (this.notes[i].positionUserId === this.cacheData.positionUserId && this.notes[i].userId === this.cacheData.userId) {
+				this.recomendasi = this.notes[i].recomendation;
+				this.newItemEvent.emit(this.notes[i].recomendation);
+			  } 
             }
-          }
+          }		  
         });
       } else {
         this.accountService.identity().subscribe(account => {
@@ -831,10 +611,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
                 this.creditProposalItem.notes[i].message = '';
                 this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
-                this.recomendasi = this.notes[i].recomendation;
-                this.newItemEvent.emit(this.notes[i].recomendation);
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
                 this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+				this.recomendasi = this.notes[i].recomendation;
+				this.newItemEvent.emit(this.notes[i].recomendation);
               }
             }
           }
