@@ -1,5 +1,7 @@
 <div *ngIf="mode === 'edit'">
-  <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()">Upload</button>
+  <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
+    Upload
+  </button>
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
   <div class="table-responsive-material">
     <table mat-table [dataSource]="partySliks" class="w-100">
