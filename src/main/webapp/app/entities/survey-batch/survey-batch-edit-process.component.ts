@@ -491,9 +491,17 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else if (node.id === 'appraisal-info') {
         return true;
       } else if (node.id === 'summary') {
-        // if (this.collateralAppraisal.attributes['marketbility'] !== '' && this.totalKeteranganObjectJaminan.length >= 0) {
-        // Solve Sementara
+        const arr = {
+          marketbility: false,
+          keterangan: false,
+        };
         if (this.collateralAppraisal.attributes['marketbility'] !== '') {
+          arr.marketbility = true;
+        }
+        if (this.totalKeteranganObjectJaminan?.length > 0) {
+          arr.keterangan = true;
+        }
+        if (arr.marketbility && arr.keterangan) {
           return true;
         } else {
           return false;
@@ -1428,8 +1436,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    console.log(this.totalKeteranganObjectJaminan);
-    if (this.totalKeteranganObjectJaminan.length < MINIMUM_KETERANGAN_JAMINAN) {
+    if (this.totalKeteranganObjectJaminan?.length < MINIMUM_KETERANGAN_JAMINAN || !this.totalKeteranganObjectJaminan) {
       this._showNotification('error', 'Masukkan Keterangan Object Jaminan Dahulu, Lalu Save');
       mustValidatedOnVisited.keterangan = false;
     }
