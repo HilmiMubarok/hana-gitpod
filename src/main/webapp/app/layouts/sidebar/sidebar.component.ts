@@ -91,6 +91,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_CRC;
         } else if (lodash.indexOf(account.authorities, Authority.HCR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_HCR;
+        } else if (lodash.indexOf(account.authorities, Authority.ROLE_HCR2) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_HCR;
         } else if (lodash.indexOf(account.authorities, Authority.BUSINESS_DIR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_BUSINESS_DIR;
         } else if (lodash.indexOf(account.authorities, Authority.CREDIT_DIR) >= 0) {
