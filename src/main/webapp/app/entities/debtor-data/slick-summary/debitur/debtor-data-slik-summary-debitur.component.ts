@@ -16,6 +16,7 @@ import { firstValueFrom } from 'rxjs';
 import moment from 'moment';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-data-view-upload-slik.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
@@ -30,6 +31,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   private _partyId: string;
   private _managementType: string;
   public bucket: string;
+  public parentPath = this.router.url.split('/')[1];
 
   @Input()
   get managementType() {
@@ -148,7 +150,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public TransferService: DebtorDataSlikTransferService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {
     super(_snackBar, partySlikService);
     this.loading = false;
@@ -166,6 +169,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   ngOnInit(): void {
     this.getFiles();
     this.getBucket();
+    this.hideButtonUploadCP();
   }
 
   private getBucket(): Promise<void> {
@@ -364,6 +368,13 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       this.partySlikService.update(res).subscribe(res2 => {});
     } else {
       this.partySlikService.create(res).subscribe(res2 => {});
+    }
+  }
+
+  public isHideButtonCp: boolean;
+  public hideButtonUploadCP() {
+    if (this.parentPath === 'credit-proposal-status' || this.parentPath === 'cp-status-approval') {
+      this.isHideButtonCp = true;
     }
   }
 }

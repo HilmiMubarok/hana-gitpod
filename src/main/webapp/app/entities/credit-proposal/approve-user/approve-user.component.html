@@ -31,19 +31,27 @@
           <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let element">{{ element.partyName }}</td>
         </ng-container>
-        <ng-container matColumnDef="remarks">
+        <!-- <ng-container matColumnDef="remarks">
           <th mat-header-cell *matHeaderCellDef>Remarks</th>
           <td mat-cell *matCellDef="let element">{{ element.text }}</td>
         </ng-container>
         <ng-container matColumnDef="available">
           <th mat-header-cell *matHeaderCellDef>Available</th>
           <td mat-cell *matCellDef="let element">
-            <!-- {{ element.lastModifiedBy }} -->
+            {{ element.lastModifiedBy }}
+          </td>
+        </ng-container> -->
+        <ng-container matColumnDef="fromDate">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.fromDate | formatMediumDate }}
           </td>
         </ng-container>
         <ng-container matColumnDef="alternatename">
           <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
-          <td mat-cell *matCellDef="let element"></td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.delegationPartyName }}
+          </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
