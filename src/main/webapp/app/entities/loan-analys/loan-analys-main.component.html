@@ -475,6 +475,7 @@
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-opinion
           #loanAnalysOpinionComponent
+		  (uuidPath)="setUuidPath($event)"
           (nameLoginEmit)="setNameLogin($event)"
           (positionLoginEmit)="setPositionLogin($event)"
           (newItemEvent)="setOpinionRecomendation($event)"
@@ -494,6 +495,7 @@
         <div *ngIf="parentPath === 'cc-review'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
+			(uuidPath)="setUuidPathCompliance($event)"
             (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
             (newItemEventCompliance)="setOpinionRecomendationCompliance($event)"
             (typeOpinion)="setTypeOpinion($event)"
