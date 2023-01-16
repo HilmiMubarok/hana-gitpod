@@ -164,12 +164,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public cancel() {
-    this._dialog.close({
-      binding: this.binding,
-      collateral: this.collateral,
-      creditProposal: this.creditProposalOpenState,
-      action: 'cancel',
-    });
+    this._dialog.close();
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
