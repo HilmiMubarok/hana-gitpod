@@ -44,7 +44,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <ejs-textbox
                   disabled
                   [(ngModel)]="collateralProperty.marketValue"
@@ -52,7 +52,15 @@
                   cssClass="e-outline"
                   floatLabelType="Always"
                 ></ejs-textbox>
-              </div>
+              </div> -->
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Collateral Value</mat-label>
+                <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
+              </mat-form-field>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Liquidation Value</mat-label>
+                <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+              </mat-form-field>
 
               <div class="form-group">
                 <ejs-textbox
