@@ -85,6 +85,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   public positionUserId: string;
   public obj: any;
   public InternalId: any;
+  public positionLogin: any;
 
   public recomendasi: string;
   private nameLoanComitee: string;
@@ -461,8 +462,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 	  paramsId = params['id'];
 	});
 
-	this.positionUserId = posisi.body[0].name;
-
 	const key = 'credit_proposal/remark/opinion-history/condition';
 
 	const timeStamp = Math.floor(Date.now() / 1000);
@@ -532,6 +531,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   public filterPositionLogin() {
     this.positionService.findByLogin().subscribe(posisi => {
+	  this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
       }

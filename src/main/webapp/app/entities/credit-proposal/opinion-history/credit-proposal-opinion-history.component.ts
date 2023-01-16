@@ -53,8 +53,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private paramId: string;
   private getKey: string;
   private fileGet: File;
-  private userId: any;
   public resourceUrl: string;
+  public positionLogin: any;
 
   @Input()
   get creditProposalItem() {
@@ -108,7 +108,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 	this.uuidPath.emit(this.uuid);
 
-    this.getLogin();
     this.filterPositionLogin();
     this.getWord();
     this.refresh();
@@ -117,12 +116,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
-    });
-  }
-
-  public getLogin() {
-    this.accountService.identity().subscribe(account => {
-	  this.userId = account.firstName + ' ' + account.lastName;
     });
   }
 
@@ -261,6 +254,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   public filterPositionLogin() {
     this.positionService.findByLogin().subscribe(posisi => {
+      this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
       }

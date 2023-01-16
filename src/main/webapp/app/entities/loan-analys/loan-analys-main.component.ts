@@ -394,7 +394,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
 		if (copyCreditProposal.notes.length > 0) {
 		  for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName || copyCreditProposal.notes[i].positionUserId === this.positionLoginFromEmit) {
+			if (copyCreditProposal.notes[i].userId === this.nameLoginFromEmit || copyCreditProposal.notes[i].positionUserId === this.positionLoginFromEmit) {
 			  copyCreditProposal.notes[i].message = '';
 			  copyCreditProposal.notes[i].recomendation = this.recomendation;
 			  copyCreditProposal.notes[i].condition = this.uuidPath;
@@ -409,7 +409,7 @@ export class LoanAnalysMainComponent implements OnInit {
 				'',
 				this.recomendation,
 				this.uuidPath,
-				this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+				this.nameLoginFromEmit,
 				this.positionLoginFromEmit,
 				tempOpinionType
 			  )
@@ -421,7 +421,7 @@ export class LoanAnalysMainComponent implements OnInit {
 			  '',
 			  this.recomendation,
 			  this.uuidPath,
-			  this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+			  this.nameLoginFromEmit,
 			  this.positionLoginFromEmit,
 			  tempOpinionType
 			)
