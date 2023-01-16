@@ -102,13 +102,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     private positionService: PositionService
   ) {
 	this.uuid = uuid.v4();
-	this.uuidPath.emit(this.uuid);
   }
 
   public currentAccount: any;
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+	this.uuidPath.emit(this.uuid);
 
     this.getLogin();
     this.filterPositionLogin();
