@@ -574,9 +574,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
-            copyCreditProposal.notes[i].message = this.uuidPath;
+            copyCreditProposal.notes[i].message = '';
             copyCreditProposal.notes[i].recomendation = this.recomendation;
-            copyCreditProposal.notes[i].condition = '';
+            copyCreditProposal.notes[i].condition = this.uuidPath;
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
             tempHelper = tempHelper + 1;
           }
@@ -584,12 +584,12 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
-            this.addNewNotes(this.uuidPath, this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
+            this.addNewNotes('', this.recomendation, this.uuidPath, this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
           );
         }
       } else {
         copyCreditProposal.notes.push(
-          this.addNewNotes(this.uuidPath, this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
+          this.addNewNotes('', this.recomendation, this.uuidPath, this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
         );
       }
       delete copyCreditProposal.attributes['tempLoggedInNotes'];

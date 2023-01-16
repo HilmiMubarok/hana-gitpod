@@ -91,7 +91,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   private getContainer(): void {
     this.getObj = {
-      key:'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.message + '-opinion/sfdt',
+      key:'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.condition + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, this.getObj)
@@ -103,7 +103,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes.message + '.sfdt'
+                [res.body], this.notes.condition + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -119,7 +119,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   private getContainerCondition(): void {
     const getObj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.message + '-condition/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.condition + '-condition/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, getObj)
@@ -131,7 +131,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes.message + '.sfdt'
+                [res.body], this.notes.condition + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
