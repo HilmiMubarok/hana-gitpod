@@ -261,10 +261,13 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
 
   public getMarketability(): string {
     if (this.creditProposal.appraisals.length > 0) {
-      const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
-      if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
+      for (let i = 0; i < this.creditProposal.appraisals.length; i++) {
+        console.log('appraisal ', this.creditProposal.appraisals[i]);
       }
+      // const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
+      // if (lodash.has(lastAppraisal.attributes, 'summary')) {
+      //   return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
+      // }
     }
     return 'N/A';
   }
@@ -441,12 +444,12 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
     ) {
-      return '';
+      return 'IDR';
     }
-    return '';
+    return 'IDR';
   }
 
-  public countMVOriginal(collateral: ICollateral): string {
+  public countMVOriginal(collateral: ICollateral): number {
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
@@ -456,8 +459,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.amount === null) {
-          return '0';
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
+          return 0;
         } else {
           return data.attributes.amount;
         }
@@ -468,8 +471,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.collateralValue === null) {
-          return '0';
+        if (data.attributes.collateralValue === null || data.attributes.collateralValue === undefined) {
+          return 0;
         } else {
           return data.attributes.collateralValue;
         }
@@ -480,8 +483,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.totalFaceAmount === null) {
-          return '0';
+        if (data.attributes.totalFaceAmount === null || data.attributes.totalFaceAmount === undefined) {
+          return 0;
         } else {
           return data.attributes.totalFaceAmount;
         }
@@ -492,8 +495,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.collateralValueOther === undefined) {
-          return '0';
+        if (data.attributes.collateralValueOther === undefined || data.attributes.collateralValueOther === null) {
+          return 0;
         } else {
           return data.attributes.collateralValueOther;
         }
@@ -504,8 +507,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.attributes.amount === null) {
-          return '0';
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
+          return 0;
         } else {
           return data.attributes.amount;
         }
@@ -521,14 +524,13 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       );
       if (data !== undefined) {
         if (data.marketValue === null) {
-          return '0';
+          return 0;
         } else {
-          result = 'IDR' + ' ' + data.marketValue;
-          return result;
+          return data.marketValue;
         }
       }
     }
-    return '0';
+    return 0;
   }
 
   public countTotalMVKJJP() {
