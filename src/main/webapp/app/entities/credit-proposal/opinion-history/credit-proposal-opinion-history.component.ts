@@ -27,6 +27,9 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { PositionService } from 'app/entities/position/position.service';
+
+import * as uuid from 'uuid';
+
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
   templateUrl: './credit-proposal-opinion-history.component.html',
@@ -84,6 +87,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     ],
   };
 
+  private uuid: any;
+
   constructor(
     public accountService: AccountService,
     public dialog: MatDialog,
@@ -95,7 +100,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
     private positionService: PositionService
-  ) {}
+  ) {
+	this.uuid = uuid.v4();
+	this.uuidPath.emit(this.uuid);
+  }
 
   public currentAccount: any;
 
@@ -111,8 +119,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
-      this.getContainer();
-      this.getContainerCondition();
+      /* this.getContainer();
+      this.getContainerCondition(); */
     });
   }
 
@@ -124,6 +132,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   @Output() newItemEvent = new EventEmitter<string>();
+  @Output() uuidPath = new EventEmitter<string>();
 
   change(event: string) {
     this.newItemEvent.emit(event);
@@ -157,7 +166,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
-        const fileName =
+		const pathHelper = this.uuid + '-opinion';
+		const fileName = this.uuid + '.docs';
+		const metaData = {
+          objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+        };
+		/* const metaData = {
+          objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+		  positionId: this.positionId.replace('&', ''),
+		  userId: this.userId.replace('&', '')
+        }; */
+        /* const fileName =
           'credit-proposal-remark-' +
           paramsId.replace('&', '') +
           '-' +
@@ -172,7 +191,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             '&',
             ''
           )}/${fileName.replace('&', '')}`,
-        };
+        }; */
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
@@ -181,7 +200,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
-        const fileName =
+		const pathHelper = this.uuid + '-opinion';
+		const fileName = this.uuid + '.sfdt';
+		const metaData = {
+          objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+        };
+		/* const metaData = {
+          objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+		  positionId: this.positionId.replace('&', ''),
+		  userId: this.userId.replace('&', '')
+        }; */
+        /* const fileName =
           'credit-proposal-remark-' +
           paramsId +
           '-' +
@@ -196,7 +225,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             '&',
             ''
           )}/${fileName.replace('&', '')}`,
-        };
+        }; */
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
@@ -219,7 +248,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   public obj: any;
 
-  private getContainer(): void {
+  /* private getContainer(): void {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionId = posisi.body[0].name;
       let paramsId = '';
@@ -267,7 +296,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         });
       this.refresh();
     });
-  }
+  } */
 
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
@@ -289,7 +318,12 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
         const fileType = 'word';
-        const fileName =
+		const pathHelper = this.uuid + '-condition';
+		const fileName = this.uuid + '.docs';
+		const metaData = {
+          objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+        };
+        /* const fileName =
           'credit-proposal-remark-' +
           paramsId.replace('&', '') +
           '-' +
@@ -305,7 +339,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             '&',
             ''
           )}/${fileName.replace('&', '')}`,
-        };
+        }; */
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
@@ -314,7 +348,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
-        const fileName =
+		const pathHelper = this.uuid + '-condition';
+		const metaData = {
+          objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
+        };
+        /* const fileName =
           'credit-proposal-remark-' +
           paramsId.replace('&', '') +
           '-' +
@@ -330,7 +368,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
             '&',
             ''
           )}/${fileType}/${fileName.replace('&', '')}`,
-        };
+        }; */
         const formData = new FormData();
         formData.append('file', new File([exportedDocument], fileName));
 
@@ -349,7 +387,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     }
   }
 
-  private getContainerCondition(): void {
+  /* private getContainerCondition(): void {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionId = posisi.body[0].name;
       let paramsId = '';
@@ -390,7 +428,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
           }
         });
     });
-  }
+  } */
 
   onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';

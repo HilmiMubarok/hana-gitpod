@@ -318,6 +318,7 @@
 
               <div *ngIf="clickedMenu === 'opinion'">
                 <jhi-credit-proposal-opinion-history
+				  (uuidPath)="setUuidPath($event)"
                   (newItemEvent)="setOpinionRecomendation($event)"
                   #creditProposalOpinionHistoryComponent
                   [recomendation]="recomendation"

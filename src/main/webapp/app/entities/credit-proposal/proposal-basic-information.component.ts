@@ -87,6 +87,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public subMenu: object[];
   public recomendation: string;
+  public uuidPath: any;
 
   public url: string;
   public activeRoute: string;
@@ -142,6 +143,10 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     });
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+  }
+
+  setUuidPath(newItem: string) {
+    this.uuidPath = newItem;
   }
 
   setOpinionRecomendation(newItem: string) {
@@ -569,7 +574,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (copyCreditProposal.notes.length > 0) {
         for (let i = 0; i < copyCreditProposal.notes.length; i++) {
           if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
-            copyCreditProposal.notes[i].message = '';
+            copyCreditProposal.notes[i].message = this.uuidPath;
             copyCreditProposal.notes[i].recomendation = this.recomendation;
             copyCreditProposal.notes[i].condition = '';
             copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
@@ -579,12 +584,12 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
+            this.addNewNotes(this.uuidPath, this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
           );
         }
       } else {
         copyCreditProposal.notes.push(
-          this.addNewNotes('', this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
+          this.addNewNotes(this.uuidPath, this.recomendation, '', this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
         );
       }
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
