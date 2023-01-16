@@ -349,6 +349,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
         const fileType = 'sfdt';
 		const pathHelper = this.uuid + '-condition';
+		const fileName = this.uuid + '.sfdt';
 		const metaData = {
           objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
         };
