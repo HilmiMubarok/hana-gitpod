@@ -107,7 +107,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
     this.creditProposal.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
     this.creditProposal.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
-    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroub = this.fungsiSumOSGroub();
+    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroubOs = this.fungsiSumOSGroub();
     this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
 
     this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
@@ -628,7 +628,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         }
       }
     }
-    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = result + dolar;
+    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroubOs = result + dolar;
     return result + dolar;
   }
 
