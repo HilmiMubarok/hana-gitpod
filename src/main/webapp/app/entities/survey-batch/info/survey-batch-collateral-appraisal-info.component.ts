@@ -218,6 +218,9 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
       if (this.surveyAppraisal.apprOfficer) {
         this.outputTipeOfficerAppraisal.emit(this.surveyAppraisal.apprOfficer);
       }
+      if (this.surveyAppraisal.statusId === 'VISITED') {
+        this.visitDate = this.surveyAppraisal.apprDate.toString();
+      }
     }
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
@@ -231,10 +234,12 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
           if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
             this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
           } else {
-            this.visitDate = changes.statusAppraisal.currentValue[i].createdDate;
+            this.visitDate = changes.statusAppraisal.currentValue[i].apprDate;
+            console.log('zzzzzzzz', changes.statusAppraisal.currentValue[i].apprDate);
           }
         }
       }
+      console.log('visit', this.visitDate);
     }
 
     this.isEnablePlafond = false;
