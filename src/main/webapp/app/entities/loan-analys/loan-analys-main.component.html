@@ -154,7 +154,8 @@
 
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
+            <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="postalAdresss">
+            </jhi-party-cif-customer-info-postal-address>
           </mat-card-content>
         </mat-card>
 
@@ -475,7 +476,7 @@
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-opinion
           #loanAnalysOpinionComponent
-		  (uuidPath)="setUuidPath($event)"
+          (uuidPath)="setUuidPath($event)"
           (nameLoginEmit)="setNameLogin($event)"
           (positionLoginEmit)="setPositionLogin($event)"
           (newItemEvent)="setOpinionRecomendation($event)"
@@ -495,7 +496,7 @@
         <div *ngIf="parentPath === 'cc-review'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
-			(uuidPath)="setUuidPathCompliance($event)"
+            (uuidPath)="setUuidPathCompliance($event)"
             (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
             (newItemEventCompliance)="setOpinionRecomendationCompliance($event)"
             (typeOpinion)="setTypeOpinion($event)"
