@@ -23,6 +23,10 @@ export class ApplicationOptionViewDialogComponent {
     this.applicationOption = lodash.cloneDeep(this.data.applicationOption);
   }
 
+  public updateDate(): void {
+	this.applicationOption.value = moment(this.applicationOption.value);
+  }
+
   public save(): void {
     this._dialog.close(this.applicationOption);
   }

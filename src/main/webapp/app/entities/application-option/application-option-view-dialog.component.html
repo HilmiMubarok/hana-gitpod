@@ -14,7 +14,7 @@
   </mat-form-field>
   <mat-form-field class="w-100" appearance="outline" *ngIf="applicationOption.dataType === 'date'">
     <mat-label>Value</mat-label>
-    <input [matDatepicker]="valueDate" matInput type="text" [(ngModel)]="applicationOption.value" disabled />
+    <input [matDatepicker]="valueDate" matInput (ngModelChange)="updateDate()" type="text" [(ngModel)]="applicationOption.value" disabled />
     <mat-datepicker-toggle matSuffix [for]="valueDate"></mat-datepicker-toggle>
     <mat-datepicker #valueDate disabled="false"></mat-datepicker>
   </mat-form-field>
