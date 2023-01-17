@@ -145,14 +145,14 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     if (tempRouter === 'cc-review') {
       this.isShowOpinionFieldInput = true;
     }
-	this.uuid = uuid.v4();
+    this.uuid = uuid.v4();
   }
 
   ngOnInit(): void {
     this.typeOpinion.emit('compliance');
-	this.uuidPath.emit(this.uuid);
+    this.uuidPath.emit(this.uuid);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-	this.filterPositionLogin();
+    this.filterPositionLogin();
     this.getWord();
     this.refresh();
 
@@ -244,41 +244,41 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   public triggeredSave(): void {
-	let paramsId = '';
-	this.activatedRoute.params.subscribe(params => {
-	  paramsId = params['id'];
-	});
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
 
-	const key = 'credit_proposal/remark/opinion-history/compliance/opinion';
+    const key = 'credit_proposal/remark/opinion-history/compliance/opinion';
 
-	const timeStamp = Math.floor(Date.now() / 1000);
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-	const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-	docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-	  const fileType = 'word';
-	  const pathHelper = this.uuid + '-opinion';
-	  const fileName = this.uuid + '.docs';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const pathHelper = this.uuid + '-opinion';
+      const fileName = this.uuid + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
 
-	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-	  const fileType = 'sfdt';
-	const pathHelper = this.uuid + '-opinion';
-	  const fileName = this.uuid + '.sfdt';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const pathHelper = this.uuid + '-opinion';
+      const fileName = this.uuid + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -296,42 +296,42 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   public triggeredSaveCondition(): void {
-	let paramsId = '';
-	this.activatedRoute.params.subscribe(params => {
-	  paramsId = params['id'];
-	});
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
 
-	const key = 'credit_proposal/remark/opinion-history/compliance/condition';
+    const key = 'credit_proposal/remark/opinion-history/compliance/condition';
 
-	const timeStamp = Math.floor(Date.now() / 1000);
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-	const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-	docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-	  const fileType = 'word';
-	  const pathHelper = this.uuid + '-condition';
-	  const fileName = this.uuid + '.docs';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const pathHelper = this.uuid + '-condition';
+      const fileName = this.uuid + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
 
-	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-	  const fileType = 'sfdt';
-	  const pathHelper = this.uuid + '-condition';
-	  const fileName = this.uuid + '.sfdt';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const pathHelper = this.uuid + '-condition';
+      const fileName = this.uuid + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -407,8 +407,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
                 this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-				this.recomendasi = this.notes[i].recomendation;
-				this.newItemEventCompliance.emit(this.notes[i].recomendation);
+                this.recomendasi = this.notes[i].recomendation;
+                this.newItemEventCompliance.emit(this.notes[i].recomendation);
               }
             }
           }
