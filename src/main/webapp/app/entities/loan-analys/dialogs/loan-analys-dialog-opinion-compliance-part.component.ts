@@ -54,7 +54,6 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.conditionOpinion();
     this.getWord();
   }
 

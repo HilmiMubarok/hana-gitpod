@@ -681,7 +681,6 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
             this.loanAnalysOpinionCompliancePartComponent.refresh();
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
-            this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
           }
         }
 
@@ -713,7 +712,6 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
             this.loanAnalysOpinionCompliancePartComponent.refresh();
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
-            this.loanAnalysOpinionCompliancePartComponent.onCreateCondition();
           }
         }
 
