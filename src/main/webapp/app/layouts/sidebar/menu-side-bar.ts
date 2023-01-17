@@ -920,17 +920,6 @@ export const APPRAISAL_MENU_LEGAL_OFFICER: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
   {
-    name: 'Credit Proposal',
-    iconname: 'arrow-trend-up',
-    children: [
-      {
-        name: 'Credit Proposal',
-        iconname: 'minus',
-        route: 'credit-proposal-status',
-      },
-    ],
-  },
-  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
