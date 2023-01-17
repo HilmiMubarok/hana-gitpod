@@ -51,7 +51,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public statusCodesData: Object[] = [];
   public statusCodesDataRes: Object[] = [];
   public account: Account;
-  public isRoleRM: boolean;
+  public viewButton: boolean;
   public activeRoute: string;
   public title: string;
   public value: string;
@@ -82,7 +82,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
-    this.conditionRoleRM();
+    // this.conditionButtonAddCP();
   }
 
   private loadStatusChip(): void {
@@ -283,13 +283,14 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       }
     });
   }
-  public conditionRoleRM() {
+
+  public conditionButtonAddCP() {
     if (this.isRm()) {
       if (this.parentPath === 'cp-status-approval') {
         if (this.account.authorities.length <= 2) {
-          this.isRoleRM = false;
+          this.viewButton = false;
         } else {
-          this.isRoleRM = true;
+          this.viewButton = true;
         }
       }
     }
@@ -297,7 +298,16 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     if (this.isBm()) {
       if (this.parentPath === 'cp-status-approval') {
         if (this.account.authorities.length <= 2) {
-          this.isRoleRM = true;
+          this.viewButton = true;
+        }
+      }
+    }
+    if (this.isSMEHead()) {
+      if (this.parentPath === 'cp-status-approval') {
+        if (this.account.authorities.length <= 2) {
+          this.viewButton = true;
+        } else {
+          this.viewButton = false;
         }
       }
     }
@@ -308,5 +318,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
   public isBm(): any {
     return this.account.authorities.includes('ROLE_BM');
+  }
+  public isSMEHead(): any {
+    return this.account.authorities.includes('ROLE_SME_HEAD');
   }
 }
