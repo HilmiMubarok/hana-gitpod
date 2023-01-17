@@ -1468,6 +1468,99 @@ export const SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB: object[] = [
   },
 ];
 
+export const SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'group-guarantor-analyst',
+        text: 'Group & Guarantor Analysis',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'Trade Checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'covenant',
+    text: 'convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility-detail',
+    text: 'Loan Facility',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
+  },
+];
+
 export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
   {
     id: 'credit-proposal-summary',
@@ -1492,12 +1585,291 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL: object[] = [
   },
 ];
 
+export const SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'group-guarantor-analyst',
+        text: 'Group & Guarantor Analysis',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'Trade Checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'dar-convenant',
+    text: 'convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
+  },
+];
+
+export const SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'group-guarantor-analyst',
+        text: 'Group & Guarantor Analysis',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'Trade Checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'dar-convenant',
+    text: 'convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
+  },
+];
+
 export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
   {
     id: 'credit-proposal-summary',
     text: 'Credit Proposal Summary',
   },
   ...SUBMENU_LOAN_DAR,
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'dar-convenant',
+    text: 'Convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'group-guarantor-analyst',
+        text: 'Group & Guarantor Analysis',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'Trade Checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
   {
     id: 'opinion',
     text: 'Opinion',
