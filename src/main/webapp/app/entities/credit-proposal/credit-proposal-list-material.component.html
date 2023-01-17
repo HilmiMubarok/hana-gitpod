@@ -220,8 +220,8 @@
       >
       </mat-paginator>
     </div>
-
-    <div class="e-card-actions" [hidden]="isRoleRM">
+    <!-- ADD CP Hanya Muncul di Credit Proposal Bukan Di CP Approval -> Permintaan DK-->
+    <div class="e-card-actions" *ngIf="parentPath === 'credit-proposal-status'">
       <div class="d-flex justify-content-center mb-3 mt-3">
         <button mat-raised-button [routerLink]="['./new']">ADD CREDIT PROPOSAL</button>
       </div>
