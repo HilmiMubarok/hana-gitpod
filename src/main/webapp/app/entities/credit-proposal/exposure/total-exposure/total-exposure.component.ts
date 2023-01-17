@@ -348,7 +348,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
     } else {
       this.totalDebiturCashLoan = this.fungsiSumcredit() - 0;
-      this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturCashLoan;
+      this.creditProposal.attributes['calculationExposure'].totalDebiturCashLoan = this.totalDebiturCashLoan;
     }
   }
 
