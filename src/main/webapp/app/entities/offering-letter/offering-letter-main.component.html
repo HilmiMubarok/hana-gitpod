@@ -123,9 +123,9 @@
               *ngIf="creditProposal.partyTypeId === 'PERSON'"
               [item]="creditProposal.prospectPerson"
               [deptorData]="creditProposal"
+              [partyCif]="partyCif"
               mode="view"
-            >
-            </jhi-credit-proposal-person>
+            ></jhi-credit-proposal-person>
             <jhi-party-group-view
               [mode]="'view'"
               *ngIf="creditProposal.partyTypeId !== 'PERSON'"
@@ -137,7 +137,8 @@
         <!-- postal address -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-postal-address-view [item]="postalAdresss.address" mode="view"></jhi-postal-address-view>
+            <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="postalAdresss">
+            </jhi-party-cif-customer-info-postal-address>
           </mat-card-content>
         </mat-card>
 
