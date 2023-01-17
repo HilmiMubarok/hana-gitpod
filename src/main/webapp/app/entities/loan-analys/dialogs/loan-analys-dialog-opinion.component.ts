@@ -36,6 +36,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
   public positionUserId: any;
   public resourceUrl: string;
   private BUCKET: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public dataNotes: {
@@ -74,6 +75,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
+	  
       this.getContainer();
       this.getContainerCondition();
     });
@@ -81,7 +83,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 
   private getContainer(): void {
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes['condition'] + + '-opinion/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes['condition'] + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
