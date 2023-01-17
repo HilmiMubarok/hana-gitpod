@@ -134,9 +134,9 @@
               *ngIf="creditProposal.partyTypeId === 'PERSON'"
               [item]="creditProposal.prospectPerson"
               [deptorData]="creditProposal"
+              [partyCif]="partyCif"
               mode="view"
-            >
-            </jhi-credit-proposal-person>
+            ></jhi-credit-proposal-person>
             <jhi-party-group-view
               [mode]="'view'"
               *ngIf="creditProposal.partyTypeId !== 'PERSON'"
