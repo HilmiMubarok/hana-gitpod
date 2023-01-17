@@ -2,7 +2,8 @@
 .mat-toolbar-row,
 .mat-toolbar-single-row {
   /* background-color: white; */
-  background-color: rgba(0, 149, 145, 1) !important;
+  /* background-color: rgba(0, 149, 145, 1) !important; */
+  background-color: #ea4925 !important;
   color: #fff;
 }
 

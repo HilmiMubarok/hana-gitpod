@@ -8,7 +8,7 @@ import lodash from 'lodash';
   selector: 'jhi-application-option-view-dialog',
   templateUrl: './application-option-view-dialog.component.html',
   providers: [
-	{provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: false}}
+	{provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
   ] 
 })
 export class ApplicationOptionViewDialogComponent {
