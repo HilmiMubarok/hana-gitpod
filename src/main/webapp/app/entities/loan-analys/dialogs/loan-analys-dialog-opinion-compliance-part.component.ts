@@ -62,7 +62,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 	const tempNotes = this.dataNotes.notes;
     this.creditProposalItem = this.dataNotes.item;
 	for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
-	  if (this.creditProposalItem.notes[i].userId === this.tempNotes['userId'] && this.creditProposalItem.notes[i].positionUserId === this.tempNotes['positionUserId']) {
+	  if (this.creditProposalItem.notes[i].userId === tempNotes['userId'] && this.creditProposalItem.notes[i].positionUserId === tempNotes['positionUserId']) {
 		this.notes = this.creditProposalItem.notes[i];
 	  }
 	}
