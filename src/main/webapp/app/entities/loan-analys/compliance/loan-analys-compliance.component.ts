@@ -105,112 +105,108 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     {
       No: 1,
       regulation: 'Ketersediaan Laporan keuangan',
-      criteria: 'Audited (asset/sales > Rp 50 bio atau merupakan perusahaan terbuka)',
+      criteria:
+        'a. Audited (asset/sales > Rp 50 bio atau merupakan perusahaan terbuka) \n' +
+        'b. Inhouse Long Form (Rp 25 bio < asset/sales <Rp 50 bio) \n' +
+        'c. Inhouse Short Form (asset/sales <Rp 25 bio) \n d.	Khusus debitur Yayasan Audited (asset/kekayanan di luar harta wakaf ≥Rp20 bio)',
       value: '',
       remarks: '',
     },
+
     {
       No: 2,
-      regulation: 'Ketersediaan Laporan keuangan',
-      criteria: 'Inhouse Long Form (Rp 25 bio < asset/sales < Rp 50 bio)',
+      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
+      criteria:
+        'a. Pihak Terkait BMPK sebesar 10% dari Total Modal Bank Terdapat persetujuan Dewan Komisaris Bank (khusus untuk penyediaan dana kepada Pihak Terkait \n' +
+        '	b.	Pihak Tidak Terkait – Indvidu BMPK sebesar 25% dari Modal Inti Bank \n' +
+        '  c.	Pihak Tidak Terkait – Group BMPK sebesar 25% dari Modal Inti Bank	d.BUMN BMPK sebesar 30% dari Total Modal Bank \n' +
+        'e.	Jaminan',
       value: '',
       remarks: '',
     },
+
     {
       No: 3,
-      regulation: 'Ketersediaan Laporan keuangan',
-      criteria: 'Inhouse Short Form (asset/sales < Rp 25 bio)',
+      regulation: 'Tujuan penggunaan kredit',
+      criteria:
+        'a.	Bukan untuk jual beli saham kepada orang perorang atau perusahaan yang bukan perusahaan efek dan tidak melampaui persentasi jumlah pemberian kredit sebagaimana ketentuan POJK No. 40/POJK.03/2017 tentang Kredit atau Pembiayaan kepada Perusahaan Efek dan Kredit atau Pembiayaan dengan Agunan Saham. \n' +
+        '	b. Bukan untuk pemberian kredit kepada Pihak Asing. \n ' +
+        '  c. Bukan termasuk Kredit Negatif/Macet. \n' +
+        '  d.Bukan untuk transaksi derivatif. \n' +
+        '  e. Bukan untuk membiayai margin  deposit. \n' +
+        '  f.	Bukan untuk pengadaan dan/atau pengolahan tanah  kepada pengembang  baik langsung maupun tidak langsung, pengecualian berlaku hanya sebagaimana ketentuan POJK No. 44/POJK.03/2017 tentang Pembatasan Pemberian Kredit atau Pembiayaan oleh Bank Umum untuk Pengadaan Tanah dan/atau Pengolahan Tanah dan perubahannya. \n' +
+        '  g.	Bukan pemberian kredit untuk penyelesaian kredit bermasalah dengan cara menambahkan plafond kredit atau tunggakan-tunggakan bunga dan mengkapitalisasi tunggakan bunga (plafondering) sebagaimana dilarang dalam POJK No. 42/POJK.03/2017 tentang Kewajiban Penyusunan dan Pelaksanaan Kebijakan Perkreditan atau Pembiayaan Bank bagi Bank Umum.	h.Memiliki izin lingkungan berupa AMDAL (Analisis Mengenai Dampak Lingkungan) dan/atau UKL UPL (Upaya Pengelolaan Lingkungan Hidup dan Upaya Pemantauan Lingkungan Hidup). Penyusunan dan Pelaksanaan Kebijakan Perkreditan atau Pembiayaan Bank bagi Bank Umum. \n ' +
+        '	h.	Memiliki izin lingkungan berupa AMDAL (Analisis Mengenai Dampak Lingkungan) dan/atau UKL UPL (Upaya Pengelolaan Lingkungan Hidup dan Upaya Pemantauan Lingkungan Hidup)',
       value: '',
       remarks: '',
     },
     {
       No: 4,
-      regulation: 'Ketersediaan Laporan keuangan',
-      criteria: 'Khusus debitur Yayasan Audited (asset/kekayaan di luar harta wakaf ≥ Rp 20 bio)',
+      regulation: 'Khusus untuk perusahaan pembiayaan',
+      criteria:
+        'Khusus untuk perusahaan pembiayaan	a.	Jangka waktu pengembalian pinjaman paling singkat 1 tahun.\n' +
+        'b.	Dituangkan dalam bentuk perjanjian akta notaril.\n' +
+        'c.	Tidak dapat diperpanjang secara otomatis (automatic roll over).\n' +
+        'd.	Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.\n' +
+        'e.	Memiliki tingkat kesehatan keuangan dengan kondisi minimum sehat.\n' +
+        'f.	Memiliki tingkat risiko perusahaan dengan kondisi minimum sedang rendah.',
       value: '',
       remarks: '',
     },
     {
       No: 5,
-      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
+      regulation: 'Khusus untuk Bank Perkreditan Rakyat',
       criteria:
-        'Pihak Terkait BMPK sebesar 10% dari Total Modal Bank Terdapat Persetujuan Dewan Komisaris Bank (Khusus untuk penyediaan dana kepada Pihak Terkait) ',
+        'a. Khusus untuk Bank Perkreditan Rakyat	a.	Wajib memiliki izin OJK.\n' +
+        'b. Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.\n' +
+        'c.	Memiliki tingkat kesehatan keuangan dengan kondisi minimum peringkat komposit 3(tiga).\n' +
+        'd.	Gearing ratio paling sedikit 5% (lima persen).',
       value: '',
       remarks: '',
     },
     {
       No: 6,
-      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
-      criteria: 'Pihak Tidak Terkait - Individu BMPK sebesar 25% dari Modal Inti Bank',
+      regulation: 'Khusus untuk Perusahaan Modal Ventura',
+      criteria:
+        'a.	Wajib memiliki izin OJK.\n' +
+        'b.	Wajib memiliki penyertaan saham dan/atau penyertaan melalui pembelian obligasi konversi paling rendah sebesar 15% (lima belas persen) dari total kegiatan usaha.\n' +
+        'c.	Memiliki tingkat kesehatan keuangan dengan kondisi minimum sehat.\n' +
+        'd.  Memiliki Ekuitas paling sedikit Rp50.000.000.000,00 (lima puluh miliar rupiah).\n' +
+        'e.	Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
       value: '',
       remarks: '',
     },
     {
       No: 7,
-      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
-      criteria: 'Pihak Tidak Terkait - Group BMPK sebesar 25% dari Modal Inti Bank',
+      regulation: 'Khusus untuk debitur yayasan',
+      criteria:
+        'a.	Tujuan pendirian yayasan bukan untuk kegiatan usaha atau bisnis keluarga \n' +
+        'b.	Masa jabatan pengurus/pembina tidak melebihi jangka waktu 5 tahun dan dapat diangkat kembali untuk 1 kali masa jabatan.\n' +
+        'c.	Pedapatan yayasan tidak dapat dijadikan analisa kemampuan membayar debitur yang tercatat sebagai pembina/pengurus/pengawas yayasan.',
       value: '',
       remarks: '',
     },
     {
       No: 8,
-      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
-      criteria: 'BUMN BMPK sebesar 30% dari Total Modal Bank',
+      regulation: 'Khusus Perusahaan Sekuritas/LKNB',
+      criteria:
+        'a.	Bank dilarang memberikan kredit atau pembiayaan untuk jual beli saham kepada orang  perseorangan atau perusahaan yang bukan Perusahaan Efek.\n' +
+        'b.	Bank  hanya  dapat  memberikan  kredit  atau  pembiayaankepada  suatu  Perusahaan  Efek  masing-masing  paling tinggi  sebesar  jumlah  yang  terkecil  antara  25% dari  modal  Perusahaan  Efek  yang bersangkutan  atau 15%  dari  modal Bank\n' +
+        'c.	Kredit kepada seluruh Perusahaan Efek paling tinggi sebesar 30% dari modal Bank',
       value: '',
       remarks: '',
     },
     {
       No: 9,
-      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
-      criteria: 'Jaminan',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 10,
-      regulation: 'Tujuan Penggunaan Kredit',
+      regulation: 'Khusus Untuk Restrukturisasi',
       criteria:
-        'Bukan untuk jual beli saham kepada orang perorang atau perusahaan yang bukan perusahaan efek ' +
-        'dan tidak melampaui persentasi jumlah pemberian kredit sebagaimana ketentuan POJK No.40/POJK.03/2017 tentang ' +
-        'Kredit atau Pembiayaan kepada Perusahaan Efek dan Kredit atau Pembiayaan dengan Agunan Saham',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 11,
-      regulation: 'Tujuan Penggunaan Kredit',
-      criteria: 'Bukan untuk pemberian kredit kepada Pihak Asing',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 12,
-      regulation: 'Tujuan Penggunaan Kredit',
-      criteria: 'Bukan Termasuk kredit Negatif/Macet',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 13,
-      regulation: 'Tujuan Penggunaan Kredit',
-      criteria: 'Bukan untuk transaksi derivatif',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 14,
-      regulation: 'Tujuan Penggunaan Kredit',
-      criteria: 'Bukan untuk membiayai margin deposit',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 15,
-      regulation: 'Tujuan Penggunaan Kredit',
-      criteria:
-        'Bukan untuk pengadaan dan/atau pengolahan tanah kepada pengembang baik langsung maupun tidak langsung, ' +
-        'pengecualian berlaku hanya sebagaimana ketentuan POJK No.44/POJK.03/2017 tentang Pembatasan Pemberian Kredit ' +
-        'atau Pembiayaan oleh Bank Umum untuk Pengadaan tanah dan/atau Pengolahan Tanah dan perubahannya',
+        '	a.	Debitur mengalami kesulitan pembayaran pokok dan/atau bunga Kredit\n' +
+        +'b.	Debitur masih memiliki prospek usaha yang baik dan dinilai mampu memenuhi kewajiban setelah Kredit direstrukturisasi\n' +
+        'c.	Restrukturisasi Kredit tidak bertujuan untuk memperbaiki kualitas Kredit\n' +
+        'd.	Restrukturisasi Kredit tidak bertujuan untuk menghindari peningkatan pembentukan PPKA\n' +
+        'e.	Apabila kredit yang akan direstrukturisasi merupakan Kredit kepada Pihak Terkait maka wajib dianalisis oleh konsultan keuangan independen yang memiliki izin usaha dan reputasi yang baik.\n' +
+        'f. Restrukturisasi Kredit dilakukan antara lain dengan cara: Penurunan suku bunga Kredit; Perpanjangan jangka waktu Kredit; Pengurangan tunggakan pokok Kredit; Pengurangan tunggakan bunga Kredit; Penambahan fasilitas Kredit; Konversi Kredit menjadi Penyertaan Modal Sementara; dan/atau Upaya Perbaikan Lainnya\n' +
+        'g.	Khusus untuk restrukturisasi Covid – 19, Bank wajib memastikan bahwa debitur mampu terus bertahan dari dampak COVID-19 dan masih memiliki potensi kemampuan pembayaran pasca pandemi.',
       value: '',
       remarks: '',
     },

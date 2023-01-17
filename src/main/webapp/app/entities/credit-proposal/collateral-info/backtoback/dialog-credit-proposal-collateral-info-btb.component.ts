@@ -71,6 +71,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
   public collateralDetailType: any;
+  public logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -163,12 +164,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public cancel() {
-    this._dialog.close({
-      binding: this.binding,
-      collateral: this.collateral,
-      creditProposal: this.creditProposalOpenState,
-      action: 'cancel',
-    });
+    this._dialog.close();
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {

@@ -215,6 +215,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
+      if (this.surveyAppraisal.statusId === 'VISITED') {
+        this.visitDate = this.surveyAppraisal.apprDate.toString();
+      }
     }
     if (changes['surveyAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
@@ -228,11 +231,13 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL' || changes.statusAppraisal.currentValue[i].status === 'VISITED') {
           if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
             this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
-          } else {
-            this.visitDate = changes.statusAppraisal.currentValue[i].createdDate;
           }
+          // else {
+          //   this.visitDate = changes.surveyAppraisal.currentValue[i].apprDate;
+          // }
         }
       }
+      console.log('visit', this.visitDate);
     }
   }
 

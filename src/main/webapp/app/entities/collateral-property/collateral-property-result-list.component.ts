@@ -41,7 +41,6 @@ export class CollateralPropertyResultListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataResult();
-    // this.coba();
   }
 
   getDataResult() {
@@ -50,19 +49,19 @@ export class CollateralPropertyResultListComponent implements OnInit {
       .subscribe(res => {
         this.penampung = res.body.filter(obj => obj.statusId === 'COMPLETE');
         if (this.penampung.length > 0) {
-          for (let i = 0; i < this.penampung.length; i++) {
-            if (this.penampung[i].apprOfficer === 'External') {
-              this.partnerService.query(this.penampung[i].surveyBatchId).subscribe(ress => {
-                this.penampung[i].collateral.surveyCompanyName = ress.body[i].name;
-
-                console.log('bbbbb', ress.body[i].name);
-              });
-            }
-          }
           this.dataSource = this.penampung;
 
-          console.log('Tessttttt', this.dataSource);
-          console.log('tampung', this.penampung);
+          for (let i = 0; i < this.dataSource.length; i++) {
+            if (this.dataSource[i].apprOfficer === 'External') {
+              this.surveyBatchService.find(this.dataSource[i].surveyBatchId).subscribe(ress => {
+                this.partnerService.find(ress.body.surveyCompanyId).subscribe(resss => {
+                  this.dataSource[i].surveyCompanyName = resss.body.name;
+                });
+              });
+
+              console.log('partner KJPP', this.dataSource[i].collateral.surveyCompanyName);
+            }
+          }
         } else {
           this.dataSource = [];
         }
@@ -80,24 +79,4 @@ export class CollateralPropertyResultListComponent implements OnInit {
   public closeDialog() {
     this._dialog.close();
   }
-  public kjppValue;
-  public coba() {
-    // this.partnerService.queryFilterBy({ idCollateral: this.collateral.id, size: 9999, page: 0, sort: ['desc'] }).subscribe(res => {
-    //   console.log('ini ress', res);
-    this.collateralApprraisalService.find(this.collateral.id).subscribe(res => {
-      this.kjppValue = res.body.surveyBatchId;
-
-      console.log('yyyy', this.kjppValue);
-    });
-    // });
-  }
-
-  // Get From Partner KJPP
-  //   public loadSurveyBatchKjjp(): void {
-  //  this.surveyBatchService.find(this.collateralAppraisal.surveyBatchId).subscribe(res => {
-  //       this.partnerService.find(res.body.surveyCompanyId).subscribe(ress => {
-  //         this.kjppValue = ress.body.name;
-  //       });
-  //  });
-  // }
 }

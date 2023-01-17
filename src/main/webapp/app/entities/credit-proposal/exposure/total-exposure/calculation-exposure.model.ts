@@ -8,7 +8,7 @@ export interface ICalculationExposure {
   totalChangeDebtor?: number;
   totalPLafondDebtor?: number;
   initialLimitGroub?: number;
-  subTotalLimitGroub?: number;
+  subTotalLimitGroubOs?: number;
   totalChangeGroub?: number;
   totalPLafondGroub?: number;
 }
@@ -24,7 +24,7 @@ export class CalculationExposure implements ICalculationExposure {
     public totalChangeDebtor?: number,
     public totalPLafondDebtor?: number,
     public initialLimitGroub?: number,
-    public subTotalLimitGroub?: number,
+    public subTotalLimitGroubOs?: number,
     public totalChangeGroub?: number,
     public totalPLafondGroub?: number
   ) {
@@ -37,7 +37,7 @@ export class CalculationExposure implements ICalculationExposure {
     this.totalChangeDebtor = 0;
     this.totalPLafondDebtor = 0;
     this.initialLimitGroub = 0;
-    this.subTotalLimitGroub = 0;
+    this.subTotalLimitGroubOs = 0;
     this.totalChangeGroub = 0;
     this.totalPLafondGroub = 0;
   }

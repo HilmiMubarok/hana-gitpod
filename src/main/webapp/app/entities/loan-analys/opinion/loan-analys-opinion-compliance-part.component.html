@@ -9,7 +9,7 @@
         <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
       </ng-container>
       <ng-container matColumnDef="reviewerName">
-        <th mat-header-cell *matHeaderCellDef>Approver Name</th>
+        <th mat-header-cell *matHeaderCellDef>Reviewer Name</th>
         <td mat-cell *matCellDef="let element">{{ element.userId }}</td>
       </ng-container>
       <ng-container matColumnDef="position">
@@ -20,10 +20,10 @@
         <th mat-header-cell *matHeaderCellDef>Date</th>
         <td mat-cell *matCellDef="let element">{{ element.createDate }}</td>
       </ng-container>
-      <ng-container matColumnDef="recomendation">
+      <!-- <ng-container matColumnDef="recomendation">
         <th mat-header-cell *matHeaderCellDef>Recomendation</th>
         <td mat-cell *matCellDef="let element">{{ element.recomendation }}</td>
-      </ng-container>
+      </ng-container> -->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
@@ -33,12 +33,10 @@
         </td>
       </ng-container>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action'].length">
-          No records found.
-        </td>
+        <td class="mat-cell" [attr.colspan]="['no', 'reviewerName', 'position', 'date', 'action'].length">No records found.</td>
       </tr>
-      <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
+      <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'action']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'action']"></tr>
     </table>
 
     <div *ngIf="isShowOpinionFieldInput" class="e-card-content">
@@ -82,7 +80,7 @@
         </section>-->
       </div>
 
-      <div *ngIf="isShowOpinionFieldInput" class="form-group">
+      <!-- <div *ngIf="isShowOpinionFieldInput" class="form-group">
         <p class="e-card-sub-title">Approved Status</p>
         <div class="d-flex justify-content-around">
           <div class="mx-2">
@@ -110,10 +108,10 @@
             ></ejs-radiobutton>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div *ngIf="isShowOpinionFieldInput" class="form-group">
-        <p class="e-card-sub-title">Condition</p>
+      <!-- <div *ngIf="isShowOpinionFieldInput" class="form-group"> -->
+      <!-- <p class="e-card-sub-title">Condition</p>
         <ejs-documenteditorcontainer
           #document_editor_container_condition
           [enableToolbar]="true"
@@ -124,8 +122,8 @@
           [enableSpellCheck]="false"
           (keyDown)="onKeyDownCondition($event)"
           (created)="onCreateCondition()"
-        ></ejs-documenteditorcontainer>
-        <!--<section *ngIf="this.creditProposalItem.statusId === 'CP_CC_DEPT_HEAD'">
+        ></ejs-documenteditorcontainer> -->
+      <!--<section *ngIf="this.creditProposalItem.statusId === 'CP_CC_DEPT_HEAD'">
           <ejs-documenteditorcontainer
             #document_editor_container_condition
             [enableToolbar]="true"
@@ -150,7 +148,7 @@
             [isReadOnly]="true"
           ></ejs-documenteditorcontainer>
         </section>-->
-      </div>
+      <!-- </div> -->
     </div>
   </mat-card-content>
 </mat-card>

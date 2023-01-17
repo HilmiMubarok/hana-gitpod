@@ -18,13 +18,14 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { PositionService } from 'app/entities/position/position.service';
-import { IPosition } from 'app/entities/position/position.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { INotes } from 'app/entities/notes/notes.model';
 import _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'jhi-loan-analys-opinion-compliance-part',
@@ -55,7 +56,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   };
   public route: any;
   public parentPath = this.router.url.split('/')[1];
-  public position: IPosition[];
 
   public nameLabel: any;
   public radioButtonPurpose: any;
@@ -70,9 +70,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
-  public userId: string;
   public accountLogin: any;
-  public positionUserId: string;
   public obj: any;
   public InternalId: any;
   public positionLogin: any;
@@ -81,6 +79,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   private positionLoanComitee: string;
 
   public isShowOpinionFieldInput = false;
+
+  private uuid: any;
 
   @Input() cp: ICreditProposal;
   @Input() saveWordMinio;
@@ -95,6 +95,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     this._creditProposalItem = item;
   }
 
+  @Output() uuidPath = new EventEmitter<string>();
   @Output() typeOpinion = new EventEmitter<string>();
   @Output() newItemEventCompliance = new EventEmitter<string>();
   @Output() positionLoginEmitCompliance = new EventEmitter<string>();
@@ -144,12 +145,13 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     if (tempRouter === 'cc-review') {
       this.isShowOpinionFieldInput = true;
     }
+    this.uuid = uuid.v4();
   }
 
   ngOnInit(): void {
     this.typeOpinion.emit('compliance');
+    this.uuidPath.emit(this.uuid);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.getLogin();
     this.filterPositionLogin();
     this.getWord();
     this.refresh();
@@ -157,7 +159,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     this.conditionOpinion();
     this.conditionEnableOpinion();
     this.hiddenApprovalUser();
-    this.loadPosition(['HCR1', 'HCR2', 'FINANCE_DIR', 'BUSINESS_DIR', 'CREDIT_DIR']);
   }
 
   public change(event: string) {
@@ -168,12 +169,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
-    });
-  }
-
-  public getLogin() {
-    this.accountService.identity().subscribe(account => {
-      this.userId = account.login;
     });
   }
 
@@ -249,65 +244,40 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   }
 
   public triggeredSave(): void {
-    this.positionService.findByLogin().subscribe(posisi => {
-      this.positionUserId = posisi.body[0].name;
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
 
-      let paramsId = '';
-      this.activatedRoute.params.subscribe(params => {
-        paramsId = params['id'];
-      });
-      const key = 'credit_proposal/remark/opinion-history/opinion';
+    const key = 'credit_proposal/remark/opinion-history/compliance/opinion';
 
-      const timeStamp = Math.floor(Date.now() / 1000);
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion-compliance-' +
-          fileType +
-          '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace(
-            '&',
-            ''
-          )}/opinion-compliance/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const pathHelper = this.uuid + '-opinion';
+      const fileName = this.uuid + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
 
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion-compliance-' +
-          fileType +
-          '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace(
-            '&',
-            ''
-          )}/opinion-compliance/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const pathHelper = this.uuid + '-opinion';
+      const fileName = this.uuid + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
 
@@ -321,124 +291,46 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     }
   }
 
-  // Remark Minio
+  onCreate(): void {
+    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
 
-  private getContainer(): void {
+  public triggeredSaveCondition(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
-    const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/opinion/' +
-        paramsId +
-        '/' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '/opinion-compliance/sfdt',
-    };
-    this.storageService
-      .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        if (response.body.length > 0) {
-          this.storageService
-            .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  paramsId +
-                  '-' +
-                  this.positionUserId.replace('&', '') +
-                  '-' +
-                  this.userId.replace('&', '') +
-                  '-opinion-compliance-sfdt.sfdt'
-              );
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const docEditor = this.container?.documentEditor as DocumentEditorComponent;
-                const contents: string = e.target.result;
-                docEditor.open(contents);
-              };
-              fileReader.readAsText(this.fileGet);
-            });
-        }
-      });
-  }
 
-  onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    // this.container.documentEditor.openBlank();
-  }
+    const key = 'credit_proposal/remark/opinion-history/compliance/condition';
 
-  // Condition remark
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-  public triggeredSaveCondition(): void {
-    this.positionService.findByLogin().subscribe(posisi => {
-      this.positionUserId = posisi.body[0].name;
+    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-      let paramsId = '';
-      this.activatedRoute.params.subscribe(params => {
-        paramsId = params['id'];
-      });
-      const key = 'credit_proposal/remark/opinion-history/condition';
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const pathHelper = this.uuid + '-condition';
+      const fileName = this.uuid + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-      const timeStamp = Math.floor(Date.now() / 1000);
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
 
-      const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const pathHelper = this.uuid + '-condition';
+      const fileName = this.uuid + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-        const fileType = 'word';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion-compliance' +
-          '-condition-' +
-          fileType +
-          '.docs';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace(
-            '&',
-            ''
-          )}/opinion-compliance/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
-
-      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-        const fileType = 'sfdt';
-        const fileName =
-          'credit-proposal-remark-' +
-          paramsId +
-          '-' +
-          this.positionUserId.replace('&', '') +
-          '-' +
-          this.userId.replace('&', '') +
-          '-opinion-compliance' +
-          '-condition-' +
-          fileType +
-          '.sfdt';
-        const metaData = {
-          objectName: `${key}/${paramsId}/${this.positionUserId.replace('&', '')}-${this.userId.replace(
-            '&',
-            ''
-          )}/opinion-compliance/${fileType}/${fileName}`,
-        };
-        const formData = new FormData();
-        formData.append('file', new File([exportedDocument], fileName));
-
-        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-      });
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
   }
 
@@ -452,64 +344,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     }
   }
 
-  private getContainerCondition(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const obj = {
-      key:
-        'credit_proposal/remark/opinion-history/condition/' +
-        paramsId +
-        '/' +
-        this.positionUserId.replace('&', '') +
-        '-' +
-        this.userId.replace('&', '') +
-        '/opinion-compliance/sfdt',
-    };
-    this.storageService
-      .getObjects(this.BUCKET, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        if (response.body.length > 0) {
-          this.storageService
-            .fileBlob(response.body[response.body.length - 1]['url'])
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              this.fileGet = new File(
-                [res.body],
-                'credit-proposal-remark-' +
-                  paramsId +
-                  '-' +
-                  this.positionUserId.replace('&', '') +
-                  '-' +
-                  this.userId.replace('&', '') +
-                  '-opinion-compliance-' +
-                  'condition-sfdt.sfdt'
-              );
-              const fileReader: FileReader = new FileReader();
-              fileReader.onload = (e: any) => {
-                const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
-                const contents: string = e.target.result;
-                docEditor.open(contents);
-              };
-              fileReader.readAsText(this.fileGet);
-            });
-        }
-      });
-  }
-
   onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    // this.container_condition.documentEditor.openBlank();
-  }
-
-  public loadPosition(position: any): void {
-    this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
-      this.position = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
-      });
-    });
   }
 
   public filterPositionLogin() {
@@ -566,12 +402,13 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
             if (this.notes[i].type === 'compliance') {
               this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
               if (this.notes[i].userId === this.currentAccount.login) {
-                this.newItemEventCompliance.emit(this.notes[i].recomendation);
                 this.creditProposalItem.notes[i].message = '';
                 this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
                 this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
+                this.recomendasi = this.notes[i].recomendation;
+                this.newItemEventCompliance.emit(this.notes[i].recomendation);
               }
             }
           }

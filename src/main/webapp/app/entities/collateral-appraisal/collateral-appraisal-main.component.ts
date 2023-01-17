@@ -469,12 +469,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
-        // this.subMenu =
-        //   this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-        //     ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
-        //     : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
       }
-      console.log('submenu', this.subMenu);
     }
   }
 

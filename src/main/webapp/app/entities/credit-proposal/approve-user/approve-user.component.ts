@@ -17,7 +17,7 @@ import { ICreditProposal } from '../credit-proposal.model';
   styleUrls: ['./approve-user.css'],
 })
 export class CreditProposalApproveUserComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
-  public displayColumns: string[] = ['no', 'position', 'name', 'remarks', 'available', 'alternatename'];
+  public displayColumns: string[] = ['no', 'position', 'name', 'fromDate', 'alternatename'];
   public creditProposalStatusCodes = [
     'DRAFT',
     'RETURN TO CREDIT PROPOSAL (BU)',
