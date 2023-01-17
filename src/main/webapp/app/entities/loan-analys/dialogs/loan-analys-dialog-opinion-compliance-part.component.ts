@@ -123,7 +123,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 
   private getContainer(): void {
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/compliance/opinion/' + this.creditProposalItem.id + '/' + this.notes.condition + + '-opinion/sfdt',
+      key: 'credit_proposal/remark/opinion-history/compliance/opinion/' + this.creditProposalItem.id + '/' + this.notes['condition'] + + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -135,7 +135,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes.condition + '.sfdt'
+                [res.body], this.notes['condition'] + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -152,7 +152,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
   private getContainerCondition(): void {
     const obj = {
       key:
-        'credit_proposal/remark/opinion-history/compliance/condition/' + this.creditProposalItem.id + '/' + this.notes.condition + '-condition/sfdt',
+        'credit_proposal/remark/opinion-history/compliance/condition/' + this.creditProposalItem.id + '/' + this.notes['condition'] + '-condition/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -164,7 +164,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes.condition + '.sfdt'
+                [res.body], this.notes['condition'] + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
