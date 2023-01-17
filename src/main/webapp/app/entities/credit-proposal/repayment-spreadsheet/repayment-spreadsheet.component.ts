@@ -36,6 +36,17 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   public _creditProposalItem: ICreditProposal;
 
+  public protectSheet() {
+    this.spreadsheetObj.sheets.forEach(sheet => {
+      this.spreadsheetObj.protectSheet(sheet.name, {
+        selectCells: true,
+        formatCells: true,
+        formatRows: true,
+        formatColumns: true,
+      });
+    });
+  }
+
   constructor(private storageService: StorageService, private actRoute: ActivatedRoute, protected messageService: MessageService) {
     this.bucket = '';
   }
@@ -114,10 +125,14 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
+    console.log('test news : ', this.creditProposalItem);
+    console.log('test news0 : ', this._creditProposalItem);
   }
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
+    console.log('test news1 : ', this.creditProposalItem);
+    console.log('test news2 : ', this._creditProposalItem);
   }
 
   private getBucket(): Promise<void> {
@@ -224,12 +239,12 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
         this.spreadsheetObj.clear({});
 
         this.spreadsheetDisabledObj?.open({ file });
-        this.spreadsheetDisabledObj.clear({
-          type: 'Clear All',
-          range: 'A1:A2',
-        });
+        // this.spreadsheetDisabledObj.clear({
+        //   type: 'Clear All',
+        //   range: 'A1:A2',
+        // });
 
-        this.spreadsheetDisabledObj.clear({});
+        // this.spreadsheetDisabledObj.clear({});
       });
   }
 
