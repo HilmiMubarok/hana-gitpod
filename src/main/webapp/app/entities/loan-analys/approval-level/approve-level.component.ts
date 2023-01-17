@@ -21,7 +21,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
   styleUrls: ['./approve-level.css'],
 })
 export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
-  public displayColumns: string[] = ['no', 'approval_name', 'position', 'date', 'available_status', 'recomendation'];
+  public displayColumns: string[] = ['no', 'approval_name', 'position', 'date', 'alternatename'];
   public idRelationType: string;
   public dateCurren: any;
   public idApp: any;
