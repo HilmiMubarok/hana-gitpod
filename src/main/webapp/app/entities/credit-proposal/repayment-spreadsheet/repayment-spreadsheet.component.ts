@@ -131,8 +131,6 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-    console.log('test news1 : ', this.creditProposalItem);
-    console.log('test news2 : ', this._creditProposalItem);
   }
 
   private getBucket(): Promise<void> {
