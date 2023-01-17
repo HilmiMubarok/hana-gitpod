@@ -16,11 +16,15 @@ import {
   SUBMENU_LOAN_ANALYS_CP_SUMMARY,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER,
+  SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE,
   SUBMENU_LOAN_ANALYS_DAR_FINAL,
+  SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE,
+  SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
   SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB,
+  SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE,
   SUBMENU_LOAN_CP,
 } from 'app/shared/constants/base.constants';
 import { IPosition } from '../position/position.model';
@@ -176,19 +180,31 @@ export class LoanAnalysMainComponent implements OnInit {
             ]);
         break;
       case 'dar-final':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+        this.subMenu =
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+            ? [...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
+            : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'dar-notif':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+        this.subMenu =
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+            ? [...SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
+            : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'dar-checker':
-        this.subMenu = SUBMENU_LOAN_ANALYS_DAR_CHECKER;
+        this.subMenu =
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+            ? SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE
+            : SUBMENU_LOAN_ANALYS_DAR_CHECKER;
         break;
 
       case 'loan-committee-approval':
-        this.subMenu = [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
+        this.subMenu =
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+            ? [...SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
+            : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'cc-checking':
@@ -392,41 +408,30 @@ export class LoanAnalysMainComponent implements OnInit {
           this.addNewNotes('', this.recomendation, '', this.nameLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
         ); */
 
-		if (copyCreditProposal.notes.length > 0) {
-		  for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			if (copyCreditProposal.notes[i].userId === this.nameLoginFromEmit || copyCreditProposal.notes[i].positionUserId === this.positionLoginFromEmit) {
-			  copyCreditProposal.notes[i].message = '';
-			  copyCreditProposal.notes[i].recomendation = this.recomendation;
-			  copyCreditProposal.notes[i].condition = this.uuidPath;
-			  copyCreditProposal.notes[i].type = tempOpinionType;
-			  tempHelper = tempHelper + 1;
-			}
-		  }
+        if (copyCreditProposal.notes.length > 0) {
+          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+            if (
+              copyCreditProposal.notes[i].userId === this.nameLoginFromEmit ||
+              copyCreditProposal.notes[i].positionUserId === this.positionLoginFromEmit
+            ) {
+              copyCreditProposal.notes[i].message = '';
+              copyCreditProposal.notes[i].recomendation = this.recomendation;
+              copyCreditProposal.notes[i].condition = this.uuidPath;
+              copyCreditProposal.notes[i].type = tempOpinionType;
+              tempHelper = tempHelper + 1;
+            }
+          }
 
-		  if (tempHelper === 0) {
-			copyCreditProposal.notes.push(
-			  this.addNewNotes(
-				'',
-				this.recomendation,
-				this.uuidPath,
-				this.nameLoginFromEmit,
-				this.positionLoginFromEmit,
-				tempOpinionType
-			  )
-			);
-		  }
-		} else {
-		  copyCreditProposal.notes.push(
-			this.addNewNotes(
-			  '',
-			  this.recomendation,
-			  this.uuidPath,
-			  this.nameLoginFromEmit,
-			  this.positionLoginFromEmit,
-			  tempOpinionType
-			)
-		  );
-		}
+          if (tempHelper === 0) {
+            copyCreditProposal.notes.push(
+              this.addNewNotes('', this.recomendation, this.uuidPath, this.nameLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
+            );
+          }
+        } else {
+          copyCreditProposal.notes.push(
+            this.addNewNotes('', this.recomendation, this.uuidPath, this.nameLoginFromEmit, this.positionLoginFromEmit, tempOpinionType)
+          );
+        }
 
         delete copyCreditProposal.attributes['tempLoggedInNotes'];
         delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
