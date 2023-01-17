@@ -70,7 +70,7 @@ export class LoanAnalysDialogOpinionCompliancePartComponent implements OnInit {
 
   private getContainer(): void {
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/compliance/opinion/' + this.creditProposalItem.id + '/' + this.notes['condition'] + + '-opinion/sfdt',
+      key: 'credit_proposal/remark/opinion-history/compliance/opinion/' + this.creditProposalItem.id + '/' + this.notes['condition'] + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
