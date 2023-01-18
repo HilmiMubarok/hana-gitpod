@@ -178,4 +178,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
         }
       });
   }
+  public numberInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return Number(num);
+  }
 }
