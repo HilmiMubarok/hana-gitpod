@@ -1044,7 +1044,7 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
     ],
   },
   {
-    id: 'slik-checking',
+    id: 'loan-slik-checking',
     text: 'SLIK Checking',
   },
   {
@@ -1133,7 +1133,7 @@ export const SUBMENU_LOAN_ANALYS_BELOW_AND_BTB: object[] = [
     ],
   },
   {
-    id: 'slik-checking',
+    id: 'loan-slik-checking',
     text: 'SLIK Checking',
   },
   {
@@ -1433,7 +1433,7 @@ export const SUBMENU_LOAN_ANALYS_LA_ANALYST: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'slik-checking',
+    id: 'loan-slik-checking',
     text: 'SLIK Checking',
   },
   {
