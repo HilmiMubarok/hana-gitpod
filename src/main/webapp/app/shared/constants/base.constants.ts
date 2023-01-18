@@ -1043,11 +1043,10 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
       },
     ],
   },
-  // CRECAS - 1386 (Suruh Takeout Slik Checking)
-  // {
-  //   id: 'slik-checking',
-  //   text: 'SLIK Checking',
-  // },
+  {
+    id: 'loan-slik-checking',
+    text: 'SLIK Checking',
+  },
   {
     id: 'opinion',
     text: 'Opinion',
@@ -1134,7 +1133,7 @@ export const SUBMENU_LOAN_ANALYS_BELOW_AND_BTB: object[] = [
     ],
   },
   {
-    id: 'slik-checking',
+    id: 'loan-slik-checking',
     text: 'SLIK Checking',
   },
   {
@@ -1434,7 +1433,7 @@ export const SUBMENU_LOAN_ANALYS_LA_ANALYST: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'slik-checking',
+    id: 'loan-slik-checking',
     text: 'SLIK Checking',
   },
   {

@@ -11,7 +11,7 @@ export class DebtorDataSlikSummaryComponent implements OnInit, OnChanges {
   public selectedMenu: string;
   // public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];
   public menuItems: MenuItemModel[] = [];
-  @Input() mode: 'view' | 'edit';
+  @Input() mode: 'view' | 'edit' | 'loan';
   public _partyCif: IPartyCif;
   public cif: IPartyCif;
 
