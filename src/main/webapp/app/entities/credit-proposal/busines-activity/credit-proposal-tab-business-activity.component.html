@@ -72,7 +72,7 @@
               <div class="col-2">Visit Date</div>
               <div class="col-md-auto">:</div>
               <div class="col-4">
-                {{ creditProposalItem.attributes['businessActivity'].visitDate }}
+                {{ creditProposalItem.attributes['businessActivity'].visitDate | date: 'yyyy/MM/dd' }}
               </div>
             </div>
           </section>
@@ -152,7 +152,7 @@
     </div>
   </div>
 
-  <div [hidden]="selectedMenu !== 'PROJECT ANALYSIS'">
+  <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'">
     <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
       <div class="e-card-content">
         <div class="e-card-header-title">PROJECT ANALYSIS</div>
