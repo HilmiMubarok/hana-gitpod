@@ -54,8 +54,6 @@ export class CreditProposalCovenantAbovePreviousComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource = parsePreviousAtrribute(this.creditProposalItem);
-    // if previousReturn attribute exists
-    console.log('Covenant: ', this.dataSource);
     if (this.creditProposalItem.attributes['previousReturn'] && !this.isOffering) {
       if (this.dataSource.previousReturn.convenant.standardDataGridAbove.length !== 0) {
         for (let i = 0; i < this.dataSource.previousReturn.convenant.standardDataGridAbove.length; i++) {
