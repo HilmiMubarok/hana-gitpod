@@ -1043,10 +1043,11 @@ export const SUBMENU_LOAN_ANALYS: object[] = [
       },
     ],
   },
-  {
-    id: 'slik-checking',
-    text: 'SLIK Checking',
-  },
+  // CRECAS - 1386 (Suruh Takeout Slik Checking)
+  // {
+  //   id: 'slik-checking',
+  //   text: 'SLIK Checking',
+  // },
   {
     id: 'opinion',
     text: 'Opinion',
