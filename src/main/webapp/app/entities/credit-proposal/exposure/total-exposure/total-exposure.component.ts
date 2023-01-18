@@ -87,8 +87,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     'os',
     'totalPlatfond',
     'interet',
-    'provision',
-    'adminFee',
+
     'firstDisbursmentDate',
     'tenor',
   ];
