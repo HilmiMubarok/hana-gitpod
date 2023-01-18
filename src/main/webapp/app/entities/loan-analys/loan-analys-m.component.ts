@@ -24,7 +24,7 @@ import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 @Component({
   selector: 'jhi-loan-analys-m',
   templateUrl: './loan-analys-m.component.html',
@@ -75,7 +75,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
-    protected applicationConfigService: ApplicationConfigService
+    protected applicationConfigService: ApplicationConfigService,
+    public creditProposalService: CreditProposalService
   ) {
     super(_snackBar, loanAnalysService);
     this.page = 0;
@@ -109,10 +110,53 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
-      this.loadAll();
-    } else {
-      this.router.navigate([this.activeRoute]);
+      const predicate: object = {
+        page: this.page,
+        query: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      };
+
+      if (this.activeRoute === 'la-distribution') {
+        predicate['target'] = 'loan-analyst-distribution';
+      } else if (this.activeRoute === 'la-analyst') {
+        predicate['target'] = 'loan-analyst';
+      } else if (this.activeRoute === 'la-SME-CRC') {
+        predicate['target'] = 'loan-analyst-sme-checker';
+      } else if (this.activeRoute === 'la-approval') {
+        predicate['target'] = 'loan-analyst-approval';
+      } else if (this.activeRoute === 'la-approval-inquiry') {
+        predicate['target'] = 'loan-analyst-approval-inquiry';
+      } else if (this.activeRoute === 'dar-final') {
+        predicate['target'] = 'dar-final';
+      } else if (this.activeRoute === 'dar-checker') {
+        predicate['target'] = 'dar-checker';
+      } else if (this.activeRoute === 'loan-committee-approval') {
+        predicate['target'] = 'loan-committee-approval';
+      } else if (this.activeRoute === 'dar-notif') {
+        predicate['target'] = 'dar-notif';
+      } else if (this.activeRoute === 'cc-distribution') {
+        predicate['target'] = 'complience-checking-distribution';
+      } else if (this.activeRoute === 'cc-checking') {
+        predicate['target'] = 'complience-checking';
+      } else if (this.activeRoute === 'cc-inquiry') {
+        predicate['target'] = 'complience-checking-inquiry';
+      } else if (this.activeRoute === 'cc-review') {
+        predicate['target'] = 'complience-checking-review';
+      } else if (this.activeRoute === 'loan-analys-and-approval-monitoring') {
+        predicate['target'] = 'loan-analyst-and-approval-monitoring';
+      }
+
+      this.creditProposalService
+        .search(predicate)
+        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ICreditProposal[]>) => {
+            this.initDataForMatTable(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
     }
   }
 
@@ -160,10 +204,10 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
 
   private loadAll(): void {
     this.loading = true;
-	let menu = this.convertStatusActivateRoute(this.activeRoute);
-	if (menu === 'loan-analys-and-approval-monitoring') {
-	  menu = 'la-approval';
-	}
+    let menu = this.convertStatusActivateRoute(this.activeRoute);
+    if (menu === 'loan-analys-and-approval-monitoring') {
+      menu = 'la-approval';
+    }
     if (this.clickedChip['id'] !== '') {
       this.loanAnalysService
         .queryFilterBy({
@@ -197,14 +241,16 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         });
       return;
     }
-	  
-	this.loanAnalysService
-	  .queryByMenu({
-		page: this.page,
-		size: this.itemsPerPage,
-		sort: this.sortData(),
-	  },
-	  menu)
+
+    this.loanAnalysService
+      .queryByMenu(
+        {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        },
+        menu
+      )
       .subscribe({
         next: (res: HttpResponse<ICreditProposal[]>) => {
           this.initDataForMatTable(res, res.headers);
