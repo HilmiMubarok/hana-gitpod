@@ -101,7 +101,14 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = new MatTableDataSource(res.body);
+        const filter: ICollateral[] = res.body.filter(function (o) {
+          return (
+            o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+          );
+        });
+        this.dataItem = new MatTableDataSource(filter);
         this.dataItem.paginator = this.paginator;
       });
   }
@@ -136,7 +143,7 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
         emptyField: this.getEmptyField(value),
         applicationProduct: this.creditProposal.products,
         properties: this.collateralProperties,
-        isViewMode: this.isViewMode,
+        isViewMode: true,
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoDialogBTBDarFinalComponent, predicate);
@@ -266,24 +273,18 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   }
 
   public countLV(collateral: ICollateral): number {
+    let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const properties: ICollateralProperty[] = this.filterProperties(collateral);
-    if (properties.length > 0) {
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].machineMarketValue * (properties[i].machinePercentage / 100);
-        }
-      } else if (
-        collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-        collateral.collateralTypeId === COLLATERAL_TYPE['property']
-      ) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].propertyMarketValue * (properties[i].propertyPercentage / 100);
-        }
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].vehicleMarketValue * (properties[i].vehiclePercentage / 100);
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
+          }
         }
       }
     }

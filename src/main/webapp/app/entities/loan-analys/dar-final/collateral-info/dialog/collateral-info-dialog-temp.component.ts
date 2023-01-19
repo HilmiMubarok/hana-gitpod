@@ -3,10 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { Observable, of } from 'rxjs';
 import { ICreditProposalCollateralBinding, ICreditProposalCollateralInsurance } from '../credit-proposal-collateral-info.model';
-import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICollateralType } from 'app/entities/collateral-type/collateral-type.model';
@@ -20,6 +18,8 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -32,7 +32,6 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'YYYY/MM/DD',
   },
 };
-
 @Component({
   selector: 'jhi-info-dialog-temp',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
