@@ -58,11 +58,18 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private checkOnDarFinal() {
     if (this.jhiMatrixDirElementType === 'input') {
       this.darFinalInput();
+    } else {
+      this.darFinalLabel();
     }
   }
 
   private darFinalInput() {
     if (this.status === 'CP_DAR_FINAL') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    }
+  }
+  private darFinalLabel() {
+    if (this.status !== 'CP_DAR_FINAL') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }

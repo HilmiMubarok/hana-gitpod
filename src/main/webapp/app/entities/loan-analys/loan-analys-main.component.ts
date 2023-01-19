@@ -98,6 +98,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public nameLoginFromEmit: string;
   public positionLoginFromEmit: string;
   public opinionType = '';
+  public isAssignedTo: Boolean = false;
 
   public resAttr: IProcessTask;
   public sourceSlikChecking: String;
@@ -316,7 +317,17 @@ export class LoanAnalysMainComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
 
-        this.onSave('process');
+        this.validate()
+          .then(() => {
+            this.onSave('process');
+          })
+          .catch(() => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please select Assignee before submit',
+            });
+          });
 
         /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
@@ -362,8 +373,21 @@ export class LoanAnalysMainComponent implements OnInit {
 
   // get data from child
   public onAssignTo(ev: any): void {
+    console.log('onAssignTo', ev);
+    // check if ev is not null or undefined or empty
+    this.isAssignedTo = ev && true;
     this.applicationRole = ev.applicationRole;
     this.applicationRoleId = ev.applicationRoleId;
+  }
+
+  public validate() {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.isAssignedTo) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
   }
 
   private saveApplicationRole(source: string): void {
@@ -719,7 +743,6 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionComponent.onCreateCondition();
           }
         }
-
         if (tempRouter === 'cc-review') {
           if (this.loanAnalysOpinionCompliancePartComponent) {
             this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
@@ -727,7 +750,6 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
           }
         }
-
         this.saveDoc = true;
         this.saveApplicationRole(source);
       });
@@ -750,7 +772,6 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionComponent.onCreateCondition();
           }
         }
-
         if (tempRouter === 'cc-review') {
           if (this.loanAnalysOpinionCompliancePartComponent) {
             this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
@@ -758,7 +779,6 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
           }
         }
-
         this.saveDoc = true;
         this.saveApplicationRole(source);
       });
