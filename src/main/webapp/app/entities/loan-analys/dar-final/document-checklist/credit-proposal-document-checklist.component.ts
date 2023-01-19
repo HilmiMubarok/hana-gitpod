@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
 import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
@@ -6,18 +6,23 @@ import { DocumentChecklistDialogTempComponent } from './document-checklist-dialo
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-document-checklist-temp',
   templateUrl: './credit-proposal-document-checklist.component.html',
 })
-export class DocumentChecklistTempComponent implements OnChanges {
+export class DocumentChecklistTempComponent implements OnChanges, OnInit {
   private _creditProposal: ICreditProposal;
+  public folders = [];
   public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
   public files: Object[];
   private bucket: string;
+  public _isViewMode: boolean;
 
   public isDarChecker: Boolean =
     this.router.url.split('/')[1] === 'dar-checker' || this.router.url.split('/')[1] === 'dar-notif' ? true : false;
+  public isDarFinalorLACommittee: Boolean =
+    this.router.url.split('/')[1] === 'dar-final' || this.router.url.split('/')[1] === 'loan-committee-approval' ? false : true;
 
   @Input()
   get creditProposal() {
@@ -26,6 +31,15 @@ export class DocumentChecklistTempComponent implements OnChanges {
 
   set creditProposal(data: ICreditProposal) {
     this._creditProposal = data;
+  }
+
+  @Input()
+  get isViewMode() {
+    return this._isViewMode;
+  }
+
+  set isViewMode(data: boolean) {
+    this._isViewMode = data;
   }
 
   constructor(
@@ -45,25 +59,58 @@ export class DocumentChecklistTempComponent implements OnChanges {
     }
   }
 
+  ngOnInit(): void {
+    console.log('is', this.isDarFinalorLACommittee);
+    this.getBucket().then(res => {
+      this.getFiles(this.creditProposal.id);
+    });
+  }
+
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
-        console.log('bucket', res.body['bucket']);
+        this.bucket = res.body['bucket'];
         resolve();
       });
     });
   }
 
-  private getFiles(id: number): void {
+  private getFiles(id: any): void {
     const predicate: Object = {
       key: `/credit_proposal/${id}/document`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.files = res.body;
+      this.groupByFolder(res.body);
     });
   }
 
-  public openDialog(element: IDocumentChecklist = null): void {
+  private groupByFolder(param: any[]): void {
+    this.folders = [];
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.document')
+        .map((val, key) => ({
+          folder: key,
+          key: val[0].key,
+          data: val,
+          documentType: val[0]['tags']['documentType'],
+          document: val[0]['tags']['document'],
+          category: val[0]['tags']['category'],
+          dueDate: val[0]['tags']['dueDate'],
+          status: val[0]['tags']['status'],
+          remarks: val[0]['tags']['remarks'],
+          nameFile: val[0].name,
+
+          files: val,
+        }))
+        .value();
+    } else {
+      this.folders = [];
+    }
+  }
+
+  public openDialog(element: IDocumentChecklist = null, view: string): void {
     const predicate = { width: '80vw', data: {} };
     predicate.data['view'] = false;
     predicate.data['creditProposal'] = this.creditProposal;
@@ -71,31 +118,121 @@ export class DocumentChecklistTempComponent implements OnChanges {
     predicate.data['files'] = this.files;
     if (element) {
       predicate.data['documentChecklist'] = element;
-      predicate.data['view'] = true;
+      predicate.data['view'] = view;
     } else {
       predicate.data['documentChecklist'] = new DocumentChecklist();
+      predicate.data['view'] = view;
     }
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getBucket().then(() => {
-        this.getFiles(this.creditProposal.id);
-      });
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if (res !== null) {
+        this.getBucket().then(() => {
+          this.getFiles(this.creditProposal.id);
+        });
+      } else {
+        this.getBucket().then(() => {
+          this.getFiles(this.creditProposal.id);
+        });
+      }
     });
   }
 
   dataKey: any;
-  public deleteFile(element: IDocumentChecklist = null): void {
+  public deleteFile(element: any): void {
     this.dataKey = element;
-    this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
-      this.getBucket().then(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Delete Success',
-        });
+
+    for (let i = 0; i < element.files.length; i++) {
+      this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
         this.getFiles(this.creditProposal.id);
       });
-    });
+    }
   }
+
+  // private _creditProposal: ICreditProposal;
+  // public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
+  // public files: Object[];
+  // private bucket: string;
+
+  // public isDarChecker: Boolean = this.router.url.split('/')[1] === 'dar-checker' ? true : false;
+
+  // @Input()
+  // get creditProposal() {
+  //   return this._creditProposal;
+  // }
+
+  // set creditProposal(data: ICreditProposal) {
+  //   this._creditProposal = data;
+  // }
+
+  // constructor(
+  //   public dialog: MatDialog,
+  //   private storageService: StorageService,
+  //   private messageService: MessageService,
+  //   private router: Router
+  // ) {
+  //   this.files = [];
+  // }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['creditProposal']) {
+  //     this.getBucket().then(res => {
+  //       this.getFiles(this.creditProposal.id);
+  //     });
+  //   }
+  // }
+
+  // private getBucket(): Promise<void> {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.storageService.getBucketName().subscribe(res => {
+  //       console.log('bucket', res.body['bucket']);
+  //       resolve();
+  //     });
+  //   });
+  // }
+
+  // private getFiles(id: number): void {
+  //   const predicate: Object = {
+  //     key: `/credit_proposal/${id}/document`,
+  //   };
+  //   this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
+  //     this.files = res.body;
+  //   });
+  // }
+
+  // public openDialog(element: IDocumentChecklist = null): void {
+  //   const predicate = { width: '80vw', data: {} };
+  //   predicate.data['view'] = false;
+  //   predicate.data['creditProposal'] = this.creditProposal;
+  //   predicate.data['bucket'] = this.bucket;
+  //   predicate.data['files'] = this.files;
+  //   if (element) {
+  //     predicate.data['documentChecklist'] = element;
+  //     predicate.data['view'] = true;
+  //   } else {
+  //     predicate.data['documentChecklist'] = new DocumentChecklist();
+  //   }
+
+  //   const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
+  //   dialogRef.afterClosed().subscribe(() => {
+  //     this.getBucket().then(() => {
+  //       this.getFiles(this.creditProposal.id);
+  //     });
+  //   });
+  // }
+
+  // dataKey: any;
+  // public deleteFile(element: IDocumentChecklist = null): void {
+  //   this.dataKey = element;
+  //   this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
+  //     this.getBucket().then(() => {
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'Success',
+  //         detail: 'Delete Success',
+  //       });
+  //       this.getFiles(this.creditProposal.id);
+  //     });
+  //   });
+  // }
 }
