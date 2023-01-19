@@ -307,6 +307,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   setApproval(event: any) {
+	this.uuid = uuid.v4();
+	this.uuidPath.emit(this.uuid);
+	
     for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
         this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].partyName;
@@ -431,17 +434,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
-	let isPreviousUserPosApprv = false;
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
       if (this.nameLoanComitee || this.recomendasi !== '') {
-		for (let i = 0; i < this.notes.length; i++) {
-		  if (this.notes[i].positionUserId === this.cacheData.positionUserId && this.notes[i].userId === this.cacheData.userId) {
-			isPreviousUserPosApprv = true;
-		  }
-		}
-		if (isPreviousUserPosApprv) {
-		  this.uuid = uuid.v4();
-		}
         this.saveFile();
       } else {
         this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
