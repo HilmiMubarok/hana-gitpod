@@ -1758,11 +1758,11 @@ export const SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'dar-convenant',
+    id: 'covenant',
     text: 'convenant & Document Checklist',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility',
   },
   {
@@ -1921,7 +1921,7 @@ export const SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB: object[] = [
     text: 'Loan Facility Detail',
   },
   {
-    id: 'covenant',
+    id: 'dar-convenant',
     text: 'Covenant & Document Checklist',
   },
   {

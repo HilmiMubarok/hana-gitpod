@@ -1,13 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
 import { formatDate } from '@angular/common';
 import { StorageService } from 'app/entities/storage/storage.service';
 import moment from 'moment';
-import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
+import { IDocumentNode } from 'app/entities/document-node/document-node.model';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { Router } from '@angular/router';
 
 export const MY_DATE_FORMAT = {
@@ -19,6 +21,7 @@ export const MY_DATE_FORMAT = {
     monthYearA11yLabel: { year: 'numeric', month: 'numeric' },
   },
 };
+@Injectable()
 class PickDateAdapter extends NativeDateAdapter {
   format(date: Date, displayFormat: Object): string {
     if (displayFormat === 'input') {
@@ -43,18 +46,21 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   public files: any;
   public object: ICreditProposal;
   public key: string;
-  public view: boolean;
+  public view: string;
 
-  public isDarFinalization: Boolean = this.router.url.split('/')[1] === 'dar-final' ? false : true;
+  public isDarFinalization: Boolean =
+    this.router.url.split('/')[1] === 'dar-final' || this.router.url.split('/')[1] === 'loan-committee-approval' ? false : true;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       creditProposal: ICreditProposal;
       documentChecklist: any;
-      view: boolean;
+      view: string;
       files: any;
       bucket: string;
     },
+    public reportUtilService: ReportUtilService,
     private _dialog: MatDialogRef<DocumentChecklistDialogTempComponent>,
     private storageService: StorageService,
     private messageService: MessageService,
@@ -62,16 +68,20 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     private router: Router
   ) {
     this.view = this.data.view;
-    this.view ? (this.documentChecklist = this.data.documentChecklist.tags) : (this.documentChecklist = new DocumentChecklist());
-    this.view ? (this.file = [this.data.documentChecklist]) : (this.file = []);
+    this.view ? (this.documentChecklist = this.data.documentChecklist) : (this.documentChecklist = new DocumentChecklist());
+    this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
+  }
+
+  public onChange(el) {
+    el === 'TBO' && this.isTBO();
   }
 
   ngOnInit() {
     this.object = this.data.creditProposal;
   }
-
+  public copyDeviation = [];
   public save(): void {
     for (let i = 0; i < this.file.length; i++) {
       const metaData = {
@@ -87,8 +97,9 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
         createdBy: null,
       };
       const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+      const files = this.file[i].name.replace('&', '');
 
-      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${this.file[i].name}`;
+      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${files}`;
       metaData.entityId = this.data.creditProposal.id;
       metaData.documentType = this.documentChecklist.documentType;
       metaData.document = this.documentChecklist.document;
@@ -100,27 +111,87 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('file', this.file[i]);
-      console.log(metaData);
 
       this.accountService.identity().subscribe(resAccount => {
         metaData.createdBy = resAccount.login;
-        this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe(res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
+        if (metaData.status === 'Waived') {
+          this.setConvenant(metaData);
+          this.storageService.getBucketName().subscribe((a: any) => {
+            if (a.body.bucket !== null) {
+              this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+                this._dialog.close(this.copyDeviation);
+              });
+            }
           });
-          this._dialog.close(this.documentChecklist);
-        });
+        } else {
+          this.storageService.getBucketName().subscribe((a: any) => {
+            this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+              this._dialog.close(null);
+            });
+          });
+        }
       });
+    }
+  }
+
+  public setConvenant(data: any) {
+    const convenantObject = {
+      no: this.data.creditProposal.attributes['convenant'].standardDataGridAbove.length + 1,
+      covenant: data.document,
+      status: data.status,
+      deviation: data.category,
+      formGroub: true,
+      justification: '',
+    };
+    this.copyDeviation.push(convenantObject);
+  }
+
+  public edit(): void {
+    const files: IDocumentNode[] = this.documentChecklist['files'];
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file: IDocumentNode = files[i];
+        this.accountService.identity().subscribe(resAccount => {
+          file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
+          file.tags['status'] = this.documentChecklist.status;
+          file.tags['remarks'] = this.documentChecklist.remarks;
+
+          file.tags['createdBy'] = resAccount.login;
+        });
+
+        this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
+          this._dialog.close(res);
+        });
+      }
     }
   }
 
   public onSelect(event: any) {
     this.file.push(...event.addedFiles);
+    console.log(this.file);
+  }
+
+  private isTBO() {
+    const img = new Image();
+    img.src = 'content/images/los_logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+        this.file.push(file);
+      }, 'image/png');
+    };
   }
 
   public onRemove(event: any) {
-    this.files.splice(this.files.indexOf(event), 1);
+    this.file.splice(this.files.indexOf(event), 1);
+  }
+
+  public donwload(event: any, name: any) {
+    this.reportUtilService.downloadFileBYName(event, name.document + '.' + name.objectName.split('.')[1]);
   }
 }
