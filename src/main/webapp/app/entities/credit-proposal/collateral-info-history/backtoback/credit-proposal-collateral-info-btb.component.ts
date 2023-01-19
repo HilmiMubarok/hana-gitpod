@@ -42,18 +42,16 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     'action',
   ];
 
-  public collaterals: ICollateral[];
   public certificateType: any;
   public dataCertyficate: any;
+
   public collateralProperties: ICollateralProperty[];
   public dataItem: any;
-  public parsedData: any;
   public totalMVInt: number;
   public totalLVInt: number;
   public isChecked: boolean;
   private _creditProposal: ICreditProposal;
   private bindingTypeVal: any;
-
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
@@ -85,11 +83,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
-    this.collaterals = [];
   }
 
   ngOnInit() {
-    this.parsedData = parsePreviousAtrribute(this.creditProposal);
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -100,7 +96,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
     this.setCertyficateType();
     // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
-    this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
   private loadByPartyId(param: string): void {
@@ -110,11 +105,14 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = new MatTableDataSource(
-          res.body.filter(function (o) {
-            return o.collateralTypeId !== COLLATERAL_TYPE['machine'] || COLLATERAL_TYPE['realestate'] || COLLATERAL_TYPE['vehicle'];
-          })
-        );
+        const filter: ICollateral[] = res.body.filter(function (o) {
+          return (
+            o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+          );
+        });
+        this.dataItem = new MatTableDataSource(filter);
         this.dataItem.paginator = this.paginator;
       });
   }
@@ -122,9 +120,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
-      if (this.parsedData.previousHistroy.collaterals.length > 0) {
-        for (let i = 0; i < this.parsedData.previousHistroy.collaterals.length; i++) {
-          const collateral = this.parsedData.previousHistroy.collaterals[i];
+      if (this.creditProposal.collaterals.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -135,8 +133,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
   public openDialogBTB(value: ICollateral): void {
     let cp = {};
-    for (let index = 0; index < this.parsedData.previousHistroy.collaterals.length; index++) {
-      if (this.parsedData.previousHistroy.collaterals[index].collateralId === value.collateralId) {
+    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
+      if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
         cp = this.creditProposal;
       }
     }
@@ -158,14 +156,14 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         if (res.action === 'cancel') {
           this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         }
+        console.log('after closed ', this.creditProposal.attributes);
       }
 
-      const arr = this.parsedData.previousHistroy.collaterals;
-      const collateralIdx: number = lodash.findIndex(arr, function (o: any) {
+      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
       if (collateralIdx > -1) {
-        this.parsedData.previousHistroy.collaterals[collateralIdx] = res['collateral'];
+        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
       }
 
       const emptyIdx: number = lodash.findIndex(
@@ -279,24 +277,18 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
 
   public countLV(collateral: ICollateral): number {
+    let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const properties: ICollateralProperty[] = this.filterProperties(collateral);
-    if (properties.length > 0) {
-      if (collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].machineMarketValue * (properties[i].machinePercentage / 100);
-        }
-      } else if (
-        collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-        collateral.collateralTypeId === COLLATERAL_TYPE['property']
-      ) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].propertyMarketValue * (properties[i].propertyPercentage / 100);
-        }
-      } else if (collateral.collateralTypeId === COLLATERAL_TYPE['vehicle']) {
-        for (let i = 0; i < properties.length; i++) {
-          result = result + properties[i].vehicleMarketValue * (properties[i].vehiclePercentage / 100);
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    if (collaterals.length > 0) {
+      for (let i = 0; i < collaterals.length; i++) {
+        const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
+        if (properties.length > 0) {
+          data = properties.find(obj => obj.external === false);
+          if (data !== undefined) {
+            result = result + data.liquidationValue;
+          }
         }
       }
     }
@@ -306,7 +298,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public countTotalLV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -329,7 +321,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public countTotalMV(): number {
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.parsedData.previousHistroy.collaterals;
+    const collaterals: ICollateral[] = this.creditProposal.collaterals;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -395,14 +387,17 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     }
     return '';
   }
+
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
   }
+
   public getExpiry(collateral: ICollateral) {
     let result: any;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
+
     // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
@@ -433,11 +428,13 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     }
     return result;
   }
+
   public setCertyficateType() {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
     });
   }
+
   public findCertyficate(id) {
     if (this.certificateType) {
       this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
@@ -447,12 +444,14 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       return '';
     }
   }
+
   public getOwnerShip(collateral: ICollateral) {
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
     let string1: string;
     let string2: string;
     let result: string;
+
     // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(

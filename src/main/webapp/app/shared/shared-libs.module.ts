@@ -129,6 +129,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
@@ -259,6 +260,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
+	MatMomentDateModule,
     MatDividerModule,
     MatListModule,
     MatSelectModule,

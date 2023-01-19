@@ -759,6 +759,11 @@ export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'dar-checker',
       },
+      {
+        name: 'Loan Komite Approval',
+        iconname: 'minus',
+        route: 'loan-committee-approval',
+      },
     ],
   },
 ];

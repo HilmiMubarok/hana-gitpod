@@ -19,6 +19,7 @@ import { CUSTOMER_TYPE } from 'app/shared/constants/base.constants';
 import { PersonService } from '../person/person.service';
 import { PartyGroupService } from '../party-group/party-group.service';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -68,9 +69,10 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected applicationConfigService: ApplicationConfigService,
     protected customerService: CustomerService,
     protected personService: PersonService,
-    protected corporateService: PartyGroupService
+    protected corporateService: PartyGroupService,
+    protected messageService: MessageService
   ) {
-    super(_snackBar, customerService);
+    super(_snackBar, customerService, messageService);
 
     this.page = 0;
     this.itemsPerPage = 10;
@@ -189,8 +191,27 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   updateFromHobis() {
     this.cifNumber = this.expandedElement?.customerId;
     this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
-      for (let i = 0; i < this.partyCifs.length; i++) {
-        this.partyCifs[i] = res.body;
+      if (res.status === 200) {
+        for (let i = 0; i < this.partyCifs.length; i++) {
+          this.partyCifs[i] = res.body;
+        }
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'SYNC Update From Hobis Successful!',
+        });
+      } else if (res.status === 500) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Update Data From HOBIS Failed!',
+        });
+      } else if (res.status === 404) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Data From HOBIS Not Found!',
+        });
       }
     });
   }
@@ -198,8 +219,16 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   updateFacilityFromHobis() {
     this.cifNumber = this.expandedElement?.customerId;
     this.partyCifService.find('cif/retrieve-cp-facility/' + this.cifNumber).subscribe(res => {
-      this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-      this.debtorData = res.body.debtorData;
+      if (res.status === 200) {
+        this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+        this.debtorData = res.body.debtorData;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error',
+        });
+      }
     });
   }
 }

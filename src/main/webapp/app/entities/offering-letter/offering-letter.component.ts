@@ -23,7 +23,7 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 @Component({
   selector: 'jhi-offering-letter',
   templateUrl: './offering-letter.component.html',
@@ -75,7 +75,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     private positionService: PositionService,
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
-    protected applicationConfigService: ApplicationConfigService
+    protected applicationConfigService: ApplicationConfigService,
+    public creditProposalService: CreditProposalService
   ) {
     super(_snackBar, offeringLetterService);
     this.page = 0;
@@ -104,10 +105,27 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   }
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
-      this.loadAll();
-    } else {
-      this.router.navigate([this.activeRoute]);
+      const predicate: object = {
+        page: this.page,
+        query: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      };
+
+      if (this.activeRoute === 'distribution') {
+        predicate['target'] = 'offering-letter-distribution';
+      }
+
+      this.creditProposalService
+        .search(predicate)
+        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ICreditProposal[]>) => {
+            this.initDataForMatTable(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
     }
   }
 

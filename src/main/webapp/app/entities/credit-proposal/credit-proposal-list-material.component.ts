@@ -100,10 +100,29 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
   public doSearch(): void {
     if (this.currentSearch && this.currentSearch !== '') {
-      this.router.navigate([this.activeRoute], { queryParams: { search: this.currentSearch } });
-      this.loadAll();
-    } else {
-      this.router.navigate([this.activeRoute]);
+      const predicate: object = {
+        page: this.page,
+        query: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      };
+
+      if (this.activeRoute === 'credit-proposal-status') {
+        predicate['target'] = 'credit_proposal';
+      } else if (this.activeRoute === 'cp-status-approval') {
+        predicate['target'] = 'credit_proposal_approval';
+      }
+
+      this.creditProposalService
+        .search(predicate)
+        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ICreditProposal[]>) => {
+            this.initDataForMatTable(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
     }
   }
 

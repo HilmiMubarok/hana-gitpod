@@ -36,8 +36,6 @@ import * as uuid from 'uuid';
 export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
-  @ViewChild('document_editor_container_condition')
-  public container_condition: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
@@ -57,25 +55,14 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
   public route: any;
   public parentPath = this.router.url.split('/')[1];
 
-  public nameLabel: any;
-  public radioButtonPurpose: any;
-  public radioButtonCondition: any;
-  public radioButtonNotRecommend: any;
-  public valueRadioPurpose: any;
-  public valueRadioCondition: any;
-  public valueRadioRecommend: any;
   public resourceUrl: string;
   private fileGet: File;
   public currentAccount: any;
 
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
-  public accountLogin: any;
-  public obj: any;
-  public InternalId: any;
   public positionLogin: any;
 
-  public recomendasi: string;
   private positionLoanComitee: string;
 
   public isShowOpinionFieldInput = false;
@@ -155,15 +142,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     this.filterPositionLogin();
     this.getWord();
     this.refresh();
-
-    this.conditionOpinion();
-    this.conditionEnableOpinion();
-    this.hiddenApprovalUser();
-  }
-
-  public change(event: string) {
-    this.newItemEventCompliance.emit(event);
-    this.recomendasi = event;
   }
 
   public getWord() {
@@ -183,64 +161,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     const dialogRef = this.dialog.open(LoanAnalysDialogOpinionCompliancePartComponent, predicate);
   }
 
-  public conditionOpinion() {
-    // Opinion Condition in loan commite approval
-    if (this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' || this.creditProposalItem.statusId === 'LA_DAR_NOTIF') {
-      // Manipulation in Label
-      this.nameLabel = 'Approved Status';
-      // Manipulation in radio button
-      this.radioButtonPurpose = 'Approved as Propose';
-      this.radioButtonCondition = 'Approved With Condition';
-      this.radioButtonNotRecommend = 'Not Approved';
-      // Manipulation in value
-      this.valueRadioPurpose = 'Approved as Propose';
-      this.valueRadioCondition = 'Approved With Condition';
-      this.valueRadioRecommend = 'Not Approved';
-    } else if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
-      // if outside the conditions url loan commite approval
-      this.nameLabel = 'Recomendation';
-      this.radioButtonPurpose = 'Recommend as Propose';
-      this.radioButtonCondition = 'Recommend With Condition';
-      this.radioButtonNotRecommend = 'Not Recommend';
-
-      this.valueRadioPurpose = 'Recommend as propose';
-      this.valueRadioCondition = 'Recommend With Condition';
-      this.valueRadioRecommend = 'Not Recommend';
-    }
-  }
-
   onDocumentChange() {
     this.container.restrictEditing = true;
-  }
-
-  onDocumentChanges() {
-    this.container_condition.restrictEditing = true;
-  }
-
-  public disabledOpinion: boolean;
-
-  public conditionEnableOpinion() {
-    if (
-      this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
-      this.creditProposalItem.statusId === 'CP_CHECKER' ||
-      this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-      this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
-      this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
-    ) {
-      this.disabledOpinion = false;
-    } else {
-      this.disabledOpinion = true;
-    }
-  }
-
-  public approvalUser: boolean;
-
-  private hiddenApprovalUser() {
-    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-      this.approvalUser = false;
-    } else {
-      this.approvalUser = true;
-    }
   }
 
   public triggeredSave(): void {
@@ -295,45 +217,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
-  public triggeredSaveCondition(): void {
-    let paramsId = '';
-    this.activatedRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-
-    const key = 'credit_proposal/remark/opinion-history/compliance/condition';
-
-    const timeStamp = Math.floor(Date.now() / 1000);
-
-    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
-
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const pathHelper = this.uuid + '-condition';
-      const fileName = this.uuid + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
-
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const pathHelper = this.uuid + '-condition';
-      const fileName = this.uuid + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
-
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
-  }
-
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -342,10 +225,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
     }
-  }
-
-  onCreateCondition(): void {
-    this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
   public filterPositionLogin() {
@@ -407,8 +286,6 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
                 this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
                 this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
                 this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-                this.recomendasi = this.notes[i].recomendation;
-                this.newItemEventCompliance.emit(this.notes[i].recomendation);
               }
             }
           }

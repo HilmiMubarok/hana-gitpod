@@ -18,6 +18,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -335,6 +336,7 @@ import { CreditProposalCollateralInfoRemarksChecklistComponent } from './credit-
 import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.component';
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility-info-group.component';
+import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-facility/mapping/mapping-facility.component';
 @NgModule({
   imports: [
     SharedModule,
@@ -355,6 +357,7 @@ import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatMomentDateModule,
     MatIconModule,
     MatButtonModule,
     MatCardModule,
@@ -573,6 +576,7 @@ import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility
     CreditProposalBookingBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
+    CreditProposalMappingFacilityComponent,
 
     // === Previous === //
 
@@ -925,6 +929,7 @@ import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBookingBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
+    CreditProposalMappingFacilityComponent,
 
     // === Previous === //
 

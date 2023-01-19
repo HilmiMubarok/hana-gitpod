@@ -8,14 +8,9 @@
     <div class="col-6">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="form-group">
-          <mat-form-field appearance="outline" class="w-100">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Bank</mat-label>
-            <mat-select [(ngModel)]="bankAccAnalyst.bank" name="selBank" required>
-              <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of banks" [value]="item">
-                {{ item }}
-              </mat-option>
-            </mat-select>
+            <input matInput type="text" [(ngModel)]="bankAccAnalyst.bank" required />
             <mat-error *ngIf="validBankControl.hasError('required')">Please Choose a Bank</mat-error>
           </mat-form-field>
         </div>

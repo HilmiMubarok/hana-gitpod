@@ -359,7 +359,13 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Provision Fee</mat-label>
-                <input matInput type="text" [(ngModel)]="applicationProduct.attributes['provitionFee']" />
+                <input
+                  currencyMask
+                  [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.attributes['provitionFee']"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">
@@ -382,7 +388,13 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Admin Fee</mat-label>
-                <input matInput type="text" [(ngModel)]="applicationProduct.attributes['adminFee']" />
+                <input
+                  currencyMask
+                  [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.attributes['adminFee']"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">

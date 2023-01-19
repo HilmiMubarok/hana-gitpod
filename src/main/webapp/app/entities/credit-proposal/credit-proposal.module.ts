@@ -31,7 +31,7 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
 import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
-import { CreditProposalMappingFacilityComponent } from './loan-facility/mapping/mapping-facility.component';
+
 import { CreditProposalApproveUserComponent } from './approve-user/approve-user.component';
 import { ForwardToComponent } from './forward-to/forward-to.component';
 import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
@@ -58,7 +58,6 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collater
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
     CreditProposalMappingCollateralComponent,
-    CreditProposalMappingFacilityComponent,
     CreditProposalApproveUserComponent,
     CreditProposalLoanApplicationComponent,
     DialogCreditProposalCollateralInfoDialogBTBComponent,

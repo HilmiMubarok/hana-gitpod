@@ -97,7 +97,7 @@
                 </div>
                 <div class="form-group mb-3">
                   <ejs-textbox
-                    [(ngModel)]="creditProposal.attributes['basicInformation'].bookingBranch"
+                    [(ngModel)]="creditProposal.internalName"
                     placeholder="Booking Branch"
                     cssClass="e-outline"
                     floatLabelType="Auto"
@@ -387,7 +387,7 @@
       </div>
 
       <!-- Summary -->
-      <div [hidden]="selectedMenu !== 'summary'" class="e-sample-resize-container e-card-resize-container">
+      <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
         <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
       </div>
 

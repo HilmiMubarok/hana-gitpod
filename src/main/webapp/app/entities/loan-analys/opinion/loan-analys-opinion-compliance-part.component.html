@@ -20,10 +20,6 @@
         <th mat-header-cell *matHeaderCellDef>Date</th>
         <td mat-cell *matCellDef="let element">{{ element.createDate }}</td>
       </ng-container>
-      <!-- <ng-container matColumnDef="recomendation">
-        <th mat-header-cell *matHeaderCellDef>Recomendation</th>
-        <td mat-cell *matCellDef="let element">{{ element.recomendation }}</td>
-      </ng-container> -->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
@@ -53,102 +49,7 @@
           (keyDown)="onKeyDown($event)"
           (created)="onCreate()"
         ></ejs-documenteditorcontainer>
-        <!--<section *ngIf="this.creditProposalItem.statusId === 'CP_CC_DEPT_HEAD'">
-          <ejs-documenteditorcontainer
-            #document_editor_container
-            [enableToolbar]="true"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            [spellcheck]="false"
-            [enableSpellCheck]="false"
-            (keyDown)="onKeyDown($event)"
-            (created)="onCreate()"
-          ></ejs-documenteditorcontainer>
-        </section>
-        <section *ngIf="this.creditProposalItem.statusId !== 'CP_CC_DEPT_HEAD'">
-          <ejs-documenteditorcontainer
-            #document_editor_container
-            [enableToolbar]="false"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            (documentChange)="onDocumentChange()"
-            [enableEditor]="false"
-            [isReadOnly]="true"
-          ></ejs-documenteditorcontainer>
-        </section>-->
       </div>
-
-      <!-- <div *ngIf="isShowOpinionFieldInput" class="form-group">
-        <p class="e-card-sub-title">Approved Status</p>
-        <div class="d-flex justify-content-around">
-          <div class="mx-2">
-            <ejs-radiobutton
-              label="Approved as Propose"
-              value="Approved as Propose"
-              [checked]="recomendasi === 'Approved as Propose'"
-              (change)="change('Approved as Propose')"
-            ></ejs-radiobutton>
-          </div>
-          <div class="mx-2">
-            <ejs-radiobutton
-              label="Approved With Condition"
-              value="Approved With Condition"
-              [checked]="recomendasi === 'Approved With Condition'"
-              (change)="change('Approved With Condition')"
-            ></ejs-radiobutton>
-          </div>
-          <div class="mx-2">
-            <ejs-radiobutton
-              label="Not Approved"
-              value="Not Approved"
-              [checked]="recomendasi === 'Not Approved'"
-              (change)="change('Not Approved')"
-            ></ejs-radiobutton>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div *ngIf="isShowOpinionFieldInput" class="form-group"> -->
-      <!-- <p class="e-card-sub-title">Condition</p>
-        <ejs-documenteditorcontainer
-          #document_editor_container_condition
-          [enableToolbar]="true"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          [spellcheck]="false"
-          [enableSpellCheck]="false"
-          (keyDown)="onKeyDownCondition($event)"
-          (created)="onCreateCondition()"
-        ></ejs-documenteditorcontainer> -->
-      <!--<section *ngIf="this.creditProposalItem.statusId === 'CP_CC_DEPT_HEAD'">
-          <ejs-documenteditorcontainer
-            #document_editor_container_condition
-            [enableToolbar]="true"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            [spellcheck]="false"
-            [enableSpellCheck]="false"
-            (keyDown)="onKeyDownCondition($event)"
-            (created)="onCreateCondition()"
-          ></ejs-documenteditorcontainer>
-        </section>
-        <section *ngIf="this.creditProposalItem.statusId !== 'CP_CC_DEPT_HEAD'">
-          <ejs-documenteditorcontainer
-            #document_editor_container_condition
-            [enableToolbar]="false"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            (documentChange)="onDocumentChanges()"
-            [enableEditor]="false"
-            [isReadOnly]="true"
-          ></ejs-documenteditorcontainer>
-        </section>-->
-      <!-- </div> -->
     </div>
   </mat-card-content>
 </mat-card>

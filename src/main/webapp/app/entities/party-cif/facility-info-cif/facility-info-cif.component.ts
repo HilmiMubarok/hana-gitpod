@@ -1,21 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CPFacilityTable, ICPFacilityTable } from 'app/entities/credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import lodash from 'lodash';
+import { MessageService } from 'primeng/api';
 import { PartyCifService } from '../party-cif.service';
 
 @Component({
   selector: 'jhi-facility-info-cif',
   templateUrl: './facility-info-cif.component.html',
 })
-export class FacilityInfoCifComponent implements OnInit {
+export class FacilityInfoCifComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit {
   public loading: boolean;
   public debtorData: IDebtorData;
   public debtorDataGroup: IDebtorData;
 
-  constructor(public partyCifService: PartyCifService) {}
+  constructor(public partyCifService: PartyCifService, protected _snackBar: MatSnackBar, protected messageService: MessageService) {
+    super(_snackBar, partyCifService, messageService);
+  }
   public data = [];
   public dataGroup = [];
   public myBusinessGroupCPFacility: ICPFacilityTable[];
@@ -37,9 +42,21 @@ export class FacilityInfoCifComponent implements OnInit {
 
   public loadDataBy(): void {
     this.partyCifService.find('cif/retrieve-cp-facility/' + this.partyCif.customerNumber).subscribe((res: any) => {
-      this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-      this.debtorData = res.body.debtorData;
-      console.log('debtor data facility parent', this.debtorData);
+      if (res.status === 200) {
+        this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+        this.debtorData = res.body.debtorData;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Update Data From HOBIS Successful!',
+        });
+      } else if (res.status === 500) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Update Data From HOBIS Failed!',
+        });
+      }
     });
   }
 

@@ -307,6 +307,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   setApproval(event: any) {
+	this.uuid = uuid.v4();
+	this.uuidPath.emit(this.uuid);
+	
     for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
         this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].partyName;
@@ -593,7 +596,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 			  if (this.notes[i].positionUserId === this.cacheData.positionUserId && this.notes[i].userId === this.cacheData.userId) {
 				this.recomendasi = this.notes[i].recomendation;
 				this.newItemEvent.emit(this.notes[i].recomendation);
-			  } 
+			  }
             }
           }		  
         });

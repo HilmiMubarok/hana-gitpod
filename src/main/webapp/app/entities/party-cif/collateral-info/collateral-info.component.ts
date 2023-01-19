@@ -24,6 +24,7 @@ import { IPosition, Position } from 'app/entities/position/position.model';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -66,6 +67,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public rmPosition: IPosition;
   public positionRms1 = 0;
   public dataPush: ICollateral;
+  // protected messageService: MessageService;
 
   @Input()
   get partyCif() {
@@ -111,9 +113,10 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     protected _snackbar: MatSnackBar,
     protected dialog: MatDialog,
     protected collateralPropertyService: CollateralPropertyService,
-    protected partyCifService: PartyCifService
+    protected partyCifService: PartyCifService,
+    protected messageService: MessageService
   ) {
-    super(_snackbar, collateralService);
+    super(_snackbar, collateralService, messageService);
 
     this.selectedCollateral = null;
     this.itemsPerPage = 10;
@@ -136,7 +139,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     }
 
     if (changes['partyCif']) {
-      console.log('party cif di grid', this.partyCif);
+      // console.log('party cif di grid', this.partyCif);
     }
   }
 
@@ -445,8 +448,27 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.loading = true;
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
-      this.loading = false;
-      this.dataSource = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
+      if (res.status === 200) {
+        this.loading = false;
+        this.dataSource = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Update Data From HOBIS Successful!',
+        });
+      } else if (res.status === 500) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Update Data From HOBIS Failed!',
+        });
+      } else if (res.status === 404) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Data From HOBIS Not Found!',
+        });
+      }
     });
   }
 

@@ -8,6 +8,7 @@ import moment from 'moment';
 import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -43,6 +44,8 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   public object: ICreditProposal;
   public key: string;
   public view: boolean;
+
+  public isDarFinalization: Boolean = this.router.url.split('/')[1] === 'dar-final' ? false : true;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -55,7 +58,8 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     private _dialog: MatDialogRef<DocumentChecklistDialogTempComponent>,
     private storageService: StorageService,
     private messageService: MessageService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router
   ) {
     this.view = this.data.view;
     this.view ? (this.documentChecklist = this.data.documentChecklist.tags) : (this.documentChecklist = new DocumentChecklist());

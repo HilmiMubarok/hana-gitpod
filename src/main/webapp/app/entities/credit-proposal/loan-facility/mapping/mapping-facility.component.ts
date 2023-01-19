@@ -69,7 +69,15 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.disableField === 'dar-final' ||
       this.disableField === 'dar-checker' ||
       this.disableField === 'dar-notif' ||
-      this.disableField === ' cc-distribution'
+      this.disableField === ' cc-distribution' ||
+      this.disableField === 'cc-checking' ||
+      this.disableField === 'cc-review' ||
+      this.disableField === 'cc-inquiry' ||
+      this.disableField === 'loan-analys-and-approval-monitoring' ||
+      this.disableField === 'distribution' ||
+      this.disableField === 'finalize' ||
+      this.disableField === 'review' ||
+      this.disableField === 'confirmation'
     ) {
       this.field = true;
     }

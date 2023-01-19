@@ -26,7 +26,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
-
+import { map } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-appraisal-material-process',
   templateUrl: './collateral-appraisal-material-process.component.html',
@@ -69,6 +69,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: string;
   public iconTimeline: any;
+  public activeRoute: string;
   public filterData: {
     [key: string]: Object;
   }[] = [];
@@ -120,6 +121,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     this.clickedChip = '';
     this.iconTimeline = faTimeline;
     this.currentSearch = null;
+    this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
   ngOnInit(): void {
@@ -362,40 +364,28 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   }
 
   public doSearch(args: any = null): void {
-    if (this.currentSearch) {
-      this.router.navigate(['batch-apprisal/process'], {
-        queryParams: {
-          search: this.currentSearch,
-        },
-      });
+    if (this.currentSearch && this.currentSearch !== '') {
+      const predicate: object = {
+        page: this.page,
+        query: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      };
 
-      this.chipClick({
-        id: this.clickedChip,
-        label: this.clickedChip,
-      });
-    } else {
-      if (args) {
-        const val: string = args.value;
-        if (val !== '') {
-          const searchVal = '*' + args.value + '*';
-          this.globalSearchVal = searchVal;
-          this.globalSearchValModel = args.value;
-          this.router.navigate(['batch-apprisal/process'], {
-            queryParams: {
-              searchByTown: searchVal,
-            },
-          });
-          this.loadAll();
-          return;
-        }
-        this.globalSearchVal = '';
-        this.globalSearchValModel = '';
-        this.router.navigate(['batch-apprisal/process'], {});
-        this.loadAll();
-      } else {
-        this.router.navigate(['batch-apprisal/process']);
-        this.loadAll();
+      if (this.activeRoute === 'batch-apprisalprocess') {
+        predicate['target'] = 'appraisal-process';
       }
+
+      this.surveyAppraisalService
+        .search(predicate)
+        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => {
+            this.initDataForMatTableCustom(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
     }
   }
 
