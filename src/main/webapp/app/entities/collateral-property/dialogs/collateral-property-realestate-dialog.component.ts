@@ -85,6 +85,12 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   public collPropBuilding: ICollateralProperty[];
   public liquidationValueMV: number;
   public MVTkCcy: IUom;
+
+  public myControlMVOri = new FormControl();
+  public optionsMVOri: IUom[];
+  public filteredOptionsMVOri: Observable<IUom[]>;
+  public MVOriCcy: IUom;
+
   moment = _rollupMoment || moment;
   date = new FormControl(moment());
 
@@ -272,6 +278,25 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     return this.optionsMVTk.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
+  filteredMVOri() {
+    this.filteredOptionsMVOri = this.myControlMVOri.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVOri(name as string) : this.optionsMVOri.slice();
+      })
+    );
+  }
+
+  displayFnMVOri(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  private _filterMVOri(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVOri.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
   public preLoadData(data: ICollateralProperty): ICollateralProperty {
     if (data.attributes.province) {
       data.attributes.province = parseInt(data.attributes.province, 10);
@@ -314,6 +339,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
         this.optionsMVTk = res.body;
         this.filteredMVTk();
         this.MVTkCcy = this.optionsMVTk.find(obj => obj.id === this.collateralProperty.attributes.marketValueTkCcy);
+        this.optionsMVOri = res.body;
+        this.filteredMVOri();
+        this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.attributes.marketValueOriginalCcy);
       });
   }
 
@@ -373,6 +401,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     this.myControlMVEx.disable();
     this.myControlMVPs.disable();
     this.myControlMVTk.disable();
+    this.myControlMVOri.disable();
     this.collateralProperty.attributes.marketValueCcy = 'IDR';
     this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
     this.collateralPropertyExternal.attributes.marketValueCcy = 'IDR';
@@ -412,5 +441,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   public getMVTkCcy() {
     console.log('this.mk tk', this.MVTkCcy);
     this.collateralProperty.attributes.marketValueTkCcy = this.MVTkCcy.id;
+  }
+
+  public getMVOriCcy() {
+    this.collateralProperty.attributes.marketValueOriginalCcy = this.MVOriCcy.id;
   }
 }

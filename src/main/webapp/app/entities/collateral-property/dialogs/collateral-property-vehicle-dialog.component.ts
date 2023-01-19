@@ -58,6 +58,11 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
   public filteredOptionsQuantity: Observable<IUom[]>;
   public qty: IUom;
 
+  public myControlMVOri = new FormControl();
+  public optionsMVOri: IUom[];
+  public filteredOptionsMVOri: Observable<IUom[]>;
+  public MVOriCcy: IUom;
+
   @Input() public officerName;
   @Input() public branchId;
 
@@ -189,13 +194,32 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
     );
   }
 
+  filteredMVOri() {
+    this.filteredOptionsMVOri = this.myControlMVOri.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVOri(name as string) : this.optionsMVOri.slice();
+      })
+    );
+  }
+
   displayFnMVImb(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
+  }
+
+  displayFnMVOri(curency: IUom): string {
     return curency && curency.id ? curency.id : '';
   }
 
   private _filterMVImb(description: string): IUom[] {
     const filterValue = description.toLowerCase();
     return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
+  }
+
+  private _filterMVOri(description: string): IUom[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsMVOri.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   filteredQuantity() {
@@ -253,6 +277,9 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
         this.optionsMVImb = res.body;
         this.filteredMVImb();
         this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
+        this.optionsMVOri = res.body;
+        this.filteredMVOri();
+        this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.attributes.marketValueOriginalCcy);
       });
   }
 
@@ -318,6 +345,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
     this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
     this.myControlMVImb.disable();
     this.myControl.disable();
+    this.myControlMVOri.disable();
   }
 
   public setManagementBrance() {
@@ -345,6 +373,10 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
 
   public getMVImbCcy() {
     this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
+  }
+
+  public getMVOriCcy() {
+    this.collateralProperty.attributes.marketValueOriginalCcy = this.MVOriCcy.id;
   }
 
   public getQty() {
