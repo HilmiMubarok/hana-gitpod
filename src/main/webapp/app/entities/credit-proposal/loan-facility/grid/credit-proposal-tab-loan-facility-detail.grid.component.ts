@@ -81,6 +81,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public numericFormatOptions: Object;
   public loading: boolean;
   public cloneData: any;
+  public view: boolean;
 
   constructor(public partyCifService: PartyCifService, public dialog: MatDialog, public _router: Router) {
     this.applicationProduct = new ApplicationProduct();
@@ -354,6 +355,16 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       subLimit = 'No';
     }
     return subLimit;
+  }
+
+  public hiddenButton(element: IApplicationProduct) {
+    if (element.attributes.applicationType === 'Existing') {
+      return true;
+    } else if (this.view) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   print() {

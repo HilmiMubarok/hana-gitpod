@@ -17,6 +17,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 export class LoanAnalysSlikSummaryComponent implements OnInit {
   private _creditProposal: ICreditProposal;
   public selectedMenu: string;
+  @Input() public source: String = 'view';
 
   public menuItems: MenuItemModel[] = [];
   public menuItemsAll: MenuItemModel[] = [{ text: 'SLIK SUMMARY' }, { text: 'SLIK IDEB' }];

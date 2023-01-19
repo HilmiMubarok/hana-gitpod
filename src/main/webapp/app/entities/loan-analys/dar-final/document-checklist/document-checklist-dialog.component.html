@@ -18,7 +18,7 @@
           (removed)="onRemove(f)"
         >
           <ngx-dropzone-label *ngIf="f.url === undefined">
-            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"></ngx-dropzone-image-preview>
+            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-image-preview" [file]="f"> </ngx-dropzone-image-preview>
           </ngx-dropzone-label>
 
           <ngx-dropzone-label *ngIf="f.url !== undefined">
@@ -35,7 +35,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Category type</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.documentType" name="documentType" disabled>
+                <mat-select [(ngModel)]="documentChecklist.documentType" name="documentType" [disabled]="isDarFinalization">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
                     *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Aggrement', 'Other']"
@@ -55,7 +55,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Name</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.document" disabled />
+                <input matInput type="text" [(ngModel)]="documentChecklist.document" [disabled]="isDarFinalization" />
               </mat-form-field>
             </div>
           </section>
@@ -67,7 +67,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" name="status" disabled>
+                <mat-select [(ngModel)]="documentChecklist.status" name="status" [disabled]="isDarFinalization">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -82,9 +82,9 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="date" disabled matInput type="text" [(ngModel)]="documentChecklist.dueDate" />
-                <mat-datepicker-toggle matSuffix disabled [for]="date"></mat-datepicker-toggle>
-                <mat-datepicker #date disabled></mat-datepicker>
+                <input [matDatepicker]="date" [disabled]="isDarFinalization" matInput type="text" [(ngModel)]="documentChecklist.dueDate" />
+                <mat-datepicker-toggle matSuffix [disabled]="isDarFinalization" [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date [disabled]="isDarFinalization"></mat-datepicker>
               </mat-form-field>
             </div>
           </section>
@@ -97,7 +97,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Category</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.category" name="category" disabled>
+                <mat-select [(ngModel)]="documentChecklist.category" name="category" [disabled]="isDarFinalization">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['A', 'B', 'C']" [value]="item">
                     {{ item }}
@@ -112,7 +112,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" disabled />
+                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" [disabled]="isDarFinalization" />
               </mat-form-field>
             </div>
           </section>

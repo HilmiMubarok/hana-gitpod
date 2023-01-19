@@ -100,6 +100,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public opinionType = '';
 
   public resAttr: IProcessTask;
+  public sourceSlikChecking: String;
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -120,16 +121,54 @@ export class LoanAnalysMainComponent implements OnInit {
     this.activeRoute = this.router.url.replace(/\//g, '');
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+    this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
 
     this.url = this.parentPath; // kebutuhan buat assign to
     switch (this.parentPath) {
       case 'la-distribution':
-        this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
-          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
-          ? (this.subMenu = SUBMENU_LOAN_ANALYS)
-          : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
+        if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+            ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+            : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
+        } else {
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+            ? (this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+                {
+                  id: 'loan-slik-checking',
+                  text: 'SLIK Checking',
+                },
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'compare-data',
+                  text: 'Compare Data',
+                },
+              ])
+            : (this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+                {
+                  id: 'loan-slik-checking',
+                  text: 'SLIK Checking',
+                },
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'compare-data',
+                  text: 'Compare Data',
+                },
+              ]);
+        }
+        // this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        //   ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+        //   : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
+        // this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        //   ? (this.subMenu = SUBMENU_LOAN_ANALYS)
+        //   : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
         break;
 
       case 'la-SME-CRC':

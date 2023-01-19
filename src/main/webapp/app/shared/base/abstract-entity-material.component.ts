@@ -11,7 +11,7 @@ import { AbstractEntityService } from './abstract-entity.service';
   template: '',
 })
 export class AbstractEntityMaterialComponent<T> {
-  @Input() mode: 'card' | 'item' | 'edit' | 'simple' | 'view' = 'edit';
+  @Input() mode: 'card' | 'item' | 'edit' | 'simple' | 'view' | 'loan' = 'edit';
 
   protected entityKeyName: string;
   protected reverse: any;

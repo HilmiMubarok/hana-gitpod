@@ -467,6 +467,10 @@
         <jhi-loan-analys-slik-summary [creditProposal]="creditProposal"></jhi-loan-analys-slik-summary>
       </div>
 
+      <div *ngIf="selectedMenu === 'loan-slik-checking'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-loan-analys-slik-summary [source]="sourceSlikChecking" [creditProposal]="creditProposal"></jhi-loan-analys-slik-summary>
+      </div>
+
       <!-- credit rating -->
       <div *ngIf="selectedMenu === 'credit-rating'">
         <jhi-loan-analys-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"> </jhi-loan-analys-credit-rating-view>
