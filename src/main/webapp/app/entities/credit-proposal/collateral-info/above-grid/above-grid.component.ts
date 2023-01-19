@@ -262,7 +262,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public getMarketability(): string {
     if (this.creditProposal.appraisals.length > 0) {
       for (let i = 0; i < this.creditProposal.appraisals.length; i++) {
-        console.log('appraisal ', this.creditProposal.appraisals[i]);
+        // console.log('appraisal ', this.creditProposal.appraisals[i]);
       }
       // const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       // if (lodash.has(lastAppraisal.attributes, 'summary')) {
