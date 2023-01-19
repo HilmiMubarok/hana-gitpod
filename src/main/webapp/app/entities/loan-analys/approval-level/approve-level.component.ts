@@ -68,14 +68,10 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   ngOnInit(): void {
     this.getWhoAmI().then(res => {
       this.getApplicationRolesByApplicationId();
-      console.log('sata', this.filteringItems);
-      console.log('sata1', this.applicationRoleService);
-
       this.sableFeild();
     });
   }
   public sableFeild() {
-    //    public removefield() {
     this.patch = this.router.url.split('/')[1];
     if (this.patch === 'la-analyst' || this.patch === 'la-SME-CRC' || this.patch === 'la-approval') {
       this.view = true;
@@ -110,7 +106,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       if (value.toLowerCase() !== 'credit_proposal') {
         for (let i = 0; i < this.items.length; i++) {
           const each: IApplicationRole = this.items[i];
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase() && each.fromPartyId === this.whoAmI.id) {
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase()) {
             this.filteringItems.push(each);
           }
         }
@@ -129,6 +125,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     this.applicationRoleService
       .queryFilterBy({
         idApplication: this.idApp,
+        isActive: true,
         page: 0,
         size: 9999,
       })

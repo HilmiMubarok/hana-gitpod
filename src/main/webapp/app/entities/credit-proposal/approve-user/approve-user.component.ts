@@ -84,6 +84,7 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
     this.applicationRoleService
       .queryFilterBy({
         idApplication: this.idApp,
+        isActive: true,
         page: 0,
         size: 9999,
       })
