@@ -62,7 +62,7 @@
     </table>
   </mat-card-content>
 
-  <mat-card-actions *ngIf="creditProposal.statusId === 'DRAFT'" align="right">
+  <mat-card-actions *ngIf="creditProposal.statusId === 'DRAFT' || creditProposal.statusId === 'CP_RETURN_TO_CR'" align="right">
     <button mat-raised-button color="primary" (click)="openDialog(null, 'add')">ADD DOCUMENT</button>
   </mat-card-actions>
 </mat-card>
