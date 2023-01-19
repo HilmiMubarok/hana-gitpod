@@ -96,12 +96,8 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
+      this.dataFacility = JSON.parse(this.debtorData.attributes['cpFacility']);
       this.mapingData();
-    }
-    if (changes['partyCif']) {
-      if (this.dialogType === 'debitur') {
-        this.dataFacility = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
-      }
     }
     if (changes['dataGroup']) {
       if (this.dialogType === 'group') {
