@@ -95,7 +95,7 @@
                     disabled
                   ></ejs-textbox>
                 </div>
-                <div class="form-group mb-3">
+                <!-- <div class="form-group mb-3">
                   <ejs-textbox
                     [(ngModel)]="creditProposal.internalName"
                     placeholder="Booking Branch"
@@ -103,7 +103,11 @@
                     floatLabelType="Auto"
                     disabled
                   ></ejs-textbox>
-                </div>
+                </div> -->
+                <jhi-credit-proposal-booking-branch
+                  [creditProposal]="creditProposal"
+                  [isViewLoan]="true"
+                ></jhi-credit-proposal-booking-branch>
               </div>
             </div>
           </mat-card-content>
