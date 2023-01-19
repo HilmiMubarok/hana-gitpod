@@ -16,7 +16,8 @@ export class DocumentChecklistTempComponent implements OnChanges {
   public files: Object[];
   private bucket: string;
 
-  public isDarChecker: Boolean = this.router.url.split('/')[1] === 'dar-checker' ? true : false;
+  public isDarChecker: Boolean =
+    this.router.url.split('/')[1] === 'dar-checker' || this.router.url.split('/')[1] === 'dar-notif' ? true : false;
 
   @Input()
   get creditProposal() {
