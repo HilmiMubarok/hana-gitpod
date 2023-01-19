@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="e-card-content">
-          <div class="row my-3">
+          <div class="row my-6">
             <div class="col">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
@@ -43,7 +43,7 @@
                   <div class="col-1">Date</div>
                   <div class="col-md-auto">:</div>
                   <div class="col col-lg-2">
-                    {{ deedDate }}
+                    {{ deedDate | formatMediumDate }}
                   </div>
                 </div>
               </section>
