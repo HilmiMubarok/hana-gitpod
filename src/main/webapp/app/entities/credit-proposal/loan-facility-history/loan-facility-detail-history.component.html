@@ -50,7 +50,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ fungsiSumchange() | number }}</div>
+            <div class="col">IDR.{{ fungsiSumchange() | number }}</div>
           </div>
         </section>
       </div>
@@ -94,7 +94,7 @@
           <div class="fontsebled row">
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
-            <div class="col">{{ ccy }}.{{ fungsiSumcredit() | number }}</div>
+            <div class="col">IDR.{{ fungsiSumcredit() | number }}</div>
           </div>
         </section>
       </div>
@@ -119,9 +119,7 @@
           <div class="fontsebled row">
             <div class="col-2">Custody Fee</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ _creditProposal.attributes['facilityDetail'].custodianFee | number }}
-            </div>
+            <div class="col">IDR.{{ _creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
           </div>
         </section>
       </div>
