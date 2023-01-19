@@ -431,8 +431,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
+	const isPreviousUserPosApprv = false;
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
       if (this.nameLoanComitee || this.recomendasi !== '') {
+		for (let i = 0; i < this.notes.length; i++) {
+		  if (this.notes[i].positionUserId === this.cacheData.positionUserId && this.notes[i].userId === this.cacheData.userId) {
+			isPreviousUserPosApprv = true;
+		  }
+		}
+		if (isPreviousUserPosApprv) {
+		  this.uuid = uuid.v4();
+		}
         this.saveFile();
       } else {
         this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
@@ -593,7 +602,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 			  if (this.notes[i].positionUserId === this.cacheData.positionUserId && this.notes[i].userId === this.cacheData.userId) {
 				this.recomendasi = this.notes[i].recomendation;
 				this.newItemEvent.emit(this.notes[i].recomendation);
-			  } 
+			  }
             }
           }		  
         });
