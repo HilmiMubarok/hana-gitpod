@@ -501,7 +501,7 @@
 
       <div *ngIf="selectedMenu === 'compliance-recommendation'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-compliance [word]="saveDoc"></jhi-loan-analys-compliance>
-        <div *ngIf="parentPath === 'cc-review'">
+        <div *ngIf="parentPath === 'cc-review' || parentPath === 'cc-inquiry'">
           <jhi-loan-analys-opinion-compliance-part
             #loanAnalysOpinionCompliancePartComponent
             (uuidPath)="setUuidPathCompliance($event)"
