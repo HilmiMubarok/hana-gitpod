@@ -26,7 +26,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
-
+import { map } from 'rxjs';
 @Component({
   selector: 'jhi-collateral-appraisal-material',
   templateUrl: './collateral-appraisal-material.component.html',
@@ -115,6 +115,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public urlRequestAppraisal: boolean;
   public urlAppraisalExternal: boolean;
   public urlAppraisalInternal: boolean;
+  public activeRoute: string;
 
   constructor(
     protected _snackBar: MatSnackBar,
@@ -143,7 +144,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.urlRequestAppraisal = this.router.url === '/collateral-appraisal';
     this.urlAppraisalExternal = this.router.url === '/batch-apprisal';
     this.urlAppraisalInternal = this.router.url === '/collateral-appraisal-distribution-internal';
-
+    this.activeRoute = this.router.url.replace(/\//g, '');
     if (this.router.url === '/collateral-appraisal-distribution-internal') {
       this.displayedColumns = [
         'no',
@@ -650,79 +651,30 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   public doSearch(args: any = null): void {
-    if (this.urlReportInqury) {
-      if (this.currentSearch) {
-        this.router.navigate(['collateral-appraisal-result-inqury'], {
-          queryParams: {
-            search: this.currentSearch,
-          },
-        });
+    if (this.currentSearch && this.currentSearch !== '') {
+      const predicate: object = {
+        page: this.page,
+        query: this.currentSearch,
+        size: this.itemsPerPage,
+        sort: this.sortData(),
+      };
 
-        this.chipClick({
-          id: this.clickedChip,
-          label: this.clickedChip,
-        });
-      } else {
-        if (args) {
-          const val: string = args.value;
-          if (val !== '') {
-            const searchVal = '*' + args.value + '*';
-            this.globalSearchVal = searchVal;
-            this.globalSearchValModel = args.value;
-            this.router.navigate(['collateral-appraisal-result-inqury'], {
-              queryParams: {
-                searchByTown: searchVal,
-              },
-            });
-            this.loadAll();
-            return;
-          }
-          this.globalSearchVal = '';
-          this.globalSearchValModel = '';
-          this.router.navigate(['collateral-appraisal-result-inqury'], {});
-          this.loadAll();
-        } else {
-          this.router.navigate(['collateral-appraisal-result-inqury']);
-          this.loadAll();
-        }
+      if (this.activeRoute === 'collateral-appraisal') {
+        predicate['target'] = 'request-appraisal';
+      } else if (this.activeRoute === 'collateral-appraisal-result-inqury') {
+        predicate['target'] = 'appraisal-result-inquiry';
       }
-    }
-    if (!this.urlReportInqury) {
-      if (this.currentSearch) {
-        this.router.navigate(['collateral-appraisal'], {
-          queryParams: {
-            search: this.currentSearch,
-          },
-        });
 
-        this.chipClick({
-          id: this.clickedChip,
-          label: this.clickedChip,
+      this.surveyAppraisalService
+        .search(predicate)
+        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<ISurveyAppraisals[]>) => {
+            this.initDataForMatTableCustom(res, res.headers);
+          },
+          error: (res: HttpErrorResponse) => this.onError(res.message),
         });
-      } else {
-        if (args) {
-          const val: string = args.value;
-          if (val !== '') {
-            const searchVal = '*' + args.value + '*';
-            this.globalSearchVal = searchVal;
-            this.globalSearchValModel = args.value;
-            this.router.navigate(['collateral-appraisal'], {
-              queryParams: {
-                searchByTown: searchVal,
-              },
-            });
-            this.loadAll();
-            return;
-          }
-          this.globalSearchVal = '';
-          this.globalSearchValModel = '';
-          this.router.navigate(['collateral-appraisal'], {});
-          this.loadAll();
-        } else {
-          this.router.navigate(['collateral-appraisal']);
-          this.loadAll();
-        }
-      }
+      return;
     }
   }
 
