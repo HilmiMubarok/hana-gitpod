@@ -1,22 +1,28 @@
-<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-  <div class="form-group">
-    <mat-form-field class="w-100" appearance="outline">
-      <mat-label>Booking Branchs</mat-label>
-      <mat-select [value]="creditProposal.internalId" (selectionChange)="select($event)">
-        <mat-option value="">Please Select</mat-option>
-        <mat-option *ngFor="let item of branchs" [value]="item.id">
-          {{ item.organizationName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</section>
-<section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-  <div class="fontsebled row">
-    <div class="col-4">Booking Branchs</div>
-    <div class="col-md-auto">:</div>
-    <div class="col col-lg-4">
-      {{ creditProposal.internalName }}
+<section *ngIf="isViewLoan === false">
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Booking Branchs</mat-label>
+        <mat-select [value]="creditProposal.internalId" (selectionChange)="select($event)">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branchs" [value]="item.id">
+            {{ item.organizationName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-  </div>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="fontsebled row">
+      <div class="col-4">Booking Branchs</div>
+      <div class="col-md-auto">:</div>
+      <div class="col col-lg-4">
+        {{ penampung }}
+      </div>
+    </div>
+  </section>
+</section>
+
+<section *ngIf="isViewLoan === true">
+  <ejs-textbox [(ngModel)]="penampung" placeholder="Booking Branchs" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
 </section>
