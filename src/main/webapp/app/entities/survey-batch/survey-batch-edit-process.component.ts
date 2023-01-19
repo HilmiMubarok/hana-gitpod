@@ -72,8 +72,8 @@ import { CollateralLandCertificateService } from '../collateral-appraisal/collat
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
   ],
-  selector: 'jhi-survey-batch-edit-internal',
-  templateUrl: './survey-batch-edit-internal.component.html',
+  selector: 'jhi-survey-batch-edit-process',
+  templateUrl: './survey-batch-edit-process.component.html',
   styleUrls: ['./survey-batch-edit.css'],
 })
 export class SurveyBatchEditProcessComponent implements OnInit {
@@ -336,31 +336,67 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.getKeteranganObjectJaminan();
+    this.getFotoObjectJaminan();
+    this.categoryFoto();
 
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
     }
   }
 
+  public categoryName = [];
+  public categoryNames = [];
   public surveyAppraisalFunc(item: ISurveyAppraisals) {
     if (item !== undefined) {
       // Get Foto Object Jaminan
       this.collateralData(item.collateral.id);
-      this.storageService.getBucketName().subscribe(res => {
-        this.storageService
-          .getObjects(res.body['bucket'], {
-            key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
-          })
-          .subscribe((result: any) => {
-            this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
-          });
-      });
+      this.getFotoObjectJaminan();
+      this.categoryFoto();
 
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
     }
+  }
+
+  public getFotoObjectJaminan() {
+    this.storageService.getBucketName().subscribe(res => {
+      this.storageService
+        .getObjects(res.body['bucket'], {
+          key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+        })
+        .subscribe((result: any) => {
+          this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
+        });
+    });
+  }
+
+  public categoryFoto() {
+    this.storageService.getBucketName().subscribe(res => {
+      this.storageService
+        .getObjects(res.body['bucket'], {
+          key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+        })
+        .subscribe((result: any) => {
+          for (let i = 0; i < result.body.length; i++) {
+            if (result.body[i]['tags'].category === 'OBJECT') {
+              this.categoryNames.push(result.body[i]['tags'].category);
+            }
+          }
+          this.categoryName = this.categoryNames;
+        });
+    });
+
+    // if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length) {
+    //   for (let i = 0; i < this.collateralAppraisalService.totalDataFotoObjectJaminan.length; i++) {
+    //     if (this.collateralAppraisalService.totalDataFotoObjectJaminan[i]['tags'].category === 'OBJECT') {
+    //       this.categoryName.push(this.collateralAppraisalService.totalDataFotoObjectJaminan[i]['tags'].category);
+    //       console.log('category foto', this.categoryName);
+    //     }
+    //   }
+    //   console.log('category foto', this.collateralAppraisalService.totalDataFotoObjectJaminan);
+    // }
   }
 
   public loadData(collateral: ICollateral): void {
@@ -509,7 +545,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else if (node.id === 'negative-collateral') {
         return true;
       } else if (node.id === 'foto-object-jaminan') {
-        if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
+        if (this.categoryName.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
           return true;
         }
       } else if (node.id === 'collateral-info') {
@@ -579,6 +615,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.bucket = this.getBucketName()['bucket'];
 
     this.getKeteranganObjectJaminan();
+    this.getFotoObjectJaminan();
+    this.categoryFoto();
 
     // console totalKeteranganJaminan after await
 
@@ -1151,6 +1189,19 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     return true;
   }
 
+  // public checkKategoriObjectJaminan() {
+  //   const kategori = this.categoryFilter;
+  //   // check if machineMarketValue has value
+  //   if (kategori.length) {
+  //     for (let i = 0; i < kategori.length; i++) {
+  //       if (kategori[i].categoryFotoJaminan < 6) {
+  //         return false;
+  //       }
+  //     }
+  //   }
+  //   return true;
+  // }
+
   public checkMachinePercentage() {
     const machine = this.collateralAppraisalService.totalDataDetailMachine;
     // check if machineMarketValue has value
@@ -1195,20 +1246,25 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     marketValue.building.push(getMarketValueBuilding);
     if (
       this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
-      this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
+      this.categoryName.length < MINIMUM_OBJECT_JAMINAN_DATA
     ) {
+      if (this.categoryName.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+        this._showNotification('error', 'Foto dengan Category Foto Object less than 6');
+        mustValidatedOnAssigned.fotoObjectJaminan = false;
+      }
+      // if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+      //   this._showNotification('error', 'Foto object jaminan data less than 6');
+      //   mustValidatedOnAssigned.fotoObjectJaminan = false;
+      // }
+
       if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
         if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
           this._showNotification('error', 'Comparison data less than 3');
           mustValidatedOnAssigned.comparisonData = false;
         }
       }
-
-      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-        this._showNotification('error', 'Foto object jaminan data less than 6');
-        mustValidatedOnAssigned.fotoObjectJaminan = false;
-      }
     }
+
     if (this.collateralAppraisalService.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
       if (this.totalDataDocumentCollateral.length < MINIMUM_DOCUMENT_COLLATERAL) {
         this._showNotification('error', 'Masukkan Document Collateral Dahulu');
@@ -1553,11 +1609,13 @@ export class SurveyBatchEditProcessComponent implements OnInit {
             this.collateralAppraisalSummaryComponent.triggeredSave();
             this.getKeteranganObjectJaminan();
           }
+          this.categoryFoto();
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
             this.getKeteranganObjectJaminan();
           }
+          this.categoryFoto();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
