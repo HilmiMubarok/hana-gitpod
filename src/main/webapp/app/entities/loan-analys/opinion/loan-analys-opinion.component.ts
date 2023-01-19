@@ -431,7 +431,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
-	const isPreviousUserPosApprv = false;
+	let isPreviousUserPosApprv = false;
     if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
       if (this.nameLoanComitee || this.recomendasi !== '') {
 		for (let i = 0; i < this.notes.length; i++) {
