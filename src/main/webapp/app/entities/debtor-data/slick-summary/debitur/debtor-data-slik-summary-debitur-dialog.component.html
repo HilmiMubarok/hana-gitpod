@@ -10,19 +10,19 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Slik Checking Name</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Relationship</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Bank</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.bank" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.bank" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
@@ -33,7 +33,7 @@
               type="text"
               [ngModel]="partySlik.limit | number: '1.0-0'"
               (ngModelChange)="partySlik.limit = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
@@ -45,7 +45,7 @@
               type="text"
               [ngModel]="partySlik.outstanding | number: '1.0-0'"
               (ngModelChange)="partySlik.outstanding = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
@@ -53,7 +53,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Collateral Type</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.collateralType" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.collateralType" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
@@ -64,26 +64,26 @@
               type="text"
               [ngModel]="partySlik.collateralIdrMio | number: '1.0-0'"
               (ngModelChange)="partySlik.collateralIdrMio = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Description</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.description" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.description" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Arrears Reason</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Arrears Date</mat-label>
-            <input matInput type="datetime" [(ngModel)]="partySlik.arrearsDate" [disabled]="false" />
+            <input matInput type="datetime" [(ngModel)]="partySlik.arrearsDate" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
@@ -94,7 +94,7 @@
               type="text"
               [ngModel]="partySlik.arrearsBase | number: '1.0-0'"
               (ngModelChange)="partySlik.arrearsBase = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
@@ -106,14 +106,14 @@
               type="text"
               [ngModel]="partySlik.arrearsInterest | number: '1.0-0'"
               (ngModelChange)="partySlik.arrearsInterest = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Arrears Frequency</mat-label>
-            <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" [disabled]="false" />
+            <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" disabled />
           </mat-form-field>
         </div>
       </div>
@@ -123,7 +123,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Facility Type</mat-label>
-            <mat-select [(ngModel)]="partySlik.facilityType" name="facilityType" [disabled]="false">
+            <mat-select [(ngModel)]="partySlik.facilityType" name="facilityType" disabled>
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of facility_types | keyvalue" [value]="item.key">
                 {{ item.value }}
@@ -139,7 +139,7 @@
               type="text"
               [ngModel]="partySlik.rate | number: '1.0-0'"
               (ngModelChange)="partySlik.rate = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
@@ -147,7 +147,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Period</mat-label>
-            <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="false" />
+            <input matInput type="number" [(ngModel)]="partySlik.period" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
@@ -158,7 +158,7 @@
               type="text"
               [ngModel]="partySlik.tenor | number: '1.0-0'"
               (ngModelChange)="partySlik.tenor = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
@@ -170,45 +170,45 @@
               type="text"
               [ngModel]="partySlik.fee | number: '1.0-0'"
               (ngModelChange)="partySlik.fee = numberInputChanged($event)"
-              [disabled]="false"
+              disabled
             />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Restructure Frequency</mat-label>
-            <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="false" />
+            <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Restructure Date Thru</mat-label>
-            <input matInput type="datetime" [(ngModel)]="partySlik.restructureDateThru" [disabled]="false" />
+            <input matInput type="datetime" [(ngModel)]="partySlik.restructureDateThru" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Last Collectablility</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.lastCollectability" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.lastCollectability" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Worst Collectability</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.worstCollectability" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.worstCollectability" disabled />
           </mat-form-field>
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Restructure Way</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.restructureType" [disabled]="false" />
+            <input matInput type="text" [(ngModel)]="partySlik.restructureType" disabled />
           </mat-form-field>
         </div>
       </div>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button class="btn-save-debtor" (click)="save()">Save</button>
+    <!-- <button mat-button class="btn-save-debtor" (click)="save()">Save</button> -->
     <button mat-button mat-dialog-close (click)="onNoClick()">Close</button>
   </mat-dialog-actions>
 </div>
