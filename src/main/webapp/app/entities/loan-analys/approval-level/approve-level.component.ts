@@ -134,13 +134,20 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
         this.filteringRelType(this.items);
 
         this.creditProposalService.find(this.idApp).subscribe((response: any) => {
+          console.log('oke', response.body.statusId, this.relType)
           for (let i = 0; i < this.statusList.length; i++) {
             if (this.statusList[i] === response.body.statusId) {
               this.selectedRelationType = 'CREDIT_PROPOSAL';
               this.selRelType('CREDIT_PROPOSAL');
             } else {
-              this.selectedRelationType = this.relType[1].id;
-              this.selRelType(this.relType[1].id);
+              for (let j = 0; j < this.relType.length; j++) {
+               if (this.relType[j].id !== 'CREDIT_PROPOSAL') {
+                this.selectedRelationType = this.relType[j].id;
+                this.selRelType(this.relType[j].id);
+               }
+                
+              }
+              
             }
           }
         });
