@@ -42,21 +42,8 @@ export class FacilityInfoCifComponent extends AbstractEntityMaterialComponent<IP
 
   public loadDataBy(): void {
     this.partyCifService.find('cif/retrieve-cp-facility/' + this.partyCif.customerNumber).subscribe((res: any) => {
-      if (res.status === 200) {
-        this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-        this.debtorData = res.body.debtorData;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Update Data From HOBIS Successful!',
-        });
-      } else if (res.status === 500) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Update Data From HOBIS Failed!',
-        });
-      }
+      this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+      this.debtorData = res.body.debtorData;
     });
   }
 
