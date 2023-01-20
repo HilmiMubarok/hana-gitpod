@@ -94,8 +94,8 @@ export class LoanAnalysGenerateDarComponent implements OnInit {
 
   private print(fileType: string) {
     if (fileType === 'Word') {
-      this.generateFileDar(fileType, '/services/report/api/report/dar/word/' + this.creditProposal.id);
-      this.generateFileDar(fileType, '/services/report/api/report/spkk/word/' + this.creditProposal.id);
+      this.generateFileDar(fileType, '/services/report/api/report/dar/pdf-word/' + this.creditProposal.id);
+      this.generateFileDar(fileType, '/services/report/api/report/spkk/pdf-word/' + this.creditProposal.id);
     }
   }
 
