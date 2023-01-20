@@ -185,6 +185,13 @@ export class DocumentChecklistDialogComponent implements OnInit {
     this.file.splice(this.files.indexOf(event), 1);
   }
 
+
+  public deleteTBO(status: any){
+    if (status.value !== 'TBO') {
+      this.file = []
+    }
+  }
+
   public donwload(event: any, name: any) {
     this.reportUtilService.downloadFileBYName(event, name.document + '.' + name.objectName.split('.')[1]);
   }
