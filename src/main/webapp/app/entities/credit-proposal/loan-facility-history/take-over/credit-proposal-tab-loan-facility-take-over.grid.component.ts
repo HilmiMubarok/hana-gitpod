@@ -33,6 +33,8 @@ import { LoanFacilityTakeOverAfterHistoryComponent } from '../take-over-after/cr
 })
 export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
+  @Input() isViewLoan: Boolean = false;
+  @Input() isViewMode: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;

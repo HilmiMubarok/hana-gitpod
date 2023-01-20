@@ -26,6 +26,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
 
+  @Input() isViewLoan: Boolean = false;
+
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
 

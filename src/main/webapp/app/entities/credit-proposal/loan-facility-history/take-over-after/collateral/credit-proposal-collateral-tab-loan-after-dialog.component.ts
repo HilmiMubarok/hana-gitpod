@@ -28,6 +28,8 @@ export class CollateralTabLoanAfterDialogHistoryComponent {
   public marketability: string;
   public internalMV: number;
   public internalLV: number;
+  @Input() isViewMode: Boolean = false;
+  @Input() isViewLoan: Boolean = false;
   public kjjpMV: number;
   public kjjpLV: number;
   public properties: ICollateralProperty[];

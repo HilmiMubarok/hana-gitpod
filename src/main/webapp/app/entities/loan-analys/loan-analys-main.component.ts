@@ -43,6 +43,7 @@ import { LoanAnalysService } from './loan-analys.service';
 import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.component';
 import { LoanAnalysOpinionCompliancePartComponent } from './opinion/loan-analys-opinion-compliance-part.component';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
+import { LoanFacilityDetailTempComponent } from './dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.component';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -59,6 +60,11 @@ export class LoanAnalysMainComponent implements OnInit {
     static: false,
   })
   loanAnalysOpinionCompliancePartComponent: LoanAnalysOpinionCompliancePartComponent;
+
+  @ViewChild('loanFacilityDetailTempComponent', {
+    static: false,
+  })
+  loanFacilityDetailTempComponent: LoanFacilityDetailTempComponent;
 
   @ViewChild('creditProposalCollateralInfoComponent', {
     static: false,
@@ -754,6 +760,14 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
           }
         }
+
+        if (tempRouter === 'dar-final') {
+          if (this.loanFacilityDetailTempComponent) {
+            this.loanFacilityDetailTempComponent.triggeredSave();
+            this.loanFacilityDetailTempComponent.onCreate();
+          }
+        }
+
         this.saveDoc = true;
         this.saveApplicationRole(source);
       });
@@ -783,6 +797,8 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
           }
         }
+
+        this.saveWord = true;
         this.saveDoc = true;
         this.saveApplicationRole(source);
       });

@@ -16,6 +16,9 @@ import { ApplicationProductTakeOverBank } from 'app/entities/credit-proposal/loa
 })
 export class LoanFacilityTakeOverAfterGridHistoryComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
+  @Input() isViewMode: Boolean = false;
+
+  @Input() isViewLoan: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;
