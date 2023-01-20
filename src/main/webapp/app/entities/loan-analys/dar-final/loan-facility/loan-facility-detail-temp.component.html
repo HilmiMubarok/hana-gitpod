@@ -75,5 +75,33 @@
         </div>
       </div>
     </div>
+    <div class="mb-2">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">REMARKS</div>
+        </div>
+      </div>
+      <section>
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDown($event)"
+          (created)="onCreate()"
+          [enableEditor]="true"
+          [isReadOnly]="false"
+        >
+        </ejs-documenteditorcontainer>
+      </section>
+    </div>
+
+    <jhi-credit-proposal-tab-loan-facility-detail
+      [creditProposal]="creditProposal"
+      [isViewLoan]="true"
+    ></jhi-credit-proposal-tab-loan-facility-detail>
   </div>
 </div>

@@ -30,6 +30,9 @@ export class CollateralTabLoanAfterHistoryComponent implements OnChanges {
   public totalLVInt: number;
   // public totalKJJPMVInt: number;
   // public totalKJJPLVInt: number;
+
+  @Input() isViewMode: Boolean = false;
+  @Input() isViewLoan: Boolean = false;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;

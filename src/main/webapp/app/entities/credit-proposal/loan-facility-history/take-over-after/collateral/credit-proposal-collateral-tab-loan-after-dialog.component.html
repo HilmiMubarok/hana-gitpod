@@ -6,14 +6,14 @@
   <mat-card>
     <mat-card-content>
       <div class="row">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Collateral</mat-label>
-              <input matInput type="text" [value]="collateral.collateralTypeId" disabled />
-            </mat-form-field>
-          </div>
-        </section>
+        <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Collateral</mat-label>
+            <input matInput type="text" [value]="collateral.collateralTypeId" disabled />
+          </mat-form-field>
+        </div>
+        <!-- </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-1">Collateral</div>
@@ -22,16 +22,16 @@
               {{ collateralPrevious.collateralTypeId }}
             </div>
           </div>
-        </section>
+        </section> -->
         <div class="col-6">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Internal MV</mat-label>
-                <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-              </mat-form-field>
-            </div>
-          </section>
+          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Internal MV</mat-label>
+              <input matInput type="text" [value]="internalMV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+            </mat-form-field>
+          </div>
+          <!-- </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
               <div class="col-2">Internal MV</div>
@@ -40,18 +40,18 @@
                 {{ internalMV | currency: 'IDR ':'symbol':'1.0-0' }}
               </div>
             </div>
-          </section>
+          </section> -->
         </div>
 
         <div class="col-6">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Internal LV</mat-label>
-                <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
-              </mat-form-field>
-            </div>
-          </section>
+          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Internal LV</mat-label>
+              <input matInput type="text" [value]="internalLV | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+            </mat-form-field>
+          </div>
+          <!-- </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
               <div class="col-2">Internal LV</div>
@@ -60,7 +60,7 @@
                 {{ internalLV | currency: 'IDR ':'symbol':'1.0-0' }}
               </div>
             </div>
-          </section>
+          </section> -->
         </div>
       </div>
     </mat-card-content>

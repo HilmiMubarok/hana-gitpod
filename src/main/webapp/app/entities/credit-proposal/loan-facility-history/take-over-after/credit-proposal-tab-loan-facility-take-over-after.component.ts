@@ -18,6 +18,7 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
 
   public lock: boolean;
   public lihat = true;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;

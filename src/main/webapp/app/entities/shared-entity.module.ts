@@ -337,6 +337,9 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility-info-group.component';
 import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-facility/mapping/mapping-facility.component';
+
+// import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -577,6 +580,8 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalMappingFacilityComponent,
+   
+
 
     // === Previous === //
 

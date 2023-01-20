@@ -14,7 +14,8 @@ export class LoanFacilityTakeOverHistoryComponent {
   public _creditProposal: ICreditProposal;
   view: boolean;
   facilityTakeOver: IApplicationProductTakeOver;
-
+  @Input() isViewLoan: Boolean = false;
+  @Input() isViewMode: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;

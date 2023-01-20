@@ -30,6 +30,9 @@ export class CollateralTabLoanHistoryComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
   public loading: boolean;
   public dataColl = [];
+  @Input() isViewLoan: Boolean = false;
+  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
