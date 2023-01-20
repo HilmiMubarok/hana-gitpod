@@ -772,12 +772,12 @@
           <div class="col-3">Admin Fee</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['adminFee'] }}
+            {{ applicationProduct.attributes['adminFee'] | number }}
           </div>
           <div class="col-3">Rate / Amount Type</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['adminFeeRateAmountType'] | number }}
+            {{ applicationProduct.attributes['adminFeeRateAmountType'] }}
           </div>
         </div>
       </section>
