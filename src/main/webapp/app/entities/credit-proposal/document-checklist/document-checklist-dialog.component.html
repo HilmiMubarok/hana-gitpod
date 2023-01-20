@@ -10,7 +10,7 @@
         <ngx-dropzone accept="*" multiple="true" (change)="onSelect($event)">
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
-        <div class="row">
+        <div [hidden]="documentChecklist.status === 'TBO'" class="row">
           <ngx-dropzone-preview
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
