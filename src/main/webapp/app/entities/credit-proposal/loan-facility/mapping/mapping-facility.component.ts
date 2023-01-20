@@ -17,6 +17,8 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   @Input() creditProposal: ICreditProposal;
   @Input() collateralData: ICollateral;
 
+  @Input() isViewSabled: Boolean = false;
+
   public collateralInfo: any;
   public creditProposalData: any;
   public applicationProductData: any;
@@ -76,7 +78,9 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.disableField === 'distribution' ||
       this.disableField === 'finalize' ||
       this.disableField === 'review' ||
-      this.disableField === 'confirmation'
+      this.disableField === 'confirmation' ||
+      this.disableField === 'dar-final' ||
+      this.disableField === 'loan-committee-approval'
     ) {
       this.field = true;
     }

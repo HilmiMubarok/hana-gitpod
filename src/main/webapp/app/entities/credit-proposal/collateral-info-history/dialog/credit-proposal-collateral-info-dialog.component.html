@@ -602,6 +602,7 @@
   </div>
   <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
 </mat-dialog-content>
+<!-- <section *ngIf="isViewMode === true"> -->
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
