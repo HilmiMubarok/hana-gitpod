@@ -165,9 +165,10 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
         if (this.dataSource[i].attributes.currency === 'IDR') {
           if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
             if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
-              this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.outstanding);
-            } else {
               this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
+             
+            } else {
+              this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.outstanding);
             }
           }
           if (this.dataSource[i].attributes['facilityType'] === 'DL') {
@@ -178,16 +179,17 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
           }
           if (this.dataSource[i].attributes['facilityType'] === 'FL') {
             if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
-              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.outstanding);
-            } else {
               this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond);
+            } else {
+              this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.outstanding);
             }
           }
           if (this.dataSource[i].attributes['facilityType'] === 'IL') {
             if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
-              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.outstanding);
-            } else {
               this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
+            } else {
+       
+              this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.outstanding);
             }
           }
           if (this.dataSource[i].attributes['facilityType'] === 'OD') {
@@ -212,11 +214,12 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
             }
             if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
               if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
-                this.totalWcl =
-                  this.totalWcl + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                this.totalWcl =this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+                  
               } else {
                 this.totalWcl =
-                  this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+                this.totalWcl + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                  
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'DL') {
@@ -229,19 +232,21 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
             if (this.dataSource[i].attributes['facilityType'] === 'FL') {
               if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
                 this.totalFL =
-                  this.totalFL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {
                 this.totalFL =
-                  this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+                  
+                  this.totalFL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'IL') {
               if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
                 this.totalIL =
-                  this.totalIL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
+                this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {
                 this.totalIL =
-                  this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+                  
+                  this.totalIL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'OD') {
@@ -345,29 +350,29 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
                 }
               } else if (parsed.CCY !== 'IDR') {
                 if (parsed.FacilityType === 'WCI') {
-                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS);
+                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS) *  Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'IL') {
-                  this.totalILGroub = this.totalILGroub + Number(parsed.OS);
+                  this.totalILGroub = this.totalILGroub + Number(parsed.OS) *  Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'FL') {
-                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS);
+                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS) *  Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'MML') {
-                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond);
+                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'DL') {
-                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond);
+                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'OD') {
-                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond);
+                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'LC') {
-                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond);
+                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
                 }
 
                 if (parsed.FacilityType === 'BG') {
-                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond);
+                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
                 }
               }
 
