@@ -3,6 +3,7 @@ import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/cr
 import { dataCovenantBelow, dataCovenantAbove } from './convenant.constant';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant',
@@ -33,6 +34,12 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public otherJustification?: string;
 
   public finalData: any;
+  public compareData: boolean
+  
+
+  constructor(public router: Router){
+    this.compareData = this.router.url.split('=').indexOf('compare-data') > -1
+  }
 
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
