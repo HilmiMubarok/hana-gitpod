@@ -317,17 +317,21 @@ export class LoanAnalysMainComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
 
-        this.validate()
-          .then(() => {
-            this.onSave('process');
-          })
-          .catch(() => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Please select Assignee before submit',
+        if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+          this.validate()
+            .then(() => {
+              this.onSave('process');
+            })
+            .catch(() => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Please select Assignee before submit',
+              });
             });
-          });
+        } else {
+          this.onSave('process');
+        }
 
         /* this.creditProposalProcessService.processTask(task).subscribe(res => {
           this.router.navigate([this.router.url.split('/')[1]]);
