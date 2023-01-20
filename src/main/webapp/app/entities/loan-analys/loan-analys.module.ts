@@ -37,7 +37,8 @@ import { LoanAnalysGroupGuarantorAnalysisComponent } from './guarantour/loan-ana
 import { LoanAnalysSlikSummaryComponent } from './slik-summary/loan-analys-slik-summary.component';
 import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys-credit-rating-view.component';
 import { CreditProposalDeviationDarAboveComponent } from './dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
-
+import { LoanAnalysFacilityDetailGridDarNotifComponent } from './dar-notif/loan-facility/grid/loan-analys-facility-detail-grid-dar-notif.component';
+import { LoanAnalysFacilityDetaliMainComponent } from './dar-notif/loan-facility/loan-analys-facility-detali-main.component';
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
   declarations: [
@@ -69,6 +70,8 @@ import { CreditProposalDeviationDarAboveComponent } from './dar-final/convenant/
     LoanAnalysSlikSummaryComponent,
     LoanAnalysCreditRatingViewComponent,
     CreditProposalDeviationDarAboveComponent,
+    LoanAnalysFacilityDetailGridDarNotifComponent,
+    LoanAnalysFacilityDetaliMainComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
