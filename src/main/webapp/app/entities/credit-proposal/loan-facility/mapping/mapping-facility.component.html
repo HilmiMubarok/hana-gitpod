@@ -17,12 +17,12 @@
   </ng-container>
   <ng-container matColumnDef="currency">
     <th mat-header-cell *matHeaderCellDef>CCY</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
+    <td mat-cell *matCellDef="let element">IDR</td>
   </ng-container>
   <ng-container matColumnDef="bindingValue">
     <th mat-header-cell *matHeaderCellDef>Binding Value</th>
     <td mat-cell *matCellDef="let i = index">
-      <input matInput type="number" [(ngModel)]="bindingValueHelper[i]" [disabled]="field" (change)="onChangeBindingValue($event, i)" />
+      <input style="width: 89px;" currencyMask [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }" matInput [(ngModel)]="bindingValueHelper[i]" [disabled]="field" (change)="onChangeBindingValue($event, i)" />
     </td>
   </ng-container>
   <ng-container matColumnDef="select">
