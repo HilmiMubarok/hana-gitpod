@@ -16,6 +16,7 @@ export class MappingFacilityHistoryComponent {
   public collateralInfo: any;
   public creditProposalData: any;
   public applicationProductData: any;
+  // public field = false;
 
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
@@ -34,6 +35,7 @@ export class MappingFacilityHistoryComponent {
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
     this.setUp();
+    // this.sableFeild();
   }
 
   private setUp(): void {
@@ -95,4 +97,9 @@ export class MappingFacilityHistoryComponent {
 
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
   }
+  // public sableFeild() {
+  //   if (this.creditProposalData.statusId === 'CP_LOAN_COMMITTEE') {
+  //     this.field = true;
+  //   }
+  // }
 }
