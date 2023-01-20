@@ -740,16 +740,16 @@
               <div class="row my-3">
                 <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-numerictextbox
-                      [ngModel]="deptorData.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
-                      placeholder="Penjualan Tahunan"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                      format="IDR 0,"
-                      min="0"
-                      disabled
-                    >
-                    </ejs-numerictextbox>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Penjualan Tahunan</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        disabled
+                        [ngModel]="deptorData.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
+                        (ngModelChange)="deptorData.debtorData.annualSales = currencyInputChanged($event)"
+                      />
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
@@ -835,6 +835,7 @@
                       <mat-label>Modal Disetor</mat-label>
                       <input
                         matInput
+                        disabled
                         type="text"
                         [ngModel]="deptorData.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
                         (ngModelChange)="deptorData.debtorData.depositCapital = currencyInputChanged($event)"
