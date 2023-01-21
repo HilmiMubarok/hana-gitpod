@@ -107,4 +107,7 @@
     </div>
   </div>
 </div>
-<jhi-loan-facility-approve-level *ngIf="viewButton === 'loan'"></jhi-loan-facility-approve-level>
+<jhi-loan-facility-approve-level
+  *ngIf="viewButton === 'loan'"
+  (newItemEvent)="setApprovalRecomendation($event)"
+></jhi-loan-facility-approve-level>

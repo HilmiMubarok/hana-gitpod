@@ -58,6 +58,7 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   private fileGet: File;
 
   @Input() saveWord: any;
+  approvalStatus: string;
   @Input()
   get sourceComponent() {
     return this.viewButton;
@@ -343,6 +344,11 @@ export class CreditProposalTabSummaryComponent implements OnInit {
         resolve(reader.result);
       };
     });
+  }
+
+  setApprovalRecomendation(newItem: string) {
+    this.approvalStatus = newItem;
+    this.item.attributes['approvalStatus'] = [newItem];
   }
 
   // showhide component using menu
