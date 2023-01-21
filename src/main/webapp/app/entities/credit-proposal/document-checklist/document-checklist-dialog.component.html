@@ -78,7 +78,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" name="status" (selectionChange)="onChange(documentChecklist.status)">
+                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="documentChecklist.status" name="status" (selectionChange)="onChange(documentChecklist.status)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -139,7 +139,7 @@
         <ngx-dropzone>
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
-        <div class="row">
+        <div [hidden]="documentChecklist.status === 'TBO'" class="row">
           <ngx-dropzone-preview
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
@@ -234,7 +234,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" name="status">
+                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="documentChecklist.status" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -312,7 +312,7 @@
         </tr>
       </tbody>
     </table>
-    <ul class="list-image">
+    <ul [hidden]="documentChecklist.status === 'TBO'" class="list-image">
       <li *ngFor="let item of documentChecklist.files">
         <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
           <img
