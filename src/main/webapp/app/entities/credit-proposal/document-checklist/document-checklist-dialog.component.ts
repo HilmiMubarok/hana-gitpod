@@ -187,9 +187,18 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
 
   public deleteTBO(status: any){
-    if (status.value !== 'TBO') {
-      this.file = []
+    if (status !== 'TBO') {
+      for (let i = 0; i < this.file.length; i++) {
+          if (this.file[i].name === 'los_logo.png') {
+            this.file.splice(this.files.indexOf(this.file), 1);
+          }
+          
+        }
     }
+    
+    // if (status.value !== 'TBO') {
+    //   this.file = []
+    // }
   }
 
   public donwload(event: any, name: any) {
