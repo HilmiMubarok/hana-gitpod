@@ -913,14 +913,18 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Risk Acceptance Criteria';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-    if (this.selectedMenu === 'loan-facility-detail') {
+    if (
+      this.selectedMenu === 'loan-facility-detail' ||
+      this.selectedMenu === 'loan-facility' ||
+      this.selectedMenu === 'loan-facility-view'
+    ) {
       this.titleMenu = 'Loan Facility Detail';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
-    if (this.selectedMenu === 'loan-facility') {
-      this.titleMenu = 'Loan Facility Detail';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
-    }
+    // if (this.selectedMenu === 'loan-facility') {
+    //   this.titleMenu = 'Loan Facility Detail';
+    //   sessionStorage.setItem('appNameMenu', this.titleMenu);
+    // }
     if (this.selectedMenu === 'collateral-info') {
       this.titleMenu = 'Collateral Info';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
