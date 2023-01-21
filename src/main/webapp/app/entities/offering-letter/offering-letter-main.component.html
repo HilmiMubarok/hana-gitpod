@@ -104,10 +104,8 @@
                     disabled
                   ></ejs-textbox>
                 </div> -->
-                <jhi-credit-proposal-booking-branch
-                  [creditProposal]="creditProposal"
-                  [isViewLoan]="true"
-                ></jhi-credit-proposal-booking-branch>
+                <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
+                </jhi-credit-proposal-booking-branch>
               </div>
             </div>
           </mat-card-content>
@@ -129,7 +127,8 @@
               [deptorData]="creditProposal"
               [partyCif]="partyCif"
               mode="view"
-            ></jhi-credit-proposal-person>
+            >
+            </jhi-credit-proposal-person>
             <jhi-party-group-view
               [mode]="'view'"
               *ngIf="creditProposal.partyTypeId !== 'PERSON'"
@@ -145,15 +144,11 @@
             </jhi-party-cif-customer-info-postal-address>
           </mat-card-content>
         </mat-card>
-
+        <!-- [isViewMode]="true" -->
         <!-- loan facility -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail
-              [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-              [creditProposal]="creditProposal"
-            >
+            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>
@@ -300,11 +295,7 @@
       >
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-loan-facility-detail
-              [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-              [creditProposal]="creditProposal"
-            >
+            <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
           </mat-card-content>
         </mat-card>

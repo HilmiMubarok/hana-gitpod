@@ -1793,6 +1793,10 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     id: 'facility-mapping',
     text: 'Collateral Mapping Facility',
   },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
 ];
 
 export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE: object[] = [
@@ -1885,6 +1889,10 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE: object[] = [
   {
     id: 'facility-mapping',
     text: 'Collateral Mapping Facility',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
   },
 ];
 
