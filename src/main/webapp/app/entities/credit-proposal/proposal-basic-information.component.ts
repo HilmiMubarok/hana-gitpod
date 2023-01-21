@@ -584,12 +584,24 @@ export class ProposalBasicInformationComponent implements OnInit {
 
         if (tempHelper === 0) {
           copyCreditProposal.notes.push(
-            this.addNewNotes('', this.recomendation, this.uuidPath, this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
+            this.addNewNotes(
+              '',
+              this.recomendation,
+              this.uuidPath,
+              this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+              copyCreditProposal.attributes['positionLogin']
+            )
           );
         }
       } else {
         copyCreditProposal.notes.push(
-          this.addNewNotes('', this.recomendation, this.uuidPath, this.currentAccount.firstName + ' ' + this.currentAccount.lastName, copyCreditProposal.attributes['positionLogin'])
+          this.addNewNotes(
+            '',
+            this.recomendation,
+            this.uuidPath,
+            this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+            copyCreditProposal.attributes['positionLogin']
+          )
         );
       }
       delete copyCreditProposal.attributes['tempLoggedInNotes'];
@@ -648,6 +660,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.groupProducts = [];
+    copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
 
     return copyCreditProposal;
   }

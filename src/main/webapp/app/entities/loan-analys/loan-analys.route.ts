@@ -275,6 +275,12 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
                 creditProposal.body.attributes['offeringLetterPreparation']
               );
             }
+            if (!lodash.has(creditProposal.body.attributes, 'approvalStatus')) {
+              creditProposal.body.attributes['approvalStatus'] = [];
+            } else {
+              creditProposal.body.attributes['approvalStatus'] = JSON.parse(creditProposal.body.attributes['approvalStatus']);
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'rejectReason')) {
               creditProposal.body.attributes['rejectReason'] = new RejectReason();
             } else {

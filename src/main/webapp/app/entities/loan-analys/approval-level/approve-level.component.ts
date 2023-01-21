@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
@@ -14,6 +14,7 @@ import { Account } from 'app/core/auth/account.model';
 import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 @Component({
   selector: 'jhi-loan-facility-approve-level',
@@ -33,7 +34,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   public view: boolean;
   public statusId: boolean;
   // public field = false;
-
+  public creditProposal: ICreditProposal;
   public statusList = [
     'CP_DRAFT',
     'CP_RETURN_TO_RM_BU',
@@ -45,7 +46,9 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     'CP_REJECT',
     'CP_COMPLETE',
   ];
-
+  public approvalStatus: string;
+  @Output() newItemEvent = new EventEmitter<string>();
+  public disabled: boolean;
   constructor(
     protected router: Router,
     protected positionReportingStructureService: PositionReportingStructureService,
@@ -68,13 +71,36 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   ngOnInit(): void {
     this.getWhoAmI().then(res => {
       this.getApplicationRolesByApplicationId();
-      this.sableFeild();
     });
+    this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
+    this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
+    this.sableFeild();
+    this.disabledStatus();
+  }
+  change(event: any) {
+    this.newItemEvent.emit(event.value);
+    this.approvalStatus = event;
+    console.log('iniEvent', event);
   }
   public sableFeild() {
     this.patch = this.router.url.split('/')[1];
-    if (this.patch === 'la-analyst' || this.patch === 'la-SME-CRC' || this.patch === 'la-approval') {
+    if (
+      this.patch === 'la-distribution' ||
+      this.patch === 'la-analyst' ||
+      this.patch === 'la-SME-CRC' ||
+      this.patch === 'la-approval' ||
+      this.patch === 'la-approval-inquiry' ||
+      this.patch === ''
+    ) {
       this.view = true;
+    }
+  }
+  public disabledStatus() {
+    this.patch = this.router.url.split('/')[1];
+    if (this.patch === 'dar-final' || this.patch === 'loan-committee-approval') {
+      this.disabled = false;
+    } else {
+      this.disabled = true;
     }
   }
 
@@ -132,22 +158,19 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       .subscribe(res => {
         this.items = res.body;
         this.filteringRelType(this.items);
-
         this.creditProposalService.find(this.idApp).subscribe((response: any) => {
-          console.log('oke', response.body.statusId, this.relType)
+          console.log('oke', response.body.statusId, this.relType);
           for (let i = 0; i < this.statusList.length; i++) {
             if (this.statusList[i] === response.body.statusId) {
               this.selectedRelationType = 'CREDIT_PROPOSAL';
               this.selRelType('CREDIT_PROPOSAL');
             } else {
               for (let j = 0; j < this.relType.length; j++) {
-               if (this.relType[j].id !== 'CREDIT_PROPOSAL') {
-                this.selectedRelationType = this.relType[j].id;
-                this.selRelType(this.relType[j].id);
-               }
-                
+                if (this.relType[j].id !== 'CREDIT_PROPOSAL') {
+                  this.selectedRelationType = this.relType[j].id;
+                  this.selRelType(this.relType[j].id);
+                }
               }
-              
             }
           }
         });
