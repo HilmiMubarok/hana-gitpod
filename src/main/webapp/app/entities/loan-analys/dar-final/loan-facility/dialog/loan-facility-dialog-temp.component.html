@@ -360,8 +360,16 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Provision Fee</mat-label>
                 <input
+                  *ngIf="applicationProduct.attributes['provitionFeeRateAmountType'] !== '%p.a'"
                   currencyMask
                   [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.attributes['provitionFee']"
+                />
+                <input
+                  *ngIf="applicationProduct.attributes['provitionFeeRateAmountType'] === '%p.a'"
+                 
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['provitionFee']"
@@ -389,12 +397,20 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Admin Fee</mat-label>
                 <input
+                  *ngIf="applicationProduct.attributes['adminFeeRateAmountType'] !== '%p.a'"
                   currencyMask
                   [options]="{ prefix: '', thousands: '.', decimal: ',' }"
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['adminFee']"
                 />
+
+                <input
+                *ngIf="applicationProduct.attributes['adminFeeRateAmountType'] === '%p.a'"
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['adminFee']"
+              />
               </mat-form-field>
             </div>
             <div class="col-4">
