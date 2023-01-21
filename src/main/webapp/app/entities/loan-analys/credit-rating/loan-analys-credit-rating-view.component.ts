@@ -162,7 +162,7 @@ export class LoanAnalysCreditRatingViewComponent extends AbstractEntityBaseViewC
           this.equityPosition = res.body[i].value;
         }
         if (res.body[i].id === 'EQUITY_POSITION_AS_DATE_OF') {
-          this.equityPositionDate = res.body[i].value;
+          this.equityPositionDate = res.body[i].value.split('T')[0];
         }
         this.partyCif.creditRatings[0].equityPosition = this.equityPosition;
         this.partyCif.creditRatings[0].equityPositionDate = this.equityPositionDate;
