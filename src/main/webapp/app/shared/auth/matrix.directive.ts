@@ -64,12 +64,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private darFinalInput() {
-    if (this.status === 'CP_DAR_FINAL') {
+    if (this.status === 'CP_DAR_FINAL' || this.status === 'CP_LOAN_COMMITTEE') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
   private darFinalLabel() {
-    if (this.status !== 'CP_DAR_FINAL') {
+    const arr = ['CP_DAR_FINAL', 'CP_LOAN_COMMITTEE'];
+    // if status not in array, then create embedded view
+    if (!arr.includes(this.status)) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
