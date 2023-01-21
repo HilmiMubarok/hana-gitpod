@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { IApplicationOption } from './application-option.model';
@@ -11,9 +11,10 @@ import lodash from 'lodash';
   templateUrl: './application-option-view-dialog.component.html',
   providers: [{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
 })
-export class ApplicationOptionViewDialogComponent {
+export class ApplicationOptionViewDialogComponent implements OnInit {
   public applicationOption: IApplicationOption;
   public moment: any;
+  public datecConfig: any;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -24,7 +25,15 @@ export class ApplicationOptionViewDialogComponent {
     // this.moment = _moment;
     this.applicationOption = lodash.cloneDeep(this.data.applicationOption);
   }
+  ngOnInit(): void {
+    this.setDate(this.data);
+  }
 
+  public setDate(value: any) {
+    const newData = value.applicationOption.value;
+    const dateNew = new Date(newData).toISOString().split('T')[0];
+    this.applicationOption.value = dateNew;
+  }
   // public updateDate(): void {
   //   this.applicationOption.value = this.moment(this.applicationOption.value)
   // }

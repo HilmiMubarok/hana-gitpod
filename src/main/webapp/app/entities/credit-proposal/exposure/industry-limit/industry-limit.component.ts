@@ -126,7 +126,7 @@ export class IndustryLimitComponent implements OnInit {
     this.applicationOptionService.query().subscribe((res: any) => {
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'EQUITY_POSITION_AS_DATE_OF') {
-          this.dateAsOf = res.body[i].value;
+          this.dateAsOf = res.body[i].value.split('T')[0];
         }
       }
     });
