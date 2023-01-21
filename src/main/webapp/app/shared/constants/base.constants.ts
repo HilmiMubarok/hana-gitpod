@@ -1952,7 +1952,7 @@ export const SUBMENU_LOAN_ANALYS_CC_CHECKING: object[] = [
     text: 'Opinion',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-view',
     text: 'Loan Facility Detail',
   },
   {
