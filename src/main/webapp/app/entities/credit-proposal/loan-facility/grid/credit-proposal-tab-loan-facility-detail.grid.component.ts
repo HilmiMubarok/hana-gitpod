@@ -110,7 +110,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
-    this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
+    // this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
