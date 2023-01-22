@@ -126,7 +126,7 @@
     </div>
     <div class="mb-2">
       <mat-label>REMARKS</mat-label>
-      <section *ngIf="parentSource === ''">
+      <section *ngIf="parentSource === 'credit-proposal'">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
@@ -295,7 +295,7 @@
         </section>
       </div>
     </div>
-    <section *ngIf="parentSource === ''">
+    <section *ngIf="parentSource === 'credit-proposal'">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <ejs-documenteditorcontainer
           #document_editor_container
