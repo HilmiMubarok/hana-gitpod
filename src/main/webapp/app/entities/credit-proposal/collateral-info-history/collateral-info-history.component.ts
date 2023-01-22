@@ -17,6 +17,8 @@ export class CollateralInfoHistoryComponent implements OnInit {
 
   constructor(private router: Router) {}
 
+  @Input() source = '';
+
   @ViewChild('creditProposalCollateralInfoRemarksInfoComponentAbove', {
     static: false,
   })
@@ -83,15 +85,17 @@ export class CollateralInfoHistoryComponent implements OnInit {
   }
 
   public triggeredSave(proposalType: any) {
-    if (this.selectedMenu === 'CHECKLIST') {
-      this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
-    } else {
-      if (proposalType === 'Total Exposure > IDR 15 Bn') {
-        this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
-      } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
-        this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
-      } else if (proposalType === 'Total Exposure Back to Back') {
-        this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
+    if (this.source === '') {
+      if (this.selectedMenu === 'CHECKLIST') {
+        this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
+      } else {
+        if (proposalType === 'Total Exposure > IDR 15 Bn') {
+          this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
+        } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
+          this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
+        } else if (proposalType === 'Total Exposure Back to Back') {
+          this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();
+        }
       }
     }
   }

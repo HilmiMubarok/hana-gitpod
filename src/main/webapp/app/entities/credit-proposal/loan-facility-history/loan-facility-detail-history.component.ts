@@ -7,7 +7,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { DocumentEditorComponent, DocumentEditorContainerComponent, DocumentEditorKeyDownEventArgs, EditorService, SelectionService, SfdtExportService } from '@syncfusion/ej2-angular-documenteditor';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+  EditorService,
+  SelectionService,
+  SfdtExportService,
+} from '@syncfusion/ej2-angular-documenteditor';
 
 @Component({
   selector: 'jhi-loan-facility-detail-history',
@@ -85,7 +92,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   }
 
   constructor(
-	protected actRoute: ActivatedRoute,
+    protected actRoute: ActivatedRoute,
     private router: Router,
     private storageService: StorageService,
     private applicationConfigService: ApplicationConfigService
@@ -95,24 +102,24 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   }
 
   onDocumentChange() {
-	if (this.isViewMode === true) {
-	  if (this.parentSource === '') {
-		this.container_view_false.restrictEditing = true;
-	  } else if (this.parentSource === 'loan-analys') {
-		this.container_view_false_loan_analys.restrictEditing = true;
-	  }
-	} else if (this.isViewMode === false) {
-	  if (this.parentSource === '') {
-		this.container.restrictEditing = true;
-	  } else if (this.parentSource === 'loan-analys') {
-		this.container_loan_analys.restrictEditing = true;
-	  }
-	}
+    if (this.isViewMode === true) {
+      if (this.parentSource === '') {
+        this.container_view_false.restrictEditing = true;
+      } else if (this.parentSource === 'loan-analys') {
+        this.container_view_false_loan_analys.restrictEditing = true;
+      }
+    } else if (this.isViewMode === false) {
+      if (this.parentSource === '') {
+        this.container.restrictEditing = true;
+      } else if (this.parentSource === 'loan-analys') {
+        this.container_loan_analys.restrictEditing = true;
+      }
+    }
   }
 
   ngOnInit(): void {
-	this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-	if (this.router.url.split('/')[1] === 'cp-status-approval') {
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    if (this.router.url.split('/')[1] === 'cp-status-approval') {
       this.parentSource = 'loan-analys';
     }
     this.getWord();
@@ -158,11 +165,11 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
                 let docEditor: any;
 
                 if (this.isViewMode === true) {
-				  if (this.parentSource === '') {
-					docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-				  } else if (this.parentSource === 'loan-analys') {
-					docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-				  }
+                  if (this.parentSource === '') {
+                    docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+                  } else if (this.parentSource === 'loan-analys') {
+                    docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+                  }
                 } else if (this.isViewMode === false) {
                   if (this.parentSource === '') {
                     docEditor = this.container?.documentEditor as DocumentEditorComponent;
@@ -197,53 +204,55 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
-    let paramsId = '';
-    this.actRoute.params.subscribe(params => {
-      paramsId = params['id'];
-    });
-    const key = 'credit_proposal/remark/loan-facility';
+    if (this.parentSource !== '' && this.parentSource !== 'loan-analys') {
+      let paramsId = '';
+      this.actRoute.params.subscribe(params => {
+        paramsId = params['id'];
+      });
+      const key = 'credit_proposal/remark/loan-facility';
 
-    const timeStamp = Math.floor(Date.now() / 1000);
+      const timeStamp = Math.floor(Date.now() / 1000);
 
-    let docEditor: any;
+      let docEditor: any;
 
-    if (this.isViewMode === true) {
-	  if (this.parentSource === '') {
-		docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-	  } else if (this.parentSource === 'loan-analys') {
-		docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-	  }
-	} else if (this.isViewMode === false) {
-	  if (this.parentSource === '') {
-		docEditor = this.container?.documentEditor as DocumentEditorComponent;
-	  } else if (this.parentSource === 'loan-analys') {
-		docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-	  }
-	}
+      if (this.isViewMode === true) {
+        if (this.parentSource === '') {
+          docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+        } else if (this.parentSource === 'loan-analys') {
+          docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
+        }
+      } else if (this.isViewMode === false) {
+        if (this.parentSource === '') {
+          docEditor = this.container?.documentEditor as DocumentEditorComponent;
+        } else if (this.parentSource === 'loan-analys') {
+          docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
+        }
+      }
 
-    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const fileType = 'word';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+        const fileType = 'word';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.docs';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      });
 
-    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const fileType = 'sfdt';
-      const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
-      const metaData = {
-        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
-      };
-      const formData = new FormData();
-      formData.append('file', new File([exportedDocument], fileName));
+      docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileType = 'sfdt';
+        const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
+        const metaData = {
+          objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+        };
+        const formData = new FormData();
+        formData.append('file', new File([exportedDocument], fileName));
 
-      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-    });
+        this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+      });
+    }
   }
 
   public tools: object = {

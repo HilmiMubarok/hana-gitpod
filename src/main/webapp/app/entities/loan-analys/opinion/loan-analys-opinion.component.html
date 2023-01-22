@@ -52,161 +52,164 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="isShowOpinionFieldInput" class="e-card-content">
-      <div class="form-group">
-        <p class="e-card-sub-title">Opinion</p>
-        <section
-          *ngIf="
-            this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
-            this.creditProposalItem.statusId === 'CP_CHECKER' ||
-            this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-            this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
-            this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
-          "
-        >
-          <ejs-documenteditorcontainer
-            #document_editor_container
-            [enableToolbar]="true"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            [spellcheck]="false"
-            [enableSpellCheck]="false"
-            (keyDown)="onKeyDown($event)"
-            (created)="onCreate()"
-          ></ejs-documenteditorcontainer>
-        </section>
-        <section
-          *ngIf="
-            creditProposalItem.statusId === 'CP_DAR_FINAL' ||
-            creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
-            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION'
-          "
-        >
-          <ejs-documenteditorcontainer
-            #document_editor_container
-            [enableToolbar]="false"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            (documentChange)="onDocumentChange()"
-            [enableEditor]="false"
-            [isReadOnly]="true"
-          ></ejs-documenteditorcontainer>
-        </section>
-      </div>
-      <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'">
+    <div *ngIf="source === ''" class="e-card-content">
+      <div *ngIf="isShowOpinionFieldInput" class="e-card-content">
         <div class="form-group">
-          <p class="e-card-sub-title">{{ nameLabel }}</p>
-          <div class="d-flex justify-content-around">
-            <div class="mx-2">
-              <ejs-radiobutton
-                [checked]="recomendasi === 'Recommend as Propose'"
-                (change)="change('Recommend as Propose')"
-                label="{{ radioButtonPurpose }}"
-                value="Recommend as Propose"
-                [disabled]="disabledOpinion"
-              ></ejs-radiobutton>
-            </div>
-            <div class="mx-2">
-              <ejs-radiobutton
-                [checked]="recomendasi === 'Recommend With Condition'"
-                (change)="change('Recommend With Condition')"
-                label="{{ radioButtonCondition }}"
-                value="Recommend With Condition"
-                [disabled]="disabledOpinion"
-              ></ejs-radiobutton>
-            </div>
-            <div class="mx-2">
-              <ejs-radiobutton
-                [checked]="recomendasi === 'Not Recommend'"
-                (change)="change('Not Recommend')"
-                label="{{ radioButtonNotRecommend }}"
-                value="Not Recommend"
-                [disabled]="disabledOpinion"
-              ></ejs-radiobutton>
+          <p class="e-card-sub-title">Opinion</p>
+          <section
+            *ngIf="
+              this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
+              this.creditProposalItem.statusId === 'CP_CHECKER' ||
+              this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+              this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
+              this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
+            "
+          >
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="true"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
+            ></ejs-documenteditorcontainer>
+          </section>
+          <section
+            *ngIf="
+              creditProposalItem.statusId === 'CP_DAR_FINAL' ||
+              creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
+              creditProposalItem.statusId === 'CP_CC_DISTRIBUTION'
+            "
+          >
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [enableToolbar]="false"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              (documentChange)="onDocumentChange()"
+              [enableEditor]="false"
+              [isReadOnly]="true"
+            ></ejs-documenteditorcontainer>
+          </section>
+        </div>
+
+        <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'">
+          <div class="form-group">
+            <p class="e-card-sub-title">{{ nameLabel }}</p>
+            <div class="d-flex justify-content-around">
+              <div class="mx-2">
+                <ejs-radiobutton
+                  [checked]="recomendasi === 'Recommend as Propose'"
+                  (change)="change('Recommend as Propose')"
+                  label="{{ radioButtonPurpose }}"
+                  value="Recommend as Propose"
+                  [disabled]="disabledOpinion"
+                ></ejs-radiobutton>
+              </div>
+              <div class="mx-2">
+                <ejs-radiobutton
+                  [checked]="recomendasi === 'Recommend With Condition'"
+                  (change)="change('Recommend With Condition')"
+                  label="{{ radioButtonCondition }}"
+                  value="Recommend With Condition"
+                  [disabled]="disabledOpinion"
+                ></ejs-radiobutton>
+              </div>
+              <div class="mx-2">
+                <ejs-radiobutton
+                  [checked]="recomendasi === 'Not Recommend'"
+                  (change)="change('Not Recommend')"
+                  label="{{ radioButtonNotRecommend }}"
+                  value="Not Recommend"
+                  [disabled]="disabledOpinion"
+                ></ejs-radiobutton>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'">
-        <div class="form-group">
-          <p class="e-card-sub-title">Approved Status</p>
-          <div class="d-flex justify-content-around">
-            <div class="mx-2">
-              <ejs-radiobutton
-                label="Approved as Propose"
-                value="Approved as Propose"
-                [checked]="recomendasi === 'Approved as Propose'"
-                (change)="change('Approved as Propose')"
-                [disabled]="disabledOpinion"
-              ></ejs-radiobutton>
-            </div>
-            <div class="mx-2">
-              <ejs-radiobutton
-                label="Approved With Condition"
-                value="Approved With Condition"
-                [checked]="recomendasi === 'Approved With Condition'"
-                (change)="change('Approved With Condition')"
-                [disabled]="disabledOpinion"
-              ></ejs-radiobutton>
-            </div>
-            <div class="mx-2">
-              <ejs-radiobutton
-                label="Not Approved"
-                value="Not Approved"
-                [checked]="recomendasi === 'Not Approved'"
-                (change)="change('Not Approved')"
-                [disabled]="disabledOpinion"
-              ></ejs-radiobutton>
+        <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'">
+          <div class="form-group">
+            <p class="e-card-sub-title">Approved Status</p>
+            <div class="d-flex justify-content-around">
+              <div class="mx-2">
+                <ejs-radiobutton
+                  label="Approved as Propose"
+                  value="Approved as Propose"
+                  [checked]="recomendasi === 'Approved as Propose'"
+                  (change)="change('Approved as Propose')"
+                  [disabled]="disabledOpinion"
+                ></ejs-radiobutton>
+              </div>
+              <div class="mx-2">
+                <ejs-radiobutton
+                  label="Approved With Condition"
+                  value="Approved With Condition"
+                  [checked]="recomendasi === 'Approved With Condition'"
+                  (change)="change('Approved With Condition')"
+                  [disabled]="disabledOpinion"
+                ></ejs-radiobutton>
+              </div>
+              <div class="mx-2">
+                <ejs-radiobutton
+                  label="Not Approved"
+                  value="Not Approved"
+                  [checked]="recomendasi === 'Not Approved'"
+                  (change)="change('Not Approved')"
+                  [disabled]="disabledOpinion"
+                ></ejs-radiobutton>
+              </div>
             </div>
           </div>
+        </section>
+
+        <div class="form-group">
+          <p class="e-card-sub-title">Condition</p>
+          <section
+            *ngIf="
+              this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
+              this.creditProposalItem.statusId === 'CP_CHECKER' ||
+              this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
+              this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
+              this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
+            "
+          >
+            <ejs-documenteditorcontainer
+              #document_editor_container_condition
+              [enableToolbar]="true"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDownCondition($event)"
+              (created)="onCreateCondition()"
+            ></ejs-documenteditorcontainer>
+          </section>
+
+          <section
+            *ngIf="
+              creditProposalItem.statusId === 'CP_DAR_FINAL' ||
+              creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
+              creditProposalItem.statusId === 'CP_CC_DISTRIBUTION'
+            "
+          >
+            <ejs-documenteditorcontainer
+              #document_editor_container_condition
+              [enableToolbar]="false"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              (documentChange)="onDocumentChanges()"
+              [enableEditor]="false"
+              [isReadOnly]="true"
+            ></ejs-documenteditorcontainer>
+          </section>
         </div>
-      </section>
-
-      <div class="form-group">
-        <p class="e-card-sub-title">Condition</p>
-        <section
-          *ngIf="
-            this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
-            this.creditProposalItem.statusId === 'CP_CHECKER' ||
-            this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-            this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
-            this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
-          "
-        >
-          <ejs-documenteditorcontainer
-            #document_editor_container_condition
-            [enableToolbar]="true"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            [spellcheck]="false"
-            [enableSpellCheck]="false"
-            (keyDown)="onKeyDownCondition($event)"
-            (created)="onCreateCondition()"
-          ></ejs-documenteditorcontainer>
-        </section>
-
-        <section
-          *ngIf="
-            creditProposalItem.statusId === 'CP_DAR_FINAL' ||
-            creditProposalItem.statusId === 'CP_DAR_CHECKER' ||
-            creditProposalItem.statusId === 'CP_CC_DISTRIBUTION'
-          "
-        >
-          <ejs-documenteditorcontainer
-            #document_editor_container_condition
-            [enableToolbar]="false"
-            [enableLocalPaste]="false"
-            height="100vh"
-            style="display: block"
-            (documentChange)="onDocumentChanges()"
-            [enableEditor]="false"
-            [isReadOnly]="true"
-          ></ejs-documenteditorcontainer>
-        </section>
       </div>
     </div>
   </mat-card-content>

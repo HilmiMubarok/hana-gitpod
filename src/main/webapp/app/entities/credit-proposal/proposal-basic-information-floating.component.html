@@ -224,16 +224,18 @@
                   <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
                   <jhi-credit-proposal-tab-loan-facility-detail
                     *ngIf="!isHistoryExist"
+                    [parentSource]="'summaryAll'"
                     [creditProposal]="creditProposal"
                   ></jhi-credit-proposal-tab-loan-facility-detail>
-                  <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                  <jhi-loan-facility-detail-history [parentSource]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-loan-facility-detail-history>
                   <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"> </jhi-credit-proposal-tab-exposure>
-                  <jhi-credit-proposal-collateral-info *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
+                  <jhi-credit-proposal-collateral-info [source]="'summaryAll'" *ngIf="!isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-credit-proposal-collateral-info>
-                  <jhi-collateral-info-history *ngIf="isHistoryExist" [creditProposal]="creditProposal"> </jhi-collateral-info-history>
+                  <jhi-collateral-info-history [source]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
+                  </jhi-collateral-info-history>
 
-                  <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                  <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"></jhi-credit-proposal-tab-summary>
                 </div>
               </div>
 
@@ -289,6 +291,8 @@
                   *ngIf="!isHistoryExist"
                   [saveWord]="saveWord"
                   [creditProposal]="creditProposal"
+                  [parentSource]="'credit-proposal'"
+                  [parentSourceSub]="'from-click-menu'"
                 ></jhi-credit-proposal-tab-loan-facility-detail>
                 <jhi-loan-facility-detail-history *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                 </jhi-loan-facility-detail-history>
@@ -318,7 +322,7 @@
 
               <div *ngIf="clickedMenu === 'opinion'">
                 <jhi-credit-proposal-opinion-history
-				  (uuidPath)="setUuidPath($event)"
+                  (uuidPath)="setUuidPath($event)"
                   (newItemEvent)="setOpinionRecomendation($event)"
                   #creditProposalOpinionHistoryComponent
                   [recomendation]="recomendation"

@@ -57,6 +57,8 @@ export class CreditProposalTabSummaryComponent implements OnInit {
   private getKey: string;
   private fileGet: File;
 
+  @Input() source = '';
+
   @Input() saveWord: any;
   approvalStatus: string;
   @Input()
