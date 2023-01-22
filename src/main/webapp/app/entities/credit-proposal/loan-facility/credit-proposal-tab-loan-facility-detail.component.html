@@ -124,8 +124,9 @@
       </div>
     </div>
     <div class="mb-2">
-      <mat-label>REMARKS</mat-label>
-      <section *ngIf="parentSource === ''">
+      <section *ngIf="parentSource === 'credit-proposal'">
+        <mat-label>REMARKS</mat-label>
+
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
@@ -156,6 +157,7 @@
         </section>
       </section>
       <section *ngIf="parentSource === 'loan-analys'">
+        <mat-label>REMARKS</mat-label>
         <ejs-documenteditorcontainer
           #document_editor_container_view_false_loan_analys
           [enableToolbar]="false"
@@ -298,12 +300,12 @@
       </div>
     </div>
     <div class="mb-2">
-      <div class="e-card-header">
-        <div class="e-card-header-caption">
-          <div class="e-card-header-title">REMARKS</div>
+      <section *ngIf="parentSource === 'credit-proposal'">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">REMARKS</div>
+          </div>
         </div>
-      </div>
-      <section *ngIf="parentSource === ''">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
             #document_editor_container
@@ -335,6 +337,11 @@
         </section>
       </section>
       <section *ngIf="parentSource === 'loan-analys'">
+        <div class="e-card-header">
+          <div class="e-card-header-caption">
+            <div class="e-card-header-title">REMARKS</div>
+          </div>
+        </div>
         <ejs-documenteditorcontainer
           #document_editor_container_loan_analys
           [enableToolbar]="false"

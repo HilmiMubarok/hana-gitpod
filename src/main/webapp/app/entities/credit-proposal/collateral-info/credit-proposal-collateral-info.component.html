@@ -1,59 +1,99 @@
-<div class="row">
-  <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
-    <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
-  </div>
-  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
-    <ejs-menu
-      [hidden]="view"
-      *ngIf="isViewMode === false || customPath === true"
-      [enableScrolling]="true"
-      cssClass="e-rounded-menu e-custom-scroll"
-      [items]="menuItems"
-      (select)="selectMenuItem($event)"
-    ></ejs-menu>
-    <div *ngIf="selectedMenu !== 'CHECKLIST'">
-      <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
-      <jhi-credit-proposal-collateral-info-remarks-information
-        #creditProposalCollateralInfoRemarksInfoComponentAbove
-        [creditProposal]="creditProposal"
-        [parentSource]="parentSource"
-      >
-      </jhi-credit-proposal-collateral-info-remarks-information>
+<section *ngIf="source === ''">
+  <div class="row">
+    <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
+      <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
     </div>
-  </div>
-  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
-    <div *ngIf="selectedMenu === 'CHECKLIST'">
-      <div class="card-content">
-        <jhi-credit-proposal-collateral-info-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposal">
-        </jhi-credit-proposal-collateral-info-checklist>
-        <jhi-credit-proposal-collateral-info-remarks-checklist
-          #creditProposalCollateralInfoRemarksCheckComponent
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+      <ejs-menu
+        [hidden]="view"
+        *ngIf="isViewMode === false || customPath === true"
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItems"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+      <div *ngIf="selectedMenu !== 'CHECKLIST'">
+        <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
+        <jhi-credit-proposal-collateral-info-remarks-information
+          #creditProposalCollateralInfoRemarksInfoComponentAbove
           [creditProposal]="creditProposal"
           [parentSource]="parentSource"
         >
-        </jhi-credit-proposal-collateral-info-remarks-checklist>
+        </jhi-credit-proposal-collateral-info-remarks-information>
+      </div>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+      <div *ngIf="selectedMenu === 'CHECKLIST'">
+        <div class="card-content">
+          <jhi-credit-proposal-collateral-info-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+          </jhi-credit-proposal-collateral-info-checklist>
+          <jhi-credit-proposal-collateral-info-remarks-checklist
+            #creditProposalCollateralInfoRemarksCheckComponent
+            [creditProposal]="creditProposal"
+            [parentSource]="parentSource"
+          >
+          </jhi-credit-proposal-collateral-info-remarks-checklist>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
-  <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
-  <jhi-credit-proposal-collateral-info-remarks-information
-    #creditProposalCollateralInfoRemarksInfoComponentBelow
-    [creditProposal]="creditProposal"
-    [parentSource]="parentSource"
-  >
-  </jhi-credit-proposal-collateral-info-remarks-information>
-</div>
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+    <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
+    <jhi-credit-proposal-collateral-info-remarks-information
+      #creditProposalCollateralInfoRemarksInfoComponentBelow
+      [creditProposal]="creditProposal"
+      [parentSource]="parentSource"
+    >
+    </jhi-credit-proposal-collateral-info-remarks-information>
+  </div>
 
-<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-  <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
-  </jhi-credit-proposal-collateral-info-btb>
-  <jhi-credit-proposal-collateral-info-remarks-information
-    #creditProposalCollateralInfoRemarksInfoComponentBtb
-    [creditProposal]="creditProposal"
-    [parentSource]="parentSource"
-  >
-  </jhi-credit-proposal-collateral-info-remarks-information>
-</div>
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+    <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+    </jhi-credit-proposal-collateral-info-btb>
+    <jhi-credit-proposal-collateral-info-remarks-information
+      #creditProposalCollateralInfoRemarksInfoComponentBtb
+      [creditProposal]="creditProposal"
+      [parentSource]="parentSource"
+    >
+    </jhi-credit-proposal-collateral-info-remarks-information>
+  </div>
+</section>
+
+<section *ngIf="source === 'summaryAll'">
+  <div class="row">
+    <div *ngIf="creditProposal.attributes['proposalType'] === '' || creditProposal.attributes['proposalType'] === null">
+      <h2 style="font-weight: 30px">- Please Select Proposal Type -</h2>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+      <ejs-menu
+        [hidden]="view"
+        *ngIf="isViewMode === false || customPath === true"
+        [enableScrolling]="true"
+        cssClass="e-rounded-menu e-custom-scroll"
+        [items]="menuItems"
+        (select)="selectMenuItem($event)"
+      ></ejs-menu>
+      <div *ngIf="selectedMenu !== 'CHECKLIST'">
+        <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
+      </div>
+    </div>
+    <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+      <div *ngIf="selectedMenu === 'CHECKLIST'">
+        <div class="card-content">
+          <jhi-credit-proposal-collateral-info-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+          </jhi-credit-proposal-collateral-info-checklist>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+    <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
+  </div>
+
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+    <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+    </jhi-credit-proposal-collateral-info-btb>
+  </div>
+</section>

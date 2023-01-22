@@ -53,6 +53,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   @Input() parentSource: String = '';
 
+  @Input() parentSourceSub: String = '';
+
   @Input() isViewMode: Boolean = false;
 
   @Input()
@@ -120,8 +122,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    if (this.router.url.split('/')[1] === 'cp-status-approval') {
-      this.parentSource = 'loan-analys';
+    if (this.parentSourceSub === 'from-click-menu') {
+      if (this.router.url.split('/')[1] === 'cp-status-approval') {
+        this.parentSource = 'loan-analys';
+      }
     }
     this.getWord();
 
@@ -172,13 +176,13 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
                 let docEditor: any;
 
                 if (this.isViewMode === true) {
-                  if (this.parentSource === '') {
+                  if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
                     docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
                   } else if (this.parentSource === 'loan-analys') {
                     docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
                   }
                 } else if (this.isViewMode === false) {
-                  if (this.parentSource === '') {
+                  if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
                     docEditor = this.container?.documentEditor as DocumentEditorComponent;
                   } else if (this.parentSource === 'loan-analys') {
                     docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
@@ -209,6 +213,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   public triggeredSave(): void {
+    // if (this.parentSource === '' || this.parentSource === 'loan-analys') {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -220,13 +225,13 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     let docEditor: any;
 
     if (this.isViewMode === true) {
-      if (this.parentSource === '') {
+      if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
         docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
       } else if (this.parentSource === 'loan-analys') {
         docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
       }
     } else if (this.isViewMode === false) {
-      if (this.parentSource === '') {
+      if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
         docEditor = this.container?.documentEditor as DocumentEditorComponent;
       } else if (this.parentSource === 'loan-analys') {
         docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
@@ -256,6 +261,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
+    // }
   }
 
   public tools: object = {
