@@ -13,6 +13,7 @@
             placeholder="Offering Letter No."
             cssClass="e-outline"
             floatLabelType="Auto"
+            [disabled]="field"
           ></ejs-textbox>
           <!-- <ejs-textbox placeholder="Offering Letter No." cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
         </div>
@@ -36,6 +37,7 @@
             placeholder="Offering Letter Date"
             floatLabelType="auto"
             [(ngModel)]="creditProposal.attributes['offeringLetterPreparation'].dateOffering"
+            [disabled]="field"
           >
           </ejs-datepicker>
           <!-- <ejs-textbox placeholder="Offering Letter Date" cssClass="e-outline" floatLabelType="Always" disabled> </ejs-textbox> -->
@@ -51,6 +53,7 @@
             cssClass="e-outline"
             [multiline]="true"
             floatLabelType="Always"
+            [disabled]="field"
           >
           </ejs-textbox>
         </div>
