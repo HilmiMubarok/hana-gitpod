@@ -450,7 +450,6 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
         this.remarks[i] = this.creditProposal.attributes['complienceReccomendation'].complienceRec[i].remarks;
       }
     }
-    this.disabledOffering();
     this.remaksCondition();
     this.conditionDisableCompliance();
 
@@ -487,21 +486,8 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
 
   private fileGet: File;
 
-  public disabledOffering() {
-    this.route = this.activatedRoute.snapshot.data['offeringLetter'];
-    if (this.route) {
-      this.view = true;
-    }
-    if (
-      this.creditProposal.statusId === 'CP_CC_DEPT_HEAD' ||
-      this.creditProposal.statusId === 'CP_CC_DIV_HEAD' ||
-      this.creditProposal.statusId === 'CP_CC_DIRECTOR'
-    ) {
-      this.view = true;
-    }
-  }
-
   public disabledCompliance: boolean;
+
   public conditionDisableCompliance() {
     if (
       this.creditProposal.statusId === 'CP_CC_DEPT_HEAD' ||
@@ -509,8 +495,15 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       this.creditProposal.statusId === 'CP_CC_DIRECTOR'
     ) {
       this.disabledCompliance = true;
-    } else {
-      this.disabledCompliance = false;
+    }
+    //  Disabled Offering Letter All State
+    if (
+      this.tempRouter === 'distribution' ||
+      this.tempRouter === 'finalize' ||
+      this.tempRouter === 'review' ||
+      this.tempRouter === 'confirmation'
+    ) {
+      this.disabledCompliance = true;
     }
   }
 
