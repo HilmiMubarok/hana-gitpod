@@ -301,13 +301,6 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       remarks: '',
     },
     {
-      No: 27,
-      regulation: '',
-      criteria: 'Gearing ratio paling sedikit 5% (lima persen).',
-      value: '',
-      remarks: '',
-    },
-    {
       No: 28,
       regulation: 'Khusus untuk Perusahaan Modal Ventura',
       criteria: '',
