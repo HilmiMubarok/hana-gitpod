@@ -98,6 +98,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public cp: ICreditProposal;
   public isShow = false;
   public isHistoryExist: boolean;
+  public darRouter: boolean
 
   public uuidPath: any;
   public recomendation: string;
@@ -129,6 +130,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
+    this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1
 
     this.url = this.parentPath; // kebutuhan buat assign to
     switch (this.parentPath) {
@@ -312,6 +314,17 @@ export class LoanAnalysMainComponent implements OnInit {
     this.creditProposalProcessService.getTasks(this.id).subscribe(res => {
       this.tasks = res.body;
     });
+  }
+
+  public sendEmail(){
+    this.creditProposalService.sendNotification(this.creditProposal.id).subscribe(()=>{
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Send Email Success',
+      });
+    })
   }
 
   public processTask(task: IProcessTask): void {
