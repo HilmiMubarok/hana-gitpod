@@ -214,6 +214,240 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       value: '',
       remarks: '',
     },
+    {
+      No: 16,
+      regulation: '',
+      criteria:
+        'Bukan pemberian kredit untuk penyelesaian kredit bermasalah dengan cara menambahkan plafond kredit atau tunggakan-tunggakan bunga dan mengkapitalisasi tunggakan bunga (plafondering) sebagaimana dilarang dalam POJK No. 42/POJK.03/2017 tentang Kewajiban Penyusunan dan Pelaksanaan Kebijakan Perkreditan atau Pembiayaan Bank bagi Bank Umum.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 17,
+      regulation: '',
+      criteria:
+        'Memiliki izin lingkungan berupa AMDAL (Analisis Mengenai Dampak Lingkungan) dan/atau UKL UPL (Upaya Pengelolaan Lingkungan Hidup dan Upaya Pemantauan Lingkungan Hidup).',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 18,
+      regulation: 'Khusus untuk perusahaan pembiayaan',
+      criteria: 'Jangka waktu pengembalian pinjaman paling singkat 1 tahun.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 19,
+      regulation: '',
+      criteria: 'Dituangkan dalam bentuk perjanjian akta notaril.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 20,
+      regulation: '',
+      criteria: 'Tidak dapat diperpanjang secara otomatis (automatic roll over',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 21,
+      regulation: '',
+      criteria: 'Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 22,
+      regulation: '',
+      criteria: 'Memiliki tingkat kesehatan keuangan dengan kondisi minimum sehat.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 23,
+      regulation: '',
+      criteria: 'Memiliki tingkat risiko perusahaan dengan kondisi minimum sedang rendah.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 24,
+      regulation: 'Khusus untuk Bank Perkreditan Rakyat',
+      criteria: 'Wajib memiliki izin OJK.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 25,
+      regulation: '',
+      criteria: 'Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 26,
+      regulation: '',
+      criteria: 'Memiliki tingkat kesehatan keuangan dengan kondisi minimum peringkat komposit 3 (tiga).',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 27,
+      regulation: '',
+      criteria: 'Gearing ratio paling sedikit 5% (lima persen).',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 27,
+      regulation: '',
+      criteria: 'Gearing ratio paling sedikit 5% (lima persen).',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 28,
+      regulation: 'Khusus untuk Perusahaan Modal Ventura',
+      criteria: '',
+      value: 'Wajib memiliki izin OJK.',
+      remarks: '',
+    },
+    {
+      No: 29,
+      regulation: '',
+      criteria:
+        'Wajib memiliki penyertaan saham dan/atau penyertaan melalui pembelian obligasi konversi paling rendah sebesar 15% (lima belas persen) dari total kegiatan usaha.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 30,
+      regulation: '',
+      criteria: 'Memiliki tingkat kesehatan keuangan dengan kondisi minimum sehat.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 31,
+      regulation: '',
+      criteria: 'Memiliki Ekuitas paling sedikit Rp50.000.000.000,00 (lima puluh miliar rupiah).',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 32,
+      regulation: '',
+      criteria: 'Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 33,
+      regulation: 'Khusus untuk debitur yayasan',
+      criteria: '',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 34,
+      regulation: '',
+      criteria: 'Masa jabatan pengurus/pembina tidak melebihi jangka waktu 5 tahun dan dapat diangkat kembali untuk 1 kali masa jabatan.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 35,
+      regulation: '',
+      criteria:
+        'Pendapatan yayasan tidak dapat dijadikan analisa kemampuan membayar debitur yang tercatat sebagai pembina/pengurus/pengawas yayasan.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 36,
+      regulation: 'Khusus Perusahaan Sekuritas/LKNB',
+      criteria:
+        'Bank dilarang memberikan kredit atau pembiayaan untuk jual beli saham kepada orang  perseorangan atau perusahaan yang bukan Perusahaan Efek.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 37,
+      regulation: '',
+      criteria:
+        'Bank  hanya  dapat  memberikan  kredit  atau  pembiayaankepada  suatu  Perusahaan  Efek  masing-masing paling tinggi  sebesar  jumlah  yang  terkecil  antara  25% dari  modal  Perusahaan  Efek  yang bersangkutan  atau 15%  dari  modal Bank',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 38,
+      regulation: '',
+      criteria: 'Kredit kepada seluruh Perusahaan Efek paling tinggi sebesar 30% dari modal Bank',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 39,
+      regulation: 'Khusus Pemberian Kredit Sindikasi',
+      criteria:
+        'Dalam pemberian Kredit atau Pembiayaan sindikasi, analisis Kredit atau Pembiayaan bagi Bank yang merupakan anggota sindikasi harus meliputi pula penilaian terhadap Bank yang bertindak sebagai bank induk',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 40,
+      regulation: 'Khusus Untuk Restrukturisasi',
+      criteria: 'Debitur mengalami kesulitan pembayaran pokok dan/atau bunga Kredit',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 41,
+      regulation: 'Debitur masih memiliki prospek usaha yang baik dan dinilai mampu memenuhi kewajiban setelah Kredit direstrukturisasi',
+      criteria: '',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 42,
+      regulation: '',
+      criteria: 'Restrukturisasi Kredit tidak bertujuan untuk memperbaiki kualitas Kredit',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 43,
+      regulation: '',
+      criteria: 'Restrukturisasi Kredit tidak bertujuan untuk menghindari peningkatan pembentukan PPKA',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 44,
+      regulation: '',
+      criteria:
+        'Apabila kredit yang akan direstrukturisasi merupakan Kredit kepada Pihak Terkait maka wajib dianalisis oleh konsultan keuangan independen yang memiliki izin usaha dan reputasi yang baik.',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 45,
+      regulation: '',
+      criteria:
+        'Restrukturisasi Kredit dilakukan antara lain dengan cara: Penurunan suku bunga Kredit; Perpanjangan jangka waktu Kredit; Pengurangan tunggakan pokok Kredit; Pengurangan tunggakan bunga Kredit; Penambahan fasilitas Kredit; Konversi Kredit menjadi Penyertaan Modal Sementara; dan/atau Upaya Perbaikan Lainnya',
+      value: '',
+      remarks: '',
+    },
+    {
+      No: 46,
+      regulation: '',
+      criteria:
+        'Khusus untuk restrukturisasi Covid – 19, Bank wajib memastikan bahwa debitur mampu terus bertahan dari dampak COVID-19 dan masih memiliki potensi kemampuan pembayaran pasca pandemi.',
+      value: '',
+      remarks: '',
+    },
   ];
 
   ngOnInit(): void {
@@ -229,7 +463,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
 
     this.getContainer();
   }
-  // maria ozawa
+
   public test() {}
   public tools: object = {
     items: [
