@@ -40,5 +40,5 @@
   <mat-progress-spinner *ngIf="loading" color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>
 <div align="right" class="mt-5">
-  <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
+  <button mat-raised-button color="success" (click)="openDialog()" [hidden]="field">ADD</button>
 </div>

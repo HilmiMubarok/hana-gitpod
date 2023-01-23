@@ -9,7 +9,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Account</mat-label>
-            <input matInput type="text" />
+            <input matInput type="text" disabled />
           </mat-form-field>
         </div>
       </section>
@@ -17,7 +17,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Index Facility</mat-label>
-            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']" />
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']" disabled />
           </mat-form-field>
         </div>
       </section>
@@ -95,7 +95,7 @@
                 <mat-label>Period Type</mat-label>
                 <mat-select [(ngModel)]="applicationProduct.attributes['maturityPeriodType']">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item" disabled>
                     {{ item }}
                   </mat-option>
                 </mat-select>
@@ -319,7 +319,7 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Current Interest Rate</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" />
+                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" disabled />
               </mat-form-field>
             </div>
           </div>
@@ -336,6 +336,7 @@
                   (ngModelChange)="periodeDate($event)"
                   type="number"
                   [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
+                  disabled
                 />
               </mat-form-field>
             </div>
@@ -344,7 +345,7 @@
                 <mat-label>Period Type</mat-label>
                 <mat-select [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item" disabled>
                     {{ item }}
                   </mat-option>
                 </mat-select>
@@ -369,7 +370,6 @@
                 />
                 <input
                   *ngIf="applicationProduct.attributes['provitionFeeRateAmountType'] === '%p.a'"
-                 
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['provitionFee']"
@@ -406,11 +406,11 @@
                 />
 
                 <input
-                *ngIf="applicationProduct.attributes['adminFeeRateAmountType'] === '%p.a'"
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['adminFee']"
-              />
+                  *ngIf="applicationProduct.attributes['adminFeeRateAmountType'] === '%p.a'"
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.attributes['adminFee']"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">
