@@ -462,12 +462,7 @@
       <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
       </jhi-button-generate-compliance>
       <jhi-button-generate-dar
-        *ngIf="
-          parentPath === 'loan-committee-approval' ||
-          parentPath === 'dar-checker' ||
-          parentPath === 'dar-final' ||
-          parentPath === 'dar-notif'
-        "
+        *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-final'"
         [creditProposal]="creditProposal"
       ></jhi-button-generate-dar>
 

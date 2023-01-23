@@ -18,6 +18,7 @@ export class OfferingLetterSignerPageComponent {
   private _creditProposal: ICreditProposal;
   private id: number;
   attributes: any;
+  public field = false;
 
   @Input()
   get creditProposal() {
@@ -42,6 +43,7 @@ export class OfferingLetterSignerPageComponent {
       this.id = params['id'];
     });
     this.loading = false;
+    this.sableFeild();
   }
 
   openDialog(element: IOfferingLetter = null): void {
@@ -95,5 +97,10 @@ export class OfferingLetterSignerPageComponent {
     const dataGrid = this.creditProposal.attributes['offeringLetter'].filter(({ id }) => id !== element.id);
     this.creditProposal.attributes['offeringLetter'] = dataGrid;
     this.creditProposal.attributes['offeringLetter'] = dataGrid;
+  }
+  public sableFeild() {
+    if (this.creditProposal.statusId !== 'OL_FINALIZE') {
+      this.field = true;
+    }
   }
 }

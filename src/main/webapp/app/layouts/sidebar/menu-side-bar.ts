@@ -901,9 +901,9 @@ export const APPRAISAL_MENU_LEGAL_HEAD: ISidebarMenuModel[] = [
     iconname: 'square-check',
     children: [
       {
-        name: 'Finalize Offering Letter',
+        name: 'Offering Letter Review',
         iconname: 'minus',
-        route: 'finalize',
+        route: 'review',
       },
     ],
   },
@@ -993,16 +993,16 @@ export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'distribution',
       },
-      {
-        name: 'Finalize Offering Letter',
-        iconname: 'minus',
-        route: 'finalize',
-      },
-      {
-        name: 'Offering Letter Review',
-        iconname: 'minus',
-        route: 'review',
-      },
+      // {
+      //   name: 'Finalize Offering Letter',
+      //   iconname: 'minus',
+      //   route: 'finalize',
+      // },
+      // {
+      //   name: 'Offering Letter Review',
+      //   iconname: 'minus',
+      //   route: 'review',
+      // },
     ],
   },
 ];

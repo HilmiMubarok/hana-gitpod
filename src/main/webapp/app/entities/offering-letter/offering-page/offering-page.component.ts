@@ -11,6 +11,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 export class OfferingLetterOfferingPageComponent {
   private _creditProposal: ICreditProposal;
   private id: number;
+  public field = false;
 
   @Input()
   get creditProposal() {
@@ -24,6 +25,12 @@ export class OfferingLetterOfferingPageComponent {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
+      this.sableFeild();
     });
+  }
+  public sableFeild() {
+    if (this.creditProposal.statusId !== 'OL_FINALIZE') {
+      this.field = true;
+    }
   }
 }

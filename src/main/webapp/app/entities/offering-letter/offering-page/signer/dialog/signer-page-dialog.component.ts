@@ -15,6 +15,7 @@ export class OfferingLetterSignerPageDialogComponent {
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
   public offeringLetter: IOfferingLetter;
+  public field = false;
 
   public listOfValue = {
     signerList: ['Debitor', 'Pt. Bank Keb Hana Indonesia'],
@@ -43,6 +44,12 @@ export class OfferingLetterSignerPageDialogComponent {
   ) {
     this.dataItem = this.data.object;
     this.offeringLetter = this.data.offeringLetter;
+    this.sableFeild();
+  }
+  public sableFeild() {
+    if (this.creditProposal.statusId !== 'OL_FINALIZE') {
+      this.field = true;
+    }
   }
   // ngOnInit(): void {
   // this.getDataName()
