@@ -465,6 +465,8 @@
         *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-final'"
         [creditProposal]="creditProposal"
       ></jhi-button-generate-dar>
+
+      <button *ngIf="darRouter === true" style="margin-right: 18px;" mat-raised-button class="btn-lg text-uppercase" (click)="sendEmail()">Send Email</button>
       <button
         style="margin-right: 25px"
         mat-raised-button

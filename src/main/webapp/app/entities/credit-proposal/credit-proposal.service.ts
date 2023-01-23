@@ -90,6 +90,10 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return this.http.get<ICreditProposal>(this.resourceUrl + '/cif-organization-template/' + cif, { observe: 'response' });
   }
 
+  public sendNotification(idApp: number): Observable<HttpResponse<any>> {
+    return this.http.post<any>(this.resourceUrl + '/send-notification-dar/' + idApp, { observe: 'response' });
+  }
+
   // public getStatus(): Observable<HttpResponse<any>> {
   //   return this.http.get<any>(this.resourceUrl + '/lov/credit-proposal-status', { observe: 'response' });
   // }
