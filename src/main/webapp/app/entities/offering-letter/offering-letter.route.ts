@@ -140,6 +140,7 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['analysisOfCalculation'] = JSON.parse(creditProposal.body.attributes['analysisOfCalculation']);
             }
+
             if (!lodash.has(creditProposal.body.attributes, 'approvalStatus')) {
               creditProposal.body.attributes['approvalStatus'] = [];
             } else {
