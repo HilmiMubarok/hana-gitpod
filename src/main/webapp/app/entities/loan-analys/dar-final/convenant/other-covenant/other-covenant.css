@@ -167,3 +167,6 @@ mat-card-header {
 .mat-dialog-content {
   overflow: hidden;
 }
+td {
+  text-align: center;
+}
