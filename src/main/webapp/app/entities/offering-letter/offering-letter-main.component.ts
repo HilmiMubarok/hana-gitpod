@@ -24,6 +24,10 @@ import { ApplicationRoleService } from '../application-role/application-role.ser
 import _ from 'lodash';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
+import { Subject, firstValueFrom, takeUntil } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { StorageService } from '../storage/storage.service';
+import { formatBytes } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -61,6 +65,9 @@ export class OfferingLetterMainComponent implements OnInit {
   public saveWord: Boolean = false;
 
   public resAttr: IProcessTask;
+  private BUCKET: string;
+  private ngUnsubscribe = new Subject();
+  public dataOfferingSPPK = [];
 
   @Input('item')
   get item() {
@@ -81,7 +88,9 @@ export class OfferingLetterMainComponent implements OnInit {
     private positionService: PositionService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
-    protected reportUtils: ReportUtilService
+    protected reportUtils: ReportUtilService,
+    private storageService: StorageService,
+    private http: HttpClient
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -196,6 +205,7 @@ export class OfferingLetterMainComponent implements OnInit {
 
     this.getTitle();
     this.getTitleMenu();
+    this.getBucketNameSummary();
   }
 
   private getTasks(): void {
@@ -437,4 +447,67 @@ export class OfferingLetterMainComponent implements OnInit {
   getTitleMenu() {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
   }
+
+  private getBucketNameSummary() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+      this.onRefresh();
+    });
+  }
+
+  private onRefresh(): void {
+    const obj = {
+      key: 'credit_proposal/summary/' + this.id,
+    };
+    this.storageService
+      .getObjects(this.BUCKET, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        console.log('xxx', response.body);
+        const temp: any[] = response?.body;
+        let i = 1;
+        const data: any[] = [];
+        temp.forEach((item: IObj) => {
+          data.push({
+            indexNum: i,
+            key: item.key,
+            appovallevel: item.name,
+            fileName: item.name,
+            metaData: item.metaData,
+            sizeFile: formatBytes(item.size),
+            tags: item.tags,
+            url: item.url,
+          });
+          i++;
+        });
+
+        this.dataOfferingSPPK = data;
+      });
+  }
+
+  private generate(): void {
+    this.generateFileOfferingSPPK().then(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'File Generated Successfully',
+      });
+      this.onRefresh();
+    });
+  }
+
+  private async generateFileOfferingSPPK(): Promise<void> {
+    const fileSPPK = await firstValueFrom(
+      this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+    );
+  }
+}
+interface IObj {
+  key?: string;
+  metaData?: any;
+  fileName?: string;
+  name?: string;
+  size?: number;
+  tags?: any;
+  url?: string;
 }
