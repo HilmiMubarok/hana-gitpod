@@ -1,5 +1,4 @@
 <ejs-menu
-  *ngIf="isViewMode === false"
   [enableScrolling]="true"
   cssClass="e-rounded-menu e-custom-scroll"
   [items]="menuItems"
@@ -113,6 +112,6 @@
 
 <div *ngIf="selectedMenu === 'DOCUMENT CHECKLIST'">
   <div>
-    <jhi-credit-proposal-document-checklist [creditProposal]="creditProposalItem"> </jhi-credit-proposal-document-checklist>
+    <jhi-document-checklist-history [creditProposal]="creditProposalItem"> </jhi-document-checklist-history>
   </div>
 </div>
