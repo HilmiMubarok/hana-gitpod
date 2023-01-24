@@ -25,8 +25,11 @@ import {
 })
 export class LoanFacilityDetailGridTempComponent implements OnInit {
   private _creditProposal: ICreditProposal;
+  public viewMode = false;
 
   // @Input() isViewMode: Boolean = false;
+
+  @Input() isDisableMode: Boolean;
 
   @Input()
   get creditProposal() {
@@ -80,6 +83,9 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
+    if (this.isDisableMode === true) {
+      this.viewMode = true;
+    }
     // this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
 
@@ -119,6 +125,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
         creditProposaldata: this.creditProposal,
         applicationProduct: this.applicationProduct,
         collateralInfo: this.collaterallInfo,
+        viewMode: this.viewMode,
       },
     });
     dialogRef.afterClosed().subscribe(res => {

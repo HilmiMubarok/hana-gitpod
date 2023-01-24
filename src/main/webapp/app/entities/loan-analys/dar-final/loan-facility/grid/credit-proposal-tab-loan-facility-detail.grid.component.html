@@ -70,7 +70,7 @@
       <button mat-icon-button (click)="openDialog(element)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button (click)="onDelete(element)">
+      <button mat-icon-button (click)="onDelete(element)" *ngIf="!viewMode">
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -87,5 +87,5 @@
 </mat-card>
 
 <div align="right" class="mt-5">
-  <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
+  <button mat-raised-button color="success" (click)="openDialog()" *ngIf="!viewMode">ADD</button>
 </div>

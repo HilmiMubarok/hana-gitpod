@@ -1786,7 +1786,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     text: 'Convenant & Document Checklist',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility Detail',
   },
   {
@@ -1883,7 +1883,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE: object[] = [
     text: 'Convenant & Document Checklist',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility Detail',
   },
   {

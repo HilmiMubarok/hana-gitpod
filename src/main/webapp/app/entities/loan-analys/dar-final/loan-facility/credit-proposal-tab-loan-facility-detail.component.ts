@@ -24,7 +24,10 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   public _creditProposal: ICreditProposal;
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
+  public viewMode = false;
+  public viewLoan = true;
 
+  @Input() isDisableMode: Boolean;
   @Input() isViewMode: Boolean = false;
 
   @Input() isViewLoan: Boolean = false;
@@ -104,6 +107,10 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
     this.removeTagRemaks();
     this.setCurrency();
     this.getWord();
+    if (this.isDisableMode === true) {
+      this.viewMode = true;
+      this.viewLoan = false;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

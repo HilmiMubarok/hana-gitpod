@@ -25,6 +25,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public ccy: string;
   public rateType: string;
   public dateIndex: number;
+  public viewMode: Boolean;
   @Input()
   get collateral() {
     return this._collateral;
@@ -190,6 +191,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      viewMode: Boolean;
       item: ICreditProposal;
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
@@ -207,10 +209,12 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.ccy = this.data.applicationProduct.attributes['currency'];
     this.rateType = this.data.applicationProduct.attributes['interestRateType'];
     this.dateIndex = this.data.applicationProduct.attributes['interestRatePeriod'];
+    this.viewMode = this.data.viewMode;
     this.indexRateServiceFun();
   }
   // public typeListControl = new FormControl(this.listOfValue.applicationTypeList['New']);
   ngOnInit(): void {
+    this.cekData();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
 
@@ -481,5 +485,11 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         }
       }
     });
+  }
+
+  public cekData() {
+    if (this.viewMode === true) {
+      this.myControl.disable();
+    }
   }
 }

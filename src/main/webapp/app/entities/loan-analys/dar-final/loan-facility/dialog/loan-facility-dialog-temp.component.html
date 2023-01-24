@@ -25,7 +25,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Application Type</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['applicationType']" name="facilityType">
+            <mat-select [(ngModel)]="applicationProduct.attributes['applicationType']" name="facilityType" [disabled]="viewMode">
               <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
             </mat-select>
           </mat-form-field>
@@ -60,7 +60,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Type</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['loanType']">
+            <mat-select [(ngModel)]="applicationProduct.attributes['loanType']" [disabled]="viewMode">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of lovLoanType" [value]="item">
                 {{ item }}
@@ -73,7 +73,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Installment Method</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['installmentMethod']" name="facilityType">
+            <mat-select [(ngModel)]="applicationProduct.attributes['installmentMethod']" name="facilityType" [disabled]="viewMode">
               <mat-option *ngFor="let item of listOfValue.installmentMethodList" [value]="item">
                 {{ item }}
               </mat-option>
@@ -87,13 +87,13 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Tenor</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['maturity']" />
+                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['maturity']" [disabled]="viewMode" />
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Period Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['maturityPeriodType']">
+                <mat-select [(ngModel)]="applicationProduct.attributes['maturityPeriodType']" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item" disabled>
                     {{ item }}
@@ -109,7 +109,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Maturity Date</mat-label>
-            <input matInput type="date" [(ngModel)]="applicationProduct.attributes['maturityDate']" />
+            <input matInput type="date" [(ngModel)]="applicationProduct.attributes['maturityDate']" [disabled]="viewMode" />
           </mat-form-field>
         </div>
       </section>
@@ -117,7 +117,10 @@
         <div class="mb-2">
           <div class="row">
             <div class="col-3" style="padding: 1rem">
-              <mat-checkbox [(ngModel)]="applicationProduct.attributes['subLimit']" (ngModelChange)="changeSublimitCheck()"
+              <mat-checkbox
+                [(ngModel)]="applicationProduct.attributes['subLimit']"
+                (ngModelChange)="changeSublimitCheck()"
+                [disabled]="viewMode"
                 >Sub-Limit</mat-checkbox
               >
             </div>
@@ -127,6 +130,7 @@
                 <mat-select
                   [(ngModel)]="applicationProduct.attributes['sublimitFromExistingFacility']"
                   (ngModelChange)="changeSublimit($event)"
+                  [disabled]="viewMode"
                 >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of labelSublimit" [value]="item">
@@ -138,7 +142,7 @@
             <div class="col-3">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Index Facility Main</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['indexFacilityMain']">
+                <mat-select [(ngModel)]="applicationProduct.attributes['indexFacilityMain']" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of lovIndex" [value]="item.index">
                     {{ item.index }}
@@ -156,7 +160,7 @@
             <label>Comitted Line:</label>
           </div>
           <div class="row">
-            <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']">
+            <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']" [disabled]="viewMode">
               <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
               <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted </mat-radio-button>
             </mat-radio-group>
@@ -167,7 +171,11 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Currency</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['currency']" (ngModelChange)="chnageCurrency($event)">
+            <mat-select
+              [(ngModel)]="applicationProduct.attributes['currency']"
+              (ngModelChange)="chnageCurrency($event)"
+              [disabled]="viewMode"
+            >
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
                 {{ item }}
@@ -180,7 +188,14 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Kurs</mat-label>
-            <input matInput type="number" [(ngModel)]="applicationProduct.attributes['kurs']" [value]="currencyName" readonly />
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="applicationProduct.attributes['kurs']"
+              [value]="currencyName"
+              readonly
+              [disabled]="viewMode"
+            />
           </mat-form-field>
         </div>
       </section>
@@ -190,10 +205,16 @@
             <mat-label>Initial Limit</mat-label>
             <div *ngIf="conCcy; then thenBlock; else elseBlock"></div>
             <ng-template #thenBlock
-              ><input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [options]="logoCcy"
+              ><input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['initialLimit']"
+                [options]="logoCcy"
+                [disabled]="viewMode"
             /></ng-template>
             <ng-template #elseBlock>
-              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [disabled]="viewMode" />
             </ng-template>
           </mat-form-field>
         </div>
@@ -204,10 +225,17 @@
             <mat-label>Outstanding</mat-label>
             <div *ngIf="conCcy; then a; else b"></div>
             <ng-template #a>
-              <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" [options]="logoCcy" />
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['outstanding']"
+                [options]="logoCcy"
+                [disabled]="viewMode"
+              />
             </ng-template>
             <ng-template #b>
-              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" [disabled]="viewMode" />
             </ng-template>
           </mat-form-field>
         </div>
@@ -216,7 +244,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Date O/S</mat-label>
-            <input matInput type="date" [(ngModel)]="applicationProduct.attributes['dateOS']" />
+            <input matInput type="date" [(ngModel)]="applicationProduct.attributes['dateOS']" [disabled]="viewMode" />
           </mat-form-field>
         </div>
       </section>
@@ -226,10 +254,17 @@
             <mat-label>Changes</mat-label>
             <div *ngIf="conCcy; then c; else d"></div>
             <ng-template #c>
-              <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" [options]="logoCcy" />
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['changes']"
+                [options]="logoCcy"
+                [disabled]="viewMode"
+              />
             </ng-template>
             <ng-template #d>
-              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" [disabled]="viewMode" />
             </ng-template>
           </mat-form-field>
         </div>
@@ -247,10 +282,17 @@
                 [(ngModel)]="applicationProduct.attributes['totalPlafond']"
                 [options]="logoCcy"
                 [value]="calTotalPlafond()"
+                [disabled]="viewMode"
               />
             </ng-template>
             <ng-template #f>
-              <input matInput type="text" [(ngModel)]="applicationProduct.attributes['totalPlafond']" [value]="calTotalPlafond()" />
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.attributes['totalPlafond']"
+                [value]="calTotalPlafond()"
+                [disabled]="viewMode"
+              />
             </ng-template>
           </mat-form-field>
         </div>
@@ -258,7 +300,9 @@
       <section>
         <div class="mb-2">
           <div class="col-4" style="padding: 1rem">
-            <mat-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']">Restruct Status</mat-checkbox>
+            <mat-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']" [disabled]="viewMode"
+              >Restruct Status</mat-checkbox
+            >
           </div>
         </div>
       </section>
@@ -266,7 +310,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Restruct Method</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.attributes['restructMethod']">
+            <mat-select [(ngModel)]="applicationProduct.attributes['restructMethod']" [disabled]="viewMode">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listOfValue.restructList" [value]="item">
                 {{ item }}
@@ -279,7 +323,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Description</mat-label>
-            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['keterangan']" />
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['keterangan']" [disabled]="viewMode" />
           </mat-form-field>
         </div>
       </section>
@@ -287,7 +331,12 @@
         <div>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Disbursement Condition</mat-label>
-            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+            <textarea
+              matInput
+              style="height: 200px"
+              [(ngModel)]="applicationProduct.attributes['disbursementCondition']"
+              [disabled]="viewMode"
+            ></textarea>
           </mat-form-field>
         </div>
       </section>
@@ -295,7 +344,7 @@
         <div>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>REMARKS</mat-label>
-            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']"></textarea>
+            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']" [disabled]="viewMode"></textarea>
           </mat-form-field>
         </div>
       </section>
@@ -308,7 +357,11 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Interest Rate Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['interestRateType']" (ngModelChange)="changeIntRateType($event)">
+                <mat-select
+                  [(ngModel)]="applicationProduct.attributes['interestRateType']"
+                  (ngModelChange)="changeIntRateType($event)"
+                  [disabled]="viewMode"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.interestRateTypeList" [value]="item">
                     {{ item }}
@@ -343,7 +396,7 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Period Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']">
+                <mat-select [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item" disabled>
                     {{ item }}
@@ -367,19 +420,21 @@
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['provitionFee']"
+                  [disabled]="viewMode"
                 />
                 <input
                   *ngIf="applicationProduct.attributes['provitionFeeRateAmountType'] === '%p.a'"
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['provitionFee']"
+                  [disabled]="viewMode"
                 />
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Rate / Amount Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['provitionFeeRateAmountType']">
+                <mat-select [(ngModel)]="applicationProduct.attributes['provitionFeeRateAmountType']" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
                     {{ item }}
@@ -403,6 +458,7 @@
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['adminFee']"
+                  [disabled]="viewMode"
                 />
 
                 <input
@@ -410,13 +466,14 @@
                   matInput
                   type="text"
                   [(ngModel)]="applicationProduct.attributes['adminFee']"
+                  [disabled]="viewMode"
                 />
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Rate / Amount Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['adminFeeRateAmountType']">
+                <mat-select [(ngModel)]="applicationProduct.attributes['adminFeeRateAmountType']" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
                     {{ item }}
@@ -433,13 +490,13 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Grace Period</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['gracePeriod']" />
+                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['gracePeriod']" [disabled]="viewMode" />
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Period Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['gracePeriodType']">
+                <mat-select [(ngModel)]="applicationProduct.attributes['gracePeriodType']" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
                     {{ item }}
@@ -456,13 +513,13 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Available Period</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['availablePeriod']" />
+                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['availablePeriod']" [disabled]="viewMode" />
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Period Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.attributes['availablePeriodType']" [value]="">
+                <mat-select [(ngModel)]="applicationProduct.attributes['availablePeriodType']" [value]="" [disabled]="viewMode">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
                     {{ item }}
@@ -477,14 +534,20 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Index Rate</mat-label>
-          <input matInput [(ngModel)]="indexRate" type="text" />
+          <input matInput [(ngModel)]="indexRate" type="text" [disabled]="viewMode" />
         </mat-form-field>
       </div>
       <section>
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Purpose</mat-label>
-            <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="applicationProduct.attributes['loanPurpose']"></textarea>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['loanPurpose']"
+              [disabled]="viewMode"
+            ></textarea>
           </mat-form-field>
         </div>
       </section>
@@ -492,11 +555,14 @@
   </div>
 
   <mat-label>Mapping to Collateral</mat-label>
-  <jhi-mapping-collateral-temp (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"></jhi-mapping-collateral-temp>
+  <jhi-mapping-collateral-temp
+    (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
+    [isDisableMode]="viewMode"
+  ></jhi-mapping-collateral-temp>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section>
-    <button mat-button (click)="save()">Save</button>
+    <button mat-button (click)="save()" *ngIf="!viewMode">Save</button>
   </section>
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>
