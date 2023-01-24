@@ -176,7 +176,8 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
+            <jhi-credit-proposal-tab-summary [fileSPPK]="dataOfferingSPPK" [source]="'summaryAll'" [item]="creditProposal">
+            </jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
@@ -364,7 +365,7 @@
         style="margin-right: 25px"
         mat-raised-button
         *ngIf="creditProposal.statusId === 'OL_FINALIZE' || creditProposal.statusId === 'OL_ASSIGNED'"
-        (click)="print()"
+        (click)="generate()"
         class="btn-lg text-uppercase"
       >
         Generate SPPK

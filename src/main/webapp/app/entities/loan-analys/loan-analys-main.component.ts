@@ -1057,12 +1057,7 @@ export class LoanAnalysMainComponent implements OnInit {
           });
           i++;
         });
-        if (
-          this.parentPath === 'loan-committee-approval' ||
-          this.parentPath === 'dar-checker' ||
-          this.parentPath === 'dar-final' ||
-          this.parentPath === 'dar-notif'
-        ) {
+        if (this.parentPath === 'loan-committee-approval' || this.parentPath === 'dar-final') {
           this.dataFileDar = data;
         }
         if (this.parentPath === 'cc-inquiry') {
