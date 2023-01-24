@@ -86,6 +86,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     if (this.isDisableMode === true) {
       this.viewMode = true;
     }
+    console.log('is view mode', this.viewMode);
     // this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
 
