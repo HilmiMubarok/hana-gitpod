@@ -24,7 +24,7 @@
         <button mat-icon-button (click)="onEditDialog(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="onDelete(element)">
+        <button mat-icon-button (click)="onDelete(element)" *ngIf="!field">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -35,10 +35,10 @@
     <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
   </table>
-</div>
-<mat-card id="material-loading-bar">
-  <mat-progress-spinner *ngIf="loading" color="warn" mode="indeterminate"> </mat-progress-spinner>
-</mat-card>
-<div align="right" class="mt-5">
-  <button mat-raised-button color="success" (click)="openDialog()" [hidden]="field">ADD</button>
+  <mat-card *ngIf="loading" id="material-loading-bar">
+    <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+  </mat-card>
+  <div align="right" class="mt-5">
+    <button mat-raised-button color="success" (click)="openDialog()" [hidden]="field">ADD</button>
+  </div>
 </div>
