@@ -196,7 +196,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           maturityPeriodType: (cpFacility[i].FILN10_ROLL_GAP_GB_NM = cpFacility[i].PERIOD_TYPE),
           memoDate: '2022-11-24T10:57:14.435Z',
           memoNo: '',
-          nomorUrutFasilitas: '2',
+          nomorUrutFasilitas: i + 1,
           outstanding: cpFacility[i].LNB_BASE_LON_JAN,
           principalFrequency: '0',
           principalFrequencyPeriodType: '',
