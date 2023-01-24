@@ -28,7 +28,9 @@ import { CreditProposalService } from './credit-proposal.service';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class CreditProposalTabSummaryComponent implements OnInit {
+export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
+  public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
+
   private ngUnsubscribe = new Subject();
   public state: string;
   public dialogVisible: false;
@@ -69,6 +71,10 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     this.viewButton = item;
   }
 
+  @Input() fileDar: any;
+  @Input() fileCompliance: any;
+  @Input() fileSPPK: any;
+
   constructor(
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
@@ -79,6 +85,21 @@ export class CreditProposalTabSummaryComponent implements OnInit {
     protected messageService: MessageService,
     private http: HttpClient
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Loan Analys Generate Dar And SPPK
+    if (changes.fileDar) {
+      this.data = this.fileDar;
+    }
+    // Loan Analys Generate Compliance
+    if (changes.fileCompliance) {
+      this.data = this.fileCompliance;
+    }
+    // Offering Latter Generate SPPK
+    if (changes.fileSPPK) {
+      this.data = this.fileSPPK;
+    }
+  }
 
   ngOnInit(): void {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');

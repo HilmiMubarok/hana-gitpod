@@ -257,7 +257,6 @@ import { AssignToComponent } from './loan-analys/assign-to/assign-to.component';
 import { CreditProposalBankAccountAnalystDialogEditComponent } from './credit-proposal/bank-account-analyst/edit/bank-account-analyst-dialog-edit.component';
 import { DebtorDataSlikUploadComponent } from './debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-upload.component';
 import { CreditProposalOtherDeviationComponent } from './credit-proposal/convenant/other-covenant/credit-proposal-other-deviation.component';
-import { LoanAnalysGenerateDarComponent } from './loan-analys/generate-dar/loan-analys-generate-dar.component';
 import { CollateralInfoHistoryComponent } from './credit-proposal/collateral-info-history/collateral-info-history.component';
 import { AboveGridHistoryComponent } from './credit-proposal/collateral-info-history/above-grid/above-grid.component';
 import { CollateralInfoHistoryDialogComponent } from './credit-proposal/collateral-info-history/dialog/credit-proposal-collateral-info-dialog.component';
@@ -268,7 +267,6 @@ import { CollateralInfoChecklistHistoryComponent } from './credit-proposal/colla
 import { GroupCollateralHistoryComponent } from './credit-proposal/collateral-info-history/group-collateral/group-collateral.component';
 import { ParipasuCollateralHistoryComponent } from './credit-proposal/collateral-info-history/paripasu-collateral/paripasu-collateral.component';
 import { CollateralInfoRemarksHistoryComponent } from './credit-proposal/collateral-info-history/remarks/credit-proposal-collateral-info-remarks.component';
-import { LoanAnalysGenerateComplianceComponent } from './loan-analys/generate-compliance-report/loan-analys-generate-compliance.component';
 import { LoanFacilityDetailHistoryComponent } from './credit-proposal/loan-facility-history/loan-facility-detail-history.component';
 import { LoanFacilityDetailGridHistoryComponent } from './credit-proposal/loan-facility-history/grid/credit-proposal-tab-loan-facility-detail.grid.component';
 import { LoanFacilityTakeOverGridHistoryComponent } from './credit-proposal/loan-facility-history/take-over/credit-proposal-tab-loan-facility-take-over.grid.component';
@@ -580,7 +578,7 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalMappingFacilityComponent,
-   
+
 
 
     // === Previous === //
@@ -636,7 +634,6 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     PositionReportingStructureViewComponent,
     /* jhipster-needle-declaration-entity-as-list */
     DebtorDataSlikUploadComponent,
-    LoanAnalysGenerateDarComponent,
 
     // Credit Proposal History
     CollateralInfoHistoryComponent,
@@ -657,8 +654,6 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     ParipasuCollateralHistoryComponent,
     // Remarks
     CollateralInfoRemarksHistoryComponent,
-
-    LoanAnalysGenerateComplianceComponent,
 
     // === Loan Facility History === //
     LoanFacilityDetailHistoryComponent,
@@ -988,7 +983,6 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     CreditProposalBankAccountAnalystDialogEditComponent,
     AssignToComponent,
     DebtorDataSlikUploadComponent,
-    LoanAnalysGenerateDarComponent,
     PositionReportingStructureViewComponent, // Remove Me
 
     // === Credit Proposal History === //
@@ -1010,8 +1004,6 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     ParipasuCollateralHistoryComponent,
     // Remarks
     CollateralInfoRemarksHistoryComponent,
-
-    LoanAnalysGenerateComplianceComponent,
 
     // === Loan Facility History === //
     LoanFacilityDetailHistoryComponent,
