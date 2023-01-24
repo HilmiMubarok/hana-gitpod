@@ -176,13 +176,20 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [fileSPPK]="dataOfferingSPPK" [source]="'summaryAll'" [item]="creditProposal">
+            <jhi-credit-proposal-tab-summary
+              [fileDar]="dataFileDar"
+              [fileCompliance]="dataFileCompliance"
+              [source]="'summaryAll'"
+              [fileSPPK]="dataOfferingSPPK"
+              [item]="creditProposal"
+              [sourceComponent]="'loan'"
+            >
             </jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
 
         <!-- opinion -->
-        <mat-card class="mb-3">
+        <!-- <mat-card class="mb-3">
           <mat-card-content>
             <jhi-loan-analys-opinion
               [saveWordOpinionCondition]="saveWordOpinionCondition"
@@ -192,7 +199,7 @@
               [source]="'summaryAll'"
             ></jhi-loan-analys-opinion>
           </mat-card-content>
-        </mat-card>
+        </mat-card> -->
 
         <div *ngIf="url === 'distribution' && creditProposal.statusDescription === 'Ol Distribution'">
           <jhi-assign-to (assignTo)="onAssignTo($event)" [creditProposal]="creditProposal" [url]="url"> </jhi-assign-to>
