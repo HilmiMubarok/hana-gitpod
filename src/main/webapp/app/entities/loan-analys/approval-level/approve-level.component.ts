@@ -34,7 +34,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   public view: boolean;
   public statusId: boolean;
   // public field = false;
-  public creditProposal: ICreditProposal;
+  public _creditProposal: ICreditProposal;
   public statusList = [
     'CP_DRAFT',
     'CP_RETURN_TO_RM_BU',
@@ -68,20 +68,29 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     this.filteringItems = [];
   }
 
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
+  }
+
   ngOnInit(): void {
     this.getWhoAmI().then(res => {
       this.getApplicationRolesByApplicationId();
     });
-    this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
-    this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
+    // this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
+    // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
     this.sableFeild();
     this.disabledStatus();
   }
-  change(event: any) {
-    this.newItemEvent.emit(event.value);
-    this.approvalStatus = event;
-    console.log('iniEvent', event);
-  }
+  // change(event: any) {
+  //   this.newItemEvent.emit(event);
+  //   this.approvalStatus = event;
+  //   console.log('iniEvent', event);
+  // }
   public sableFeild() {
     this.patch = this.router.url.split('/')[1];
     if (

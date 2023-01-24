@@ -369,11 +369,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     });
   }
 
-  setApprovalRecomendation(newItem: string) {
-    this.approvalStatus = newItem;
-    this.item.attributes['approvalStatus'] = [newItem];
-  }
-
   // showhide component using menu
   public distribution: any;
   public approvalShow() {

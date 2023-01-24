@@ -68,27 +68,44 @@
     <p class="e-card-sub-title">Final Approval Status</p>
     <div class="d-flex justify-content-around">
       <div class="mx-2">
-        <mat-radio-group>
+        <ejs-radiobutton
+          label="Approved as proposed"
+          value="Approved as proposed"
+          [(ngModel)]="creditProposal.attributes['approvalStatus']"
+          [disabled]="disabled"
+        >
+        </ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton
+          label="Approved as condition"
+          value="Approved as condition"
+          [(ngModel)]="creditProposal.attributes['approvalStatus']"
+          [disabled]="disabled"
+        >
+        </ejs-radiobutton>
+      </div>
+
+      <!-- <mat-radio-group>
           <mat-radio-button
             [checked]="approvalStatus === 'Approved as proposed'"
             value="Approved as proposed"
-            (change)="change($event)"
+            (change)="change('Approved as proposed')"
             [disabled]="disabled"
             >Approved as proposed</mat-radio-button
           >
-        </mat-radio-group>
-      </div>
-      <div class="mx-2">
+        </mat-radio-group> -->
+      <!-- <div class="mx-2">
         <mat-radio-group>
           <mat-radio-button
             [checked]="approvalStatus === 'Approved as condition'"
             value="Approved as condition"
-            (change)="change($event)"
+            (change)="change('Approved as condition')"
             [disabled]="disabled"
             >Approved as condition</mat-radio-button
           >
         </mat-radio-group>
-      </div>
+      </div> -->
     </div>
   </div>
 </mat-card>
