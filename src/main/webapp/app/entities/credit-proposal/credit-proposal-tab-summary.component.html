@@ -153,6 +153,5 @@
         </ejs-grid> -->
     </div>
   </div>
+  <jhi-loan-facility-approve-level [creditProposal]="item" *ngIf="viewButton === 'loan'"></jhi-loan-facility-approve-level>
 </div>
-<jhi-loan-facility-approve-level *ngIf="viewButton === 'loan'" (newItemEvent)="setApprovalRecomendation($event)">
-</jhi-loan-facility-approve-level>
