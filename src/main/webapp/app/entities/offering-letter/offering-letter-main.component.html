@@ -371,7 +371,7 @@
         style="margin-right: 25px"
         mat-raised-button
         *ngIf="creditProposal.statusId === 'OL_FINALIZE' || creditProposal.statusId === 'OL_ASSIGNED'"
-        (click)="print()"
+        (click)="generate()"
         class="btn-lg text-uppercase"
       >
         Generate SPPK
