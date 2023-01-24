@@ -96,10 +96,8 @@
                     disabled
                   ></ejs-textbox>
                 </div>
-                <jhi-credit-proposal-booking-branch
-                  [creditProposal]="creditProposal"
-                  [isViewLoan]="true"
-                ></jhi-credit-proposal-booking-branch>
+                <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
+                </jhi-credit-proposal-booking-branch>
               </div>
             </div>
           </mat-card-content>
@@ -131,7 +129,8 @@
               [deptorData]="creditProposal"
               [partyCif]="partyCif"
               mode="view"
-            ></jhi-credit-proposal-person>
+            >
+            </jhi-credit-proposal-person>
             <jhi-party-group-view
               [mode]="'view'"
               *ngIf="creditProposal.partyTypeId !== 'PERSON'"
@@ -201,7 +200,13 @@
         <!-- document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal" [sourceComponent]="'loan'">
+            <jhi-credit-proposal-tab-summary
+              [fileDar]="dataFileDar"
+              [fileCompliance]="dataFileCompliance"
+              [source]="'summaryAll'"
+              [item]="creditProposal"
+              [sourceComponent]="'loan'"
+            >
             </jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
@@ -379,7 +384,7 @@
       </div>
 
       <div *ngIf="selectedMenu === 'loan-slik-checking'" class="e-sample-resize-container e-card-resize-container">
-        <jhi-loan-analys-slik-summary [source]="sourceSlikChecking" [creditProposal]="creditProposal"></jhi-loan-analys-slik-summary>
+        <jhi-loan-analys-slik-summary [source]="sourceSlikChecking" [creditProposal]="creditProposal"> </jhi-loan-analys-slik-summary>
       </div>
 
       <!-- credit rating -->
@@ -429,7 +434,11 @@
 
     <!-- Temp -->
     <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-loan-facility-detail-temp [creditProposal]="creditProposal" #loanFacilityDetailTempComponent></jhi-loan-facility-detail-temp>
+      <jhi-loan-facility-detail-temp
+        [isDisableMode]="true"
+        [creditProposal]="creditProposal"
+        #loanFacilityDetailTempComponent
+      ></jhi-loan-facility-detail-temp>
     </div>
 
     <div *ngIf="selectedMenu === 'facility-mapping'" class="e-sample-resize-container e-card-resize-container">
@@ -459,14 +468,39 @@
     </div>
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
-      </jhi-button-generate-compliance>
-      <jhi-button-generate-dar
-        *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-final'"
-        [creditProposal]="creditProposal"
-      ></jhi-button-generate-dar>
+      <!-- <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
+      </jhi-button-generate-compliance> -->
 
-      <button *ngIf="darRouter === true" style="margin-right: 18px;" mat-raised-button class="btn-lg text-uppercase" (click)="sendEmail()">Send Email</button>
+      <!-- Generate Compliance -->
+      <button
+        mat-raised-button
+        *ngIf="parentPath === 'cc-inquiry'"
+        class="btn-lg text-uppercase"
+        style="margin-right: 25px"
+        (click)="generate()"
+      >
+        Generate Compliance
+      </button>
+
+      <!-- Generate Dar And SPPK -->
+      <button
+        mat-raised-button
+        *ngIf="
+          parentPath === 'loan-committee-approval' ||
+          parentPath === 'dar-checker' ||
+          parentPath === 'dar-final' ||
+          parentPath === 'dar-notif'
+        "
+        class="btn-lg text-uppercase"
+        style="margin-right: 25px"
+        (click)="generate()"
+      >
+        Generate DAR
+      </button>
+
+      <button *ngIf="darRouter === true" style="margin-right: 18px" mat-raised-button class="btn-lg text-uppercase" (click)="sendEmail()">
+        Send Email
+      </button>
       <button
         style="margin-right: 25px"
         mat-raised-button

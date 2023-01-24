@@ -44,6 +44,10 @@ import { LoanAnalysOpinionComponent } from './opinion/loan-analys-opinion.compon
 import { LoanAnalysOpinionCompliancePartComponent } from './opinion/loan-analys-opinion-compliance-part.component';
 import { CreditProposalCollateralInfoComponent } from '../credit-proposal/collateral-info/credit-proposal-collateral-info.component';
 import { LoanFacilityDetailTempComponent } from './dar-final/loan-facility/credit-proposal-tab-loan-facility-detail.component';
+import { StorageService } from '../storage/storage.service';
+import { HttpClient } from '@angular/common/http';
+import { Subject, takeUntil, firstValueFrom } from 'rxjs';
+import { formatBytes } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -98,7 +102,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public cp: ICreditProposal;
   public isShow = false;
   public isHistoryExist: boolean;
-  public darRouter: boolean
+  public darRouter: boolean;
 
   public uuidPath: any;
   public recomendation: string;
@@ -110,6 +114,11 @@ export class LoanAnalysMainComponent implements OnInit {
   public resAttr: IProcessTask;
   public sourceSlikChecking: String;
 
+  private BUCKET: string;
+  private ngUnsubscribe = new Subject();
+  public dataFileDar = [];
+  public dataFileCompliance = [];
+
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -119,7 +128,9 @@ export class LoanAnalysMainComponent implements OnInit {
     protected messageService: MessageService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
-    public loanAnalystService: LoanAnalysService
+    public loanAnalystService: LoanAnalysService,
+    private storageService: StorageService,
+    private http: HttpClient
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -130,7 +141,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.selectedMenu = 'credit-proposal-summary';
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
-    this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1
+    this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1;
 
     this.url = this.parentPath; // kebutuhan buat assign to
     switch (this.parentPath) {
@@ -308,6 +319,7 @@ export class LoanAnalysMainComponent implements OnInit {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
     });
     this.getTitle();
+    this.getBucketNameSummary();
   }
 
   private getTasks(): void {
@@ -316,15 +328,14 @@ export class LoanAnalysMainComponent implements OnInit {
     });
   }
 
-  public sendEmail(){
-    this.creditProposalService.sendNotification(this.creditProposal.id).subscribe(()=>{
-
+  public sendEmail() {
+    this.creditProposalService.sendNotification(this.creditProposal.id).subscribe(() => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: 'Send Email Success',
       });
-    })
+    });
   }
 
   public processTask(task: IProcessTask): void {
@@ -1011,4 +1022,94 @@ export class LoanAnalysMainComponent implements OnInit {
   getTitleMenu(): void {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
   }
+
+  // Generate Dar and SPPK
+
+  private getBucketNameSummary() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+      this.onRefresh();
+    });
+  }
+
+  private onRefresh(): void {
+    const obj = {
+      key: 'credit_proposal/summary/' + this.id,
+    };
+    this.storageService
+      .getObjects(this.BUCKET, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        console.log('xxx', response.body);
+        const temp: any[] = response?.body;
+        let i = 1;
+        const data: any[] = [];
+        temp.forEach((item: IObj) => {
+          data.push({
+            indexNum: i,
+            key: item.key,
+            appovallevel: item.name,
+            fileName: item.name,
+            metaData: item.metaData,
+            sizeFile: formatBytes(item.size),
+            tags: item.tags,
+            url: item.url,
+          });
+          i++;
+        });
+        if (
+          this.parentPath === 'loan-committee-approval' ||
+          this.parentPath === 'dar-checker' ||
+          this.parentPath === 'dar-final' ||
+          this.parentPath === 'dar-notif'
+        ) {
+          this.dataFileDar = data;
+        }
+        if (this.parentPath === 'cc-inquiry') {
+          this.dataFileCompliance = data;
+        }
+      });
+  }
+
+  private generate(): void {
+    this.generateFileSppkDar().then(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'File Generated Successfully',
+      });
+      this.onRefresh();
+    });
+  }
+
+  private async generateFileSppkDar(): Promise<void> {
+    if (
+      this.parentPath === 'loan-committee-approval' ||
+      this.parentPath === 'dar-checker' ||
+      this.parentPath === 'dar-final' ||
+      this.parentPath === 'dar-notif'
+    ) {
+      const fileDar = await firstValueFrom(
+        this.http.get('/services/report/api/report/dar/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+      );
+      const fileSPPK = await firstValueFrom(
+        this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
+      );
+    }
+    if (this.parentPath === 'cc-inquiry') {
+      const fileCompliance = await firstValueFrom(
+        this.http.get('/services/report/api/report/compliance/word/' + this.id, { responseType: 'text', observe: 'response' })
+      );
+    }
+  }
+}
+
+interface IObj {
+  key?: string;
+  metaData?: any;
+  fileName?: string;
+  name?: string;
+  size?: number;
+  tags?: any;
+  url?: string;
 }
