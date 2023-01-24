@@ -76,6 +76,7 @@ export class LoanAnalysMainComponent implements OnInit {
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
 
   private id: number;
+  public disabledData: Boolean = true;
 
   public url: string;
   public subMenu: object[];
@@ -144,6 +145,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1;
 
     this.url = this.parentPath; // kebutuhan buat assign to
+
     switch (this.parentPath) {
       case 'la-distribution':
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
@@ -320,6 +322,10 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     this.getTitle();
     this.getBucketNameSummary();
+
+    if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposal.statusId === 'CP_DAR_FINAL') {
+      this.disabledData = false;
+    }
   }
 
   private getTasks(): void {

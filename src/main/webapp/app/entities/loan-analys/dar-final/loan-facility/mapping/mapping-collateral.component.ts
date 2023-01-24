@@ -1,4 +1,4 @@
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
@@ -11,9 +11,11 @@ import { STATUS } from 'app/shared/constants/status.constants';
   selector: 'jhi-mapping-collateral-temp',
   templateUrl: './mapping-collateral.component.html',
 })
-export class CreditProposalMappingCollateralTempComponent {
+export class CreditProposalMappingCollateralTempComponent implements OnInit {
+  @Input() isDisableMode: Boolean;
   @Output() outputCreditProposalMappingData = new EventEmitter();
 
+  public viewMode = false;
   public collateralInfo: any;
   public creditProposalData: any;
   public applicationProductData: any;
@@ -36,6 +38,14 @@ export class CreditProposalMappingCollateralTempComponent {
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.setUp();
+  }
+  ngOnInit(): void {
+    if (this.isDisableMode === true) {
+      this.viewMode = true;
+    }
+    if (this.collateralInfo.statusId === STATUS.APPROVE) {
+      this.viewMode = true;
+    }
   }
 
   private setUp(): void {

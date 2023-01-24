@@ -434,7 +434,7 @@
     <!-- Temp -->
     <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
       <jhi-loan-facility-detail-temp
-        [isDisableMode]="true"
+        [isDisableMode]="disabledData"
         [creditProposal]="creditProposal"
         #loanFacilityDetailTempComponent
       ></jhi-loan-facility-detail-temp>
