@@ -21,7 +21,9 @@ import {
   SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE,
   SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE,
   SUBMENU_LOAN_ANALYS_LA_APPROVAL,
-  SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB,
+  SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW,
+  // SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB,
+  SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB,
   SUBMENU_LOAN_ANALYS_LA_KOMITE,
   SUBMENU_LOAN_ANALYS_LA_KOMITE_BELOW_AND_BTB,
   SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE,
@@ -220,9 +222,14 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-approval':
+        // Jika > 15
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
           ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL])
-          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB]);
+          : // Jika <= 15
+          this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'
+          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW])
+          : // Back To Back
+            (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB]);
         break;
 
       case 'la-approval-inquiry':
