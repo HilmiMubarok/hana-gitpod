@@ -105,14 +105,14 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     {
       No: 1,
       regulation: 'Ketersediaan Laporan keuangan',
-      criteria: 'Audited (asset/sales > Rp 50 bio atau merupakan perusahaan terbuka)',
+      criteria: 'Audited (asset/sales ≥ Rp 50 bio atau merupakan perusahaan terbuka)',
       value: '',
       remarks: '',
     },
     {
       No: 2,
       regulation: '',
-      criteria: 'Inhouse Long Form (Rp 25 bio < asset/sales < Rp 50 bio)',
+      criteria: 'Inhouse Long Form (Rp 25 bio ≤ asset/sales < Rp 50 bio)',
       value: '',
       remarks: '',
     },
@@ -303,8 +303,8 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     {
       No: 28,
       regulation: 'Khusus untuk Perusahaan Modal Ventura',
-      criteria: '',
-      value: 'Wajib memiliki izin OJK.',
+      criteria: 'Wajib memiliki izin OJK.',
+      value: '',
       remarks: '',
     },
     {
@@ -339,7 +339,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     {
       No: 33,
       regulation: 'Khusus untuk debitur yayasan',
-      criteria: '',
+      criteria: 'Tujuan pendirian yayasan bukan untuk kegiatan usaha atau bisnis keluarga.',
       value: '',
       remarks: '',
     },
@@ -398,8 +398,8 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     },
     {
       No: 41,
-      regulation: 'Debitur masih memiliki prospek usaha yang baik dan dinilai mampu memenuhi kewajiban setelah Kredit direstrukturisasi',
-      criteria: '',
+      regulation: '',
+      criteria: 'Debitur masih memiliki prospek usaha yang baik dan dinilai mampu memenuhi kewajiban setelah Kredit direstrukturisasi',
       value: '',
       remarks: '',
     },

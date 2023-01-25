@@ -27,6 +27,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public dataFilter = [];
 
   @Input() isViewLoan: Boolean = false;
+  @Input() takeOutCompare: Boolean = false;
 
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
