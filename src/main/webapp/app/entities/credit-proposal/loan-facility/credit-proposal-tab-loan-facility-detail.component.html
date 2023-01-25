@@ -99,7 +99,7 @@
       </div>
     </div>
 
-    <div class="row mb-3 mt-3">
+    <div class="row mb-3 mt-3" [hidden]="takeOutCompare === true">
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
@@ -403,7 +403,7 @@
 </div> -->
 
 <!-- <section *ngIf="isViewMode === true"> -->
-<div class="e-card">
+<div class="e-card" [hidden]="takeOutCompare === true">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Take Over Scheme (If Any)</div>
