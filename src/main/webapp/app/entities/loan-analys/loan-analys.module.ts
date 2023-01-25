@@ -69,7 +69,7 @@ import { LoanAnalysFacilityDetaliMainComponent } from './dar-notif/loan-facility
     LoanAnalysGroupGuarantorAnalysisComponent,
     LoanAnalysSlikSummaryComponent,
     LoanAnalysCreditRatingViewComponent,
-    CreditProposalDeviationDarAboveComponent,
+    // CreditProposalDeviationDarAboveComponent,
     LoanAnalysFacilityDetailGridDarNotifComponent,
     LoanAnalysFacilityDetaliMainComponent,
   ],

@@ -345,6 +345,7 @@ import { CreditProposalCovenantBelowTempComponent } from './loan-analys/dar-fina
 import { CreditProposalDeviationBelowTempComponent } from './loan-analys/dar-final/convenant/below/deviation/credit-proposal-deviation-below.component';
 import { DocumentChecklistTempComponent } from './loan-analys/dar-final/document-checklist/credit-proposal-document-checklist.component';
 import { DocumentChecklistDialogTempComponent } from './loan-analys/dar-final/document-checklist/document-checklist-dialog.component';
+import { CreditProposalDeviationDarAboveComponent } from './loan-analys/dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -748,6 +749,7 @@ import { DocumentChecklistDialogTempComponent } from './loan-analys/dar-final/do
     CreditProposalDeviationBelowTempComponent,
     DocumentChecklistTempComponent,
     DocumentChecklistDialogTempComponent,
+    CreditProposalDeviationDarAboveComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1111,6 +1113,7 @@ import { DocumentChecklistDialogTempComponent } from './loan-analys/dar-final/do
     CreditProposalDeviationBelowTempComponent,
     DocumentChecklistTempComponent,
     DocumentChecklistDialogTempComponent,
+    CreditProposalDeviationDarAboveComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
