@@ -74,7 +74,7 @@ export class ProposePricingLoanFacilityDetailDialogComponent {
   // }
 
   public save(): void {
-    this._dialog.close({ aplicationProduct: this.aplicationProducts, action: 'cencel' });
+    this._dialog.close({dataEdit: this.dataEdit, aplicationProduct: this.aplicationProducts, action: 'cencel' });
   }
   // public close() {
   //   this._dialog.close({ action: 'cancel' });
