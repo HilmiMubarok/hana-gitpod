@@ -1,16 +1,37 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import lodash from 'lodash';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ICreditProposal } from '../../../../credit-proposal/credit-proposal.model';
-import { CreditProposalService } from '../../../../credit-proposal/credit-proposal.service';
+import { Router } from '@angular/router';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IndexRateService } from 'app/entities/credit-proposal/index-rate.service';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { CreditProposalLoanFacilityDialogComponent } from 'app/entities/credit-proposal/loan-facility/dialog/loan-facility-dialog.component';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
 
 @Component({
   selector: 'jhi-loan-facility-dialog-temp',
@@ -18,6 +39,7 @@ import { IndexRateService } from 'app/entities/credit-proposal/index-rate.servic
   styleUrls: ['./dialog-facility.css'],
 })
 export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
@@ -25,7 +47,14 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public ccy: string;
   public rateType: string;
   public dateIndex: number;
-  public viewMode: Boolean;
+  public facilityType: string;
+  public statusFacilityValue: string;
+  public statusFacilityDisabled: boolean;
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
+  public listFacicility: any;
+  public listLoanType: any;
+
   @Input()
   get collateral() {
     return this._collateral;
@@ -67,6 +96,10 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       'Others',
       'Renewal + Additional',
       'Renewal + Decrease',
+      'Decrease',
+      'Renewal + Others',
+      'Additional + Others',
+      'Decrease + Others',
     ],
     facilityTypeList: ['OD', 'WCI', 'DL', 'MML', 'FL', 'TR', 'E-ARC', 'IL', 'BG', 'LC', 'FN - Syndicate loan / club deal'],
     installmentMethodList: [
@@ -157,8 +190,31 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       'CURRENT DEPOSITS (Foreign)',
       'CURRENT DEPOSITS SUPER GIRO (USD)',
       'CURRENT DEPOSITS SPECIAL SUPER GIRO (USD)',
+      'Kredit Investasi/KI - Installment',
+      'Working Capital - Installment',
+      'CURRENT DEPOSITS',
+      'Kredit Modal kerja/KMK - Installment',
     ],
-    interestRateTypeList: ['FIXED', 'LIBOR', 'JIBOR', 'TIBOR', 'HIBOR', 'EURIBOR', 'EURO-LIBOR', 'FED FUND', 'OTHER', 'BSBY', 'TERM SOFR'],
+    interestRateTypeList: [
+      'FIXED',
+      'LIBOR',
+      'JIBOR',
+      'TIBOR',
+      'HIBOR',
+      'EURIBOR',
+      'EURO-LIBOR',
+      'FED FUND',
+      'OTHER',
+      'BSBY',
+      'TERM SOFR',
+      'FLOAT',
+      'BACK TO BACK',
+      'BSBY',
+      'SDBI',
+      'TERM SOFR',
+      'SBI',
+      'PRIME',
+    ],
 
     rateAmountTypeList: ['%p.a', 'Amount IDR', 'Amount USD'],
     gracePeriodTypeList: [
@@ -191,16 +247,17 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      viewMode: Boolean;
       item: ICreditProposal;
       applicationProduct: IApplicationProduct;
       collateralInfo: any;
       collateralProductRelations: any;
       creditProposaldata: ICreditProposal;
     },
+    protected applicationOptionService: ApplicationOptionService,
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
-    private _dialog: MatDialogRef<LoanFacilityDialogTempComponent>
+    private router: Router,
+    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
     this.dataItem = this.data.item;
@@ -209,24 +266,27 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.ccy = this.data.applicationProduct.attributes['currency'];
     this.rateType = this.data.applicationProduct.attributes['interestRateType'];
     this.dateIndex = this.data.applicationProduct.attributes['interestRatePeriod'];
-    this.viewMode = this.data.viewMode;
     this.indexRateServiceFun();
   }
   // public typeListControl = new FormControl(this.listOfValue.applicationTypeList['New']);
   ngOnInit(): void {
-    this.cekData();
+    this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || ''))
-    );
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || ''))
+    // );
 
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
 
-    // this.typeListControl;
+    this.hiddenFieldInOffering();
+    // this.hideMatrixOffering();
+    this.getApplicationOption();
+    this.getObligation();
+    this.setFacilityType();
   }
 
   public save(): void {
@@ -283,37 +343,47 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     } else {
       this.status = false;
     }
+    this.creditProposalService.getFacilityProductList(event).subscribe(res => {
+      this.listLoanType = res.body;
+    });
 
-    switch (event) {
-      case 'OD':
-        this.lovLoanType = this.listOfValue.lovOd;
-        break;
-      case 'WCI':
-        this.lovLoanType = this.listOfValue.lovWci;
-        break;
-      case 'DL':
-        this.lovLoanType = this.listOfValue.lovDl;
-        break;
-      case 'MML':
-        this.lovLoanType = this.listOfValue.lovMml;
-        break;
-      case 'FL':
-        this.lovLoanType = this.listOfValue.lovfL;
-        break;
-      case 'IL':
-        this.lovLoanType = this.listOfValue.lovIl;
-        break;
-      case 'BG':
-        this.lovLoanType = this.listOfValue.lovBg;
-        break;
-      case 'LC':
-        this.lovLoanType = this.listOfValue.lovLc;
-        break;
-      default:
-        this.lovLoanType = [];
-    }
+    // console.log('cek',event)
+    // switch (event) {
+    //   case 'OD':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     // console.log('cek od',   this.listLoanType.filter(o => o.id))
+    //     // this.listFacicility
+    //     // this.lovLoanType = this.listOfValue.lovOd;
+    //     break;
+    //   case 'WCI':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'DL':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'MML':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'FL':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'IL':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'BG':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   case 'LC':
+    //     this.listLoanType.id = this.listFacicility.id;
+    //     break;
+    //   default:
+    //     this.listLoanType = [];
+    // }
+
+    // this.facilityType = event;
 
     this.disableButtonChange(event);
+    // this.setFacilityTypeProduct();
   }
 
   public disableButtonChange(value: string) {
@@ -416,7 +486,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   // }
 
   public print() {
-    console.log(this.creditProposalData.products);
+    console.log(this.applicationProduct.attributes['initialLimit']);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
@@ -451,6 +521,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;
+      this.applicationProduct.attributes['kurs'] = res.body[0]?.factor;
       if (this.preCurent === '') {
         if (value === 'IDR') {
           this.conCcy = true;
@@ -486,10 +557,204 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       }
     });
   }
+  public fee: any;
+  // remove mask
+  removeSymbolCcy(node) {
+    this.fee = document.querySelectorAll('.fee');
+    let ccy = node.innerHTML;
+    ccy = ccy.replace(/\$ /g, '');
+    node.innerHTML = this.fee;
+  }
 
-  public cekData() {
-    if (this.viewMode === true) {
-      this.myControl.disable();
+  // Function Condition in Offering Letter
+  textBoxHidden: boolean;
+  paymentIDR: boolean;
+  public parentPath = this.router.url.split('/')[1];
+
+  public hiddenFieldInOffering() {
+    if (this.parentPath !== 'finalize') {
+      this.textBoxHidden = false;
+      this.paymentIDR = true;
     }
+    if (this.parentPath === 'distribution') {
+      if (this.dataItem.statusId !== 'OL_ASSIGNED') {
+        this.status = true;
+      }
+    }
+    if (this.parentPath === 'review') {
+      this.status = true;
+    }
+    if (this.parentPath === 'confirmation') {
+      this.status = true;
+    }
+    if (
+      this.parentPath === 'credit-proposal-status' ||
+      this.parentPath === 'cp-status-approval' ||
+      this.parentPath === 'la-distribution' ||
+      this.parentPath === 'la-analyst' ||
+      this.parentPath === 'la-SME-CRC' ||
+      this.parentPath === 'la-approval' ||
+      this.parentPath === 'la-approval-inquiry' ||
+      this.parentPath === 'dar-final' ||
+      this.parentPath === 'dar-checker' ||
+      this.parentPath === 'loan-committee-approval' ||
+      this.parentPath === 'dar-notif' ||
+      this.parentPath === 'cc-distribution' ||
+      this.parentPath === 'cc-checking' ||
+      this.parentPath === 'cc-review' ||
+      this.parentPath === 'cc-inquiry' ||
+      this.parentPath === 'loan-analys-and-approval-monitoring'
+    ) {
+      this.textBoxHidden = true;
+    }
+  }
+
+  public latePaymentFeeUSD: any;
+  public latePaymentFeeIDR: any;
+  public paymentObligationNonAngsuran: any;
+  public paymentObligationAngsuran: any;
+
+  // Get Parameter Data
+  public datacoba = '';
+  public getApplicationOption() {
+    this.applicationOptionService.query().subscribe(res => {
+      for (let i = 0; i < res.body.length; i++) {
+        // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_USD
+        if (res.body[i].id === 'LATE_PAYMENT_FEE_USD') {
+          // this.latePaymentFeeUSD = res.body[i].value;
+          // Kondisi Jika attributes late payment fee undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['latePaymentFee'] === '' ||
+            this.applicationProduct.attributes['latePaymentFee'] === undefined
+          ) {
+            // cek data berdasarka currency usd
+            if (this.applicationProduct.attributes['currency'] === 'USD') {
+              // jika ada yang usd di loan ambil value usd.a
+              this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
+            }
+          }
+        }
+        // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_IDR
+        if (res.body[i].id === 'LATE_PAYMENT_FEE_IDR') {
+          // Kondisi Jika attributes late payment fee undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['latePaymentFee'] === '' ||
+            this.applicationProduct.attributes['latePaymentFee'] === undefined
+          ) {
+            // cek data berdasarka currency idr
+            if (this.applicationProduct.attributes['currency'] === 'IDR') {
+              // jika ada yang idr di loan ambil value idr.a dari parameter
+              this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
+            }
+          }
+        }
+        // Cari Data dan Cek Data Berdasarkan PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK
+        if (res.body[i].id === 'PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK') {
+          // Kondisi Jika attributes paymentObligation  undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['paymentObligation'] === '' ||
+            this.applicationProduct.attributes['paymentObligation'] === undefined
+          ) {
+            // cek data berdasarka Non Cash loan [BG,LC] dari Loan facility type
+            if (
+              this.applicationProduct.attributes['facilityType'] === 'BG' ||
+              this.applicationProduct.attributes['facilityType'] === 'LC'
+            ) {
+              // jika ada facility type dengan kode tersebut di loan ambil value dari parameter
+              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+            }
+          }
+        }
+        // Cari Data dan Cek Data Berdasarkan PAYMENT_OBLIGATION_ANGSURAN_REMARK
+        if (res.body[i].id === 'PAYMENT_OBLIGATION_ANGSURAN_REMARK') {
+          // Kondisi Jika attributes paymentObligation  undefined atau tidak ada di db
+          if (
+            this.applicationProduct.attributes['paymentObligation'] === '' ||
+            this.applicationProduct.attributes['paymentObligation'] === undefined
+          ) {
+            // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
+            if (
+              this.applicationProduct.attributes['facilityType'] === 'DL' ||
+              this.applicationProduct.attributes['facilityType'] === 'MML' ||
+              this.applicationProduct.attributes['facilityType'] === 'FL' ||
+              this.applicationProduct.attributes['facilityType'] === 'IL' ||
+              this.applicationProduct.attributes['facilityType'] === 'OD'
+            ) {
+              // jika ada facility type dengan kode tersebut di loan ambil value dari parameter
+              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+            }
+          }
+        }
+      }
+    });
+    // this.getObligation();
+  }
+
+  public obligationCashLoan: number;
+  public obligationNonCashLoan: number;
+
+  public getObligation() {
+    this.obligationCashLoan = 3;
+    this.obligationNonCashLoan = 2;
+
+    if (
+      this.applicationProduct.attributes['earlyRepaymentPenalty'] === '0' ||
+      this.applicationProduct.attributes['earlyRepaymentPenalty'] === undefined
+    ) {
+      if (
+        this.applicationProduct.attributes['facilityType'] === 'DL' ||
+        this.applicationProduct.attributes['facilityType'] === 'MML' ||
+        this.applicationProduct.attributes['facilityType'] === 'FL' ||
+        this.applicationProduct.attributes['facilityType'] === 'IL' ||
+        this.applicationProduct.attributes['facilityType'] === 'OD'
+      ) {
+        // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
+        this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationCashLoan;
+      }
+      if (this.applicationProduct.attributes['facilityType'] === 'BG' || this.applicationProduct.attributes['facilityType'] === 'LC') {
+        this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationNonCashLoan;
+      }
+    }
+  }
+
+  public applicationTypeChange(event: any) {
+    this.statusFacilityValue = event.value;
+    if (this.statusFacilityValue === 'Existing' || this.statusFacilityValue === 'Renewal' || this.statusFacilityValue === 'Renewal') {
+      this.myControl.disable();
+      this.statusFacilityDisabled = true;
+    } else {
+      this.myControl.enable();
+      this.statusFacilityDisabled = false;
+    }
+  }
+
+  cekApplicationType() {
+    if (this.applicationProduct.attributes['applicationType'] === 'Existing') {
+      // this.getObligation();
+      this.myControl.disable();
+      this.statusFacilityDisabled = true;
+    } else {
+      this.myControl.enable();
+      this.statusFacilityDisabled = false;
+    }
+  }
+
+  // getfacility
+
+  setFacilityType() {
+    this.creditProposalService.getFacilityTypeProduct().subscribe(res => {
+      this.listFacicility = res.body;
+      const dataData = Object.entries(
+        this.listFacicility.reduce((acc, { id, label }) => {
+          if (!acc[label]) {
+            acc[label] = [];
+          }
+          acc[label].push(id);
+
+          return acc;
+        }, {})
+      ).map(([label, id]) => ({ label, id }));
+      this.listFacicility = dataData;
+    });
   }
 }
