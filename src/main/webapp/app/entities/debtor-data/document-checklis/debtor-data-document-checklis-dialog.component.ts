@@ -148,7 +148,20 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.file.splice(this.file.indexOf(event), 1);
   }
 
+
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.document + '.' + name.objectName.split('.')[1]);
+    if (name.objectName.split('.').indexOf('pdf') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'pdf');
+    }
+    else if(name.objectName.split('.').indexOf('pptx') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'pptx');
+    }
+    else if(name.objectName.split('.').indexOf('docx') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'docx');
+    }
+    else if(name.objectName.split('.').indexOf('xlsx') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'xlsx');
+    }
+    
   }
 }
