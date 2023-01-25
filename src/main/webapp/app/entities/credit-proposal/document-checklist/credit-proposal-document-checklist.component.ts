@@ -7,6 +7,7 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
 import { dataCovenantAbove } from '../convenant/convenant.constant';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
@@ -37,8 +38,12 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
   set isViewMode(data: boolean) {
     this._isViewMode = data;
   }
-
-  constructor(public dialog: MatDialog, private storageService: StorageService, private messageService: MessageService) {
+  constructor(
+    public dialog: MatDialog,
+    private storageService: StorageService,
+    private messageService: MessageService,
+    private router: Router
+  ) {
     this.files = [];
   }
 
@@ -54,6 +59,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
     this.getBucket().then(res => {
       this.getFiles(this.creditProposal.id);
     });
+    this.hiddenButton();
   }
 
   private getBucket(): Promise<void> {
@@ -137,6 +143,12 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
         this.getFiles(this.creditProposal.id);
       });
+    }
+  }
+  public parentPath = this.router.url.split('/')[1];
+  public hiddenButton() {
+    if (this.parentPath === 'cp-status-approval') {
+      this._isViewMode = true;
     }
   }
 }
