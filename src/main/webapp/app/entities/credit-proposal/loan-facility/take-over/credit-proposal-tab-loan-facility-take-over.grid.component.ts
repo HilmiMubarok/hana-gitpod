@@ -32,6 +32,7 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from '../take-ove
   styleUrls: ['../grid/loan.scss'],
 })
 export class CreditProposalTabLoanFacilityTakeOverGridComponent implements OnChanges {
+  @Input() isViewMode: boolean = false;
   private _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
