@@ -29,7 +29,7 @@
         matInput
         [(ngModel)]="bindingValueHelper[i]"
         [disabled]="field"
-        (change)="onChangeBindingValue($event, i)"
+        (ngModelChange)="onChangeBindingValue($event, i)"
       />
     </td>
   </ng-container>
