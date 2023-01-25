@@ -14,7 +14,7 @@
       ></ejs-menu>
       <div *ngIf="selectedMenu !== 'CHECKLIST'">
         <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
-        <div [hidden]="takeOutCompare === true">
+        <div *ngIf="takeOutCompare !== true">
           <jhi-credit-proposal-collateral-info-remarks-information
             #creditProposalCollateralInfoRemarksInfoComponentAbove
             [creditProposal]="creditProposal"
@@ -29,7 +29,7 @@
         <div class="card-content">
           <jhi-credit-proposal-collateral-info-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposal">
           </jhi-credit-proposal-collateral-info-checklist>
-          <div [hidden]="takeOutCompare === true">
+          <div *ngIf="takeOutCompare !== true">
             <jhi-credit-proposal-collateral-info-remarks-checklist
               #creditProposalCollateralInfoRemarksCheckComponent
               [creditProposal]="creditProposal"
@@ -44,7 +44,7 @@
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
     <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
-    <div [hidden]="takeOutCompare === true">
+    <div *ngIf="takeOutCompare !== true">
       <jhi-credit-proposal-collateral-info-remarks-information
         #creditProposalCollateralInfoRemarksInfoComponentBelow
         [creditProposal]="creditProposal"
@@ -57,7 +57,7 @@
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
     <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
     </jhi-credit-proposal-collateral-info-btb>
-    <div [hidden]="takeOutCompare === true">
+    <div *ngIf="takeOutCompare !== true">
       <jhi-credit-proposal-collateral-info-remarks-information
         #creditProposalCollateralInfoRemarksInfoComponentBtb
         [creditProposal]="creditProposal"
