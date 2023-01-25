@@ -216,9 +216,16 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
     }
     const dialogRef = this.dialog.open(ProposePricingLoanFacilityDetailDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res.action !== 'cancel') {
+      if (res.action !== 'cencel') {
         this.creditProposal.attributes['proposePricing'] = [...this.creditProposal.attributes['proposePricing'], res.tradeCheckingSupplier];
-        this.creditProposal.attributes['proposePricing'] = [...this.creditProposal.attributes['proposePricing'], res.tradeCheckingSupplier];
+      
+      }else{
+        const appProduct: IApplicationProduct = res.dataEdit
+        const idx = lodash.findIndex(this.creditProposal.products, function (o) {
+          return o.id === appProduct.id;
+        });
+        this.creditProposal.products[idx] = appProduct;
+        this.aplicationProducts[idx] = appProduct
       }
     });
   }
