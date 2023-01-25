@@ -360,6 +360,34 @@ export class LoanAnalysMainComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
 
+        if (
+          this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+          this.creditProposal.attributes['approvalStatus'] === 'Reject' &&
+          _res.caption === 'Approve'
+        ) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Dont press button Approve!',
+          });
+        } else {
+          this.onSave('process');
+        }
+
+        if (
+          (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+            this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed') ||
+          (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' && _res.caption === 'Reject')
+        ) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Dont press button Reject!',
+          });
+        } else {
+          this.onSave('process');
+        }
+
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
           this.validate()
             .then(() => {
@@ -426,7 +454,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.applicationRole = ev.applicationRole;
     this.applicationRoleId = ev.applicationRoleId;
   }
-
   public validate() {
     return new Promise<boolean>((resolve, reject) => {
       if (this.isAssignedTo) {
