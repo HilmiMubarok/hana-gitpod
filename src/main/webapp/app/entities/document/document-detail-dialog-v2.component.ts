@@ -33,7 +33,19 @@ export class DocumentDialogDialogV2Component implements OnInit {
   }
 
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + name.objectName.split('.')[1]);
+    if (name.objectName.split('.').indexOf('pdf') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'pdf');
+    }
+    else if(name.objectName.split('.').indexOf('pptx') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'pptx');
+    }
+    else if(name.objectName.split('.').indexOf('docx') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'docx');
+    }
+    else if(name.objectName.split('.').indexOf('xlsx') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'xlsx');
+    }
+    
   }
 
   public save(): void {
