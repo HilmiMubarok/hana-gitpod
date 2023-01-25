@@ -1300,6 +1300,157 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB: object[] = [
   },
 ];
 
+// Loan Approval
+export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BTB: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'repayment-capability',
+        text: 'Repayment Capability',
+      },
+      {
+        id: 'credit-rating',
+        text: 'credit rating',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+];
+
 export const SUBMENU_LOAN_CP: object[] = [
   {
     id: 'credit-proposal',
@@ -1442,6 +1593,8 @@ export const SUBMENU_LOAN_ANALYS_LA_ANALYST: object[] = [
   },
 ];
 
+// Loan Analys Approval Menu
+
 export const SUBMENU_LOAN_ANALYS_LA_APPROVAL: object[] = [
   ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
   // ...SUBMENU_LOAN_CP,
@@ -1455,8 +1608,8 @@ export const SUBMENU_LOAN_ANALYS_LA_APPROVAL: object[] = [
   },
 ];
 
-export const SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB: object[] = [
-  ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
+export const SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB: object[] = [
+  ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BTB,
   // ...SUBMENU_LOAN_CP,
   {
     id: 'opinion',
@@ -1467,6 +1620,21 @@ export const SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW_AND_BTB: object[] = [
     text: 'Compare Data',
   },
 ];
+
+export const SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW: object[] = [
+  ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+  // ...SUBMENU_LOAN_CP,
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+];
+
+// End Loan Analys Approval Menu
 
 export const SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE: object[] = [
   {
