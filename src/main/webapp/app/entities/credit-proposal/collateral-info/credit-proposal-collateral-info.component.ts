@@ -48,6 +48,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   }
 
   @Input() isViewMode?: Boolean = false;
+  @Input() takeOutCompare?: Boolean = false;
 
   @Input() parentSource?: String = '';
 

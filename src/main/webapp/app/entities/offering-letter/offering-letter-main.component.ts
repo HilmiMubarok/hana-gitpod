@@ -9,7 +9,7 @@ import { AnimationSettingsModel } from '@syncfusion/ej2-angular-popups';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
-import { POSITION_TYPE, SUBMENU_OFFERING_LETTER } from 'app/shared/constants/base.constants';
+import { POSITION_TYPE, SUBMENU_OFFERING_LETTER, SUBMENU_OFFERING_LETTER_FINALIZE } from 'app/shared/constants/base.constants';
 import { PositionService } from '../position/position.service';
 import { IPosition } from '../position/position.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -102,7 +102,7 @@ export class OfferingLetterMainComponent implements OnInit {
     this.url = this.parentPath;
 
     this.selectedMenu = 'credit-proposal-summary';
-    this.subMenu = SUBMENU_OFFERING_LETTER;
+    this.subMenu = this.url === 'finalize' ? SUBMENU_OFFERING_LETTER_FINALIZE : SUBMENU_OFFERING_LETTER;
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];

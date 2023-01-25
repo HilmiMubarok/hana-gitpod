@@ -26,7 +26,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './credit-proposal-collateral-tab-loan-after.component.html',
 })
 export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges {
-  @Input() isViewMode: boolean = false;
+  @Input() isViewMode: Boolean = false;
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
 
   public collateralProperties: ICollateralProperty[];
