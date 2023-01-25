@@ -32,6 +32,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   private _managementType: string;
   public bucket: string;
   public parentPath = this.router.url.split('/')[1];
+  public isCpApproval: boolean;
 
   @Input()
   get managementType() {
@@ -167,6 +168,14 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   ngOnInit(): void {
+    // hidden delete button debitur on cp approval
+    /**
+     * Detail:
+     * BUKAN HANYA PADA STATE APPROVAL BM TAPI SEMUA STATE YANG ADA DISTAGE CP APPROVAL STATUS
+     * CRECAS 1561
+     */
+    this.isCpApproval = this.parentPath === 'cp-status-approval' && true;
+
     this.getFiles();
     this.getBucket();
     this.hideButtonUploadCP();
