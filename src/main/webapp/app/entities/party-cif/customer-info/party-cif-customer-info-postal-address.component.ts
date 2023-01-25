@@ -4,6 +4,7 @@ import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-post
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
+import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 
 @Component({
   selector: 'jhi-party-cif-customer-info-postal-address',
