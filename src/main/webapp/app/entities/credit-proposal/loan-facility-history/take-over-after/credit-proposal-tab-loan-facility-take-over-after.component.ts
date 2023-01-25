@@ -4,6 +4,7 @@ import { uiUpdate } from '@syncfusion/ej2-angular-grids';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { IApplicationProductTakeOverBank } from 'app/entities/credit-proposal/loan-facility/application-product-take-over-after-bank/application-product-take-over-after-bank.model';
 import * as uuid from 'uuid';
+import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from '../../loan-facility/take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 
 @Component({
   selector: 'jhi-loan-facility-take-over-after-history',
@@ -13,12 +14,13 @@ import * as uuid from 'uuid';
 export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
   public _creditProposal: ICreditProposal;
   public dataFacilityType = [];
+  public logoCcy;
   view: boolean;
   facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
+  public periodTypeList: any = ['Week', 'Month', 'Year'];
 
   public lock: boolean;
   public lihat = true;
-
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -35,7 +37,7 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
       facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
       view: false;
     },
-    private _dialog: MatDialogRef<LoanFacilityTakeOverAfterHistoryComponent>
+    private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverAfterComponent>
   ) {
     this.creditProposal = this.data.object;
     this.view = this.data.view;
@@ -47,12 +49,17 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].attributes['facilityType'] !== '') {
           this.dataFacilityType.push({
-            id: this._creditProposal.products[i].attributes['id'],
+            id: this._creditProposal.products[i].attributes['nomorUrutFasilitas'],
             label: this._creditProposal.products[i].attributes['facilityType'],
           });
         }
       }
     }
+
+    this.changeLogo(this.facilityTakeOverAfterBank.currency);
+    // this.changeLogo(this.)
+    console.log('ini take over', this.facilityTakeOverAfterBank);
+    console.log('object', this.creditProposal);
 
     this.lock = true;
     console.log(this.dataFacilityType);
@@ -72,17 +79,29 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
   }
   public changeFacility(event) {
     if (event !== undefined || event !== '') {
-      const result = this._creditProposal.products.find(obj => obj.attributes['id'] === event.value.id);
+      const result = this._creditProposal.products.find(obj => obj.attributes['nomorUrutFasilitas'] === event.value.id);
       if (result !== undefined) {
         this.lock = false;
         this.facilityTakeOverAfterBank.maturityBankOver = result.attributes['initialLimit'];
         this.facilityTakeOverAfterBank.initialLimitBankOver = result.attributes['maturity'];
         this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
+        this.facilityTakeOverAfterBank.maturityPeriodType = result.attributes['maturityPeriodType'];
+        this.facilityTakeOverAfterBank.currency = result.attributes['currency'];
+        this.changeLogo(result.attributes.currency);
       } else {
         this.lock = true;
       }
     }
+  }
 
-    console.log('inievent', event);
+  public changeLogo(data: string) {
+    if (data) {
+      if (data === 'USD') {
+        this.logoCcy = {};
+      }
+      if (data === 'IDR') {
+        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      }
+    }
   }
 }

@@ -15,6 +15,7 @@ import { ApplicationProductTakeOverBank } from '../application-product-take-over
   styleUrls: ['../grid/loan.scss'],
 })
 export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements OnChanges {
+  @Input() isViewMode: boolean = false;
   private _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
