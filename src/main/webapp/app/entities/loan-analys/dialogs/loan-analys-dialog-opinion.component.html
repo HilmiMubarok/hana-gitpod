@@ -17,7 +17,7 @@
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Date</mat-label>
-          <input matInput type="text" [value]="notes.createDate | date: 'y-MM-d'"  [disabled]="true" />
+          <input matInput type="text" [value]="notes.createDate | date: 'y-MM-d'" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>
@@ -57,14 +57,14 @@
         </div>
       </section>
       <section *ngIf="
-          notes.recomendation === 'Recommend as propose' ||
+          notes.recomendation === 'Recommend as Propose' ||
           notes.recomendation === 'Recommend With Condition' ||
           notes.recomendation === 'Not Recommend'
         ">
         <mat-card-subtitle>Recomendation</mat-card-subtitle>
         <div class="d-flex justify-content-around">
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend as propose"
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend as Propose"
               label="Recommend as Propose"></ejs-radiobutton>
           </div>
           <div class="mx-2">
