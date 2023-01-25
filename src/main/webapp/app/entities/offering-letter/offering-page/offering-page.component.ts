@@ -29,7 +29,7 @@ export class OfferingLetterOfferingPageComponent {
     });
   }
   public sableFeild() {
-    if (this.creditProposal.statusId !== 'OL_FINALIZE') {
+    if (this.creditProposal.statusId !== 'OL_ASSIGNED') {
       this.field = true;
     }
   }
