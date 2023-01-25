@@ -22,7 +22,11 @@ export class DocumentChecklistTempComponent implements OnChanges, OnInit {
   public isDarChecker: Boolean =
     this.router.url.split('/')[1] === 'dar-checker' || this.router.url.split('/')[1] === 'dar-notif' ? true : false;
   public isDarFinalorLACommittee: Boolean =
-    this.router.url.split('/')[1] === 'dar-final' || this.router.url.split('/')[1] === 'loan-committee-approval' ? false : true;
+    this.router.url.split('/')[1] === 'dar-final' ||
+    this.router.url.split('/')[1] === 'loan-committee-approval' ||
+    this.router.url.split('/')[1] === 'finalize'
+      ? false
+      : true;
 
   @Input()
   get creditProposal() {
@@ -60,7 +64,6 @@ export class DocumentChecklistTempComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    console.log('is', this.isDarFinalorLACommittee);
     this.getBucket().then(res => {
       this.getFiles(this.creditProposal.id);
     });
