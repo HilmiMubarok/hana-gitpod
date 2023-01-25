@@ -129,7 +129,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
           this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
           this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id
         ) {
-          this.creditProposalData.collateralProductRelations[i].bindingValue = event.target.value;
+          this.creditProposalData.collateralProductRelations[i].bindingValue = event;
         }
       }
     }
