@@ -337,6 +337,15 @@ import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility
 import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-facility/mapping/mapping-facility.component';
 import { DocumentChecklistDialogHistoryComponent } from './credit-proposal/document-checklist-history/document-checklist-dialog-history.component';
 import { CreditProposalDocumentChecklistHistoryComponent } from './credit-proposal/document-checklist-history/credit-proposal-document-checklist-history.component';
+import { CovenantTempComponent } from './loan-analys/dar-final/convenant/credit-proposal-tab-covenant.component';
+import { OtherCovenantTempComponent } from './loan-analys/dar-final/convenant/other-covenant/credit-proposal-other-covenant.component';
+import { OtherCovenantTempDialogComponent } from './loan-analys/dar-final/convenant/other-covenant/add/credit-proposal-other-covenant-dialog.component';
+import { CreditProposalOtherCovenantEditTempComponent } from './loan-analys/dar-final/convenant/other-covenant/edit/credit-proposal-other-covenant-edit.component';
+import { CreditProposalCovenantBelowTempComponent } from './loan-analys/dar-final/convenant/below/credit-proposal-covenant-below.component';
+import { CreditProposalDeviationBelowTempComponent } from './loan-analys/dar-final/convenant/below/deviation/credit-proposal-deviation-below.component';
+import { DocumentChecklistTempComponent } from './loan-analys/dar-final/document-checklist/credit-proposal-document-checklist.component';
+import { DocumentChecklistDialogTempComponent } from './loan-analys/dar-final/document-checklist/document-checklist-dialog.component';
+import { CreditProposalDeviationDarAboveComponent } from './loan-analys/dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -732,6 +741,15 @@ import { CreditProposalDocumentChecklistHistoryComponent } from './credit-propos
     FacilityInfoGroupComponent,
     CreditProposalDocumentChecklistHistoryComponent,
     DocumentChecklistDialogHistoryComponent,
+    CovenantTempComponent,
+    OtherCovenantTempComponent,
+    OtherCovenantTempDialogComponent,
+    CreditProposalOtherCovenantEditTempComponent,
+    CreditProposalCovenantBelowTempComponent,
+    CreditProposalDeviationBelowTempComponent,
+    DocumentChecklistTempComponent,
+    DocumentChecklistDialogTempComponent,
+    CreditProposalDeviationDarAboveComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1087,6 +1105,15 @@ import { CreditProposalDocumentChecklistHistoryComponent } from './credit-propos
     FacilityInfoGroupComponent,
     CreditProposalDocumentChecklistHistoryComponent,
     DocumentChecklistDialogHistoryComponent,
+    CovenantTempComponent,
+    OtherCovenantTempComponent,
+    OtherCovenantTempDialogComponent,
+    CreditProposalOtherCovenantEditTempComponent,
+    CreditProposalCovenantBelowTempComponent,
+    CreditProposalDeviationBelowTempComponent,
+    DocumentChecklistTempComponent,
+    DocumentChecklistDialogTempComponent,
+    CreditProposalDeviationDarAboveComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

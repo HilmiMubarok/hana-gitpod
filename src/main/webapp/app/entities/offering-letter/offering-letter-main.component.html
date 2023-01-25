@@ -327,6 +327,11 @@
         <jhi-offering-letter-tab-covenant [creditProposalItem]="creditProposal"> </jhi-offering-letter-tab-covenant>
       </div>
 
+      <!-- Convenant on finalize (:enable:) -->
+      <div *ngIf="selectedMenu === 'finalize-convenant'" class="e-sample-resize-container e-card-resize-container">
+        <jhi-covenant-temp [creditProposalItem]="creditProposal"></jhi-covenant-temp>
+      </div>
+
       <!-- Summary -->
       <div *ngIf="selectedMenu === 'summary'" class="e-sample-resize-container e-card-resize-container">
         <jhi-credit-proposal-tab-summary [item]="creditProposal"></jhi-credit-proposal-tab-summary>
