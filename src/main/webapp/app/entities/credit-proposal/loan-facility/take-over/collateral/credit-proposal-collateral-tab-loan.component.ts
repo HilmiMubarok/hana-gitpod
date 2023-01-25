@@ -26,6 +26,7 @@ import { LoanApplicationService } from 'app/entities/loan-application/loan-appli
   templateUrl: './credit-proposal-collateral-tab-loan.component.html',
 })
 export class CreditProposalCollateralTabLoanComponent implements OnChanges {
+  @Input() isViewMode: Boolean = false;
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
   private _creditProposal: ICreditProposal;
   public loading: boolean;

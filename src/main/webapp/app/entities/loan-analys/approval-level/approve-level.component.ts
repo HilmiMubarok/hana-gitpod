@@ -49,6 +49,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   public approvalStatus: string;
   @Output() newItemEvent = new EventEmitter<string>();
   public disabled: boolean;
+  public hidden: boolean;
   constructor(
     protected router: Router,
     protected positionReportingStructureService: PositionReportingStructureService,
@@ -85,6 +86,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
     this.sableFeild();
     this.disabledStatus();
+    this.hidePleaseSelect();
   }
   // change(event: any) {
   //   this.newItemEvent.emit(event);
@@ -110,6 +112,14 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       this.disabled = false;
     } else {
       this.disabled = true;
+    }
+  }
+  public hidePleaseSelect() {
+    this.patch = this.router.url.split('/')[1];
+    if (this.patch === 'credit-proposal-status' || this.patch === 'cp-status-approval') {
+      this.hidden = false;
+    } else {
+      this.hidden = true;
     }
   }
 
