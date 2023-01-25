@@ -363,7 +363,7 @@
           <div class="col-3">Initial Limit</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['initialLimit'] }}
+            {{ applicationProduct.attributes['initialLimit'] | number }}
           </div>
         </div>
       </section>
@@ -393,7 +393,7 @@
           <div class="col-3">Outstanding</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['outstanding'] }}
+            {{ applicationProduct.attributes['outstanding'] | number }}
           </div>
         </div>
       </section>
@@ -435,7 +435,7 @@
           <div class="col-3">Changes</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['changes'] }}
+            {{ applicationProduct.attributes['changes'] | number }}
           </div>
         </div>
       </section>
@@ -465,7 +465,7 @@
           <div class="col-3">Total Plafond</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['totalPlafond'] }}
+            {{ applicationProduct.attributes['totalPlafond'] | number }}
           </div>
         </div>
       </section>
