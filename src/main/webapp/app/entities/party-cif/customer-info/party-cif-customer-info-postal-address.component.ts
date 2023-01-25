@@ -32,6 +32,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   set partyPostalAddress(data: IPartyPostalAddress) {
     this._partyPostalAddresses = data;
 
+	this.loadCountry();
 	this.loadProvince(this._partyPostalAddresses.address.countryId);
     this.loadCity(this._partyPostalAddresses.address.provinceId);
     this.loadDistrict(this._partyPostalAddresses.address.cityId);
