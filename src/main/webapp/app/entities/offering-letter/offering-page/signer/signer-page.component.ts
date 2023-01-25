@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PositionService } from 'app/entities/position/position.service';
 import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
@@ -13,12 +13,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './signer-page.component.html',
   styleUrls: ['../offering-page.css'],
 })
-export class OfferingLetterSignerPageComponent {
+export class OfferingLetterSignerPageComponent implements OnInit {
   // public offeringLetter: IOfferingLetter;
-  private _creditProposal: ICreditProposal;
+  public _creditProposal: ICreditProposal;
   private id: number;
   attributes: any;
-  public field = false;
+  public field: boolean;
 
   @Input()
   get creditProposal() {
@@ -43,7 +43,9 @@ export class OfferingLetterSignerPageComponent {
       this.id = params['id'];
     });
     this.loading = false;
-    this.sableFeild();
+  }
+  ngOnInit(): void {
+    this.hiddenButton();
   }
 
   openDialog(element: IOfferingLetter = null): void {
@@ -70,7 +72,12 @@ export class OfferingLetterSignerPageComponent {
   }
 
   onEditDialog(element: IOfferingLetter = null): void {
-    const predicate = { width: '80vw', data: {} };
+    const predicate = {
+      width: '80vw',
+      data: {
+        field: this.field,
+      },
+    };
     predicate.data['edit'] = true;
     if (element) {
       sessionStorage.setItem('debitorType', element.debitorType);
@@ -98,8 +105,8 @@ export class OfferingLetterSignerPageComponent {
     this.creditProposal.attributes['offeringLetter'] = dataGrid;
     this.creditProposal.attributes['offeringLetter'] = dataGrid;
   }
-  public sableFeild() {
-    if (this.creditProposal.statusId !== 'OL_FINALIZE') {
+  public hiddenButton() {
+    if (this.creditProposal.statusId !== 'OL_ASSIGNED') {
       this.field = true;
     }
   }

@@ -3,8 +3,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import lodash from 'lodash';
 import { BrowserModule } from '@angular/platform-browser';
 import { EmployeeService } from 'app/entities/employee/employee.service';
-import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IOfferingLetter } from '../../offering-page.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'jhi-signer-page-dialog',
@@ -12,10 +13,10 @@ import { IOfferingLetter } from '../../offering-page.model';
   styleUrls: ['./signer-dialog.css'],
 })
 export class OfferingLetterSignerPageDialogComponent {
-  private _creditproposal: ICreditProposal;
+  public _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
   public offeringLetter: IOfferingLetter;
-  public field = false;
+  public field: boolean;
 
   public listOfValue = {
     signerList: ['Debitor', 'Pt. Bank Keb Hana Indonesia'],
@@ -38,26 +39,15 @@ export class OfferingLetterSignerPageDialogComponent {
     public data: {
       object: ICreditProposal;
       offeringLetter: IOfferingLetter;
+      field: boolean;
     },
     public employeService: EmployeeService,
     private _dialog: MatDialogRef<OfferingLetterSignerPageDialogComponent>
   ) {
     this.dataItem = this.data.object;
     this.offeringLetter = this.data.offeringLetter;
-    this.sableFeild();
+    this.field = this.data.field;
   }
-  public sableFeild() {
-    if (this.creditProposal.statusId !== 'OL_FINALIZE') {
-      this.field = true;
-    }
-  }
-  // ngOnInit(): void {
-  // this.getDataName()
-  // }
-
-  // onChangeName(value: string){
-  //   return value;
-  // }
 
   onChangeValue(value: string) {
     if (value === 'Debitor') {

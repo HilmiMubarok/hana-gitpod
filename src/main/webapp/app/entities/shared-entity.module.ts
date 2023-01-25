@@ -335,6 +335,8 @@ import { AppraisalRoleComponent } from './appraisal-role/appraisal-role.componen
 import { ProposalBasicInformationViewComponent } from './credit-proposal/basic-information/basic-information-view.component';
 import { FacilityInfoGroupComponent } from './debtor-data/facility-info/facility-info-group.component';
 import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-facility/mapping/mapping-facility.component';
+import { DocumentChecklistDialogHistoryComponent } from './credit-proposal/document-checklist-history/document-checklist-dialog-history.component';
+import { CreditProposalDocumentChecklistHistoryComponent } from './credit-proposal/document-checklist-history/credit-proposal-document-checklist-history.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -728,6 +730,8 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     DialogBorrowerComponent,
     AppraisalRoleComponent,
     FacilityInfoGroupComponent,
+    CreditProposalDocumentChecklistHistoryComponent,
+    DocumentChecklistDialogHistoryComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1081,6 +1085,8 @@ import { CreditProposalMappingFacilityComponent } from './credit-proposal/loan-f
     AppraisalRoleComponent,
     ProposalBasicInformationViewComponent,
     FacilityInfoGroupComponent,
+    CreditProposalDocumentChecklistHistoryComponent,
+    DocumentChecklistDialogHistoryComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
