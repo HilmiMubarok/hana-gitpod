@@ -48,6 +48,7 @@ export const MY_FORMATS = {
   ],
 })
 export class CollateralInfoDialogTempComponent implements OnInit {
+  public disabledData: Boolean = true;
   public collateralTypes: ICollateralType[];
   public collateralCode: object[];
   public collateralGrading: OptionNode[];
@@ -138,6 +139,9 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     this.loadCollateralGrading();
     this.trashUndefined();
     this.checkStatusCOllateral();
+    if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposal.statusId === 'CP_DAR_FINAL') {
+      this.disabledData = false;
+    }
   }
 
   private loadCollateralGrading(): void {

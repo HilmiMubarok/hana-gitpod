@@ -1,4 +1,4 @@
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
@@ -10,8 +10,9 @@ import lodash from 'lodash';
   selector: 'jhi-mapping-facility-history',
   templateUrl: './mapping-facility.component.html',
 })
-export class MappingFacilityHistoryComponent {
+export class MappingFacilityHistoryComponent implements OnInit {
   @Output() outputCreditProposalMappingData = new EventEmitter();
+  @Input() disabledData: Boolean;
 
   public collateralInfo: any;
   public creditProposalData: any;
@@ -36,6 +37,10 @@ export class MappingFacilityHistoryComponent {
     this.creditProposalData = this.data.cp;
     this.setUp();
     // this.sableFeild();
+  }
+
+  ngOnInit(): void {
+    console.log('disable mode ', this.disabledData);
   }
 
   private setUp(): void {
