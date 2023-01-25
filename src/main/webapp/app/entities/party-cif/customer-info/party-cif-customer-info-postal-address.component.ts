@@ -54,4 +54,95 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     }
     return new StateBoundary();
   }
+
+  private loadCountry(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idBoundaryType: GEO_BOUNDARY_TYPE['country'],
+		page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.country = res.body;
+      });
+  }
+
+  public loadProvince(idCountry: number = null): void {
+	if (idCountry) {
+	  const predicate: object = {
+		idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+		page: 0,
+		size: 9999,
+		idParent: idCountry,
+	  };
+
+	  this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+		this.provinces = res.body;
+	  });
+	}
+
+    /* if (idCountry === 199) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        page: 0,
+        size: 9999,
+        idParent: idCountry,
+      };
+
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        this.provinces = res.body;
+      });
+    } else if (idCountry !== 199) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        page: 0,
+        size: 9999,
+      };
+
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        const dataData = res.body;
+        this.provinces = dataData.filter(o => o.code === '99');
+        // ini untuk sementara
+      });
+    } */
+  }
+
+  public loadCity(idProvince: number = null): void {
+    if (idProvince) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['city'],
+        size: 9999,
+        idParent: idProvince,
+      };
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        this.cities = res.body;
+      });
+    }
+  }
+
+  public loadDistrict(idCity: number = null): void {
+    if (idCity) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['district'],
+        size: 9999,
+        idParent: idCity,
+      };
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        this.districts = res.body;
+      });
+    }
+  }
+
+  public loadVillage(idDistrict: number = null): void {
+    if (idDistrict) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['village'],
+        size: 9999,
+        idParent: idDistrict,
+      };
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        this.villages = res.body;
+      });
+    }
+  }
 }
