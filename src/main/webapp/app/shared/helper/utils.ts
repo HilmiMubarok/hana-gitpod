@@ -21,7 +21,7 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     parsedAttribute['previousReturn']['binding'] = JSON.parse(previousReturn['binding']);
     parsedAttribute['previousReturn']['convenant'] = JSON.parse(previousReturn['convenant']);
     parsedAttribute['previousReturn']['insurance'] = JSON.parse(previousReturn['insurance']);
-    parsedAttribute['previousReturn']['facilityDetail'] = JSON.parse(previousReturn['facilityDetail']);
+    // parsedAttribute['previousReturn']['facilityDetail'] = JSON.parse(previousReturn['facilityDetail']);
   }
 
   // check if previousHistory attribute is exist
@@ -32,7 +32,7 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     parsedAttribute['previousHistory']['binding'] = JSON.parse(previousHistory['binding']);
     parsedAttribute['previousHistory']['convenant'] = JSON.parse(previousHistory['convenant']);
     parsedAttribute['previousHistory']['insurance'] = JSON.parse(previousHistory['insurance']);
-    parsedAttribute['previousHistory']['facilityDetail'] = JSON.parse(previousHistory['facilityDetail']);
+    // parsedAttribute['previousHistory']['facilityDetail'] = JSON.parse(previousHistory['facilityDetail']);
   }
 
   return parsedAttribute;
