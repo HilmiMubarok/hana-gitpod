@@ -37,7 +37,21 @@
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
               <img src="../../../content/images/power-point.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+              <img src="../../../content/images/csv.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
 
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+              <img src="../../../content/images/mp3.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+              <img src="../../../content/images/svg.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+              <img src="../../../content/images/tiff.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.url !== undefined">
               <img [src]="f.url" width="100%" height="100%" />
             </ngx-dropzone-label>
@@ -117,6 +131,39 @@
                   item.key.indexOf('gif') > -1
                 "
               />
+
+              <img
+                width="150px"
+                src="../../../content/images/csv.png"
+                *ngIf="
+                  item.key.indexOf('csv') > -1
+                "
+              />
+
+              <img
+                width="150px"
+                src="../../../content/images/svg.jpg"
+                *ngIf="
+                  item.key.indexOf('svg') > -1
+                "
+              />
+
+              <img
+                width="150px"
+                src="../../../content/images/tiff.png"
+                *ngIf="
+                  item.key.indexOf('tiff') > -1
+                "
+              />
+
+              <img
+              width="150px"
+              src="../../../content/images/mp3.png"
+              *ngIf="
+                item.key.indexOf('mp3') > -1
+              "
+            />
+
 
               <img
                 (click)="donwload(item.url)"

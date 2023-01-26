@@ -41,6 +41,22 @@
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
               <img src="../../../../content/images/power-point.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
+              <img src="../../../../content/images/csv.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
+              <img src="../../../../content/images/mp3.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
+              <img src="../../../../content/images/svg.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
+              <img src="../../../../content/images/tiff.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
       </div>
@@ -196,6 +212,38 @@
                   item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
                 "
               />
+
+              <img
+              width="150px"
+              src="../../../content/images/csv.png"
+              *ngIf="
+                item.key.indexOf('csv') > -1
+              "
+            />
+
+            <img
+              width="150px"
+              src="../../../content/images/svg.jpg"
+              *ngIf="
+                item.key.indexOf('svg') > -1
+              "
+            />
+
+            <img
+              width="150px"
+              src="../../../content/images/tiff.png"
+              *ngIf="
+                item.key.indexOf('tiff') > -1
+              "
+            />
+
+            <img
+            width="150px"
+            src="../../../content/images/mp3.png"
+            *ngIf="
+              item.key.indexOf('mp3') > -1
+            "
+          />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
@@ -368,6 +416,46 @@
               <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
+
+          <div
+          *ngIf="item.key.indexOf('csv') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/csv.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="item.key.indexOf('mp3') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/mp3.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="item.key.indexOf('svg') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/svg.jpg" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="item.key.indexOf('tiff') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/tiff.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
           <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
               Nama File: {{ item.name }}
