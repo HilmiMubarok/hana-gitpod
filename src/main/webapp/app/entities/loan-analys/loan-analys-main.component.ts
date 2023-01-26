@@ -418,7 +418,7 @@ export class LoanAnalysMainComponent implements OnInit {
 	  applicationId: this.id,
 	  positionId: positionVal,
 	  message: messageVal,
-	  createDate: new Date().toISOString().split('T')[0],
+	  createDate: new Date().toISOString(),
 	  recomendation: recomendationVal,
       path: pathVal,
 	  type: typeVal
