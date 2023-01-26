@@ -64,6 +64,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
+    console.log('ompu', this.documentChecklist.files)
   }
 
   public doUpload(formData: FormData, metaData: object): Promise<void> {
@@ -162,6 +163,17 @@ export class DebtorDataDocumentChecklistDialogComponent {
     else if(name.objectName.split('.').indexOf('xlsx') > -1){
       this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'xlsx');
     }
-    
+    else if(name.objectName.split('.').indexOf('mp3') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'mp3');
+    }
+    else if(name.objectName.split('.').indexOf('csv') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'csv');
+    }
+    else if(name.objectName.split('.').indexOf('svg') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'svg');
+    }
+    else if(name.objectName.split('.').indexOf('tiff') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'tiff');
+    }
   }
 }

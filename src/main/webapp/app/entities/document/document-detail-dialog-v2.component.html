@@ -27,6 +27,46 @@
           "
         />
         <div
+          *ngIf="item.key.indexOf('csv') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/csv.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="item.key.indexOf('mp3') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/mp3.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="item.key.indexOf('svg') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/svg.jpg" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
+          *ngIf="item.key.indexOf('tiff') > -1"
+          style="width: 300px"
+        >
+          <img width="300px" src="../../../content/images/tiff.png" />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
+
+        <div
           *ngIf="
             item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
             item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||

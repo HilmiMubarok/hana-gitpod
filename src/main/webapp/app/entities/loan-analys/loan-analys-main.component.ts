@@ -509,24 +509,37 @@ export class LoanAnalysMainComponent implements OnInit {
     const tempRouter = this.router.url.split('/')[1];
 
     if (tempRouter === 'cc-review') {
-      let tempHelper = 0;
-      let tempOpinionType = '';
+      if (this.opinionType === 'compliance') {
+        let tempHelper = 0;
+        let tempOpinionType = '';
 
-      tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+        tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
 
-      if (copyCreditProposal.notes.length > 0) {
-        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-          if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
-            copyCreditProposal.notes[i].message = '';
-            copyCreditProposal.notes[i].recomendation = this.recomendation;
-            copyCreditProposal.notes[i].condition = this.uuidPath;
-            copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
-            copyCreditProposal.notes[i].type = tempOpinionType;
-            tempHelper = tempHelper + 1;
+        if (copyCreditProposal.notes.length > 0) {
+          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+            if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
+              copyCreditProposal.notes[i].message = '';
+              copyCreditProposal.notes[i].recomendation = this.recomendation;
+              copyCreditProposal.notes[i].condition = this.uuidPath;
+              copyCreditProposal.notes[i].positionUserId = this.positionLoginFromEmit;
+              copyCreditProposal.notes[i].type = tempOpinionType;
+              tempHelper = tempHelper + 1;
+            }
           }
-        }
 
-        if (tempHelper === 0) {
+          if (tempHelper === 0) {
+            copyCreditProposal.notes.push(
+              this.addNewNotes(
+                '',
+                this.recomendation,
+                this.uuidPath,
+                this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
+                this.positionLoginFromEmit,
+                tempOpinionType
+              )
+            );
+          }
+        } else {
           copyCreditProposal.notes.push(
             this.addNewNotes(
               '',
@@ -538,22 +551,11 @@ export class LoanAnalysMainComponent implements OnInit {
             )
           );
         }
-      } else {
-        copyCreditProposal.notes.push(
-          this.addNewNotes(
-            '',
-            this.recomendation,
-            this.uuidPath,
-            this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
-            this.positionLoginFromEmit,
-            tempOpinionType
-          )
-        );
+        delete copyCreditProposal.attributes['tempLoggedInNotes'];
+        delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
+        delete copyCreditProposal.attributes['tempLoggedInCondition'];
+        delete copyCreditProposal.attributes['positionLogin'];
       }
-      delete copyCreditProposal.attributes['tempLoggedInNotes'];
-      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-      delete copyCreditProposal.attributes['tempLoggedInCondition'];
-      delete copyCreditProposal.attributes['positionLogin'];
     }
 
     if (
