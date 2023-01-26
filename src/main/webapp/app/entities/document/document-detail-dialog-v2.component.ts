@@ -45,7 +45,18 @@ export class DocumentDialogDialogV2Component implements OnInit {
     else if(name.objectName.split('.').indexOf('xlsx') > -1){
       this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'xlsx');
     }
-    
+    else if (name.objectName.split('.').indexOf('tiff') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'tiff');
+    }
+    else if (name.objectName.split('.').indexOf('svg') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'svg');
+    }
+    else if (name.objectName.split('.').indexOf('csv') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'csv');
+    }
+    else if (name.objectName.split('.').indexOf('mp3') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'mp3');
+    }
   }
 
   public save(): void {
