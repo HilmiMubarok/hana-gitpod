@@ -101,7 +101,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       this.patch === 'la-SME-CRC' ||
       this.patch === 'la-approval' ||
       this.patch === 'la-approval-inquiry' ||
-      this.patch === ''
+      this.patch === 'loan-committee-approval'
     ) {
       this.view = true;
     }
