@@ -95,7 +95,7 @@
         </div>
       </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <div class="mb-2">
+        <div class="mb-2" *ngIf="applicationProduct.attributes['applicationType'] !== 'Existing'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Type</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['loanType']" [disabled]="statusFacilityDisabled">
@@ -104,6 +104,12 @@
                 {{ item.label }}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mb-2" *ngIf="applicationProduct.attributes['applicationType'] === 'Existing'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Type</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['loanType']" disabled />
           </mat-form-field>
         </div>
       </section>
