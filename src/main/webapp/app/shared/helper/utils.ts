@@ -18,10 +18,26 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     // parse previousReturn attributes
     const previousReturn = JSON.parse(cp.attributes['previousReturn']);
     parsedAttribute['previousReturn'] = previousReturn;
-    parsedAttribute['previousReturn']['binding'] = JSON.parse(previousReturn['binding']);
-    parsedAttribute['previousReturn']['convenant'] = JSON.parse(previousReturn['convenant']);
-    parsedAttribute['previousReturn']['insurance'] = JSON.parse(previousReturn['insurance']);
-    // parsedAttribute['previousReturn']['facilityDetail'] = JSON.parse(previousReturn['facilityDetail']);
+
+    // check if binding attribute is exist
+    if (parsedAttribute['previousReturn']['binding']) {
+      parsedAttribute['previousReturn']['binding'] = JSON.parse(previousReturn['binding']);
+    }
+
+    // check if convenant attribute is exist
+    if (parsedAttribute['previousReturn']['convenant']) {
+      parsedAttribute['previousReturn']['convenant'] = JSON.parse(previousReturn['convenant']);
+    }
+
+    // check if insurance attribute is exist
+    if (parsedAttribute['previousReturn']['insurance']) {
+      parsedAttribute['previousReturn']['insurance'] = JSON.parse(previousReturn['insurance']);
+    }
+
+    // check if facilityDetail attribute is exist
+    if (parsedAttribute['previousReturn']['facilityDetail']) {
+      parsedAttribute['previousReturn']['facilityDetail'] = JSON.parse(previousReturn['facilityDetail']);
+    }
   }
 
   // check if previousHistory attribute is exist
@@ -29,10 +45,26 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     // parse previousHistory attributes
     const previousHistory = JSON.parse(cp.attributes['previousHistory']);
     parsedAttribute['previousHistory'] = previousHistory;
-    parsedAttribute['previousHistory']['binding'] = JSON.parse(previousHistory['binding']);
-    parsedAttribute['previousHistory']['convenant'] = JSON.parse(previousHistory['convenant']);
-    parsedAttribute['previousHistory']['insurance'] = JSON.parse(previousHistory['insurance']);
-    // parsedAttribute['previousHistory']['facilityDetail'] = JSON.parse(previousHistory['facilityDetail']);
+
+    // check if binding attribute is exist
+    if (parsedAttribute['previousHistory']['binding']) {
+      parsedAttribute['previousHistory']['binding'] = JSON.parse(previousHistory['binding']);
+    }
+
+    // check if convenant attribute is exist
+    if (parsedAttribute['previousHistory']['convenant']) {
+      parsedAttribute['previousHistory']['convenant'] = JSON.parse(previousHistory['convenant']);
+    }
+
+    // check if insurance attribute is exist
+    if (parsedAttribute['previousHistory']['insurance']) {
+      parsedAttribute['previousHistory']['insurance'] = JSON.parse(previousHistory['insurance']);
+    }
+
+    // check if facilityDetail attribute is exist
+    if (parsedAttribute['previousHistory']['facilityDetail']) {
+      parsedAttribute['previousHistory']['facilityDetail'] = JSON.parse(previousHistory['facilityDetail']);
+    }
   }
 
   return parsedAttribute;
