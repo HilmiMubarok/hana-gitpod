@@ -1,12 +1,18 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { AccountService } from 'app/core/auth/account.service';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { PositionService } from 'app/entities/position/position.service';
+import { INotes } from 'app/entities/notes/notes.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import lodash from 'lodash';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { LoanAnalysDialogOpinionCompliancePartComponent } from '../dialogs/loan-analys-dialog-opinion-compliance-part.component';
-import { ActivatedRoute, Router } from '@angular/router';
+
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -15,16 +21,8 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { Subject, takeUntil } from 'rxjs';
-import { StorageService } from 'app/entities/storage/storage.service';
-import { PositionService } from 'app/entities/position/position.service';
-import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
-import { INotes } from 'app/entities/notes/notes.model';
-import _ from 'lodash';
-import { HttpClient } from '@angular/common/http';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
+import lodash from 'lodash';
 import * as uuid from 'uuid';
 
 @Component({
@@ -33,46 +31,7 @@ import * as uuid from 'uuid';
   styleUrls: ['./loan-analys-opinion.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChanges, OnDestroy {
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
-  @ViewChild('document_editor')
-  public documentEditor: DocumentEditorComponent;
-
-  public _creditProposalItem: ICreditProposal;
-  public notes: any;
-  public note = {
-    attributes: {},
-    condition: '',
-    createDate: '',
-    id: 0,
-    message: '',
-    positionUserId: '',
-    recomendation: '',
-    type: '',
-    userId: '',
-  };
-  public route: any;
-  public parentPath = this.router.url.split('/')[1];
-
-  public resourceUrl: string;
-  private fileGet: File;
-  public currentAccount: any;
-
-  private BUCKET: string;
-  private ngUnsubscribe = new Subject();
-  public positionLogin: any;
-
-  private positionLoanComitee: string;
-
-  public isShowOpinionFieldInput = false;
-
-  private uuid: any;
-
-  @Input() cp: ICreditProposal;
-  @Input() saveWordMinio;
-  @Input() saveWordOpinionCondition;
-
+export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestroy {
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -84,49 +43,41 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
 
   @Output() uuidPath = new EventEmitter<string>();
   @Output() typeOpinion = new EventEmitter<string>();
-  @Output() newItemEventCompliance = new EventEmitter<string>();
-  @Output() positionLoginEmitCompliance = new EventEmitter<string>();
+  @Output() positionLoginEmitCompliance = new EventEmitter<number>();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.notes = [];
-    if (changes.cp.currentValue.notes.length > 0) {
-      for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
-        if (changes.cp.currentValue.notes[i].type === 'compliance') {
-          this.note.attributes = changes.cp.currentValue.notes[i].attributes;
-          this.note.type = '';
-          this.note.message = '';
-          this.note.condition = '';
-          this.note.createDate = changes.cp.currentValue.notes[i].createDate
-            ? this.datePipe.transform(changes.cp.currentValue.notes[i].createDate, 'yyyy-MM-dd')
-            : '';
-          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation
-            ? changes.cp.currentValue.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '')
-            : '';
-          this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId
-            ? changes.cp.currentValue.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '')
-            : '';
-          this.note.userId = changes.cp.currentValue.notes[i].userId
-            ? changes.cp.currentValue.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '')
-            : '';
-          this.note.id = changes.cp.currentValue.notes[i].id;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
 
-          this.notes.push(this.note);
-        }
-      }
-    }
-  }
+  public notes: INotes[];
+
+  public _creditProposalItem: ICreditProposal;
+  public route: any;
+  public parentPath = this.router.url.split('/')[1];
+
+  private fileGet: File;
+  public currentAccount: any;
+
+  private BUCKET: string;
+  private ngUnsubscribe = new Subject();
+  private positionLogin: any;
+
+  private positionLoanComitee: string;
+
+  public isShowOpinionFieldInput = false;
+
+  private uuid: any;
 
   constructor(
-    public accountService: AccountService,
-    public dialog: MatDialog,
-    public datePipe: DatePipe,
+	protected datePipe: DatePipe,
+    protected dialog: MatDialog,
+    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    private storageService: StorageService,
-    private positionService: PositionService,
-    private creditProposalService: CreditProposalService,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    protected storageService: StorageService,
+	protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService
   ) {
     const tempRouter = this.router.url.split('/')[1];
     if (tempRouter === 'cc-review') {
@@ -134,20 +85,34 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     }
     this.uuid = uuid.v4();
   }
+  
+  private getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+    });
+  }
+
+  public filterPositionLogin() {
+    this.positionService.findByLogin().subscribe(posisi => {
+	  let tempLoginId = 0;
+
+      this.positionLogin = posisi.body;
+
+      for (let i = 0; i < this.positionLogin.length; i++) {
+		tempLoginId = this.positionLogin[i].id;
+      }
+
+      this.positionLoginEmitCompliance.emit(tempLoginId);
+	  this.refresh();
+    });
+  }
 
   ngOnInit(): void {
     this.typeOpinion.emit('compliance');
     this.uuidPath.emit(this.uuid);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.filterPositionLogin();
-    this.getWord();
-    this.refresh();
-  }
 
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
-    });
+	this.getWord();
+    this.filterPositionLogin();
   }
 
   public openDialog(element: INotes = null): void {
@@ -161,12 +126,13 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     const dialogRef = this.dialog.open(LoanAnalysDialogOpinionCompliancePartComponent, predicate);
   }
 
-  onDocumentChange() {
+  public onDocumentChange() {
     this.container.restrictEditing = true;
   }
 
   public triggeredSave(): void {
     let paramsId = '';
+
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
     });
@@ -213,7 +179,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     }
   }
 
-  onCreate(): void {
+  public onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
@@ -227,70 +193,9 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnChang
     }
   }
 
-  public filterPositionLogin() {
-    this.positionService.findByLogin().subscribe(posisi => {
-      this.positionLogin = posisi.body;
-      for (let i = 0; i < this.positionLogin.length; i++) {
-        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
-      }
-      this.positionLoginEmitCompliance.emit(this.creditProposalItem.attributes['positionLogin']);
-    });
-  }
-
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-      this.notes = [];
-      if (res.body.notes.length > 0) {
-        for (let i = 0; i < res.body.notes.length; i++) {
-          if (res.body.notes[i].type === 'compliance') {
-            this.note = {
-              attributes: {},
-              condition: '',
-              createDate: '',
-              id: 0,
-              message: '',
-              positionUserId: '',
-              recomendation: '',
-              type: '',
-              userId: '',
-            };
-            this.note.attributes = res.body.notes[i].attributes;
-            this.note.type = 'compliance';
-            this.note.message = '';
-            this.note.condition = '';
-            this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
-            this.note.recomendation = res.body.notes[i].recomendation ? res.body.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-            this.note.positionUserId = res.body.notes[i].positionUserId
-              ? res.body.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '')
-              : '';
-            this.note.userId = res.body.notes[i].userId ? res.body.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-            this.note.id = res.body.notes[i].id;
-
-            this.notes.push(this.note);
-          }
-        }
-      }
-      this.accountService.identity().subscribe(account => {
-        this.currentAccount = account;
-        this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-        this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
-        this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-        this.creditProposalItem.attributes['positionLogin'] = '';
-        if (this.notes.length > 0) {
-          for (let i = 0; i < this.notes.length; i++) {
-            if (this.notes[i].type === 'compliance') {
-              this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-              if (this.notes[i].userId === this.currentAccount.login) {
-                this.creditProposalItem.notes[i].message = '';
-                this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-                this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
-                this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-                this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-              }
-            }
-          }
-        }
-      });
+	  this.notes = res.body.notes;
     });
   }
 

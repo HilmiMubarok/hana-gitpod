@@ -61,8 +61,6 @@ export class OfferingLetterMainComponent implements OnInit {
   public value: string;
   public titleUrl: any;
   public parentPath = this.router.url.split('/')[1];
-  public saveWordOpinionCondition: Boolean = false;
-  public saveWord: Boolean = false;
 
   public resAttr: IProcessTask;
   private BUCKET: string;
@@ -224,10 +222,6 @@ export class OfferingLetterMainComponent implements OnInit {
         this.resAttr = _res;
 
         this.onSave('process');
-
-        /* this.creditProposalProcessService.processTask(task).subscribe(res => {
-          this.router.navigate([this.router.url.split('/')[1]]);
-        }); */
       }
     });
   }
@@ -249,18 +243,6 @@ export class OfferingLetterMainComponent implements OnInit {
     const routeHelper =
       this.router.url.split('/')[1] + '/' + this.router.url.split('/')[2] + '/' + this.router.url.split('/')[3].substr(0, 4);
     this.router.navigate([routeHelper], { queryParams: { subroute: menu['id'] } });
-  }
-
-  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string): INotes {
-    let note: INotes = new Notes();
-
-    return (note = {
-      message: messageVal,
-      userId: userIdVal,
-      createDate: new Date(),
-      recomendation: recomendationVal,
-      condition: conditionVal,
-    });
   }
 
   private preSave(): ICreditProposal {
@@ -329,8 +311,6 @@ export class OfferingLetterMainComponent implements OnInit {
         // this.saveApplicationRole(source);
       });
     }
-    this.saveWordOpinionCondition = true;
-    this.saveWord = true;
   }
 
   getTitle() {
@@ -463,7 +443,6 @@ export class OfferingLetterMainComponent implements OnInit {
       .getObjects(this.BUCKET, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('xxx', response.body);
         const temp: any[] = response?.body;
         let i = 1;
         const data: any[] = [];

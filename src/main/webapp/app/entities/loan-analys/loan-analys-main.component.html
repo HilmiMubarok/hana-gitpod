@@ -158,11 +158,6 @@
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
-            <!-- <jhi-loan-facility-detail-history
-              *ngIf="isHistoryExist"
-              [isViewMode]="true"
-              [creditProposal]="creditProposal"
-            ></jhi-loan-facility-detail-history> -->
           </mat-card-content>
         </mat-card>
 
@@ -184,15 +179,6 @@
               [isViewMode]="true"
             >
             </jhi-credit-proposal-collateral-info>
-            <!-- <jhi-collateral-info-history
-              #creditProposalCollateralInfoComponent
-              *ngIf="isHistoryExist"
-              [creditProposal]="creditProposal"
-              [source]="'summaryAll'"
-              [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-            >
-            </jhi-collateral-info-history> -->
           </mat-card-content>
         </mat-card>
 
@@ -400,11 +386,9 @@
         <jhi-loan-analys-opinion
           #loanAnalysOpinionComponent
           (uuidPath)="setUuidPath($event)"
-          (nameLoginEmit)="setNameLogin($event)"
           (positionLoginEmit)="setPositionLogin($event)"
           (newItemEvent)="setOpinionRecomendation($event)"
           [creditProposalItem]="creditProposal"
-          [cp]="cp"
         >
         </jhi-loan-analys-opinion>
       </div>
@@ -421,10 +405,8 @@
             #loanAnalysOpinionCompliancePartComponent
             (uuidPath)="setUuidPathCompliance($event)"
             (positionLoginEmitCompliance)="setPositionLoginCompliance($event)"
-            (newItemEventCompliance)="setOpinionRecomendationCompliance($event)"
             (typeOpinion)="setTypeOpinion($event)"
             [creditProposalItem]="creditProposal"
-            [cp]="cp"
           >
           </jhi-loan-analys-opinion-compliance-part>
         </div>
@@ -471,9 +453,6 @@
     </div>
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <!-- <jhi-button-generate-compliance *ngIf="parentPath === 'cc-inquiry'" [creditProposal]="creditProposal">
-      </jhi-button-generate-compliance> -->
-
       <!-- Generate Compliance -->
       <button
         mat-raised-button

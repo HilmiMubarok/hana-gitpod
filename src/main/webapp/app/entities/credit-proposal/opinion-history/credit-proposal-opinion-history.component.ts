@@ -1,15 +1,19 @@
 import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
 
-import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
-import { INotes, Notes } from 'app/entities/notes/notes.model';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { PositionService } from 'app/entities/position/position.service';
+import { INotes } from 'app/entities/notes/notes.model';
 import { ICreditProposal } from '../credit-proposal.model';
+import { CreditProposalService } from '../credit-proposal.service';
 import { CreditProposalDialogOpinionHistoryComponent } from './dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
 
-import lodash from 'lodash';
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -18,16 +22,8 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { ActivatedRoute, Router } from '@angular/router';
-import { StorageService } from 'app/entities/storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
-import { CreditProposalService } from '../credit-proposal.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { PositionService } from 'app/entities/position/position.service';
 
+import lodash from 'lodash';
 import * as uuid from 'uuid';
 
 @Component({
@@ -37,25 +33,6 @@ import * as uuid from 'uuid';
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposalOpinionHistoryComponent implements OnInit {
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
-  @ViewChild('document_editor_container_condition')
-  public container_condition: DocumentEditorContainerComponent;
-  @ViewChild('document_editor')
-  public documentEditor: DocumentEditorComponent;
-
-  public _creditProposalItem: ICreditProposal;
-  public notes: any;
-
-  private BUCKET: string;
-
-  private ngUnsubscribe = new Subject();
-  private paramId: string;
-  private getKey: string;
-  private fileGet: File;
-  public resourceUrl: string;
-  public positionLogin: any;
-
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -65,64 +42,61 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  public tools: ToolbarModule = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Outdent',
-      'Indent',
-      'SuperScript',
-      'SubScript',
-      'CreateLink',
-    ],
-  };
+  @Output() newItemEvent = new EventEmitter<string>();
+  @Output() uuidPath = new EventEmitter<string>();
 
+  @ViewChild('document_editor_container')
+  private container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor_container_condition')
+  private container_condition: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  private documentEditor: DocumentEditorComponent;
+
+  public notes: INotes[];
+  public recomendasi: string;
+
+  private _creditProposalItem: ICreditProposal;
+  private BUCKET: string;
+  private ngUnsubscribe = new Subject();
+  private positionLogin: any;
   private uuid: any;
 
   constructor(
-    public accountService: AccountService,
-    public dialog: MatDialog,
-    public datePipe: DatePipe,
+    protected datePipe: DatePipe,
+	protected dialog: MatDialog,
+    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    private storageService: StorageService,
-    private creditProposalService: CreditProposalService,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService,
-    private positionService: PositionService
+    protected storageService: StorageService,
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService
   ) {
 	this.uuid = uuid.v4();
   }
 
-  public currentAccount: any;
-
-  ngOnInit(): void {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-	this.uuidPath.emit(this.uuid);
-
-    this.filterPositionLogin();
-    this.getWord();
-    this.refresh();
-  }
-
-  public getWord() {
+  private getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
     });
   }
 
-  @Output() newItemEvent = new EventEmitter<string>();
-  @Output() uuidPath = new EventEmitter<string>();
+  private filterPositionLogin() {
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionLogin = posisi.body;
+      for (let i = 0; i < this.positionLogin.length; i++) {
+        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].id;
+      }
+	  this.refresh();
+    });
+  }
 
-  change(event: string) {
+  ngOnInit(): void {
+	this.uuidPath.emit(this.uuid);
+
+	this.getWord();
+    this.filterPositionLogin();
+  }
+
+  public change(event: string) {
     this.newItemEvent.emit(event);
     this.recomendasi = event;
   }
@@ -138,7 +112,6 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     const dialogRef = this.dialog.open(CreditProposalDialogOpinionHistoryComponent, predicate);
   }
 
-  // Word Save
   public triggeredSave(): void {
 	let paramsId = '';
 
@@ -191,13 +164,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     }
   }
 
-  public obj: any;
-
-  onCreate(): void {
+  public onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
-  // Condition On Opinion
   public triggeredSaveCondition(): void {
 	let paramsId = '';
 
@@ -248,45 +218,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     }
   }
 
-  onCreateCondition(): void {
+  public onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
-  public filterPositionLogin() {
-    this.positionService.findByLogin().subscribe(posisi => {
-      this.positionLogin = posisi.body;
-      for (let i = 0; i < this.positionLogin.length; i++) {
-        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
-      }
-    });
-  }
-
-  public recomendasi: string;
-
   public refresh() {
-    this.accountService.identity().subscribe(account => {
-      this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-      this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
-      this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-
-      this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-        this.notes = res.body.notes;
-
-        if (this.notes.length > 0) {
-          for (let i = 0; i < this.notes.length; i++) {
-            this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-            if (this.notes[i].userId === account.firstName + ' ' + account.lastName) {
-              this.creditProposalItem.notes[i].message = '';
-              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-              this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
-              this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-              this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-			  this.recomendasi = this.notes[i].recomendation;
-			  this.newItemEvent.emit(this.notes[i].recomendation);
-            }
-          }
-        }
-      });
-    });
+	this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
+	  this.notes = res.body.notes;
+	});
   }
 }

@@ -1,12 +1,19 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject, firstValueFrom } from 'rxjs';
 
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { PositionService } from 'app/entities/position/position.service';
+import { INotes } from 'app/entities/notes/notes.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import lodash from 'lodash';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { LoanAnalysDialogOpinionComponent } from '../dialogs/loan-analys-dialog-opinion.component';
-import { ActivatedRoute, Router } from '@angular/router';
+
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -15,25 +22,15 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { Subject, takeUntil, firstValueFrom } from 'rxjs';
-import { StorageService } from 'app/entities/storage/storage.service';
-import { PositionService } from 'app/entities/position/position.service';
-import { IPosition } from 'app/entities/position/position.model';
-import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
-import { INotes } from 'app/entities/notes/notes.model';
-import _ from 'lodash';
-import { HttpClient } from '@angular/common/http';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { MessageService } from 'primeng/api';
 
+import { MessageService } from 'primeng/api';
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
-import { Account } from 'app/core/auth/account.model';
-import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
+import { PersonService } from 'app/entities/person/person.service';
 import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
+import lodash from 'lodash';
 import * as uuid from 'uuid';
 
 @Component({
@@ -42,71 +39,7 @@ import * as uuid from 'uuid';
   styleUrls: ['./loan-analys-opinion.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
-  @ViewChild('document_editor_container_condition')
-  public container_condition: DocumentEditorContainerComponent;
-  @ViewChild('document_editor')
-  public documentEditor: DocumentEditorComponent;
-
-  public _creditProposalItem: ICreditProposal;
-  public notes: any;
-  public note = {
-    attributes: {},
-    condition: '',
-    createDate: '',
-    id: 0,
-    message: '',
-    positionUserId: '',
-    recomendation: '',
-    type: '',
-    userId: '',
-  };
-  public route: any;
-  public parentPath = this.router.url.split('/')[1];
-  public position: IPosition[];
-
-  public nameLabel: any;
-  public radioButtonPurpose: any;
-  public radioButtonCondition: any;
-  public radioButtonNotRecommend: any;
-  public valueRadioPurpose: any;
-  public valueRadioCondition: any;
-  public valueRadioRecommend: any;
-  public resourceUrl: string;
-  private fileGet: File;
-  public currentAccount: any;
-
-  private BUCKET: string;
-  private ngUnsubscribe = new Subject();
-  public userId: string;
-  public accountLogin: any;
-  public positionUserId: string;
-  public obj: any;
-  public InternalId: any;
-  public positionLogin: any;
-
-  public recomendasi: string;
-  private nameLoanComitee: string;
-  private positionLoanComitee: string;
-  public isShowOpinionFieldInput = false;
-
-  public items: any;
-  public approvalUserData: any[];
-  public whoAmI: IPerson;
-  public relType: IOptionNode[];
-  private partyIdPos = '';
-
-  private uuid: any;
-
-  private cacheData: any;
-
-  @Input() source = '';
-  @Input() cp: ICreditProposal;
-  @Input() saveWordMinio;
-  @Input() saveWordOpinionCondition;
-
+export class LoanAnalysOpinionComponent implements OnInit {
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -114,102 +47,125 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
 
   set creditProposalItem(item: ICreditProposal) {
     this._creditProposalItem = item;
-  }
 
-  @Output() uuidPath = new EventEmitter<string>();
-  @Output() newItemEvent = new EventEmitter<string>();
-  @Output() nameLoginEmit = new EventEmitter<string>();
-  @Output() positionLoginEmit = new EventEmitter<string>();
+	if (this._creditProposalItem.statusId === 'CP_LOAN_APPROVAL' || this._creditProposalItem.statusId === 'LA_DAR_NOTIF') {
+      this.nameLabel = 'Approved Status';
+    } else if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
+      this.nameLabel = 'Recomendation';
+    }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.notes = [];
-    if (changes.cp.currentValue.notes.length > 0) {
-      for (let i = 0; i < changes.cp.currentValue.notes.length; i++) {
-        if (changes.cp.currentValue.notes[i].type === '' || changes.cp.currentValue.notes[i].type === null) {
-          this.note = {
-            attributes: {},
-            condition: '',
-            createDate: '',
-            id: 0,
-            message: '',
-            positionUserId: '',
-            recomendation: '',
-            type: '',
-            userId: '',
-          };
-          this.note.attributes = changes.cp.currentValue.notes[i].attributes;
-          this.note.type = '';
-          this.note.message = '';
-          this.note.condition = '';
-          this.note.createDate = changes.cp.currentValue.notes[i].createDate
-            ? this.datePipe.transform(changes.cp.currentValue.notes[i].createDate, 'yyyy-MM-dd')
-            : '';
-          this.note.recomendation = changes.cp.currentValue.notes[i].recomendation
-            ? changes.cp.currentValue.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '')
-            : '';
-          this.note.positionUserId = changes.cp.currentValue.notes[i].positionUserId
-            ? changes.cp.currentValue.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '')
-            : '';
-          this.note.userId = changes.cp.currentValue.notes[i].userId
-            ? changes.cp.currentValue.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '')
-            : '';
-          this.note.id = changes.cp.currentValue.notes[i].id;
-
-          this.notes.push(this.note);
-        }
-      }
+	if (this._creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+      this.approvalUser = false;
+    } else {
+      this.approvalUser = true;
     }
   }
 
+  @Input() source = '';
+
+  @Output() uuidPath = new EventEmitter<string>();
+  @Output() newItemEvent = new EventEmitter<string>();
+  @Output() positionLoginEmit = new EventEmitter<number>();
+
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
+  @ViewChild('document_editor_container_condition')
+  public container_condition: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
+
+  public notes: INotes[];
+  public recomendasi: string;
+
+  private _creditProposalItem: ICreditProposal;
+  private BUCKET: string;
+  private ngUnsubscribe = new Subject();
+  private positionLogin: any;
+  private uuid: any;
+
+  public nameLabel: any;
+  private currentAccount: any;
+
+  private accountLogin: any;
+  private userId: string;
+  private positionUserId: number;
+  private positionUserDescription: string;
+
+  private nameLoanComitee: string;
+  public isShowOpinionFieldInput = false;
+
+  public approvalUser: boolean;
+  public approvalUserData: any[];
+  private items: any;
+  private whoAmI: IPerson;
+  private relType: IOptionNode[];
+  private partyIdPos = '';
+
+  private cacheData: any;
+
   constructor(
-    public accountService: AccountService,
-    public dialog: MatDialog,
-    public datePipe: DatePipe,
+	protected datePipe: DatePipe,
+	protected dialog: MatDialog,
+    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    private storageService: StorageService,
-    private positionService: PositionService,
-    private creditProposalService: CreditProposalService,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService,
+	protected router: Router,
+	protected storageService: StorageService,
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
     protected messageService: MessageService,
     protected applicationRoleService: ApplicationRoleService,
     protected personService: PersonService
   ) {
     const tempRouter = this.router.url.split('/')[1];
-    if (
-      tempRouter === 'la-analyst' ||
-      tempRouter === 'la-SME-CRC' ||
-      tempRouter === 'la-approval' ||
-      tempRouter === 'loan-committee-approval'
-    ) {
+    if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
       this.isShowOpinionFieldInput = true;
     }
+	this.uuid = uuid.v4();
+
     this.approvalUserData = [];
     this.relType = [];
-
-    this.uuid = uuid.v4();
-    this.positionUserId = '';
-    this.userId = '';
+	this.userId = '';
+    this.positionUserId = 0;
+	this.positionUserDescription = '';
     this.cacheData = {
-      positionUserId: '',
-      userId: '',
+	  userId: '',
+      positionUserId: 0,
+	  positionUserDescription: '',
     };
   }
 
-  ngOnInit(): void {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.uuidPath.emit(this.uuid);
+  public getWord() {
+    this.storageService.getBucketName().subscribe(val => {
+      this.BUCKET = val.body['bucket'];
+    });
+  }
 
-    this.getLogin();
-    this.getWord();
-    this.refresh();
+  public filterPositionLogin() {
+    this.positionService.findByLogin().subscribe(posisi => {
+      this.positionLogin = posisi.body;
+      for (let i = 0; i < this.positionLogin.length; i++) {
+        this.positionUserId = this.positionLogin[i].id;
+		this.positionUserDescription = this.positionLogin[i].positionTypeDescription;
+      }
+      this.cacheData = {
+		userId: this.userId,
+        positionUserId: this.positionUserId,
+        positionUserDescription: this.positionUserDescription
+      };
+      this.positionLoginEmit.emit(this.positionUserId);
+	  this.refresh();
+    });
+  }
 
-    this.conditionOpinion();
-    this.conditionEnableOpinion();
-    this.hiddenApprovalUser();
-    this.getWhoAmI().then(res => {
-      this.loadApprovalUser();
+  public getLogin() {
+    this.accountService.identity().subscribe(account => {
+      this.userId = account.firstName + ' ' + account.lastName;
+      this.cacheData = {
+		userId: this.userId,
+        positionUserId: this.positionUserId,
+		positionUserDescription: this.positionUserDescription
+      };
+      this.filterPositionLogin();
     });
   }
 
@@ -273,22 +229,20 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
       });
   }
 
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.BUCKET = val.body['bucket'];
+  ngOnInit(): void {
+    this.uuidPath.emit(this.uuid);
+
+	this.getWord();
+    this.getLogin();
+
+    this.getWhoAmI().then(res => {
+      this.loadApprovalUser();
     });
   }
 
-  public getLogin() {
-    this.accountService.identity().subscribe(account => {
-      this.userId = account.firstName + ' ' + account.lastName;
-      this.cacheData = {
-        positionUserId: this.positionUserId,
-        userId: this.userId,
-      };
-      this.nameLoginEmit.emit(this.userId);
-      this.filterPositionLogin();
-    });
+  public change(event: string) {
+    this.newItemEvent.emit(event);
+    this.recomendasi = event;
   }
 
   public openDialog(element: INotes = null): void {
@@ -302,98 +256,36 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     const dialogRef = this.dialog.open(LoanAnalysDialogOpinionComponent, predicate);
   }
 
-  public change(event: string) {
-    this.newItemEvent.emit(event);
-    this.recomendasi = event;
-  }
-
-  setApproval(event: any) {
+  public setApproval(event: any) {
     this.uuid = uuid.v4();
     this.uuidPath.emit(this.uuid);
 
     for (let i = 0; i < this.approvalUserData.length; i++) {
       if (event.value === this.approvalUserData[i].partyId) {
-        this.creditProposalItem.attributes['userId'] = this.approvalUserData[i].partyName;
-        this.creditProposalItem.attributes['position'] = this.approvalUserData[i].partyName;
+        this.userId = this.approvalUserData[i].partyName;
+		this.nameLoanComitee = this.userId;
         this.partyIdPos = this.approvalUserData[i].partyId;
       }
     }
 
-    this.nameLoanComitee = this.creditProposalItem.attributes['userId'];
-    this.userId = this.nameLoanComitee;
-    this.nameLoginEmit.emit(this.nameLoanComitee);
-
     this.positionService.queryFilterBy({ idParty: this.partyIdPos, size: 1, page: 0 }).subscribe(res => {
       if (res.body.length > 0) {
-        this.positionLoanComitee = res.body[0].positionTypeDescription;
-        this.positionUserId = this.positionLoanComitee;
         this.cacheData = {
+		  userId: this.userId,
           positionUserId: this.positionUserId,
-          userId: this.userId,
+          positionUserDescription: this.positionUserDescription
         };
-        this.positionLoginEmit.emit(res.body[0].positionTypeDescription);
+        this.positionLoginEmit.emit(res.body[0].id);
       }
     });
   }
 
-  public conditionOpinion() {
-    // Opinion Condition in loan commite approval
-    if (this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' || this.creditProposalItem.statusId === 'LA_DAR_NOTIF') {
-      // Manipulation in Label
-      this.nameLabel = 'Approved Status';
-      // Manipulation in radio button
-      this.radioButtonPurpose = 'Approved as Propose';
-      this.radioButtonCondition = 'Approved With Condition';
-      this.radioButtonNotRecommend = 'Not Approved';
-      // Manipulation in value
-      this.valueRadioPurpose = 'Approved as Propose';
-      this.valueRadioCondition = 'Approved With Condition';
-      this.valueRadioRecommend = 'Not Approved';
-    } else if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
-      // if outside the conditions url loan commite approval
-      this.nameLabel = 'Recomendation';
-      this.radioButtonPurpose = 'Recommend as Propose';
-      this.radioButtonCondition = 'Recommend With Condition';
-      this.radioButtonNotRecommend = 'Not Recommend';
-
-      this.valueRadioPurpose = 'Recommend as propose';
-      this.valueRadioCondition = 'Recommend With Condition';
-      this.valueRadioRecommend = 'Not Recommend';
-    }
-  }
-
-  onDocumentChange() {
+  public onDocumentChange() {
     this.container.restrictEditing = true;
   }
 
-  onDocumentChanges() {
+  public onDocumentChanges() {
     this.container_condition.restrictEditing = true;
-  }
-
-  public disabledOpinion: boolean;
-
-  public conditionEnableOpinion() {
-    if (
-      this.creditProposalItem.statusId === 'CP_ASSIGNMENT' ||
-      this.creditProposalItem.statusId === 'CP_CHECKER' ||
-      this.creditProposalItem.statusId === 'CP_LOAN_APPROVAL' ||
-      this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' ||
-      this.creditProposalItem.statusId === 'LA_DAR_NOTIF'
-    ) {
-      this.disabledOpinion = false;
-    } else {
-      this.disabledOpinion = true;
-    }
-  }
-
-  public approvalUser: boolean;
-
-  private hiddenApprovalUser() {
-    if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-      this.approvalUser = false;
-    } else {
-      this.approvalUser = true;
-    }
   }
 
   private saveFile(): void {
@@ -435,17 +327,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
-    if (this.source === '') {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.nameLoanComitee || this.recomendasi !== '') {
-          this.saveFile();
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
-        }
-      } else {
-        this.saveFile();
-      }
-    }
+	if (this.source === '') {
+	  if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+		if (this.nameLoanComitee || this.recomendasi !== '') {
+		  this.saveFile();
+		} else {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
+		}
+	  } else {
+		this.saveFile();
+	  }
+	}
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -458,7 +350,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
-  onCreate(): void {
+  public onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
@@ -502,17 +394,17 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
   }
 
   public triggeredSaveCondition(): void {
-    if (this.source === '') {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.nameLoanComitee || this.recomendasi !== '') {
-          this.saveFileCon();
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
-        }
-      } else {
-        this.saveFileCon();
-      }
-    }
+	if (this.source === '') {
+	  if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+		if (this.nameLoanComitee || this.recomendasi !== '') {
+		  this.saveFileCon();
+		} else {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
+		}
+	  } else {
+		this.saveFileCon();
+	  }
+	}
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -525,103 +417,28 @@ export class LoanAnalysOpinionComponent implements OnInit, OnChanges {
     }
   }
 
-  onCreateCondition(): void {
+  public onCreateCondition(): void {
     this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-  }
-
-  public loadPosition(position: any): void {
-    this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
-      this.position = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
-      });
-    });
-  }
-
-  public filterPositionLogin() {
-    this.positionService.findByLogin().subscribe(posisi => {
-      this.positionLogin = posisi.body;
-      for (let i = 0; i < this.positionLogin.length; i++) {
-        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].positionTypeDescription;
-      }
-      this.cacheData = {
-        positionUserId: this.creditProposalItem.attributes['positionLogin'],
-        userId: this.userId,
-      };
-      this.positionLoginEmit.emit(this.creditProposalItem.attributes['positionLogin']);
-    });
   }
 
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-      this.notes = [];
-      if (res.body.notes.length > 0) {
-        for (let i = 0; i < res.body.notes.length; i++) {
-          if (res.body.notes[i].type === '' || res.body.notes[i].type === null) {
-            this.note = {
-              attributes: {},
-              condition: '',
-              createDate: '',
-              id: 0,
-              message: '',
-              positionUserId: '',
-              recomendation: '',
-              type: '',
-              userId: '',
-            };
-            this.note.attributes = res.body.notes[i].attributes;
-            this.note.type = '';
-            this.note.message = '';
-            this.note.condition = '';
-            this.note.createDate = res.body.notes[i].createDate ? this.datePipe.transform(res.body.notes[i].createDate, 'yyyy-MM-dd') : '';
-            this.note.recomendation = res.body.notes[i].recomendation ? res.body.notes[i].recomendation.replace(/<(?:.|\n)*?>/gm, '') : '';
-            this.note.positionUserId = res.body.notes[i].positionUserId
-              ? res.body.notes[i].positionUserId.replace(/<(?:.|\n)*?>/gm, '')
-              : '';
-            this.note.userId = res.body.notes[i].userId ? res.body.notes[i].userId.replace(/<(?:.|\n)*?>/gm, '') : '';
-            this.note.id = res.body.notes[i].id;
+	  this.notes = res.body.notes;
 
-            this.notes.push(this.note);
-          }
-        }
-      }
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        this.accountService.identity().subscribe(account => {
-          this.currentAccount = account;
-          this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-          this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-          this.creditProposalItem.attributes['position'] = '';
-          this.recomendasi = '';
-
-          if (this.notes.length > 0) {
-            for (let i = 0; i < this.notes.length; i++) {
-              this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-              this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-              this.creditProposalItem.attributes['position'] = this.notes[i].positionUserId;
-              this.creditProposalItem.attributes['tempLoggedInRecomendationUser'] = this.notes[i].recomendation;
-              if (this.notes[i].positionUserId === this.cacheData.positionUserId && this.notes[i].userId === this.cacheData.userId) {
-                this.recomendasi = this.notes[i].recomendation;
-                this.newItemEvent.emit(this.notes[i].recomendation);
-              }
-            }
-          }
-        });
+		if (this.notes.length > 0) {
+		  for (let i = 0; i < this.notes.length; i++) {
+			if (this.notes[i].positionId === this.cacheData.positionUserId) {
+			  this.newItemEvent.emit(this.notes[i].recomendation);
+			}
+		  }
+		}
       } else {
         this.accountService.identity().subscribe(account => {
           this.currentAccount = account;
-          this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-          this.creditProposalItem.attributes['tempLoggedInRecomendation'] = '';
-          this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-          this.creditProposalItem.attributes['positionLogin'] = '';
           if (this.notes.length > 0) {
             for (let i = 0; i < this.notes.length; i++) {
-              this.notes[i].createDate = this.notes[i].createDate ? this.datePipe.transform(this.notes[i].createDate, 'yyyy-MM-dd') : '';
-              if (this.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
-                this.creditProposalItem.notes[i].message = '';
-                this.creditProposalItem.attributes['tempLoggedInNotes'] = '';
-                this.creditProposalItem.attributes['tempLoggedInRecomendation'] = this.notes[i].recomendation;
-                this.creditProposalItem.attributes['positionLogin'] = this.notes[i].positionUserId;
-                this.creditProposalItem.attributes['tempLoggedInCondition'] = '';
-                this.recomendasi = this.notes[i].recomendation;
+              if (this.notes[i].employeeFirstName + ' ' + this.notes[i].employeeLastName === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
                 this.newItemEvent.emit(this.notes[i].recomendation);
               }
             }
