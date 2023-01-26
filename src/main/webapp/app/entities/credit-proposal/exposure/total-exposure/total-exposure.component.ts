@@ -587,6 +587,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
     const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
     const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+   
     if (filterIdr.length > 0) {
       for (let i = 0; i < filterIdr.length; i++) {
         if (filterIdr[i].InitialLimit !== undefined) {
@@ -596,8 +597,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
-        if (filterIdr[i].InitialLimit !== undefined) {
-          dolar = dolar + Number(filterIdr[i].InitialLimit) * Number(this.currencyMaster);
+        if (filterUsd[i].InitialLimit !== undefined) {
+          dolar = dolar + Number(filterUsd[i].InitialLimit) * Number(this.currencyMaster);
         }
       }
     }
