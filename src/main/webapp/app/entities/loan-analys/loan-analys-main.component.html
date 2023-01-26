@@ -209,6 +209,10 @@
             </jhi-credit-proposal-tab-summary>
           </mat-card-content>
         </mat-card>
+        <!-- Final Approval -->
+        <div class="mb-3">
+          <jhi-approve-final [creditProposal]="creditProposal"> </jhi-approve-final>
+        </div>
 
         <!-- assign to -->
         <!-- ? Component assign to akan muncul ketika status == CP_APPROVE_TO_LA di halaman la-distribution -->

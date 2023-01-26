@@ -84,35 +84,8 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     });
     // this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
     // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
-    this.sableFeild();
-    this.disabledStatus();
+
     this.hidePleaseSelect();
-  }
-  // change(event: any) {
-  //   this.newItemEvent.emit(event);
-  //   this.approvalStatus = event;
-  //   console.log('iniEvent', event);
-  // }
-  public sableFeild() {
-    this.patch = this.router.url.split('/')[1];
-    if (
-      this.patch === 'la-distribution' ||
-      this.patch === 'la-analyst' ||
-      this.patch === 'la-SME-CRC' ||
-      this.patch === 'la-approval' ||
-      this.patch === 'la-approval-inquiry' ||
-      this.patch === 'loan-committee-approval'
-    ) {
-      this.view = true;
-    }
-  }
-  public disabledStatus() {
-    this.patch = this.router.url.split('/')[1];
-    if (this.patch === 'dar-final' || this.patch === 'loan-committee-approval') {
-      this.disabled = false;
-    } else {
-      this.disabled = true;
-    }
   }
   public hidePleaseSelect() {
     this.patch = this.router.url.split('/')[1];
