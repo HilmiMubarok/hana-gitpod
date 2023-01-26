@@ -26,9 +26,11 @@ export class AssignToComponent implements OnInit {
     if (this.url === 'la-distribution') {
       this.loadPosition(['CRO']);
     } else if (this.url === 'cc-distribution') {
-      this.loadPosition(['CC_ANALYST', 'COMPLIANCE_OFCR']);
+      this.loadPosition(['CC_ANALYST']);
+      // this.loadPosition(['CC_ANALYST', 'COMPLIANCE_OFCR']);
     } else if (this.url === 'distribution') {
-      this.loadPosition(['SMELEGALOFRAM', 'OUTLEGALOFRAM', 'OUTLEGALOFRM', 'COMLEGALOFRAM', 'COMLEGALOFRM', 'LEGAL_OFFICER']);
+      this.loadPosition(['LEGAL_OFFICER']);
+      // this.loadPosition(['SMELEGALOFRAM', 'OUTLEGALOFRAM', 'OUTLEGALOFRM', 'COMLEGALOFRAM', 'COMLEGALOFRM', 'LEGAL_OFFICER']);
     }
   }
 
