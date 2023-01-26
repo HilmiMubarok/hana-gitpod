@@ -649,11 +649,11 @@ export class LoanAnalysMainComponent implements OnInit {
     this.recomendation = newItem;
   }
 
-  setPositionLogin(newItem: string) {
+  setPositionLogin(newItem: number) {
     this.positionLoginFromEmit = newItem;
   }
 
-  setPositionLoginCompliance(newItem: string) {
+  setPositionLoginCompliance(newItem: number) {
     this.positionLoginFromEmit = newItem;
   }
 
