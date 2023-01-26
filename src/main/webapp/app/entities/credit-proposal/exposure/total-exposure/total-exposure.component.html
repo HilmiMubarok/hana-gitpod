@@ -21,7 +21,7 @@
           <ng-container matColumnDef="availableLimit">
             <th mat-header-cell *matHeaderCellDef class="text-center">Available Limit</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.attributes.currency + ' ' + (element.attributes.availableLimit | number) }}
+              {{ element.attributes.currency + ' ' + (element.attributes.availableLimit ) }}
             </td>
           </ng-container>
           <ng-container matColumnDef="initialLimit">
