@@ -103,10 +103,4 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       }
     }
   }
-
-  print() {
-    console.log(this.creditProposal.products);
-    console.log(this.facilityTakeOverAfterBank);
-    console.log('maturity ', this.facilityTakeOverAfterBank.maturityPeriodType);
-  }
 }
