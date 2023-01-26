@@ -167,7 +167,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           adminFee: '0',
           adminFeeRateAmountType: '',
           applicationType: 'Existing',
-          availableLimit: '0',
+          availableLimit: cpFacility[i].AVAILABLE_LIMIT === undefined ? 0 : cpFacility[i].AVAILABLE_LIMIT,
           availablePeriod: '',
           availablePeriodType: '',
           changes: '0',
