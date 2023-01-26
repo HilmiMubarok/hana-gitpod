@@ -217,6 +217,7 @@ export class DocumentUploadDialogComponent implements OnInit {
 
   public onSelect(event: any) {
     this.files.push(...event.addedFiles);
+    console.log('ompu ikeh', this.files)
   }
 
   public onRemove(event: any) {

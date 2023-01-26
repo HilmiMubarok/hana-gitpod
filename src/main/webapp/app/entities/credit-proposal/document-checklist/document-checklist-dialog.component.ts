@@ -215,6 +215,18 @@ export class DocumentChecklistDialogComponent implements OnInit {
     else if(name.objectName.split('.').indexOf('xlsx') > -1){
       this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'xlsx');
     }
+    else if(name.objectName.split('.').indexOf('mp3') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'mp3');
+    }
+    else if(name.objectName.split('.').indexOf('csv') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'csv');
+    }
+    else if(name.objectName.split('.').indexOf('svg') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'svg');
+    }
+    else if(name.objectName.split('.').indexOf('tiff') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'tiff');
+    }
     
   }
 }
