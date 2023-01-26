@@ -54,6 +54,8 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
   @Input() isViewMode: Boolean = false;
 
+  @Input() isOnCompareData: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -281,9 +283,14 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     let limit: number;
     result = 0;
 
-    const dataFilter = this.parsedAttribute.previousHistory.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter =
+      this.parsedAttribute.previousReturn && this.isOnCompareData
+        ? this.parsedAttribute.previousReturn.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          )
+        : this.parsedAttribute.previousHistory.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          );
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
@@ -304,9 +311,14 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
     let change: number;
 
-    const filterSubLimit = this.parsedAttribute.previousHistory.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const filterSubLimit =
+      this.parsedAttribute.previousReturn && this.isOnCompareData
+        ? this.parsedAttribute.previousReturn.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          )
+        : this.parsedAttribute.previousHistory.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          );
 
     if (filterSubLimit.length > 0) {
       const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
@@ -328,9 +340,14 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     let os: number;
     os = 0;
 
-    const dataFilter = this.parsedAttribute.previousHistory.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter =
+      this.parsedAttribute.previousReturn && this.isOnCompareData
+        ? this.parsedAttribute.previousReturn.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          )
+        : this.parsedAttribute.previousHistory.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          );
 
     if (dataFilter.length > 0) {
       for (let i = 0; i < dataFilter.length; i++) {
@@ -367,9 +384,14 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     let plafond: number;
     plafond = 0;
 
-    const dataFilter = this.parsedAttribute.previousHistory.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter =
+      this.parsedAttribute.previousReturn && this.isOnCompareData
+        ? this.parsedAttribute.previousReturn.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          )
+        : this.parsedAttribute.previousHistory.products.filter(
+            obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+          );
 
     if (dataFilter.length > 0) {
       for (let i = 0; i < dataFilter.length; i++) {
@@ -395,6 +417,9 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
   // setCurrency
   setCurrency() {
-    this.ccy = this.parsedAttribute.previousHistory.products[0].attributes.currency;
+    this.ccy =
+      this.parsedAttribute.previousReturn && this.isOnCompareData
+        ? this.parsedAttribute.previousReturn.products[0].attributes.currency
+        : this.parsedAttribute.previousHistory.products[0].attributes.currency;
   }
 }

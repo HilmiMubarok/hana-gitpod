@@ -2,7 +2,23 @@
   <div class="e-card-header-title">PREVIOUS PROPOSAL</div>
 </div>
 <div>
-  <jhi-loan-facility-detail-previous [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous>
+  <!-- <jhi-loan-facility-detail-previous [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous> -->
+  <jhi-loan-facility-detail-history
+    *ngIf="creditProposal.attributes['previousReturn']"
+    [isOnCompareData]="true"
+    [isViewMode]="true"
+    [creditProposal]="creditProposal"
+  ></jhi-loan-facility-detail-history>
+  <div class="e-card" *ngIf="!creditProposal.attributes['previousReturn']">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <div class="e-card-header-title">Facility Details</div>
+      </div>
+    </div>
+    <div class="alert alert-warning m-3" role="alert">
+      <span style="font-weight: bold">No previous data was found!</span>
+    </div>
+  </div>
 </div>
 <div class="e-card-actions"></div>
 
@@ -29,7 +45,8 @@
   <div class="e-card-header-title">CURRENT PROPOSAL</div>
 </div>
 <div>
-  <jhi-credit-proposal-collateral-info [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+  <jhi-credit-proposal-collateral-info [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal">
+  </jhi-credit-proposal-collateral-info>
 </div>
 
 <div class="e-card-actions"></div>
