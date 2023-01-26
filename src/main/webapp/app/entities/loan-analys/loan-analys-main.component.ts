@@ -505,8 +505,7 @@ export class LoanAnalysMainComponent implements OnInit {
       tempRouter === 'la-analyst' ||
       tempRouter === 'la-SME-CRC' ||
       tempRouter === 'la-approval' ||
-      tempRouter === 'loan-committee-approval' ||
-      tempRouter === 'cc-review'
+      tempRouter === 'loan-committee-approval'
     ) {
       let tempHelper = 0;
       let tempOpinionType = '';
