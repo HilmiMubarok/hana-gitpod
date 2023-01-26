@@ -1,0 +1,29 @@
+<mat-card class="mb-3" [hidden]="view">
+  <mat-card-subtitle> Final Approval Status </mat-card-subtitle>
+  <div class="form-group">
+    <div class="d-flex justify-content-around">
+      <div class="mx-2">
+        <ejs-radiobutton
+          label="Approved as proposed"
+          value="Approved as proposed"
+          [(ngModel)]="creditProposal.attributes['approvalStatus']"
+          [disabled]="disabled"
+        >
+        </ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton
+          label="Approved as condition"
+          value="Approved as condition"
+          [(ngModel)]="creditProposal.attributes['approvalStatus']"
+          [disabled]="disabled"
+        >
+        </ejs-radiobutton>
+      </div>
+      <div class="mx-2">
+        <ejs-radiobutton label="Reject" value="Reject" [(ngModel)]="creditProposal.attributes['approvalStatus']" [disabled]="disabled">
+        </ejs-radiobutton>
+      </div>
+    </div>
+  </div>
+</mat-card>
