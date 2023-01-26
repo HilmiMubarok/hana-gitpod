@@ -17,7 +17,7 @@
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Date</mat-label>
-          <input matInput type="text" [value]="notes.createDate | date: 'y-MM-d'" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="notes.createDate.split('T')[0] | date: 'y-MM-d'" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>
