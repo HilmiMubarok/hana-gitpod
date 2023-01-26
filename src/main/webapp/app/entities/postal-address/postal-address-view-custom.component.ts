@@ -4,7 +4,7 @@ import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import { IOrganizationManagement } from '../organization-management/organization-management.model';
-import { IStateBoundary } from '../state-boundary/state-boundary.model';
+import { IStateBoundary, StateBoundary } from '../state-boundary/state-boundary.model';
 import { StateBoundaryService } from '../state-boundary/state-boundary.service';
 import { IPostalAddress } from './postal-address.model';
 
@@ -22,7 +22,7 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   public filteredOptionsProvince: Observable<IStateBoundary[]>;
 
   myControlCity = new FormControl('');
-  public optionsCity: IStateBoundary[];
+  public optionsCity: IStateBoundary[] = [];
   public filteredOptionsCity: Observable<IStateBoundary[]>;
 
   myControlDistrict = new FormControl('');
@@ -277,21 +277,48 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   public getValueCountry() {
     this.postalAddress.countryId = this.country.id;
     this.initializeProvince();
+    this.postalAddress.cityId = null;
+    this.postalAddress.districtId = null;
+    this.postalAddress.villageId = null;
+    this.initializeDistrict();
+    this.initializeVillage();
+    this.myControlProvince.enable();
+    this.myControlCity.disable();
+    this.myControlDistrict.disable();
+    this.myControlVillage.disable();
   }
 
   public getValueProvince() {
     this.postalAddress.provinceId = this.province.id;
     this.initializeCity();
+    this.postalAddress.cityId = null;
+    this.postalAddress.districtId = null;
+    this.postalAddress.villageId = null;
+    if (this.postalAddress.provinceId) {
+      this.myControlCity.enable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+      this.initializeDistrict();
+      this.initializeVillage();
+    }
   }
 
   public getValueCity() {
     this.postalAddress.cityId = this.cities.id;
     this.initializeDistrict();
+    if (this.postalAddress.cityId) {
+      this.myControlCity.disable();
+      this.myControlDistrict.enable();
+    }
   }
 
   public getValueDistrict() {
     this.postalAddress.districtId = this.districts.id;
     this.initializeVillage();
+    if (this.postalAddress.districtId) {
+      this.myControlDistrict.disable();
+      this.myControlVillage.enable();
+    }
   }
 
   public dataSource() {
