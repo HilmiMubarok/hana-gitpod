@@ -1,6 +1,8 @@
-<div class="e-card-header">
-  <div class="e-card-header-caption">
-    <div class="e-card-header-title">Facility Details</div>
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Facility Details</div>
+    </div>
   </div>
 </div>
 <div class="e-card-content">
@@ -98,7 +100,7 @@
     </div>
   </div>
 
-  <div class="row mb-3 mt-3">
+  <div class="row mb-3 mt-3" *ngIf="takeOutCompare !== true">
     <div class="col-6">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
@@ -170,7 +172,7 @@
     </section>
   </div>
 </div>
-<div class="e-card">
+<div class="e-card" *ngIf="takeOutCompare !== true">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Take Over Scheme (If Any)</div>
