@@ -29,46 +29,59 @@
           <mat-label>Facility Type</mat-label>
           <input matInput type="text" [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank.label" [disabled]="view" />
         </mat-form-field>
-
+      </div>
+      <div class="row">
         <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tenor</mat-label>
-            <input matInput type="number" [(ngModel)]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
+            <input
+              matInput
+              [value]="facilityTakeOverAfterBank.initialLimitBankOver + ' ' + facilityTakeOverAfterBank?.maturityPeriodType"
+              [disabled]="true"
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Period Type</mat-label>
+            <mat-select [(ngModel)]="facilityTakeOverAfterBank.maturityPeriodType" [disabled]="true">
+              <!-- <mat-option value="">- Please Select -</mat-option> -->
+              <mat-option *ngFor="let item of periodTypeList" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
-      <div class="col-6">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Initial Limit</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
-            [disabled]="view"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-            [disabled]="true"
-          />
-        </mat-form-field>
-
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Outstanding</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
-            [disabled]="view"
-            [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-            [disabled]="true"
-          />
-        </mat-form-field>
-      </div>
-      <mat-dialog-actions>
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
-      </mat-dialog-actions>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Initial Limit</mat-label>
+        <input
+          currencyMask
+          matInput
+          type="text"
+          [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
+          [disabled]="view"
+          [options]="logoCcy"
+          [disabled]="true"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Outstanding</mat-label>
+        <input
+          currencyMask
+          matInput
+          type="text"
+          [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+          [disabled]="view"
+          [options]="logoCcy"
+          [disabled]="true"
+        />
+      </mat-form-field>
     </div>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
+    </mat-dialog-actions>
   </div>
 </div>
 

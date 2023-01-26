@@ -129,7 +129,7 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Currency</mat-label>
-                <mat-select [(ngModel)]="facilityTakeOver.currency" (ngModelChange)="chnageCurrency($event)" [disabled]="view">
+                <mat-select [(ngModel)]="facilityTakeOver.currency2" (ngModelChange)="chnageCurrency($event)" [disabled]="view">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of currencyList" [value]="item">
                     {{ item }}
@@ -149,7 +149,7 @@
             <div class="col-2">Currency</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ facilityTakeOverAfterBank.currency }}
+              {{ facilityTakeOverAfterBank.currency2 }}
             </div>
           </div>
         </section>

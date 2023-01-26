@@ -87,7 +87,7 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
     } else {
       predicate.data['facilityTakeOver'] = new ApplicationProductTakeOver();
     }
-    const dialogRef = this.dialog.open(LoanFacilityTakeOverHistoryComponent, predicate);
+    const dialogRef = this.dialog.open(LoanFacilityTakeOverGridHistoryComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.loanApplication.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
@@ -99,6 +99,5 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
     const dataGridTake = this.creditProposal.attributes['facilityTakeOver'].filter(({ id }) => id !== element.id);
     this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
     this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
-    console.log('Tes Delete', dataGridTake);
   }
 }

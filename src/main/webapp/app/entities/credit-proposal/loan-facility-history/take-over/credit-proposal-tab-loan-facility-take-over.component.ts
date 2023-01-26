@@ -12,10 +12,12 @@ import { IApplicationProductTakeOver } from 'app/entities/credit-proposal/loan-f
 })
 export class LoanFacilityTakeOverHistoryComponent {
   public _creditProposal: ICreditProposal;
+  public ccy: string;
+  public periodTypeList: any = ['Week', 'Month', 'Year'];
+  public currencyList: any = ['IDR', 'USD'];
   view: boolean;
   facilityTakeOver: IApplicationProductTakeOver;
-  @Input() isViewLoan: Boolean = false;
-  @Input() isViewMode: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
