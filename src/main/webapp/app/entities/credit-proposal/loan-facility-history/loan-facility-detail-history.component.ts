@@ -56,6 +56,8 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
   @Input() isOnCompareData: Boolean = false;
 
+  @Input() isCompareDar: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -284,7 +286,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     result = 0;
 
     const dataFilter =
-      this.parsedAttribute.previousReturn && this.isOnCompareData
+      this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
