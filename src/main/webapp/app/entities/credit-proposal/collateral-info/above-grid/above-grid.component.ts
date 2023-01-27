@@ -403,42 +403,42 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.amountCcy) {
-        return data.attributes.amountCcy;
+      if (data.attributes) {
+        return data?.attributes.amountCcy;
       }
     }
     if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
+      if (data.attributes.marketValueCcy !== undefined) {
+        return data?.attributes.marketValueCcy;
       }
     }
     if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
+      if (data.attributes.marketValueCcy !== undefined) {
+        return data?.attributes.marketValueCcy;
       }
     }
     if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
+      if (data.attributes.marketValueCcy !== undefined) {
+        return data?.attributes.marketValueCcy;
       }
     }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
-      }
-    }
+    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+    //   data = this.collateralProperties.find(
+    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+    //   );
+    //   if (data.attributes.marketValueCcy !== undefined) {
+    //     return data?.attributes.marketValueCcy;
+    //   }
+    // }
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
