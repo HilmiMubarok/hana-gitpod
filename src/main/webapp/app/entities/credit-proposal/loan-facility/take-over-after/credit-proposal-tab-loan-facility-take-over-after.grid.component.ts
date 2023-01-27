@@ -64,10 +64,13 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         this.loanApplication.attributes['facilityTakeOverAfterBank'] = [
-          ...this.creditProposal.attributes['facilityTakeOverAfterBank'],
+          ...this.creditProposal?.attributes['facilityTakeOverAfterBank'],
           res,
         ];
-        this.creditProposal.attributes['facilityTakeOverAfterBank'] = [...this.creditProposal.attributes['facilityTakeOverAfterBank'], res];
+        this.creditProposal.attributes['facilityTakeOverAfterBank'] = [
+          ...this.creditProposal?.attributes['facilityTakeOverAfterBank'],
+          res,
+        ];
       }
     });
   }
