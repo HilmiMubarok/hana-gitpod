@@ -100,7 +100,7 @@
                 </mat-form-field>
                 <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId !== 'LETTER_OF_GUARANTY'">
                   <mat-label>Sifat Jaminan</mat-label>
-                  <input matInput type="text" [(ngModel)]="creditProposal.attributes.charCollateral" disabled />
+                  <input matInput type="text" [(ngModel)]="empty.sifatJaminan" disabled />
                 </mat-form-field>
               </div>
 
@@ -109,7 +109,7 @@
                   placeholder="Periode Jaminan"
                   cssClass="e-outline"
                   floatLabelType="Always"
-                  [(ngModel)]="creditProposal.attributes['guaranteePeriode']"
+                  [(ngModel)]="empty.periodeJaminan"
                   disabled
                 >
                 </ejs-textbox>
