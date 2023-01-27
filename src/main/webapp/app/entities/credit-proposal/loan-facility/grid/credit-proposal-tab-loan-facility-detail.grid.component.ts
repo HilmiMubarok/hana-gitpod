@@ -111,6 +111,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   ngOnInit(): void {
+    this.currency();
     this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
@@ -158,6 +159,18 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     }
     return '';
   }
+  public currency() {
+    const cpFacility = this.creditProposal.debtorData.attributes['cpFacility'];
+    for (let i = 0; i < cpFacility.length; i++) {
+      //Inisialisasi kurs
+      if (cpFacility[i].LNB_BASE_LON_CCY !== 'IDR') {
+        const setDate = new Date().toISOString().split('T')[0];
+        this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+          this.kurs = res.body[0]?.factor;
+        });
+      }
+    }
+  }
 
   dataFunc(response: any) {
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
@@ -165,13 +178,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       const dataParty = [];
       const aYear = [];
       for (let i = 0; i < cpFacility.length; i++) {
-        if (cpFacility[i].LNB_BASE_LON_CCY !== 'IDR') {
-          const setDate = new Date().toISOString().split('T')[0];
-          this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-            this.kurs = res.body[0]?.factor;
-          });
-        }
-
         const date2 = new Date(cpFacility[i].FILN10_TOT_EXP_IL);
         const date1 = new Date(cpFacility[i].FXFIG_TRX_DT);
         aYear.push(Math.round(Math.round((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24) / 360)));
@@ -200,7 +206,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           interestRatePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
           interestRateType: cpFacility[i].FIX_FLT_GB_NM,
           keterangan: '',
-          kurs: res.body[0]?.factor,
+          kurs: this.kurs,
           loanPurpose: '',
           loanType: cpFacility[i].FILN11_COM_NM,
           maturity: '0',
