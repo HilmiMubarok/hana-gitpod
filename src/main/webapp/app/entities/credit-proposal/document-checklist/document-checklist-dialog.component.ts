@@ -93,7 +93,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
       const currentDate = moment().format('YYYYMMDDHHMMSSMS');
       const files = this.file[i].name.replace('&', '');
 
-      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${files}`;
+      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
       metaData.entityId = this.data.creditProposal.id;
       metaData.documentType = this.documentChecklist.documentType;
       metaData.document = this.documentChecklist.document;
@@ -203,30 +203,6 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
 
   public donwload(event: any, name: any) {
-    if (name.objectName.split('.').indexOf('pdf') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'pdf');
-    }
-    else if(name.objectName.split('.').indexOf('pptx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'pptx');
-    }
-    else if(name.objectName.split('.').indexOf('docx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'docx');
-    }
-    else if(name.objectName.split('.').indexOf('xlsx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'xlsx');
-    }
-    else if(name.objectName.split('.').indexOf('mp3') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'mp3');
-    }
-    else if(name.objectName.split('.').indexOf('csv') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'csv');
-    }
-    else if(name.objectName.split('.').indexOf('svg') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'svg');
-    }
-    else if(name.objectName.split('.').indexOf('tiff') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'tiff');
-    }
-    
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
 }

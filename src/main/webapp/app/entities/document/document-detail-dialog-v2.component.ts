@@ -57,6 +57,15 @@ export class DocumentDialogDialogV2Component implements OnInit {
     else if (name.objectName.split('.').indexOf('mp3') > -1) {
       this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'mp3');
     }
+    else if(name.objectName.split('.').indexOf('png') > -1 ){
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'png');
+    }else if( name.objectName.split('.').indexOf('jpg') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'jpg');
+    }else if (name.objectName.split('.').indexOf('jpeg') > -1) {
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'jpeg');
+    }else if(name.objectName.split('.').indexOf('gif') > -1){
+      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'gif');
+    }
   }
 
   public save(): void {
