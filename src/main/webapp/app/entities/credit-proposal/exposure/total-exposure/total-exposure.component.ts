@@ -446,6 +446,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
     }
     this.totalChanges = result + dolar;
+  
     this.creditProposalService.setTotalChanges(this.totalChanges);
     return result + dolar;
   }

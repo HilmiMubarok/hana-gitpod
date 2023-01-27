@@ -4,7 +4,6 @@ import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richt
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
-import { IEmptyField } from './empty-field.model';
 import { Observable, of } from 'rxjs';
 import lodash from 'lodash';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -22,6 +21,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
+import { IEmptyField } from 'app/entities/credit-proposal/collateral-info/backtoback/empty-field.model';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'YYYY/MM/DD',

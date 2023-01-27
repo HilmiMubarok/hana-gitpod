@@ -171,6 +171,7 @@ export enum COLLATERAL_BINDING_TYPE {
   CBT06 = 'HIPOTIK',
   CBT07 = 'PERNYATAAN JAMINAN & KUASA',
   CBT08 = 'BELUM DIIKAT',
+  CBT88 = 'FIDUSIA',
   CBT99 = 'LAINNYA',
 }
 
@@ -234,6 +235,7 @@ export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
   R104 = 'Factory (Industrial)',
   R106 = 'Business Rights',
   R199 = 'Other Real Estate',
+  R200 = 'N/A',
 }
 
 export enum PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE {

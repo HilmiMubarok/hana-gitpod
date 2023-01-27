@@ -20,6 +20,7 @@ import {
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IProduct } from 'app/entities/product/product.model';
 import { PageEvent } from '@angular/material/paginator';
+import { CreditProposalService } from '../../credit-proposal.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -82,8 +83,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public loading: boolean;
   public cloneData: any;
   public view: boolean;
-
-  constructor(public partyCifService: PartyCifService, public dialog: MatDialog, public _router: Router) {
+  public kurs: any;
+  constructor(
+    public partyCifService: PartyCifService,
+    public dialog: MatDialog,
+    public _router: Router,
+    private creditProposalService: CreditProposalService
+  ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
 
@@ -105,6 +111,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   ngOnInit(): void {
+    this.currency();
     this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
@@ -152,11 +159,22 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     }
     return '';
   }
+  public currency() {
+    const cpFacility = this.creditProposal.debtorData.attributes['cpFacility'];
+    for (let i = 0; i < cpFacility.length; i++) {
+      //Inisialisasi kurs
+      if (cpFacility[i].LNB_BASE_LON_CCY !== 'IDR') {
+        const setDate = new Date().toISOString().split('T')[0];
+        this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+          this.kurs = res.body[0]?.factor;
+        });
+      }
+    }
+  }
 
   dataFunc(response: any) {
     this.partyCifService.find('cif/retrieve-cp-facility/' + response.body[0].customerNumber).subscribe((res: any) => {
       const cpFacility = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-
       const dataParty = [];
       const aYear = [];
       for (let i = 0; i < cpFacility.length; i++) {
@@ -188,7 +206,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           interestRatePeriodType: cpFacility[i].FILN10_ROLL_GAP_GB_NM,
           interestRateType: cpFacility[i].FIX_FLT_GB_NM,
           keterangan: '',
-          kurs: '0',
+          kurs: this.kurs,
           loanPurpose: '',
           loanType: cpFacility[i].FILN11_COM_NM,
           maturity: '0',

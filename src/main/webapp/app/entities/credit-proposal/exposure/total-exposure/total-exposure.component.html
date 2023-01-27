@@ -138,12 +138,23 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-numerictextbox
+                *ngIf="fungsiSumchange().toString().split('')[0] === '-'"
                 placeholder="Sub Total Changes (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="fungsiSumchange()"
+                [value]="fungsiSumchange().toString().replace('-', '')"
+                format="IDR -0,"
+                readonly="true"
+                disabled
+              ></ejs-numerictextbox>
+
+              <ejs-numerictextbox
+                *ngIf="fungsiSumchange().toString().split('')[0] !== '-'"
+                placeholder="Sub Total Changes (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="fungsiSumchange().toString().replace('-', '')"
                 format="IDR 0,"
-                min="0"
                 readonly="true"
                 disabled
               ></ejs-numerictextbox>
@@ -235,19 +246,31 @@
           </ng-container>
           <ng-container matColumnDef="initialLimit">
             <th mat-header-cell *matHeaderCellDef class="text-left">Initial Limit</th>
-            <td mat-cell *matCellDef="let element">{{ element.InitialLimit | currency: 'IDR ' }}</td>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.CCY ==='IDR'">{{ element.InitialLimit | currency: 'IDR' }}</span>
+              <span *ngIf="element.CCY ==='USD'">{{ element.InitialLimit | currency: 'USD' }}</span>
+            </td>
           </ng-container>
           <ng-container matColumnDef="change">
             <th mat-header-cell *matHeaderCellDef class="text-left">Changes</th>
-            <td mat-cell *matCellDef="let element">{{ element.Changes | currency: 'IDR ' }}</td>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.CCY ==='IDR'">{{ element.Changes | currency: 'IDR' }}</span>
+              <span *ngIf="element.CCY ==='USD'">{{ element.Changes | currency: 'USD' }}</span>
+            </td>
           </ng-container>
           <ng-container matColumnDef="os">
             <th mat-header-cell *matHeaderCellDef class="text-left">O/S</th>
-            <td mat-cell *matCellDef="let element">{{ element.OS | currency: 'IDR ' }}</td>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.CCY ==='IDR'">{{ element.OS | currency: 'IDR' }}</span>
+              <span *ngIf="element.CCY ==='USD'">{{ element.OS | currency: 'USD' }}</span>
+            </td>
           </ng-container>
           <ng-container matColumnDef="totalPlatfond">
             <th mat-header-cell *matHeaderCellDef class="text-left">Total Platfond</th>
-            <td mat-cell *matCellDef="let element">{{ element.TotalPlafond | currency: 'IDR ' }}</td>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.CCY ==='IDR'">{{ element.TotalPlafond | currency: 'IDR' }}</span>
+              <span *ngIf="element.CCY ==='USD'">{{ element.TotalPlafond | currency: 'USD' }}</span>
+            </td>
           </ng-container>
           <ng-container matColumnDef="interet">
             <th mat-header-cell *matHeaderCellDef class="text-center">Interest Rate</th>
