@@ -116,7 +116,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
-    // this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
   }
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
@@ -167,8 +166,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       for (let i = 0; i < cpFacility.length; i++) {
         if (cpFacility[i].LNB_BASE_LON_CCY !== 'IDR') {
           const setDate = new Date().toISOString().split('T')[0];
-          this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-            this.kurs = res.body[0]?.factor;
+          this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res2 => {
+            this.kurs = res2.body[0]?.factor;
           });
         }
 
@@ -370,7 +369,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public hiddenButton(element: IApplicationProduct) {
-    if (element.attributes.applicationType === 'Existing') {
+    if (element.attributes.hobbies === true) {
       return true;
     } else if (this.view) {
       return true;
