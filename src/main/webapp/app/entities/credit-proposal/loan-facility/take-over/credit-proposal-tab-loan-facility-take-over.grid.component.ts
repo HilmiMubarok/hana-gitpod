@@ -89,8 +89,8 @@ export class CreditProposalTabLoanFacilityTakeOverGridComponent implements OnCha
     const dialogRef = this.dialog.open(CreditProposalTabLoanFacilityTakeOverComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.loanApplication.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
-        this.creditProposal.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
+        this.loanApplication.attributes['facilityTakeOver'] = [...this.creditProposal?.attributes['facilityTakeOver'], res];
+        this.creditProposal.attributes['facilityTakeOver'] = [...this.creditProposal?.attributes['facilityTakeOver'], res];
       }
     });
   }
