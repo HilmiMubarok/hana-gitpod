@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Cash</title>
+    <meta name="description" content="Description for losgw" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <base href="/" />
+
+    <!-- jhipster-needle-add-resources-to-root - JHipster will add new resources here -->
+  </head>
+  <body>
+    <div class="header">
+      <img src="content/images/cash_logo.png" />
+    </div>
+    <div class="content" id="divContent"></div>
+    <script src="./static/js/jquery.js"></script>
+    <script>
+      $(function () {
+        var hostname = $(location).attr('host');
+        var protocol = $(location).attr('protocol');
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var key = urlParams.get('key');
+        var position = urlParams.get('position');
+        var application = urlParams.get('application');
+        var url =
+          protocol + '//' + hostname + '/services/los/api/internal/active-pending-approval-dar/' + key + '/' + position + '/' + application;
+
+        $.ajax({
+          url: url,
+          type: 'GET',
+        })
+          .done(function (resp) {
+            var urlSubmit = protocol + '//' + hostname + '/services/los/api/internal/approve-dar';
+            $.ajax({
+              url: urlSubmit,
+              type: 'PUT',
+              data: JSON.stringify(resp),
+              contentType: 'application/json',
+            })
+              .done(function (resp2) {
+                $('#divContent').html('Approval sudah berhasil');
+              })
+              .fail(function () {});
+          })
+          .fail(function () {
+            $('#divContent').html('Maaf, Request Approval ini tidak ditemukan atau sudah di approve');
+          });
+      });
+    </script>
+  </body>
+</html>
