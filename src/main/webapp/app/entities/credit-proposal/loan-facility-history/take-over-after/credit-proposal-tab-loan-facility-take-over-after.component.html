@@ -53,39 +53,42 @@
           </mat-form-field>
         </div>
       </div>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Initial Limit</mat-label>
-        <input
-          currencyMask
-          matInput
-          type="text"
-          [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
-          [disabled]="view"
-          [options]="logoCcy"
-          [disabled]="true"
-        />
-      </mat-form-field>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Outstanding</mat-label>
-        <input
-          currencyMask
-          matInput
-          type="text"
-          [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
-          [disabled]="view"
-          [options]="logoCcy"
-          [disabled]="true"
-        />
-      </mat-form-field>
+      <div class="col-6">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Initial Limit</mat-label>
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
+            [disabled]="view"
+            [options]="logoCcy"
+            [disabled]="true"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Outstanding</mat-label>
+          <input
+            currencyMask
+            matInput
+            type="text"
+            [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+            [disabled]="view"
+            [options]="logoCcy"
+            [disabled]="true"
+          />
+        </mat-form-field>
+      </div>
+      <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
+      </mat-dialog-actions>
     </div>
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Cancel</button>
-      <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
-    </mat-dialog-actions>
   </div>
-</div>
 
-<!-- <section *ngIf="isViewLoan === false">
+  <!-- <section *ngIf="isViewLoan === false">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -206,3 +209,4 @@
     </div>
   </div>
 </section> -->
+</div>

@@ -94,8 +94,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   set partyCif(data: IPartyCif) {
     this._cif = data;
   }
-  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
-  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)', 'N/A'];
+  public ifcRiskCategoryData = ['Low', 'Medium', 'High', 'N/A'];
   public relationWithClient: any;
   public collectabilityStatus: any;
   public lineOfBussines: any;
