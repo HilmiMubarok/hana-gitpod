@@ -27,8 +27,6 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
 
   public getDarData() {
     this.loanAnalysService
-      // this.creditProposal.customerId.toString()
-      // '1181'
       .getLaDarCheckerNotif(this.creditProposal.customerId.toString(), {
         page: 0,
         size: 999,

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ApplicationProduct, ApplicationProductAttribute, IApplicationProduct } from '../../application-product/application-product.model';
-import { ICreditProposal } from '../credit-proposal.model';
+import { CreditProposal, ICreditProposal } from '../credit-proposal.model';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -128,8 +128,16 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     }
     this.getWord();
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
+    console.log('parsed', this.parsedAttribute);
     this.removeTagRemaks();
     this.setCurrency();
+    console.log('asdasdads', {
+      dynamic: this.dynamicCP(),
+      prevret: this.parsedAttribute.previousReturn,
+      isCOpare: this.isOnCompareData,
+      isDar: this.isCompareDar,
+      cp: this._creditProposal.attributes,
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -280,6 +288,16 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     ],
   };
 
+  dynamicCP() {
+    if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
+      return this.parsedAttribute.previousReturn;
+    } else if (this.parsedAttribute.previousHistory && this.isOnCompareData && !this.isCompareDar) {
+      return this.parsedAttribute.previousHistory;
+    } else {
+      return this._creditProposal.attributes;
+    }
+  }
+
   fungsiSuminit() {
     let result: number;
     let limit: number;
@@ -314,7 +332,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     let change: number;
 
     const filterSubLimit =
-      this.parsedAttribute.previousReturn && this.isOnCompareData
+      this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
@@ -343,7 +361,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     os = 0;
 
     const dataFilter =
-      this.parsedAttribute.previousReturn && this.isOnCompareData
+      this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
@@ -387,7 +405,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     plafond = 0;
 
     const dataFilter =
-      this.parsedAttribute.previousReturn && this.isOnCompareData
+      this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
@@ -420,7 +438,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   // setCurrency
   setCurrency() {
     this.ccy =
-      this.parsedAttribute.previousReturn && this.isOnCompareData
+      this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products[0].attributes.currency
         : this.parsedAttribute.previousHistory.products[0].attributes.currency;
   }
