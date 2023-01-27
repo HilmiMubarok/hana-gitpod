@@ -44,7 +44,9 @@
               .done(function (resp2) {
                 $('#divContent').html('Approval sudah berhasil');
               })
-              .fail(function () {});
+              .fail(function () {
+                $('#divContent').html('Error!');
+              });
           })
           .fail(function () {
             $('#divContent').html('Maaf, Request Approval ini tidak ditemukan atau sudah di approve');
