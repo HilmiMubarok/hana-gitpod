@@ -429,14 +429,14 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         return data.attributes.marketValueCcy;
       }
     }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
-      }
-    }
+    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+    //   data = this.collateralProperties.find(
+    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+    //   );
+    //   if (data.attributes.marketValueCcy) {
+    //     return data.attributes.marketValueCcy;
+    //   }
+    // }
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||

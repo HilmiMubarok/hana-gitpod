@@ -11,13 +11,13 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 import { CreditProposalCollateralBinding, ICreditProposalCollateralBinding } from '../credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CollateralInfoDialogBTBDarFinalComponent } from './dialog-credit-proposal-collateral-info-btb.component';
-import { IEmptyField } from './empty-field.model';
 import lodash from 'lodash';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { IEmptyField } from 'app/entities/credit-proposal/collateral-info/backtoback/empty-field.model';
 
 @Component({
   selector: 'jhi-btb-grid-dar-final',

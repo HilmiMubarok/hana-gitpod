@@ -138,12 +138,23 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-numerictextbox
+                *ngIf="fungsiSumchange().toString().split('')[0] === '-'"
                 placeholder="Sub Total Changes (IDR)"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [value]="fungsiSumchange()"
+                [value]="fungsiSumchange().toString().replace('-', '')"
+                format="IDR -0,"
+                readonly="true"
+                disabled
+              ></ejs-numerictextbox>
+
+              <ejs-numerictextbox
+                *ngIf="fungsiSumchange().toString().split('')[0] !== '-'"
+                placeholder="Sub Total Changes (IDR)"
+                cssClass="e-outline"
+                floatLabelType="Auto"
+                [value]="fungsiSumchange().toString().replace('-', '')"
                 format="IDR 0,"
-                min="0"
                 readonly="true"
                 disabled
               ></ejs-numerictextbox>
