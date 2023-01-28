@@ -18,6 +18,7 @@
           </mat-card-header>
           <mat-card-content>
             <jhi-debtor-data-slik-summary-debitur
+              [loanStatus]="loanStatus"
               [managementType]="'DEBITUR'"
               (sendToParent)="getSlikFromSummary($event)"
               [mode]="mode"
@@ -28,6 +29,7 @@
         </mat-card>
 
         <jhi-debtor-data-organization-management-list
+        [loanStatus]="loanStatus"
           [mode]="mode"
           [cif]="cif.customerNumber"
           [partyCif]="partyCif"
@@ -36,6 +38,7 @@
         </jhi-debtor-data-organization-management-list>
         <div class="my-5"></div>
         <jhi-debtor-data-organization-management-list
+        [loanStatus]="loanStatus"
           [mode]="mode"
           [cif]="cif.customerNumber"
           [partyCif]="partyCif"
@@ -44,6 +47,7 @@
         </jhi-debtor-data-organization-management-list>
         <div class="my-5"></div>
         <jhi-debtor-data-organization-management-list
+        [loanStatus]="loanStatus"
           [mode]="mode"
           [cif]="cif.customerNumber"
           [partyCif]="partyCif"
