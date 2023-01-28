@@ -33,6 +33,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   public bucket: string;
   public parentPath = this.router.url.split('/')[1];
   public isCpApproval: boolean;
+ 
 
   @Input()
   get managementType() {
@@ -69,6 +70,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   set partyCifDM(item: string) {
     this._partyCifDM = item;
   }
+
+
+  @Input() loanStatus: string
 
   @Input()
   get partyId() {
@@ -161,10 +165,16 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
+  public _loanStatus: string
   ngOnChanges(changes: SimpleChanges): void {
+    this._loanStatus = changes.loanStatus.currentValue
     if (changes['partyId']) {
       this.loadDataBy();
     }
+
+   
+
+  
   }
 
   ngOnInit(): void {
@@ -174,6 +184,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
      * BUKAN HANYA PADA STATE APPROVAL BM TAPI SEMUA STATE YANG ADA DISTAGE CP APPROVAL STATUS
      * CRECAS 1561
      */
+
     this.isCpApproval = this.parentPath === 'cp-status-approval' && true;
 
     this.getFiles();
