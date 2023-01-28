@@ -569,14 +569,30 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   private convertDate(date: any): any {
-    const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
-    return utcDate;
+    if (typeof date === 'string') {
+      let tempDate = '';
+      const pointerDate = date.substring(11,1);
+  
+      if (pointerDate === 'T') {
+      tempDate = date.split('T')[0];
+      }
+  
+      const newD = new Date(tempDate);
+      const utcDate = new Date(Date.UTC(newD.getFullYear(), newD.getMonth(), newD.getDate(), newD.getHours(), newD.getMinutes()));
+      return utcDate;
+    } else {
+      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
+      return utcDate;
+    }
+    
   }
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
-	copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(copyCreditProposal.attributes.businessActivity.visitDate);
+    if (copyCreditProposal.attributes.businessActivity.visitDate) {
+      copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(copyCreditProposal.attributes.businessActivity.visitDate);
+    }
 
     let tempHelper = 0;
 	const tempRouter = this.router.url.split('/')[1];
