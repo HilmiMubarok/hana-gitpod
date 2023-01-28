@@ -14,7 +14,7 @@ export class DebtorDataSlikSummaryComponent implements OnInit, OnChanges {
   @Input() mode: 'view' | 'edit' | 'loan';
   public _partyCif: IPartyCif;
   public cif: IPartyCif;
-
+  public _loanStatus: string
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -22,6 +22,15 @@ export class DebtorDataSlikSummaryComponent implements OnInit, OnChanges {
 
   set partyCif(item: IPartyCif) {
     this._partyCif = item;
+  }
+
+  @Input()
+  get loanStatus() {
+    return this._loanStatus;
+  }
+
+  set loanStatus(item: any) {
+    this._loanStatus = item;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

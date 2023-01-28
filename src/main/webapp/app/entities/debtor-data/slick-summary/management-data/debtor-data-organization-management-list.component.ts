@@ -46,7 +46,7 @@ export class DebtorDataOrganizationManagementListComponent
   @Input() public managementType: string;
   public expandedElement: IOrganizationManagement | null;
   public organizationManagementRes: IOrganizationManagement[];
-
+  public _loanStatus: string
   @Input()
   get organizationManagement() {
     return this.items;
@@ -67,6 +67,16 @@ export class DebtorDataOrganizationManagementListComponent
     this.dataPartySlik = object.sliks;
     this._partyCif = object;
     this.loadDataBy();
+  }
+
+
+  @Input()
+  get loanStatus() {
+    return this._loanStatus;
+  }
+
+  set loanStatus(item: any) {
+    this._loanStatus = item;
   }
 
   public displayedColumns: string[];

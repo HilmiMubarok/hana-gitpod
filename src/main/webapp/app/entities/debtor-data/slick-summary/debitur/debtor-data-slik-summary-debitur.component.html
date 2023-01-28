@@ -97,6 +97,12 @@
 </div>
 
 <div *ngIf="mode === 'view'">
+  <div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
+    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">Upload</button>
+      <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
+      
+   
+</div>
   <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
@@ -185,7 +191,11 @@
 </div>
 
 <div *ngIf="mode === 'loan'">
-  <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
+<div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
+    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">Upload</button>
+      <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
+
+</div>
   <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
