@@ -447,7 +447,8 @@ export class ProposalBasicInformationComponent implements OnInit {
 	  message: messageVal,
 	  createDate: new Date().toISOString(),
 	  recomendation: recomendationVal,
-      path: pathVal
+      path: pathVal,
+	  type: 'credit_proposal'
     });
   }
 

@@ -505,7 +505,8 @@ export class LoanAnalysMainComponent implements OnInit {
         let tempHelper = 0;
         let tempOpinionType = '';
 
-        tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+        // tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+		tempOpinionType = 'compliance';
 
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
@@ -548,7 +549,8 @@ export class LoanAnalysMainComponent implements OnInit {
       let tempHelper = 0;
       let tempOpinionType = '';
 
-      tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+      // tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
+	  tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
 
       if (copyCreditProposal.notes.length > 0) {
 		for (let i = 0; i < copyCreditProposal.notes.length; i++) {
