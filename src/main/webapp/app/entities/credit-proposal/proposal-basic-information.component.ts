@@ -567,8 +567,16 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 
+  private convertDate(date: any): any {
+    const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
+    return utcDate;
+  }
+
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+
+    copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(copyCreditProposal.attributes.businessActivity.visitDate);
+
     let tempHelper = 0;
     if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
       if (copyCreditProposal.notes.length > 0) {
