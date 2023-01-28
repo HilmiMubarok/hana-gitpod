@@ -103,6 +103,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   private cacheData: any;
 
+  private tempRouter: string;
+
   constructor(
 	protected datePipe: DatePipe,
 	protected dialog: MatDialog,
@@ -116,8 +118,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
     protected applicationRoleService: ApplicationRoleService,
     protected personService: PersonService
   ) {
-    const tempRouter = this.router.url.split('/')[1];
-    if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+    this.tempRouter = this.router.url.split('/')[1];
+    if (this.tempRouter === 'la-analyst' || this.tempRouter === 'la-SME-CRC' || this.tempRouter === 'la-approval' || this.tempRouter === 'loan-committee-approval') {
       this.isShowOpinionFieldInput = true;
     }
 	this.uuid = uuid.v4();
@@ -424,6 +426,28 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
 	  this.notes = res.body.notes;
+
+	  if (this.tempRouter === 'loan-committee-approval') {
+		if (this.notes) {
+		  if (this.notes.length > 0) {
+			for (let i = 0; i < this.notes.length; i++) {
+			  if (this.notes[i].type === 'compliance' || this.notes[i].type === '' || this.notes[i].type === null) {
+				this.notes.splice(i, 1);
+			  }
+			}
+		  }
+		}
+	  } else if (this.tempRouter === 'la-analyst' || this.tempRouter === 'la-SME-CRC' || this.tempRouter === 'la-approval' || this.tempRouter === 'la-approval-inquiry' || this.tempRouter === 'dar-final' || this.tempRouter === 'dar-checker' || this.tempRouter === 'dar-notif') {
+		if (this.notes) {
+		  if (this.notes.length > 0) {
+			for (let i = 0; i < this.notes.length; i++) {
+			  if (this.notes[i].type === 'loan_committee' || this.notes[i].type === 'compliance' || this.notes[i].type === '' || this.notes[i].type === null) {
+				this.notes.splice(i, 1);
+			  }
+			}
+		  }
+		}
+	  }
 
       if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
 		if (this.notes.length > 0) {

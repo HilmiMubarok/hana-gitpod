@@ -196,6 +196,16 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
 	  this.notes = res.body.notes;
+
+	  if (this.notes) {
+		if (this.notes.length > 0) {
+		  for (let i = 0; i < this.notes.length; i++) {
+			if (this.notes[i].type === 'credit_proposal' || this.notes[i].type === 'loan_analysis' || this.notes[i].type === 'loan_committee' || this.notes[i].type === '' || this.notes[i].type === null) {
+			  this.notes.splice(i, 1);
+			}
+		  }
+		}
+	  }
     });
   }
 
