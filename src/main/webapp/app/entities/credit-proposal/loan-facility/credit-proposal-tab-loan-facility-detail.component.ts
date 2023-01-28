@@ -176,18 +176,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
               fileReader.onload = (e: any) => {
                 let docEditor: any;
 
-                if (this.isViewMode === true) {
-                  if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
-                    docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-                  } else if (this.parentSource === 'loan-analys') {
-                    docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-                  }
-                } else if (this.isViewMode === false) {
-                  if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
-                    docEditor = this.container?.documentEditor as DocumentEditorComponent;
-                  } else if (this.parentSource === 'loan-analys') {
-                    docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-                  }
+                if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+                  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+                } else if (this.parentSource === 'loan-analys') {
+                  docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
                 }
 
                 const contents: string = e.target.result;
@@ -225,18 +217,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     let docEditor: any;
 
-    if (this.isViewMode === true) {
-      if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
-        docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-      } else if (this.parentSource === 'loan-analys') {
-        docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-      }
-    } else if (this.isViewMode === false) {
-      if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
-        docEditor = this.container?.documentEditor as DocumentEditorComponent;
-      } else if (this.parentSource === 'loan-analys') {
-        docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-      }
+    if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+      docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+    } else if (this.parentSource === 'loan-analys') {
+      docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
     }
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
