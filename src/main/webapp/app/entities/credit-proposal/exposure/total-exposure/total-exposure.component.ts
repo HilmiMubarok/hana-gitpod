@@ -115,6 +115,14 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
   }
 
+  public defaultCurrency() {
+    const setDate = new Date().toISOString().split('T')[0];
+
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+    });
+  }
+
   ngAfterViewInit(): void {
     let a = [];
     for (let i = 0; i < this.creditProposal.products.length; i++) {
@@ -206,6 +214,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
         this.totalDebiturNonCashLoanGroup = this.totalDebiturNonCashLoanGroup + nonCashLoan[i].InitialLimit * Number(this.currencyMaster);
       }
     }
+
     this.totalDebiturCashLoanGroup = this.fungsiSumcreditGroub() - this.totalDebiturNonCashLoanGroup;
     this.creditProposal.attributes['calculationExposure'].totalGroubCashLoan = Number(this.totalDebiturCashLoanGroup);
     this.creditProposal.attributes['calculationExposure'].totalGroubNonCashLoan = Number(this.totalDebiturNonCashLoanGroup);
@@ -323,7 +332,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.debtor = new MatTableDataSource(a);
       this.debtor.paginator = this.paginator2;
     }
-
+    this.defaultCurrency()
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();
@@ -546,7 +555,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].Changes !== undefined) {
-          dolar = dolar + Number(filterUsd[i].Changes) * Number(this.currencyMaster);
+          dolar = Number(filterUsd[i].Changes) * Number(this.currencyMaster) +  dolar;
         }
       }
     }
@@ -555,10 +564,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   fungsiSumcreditGroub() {
-    let result: number;
-    let dolar: number;
-    result = 0;
-    dolar = 0;
+    let result= 0;
+    let dolar= 0;
+   
 
     const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
     const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
@@ -572,11 +580,12 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].TotalPlafond !== undefined) {
-          dolar = dolar + Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster);
+          dolar = Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster) + dolar;
         }
       }
     }
     this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = result + dolar;
+    
     return result + dolar;
   }
 
@@ -599,7 +608,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].InitialLimit !== undefined) {
-          dolar = dolar + Number(filterUsd[i].InitialLimit) * Number(this.currencyMaster);
+          dolar = Number(filterUsd[i].InitialLimit) * Number(this.currencyMaster) + dolar;
         }
       }
     }
@@ -625,7 +634,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].OS !== undefined) {
-          dolar = dolar + Number(filterUsd[i].OS) * Number(this.currencyMaster);
+          dolar =  Number(filterUsd[i].OS) * Number(this.currencyMaster) + dolar;
         }
       }
     }
@@ -633,13 +642,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     return result + dolar;
   }
 
-  public defaultCurrency() {
-    const setDate = new Date().toISOString().split('T')[0];
 
-    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-    });
-  }
 
   // currency code
   public ccy: any;

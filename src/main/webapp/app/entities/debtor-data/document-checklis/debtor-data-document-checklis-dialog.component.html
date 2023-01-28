@@ -175,7 +175,7 @@
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/excel.png"
                 *ngIf="
@@ -186,7 +186,7 @@
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/word.png"
                 *ngIf="
@@ -196,14 +196,14 @@
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/pdf.png"
                 *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/power-point.jpg"
                 *ngIf="
@@ -213,28 +213,28 @@
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/csv.png"
                 *ngIf="item.key.indexOf('csv') > -1"
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/svg.jpg"
                 *ngIf="item.key.indexOf('svg') > -1"
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/tiff.png"
                 *ngIf="item.key.indexOf('tiff') > -1"
               />
 
               <img
-                (click)="donwload(item.url, item.tags)"
+                (click)="donwload(item.url, item)"
                 width="150px"
                 src="../../../content/images/mp3.png"
                 *ngIf="item.key.indexOf('mp3') > -1"
@@ -358,13 +358,19 @@
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
         <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
+          <div
+          *ngIf="
+              item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
+            ">
           <img
             style="width: 300px; border-radius: 20px"
             [src]="item.url"
-            *ngIf="
-              item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
-            "
+            
           />
+          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+          </div>
+        </div>
           <div
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
@@ -375,7 +381,7 @@
           >
             <img width="300px" src="../../../content/images/excel.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
@@ -387,7 +393,7 @@
           >
             <img width="300px" src="../../../content/images/word.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
@@ -395,35 +401,35 @@
             <img width="300px" src="../../../content/images/pdf.png" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
           <div *ngIf="item.key.indexOf('mp3') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/mp3.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
           <div *ngIf="item.key.indexOf('csv') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/csv.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
           <div *ngIf="item.key.indexOf('svg') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/svg.jpg" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
           <div *ngIf="item.key.indexOf('tiff') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/tiff.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
@@ -436,7 +442,7 @@
             <img width="300px" src="../../../content/images/power-point.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
           <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">

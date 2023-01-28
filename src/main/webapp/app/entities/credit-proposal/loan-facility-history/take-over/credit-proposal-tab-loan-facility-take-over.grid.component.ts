@@ -87,11 +87,11 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
     } else {
       predicate.data['facilityTakeOver'] = new ApplicationProductTakeOver();
     }
-    const dialogRef = this.dialog.open(LoanFacilityTakeOverGridHistoryComponent, predicate);
+    const dialogRef = this.dialog.open(LoanFacilityTakeOverHistoryComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.loanApplication.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
-        this.creditProposal.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
+        this.loanApplication.attributes['facilityTakeOver'] = [...this.creditProposal?.attributes['facilityTakeOver'], res];
+        this.creditProposal.attributes['facilityTakeOver'] = [...this.creditProposal?.attributes['facilityTakeOver'], res];
       }
     });
   }

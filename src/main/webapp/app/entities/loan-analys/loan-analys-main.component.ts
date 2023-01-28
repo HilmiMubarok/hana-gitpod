@@ -440,9 +440,31 @@ export class LoanAnalysMainComponent implements OnInit {
     });
   }
 
+  public saveAssignTo() {
+    if (this.applicationRole.id) {
+      this.applicationRoleService.update(this.applicationRole).subscribe(res => {
+        this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+          this.cp = response.body;
+        });
+      });
+    } else {
+      this.applicationRoleService.create(this.applicationRole).subscribe(res => {
+        this.creditProposalService.find(this.activatedRoute.snapshot.data['loanAnalys'].id).subscribe((response: any) => {
+          this.cp = response.body;
+        });
+      });
+    }
+  }
+
   private saveApplicationRole(source: string): void {
     if (this.creditProposalCollateralInfoComponent) {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
+    }
+    if (
+      (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.parentPath === 'la-distribution') ||
+      (this.creditProposal.statusId === 'CP_CC_DISTRIBUTION' && this.parentPath === 'cc-distribution')
+    ) {
+      this.saveAssignTo();
     }
 
     if (source === 'process') {
