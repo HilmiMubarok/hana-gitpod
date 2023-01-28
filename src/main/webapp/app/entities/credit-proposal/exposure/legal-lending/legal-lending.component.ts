@@ -92,6 +92,28 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.getApplicationOption();
     this.getParameter();
   }
+  public countBuffer(value: number): any{
+      const bil = value.toString()
+      const sisa = bil.length % 3
+      let rupiah = bil.substr(0, sisa)
+      const ribuan = bil.substr(sisa).match(/\d{3}/g)
+      if (bil.split('')[0]==='-') {
+        if (ribuan) {
+          const separator = sisa ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+        }
+        return 'IDR -' + rupiah
+      }else{
+        if (ribuan) {
+          const separator = sisa ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+        }
+        return 'IDR' + rupiah
+      }
+      
+
+      
+  }
   ngOnChanges(changes: SimpleChanges) {
     this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
     if (this.parsedAttr.previousHistory) {
@@ -107,6 +129,8 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       parsed: this.parsedAttr,
     });
 
+   
+
     this.fungsiSuminit();
     this.fungsiSumTotalDebiturCashLoan();
     this.totalCashLoan();
@@ -115,6 +139,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.getMyBusinessGroup();
     this.getCurrency();
   }
+
 
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
