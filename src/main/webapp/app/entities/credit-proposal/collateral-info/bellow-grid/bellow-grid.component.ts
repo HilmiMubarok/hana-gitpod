@@ -57,6 +57,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
+  private facilityTypes: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
@@ -172,6 +173,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
+        matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -646,6 +648,11 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
+  }
+
+  public getFacilityTypeMatrik() {
+    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
+    return this.facilityTypes[keyy];
   }
 
   public getCrossStatus(status: string) {
