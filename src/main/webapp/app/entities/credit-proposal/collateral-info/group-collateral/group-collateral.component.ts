@@ -258,7 +258,6 @@ export class GroupCollateralComponent implements OnChanges {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-        console.log('ini res ', res.body);
       });
     }
   }
