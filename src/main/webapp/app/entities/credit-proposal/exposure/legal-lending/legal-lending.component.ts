@@ -100,13 +100,13 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       if (bil.split('')[0]==='-') {
         if (ribuan) {
           const separator = sisa ? '.' : '';
-          rupiah += separator + ribuan.join('.');
+          rupiah += separator + ribuan.join(',');
         }
         return 'IDR -' + rupiah
       }else{
         if (ribuan) {
           const separator = sisa ? '.' : '';
-          rupiah += separator + ribuan.join('.');
+          rupiah += separator + ribuan.join(',');
         }
         return 'IDR' + rupiah
       }

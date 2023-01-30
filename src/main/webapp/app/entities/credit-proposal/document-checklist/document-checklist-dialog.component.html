@@ -354,7 +354,7 @@
           <td>{{ documentChecklist.documentType }}</td>
           <td>{{ documentChecklist.document }}</td>
           <td>{{ documentChecklist.category }}</td>
-          <td>{{ documentChecklist.dueDate | date: 'medium' }}</td>
+          <td><span *ngIf="documentChecklist.dueDate !== 'null'">{{ documentChecklist.dueDate | date: 'medium' }}</span></td>
           <td>{{ documentChecklist.remarks }}</td>
           <td>{{ documentChecklist.status }}</td>
         </tr>
