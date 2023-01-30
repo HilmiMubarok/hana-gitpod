@@ -426,6 +426,12 @@ export class LoanAnalysOpinionComponent implements OnInit {
   public refresh() {
     this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
 	  this.notes = res.body.notes;
+	  
+	  if (this.notes) {
+		if (this.notes.length > 0) {
+		  this.notes.sort((a, b) => (a.id > b.id) ? 1 : -1);
+		}
+	  }
 
 	  if (this.tempRouter === 'loan-committee-approval') {
 		if (this.notes) {
