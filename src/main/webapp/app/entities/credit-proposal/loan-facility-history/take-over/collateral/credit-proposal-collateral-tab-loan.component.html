@@ -32,9 +32,9 @@
               <button mat-icon-button (click)="openDialog(element)">
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
-              <button mat-icon-button (click)="onDelete(element)">
+              <!-- <button mat-icon-button (click)="onDelete(element)">
                 <mat-icon>delete</mat-icon>
-              </button>
+              </button> -->
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
@@ -48,10 +48,10 @@
       </div>
     </mat-card-content>
   </mat-card>
-
+  <!--
   <div align="right" class="mt-2">
     <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
-  </div>
+  </div> -->
 </section>
 
 <section *ngIf="isViewMode === true">
@@ -88,9 +88,6 @@
               <button mat-icon-button (click)="openDialog(element)">
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
-              <button mat-icon-button (click)="onDelete(element)">
-                <mat-icon>delete</mat-icon>
-              </button>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
@@ -104,14 +101,9 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+  <!--
     <div align="right" class="mt-2">
       <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
     </div>
-  </section>
-  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <div class="mt-3 text-center">
-      <button mat-raised-button color="primary" hidden (click)="openDialog()">ADD</button>
-    </div>
-  </section>
+   -->
 </section>
