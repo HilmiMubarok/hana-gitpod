@@ -430,6 +430,7 @@ export class LoanAnalysMainComponent implements OnInit {
     this.applicationRole = ev.applicationRole;
     this.applicationRoleId = ev.applicationRoleId;
   }
+
   public validate() {
     return new Promise<boolean>((resolve, reject) => {
       if (this.isAssignedTo) {
@@ -464,7 +465,7 @@ export class LoanAnalysMainComponent implements OnInit {
       (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.parentPath === 'la-distribution') ||
       (this.creditProposal.statusId === 'CP_CC_DISTRIBUTION' && this.parentPath === 'cc-distribution')
     ) {
-      this.saveAssignTo();
+      // this.saveAssignTo();
     }
 
     if (source === 'process') {
