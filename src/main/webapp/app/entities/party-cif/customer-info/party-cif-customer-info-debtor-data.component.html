@@ -149,14 +149,14 @@
     </div>
 
     <div class="form-group">
-      <ejs-dropdownlist
+      <ejs-combobox
         class="mb-2 mt-2"
         [dataSource]="callReportCategoryData"
         [(ngModel)]="partyCif.debtorData.callReportCategory"
         placeholder="Call Report Category"
         cssClass="e-outline"
         floatLabelType="Auto"
-      ></ejs-dropdownlist>
+      ></ejs-combobox>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
@@ -199,14 +199,14 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <ejs-dropdownlist
+      <ejs-combobox
         [dataSource]="ifcRiskCategoryData"
         [(ngModel)]="partyCif.debtorData.ifcRiskCategory"
         placeholder="IFC & Risk Category"
         cssClass="e-outline"
         floatLabelType="Auto"
       >
-      </ejs-dropdownlist>
+      </ejs-combobox>
     </div>
 
     <div class="form-group">

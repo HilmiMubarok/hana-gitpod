@@ -68,7 +68,7 @@
                 <mat-select [(ngModel)]="documentChecklist.documentType" name="documentType">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
-                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other', 'N/A']"
+                    *ngFor="let item of ['', 'Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other']"
                     [value]="item"
                   >
                     {{ item }}
@@ -359,18 +359,15 @@
       <li *ngFor="let item of documentChecklist.files">
         <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
           <div
-          *ngIf="
+            *ngIf="
               item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
-            ">
-          <img
-            style="width: 300px; border-radius: 20px"
-            [src]="item.url"
-            
-          />
-          <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            "
+          >
+            <img style="width: 300px; border-radius: 20px" [src]="item.url" />
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
           </div>
-        </div>
           <div
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
