@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBackToBackGeneral } from '../../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-deviation-back-to-back-general-history',
@@ -21,6 +22,8 @@ export class DeviationBackToBackGeneralHistoryComponent implements OnInit {
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
+  public parsedData: any;
 
   @Input()
   get creditProposalItem() {
@@ -52,16 +55,16 @@ export class DeviationBackToBackGeneralHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral.length !== 0) {
-      const deletedItem = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral.filter(
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
+    if (this.parsedData.previousHistory.convenant.standardDataGridBackToBackGeneral.length !== 0) {
+      const deletedItem = this.parsedData.previousHistory.convenant.standardDataGridBackToBackGeneral.filter(
         item => item.status !== 'Applied'
       );
       this.standardDataGridBackToBackGeneral = deletedItem;
-      for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral[i].deviation;
-        this.justification[i] =
-          this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridBackToBackGeneral[i].justification;
+      for (let i = 0; i < this.parsedData.previousHistory.convenant.standardDataGridBackToBackGeneral.length; i++) {
+        this.statusValue[i] = this.parsedData.previousHistory.convenant.standardDataGridBackToBackGeneral[i].status;
+        this.deviation[i] = this.parsedData.previousHistory.convenant.standardDataGridBackToBackGeneral[i].deviation;
+        this.justification[i] = this.parsedData.previousHistory.convenant.standardDataGridBackToBackGeneral[i].justification;
       }
     } else {
       this.standardDataGridBackToBackGeneral = [];

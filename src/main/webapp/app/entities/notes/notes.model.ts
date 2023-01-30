@@ -12,7 +12,7 @@ export interface INotes {
   fromDate?: Date;
   thruDate?: Date;
   path?: string;
-  isReceived?: boolean;
+  received?: boolean;
   uuid?: string;
   attributes?: any;
 }
@@ -32,7 +32,7 @@ export class Notes implements INotes {
     public fromDate?: Date,
 	public thruDate?: Date,
     public path?: string,
-	public isReceived?: boolean,
+	public received?: boolean,
 	public uuid?: string,
     public attributes?: any
   ) {}
