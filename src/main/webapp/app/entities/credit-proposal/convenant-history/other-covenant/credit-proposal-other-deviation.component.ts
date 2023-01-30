@@ -5,6 +5,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { IOtherCovenant, OtherCovenant } from './other-convenant.model';
 import { CreditProposalOtherCovenantDialogHistoryComponent } from './add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditHistoryComponent } from './edit/credit-proposal-other-covenant-edit.component';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-other-deviation-history',
@@ -18,7 +19,10 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   public filterStatus: any;
 
+  public parsedData: any;
+
   ngOnInit() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
   }
@@ -60,10 +64,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
     const dialogRef = this.dialog.open(CreditProposalOtherCovenantDialogHistoryComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
-          ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
-          res,
-        ];
+        this.parsedData.previousHistory.convenant.otherCovenant = [...this.parsedData.previousHistory.convenant.otherCovenant, res];
       }
     });
   }
@@ -88,10 +89,10 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
         }
       );
       if (othersCovenantIndex > -1) {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'][othersCovenantIndex] = res['convenant']['otherCovenant'];
+        this.parsedData.previousHistory.convenant.otherCovenant[othersCovenantIndex] = res['convenant']['otherCovenant'];
       } else {
-        this.creditProposalItem.attributes['convenant']['otherCovenant'] = [
-          ...this.creditProposalItem.attributes['convenant']['otherCovenant'],
+        this.parsedData.previousHistory.convenant.otherCovenant = [
+          ...this.parsedData.previousHistory.convenant.otherCovenant,
           res['convenant']['otherCovenant'],
         ];
       }
@@ -100,16 +101,14 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   // DELETE
   public onDelete(element: ICreditProposal) {
-    const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
-    this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
-    this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+    const dataGrid = this.parsedData.previousHistory.convenant.otherCovenant.filter(({ id }) => id !== element.id);
+    this.parsedData.previousHistory.convenant.otherCovenant = dataGrid;
+    this.parsedData.previousHistory.convenant.otherCovenant = dataGrid;
   }
 
   public filterDeviation() {
-    if (this.creditProposalItem.attributes['previousHistory'].convenant['otherCovenant'].length !== 0) {
-      this.filterStatus = this.creditProposalItem.attributes['previousHistory'].convenant['otherCovenant'].filter(
-        element => element.status !== 'Applied'
-      );
+    if (this.parsedData.previousHistory.convenant.otherCovenant.length !== 0) {
+      this.filterStatus = this.parsedData.previousHistory.convenant.otherCovenant.filter(element => element.status !== 'Applied');
     }
   }
 }
