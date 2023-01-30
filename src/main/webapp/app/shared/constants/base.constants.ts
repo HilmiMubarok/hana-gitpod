@@ -235,7 +235,7 @@ export enum REALESTATE_COLLATERAL_DETAIL_TYPE {
   R104 = 'Factory (Industrial)',
   R106 = 'Business Rights',
   R199 = 'Other Real Estate',
-  R200 = 'N/A',
+  R200 = '',
 }
 
 export enum PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE {

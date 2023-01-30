@@ -44,6 +44,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.setPosition();
     console.log('ini typeSable', this.typeSable);
     console.log('return type sable', this.dataSource());
+    this.closes();
   }
 
   public dataSource() {
@@ -66,6 +67,12 @@ export class OrganizationManagementDialogComponent implements OnInit {
 
   public save(): void {
     this._dialog.close(this.organizationManagement);
+  }
+  public closes() {
+    this.organizationManagement.attributes.position = '';
+  }
+  public closePep() {
+    this.organizationManagement.attributes.pep = '';
   }
   public remove() {
     this.pacth = this.router.url.split('/')[1];
