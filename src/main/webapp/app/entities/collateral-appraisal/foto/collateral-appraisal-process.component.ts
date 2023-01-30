@@ -56,6 +56,9 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
       const currentAccount = account;
       this.uploadBy = currentAccount.login;
     });
+    this.getBucketName().then(val => {
+      this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -104,13 +107,33 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     }
   }
 
+  // public getFilesByKey(_key: string): void {
+  //   const obj: Object = { key: _key };
+  //   this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
+  //     this.uploadFiles = res.body;
+  //     this.categoryFilter = res.body[0].tags.category;
+  //     this.setViewAllFiles(this.uploadFiles);
+  //     this.collateralAppraisalService.totalDataFotoObjectJaminan = res.body;
+  //   });
+  // }
+
+  public filterCategory: any = [];
+  public arr = [];
   public getFilesByKey(_key: string): void {
+    const arr = [];
     const obj: Object = { key: _key };
     this.storageService.getObjects(this.bucket, obj).subscribe((res: any) => {
       this.uploadFiles = res.body;
-      this.categoryFilter = res.body[0].tags.category;
+
+      this.uploadFiles.forEach(e => {
+        this.categoryFilter = e['tags']['category'];
+
+        arr.push(e['tags']['category']);
+      });
+      this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
+      console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
+
       this.setViewAllFiles(this.uploadFiles);
-      this.collateralAppraisalService.totalDataFotoObjectJaminan = res.body;
     });
   }
 
