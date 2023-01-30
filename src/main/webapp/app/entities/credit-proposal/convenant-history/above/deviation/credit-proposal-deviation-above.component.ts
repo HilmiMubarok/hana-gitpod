@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantAbove } from '../../convenant.constant';
 import lodash from 'lodash';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-credit-proposal-deviation-above-history',
@@ -22,6 +23,8 @@ export class CreditProposalDeviationAboveHistoryComponent implements OnInit {
   public statusValue: any = [];
   public deviation: any = [];
   public justification: any = [];
+
+  public parsedData: any;
 
   @Input()
   get creditProposalItem() {
@@ -49,15 +52,15 @@ export class CreditProposalDeviationAboveHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.length !== 0) {
-      const deletedItem = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.filter(
-        item => item.status !== 'Applied'
-      );
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
+    console.log('Deviasi', this.parsedData.previousHistory.convenant.standardDataGridAbove);
+    if (this.parsedData.previousHistory.convenant.standardDataGridAbove.length !== 0) {
+      const deletedItem = this.parsedData.previousHistory.convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
       this.standardDataGridAbove = deletedItem;
-      for (let i = 0; i < this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove.length; i++) {
-        this.statusValue[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].status;
-        this.deviation[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].deviation;
-        this.justification[i] = this.creditProposalItem.attributes['previousHistory'].convenant.standardDataGridAbove[i].justification;
+      for (let i = 0; i < this.parsedData.previousHistory.convenant.standardDataGridAbove.length; i++) {
+        this.statusValue[i] = this.parsedData.previousHistory.convenant.standardDataGridAbove[i].status;
+        this.deviation[i] = this.parsedData.previousHistory.convenant.standardDataGridAbove[i].deviation;
+        this.justification[i] = this.parsedData.previousHistory.convenant.standardDataGridAbove[i].justification;
       }
     } else {
       this.standardDataGridAbove = [];
