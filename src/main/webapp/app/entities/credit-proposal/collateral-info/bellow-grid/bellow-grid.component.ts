@@ -264,7 +264,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
 
   public getMarketability(collateral): string {
     let data: ICollateralProperty;
-    if (collateral.collateralTypeId) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
       );
