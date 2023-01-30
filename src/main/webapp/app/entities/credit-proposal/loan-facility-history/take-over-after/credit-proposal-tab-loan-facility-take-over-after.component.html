@@ -20,9 +20,7 @@
             (selectionChange)="changeFacility($event)"
           >
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of dataFacilityType" [value]="item">
-              {{ item.label }}
-            </mat-option>
+            <mat-option *ngFor="let item of dataFacilityType" [value]="item"> {{ item.id }} {{ item.label }} </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="w-100" appearance="outline" *ngIf="view === lihat">
