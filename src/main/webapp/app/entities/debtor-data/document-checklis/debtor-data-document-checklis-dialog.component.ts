@@ -77,48 +77,94 @@ export class DebtorDataDocumentChecklistDialogComponent {
   }
 
   public save(): void {
-    const promises = [];
-    const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-    for (let i = 0; i < this.file.length; i++) {
-      const metaData = {
-        objectName: null,
-        entityId: null,
-        documentType: null,
-        document: null,
-        category: null,
-        dueDate: null,
-        status: null,
-        remarks: null,
-        createdDate: null,
-        createdBy: null,
-      };
-      const files = this.file[i].name.replace('&', '');
-      metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
-      metaData.entityId = this.data.partyId;
-      metaData.documentType = this.documentChecklist.documentType;
-      metaData.document = this.documentChecklist.document;
-      metaData.category = this.documentChecklist.category;
-      metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
-      metaData.status = this.documentChecklist.status;
-      metaData.remarks = this.documentChecklist.remarks;
-      metaData.createdDate = new Date();
+    if (this.documentChecklist.status === 'Available' || this.documentChecklist.status === 'Waived') {
+      const promises = [];
+        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        for (let i = 0; i < this.file.length; i++) {
+          const metaData = {
+            objectName: null,
+            entityId: null,
+            documentType: null,
+            document: null,
+            category: null,
+            dueDate: null,
+            status: null,
+            remarks: null,
+            createdDate: null,
+            createdBy: null,
+          };
+          const files = this.file[i].name.replace('&', '');
+          metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
+          metaData.entityId = this.data.partyId;
+          metaData.documentType = this.documentChecklist.documentType;
+          metaData.document = this.documentChecklist.document;
+          metaData.category = this.documentChecklist.category;
+          metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
+          metaData.status = this.documentChecklist.status;
+          metaData.remarks = this.documentChecklist.remarks;
+          metaData.createdDate = new Date();
 
-      const formData = new FormData();
-      formData.append('file', this.file[i]);
+          const formData = new FormData();
+          formData.append('file', this.file[i]);
 
-      this.accountService.identity().subscribe(resAccount => {
-        metaData.createdBy = resAccount.login;
-        promises.push(this.doUpload(formData, metaData));
-      });
+          this.accountService.identity().subscribe(resAccount => {
+            metaData.createdBy = resAccount.login;
+            promises.push(this.doUpload(formData, metaData));
+          });
 
-      if (promises.length > 0) {
-        Promise.all(promises).then(res => {
-          this._dialog.close(res);
-        });
-      } else {
-        this._dialog.close();
-      }
+          if (promises.length > 0) {
+            Promise.all(promises).then(res => {
+              this._dialog.close(res);
+            });
+          } else {
+            this._dialog.close();
+          }
+        }
+    }else{
+      const promises = [];
+        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        for (let i = 0; i < this.file.length; i++) {
+          const metaData = {
+            objectName: null,
+            entityId: null,
+            documentType: null,
+            document: null,
+            category: null,
+            dueDate: null,
+            status: null,
+            remarks: null,
+            createdDate: null,
+            createdBy: null,
+          };
+          const files = this.file[i].name.replace('&', '');
+          metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
+          metaData.entityId = this.data.partyId;
+          metaData.documentType = this.documentChecklist.documentType;
+          metaData.document = this.documentChecklist.document;
+          metaData.category = this.documentChecklist.category;
+          metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
+          metaData.status = this.documentChecklist.status;
+          metaData.remarks = this.documentChecklist.remarks;
+          metaData.createdDate = new Date();
+
+          const formData = new FormData();
+          formData.append('file', this.file[i]);
+
+          this.accountService.identity().subscribe(resAccount => {
+            metaData.createdBy = resAccount.login;
+            promises.push(this.doUpload(formData, metaData));
+          });
+
+          if (promises.length > 0) {
+            Promise.all(promises).then(res => {
+              this._dialog.close(res);
+            });
+          } else {
+            this._dialog.close();
+          }
+        }
     }
+    
   }
 
   public edit(): void {
@@ -127,7 +173,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
         this.accountService.identity().subscribe(resAccount => {
-          file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
+          file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
           file.tags['remarks'] = this.documentChecklist.remarks;
 
