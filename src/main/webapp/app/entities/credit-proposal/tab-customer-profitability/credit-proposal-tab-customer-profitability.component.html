@@ -26,7 +26,12 @@
                 <td style="vertical-align: middle; text-align: center">Interest Income From Loan</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].loan" type="number" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].loan"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -34,8 +39,8 @@
                   <div class="fontsebled row">
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
-                    <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].loan }}
+                    <div class="col-lg-2">
+                      {{ item.attributes['tabCustomer'].loan | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -43,7 +48,12 @@
                 <td>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <td style="vertical-align: middle; text-align: center">
-                      <input [(ngModel)]="item.attributes['tabCustomer'].avarage" type="number" />
+                      <input
+                        [(ngModel)]="item.attributes['tabCustomer'].avarage"
+                        type="text"
+                        currencyMask
+                        [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                      />
                     </td>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -52,7 +62,7 @@
                       <div class="col-3">&nbsp;</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-2">
-                        {{ item.attributes['tabCustomer'].avarage }}
+                        {{ item.attributes['tabCustomer'].avarage | currency: 'IDR ':'symbol':'1.0-0' }}
                       </div>
                     </div>
                   </section>
@@ -60,7 +70,14 @@
                 <td>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <td style="vertical-align: middle; text-align: center">
-                      <input [value]="item.attributes['tabCustomer'].roa" type="number" [value]="totalRoa()" [disabled]="true" />
+                      <input
+                        [(ngModel)]="item.attributes['tabCustomer'].roa"
+                        [value]="totalRoa()"
+                        [disabled]="true"
+                        type="text"
+                        currencyMask
+                        [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                      />
                     </td>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -69,7 +86,7 @@
                       <div class="col-3">&nbsp;</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-2">
-                        {{ item.attributes['tabCustomer'].roa }}
+                        {{ item.attributes['tabCustomer'].roa | currency: 'IDR ':'symbol':'1.0-0' }}
                       </div>
                     </div>
                   </section>
@@ -80,7 +97,12 @@
                 <td style="vertical-align: middle; text-align: center">Loan Provision .</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].loanProvision" type="number" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].loanProvision"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -89,7 +111,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].loanProvision }}
+                      {{ item.attributes['tabCustomer'].loanProvision | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -101,9 +123,11 @@
                   <td style="vertical-align: middle; text-align: center">
                     <input
                       [(ngModel)]="item.attributes['tabCustomer'].totalLoanProvision"
-                      type="number"
                       [value]="totalLoan()"
                       [disabled]="true"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
                     />
                   </td>
                 </section>
@@ -113,7 +137,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].totalLoanProvision }}
+                      {{ item.attributes['tabCustomer'].totalLoanProvision | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -123,7 +147,12 @@
                 <td style="vertical-align: middle; text-align: center">Interest Income From Deposit</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].casa" type="number" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].casa"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -132,7 +161,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].casa }}
+                      {{ item.attributes['tabCustomer'].casa | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -142,7 +171,12 @@
                 <td style="vertical-align: middle; text-align: center">Insurance Premium</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].insurancePremium" type="number" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].insurancePremium"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -151,7 +185,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].insurancePremium }}
+                      {{ item.attributes['tabCustomer'].insurancePremium | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -163,8 +197,10 @@
                   <td style="vertical-align: middle; text-align: center">
                     <input
                       [(ngModel)]="item.attributes['tabCustomer'].totalDepositInsurancePremium"
-                      type="number"
                       [value]="totalLoanDeposit()"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
                       [disabled]="true"
                     />
                   </td>
@@ -175,7 +211,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].totalDepositInsurancePremium }}
+                      {{ item.attributes['tabCustomer'].totalDepositInsurancePremium | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -185,7 +221,12 @@
                 <td style="vertical-align: middle; text-align: center">Other Income</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].Other" type="number" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].Other"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -194,7 +235,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].Other }}
+                      {{ item.attributes['tabCustomer'].Other | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -204,7 +245,12 @@
                 <td style="vertical-align: middle; text-align: center">Other Fee</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].Provision" type="number" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].Provision"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -213,7 +259,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].Provision }}
+                      {{ item.attributes['tabCustomer'].Provision | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>
@@ -223,7 +269,14 @@
                 <td style="vertical-align: middle; text-align: center; border-bottom: none">Profit 1 Year</td>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center; border-bottom: none">
-                    <input [(ngModel)]="item.attributes['tabCustomer'].profit" type="number" [value]="totalProfit()" [disabled]="true" />
+                    <input
+                      [(ngModel)]="item.attributes['tabCustomer'].profit"
+                      [value]="totalProfit()"
+                      type="text"
+                      currencyMask
+                      [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                      [disabled]="true"
+                    />
                   </td>
                 </section>
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -232,7 +285,7 @@
                     <div class="col-3">&nbsp;</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-2">
-                      {{ item.attributes['tabCustomer'].profit }}
+                      {{ item.attributes['tabCustomer'].profit | currency: 'IDR ':'symbol':'1.0-0' }}
                     </div>
                   </div>
                 </section>

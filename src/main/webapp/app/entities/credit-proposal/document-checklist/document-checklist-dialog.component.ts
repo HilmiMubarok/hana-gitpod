@@ -77,55 +77,108 @@ export class DocumentChecklistDialogComponent implements OnInit {
   }
   public copyDeviation = [];
   public save(): void {
-    for (let i = 0; i < this.file.length; i++) {
-      const metaData = {
-        objectName: null,
-        entityId: null,
-        documentType: null,
-        document: null,
-        category: null,
-        dueDate: null,
-        status: null,
-        remarks: null,
-        createdDate: null,
-        createdBy: null,
-      };
-      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-      const files = this.file[i].name.replace('&', '');
-
-      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${files}`;
-      metaData.entityId = this.data.creditProposal.id;
-      metaData.documentType = this.documentChecklist.documentType;
-      metaData.document = this.documentChecklist.document;
-      metaData.category = this.documentChecklist.category;
-      metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
-      metaData.status = this.documentChecklist.status;
-      metaData.remarks = this.documentChecklist.remarks;
-      metaData.createdDate = new Date();
-
-      const formData = new FormData();
-      formData.append('file', this.file[i]);
-
-      this.accountService.identity().subscribe(resAccount => {
-        metaData.createdBy = resAccount.login;
-        if (metaData.status === 'Waived') {
-          this.setConvenant(metaData);
-          this.storageService.getBucketName().subscribe((a: any) => {
-            if (a.body.bucket !== null) {
-              this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
-                this._dialog.close(this.copyDeviation);
-              });
-            }
-          });
-        } else {
-          this.storageService.getBucketName().subscribe((a: any) => {
-            this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
-              this._dialog.close(null);
+    if (this.documentChecklist.status === 'Available' || this.documentChecklist.status === 'Waived') {
+      for (let i = 0; i < this.file.length; i++) {
+        const metaData = {
+          objectName: null,
+          entityId: null,
+          documentType: null,
+          document: null,
+          category: null,
+          dueDate: null,
+          status: null,
+          remarks: null,
+          createdDate: null,
+          createdBy: null,
+        };
+        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        const files = this.file[i].name.replace('&', '');
+  
+        metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
+        metaData.entityId = this.data.creditProposal.id;
+        metaData.documentType = this.documentChecklist.documentType;
+        metaData.document = this.documentChecklist.document;
+        metaData.category = this.documentChecklist.category;
+        metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
+        metaData.status = this.documentChecklist.status;
+        metaData.remarks = this.documentChecklist.remarks;
+        metaData.createdDate = new Date();
+  
+        const formData = new FormData();
+        formData.append('file', this.file[i]);
+  
+        this.accountService.identity().subscribe(resAccount => {
+          metaData.createdBy = resAccount.login;
+          if (metaData.status === 'Waived') {
+            this.setConvenant(metaData);
+            this.storageService.getBucketName().subscribe((a: any) => {
+              if (a.body.bucket !== null) {
+                this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+                  this._dialog.close(this.copyDeviation);
+                });
+              }
             });
-          });
-        }
-      });
+          } else {
+            this.storageService.getBucketName().subscribe((a: any) => {
+              this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+                this._dialog.close(null);
+              });
+            });
+          }
+        });
+      }
+    }else{
+      for (let i = 0; i < this.file.length; i++) {
+        const metaData = {
+          objectName: null,
+          entityId: null,
+          documentType: null,
+          document: null,
+          category: null,
+          dueDate: null,
+          status: null,
+          remarks: null,
+          createdDate: null,
+          createdBy: null,
+        };
+        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        const files = this.file[i].name.replace('&', '');
+  
+        metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
+        metaData.entityId = this.data.creditProposal.id;
+        metaData.documentType = this.documentChecklist.documentType;
+        metaData.document = this.documentChecklist.document;
+        metaData.category = this.documentChecklist.category;
+        metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
+        metaData.status = this.documentChecklist.status;
+        metaData.remarks = this.documentChecklist.remarks;
+        metaData.createdDate = new Date();
+  
+        const formData = new FormData();
+        formData.append('file', this.file[i]);
+  
+        this.accountService.identity().subscribe(resAccount => {
+          metaData.createdBy = resAccount.login;
+          if (metaData.status === 'Waived') {
+            this.setConvenant(metaData);
+            this.storageService.getBucketName().subscribe((a: any) => {
+              if (a.body.bucket !== null) {
+                this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+                  this._dialog.close(this.copyDeviation);
+                });
+              }
+            });
+          } else {
+            this.storageService.getBucketName().subscribe((a: any) => {
+              this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+                this._dialog.close(null);
+              });
+            });
+          }
+        });
+      }
     }
+   
   }
 
   public setConvenant(data: any) {
@@ -142,20 +195,37 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
   public edit(): void {
     const files: IDocumentNode[] = this.documentChecklist['files'];
+    if (this.documentChecklist.status === 'Available' || this.documentChecklist.status === 'Waived') {
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
         this.accountService.identity().subscribe(resAccount => {
-          file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
           file.tags['remarks'] = this.documentChecklist.remarks;
-
+          file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['createdBy'] = resAccount.login;
         });
 
         this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
           this._dialog.close(res);
         });
+      }
+    }
+    }else{
+      if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const file: IDocumentNode = files[i];
+          this.accountService.identity().subscribe(resAccount => {
+            file.tags['status'] = this.documentChecklist.status;
+            file.tags['remarks'] = this.documentChecklist.remarks;
+            file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
+            file.tags['createdBy'] = resAccount.login;
+          });
+  
+          this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
+            this._dialog.close(res);
+          });
+        }
       }
     }
   }
@@ -203,30 +273,6 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
 
   public donwload(event: any, name: any) {
-    if (name.objectName.split('.').indexOf('pdf') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'pdf');
-    }
-    else if(name.objectName.split('.').indexOf('pptx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'pptx');
-    }
-    else if(name.objectName.split('.').indexOf('docx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'docx');
-    }
-    else if(name.objectName.split('.').indexOf('xlsx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'xlsx');
-    }
-    else if(name.objectName.split('.').indexOf('mp3') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'mp3');
-    }
-    else if(name.objectName.split('.').indexOf('csv') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'csv');
-    }
-    else if(name.objectName.split('.').indexOf('svg') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'svg');
-    }
-    else if(name.objectName.split('.').indexOf('tiff') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.document + '.' + 'tiff');
-    }
-    
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
 }

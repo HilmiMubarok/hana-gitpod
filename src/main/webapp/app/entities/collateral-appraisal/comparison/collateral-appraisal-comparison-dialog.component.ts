@@ -137,6 +137,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       this._snackBar.open('Please select file', null, {
         horizontalPosition: 'right',
         verticalPosition: 'top',
+        duration: 3000,
       });
       return;
     }

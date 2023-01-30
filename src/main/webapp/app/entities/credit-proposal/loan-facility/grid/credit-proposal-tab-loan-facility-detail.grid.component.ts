@@ -159,15 +159,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     return '';
   }
   public currency() {
-    const cpFacility = this.creditProposal.debtorData.attributes['cpFacility'];
-    for (let i = 0; i < cpFacility.length; i++) {
-      //Inisialisasi kurs
-      if (cpFacility[i].LNB_BASE_LON_CCY !== 'IDR') {
-        const setDate = new Date().toISOString().split('T')[0];
-        this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-          this.kurs = res.body[0]?.factor;
-        });
-      }
+    if (this.applicationProduct.attributes['currency'] !== 'IDR') {
+      const setDate = new Date().toISOString().split('T')[0];
+      this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+        this.kurs = res.body[0]?.factor;
+      });
     }
   }
 
@@ -354,7 +350,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+    console.log('data on delete ', element);
+    const dataGrid = this.creditProposal.products.filter(
+      ({ attributes }) => attributes.attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
+    );
     this.dataParty = dataGrid;
     this.creditProposal.products = this.dataParty;
   }
@@ -375,7 +374,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public hiddenButton(element: IApplicationProduct) {
-    if (element.attributes.hobbies === true) {
+    if (element.attributes.hobbies === true || element.attributes.hobbies === 'true') {
       return true;
     } else if (this.view) {
       return true;

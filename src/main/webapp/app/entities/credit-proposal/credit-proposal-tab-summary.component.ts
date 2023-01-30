@@ -227,6 +227,11 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   public generate(data: any): void {
     if (this.fileTypeSelected) {
       this.print(this.fileTypeSelected);
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Info',
+        detail: 'Save First Before Generating, Please!',
+      });
     } else {
       this.messageService.add({
         severity: 'error',

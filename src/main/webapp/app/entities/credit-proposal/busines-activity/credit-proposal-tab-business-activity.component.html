@@ -37,7 +37,7 @@
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitWith"
-                placeholder="Visit With"
+                placeholder="Debtor PIC"
                 floatLabelType="Auto"
                 cssClass="e-outline"
               >
@@ -46,7 +46,7 @@
           </section>
           <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row py-3">
-              <div class="col-2">Visit With</div>
+              <div class="col-2">Debtor PIC</div>
               <div class="col-md-auto">:</div>
               <div class="col-4">
                 {{ creditProposalItem.attributes['businessActivity'].visitWith }}
@@ -59,7 +59,7 @@
             <div class="col">
               <ejs-datepicker
                 format="yyyy-MM-dd"
-                [(ngModel)]="creditProposalItem.attributes['businessActivity'].visitDate"
+                [(ngModel)]="_item.attributes['businessActivity'].visitDate"
                 placeholder="Visit Date"
                 floatLabelType="Always"
                 cssClass="e-outline"
@@ -72,7 +72,7 @@
               <div class="col-2">Visit Date</div>
               <div class="col-md-auto">:</div>
               <div class="col-4">
-                {{ creditProposalItem.attributes['businessActivity'].visitDate | date: 'yyyy/MM/dd' }}
+                {{ _item.attributes['businessActivity'].visitDate | date: 'yyyy/MM/dd' }}
               </div>
             </div>
           </section>
@@ -147,7 +147,8 @@
           [enableSpellCheck]="false"
           (keyDown)="onKeyDown($event)"
           (created)="onCreate()"
-        ></ejs-documenteditorcontainer>
+        >
+        </ejs-documenteditorcontainer>
       </section>
     </div>
   </div>
@@ -182,7 +183,8 @@
               [enableSpellCheck]="false"
               (keyDown)="onKeyDown($event)"
               (created)="onCreate()"
-            ></ejs-documenteditorcontainer>
+            >
+            </ejs-documenteditorcontainer>
           </section>
           <div class="row my-3">
             <div class="col">

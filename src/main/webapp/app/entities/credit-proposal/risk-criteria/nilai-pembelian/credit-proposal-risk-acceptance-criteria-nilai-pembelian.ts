@@ -85,7 +85,6 @@ export class CreditProposalRacNilaiPembelianComponent {
 
     const dialogRef = this.dialog.open(CreditProposalRacNilaiPembelianEditComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      console.log('ini res', res);
       const lovBelowsIndex: number = lodash.findIndex(this.item.attributes['cpRacBelow']['lovBelow'], function (o: INilaiRac) {
         return o.id === res['id'];
       });

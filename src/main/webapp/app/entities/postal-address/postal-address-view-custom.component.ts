@@ -277,48 +277,21 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   public getValueCountry() {
     this.postalAddress.countryId = this.country.id;
     this.initializeProvince();
-    this.postalAddress.cityId = null;
-    this.postalAddress.districtId = null;
-    this.postalAddress.villageId = null;
-    this.initializeDistrict();
-    this.initializeVillage();
-    this.myControlProvince.enable();
-    this.myControlCity.disable();
-    this.myControlDistrict.disable();
-    this.myControlVillage.disable();
   }
 
   public getValueProvince() {
     this.postalAddress.provinceId = this.province.id;
     this.initializeCity();
-    this.postalAddress.cityId = null;
-    this.postalAddress.districtId = null;
-    this.postalAddress.villageId = null;
-    if (this.postalAddress.provinceId) {
-      this.myControlCity.enable();
-      this.myControlDistrict.disable();
-      this.myControlVillage.disable();
-      this.initializeDistrict();
-      this.initializeVillage();
-    }
   }
 
   public getValueCity() {
     this.postalAddress.cityId = this.cities.id;
     this.initializeDistrict();
-    if (this.postalAddress.cityId) {
-      this.myControlCity.disable();
-      this.myControlDistrict.enable();
-    }
   }
 
   public getValueDistrict() {
     this.postalAddress.districtId = this.districts.id;
     this.initializeVillage();
-    if (this.postalAddress.districtId) {
-      this.myControlDistrict.disable();
-      this.myControlVillage.enable();
-    }
   }
 
   public dataSource() {

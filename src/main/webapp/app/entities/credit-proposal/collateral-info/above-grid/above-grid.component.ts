@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterVie
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -56,6 +56,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
+  private facilityTypes: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
@@ -90,6 +91,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.itemsPerPage = 10;
     this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
+    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
@@ -160,7 +162,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       data: {
         cp: this.creditProposal,
         collateral: element,
-        marketability: this.getMarketability(),
+        marketability: this.getMarketability(element),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
         externalMV: this.countKJJPMV(element),
@@ -171,6 +173,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
+        matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -259,15 +262,20 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     return this.creditProposalService.getCertificationDate(collateral, properties);
   }
 
-  public getMarketability(): string {
-    if (this.creditProposal.appraisals.length > 0) {
-      for (let i = 0; i < this.creditProposal.appraisals.length; i++) {
-        // console.log('appraisal ', this.creditProposal.appraisals[i]);
+  public getMarketability(collateral): string {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      console.log('ini data ', data);
+      if (data !== undefined) {
+        if (data.marketability === undefined || data.marketability === null) {
+          return 'N/A';
+        } else {
+          return data.marketability;
+        }
       }
-      // const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
-      // if (lodash.has(lastAppraisal.attributes, 'summary')) {
-      //   return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-      // }
     }
     return 'N/A';
   }
@@ -447,6 +455,37 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       return 'IDR';
     }
     return 'IDR';
+  }
+
+  fungsiSumcredit() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
   }
 
   public countMVOriginal(collateral: ICollateral): number {

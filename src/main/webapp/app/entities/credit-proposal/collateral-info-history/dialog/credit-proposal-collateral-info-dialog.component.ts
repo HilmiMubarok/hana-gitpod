@@ -90,7 +90,7 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
     for (let i = 1; i < 101; i++) {
-      this.lovRank.push(i);
+      this.lovRank.push(i.toString());
     }
   }
   ngOnInit(): void {

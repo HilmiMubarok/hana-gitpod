@@ -57,6 +57,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
+  private facilityTypes: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
@@ -161,7 +162,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       data: {
         cp: this.creditProposal,
         collateral: element,
-        marketability: this.getMarketability(),
+        marketability: this.getMarketability(element),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
         externalMV: this.countKJJPMV(element),
@@ -172,6 +173,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
+        matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -260,11 +262,18 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     return this.creditProposalService.getCertificationDate(collateral, properties);
   }
 
-  public getMarketability(): string {
-    if (this.creditProposal.appraisals.length > 0) {
-      const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
-      if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
+  public getMarketability(collateral): string {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.marketability === undefined || data.marketability === null) {
+          return 'N/A';
+        } else {
+          return data.marketability;
+        }
       }
     }
     return 'N/A';
@@ -646,6 +655,11 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
+  }
+
+  public getFacilityTypeMatrik() {
+    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
+    return this.facilityTypes[keyy];
   }
 
   public getCrossStatus(status: string) {

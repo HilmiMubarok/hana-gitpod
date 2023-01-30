@@ -443,11 +443,11 @@ export const ID_BACK_TO_BACK = 'back-to-back';
 export const PROPOSAL_TYPE: IEJOptionNode[] = [
   {
     id: ID_GREATER_15_BN,
-    text: 'Total Exposure > IDR 15 Bn',
+    text: 'Total Exposure > IDR 15 Bio',
   },
   {
     id: ID_LOWER_EQUAL_15_BN,
-    text: 'Total Exposure <= IDR 15 Bn',
+    text: 'Total Exposure <= IDR 15 Bio',
   },
   {
     id: ID_BACK_TO_BACK,

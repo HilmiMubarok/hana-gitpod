@@ -15,6 +15,7 @@ import { PersonService } from 'app/entities/person/person.service';
 import { IPerson } from 'app/entities/person/person.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { INotes } from 'app/entities/notes/notes.model';
 
 @Component({
   selector: 'jhi-loan-facility-approve-level',
@@ -22,7 +23,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
   styleUrls: ['./approve-level.css'],
 })
 export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
-  public displayColumns: string[] = ['no', 'approval_name', 'position', 'date', 'alternatename'];
+  public displayColumns: string[]
   public idRelationType: string;
   public dateCurren: any;
   public idApp: any;
@@ -84,7 +85,11 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     });
     // this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
     // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
-
+    if (this.creditProposal.statusId === 'LA_DAR_NOTIF') {
+      this.displayColumns = ['no', 'approval_name', 'position', 'date', 'alternatename', 'confirmation'];
+    }else{
+      this.displayColumns = ['no', 'approval_name', 'position', 'date', 'alternatename'];
+    }
     this.hidePleaseSelect();
   }
   public hidePleaseSelect() {
@@ -137,6 +142,12 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
         }
       }
     }
+  }
+
+  public emailConfirmation(applicationId: number): any{
+    const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId)
+    const status = this.creditProposal.notes[notesCp].received === null || this.creditProposal.notes[notesCp].received === false ? 'Not Confirmation' : 'Confirmation'
+    return status
   }
 
   private getApplicationRolesByApplicationId(): void {

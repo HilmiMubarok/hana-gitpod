@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -49,9 +49,9 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class CreditProposalCollateralInfoDialogComponent implements OnInit {
+export class CreditProposalCollateralInfoDialogComponent implements OnInit, AfterViewInit {
   public collateralTypes: ICollateralType[];
-  public collateralCode: object[];
+  public collateralCode: any;
   public collateralGrading: OptionNode[];
   public collateralDetails: object[];
   public bindingTypesHobies: any;
@@ -73,6 +73,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public paripasuStatus: any;
   public dataCertDueDate: any;
   public dataOwnerShip: string;
+  public matrikBindingType;
+  public facilityTypeMatrik: any;
+  public collateralCodeMatrik: any;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -109,6 +112,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       insurance: ICreditProposalCollateralInsurance;
       certDueDate: any;
       ownerShip: string;
+      matrikBindingType: string;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
@@ -124,13 +128,17 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
+    this.matrikBindingType = this.data.matrikBindingType;
     for (let i = 1; i < 101; i++) {
-      this.lovRank.push(i);
+      this.lovRank.push(i.toString());
     }
     this.lovCollateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.dataCertDueDate = data.certDueDate;
     this.dataOwnerShip = data.ownerShip;
+  }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
   }
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
@@ -140,6 +148,17 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.loadCollateralGrading();
     this.trashUndefined();
     this.checkStatusCOllateral();
+    this.getFacilityType();
+  }
+
+  public getFacilityType() {
+    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
+    return this.facilityTypes[keyy];
+  }
+
+  public getCollateralCode() {
+    const data = this.collateralCode.find(obj => obj.id === this.collateral.attributes.collateralCode);
+    this.collateralCodeMatrik = data.description;
   }
 
   private loadCollateralGrading(): void {
@@ -163,6 +182,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       this.collateralCode = lodash.find(this.collateralDetails, function (o) {
         return o['id'] === collateral.collateralTypeId;
       })['child'];
+      this.getCollateralCode();
     }
   }
 
