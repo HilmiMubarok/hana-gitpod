@@ -80,6 +80,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     if (changes['creditProposal']) {
+      console.log('ini credit proposal ', this.creditProposal);
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
