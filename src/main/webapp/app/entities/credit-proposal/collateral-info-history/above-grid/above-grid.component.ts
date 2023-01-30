@@ -172,7 +172,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       data: {
         cp: this.creditProposal,
         collateral: element,
-        marketability: this.getMarketability(),
+        marketability: this.getMarketability(element),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
         externalMV: this.countKJJPMV(element),
@@ -271,11 +271,18 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     return this.creditProposalService.getCertificationDate(collateral, properties);
   }
 
-  public getMarketability(): string {
-    if (this.creditProposal.appraisals.length > 0) {
-      const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
-      if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
+  public getMarketability(collateral): string {
+    let data: ICollateralProperty;
+    if (collateral) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.marketability === undefined || data.marketability === null) {
+          return 'N/A';
+        } else {
+          return data.marketability;
+        }
       }
     }
     return 'N/A';

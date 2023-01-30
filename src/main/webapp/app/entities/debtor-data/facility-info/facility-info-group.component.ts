@@ -118,7 +118,6 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log('ini data', this.data);
     console.log('collateral type', this.dialogType);
   }
 

@@ -268,7 +268,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
       );
-      console.log('ini data ', data);
       if (data !== undefined) {
         if (data.marketability === undefined || data.marketability === null) {
           return 'N/A';

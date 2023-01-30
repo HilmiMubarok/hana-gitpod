@@ -260,44 +260,20 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     return this.creditProposalService.getCertificationDate(collateral, properties);
   }
 
-  public getMarketability(collateral: ICollateral): string {
-    const bacukur = [
-      { id: 1, desc: 'baik' },
-      { id: 2, desc: 'cukup' },
-      { id: 3, desc: 'kurang' },
-    ];
-    let appraisal: ICollateralAppraisal = new CollateralAppraisal();
-    let marketabilityExternal: string;
-    let marketabilityInternal: string;
-    let data1: any;
-    let data2: any;
-    appraisal = this.creditProposal.appraisals.find(obj => obj.collateralId === collateral.id);
-    if (appraisal) {
-      marketabilityInternal = appraisal.attributes['marketbility'];
-      marketabilityExternal = appraisal.marketability;
-      if (marketabilityInternal) {
-        if (marketabilityExternal) {
-          data1 = bacukur.find(obj => obj.desc === marketabilityInternal);
-          data2 = bacukur.find(obj => obj.desc === marketabilityExternal);
-          if (data1.id > data2.id) {
-            return marketabilityInternal;
-          } else {
-            return marketabilityExternal;
-          }
+  public getMarketability(collateral): string {
+    let data: ICollateralProperty;
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+      );
+      if (data !== undefined) {
+        if (data.marketability === undefined || data.marketability === null) {
+          return 'N/A';
         } else {
-          return marketabilityInternal;
+          return data.marketability;
         }
       }
-      if (marketabilityExternal) {
-        return marketabilityExternal;
-      }
-
-      console.log('market ability internal ', marketabilityInternal, ' market ability external ', marketabilityExternal);
     }
-    // const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
-    // if (lodash.has(lastAppraisal.attributes, 'summary')) {
-    //   return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-    // }
     return 'N/A';
   }
 
