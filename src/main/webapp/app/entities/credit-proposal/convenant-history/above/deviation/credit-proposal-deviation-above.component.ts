@@ -53,7 +53,6 @@ export class CreditProposalDeviationAboveHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
-    console.log('Deviasi', this.parsedData.previousHistory.convenant.standardDataGridAbove);
     if (this.parsedData.previousHistory.convenant.standardDataGridAbove.length !== 0) {
       const deletedItem = this.parsedData.previousHistory.convenant.standardDataGridAbove.filter(item => item.status !== 'Applied');
       this.standardDataGridAbove = deletedItem;
