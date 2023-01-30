@@ -151,6 +151,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     let result: number;
     result = 0;
     result = Number(this.item.attributes['tabCustomer'].loan) + Number(this.item.attributes['tabCustomer'].loanProvision);
+    this.item.attributes['tabCustomer'].totalLoanProvision = result;
     return result;
   }
 
@@ -158,6 +159,7 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     let result: number;
     result = 0;
     result = Number(this.item.attributes['tabCustomer'].casa) + Number(this.item.attributes['tabCustomer'].insurancePremium);
+    this.item.attributes['tabCustomer'].totalDepositInsurancePremium = result;
     return result;
   }
 

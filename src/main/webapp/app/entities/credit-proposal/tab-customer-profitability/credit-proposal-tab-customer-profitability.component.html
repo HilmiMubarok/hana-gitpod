@@ -71,7 +71,7 @@
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <td style="vertical-align: middle; text-align: center">
                       <input
-                        [ngModel]="item.attributes['tabCustomer'].roa"
+                        [(ngModel)]="item.attributes['tabCustomer'].roa"
                         [value]="totalRoa()"
                         [disabled]="true"
                         type="text"
@@ -122,7 +122,7 @@
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
                     <input
-                      [ngModel]="item.attributes['tabCustomer'].totalLoanProvision"
+                      [(ngModel)]="item.attributes['tabCustomer'].totalLoanProvision"
                       [value]="totalLoan()"
                       [disabled]="true"
                       type="text"
@@ -196,7 +196,7 @@
                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <td style="vertical-align: middle; text-align: center">
                     <input
-                      [ngModel]="item.attributes['tabCustomer'].totalDepositInsurancePremium"
+                      [(ngModel)]="item.attributes['tabCustomer'].totalDepositInsurancePremium"
                       [value]="totalLoanDeposit()"
                       type="text"
                       currencyMask
