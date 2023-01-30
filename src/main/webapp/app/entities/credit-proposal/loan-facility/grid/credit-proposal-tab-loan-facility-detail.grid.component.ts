@@ -159,15 +159,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     return '';
   }
   public currency() {
-    const cpFacility = this.creditProposal.debtorData.attributes['cpFacility'];
-    for (let i = 0; i < cpFacility.length; i++) {
-      // Inisialisasi kurs
-      if (cpFacility[i].LNB_BASE_LON_CCY !== 'IDR') {
-        const setDate = new Date().toISOString().split('T')[0];
-        this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-          this.kurs = res.body[0]?.factor;
-        });
-      }
+    if (this.applicationProduct.attributes['currency'] !== 'IDR') {
+      const setDate = new Date().toISOString().split('T')[0];
+      this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+        this.kurs = res.body[0]?.factor;
+      });
     }
   }
 
