@@ -100,14 +100,12 @@
           <div class="fontsebled row py-1">
             <div class="col-2">Initial Limit</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ facilityTakeOver.initialLimitBank | number: '1.0-0' }}
-            </div>
-            <div class="col-2">Currency</div>
+            <div class="col">{{ facilityTakeOver.currency }} {{ facilityTakeOver.initialLimitBank | number: '1.0-0' }}</div>
+            <!-- <div class="col-2">Currency</div>
             <div class="col-md-auto">:</div>
             <div class="col">
               {{ facilityTakeOver.currency }}
-            </div>
+            </div> -->
           </div>
         </section>
 
@@ -143,14 +141,12 @@
           <div class="fontsebled row py-1">
             <div class="col-2">Outstanding</div>
             <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ facilityTakeOver.outstandingBank | number: '1.0-0' }}
-            </div>
-            <div class="col-2">Currency</div>
+            <div class="col">{{ facilityTakeOver.currency2 }} {{ facilityTakeOver.outstandingBank | number: '1.0-0' }}</div>
+            <!-- <div class="col-2">Currency</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ facilityTakeOver.currency2 }}
-            </div>
+
+            </div> -->
           </div>
         </section>
       </div>
