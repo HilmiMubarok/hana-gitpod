@@ -294,6 +294,11 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     // Jika ada previousReturn dan onCompareData true dan isCompareDar false
     // berarti dia dipanggil di compare data yang bagian tab previous proposal.
     if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
+      // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
+      if (!this.parsedAttribute.previousReturn.facilityDetail) {
+        this.parsedAttribute.previousReturn.facilityDetail.custodianFee = 0;
+      }
+
       return this.parsedAttribute.previousReturn;
     }
     // jika ada previousHistory dan isOnCompareData false dan isCompareDar false
