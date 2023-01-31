@@ -30,7 +30,7 @@ import { MessageService } from 'primeng/api';
   templateUrl: './debtor-data.component.html',
 })
 export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() jhifilter: 'Total Exposure <= IDR 15 Bn' | 'Total Exposure Back to Back' | 'Total Exposure > IDR 15 Bn';
+  @Input() jhifilter: 'Total Exposure <= IDR 15 Bio' | 'Total Exposure Back to Back' | 'Total Exposure > IDR 15 Bio';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
 
@@ -59,11 +59,11 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       let keyValue = '';
       this.paramsId = params['id'];
-      if (this.tempKey === 'Total Exposure > IDR 15 Bn') {
+      if (this.tempKey === 'Total Exposure > IDR 15 Bio') {
         keyValue = 'above';
       } else if (this.tempKey === 'Total Exposure Back to Back') {
         keyValue = 'back-to-back';
-      } else if (this.tempKey === 'Total Exposure <= IDR 15 Bn') {
+      } else if (this.tempKey === 'Total Exposure <= IDR 15 Bio') {
         keyValue = 'below';
       }
       const predicate: Object = {
@@ -191,7 +191,7 @@ export class PartyCifDebtorComponent implements OnInit, OnDestroy, OnChanges {
             detail: 'Save Success',
           });
         });
-      } 
+      }
     }
   }
 
