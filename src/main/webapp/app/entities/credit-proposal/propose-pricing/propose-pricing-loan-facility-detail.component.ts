@@ -103,7 +103,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
       this.aplicationProducts[i].attributes.normalRate = '0%';
       this.aplicationProducts[i].attributes.discountProposal = item.products[i].attributes['discountProposal'];
       this.aplicationProducts[i].attributes.proposedRate = '0%';
-      this.aplicationProducts[i].attributes.referenceRate = '0%';
+      this.aplicationProducts[i].attributes.referenceRate = item.products[i].attributes['indexRate'];
       this.aplicationProducts[i].attributes.requiredSpread = '0%';
       this.aplicationProducts[i].attributes.cost = '0%';
       this.aplicationProducts[i].attributes.roaa = '0%';
@@ -218,14 +218,13 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
     dialogRef.afterClosed().subscribe(res => {
       if (res.action !== 'cencel') {
         this.creditProposal.attributes['proposePricing'] = [...this.creditProposal.attributes['proposePricing'], res.tradeCheckingSupplier];
-      
-      }else{
-        const appProduct: IApplicationProduct = res.dataEdit
+      } else {
+        const appProduct: IApplicationProduct = res.dataEdit;
         const idx = lodash.findIndex(this.creditProposal.products, function (o) {
           return o.id === appProduct.id;
         });
         this.creditProposal.products[idx] = appProduct;
-        this.aplicationProducts[idx] = appProduct
+        this.aplicationProducts[idx] = appProduct;
       }
     });
   }
@@ -274,7 +273,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
 
   public generate(): void {
     this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
-	  for (let i = 0; i < this.aplicationProducts.length; i++) {
+      for (let i = 0; i < this.aplicationProducts.length; i++) {
         this.aplicationProducts[i].attributes['ftp'] = '0.00%';
         this.aplicationProducts[i].attributes['ckpn'] = '0.00%';
         this.aplicationProducts[i].attributes['expectedLoss'] = '0.00%';
@@ -283,40 +282,41 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         this.aplicationProducts[i].attributes['normalRate'] = '0.00%';
         this.aplicationProducts[i].attributes['discountProposal'] = '0.00%';
         this.aplicationProducts[i].attributes['proposedRate'] = '0.00%';
-        this.aplicationProducts[i].attributes['referenceRate'] = '0.00%';
+        this.aplicationProducts[i].attributes['referenceRate'] = this.aplicationProducts[i].attributes['indexRate'] + '%';
         this.aplicationProducts[i].attributes['requiredSpread'] = '0.00%';
         this.aplicationProducts[i].attributes['cost'] = '0.00%';
         this.aplicationProducts[i].attributes['roaa'] = '0.00%';
       }
 
       for (let i = 0; i < this.aplicationProducts.length; i++) {
-		for (let j = 0; j < res['proposePricing'].length; j++) {
-		  if (this.aplicationProducts[i]['id'] === Number(res['proposePricing'][j]['id'])) {
-			this.aplicationProducts[i].attributes['ftp'] = res['proposePricing'][j]['ftp'] === null ? '0.00%' : res['proposePricing'][j]['ftp'];
-			this.aplicationProducts[i].attributes['ckpn'] =
-			  res['proposePricing'][j]['ckpn'] === null ? '0.00%' : res['proposePricing'][j]['ckpn'];
-			this.aplicationProducts[i].attributes['expectedLoss'] =
-			  res['proposePricing'][j]['expectedLoss'] === null ? '0.00%' : res['proposePricing'][j]['expectedLoss'];
-			this.aplicationProducts[i].attributes['industrySpread'] =
-			  res['proposePricing'][j]['industrySpread'] === null ? '0.00' : res['proposePricing'][j]['industrySpread'];
-			this.aplicationProducts[i].attributes['targetMargin'] =
-			  res['proposePricing'][j]['targetMargin'] === null ? '0.00%' : res['proposePricing'][j]['targetMargin'];
-			this.aplicationProducts[i].attributes['normalRate'] =
-			  res['proposePricing'][j]['normalRate'] === null ? '0.00%' : res['proposePricing'][j]['normalRate'];
-			this.aplicationProducts[i].attributes['discountProposal'] =
-			  res['proposePricing'][j]['discountProposal'] === null ? '0.00%' : res['proposePricing'][j]['discountProposal'];
-			this.aplicationProducts[i].attributes['proposedRate'] =
-			  res['proposePricing'][j]['proposedRate'] === null ? '0.00%' : res['proposePricing'][j]['proposedRate'];
-			this.aplicationProducts[i].attributes['referenceRate'] =
-			  res['proposePricing'][j]['referenceRate'] === null ? '0.00%' : res['proposePricing'][j]['referenceRate'];
-			this.aplicationProducts[i].attributes['requiredSpread'] =
-			  res['proposePricing'][j]['requiredSpread'] === null ? '0.00%' : res['proposePricing'][j]['requiredSpread'];
-			this.aplicationProducts[i].attributes['cost'] =
-			  res['proposePricing'][j]['cost'] === null ? '0.00%' : res['proposePricing'][j]['cost'];
-			this.aplicationProducts[i].attributes['roaa'] =
-			  res['proposePricing'][j]['roaa'] === null ? '0.00%' : res['proposePricing'][j]['roaa'];
-		  }
-		}
+        for (let j = 0; j < res['proposePricing'].length; j++) {
+          if (this.aplicationProducts[i]['id'] === Number(res['proposePricing'][j]['id'])) {
+            this.aplicationProducts[i].attributes['ftp'] =
+              res['proposePricing'][j]['ftp'] === null ? '0.00%' : res['proposePricing'][j]['ftp'];
+            this.aplicationProducts[i].attributes['ckpn'] =
+              res['proposePricing'][j]['ckpn'] === null ? '0.00%' : res['proposePricing'][j]['ckpn'];
+            this.aplicationProducts[i].attributes['expectedLoss'] =
+              res['proposePricing'][j]['expectedLoss'] === null ? '0.00%' : res['proposePricing'][j]['expectedLoss'];
+            this.aplicationProducts[i].attributes['industrySpread'] =
+              res['proposePricing'][j]['industrySpread'] === null ? '0.00' : res['proposePricing'][j]['industrySpread'];
+            this.aplicationProducts[i].attributes['targetMargin'] =
+              res['proposePricing'][j]['targetMargin'] === null ? '0.00%' : res['proposePricing'][j]['targetMargin'];
+            this.aplicationProducts[i].attributes['normalRate'] =
+              res['proposePricing'][j]['normalRate'] === null ? '0.00%' : res['proposePricing'][j]['normalRate'];
+            this.aplicationProducts[i].attributes['discountProposal'] =
+              res['proposePricing'][j]['discountProposal'] === null ? '0.00%' : res['proposePricing'][j]['discountProposal'];
+            this.aplicationProducts[i].attributes['proposedRate'] =
+              res['proposePricing'][j]['proposedRate'] === null ? '0.00%' : res['proposePricing'][j]['proposedRate'];
+            this.aplicationProducts[i].attributes['referenceRate'] =
+              res['proposePricing'][j]['referenceRate'] === null ? '0.00%' : res['proposePricing'][j]['referenceRate'];
+            this.aplicationProducts[i].attributes['requiredSpread'] =
+              res['proposePricing'][j]['requiredSpread'] === null ? '0.00%' : res['proposePricing'][j]['requiredSpread'];
+            this.aplicationProducts[i].attributes['cost'] =
+              res['proposePricing'][j]['cost'] === null ? '0.00%' : res['proposePricing'][j]['cost'];
+            this.aplicationProducts[i].attributes['roaa'] =
+              res['proposePricing'][j]['roaa'] === null ? '0.00%' : res['proposePricing'][j]['roaa'];
+          }
+        }
       }
       this.spreadPerFacility.emit(this.aplicationProducts);
     });
