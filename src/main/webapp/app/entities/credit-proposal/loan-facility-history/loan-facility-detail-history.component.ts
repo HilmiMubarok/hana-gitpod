@@ -296,7 +296,12 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
       // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
       if (!this.parsedAttribute.previousReturn.facilityDetail) {
-        this.parsedAttribute.previousReturn.facilityDetail.custodianFee = 0;
+        const obj = {
+          facilityDetail: {
+            custodianFee: 0,
+          },
+        };
+        this.parsedAttribute.previousReturn = { ...this.parsedAttribute.previousReturn, ...obj };
       }
 
       return this.parsedAttribute.previousReturn;
