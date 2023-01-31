@@ -6,6 +6,7 @@ import { IOtherCovenant, OtherCovenant } from './other-convenant.model';
 import { CreditProposalOtherCovenantDialogHistoryComponent } from './add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditHistoryComponent } from './edit/credit-proposal-other-covenant-edit.component';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { StorageService } from 'app/entities/storage/storage.service';
 
 @Component({
   selector: 'jhi-other-deviation-history',
@@ -17,11 +18,12 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   public _creditProposalItem: ICreditProposal;
 
-  public filterStatus: any;
+  public filterStatus: any[];
 
   public parsedData: any;
 
   ngOnInit() {
+    this.getFiles(this.creditProposalItem.cif.partyId);
     this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
@@ -39,7 +41,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification'];
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, public storageService: StorageService) {
     this.loading = false;
   }
 
@@ -66,6 +68,63 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
       if (res) {
         this.parsedData.previousHistory.convenant.otherCovenant = [...this.parsedData.previousHistory.convenant.otherCovenant, res];
       }
+    });
+  }
+
+  public folders = [];
+  public dataFolder = [];
+  private groupByFolder(param: any[]): void {
+    this.folders = [];
+
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.document')
+        .map((val, key) => ({
+          folder: key,
+          key: val[0].key,
+          data: val,
+          documentType: val[0]['tags']['documentType'],
+          document: val[0]['tags']['document'],
+          category: val[0]['tags']['category'],
+          dueDate: val[0]['tags']['dueDate'],
+          status: val[0]['tags']['status'],
+          remarks: val[0]['tags']['remarks'],
+
+          files: val,
+        }))
+        .value();
+      const dataset = [];
+      for (let i = 0; i < this.folders.length; i++) {
+        const setdata = {
+          no: this.folders.length + 1,
+          covenant: this.folders[i].document,
+          status: this.folders[i].status,
+          deviation: this.folders[i].remarks,
+          formGroub: true,
+          justification: '',
+        };
+        dataset.push(setdata);
+      }
+
+      for (let i = 0; i < dataset.length; i++) {
+        if (dataset[i].status === 'Waived') {
+          this.filterStatus = [dataset[i]];
+        }
+      }
+    } else {
+      this.folders = [];
+    }
+  }
+
+  private getFiles(id: any): void {
+    const predicate: Object = {
+      key: `/cif/${id}/document`,
+    };
+    this.storageService.getBucketName().subscribe((res: any) => {
+      this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
+        this.groupByFolder(a.body);
+      });
     });
   }
 
