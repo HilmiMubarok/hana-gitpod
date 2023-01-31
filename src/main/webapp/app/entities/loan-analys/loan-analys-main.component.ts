@@ -368,7 +368,7 @@ export class LoanAnalysMainComponent implements OnInit {
         if (
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
             this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed') ||
-          (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' && _res.caption ==='Reject')
+          (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' && _res.caption === 'Reject')
         ) {
           this.messageService.add({
             severity: 'error',
