@@ -443,7 +443,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 			}
 		  }
 		}
-	  } else if (this.tempRouter === 'la-analyst' || this.tempRouter === 'la-SME-CRC' || this.tempRouter === 'la-approval' || this.tempRouter === 'la-approval-inquiry' || this.tempRouter === 'dar-final' || this.tempRouter === 'dar-checker' || this.tempRouter === 'dar-notif') {
+	  } else if (this.tempRouter === 'la-analyst' || this.tempRouter === 'la-SME-CRC' || this.tempRouter === 'la-approval' || this.tempRouter === 'la-approval-inquiry') {
 		if (this.notes) {
 		  if (this.notes.length > 0) {
 			for (let i = 0; i < this.notes.length; i++) {

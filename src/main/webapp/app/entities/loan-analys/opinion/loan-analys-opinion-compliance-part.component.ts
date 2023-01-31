@@ -199,6 +199,12 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
 
 	  if (this.notes) {
 		if (this.notes.length > 0) {
+		  this.notes.sort((a, b) => (a.id > b.id) ? 1 : -1);
+		}
+	  }
+
+	  if (this.notes) {
+		if (this.notes.length > 0) {
 		  for (let i = 0; i < this.notes.length; i++) {
 			if (this.notes[i].type === 'credit_proposal' || this.notes[i].type === 'loan_analysis' || this.notes[i].type === 'loan_committee' || this.notes[i].type === '' || this.notes[i].type === null) {
 			  this.notes.splice(i, 1);

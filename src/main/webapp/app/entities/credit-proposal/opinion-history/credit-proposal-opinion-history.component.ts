@@ -225,6 +225,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public refresh() {
 	this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
 	  this.notes = res.body.notes;
+
+	  if (this.notes) {
+		if (this.notes.length > 0) {
+		  this.notes.sort((a, b) => (a.id > b.id) ? 1 : -1);
+		}
+	  }
+
 	  if (this.notes) {
 		if (this.notes.length > 0) {
 		  for (let i = 0; i < this.notes.length; i++) {
