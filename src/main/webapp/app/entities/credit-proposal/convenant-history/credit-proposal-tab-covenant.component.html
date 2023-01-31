@@ -15,14 +15,14 @@
               <div class="e-card-sub-title"></div>
             </div>
           </div>
-          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
             <div class="card-content">
               <jhi-credit-proposal-tab-covenant-above-history [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
               </jhi-credit-proposal-tab-covenant-above-history>
             </div>
           </div>
 
-          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+          <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
             <div class="card-content">
               <jhi-credit-proposal-tab-covenant-below-history [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
               </jhi-credit-proposal-tab-covenant-below-history>
@@ -70,13 +70,13 @@
 </div>
 
 <div *ngIf="setActiveMenu === 'DEVIATION' || selectedMenu === 'DEVIATION'">
-  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
     <div class="card-content">
       <jhi-credit-proposal-deviation-above-history [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
       </jhi-credit-proposal-deviation-above-history>
     </div>
   </div>
-  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
     <div class="card-content">
       <jhi-credit-proposal-deviation-below-history [isViewMode]="isViewMode" [creditProposalItem]="creditProposalItem">
       </jhi-credit-proposal-deviation-below-history>

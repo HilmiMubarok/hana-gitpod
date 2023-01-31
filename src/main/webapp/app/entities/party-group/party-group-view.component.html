@@ -36,7 +36,7 @@
                     <!-- <div class="form-space"> -->
                     <ejs-textbox
                       disabled
-                      placeholder="Complate Name"
+                      placeholder="Complete Name"
                       [(ngModel)]="item.prospectOrganization.name"
                       floatLabelType="Auto"
                       cssClass="e-outline"
@@ -353,7 +353,7 @@
                       floatLabelType="Auto"
                       id="ddlelement"
                       [dataSource]="collectabilityStatusData"
-                      placeholder="collectability Status"
+                      placeholder="Collectability Status"
                     >
                     </ejs-dropdownlist>
                   </div>
@@ -406,13 +406,13 @@
                   <div class="col-6">
                     <!-- <div class="form-space"> -->
                     <section *ngIf="item.statusId === 'DRAFT'">
-                      <ejs-dropdownlist
+                      <ejs-combobox
                         [dataSource]="callReportCategoryData"
                         [(ngModel)]="item.debtorData.callReportCategory"
                         placeholder="Call Report Category"
                         cssClass="e-outline"
                         floatLabelType="Auto"
-                      ></ejs-dropdownlist>
+                      ></ejs-combobox>
                     </section>
                     <section *ngIf="item.statusId !== 'DRAFT'">
                       <ejs-dropdownlist
@@ -427,14 +427,14 @@
                   </div>
                   <div class="col-6">
                     <section *ngIf="item.statusId === 'DRAFT'">
-                      <ejs-dropdownlist
+                      <ejs-combobox
                         [dataSource]="ifcRiskCategoryData"
                         [(ngModel)]="item.debtorData.ifcRiskCategory"
                         placeholder="IFC & Risk Category"
                         cssClass="e-outline"
                         floatLabelType="Auto"
                       >
-                      </ejs-dropdownlist>
+                      </ejs-combobox>
                     </section>
                     <section *ngIf="item.statusId !== 'DRAFT'">
                       <ejs-dropdownlist
@@ -563,7 +563,7 @@
               <div class="row my-3">
                 <div class="col">
                   <!-- <div class="form-space"> -->
-                  <ejs-textbox placeholder="Complate Name" [(ngModel)]="item.name" floatLabelType="Auto" cssClass="e-outline">
+                  <ejs-textbox placeholder="Complete Name" [(ngModel)]="item.name" floatLabelType="Auto" cssClass="e-outline">
                   </ejs-textbox>
                 </div>
                 <div class="col">

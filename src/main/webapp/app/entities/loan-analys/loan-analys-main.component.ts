@@ -150,11 +150,11 @@ export class LoanAnalysMainComponent implements OnInit {
     switch (this.parentPath) {
       case 'la-distribution':
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
             : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
         } else {
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? (this.subMenu = [
                 ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
                 {
@@ -189,7 +189,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'la-SME-CRC':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
               { id: 'opinion', text: 'Opinion' },
@@ -203,27 +203,27 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'cc-distribution':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
           : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
         break;
 
       case 'la-analyst':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = [...SUBMENU_LOAN_ANALYS])
           : (this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB]);
         break;
 
       case 'la-approval':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL])
-          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn'
+          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
           ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BELOW])
           : (this.subMenu = [...SUBMENU_LOAN_ANALYS_LA_APPROVAL_BTB]);
         break;
 
       case 'la-approval-inquiry':
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
               { id: 'opinion', text: 'Opinion' },
@@ -239,28 +239,28 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
       case 'dar-final':
         this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
             : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'dar-notif':
         this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
             : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
       case 'dar-checker':
         this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE
             : SUBMENU_LOAN_ANALYS_DAR_CHECKER;
         break;
 
       case 'loan-committee-approval':
         this.subMenu =
-          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+          this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
             : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
@@ -279,7 +279,7 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       default:
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn'
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = SUBMENU_LOAN_ANALYS)
           : (this.subMenu = SUBMENU_LOAN_ANALYS_BELOW_AND_BTB);
         break;
@@ -692,6 +692,10 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public onSave(source: string): void {
+    for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
+      this.creditProposal.sliks = [...this.creditProposal.sliks,  this.creditProposal.sliks[i]]
+    }
+   
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
         this.creditProposal.products = res.body.products;

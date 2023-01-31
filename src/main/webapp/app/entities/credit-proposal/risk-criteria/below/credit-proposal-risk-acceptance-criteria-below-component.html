@@ -467,14 +467,14 @@
               <div class="col-6">
                 <div class="form-group">
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
+                    <ejs-combobox
                       [dataSource]="collateralStatus"
                       placeholder="Collateral status"
                       [(ngModel)]="item.attributes['cpRacBelow'].Cs"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-dropdownlist>
+                    </ejs-combobox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">
@@ -522,14 +522,14 @@
               <div class="col-6">
                 <div class="form-group">
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
+                    <ejs-combobox
                       [dataSource]="collateralCoverage"
                       placeholder="Collateral Coverage based on LV:"
                       [(ngModel)]="item.attributes['cpRacBelow'].Cv"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-dropdownlist>
+                    </ejs-combobox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">
@@ -576,14 +576,14 @@
               <div class="col-6">
                 <div class="form-group">
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
+                    <ejs-combobox
                       [dataSource]=" collateralInsurance"
                       placeholder="Collateral Insurance"
                       [(ngModel)]="item.attributes['cpRacBelow'].Ci"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-dropdownlist>
+                    </ejs-combobox>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">

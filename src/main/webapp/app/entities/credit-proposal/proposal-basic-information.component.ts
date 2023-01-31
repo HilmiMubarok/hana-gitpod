@@ -255,7 +255,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public menuCreditProposal() {
     if (this.parentPath === 'cp-status-approval') {
       if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = [
@@ -271,7 +271,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
         this.dataChil = 'child';
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = [
@@ -307,12 +307,12 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     } else if (this.parentPath === 'credit-proposal-status') {
       if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' &&
+        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
@@ -333,7 +333,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public routeSubMenu(menu: object): void {
     if (menu['id'] === ID_GREATER_15_BN) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bn';
+      this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bio';
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else {
@@ -351,7 +351,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bn';
+      this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bio';
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else {
@@ -571,12 +571,12 @@ export class ProposalBasicInformationComponent implements OnInit {
   private convertDate(date: any): any {
     if (typeof date === 'string') {
       let tempDate = '';
-      const pointerDate = date.substring(11,1);
-  
+      const pointerDate = date.substring(11, 1);
+
       if (pointerDate === 'T') {
-      tempDate = date.split('T')[0];
+        tempDate = date.split('T')[0];
       }
-  
+
       const newD = new Date(tempDate);
       const utcDate = new Date(Date.UTC(newD.getFullYear(), newD.getMonth(), newD.getDate(), newD.getHours(), newD.getMinutes()));
       return utcDate;
@@ -584,10 +584,12 @@ export class ProposalBasicInformationComponent implements OnInit {
       const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
       return utcDate;
     }
-    
   }
 
   private preSave(): ICreditProposal {
+    for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
+      this.creditProposal.sliks = [...this.creditProposal.sliks,  this.creditProposal.sliks[i]]
+    }
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
     if (copyCreditProposal.attributes.businessActivity.visitDate) {
