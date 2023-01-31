@@ -8,14 +8,14 @@
           <div class="col-6">
             <div class="form-group mb-3">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                <ejs-dropdownlist
+                <ejs-combobox
                   [dataSource]="creditApplication"
                   placeholder="Transaksi Pembelian Aset"
                   [(ngModel)]="item.attributes['cpRacBelow'].Ca"
                   cssClass="e-outline"
                   floatLabelType="Auto"
                 >
-                </ejs-dropdownlist>
+                </ejs-combobox>
               </section>
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                 <div class="fontsebled row">
