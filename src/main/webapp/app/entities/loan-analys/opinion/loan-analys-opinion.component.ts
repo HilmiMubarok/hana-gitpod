@@ -436,21 +436,17 @@ export class LoanAnalysOpinionComponent implements OnInit {
 	  if (this.tempRouter === 'loan-committee-approval') {
 		if (this.notes) {
 		  if (this.notes.length > 0) {
-			for (let i = 0; i < this.notes.length; i++) {
-			  if (this.notes[i].type === 'compliance' || this.notes[i].type === '' || this.notes[i].type === null) {
-				this.notes.splice(i, 1);
-			  }
-			}
+			this.notes = this.notes.filter(note => {
+			  return (note.type === 'credit_proposal' || note.type === 'loan_analysis' || note.type === 'loan_committee');
+			});
 		  }
 		}
 	  } else if (this.tempRouter === 'la-analyst' || this.tempRouter === 'la-SME-CRC' || this.tempRouter === 'la-approval' || this.tempRouter === 'la-approval-inquiry') {
 		if (this.notes) {
 		  if (this.notes.length > 0) {
-			for (let i = 0; i < this.notes.length; i++) {
-			  if (this.notes[i].type === 'loan_committee' || this.notes[i].type === 'compliance' || this.notes[i].type === '' || this.notes[i].type === null) {
-				this.notes.splice(i, 1);
-			  }
-			}
+			this.notes = this.notes.filter(note => {
+			  return (note.type === 'credit_proposal' || note.type === 'loan_analysis');
+			});
 		  }
 		}
 	  }

@@ -232,18 +232,22 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		}
 	  }
 	  
-	  this.notes = this.notes.filter(note => {
-		return (note.type === 'credit_proposal');
-	  });
-	  
-	  /* let index = 0;
-	  for (const note of [...this.notes]) {
-		if (note.type === 'loan_analysis' || note.type === 'loan_committee' || note.type === 'compliance' || note.type === '' || note.type === null) {
-          notes.splice(index, 1);
-		} else {
-          ++index;
+	  if (this.notes) {
+		if (this.notes.length > 0) {
+		  this.notes = this.notes.filter(note => {
+			return (note.type === 'credit_proposal');
+		  });
+
+		  /* let index = 0;
+		  for (const note of [...this.notes]) {
+			if (note.type === 'loan_analysis' || note.type === 'loan_committee' || note.type === 'compliance' || note.type === '' || note.type === null) {
+			  this.notes.splice(index, 1);
+			} else {
+			  ++index;
+			}
+		  } */
 		}
-	  } */
+	  }
 	});
   }
 }
