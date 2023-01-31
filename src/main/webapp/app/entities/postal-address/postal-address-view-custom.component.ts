@@ -12,7 +12,9 @@ import { IPostalAddress } from './postal-address.model';
   selector: 'jhi-postal-address-view-custom',
   templateUrl: './postal-address-view-custom.component.html',
 })
-export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
+export class PostalAddressViewCustomComponent implements OnInit {
+  public changes = false;
+
   myControlCountry = new FormControl('');
   public optionsCountry: IStateBoundary[];
   public filteredOptionsCountry: Observable<IStateBoundary[]>;
@@ -73,16 +75,13 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
 
   constructor(private stateBoundaryService: StateBoundaryService) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['postalAddress']) {
-      this.prepareView();
-    }
-  }
-
   ngOnInit(): void {
     this.initializeCountry();
+    this.initializeProvince();
+    this.initializeCity();
+    this.initializeDistrict();
+    this.initializeVillage();
     this.cekDataSource();
-    console.log('type postal adress', this.type);
   }
 
   filteredCountry() {
@@ -294,6 +293,54 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
     this.initializeVillage();
   }
 
+  public getValueCountryChange() {
+    this.postalAddress.countryId = this.country.id;
+    this.initializeProvince();
+    this.postalAddress.cityId = null;
+    this.postalAddress.districtId = null;
+    this.postalAddress.villageId = null;
+    this.initializeDistrict();
+    this.initializeCity();
+    this.initializeVillage();
+    this.myControlProvince.enable();
+    this.myControlCity.disable();
+    this.myControlDistrict.disable();
+    this.myControlVillage.disable();
+  }
+
+  public getValueProvinceChange() {
+    this.postalAddress.provinceId = this.province.id;
+    this.initializeCity();
+    this.postalAddress.cityId = null;
+    this.postalAddress.districtId = null;
+    this.postalAddress.villageId = null;
+    if (this.postalAddress.provinceId) {
+      this.myControlCity.enable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+      this.initializeDistrict();
+      this.initializeVillage();
+    }
+  }
+
+  public getValueCityChange() {
+    this.postalAddress.cityId = this.cities.id;
+    this.initializeDistrict();
+    if (this.postalAddress.cityId) {
+      this.myControlCity.disable();
+      this.myControlDistrict.enable();
+    }
+  }
+
+  public getValueDistrictChange() {
+    this.postalAddress.districtId = this.districts.id;
+    this.initializeVillage();
+    if (this.postalAddress.districtId) {
+      this.myControlDistrict.disable();
+      this.myControlVillage.enable();
+    }
+  }
+
   public dataSource() {
     if (this.type === undefined) {
       if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
@@ -314,6 +361,11 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
   public cekDataSource() {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
       this.myControlCountry.disable();
+      this.myControlProvince.disable();
+      this.myControlCity.disable();
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+    } else {
       this.myControlProvince.disable();
       this.myControlCity.disable();
       this.myControlDistrict.disable();
@@ -340,5 +392,10 @@ export class PostalAddressViewCustomComponent implements OnInit, OnChanges {
       this.myControlDistrict.disable();
       this.myControlVillage.disable();
     }
+  }
+
+  public clickedCountry() {
+    this.changes = true;
+    console.log('changes ', this.changes);
   }
 }

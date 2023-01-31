@@ -43,13 +43,13 @@
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="facilityTakeOver.initialLimitBank"
+              [(ngModel)]="facilityTakeOver.currency + ' ' + facilityTakeOver.initialLimitBank"
               [disabled]="view"
               [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
           </mat-form-field>
         </div>
-        <div class="col-4">
+        <!-- <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Currency</mat-label>
             <mat-select [(ngModel)]="facilityTakeOver.currency" [disabled]="view">
@@ -59,7 +59,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
 
       <div class="row">
@@ -70,13 +70,13 @@
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="facilityTakeOver.outstandingBank"
+              [(ngModel)]="facilityTakeOver.currency2 + ' ' + facilityTakeOver.outstandingBank"
               [disabled]="view"
               [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
           </mat-form-field>
         </div>
-        <div class="col-4">
+        <!-- <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Currency</mat-label>
             <mat-select [(ngModel)]="facilityTakeOver.currency2" [disabled]="view">
@@ -86,11 +86,10 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
+        </div> -->
       </div>
       <mat-dialog-actions align="center ">
         <button mat-button mat-dialog-close>Cancel</button>
-
         <button mat-button *ngIf="!view" (click)="Onsave()">Save</button>
       </mat-dialog-actions>
     </div>
