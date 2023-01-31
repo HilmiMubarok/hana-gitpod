@@ -348,6 +348,7 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
+		let isAllowSave = false;
         this.resAttr = _res;
 
         if (
@@ -361,7 +362,7 @@ export class LoanAnalysMainComponent implements OnInit {
             detail: 'Dont press button Approve!',
           });
         } else {
-          this.onSave('process');
+		  isAllowSave = true;
         }
 
         if (
@@ -375,7 +376,7 @@ export class LoanAnalysMainComponent implements OnInit {
             detail: 'Dont press button Reject!',
           });
         } else {
-          this.onSave('process');
+          isAllowSave = true
         }
 
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
@@ -391,8 +392,12 @@ export class LoanAnalysMainComponent implements OnInit {
               });
             });
         } else {
-          this.onSave('process');
+          isAllowSave = true;
         }
+
+		if (isAllowSave) {
+		  this.onSave('process');
+		}
       }
     });
   }
