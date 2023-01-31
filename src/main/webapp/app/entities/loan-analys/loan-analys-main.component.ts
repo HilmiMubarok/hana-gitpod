@@ -361,20 +361,14 @@ export class LoanAnalysMainComponent implements OnInit {
             summary: 'Error',
             detail: 'Dont press button Approve!',
           });
-        } else if (
-          this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-          this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' &&
-          _res.caption === 'Reject'
-        ) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Dont press button Reject!',
-          });
-        } else if (
-          this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
-          this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed' &&
-          _res.caption === 'Reject'
+        } else {
+          this.onSave('process');
+        }
+
+        if (
+          (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+            this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed') ||
+          (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' && _res.caption ===   'Reject')
         ) {
           this.messageService.add({
             severity: 'error',
