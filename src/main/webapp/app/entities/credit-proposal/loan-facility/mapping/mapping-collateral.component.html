@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="collateralInfo" class="w-100" appearance="outline">
+<table mat-table [dataSource]="collateralData" class="w-100" appearance="outline">
   <ng-container matColumnDef="no">
     <th mat-header-cell *matHeaderCellDef>No.</th>
     <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
@@ -13,11 +13,11 @@
   </ng-container>
   <ng-container matColumnDef="lvInternal">
     <th mat-header-cell *matHeaderCellDef>LV (Internal)</th>
-    <td mat-cell *matCellDef="let element">{{ element.marketValueMaping | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.liquidationValueMaping | currency: 'IDR ':'symbol':'1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="mvInternal">
     <th mat-header-cell *matHeaderCellDef>MV (Internal)</th>
-    <td mat-cell *matCellDef="let element">{{ element.liquidationValueMaping | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.marketValueMaping | currency: 'IDR ':'symbol':'1.0-0' }}</td>
   </ng-container>
   <ng-container matColumnDef="bindingValue">
     <th mat-header-cell *matHeaderCellDef>Binding Value</th>
