@@ -433,7 +433,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 		}
 	  }
 
-	  if (this.tempRouter === 'loan-committee-approval' || this.tempRouter === 'dar-final' || this.tempRouter === 'dar-checker' || this.tempRouter === 'dar-notif') {
+	  if (this.tempRouter === 'loan-committee-approval' || this.tempRouter === 'dar-final' || this.tempRouter === 'dar-checker' || this.tempRouter === 'dar-notif' || this.tempRouter === 'cc-checking' || this.tempRouter === 'cc-review' || this.tempRouter === 'cc-inquiry') {
 		if (this.notes) {
 		  if (this.notes.length > 0) {
 			this.notes = this.notes.filter(note => {
