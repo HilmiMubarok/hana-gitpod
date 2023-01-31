@@ -167,7 +167,6 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
     if (this.person.firstName === null) {
       this.person.firstName = '';
     }
-    
 
     if (this.person.lastName === null) {
       this.person.lastName = '';
