@@ -30,7 +30,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
+export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewInit {
   public displayedColumns: string[] = [
     'no',
     // 'id',
@@ -90,9 +90,6 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     private collateralService: CollateralService,
     private partyCifService: PartyCifService
   ) {
-    super(_snackbar, collateralService);
-    this.itemsPerPage = 10;
-    this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.collateralProperties = [];
     this.totalMVInt = 0;
@@ -100,16 +97,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
 
   ngOnInit(): void {
-    this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    console.log('paresd data ', this.parsedData);
-    this.dataItem = new MatTableDataSource(this.parsedData.previousHistory.collaterals);
-    this.dataItem.paginator = this.paginator;
-    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
-      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
-    }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-    }
+    this.loadData();
 
     // this.isViewMode && this.displayedColumns.pop();
 
@@ -122,17 +110,17 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
 
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-      })
-      .subscribe(res => {
-        this.dataItem = new MatTableDataSource(res.body);
-        this.dataItem.paginator = this.paginator;
-        console.log('dataItem', this.dataItem);
-      });
+  private loadData(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    this.dataItem = new MatTableDataSource(dataFilter);
+    this.dataItem.paginator = this.paginator;
+    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
+      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
+    }
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
