@@ -123,7 +123,7 @@
           </div>
           <div
             *ngIf="
-              creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' ||
+              creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio' ||
               creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'
             "
             class="py-3"
@@ -163,7 +163,7 @@
     </div>
   </div>
 
-  <div *ngIf="creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn'" class="py-3">
+  <div *ngIf="creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bio'" class="py-3">
     <div class="row">
       <div class="row card-layout">
         <div class="e-card">

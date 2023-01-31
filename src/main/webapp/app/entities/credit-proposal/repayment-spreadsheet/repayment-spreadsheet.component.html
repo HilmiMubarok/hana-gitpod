@@ -1,5 +1,5 @@
 <div *ngIf="creditProposalItem !== undefined">
-  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+  <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
     <ejs-menu
       [enableScrolling]="true"
       cssClass="e-rounded-menu e-custom-scroll"
@@ -10,7 +10,7 @@
 
   <div
     *ngIf="
-      creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn' ||
+      creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio' ||
       creditProposalItem.attributes['proposalType'] === 'Total Exposure Back to Back'
     "
   >

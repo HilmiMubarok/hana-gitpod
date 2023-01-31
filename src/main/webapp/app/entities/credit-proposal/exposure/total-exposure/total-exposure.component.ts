@@ -234,7 +234,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   private setMenu(value: string): void {
     this.menuItems = lodash.clone(this.menuItemsAll);
     const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
-    if (compareVal === 'Total Exposure > IDR 15 Bn') {
+    if (compareVal === 'Total Exposure > IDR 15 Bio') {
       this.spliceMenus(['TOTAL EXPOSURE,LEGAL LENDING LIMIT,INDUSTRY LIMIT EXPOSURE']);
       if (compareVal === 'Total Exposure Back to Back') {
         this.spliceMenus(['TOTAL EXPOSURE']);
@@ -332,7 +332,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.debtor = new MatTableDataSource(a);
       this.debtor.paginator = this.paginator2;
     }
-    this.defaultCurrency()
+    this.defaultCurrency();
     this.fungsiSuminit();
     this.fungsiSumchange();
     this.fungsiSumOS();
@@ -455,7 +455,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
     }
     this.totalChanges = result + dolar;
-  
+
     this.creditProposalService.setTotalChanges(this.totalChanges);
     return result + dolar;
   }
@@ -555,7 +555,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].Changes !== undefined) {
-          dolar = Number(filterUsd[i].Changes) * Number(this.currencyMaster) +  dolar;
+          dolar = Number(filterUsd[i].Changes) * Number(this.currencyMaster) + dolar;
         }
       }
     }
@@ -564,9 +564,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   fungsiSumcreditGroub() {
-    let result= 0;
-    let dolar= 0;
-   
+    let result = 0;
+    let dolar = 0;
 
     const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
     const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
@@ -585,7 +584,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
     }
     this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = result + dolar;
-    
+
     return result + dolar;
   }
 
@@ -597,7 +596,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
     const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
     const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
-   
+
     if (filterIdr.length > 0) {
       for (let i = 0; i < filterIdr.length; i++) {
         if (filterIdr[i].InitialLimit !== undefined) {
@@ -634,15 +633,13 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     if (filterUsd.length > 0) {
       for (let i = 0; i < filterUsd.length; i++) {
         if (filterUsd[i].OS !== undefined) {
-          dolar =  Number(filterUsd[i].OS) * Number(this.currencyMaster) + dolar;
+          dolar = Number(filterUsd[i].OS) * Number(this.currencyMaster) + dolar;
         }
       }
     }
     this.creditProposal.attributes['calculationExposure'].subTotalLimitGroubOs = result + dolar;
     return result + dolar;
   }
-
-
 
   // currency code
   public ccy: any;
