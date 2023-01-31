@@ -382,7 +382,7 @@ export class LoanAnalysMainComponent implements OnInit {
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
           this.validate()
             .then(() => {
-              this.onSave('process');
+              isAllowSave = true;
             })
             .catch(() => {
               this.messageService.add({
