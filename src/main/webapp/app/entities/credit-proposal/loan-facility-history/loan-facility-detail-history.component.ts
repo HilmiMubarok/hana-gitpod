@@ -58,6 +58,8 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
   @Input() isCompareDar: Boolean = false;
 
+  @Input() takeOutCompare: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -289,12 +291,23 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   };
 
   dynamicCP() {
+    // Jika ada previousReturn dan onCompareData true dan isCompareDar false
+    // berarti dia dipanggil di compare data yang bagian tab previous proposal.
     if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
+      // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
+      if (!this.parsedAttribute.previousReturn.facilityDetail) {
+        this.parsedAttribute.previousReturn.facilityDetail.custodianFee = 0;
+      }
+
       return this.parsedAttribute.previousReturn;
-    } else if (this.parsedAttribute.previousHistory && this.isOnCompareData && !this.isCompareDar) {
+    }
+    // jika ada previousHistory dan isOnCompareData false dan isCompareDar false
+    // berarti dipanggil di menu cp ketika ada attribute previous history
+    else if (this.parsedAttribute.previousHistory && !this.isOnCompareData && !this.isCompareDar) {
       return this.parsedAttribute.previousHistory;
     } else {
-      return this._creditProposal.attributes;
+      // jika
+      return parsePreviousAtrribute(this._creditProposal);
     }
   }
 
