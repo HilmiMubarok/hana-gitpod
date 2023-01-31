@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 export class CreditProposalMappingCollateralComponent implements OnInit {
   @Output() outputCreditProposalMappingData = new EventEmitter();
 
+  public collateralData: any;
   public collateralInfo: any;
   public dataSource: any;
   public creditProposalData: ICreditProposal;
@@ -44,7 +45,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateralInfo;
-
+    this.collateralData = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.disableField = this.data.hideField;
@@ -134,7 +135,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
 
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
   }
-
   public loadData(i: number) {
     let data: ICollateralProperty;
     this.collateralPropertyService
