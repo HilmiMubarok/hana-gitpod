@@ -76,6 +76,10 @@ export class CollateralInfoHistoryComponent implements OnInit {
 
   @Input() parentSource?: String = '';
 
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;

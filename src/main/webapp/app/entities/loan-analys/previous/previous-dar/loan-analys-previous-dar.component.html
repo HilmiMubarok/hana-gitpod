@@ -6,7 +6,24 @@
     <div class="e-card-header-title">PREVIOUS DAR</div>
   </div>
   <div>
-    <jhi-loan-facility-detail-previous [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous>
+    <!-- <jhi-loan-facility-detail-previous [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous> -->
+    <jhi-loan-facility-detail-history
+      *ngIf="isDataToCompareExist"
+      [isOnCompareData]="true"
+      [isCompareDar]="true"
+      [isViewMode]="true"
+      [creditProposal]="dataToCompare"
+    ></jhi-loan-facility-detail-history>
+    <div class="e-card" *ngIf="!isDataToCompareExist">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Facility Details</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
@@ -22,14 +39,32 @@
     <div class="e-card-header-title">PREVIOUS DAR</div>
   </div>
   <div>
-    <jhi-credit-proposal-collateral-info-previous [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-previous>
+    <!-- <jhi-credit-proposal-collateral-info-previous [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info-previous> -->
+    <jhi-collateral-info-history
+      *ngIf="isDataToCompareExist"
+      [isOnCompareData]="true"
+      [isCompareDar]="true"
+      [isViewMode]="true"
+      [creditProposal]="dataToCompare"
+    ></jhi-collateral-info-history>
+    <div class="e-card" *ngIf="!isDataToCompareExist">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Collateral Info</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
     <div class="e-card-header-title">CURRENT PROPOSAL</div>
   </div>
   <div>
-    <jhi-credit-proposal-collateral-info [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+    <jhi-credit-proposal-collateral-info [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal">
+    </jhi-credit-proposal-collateral-info>
   </div>
 
   <div class="e-card-actions"></div>

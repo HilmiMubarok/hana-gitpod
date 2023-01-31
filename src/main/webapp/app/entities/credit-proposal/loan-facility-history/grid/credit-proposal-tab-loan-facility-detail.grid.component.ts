@@ -29,6 +29,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<any[]>();
   public dataParty = [];
   @Input() isViewMode: Boolean = false;
+  @Input() isOnCompareData: Boolean = false;
   public _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
@@ -88,8 +89,12 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this.isViewMode && this.displayColumns.pop();
   }
   partyCifFunc() {
-    for (let i = 0; i < this.parsedAttribute['previousHistory'].products.length; i++) {
-      this.dataParty.push(this.parsedAttribute['previousHistory'].products[i]);
+    const previous =
+      this.parsedAttribute['previousReturn'] && this.isOnCompareData
+        ? this.parsedAttribute['previousReturn']
+        : this.parsedAttribute['previousHistory'];
+    for (let i = 0; i < previous.products.length; i++) {
+      this.dataParty.push(previous.products[i]);
     }
   }
 
