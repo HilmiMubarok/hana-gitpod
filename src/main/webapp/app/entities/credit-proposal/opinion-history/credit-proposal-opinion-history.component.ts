@@ -231,14 +231,13 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		  this.notes.sort((a, b) => (a.id > b.id) ? 1 : -1);
 		}
 	  }
-
-	  if (this.notes) {
-		if (this.notes.length > 0) {
-		  for (let i = 0; i < this.notes.length; i++) {
-			if (this.notes[i].type === 'loan_analysis' || this.notes[i].type === 'loan_committee' || this.notes[i].type === 'compliance' || this.notes[i].type === '' || this.notes[i].type === null) {
-			  this.notes.splice(i, 1);
-			}
-		  }
+	  
+	  let index = 0;
+	  for (const note of [...notes]) {
+		if (note.type === 'loan_analysis' || note.type === 'loan_committee' || note.type === 'compliance' || note.type === '' || note.type === null) {
+          notes.splice(index, 1);
+		} else {
+          ++index;
 		}
 	  }
 	});
