@@ -15,7 +15,7 @@ import { ICollateralProperty } from 'app/entities/collateral-property/collateral
 })
 export class MappingCollateralHistoryComponent implements OnInit {
   @Output() outputCreditProposalMappingData = new EventEmitter();
-
+  public collateralData: any;
   public collateralInfo: any;
   public dataSource: any;
   public creditProposalData: any;
@@ -37,6 +37,7 @@ export class MappingCollateralHistoryComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateralInfo;
+    this.collateralData = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.setUp();

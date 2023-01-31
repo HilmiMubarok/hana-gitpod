@@ -86,7 +86,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     // this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
     // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
     if (this.creditProposal.statusId === 'LA_DAR_NOTIF') {
-      this.displayColumns = ['no', 'approval_name', 'position', 'date', 'alternatename', 'confirmation'];
+      this.displayColumns = ['no', 'approval_name', 'position', 'availableStatus','recomendation', 'date', 'alternatename', 'confirmation'];
     }else{
       this.displayColumns = ['no', 'approval_name', 'position', 'date', 'alternatename'];
     }
@@ -148,6 +148,12 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId)
     const status = this.creditProposal.notes[notesCp].received === null || this.creditProposal.notes[notesCp].received === false ? 'Not Confirmation' : 'Confirmation'
     return status
+  }
+
+  public recomendation(applicationId: number): any{
+    const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId)
+    return this.creditProposal.notes[notesCp].recomendation
+
   }
 
   private getApplicationRolesByApplicationId(): void {

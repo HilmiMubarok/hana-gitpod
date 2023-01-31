@@ -717,14 +717,14 @@
                 </div>
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
+                    <ejs-combobox
                       [dataSource]="callReportCategoryData"
                       [(ngModel)]="deptorData.debtorData.callReportCategory"
                       placeholder="Call Report Category"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-dropdownlist>
+                    </ejs-combobox>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
@@ -897,14 +897,14 @@
                 </div>
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-dropdownlist
+                    <ejs-combobox
                       [dataSource]="ifcRiskCategoryData"
                       [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
                       placeholder="IFC & Risk Category"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-dropdownlist>
+                    </ejs-combobox>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">

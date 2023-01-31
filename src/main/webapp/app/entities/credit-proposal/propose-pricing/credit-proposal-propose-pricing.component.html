@@ -87,7 +87,7 @@
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="form-group">
-            <ejs-dropdownlist
+            <ejs-combobox
               cssClass="e-outline"
               (change)="selectIndustry($event)"
               id="dropdownlistdata"
@@ -97,7 +97,7 @@
               floatLabelType="Auto"
               [value]="creditProposal.attributes['purposePricing'].industry"
             >
-            </ejs-dropdownlist>
+            </ejs-combobox>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">

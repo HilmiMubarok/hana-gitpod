@@ -169,6 +169,9 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     }
     this.certificates = lodash.cloneDeep(copyCertificates);
     this.collateral.attributes['landCertificates'] = lodash.cloneDeep(copyCertificates);
+    if(this.collateral.attributes['landCertificates'].length < 1){
+      this.collateral.attributes['landCertificates'] = '';
+    }
     this.getTotalArea();
     // this.collateralService.update(this.collateral);
   }

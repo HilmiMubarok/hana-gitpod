@@ -104,12 +104,12 @@
       </div>
     </div>
 
-    <div class="row mb-3 mt-3">
+    <div class="row mb-3 mt-3" *ngIf="takeOutCompare !== true">
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+              [(ngModel)]="dynamicCP().facilityDetail.custodianFee"
               cssClass="e-outline"
               placeholder="Custody Fee"
               floatLabelType="auto"
@@ -123,7 +123,7 @@
           <div class="fontsebled row">
             <div class="col-2">Custody Fee</div>
             <div class="col-md-auto">:</div>
-            <div class="col">IDR.{{ _creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+            <div class="col">IDR.{{ dynamicCP().facilityDetail.custodianFee | number }}</div>
           </div>
         </section>
       </div>
@@ -330,12 +330,12 @@
       </div>
     </div>
 
-    <div class="row mb-3 mt-3">
+    <div class="row mb-3 mt-3" *ngIf="takeOutCompare !== true">
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+              [(ngModel)]="dynamicCP().facilityDetail.custodianFee"
               cssClass="e-outline"
               placeholder="Custody Fee"
               floatLabelType="auto"
@@ -349,7 +349,7 @@
           <div class="fontsebled row">
             <div class="col-2">Custody Fee</div>
             <div class="col-md-auto">:</div>
-            <div class="col">IDR. {{ _creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+            <div class="col">IDR. {{ dynamicCP().facilityDetail.custodianFee | number }}</div>
           </div>
         </section>
       </div>

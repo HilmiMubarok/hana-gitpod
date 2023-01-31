@@ -46,6 +46,7 @@
               name="facilityType"
               (selectionChange)="applicationTypeChange($event)"
             >
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
             </mat-select>
           </mat-form-field>
@@ -127,6 +128,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Installment Method</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['installmentMethod']" name="facilityType">
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listOfValue.installmentMethodList" [value]="item">
                 {{ item }}
               </mat-option>
