@@ -72,6 +72,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="document.documentType">
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -82,6 +83,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Dokumen Collateral</mat-label>
             <mat-select [(ngModel)]="document.documentType">
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
             </mat-select>
@@ -132,38 +134,13 @@
                 "
               />
 
-              <img
-                width="150px"
-                src="../../../content/images/csv.png"
-                *ngIf="
-                  item.key.indexOf('csv') > -1
-                "
-              />
+              <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.indexOf('csv') > -1" />
 
-              <img
-                width="150px"
-                src="../../../content/images/svg.jpg"
-                *ngIf="
-                  item.key.indexOf('svg') > -1
-                "
-              />
+              <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.indexOf('svg') > -1" />
 
-              <img
-                width="150px"
-                src="../../../content/images/tiff.png"
-                *ngIf="
-                  item.key.indexOf('tiff') > -1
-                "
-              />
+              <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.indexOf('tiff') > -1" />
 
-              <img
-              width="150px"
-              src="../../../content/images/mp3.png"
-              *ngIf="
-                item.key.indexOf('mp3') > -1
-              "
-            />
-
+              <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.indexOf('mp3') > -1" />
 
               <img
                 (click)="donwload(item.url)"
@@ -226,6 +203,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -236,6 +214,7 @@
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Dokumen Collateral</mat-label>
             <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
+              <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
             </mat-select>
