@@ -213,12 +213,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       'FED FUND',
       'OTHER',
       'BSBY',
-      'TERM SOFR',
+      'SOFR',
       'FLOAT',
       'BACK TO BACK',
-      'BSBY',
       'SDBI',
-      'TERM SOFR',
       'SBI',
       'PRIME',
     ],
@@ -330,13 +328,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         });
       }
     } else {
-      if (this.rateType !== '' && this.ccy !== '' && this.dateIndex !== 0) {
+      const dateNew = new Date().toISOString().split('T')[0];
+      if (this.rateType !== '' && this.ccy !== '' && dateNew) {
         this.indexRateService
-          .find('get?date=' + this.dateIndex + '&ccy=' + this.ccy + '&rateType=' + this.rateType)
+          .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
           .subscribe((res: any) => {
             for (let i = 1; i < 13; i++) {
               if (i === this.dateIndex) {
-                this.indexRate = res.body['rate' + i + 'M'];
+                this.indexRate = res.body['rate' + i + 'M'] + '%';
+                this.applicationProduct.attributes.indexRate = this.indexRate;
               }
             }
           });

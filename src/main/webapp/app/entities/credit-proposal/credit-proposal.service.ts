@@ -15,6 +15,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 @Injectable({ providedIn: 'root' })
 export class CreditProposalService extends AbstractEntityService<ICreditProposal> {
   public statRemarkBusinessActivity;
+  public partySliks = []
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.statRemarkBusinessActivity = '';

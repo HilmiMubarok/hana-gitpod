@@ -17,6 +17,7 @@ import moment from 'moment';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 import { Router } from '@angular/router';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
@@ -156,7 +157,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     public dialog: MatDialog,
     public TransferService: DebtorDataSlikTransferService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    public creditProposalService: CreditProposalService
   ) {
     super(_snackBar, partySlikService);
     this.loading = false;
@@ -362,6 +364,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           listPartySlik.push(partySlik);
         }
         if (listPartySlik.length > 0) {
+          this.creditProposalService.partySliks = listPartySlik
           this.partySlikService.saveAll(listPartySlik).subscribe(res => {
             this.loadDataBy();
           });
