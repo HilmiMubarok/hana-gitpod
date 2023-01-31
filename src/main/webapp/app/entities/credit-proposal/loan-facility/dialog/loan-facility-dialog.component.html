@@ -856,7 +856,7 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Index Rate</mat-label>
-          <input matInput [(ngModel)]="indexRate" type="text" disabled />
+          <input matInput [(ngModel)]="applicationProduct.attributes['indexRate']" type="text" disabled />
         </mat-form-field>
       </div>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
