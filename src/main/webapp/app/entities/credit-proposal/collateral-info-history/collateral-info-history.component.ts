@@ -93,9 +93,9 @@ export class CollateralInfoHistoryComponent implements OnInit {
       if (this.selectedMenu === 'CHECKLIST') {
         this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
       } else {
-        if (proposalType === 'Total Exposure > IDR 15 Bn') {
+        if (proposalType === 'Total Exposure > IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
-        } else if (proposalType === 'Total Exposure <= IDR 15 Bn') {
+        } else if (proposalType === 'Total Exposure <= IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
         } else if (proposalType === 'Total Exposure Back to Back') {
           this.creditProposalCollateralInfoRemarksInfoComponentBtb.triggeredSave();

@@ -51,12 +51,12 @@ export class CreditProposalTabExposureComponent implements OnInit {
   private setMenu(value: string): void {
     this.menuItems = lodash.clone(this.menuItemsAll);
     const compareVal = value === '' ? this.creditProposal.attributes.proposalType : value;
-    if (compareVal === 'Total Exposure > IDR 15 Bn') {
+    if (compareVal === 'Total Exposure > IDR 15 Bio') {
       this.spliceMenus(['TOTAL EXPOSURE,LEGAL LENDING LIMIT,INDUSTRY LIMIT EXPOSURE']);
       if (compareVal === 'Total Exposure Back to Back') {
         this.spliceMenus(['TOTAL EXPOSURE']);
       }
-      if (compareVal === 'Total Exposure <= IDR 15 Bn') {
+      if (compareVal === 'Total Exposure <= IDR 15 Bio') {
         this.spliceMenus(['TOTAL EXPOSURE,LEGAL LENDING LIMIT,INDUSTRY LIMIT EXPOSURE']);
       }
     } else {

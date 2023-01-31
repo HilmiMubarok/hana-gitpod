@@ -20,7 +20,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   templateUrl: './repayment-spreadsheet.component.html',
 })
 export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() jhifilter: 'Total Exposure > IDR 15 Bn' | 'Total Exposure Back to Back' | 'Total Exposure <= IDR 15 Bn';
+  @Input() jhifilter: 'Total Exposure > IDR 15 Bio' | 'Total Exposure Back to Back' | 'Total Exposure <= IDR 15 Bio';
   private ngUnsubscribe = new Subject();
   @ViewChild('spreadsheet') public spreadsheetObj: SpreadsheetComponent;
   @ViewChild('spreadsheetDisabled') public spreadsheetDisabledObj: SpreadsheetComponent;
@@ -113,9 +113,9 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   getUpdatekey(): void {
-    if (this.jhifilter === 'Total Exposure > IDR 15 Bn') {
+    if (this.jhifilter === 'Total Exposure > IDR 15 Bio') {
       this.updateKey = 'above';
-    } else if (this.jhifilter === 'Total Exposure <= IDR 15 Bn') {
+    } else if (this.jhifilter === 'Total Exposure <= IDR 15 Bio') {
       this.updateKey = 'below';
     } else if (this.jhifilter === 'Total Exposure Back to Back') {
       this.updateKey = 'back-to-back';
@@ -375,13 +375,13 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   public menuItemsLainnya: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'FINANCIAL ANALYSIS' }];
 
   selectMenuItem(args: MenuEventArgs): void {
-    if (this.creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bn') {
+    if (this.creditProposalItem.attributes.proposalType === 'Total Exposure > IDR 15 Bio') {
       this.selectedMenu = args.item.text;
     }
   }
   selectMenuItemLainnya(args: MenuEventArgs): void {
     if (
-      this.creditProposalItem.attributes.proposalType === 'Total Exposure <= IDR 15 Bn' ||
+      this.creditProposalItem.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' ||
       this.creditProposalItem.attributes.proposalType === 'Total Exposure Back to Back'
     ) {
       this.selectedMenu = args.item.text;

@@ -1,10 +1,10 @@
 <div class="row">
-  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bn'">
+  <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
     <jhi-above-grid-previous [creditProposal]="creditProposal"></jhi-above-grid-previous>
   </div>
 </div>
 
-<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bn'">
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
   <jhi-below-grid-previous [creditProposal]="creditProposal"></jhi-below-grid-previous>
 </div>
 
