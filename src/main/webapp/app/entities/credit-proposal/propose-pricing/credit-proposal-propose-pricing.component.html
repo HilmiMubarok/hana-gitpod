@@ -261,17 +261,28 @@
         <div class="col-md-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
-              <ejs-textbox
-                placeholder="USD to IDR"
-                [(ngModel)]="creditProposal.attributes['purposePricing'].usdToIdr"
-                cssClass="e-outline"
-                floatLabelType="Auto"
-                [disabled]="view"
-              ></ejs-textbox>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>USD to IDR</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [value]="defaultCurrencyData"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  min="0"
+                  disabled
+                />
+              </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <p class="lable-form-title">USD to IDR: {{ creditProposal.attributes['purposePricing'].usdToIdr }}</p>
+            <div class="fontsebled row">
+              <div class="col-3">USD to IDR</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ defaultCurrencyData }}
+              </div>
+            </div>
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
