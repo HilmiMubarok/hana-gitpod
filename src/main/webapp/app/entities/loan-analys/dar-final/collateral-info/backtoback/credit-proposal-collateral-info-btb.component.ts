@@ -18,6 +18,7 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { IEmptyField } from 'app/entities/credit-proposal/collateral-info/backtoback/empty-field.model';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
 @Component({
   selector: 'jhi-btb-grid-dar-final',
@@ -53,6 +54,7 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+  public parsedData;
 
   @Input() isViewMode?: Boolean = false;
 
@@ -82,6 +84,7 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   }
 
   ngOnInit() {
+    this.loadData();
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -92,6 +95,19 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
 
     this.setCertyficateType();
     // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
+  }
+
+  private loadData(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    this.dataItem = new MatTableDataSource(dataFilter);
+    this.dataItem.paginator = this.paginator;
+    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
+      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
+    }
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 
   private loadByPartyId(param: string): void {
