@@ -66,6 +66,7 @@ export class OfferingLetterMainComponent implements OnInit {
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
   public dataOfferingSPPK = [];
+  public isHistoryExist: boolean;
 
   @Input('item')
   get item() {
@@ -101,6 +102,7 @@ export class OfferingLetterMainComponent implements OnInit {
 
     this.selectedMenu = 'credit-proposal-summary';
     this.subMenu = this.url === 'finalize' ? SUBMENU_OFFERING_LETTER_FINALIZE : SUBMENU_OFFERING_LETTER;
+    this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
 
     this.activatedRoute.queryParams.subscribe(params => {
       const subRoute = params['subroute'];
