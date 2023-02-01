@@ -52,7 +52,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   public parsedAttr;
   public ccy: any;
   public totalExposureDebtorAndGroub: number;
-  public currencyMaster: any;
+  public currencyMaster= 0;
   public totalWclGroub = 0;
   public totalDlGroub = 0;
   public totalODGroub = 0;
@@ -89,48 +89,40 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   }
 
   ngOnInit(): void {
+    this.defaultCurrency()
     this.getApplicationOption();
     this.getParameter();
   }
   public countBuffer(value: number): any{
-      const bil = value.toString()
-      const sisa = bil.length % 3
-      let rupiah = bil.substr(0, sisa)
-      const ribuan = bil.substr(sisa).match(/\d{3}/g)
-      if (bil.split('')[0]==='-') {
-        if (ribuan) {
-          const separator = sisa ? '.' : '';
-          rupiah += separator + ribuan.join(',');
-        }
-        return 'IDR -' + rupiah
-      }else{
-        if (ribuan) {
-          const separator = sisa ? '.' : '';
-          rupiah += separator + ribuan.join(',');
-        }
-        return 'IDR' + rupiah
-      }
-      
-
-      
+    // value.toString()
+    if (value.toString().split('')[0]==='-') {
+      const bil = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+      }).format(value);
+      return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
+    }else{
+      const bil = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+      }).format(value);
+      return 'IDR '+ bil.toString().replace('Rp', '')
+    }
   }
   ngOnChanges(changes: SimpleChanges) {
     this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
     if (this.parsedAttr.previousHistory) {
-      console.log('true');
+   
       this.dataSource = this.parsedAttr.previousHistory.products;
     } else {
-      console.log('false');
+  
       this.dataSource = this.creditProposal.products;
     }
 
-    console.log('dataSource', {
-      dataSource: this.dataSource,
-      parsed: this.parsedAttr,
-    });
+ 
 
    
-
+    this.defaultCurrency()
     this.fungsiSuminit();
     this.fungsiSumTotalDebiturCashLoan();
     this.totalCashLoan();
@@ -140,10 +132,18 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.getCurrency();
   }
 
+  public defaultCurrency() {
+    const setDate = new Date().toISOString().split('T')[0];
+
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+    });
+  }
+
 
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
-      console.log('res body', res);
+   
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'MODAL_INTI_USAHA') {
           this.modalUsaha = res.body[i].value;
@@ -164,13 +164,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       });
   }
 
-  public defaultCurrency() {
-    const setDate = new Date().toISOString().split('T')[0];
 
-    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-    });
-  }
 
   fungsiSuminit() {
     const datafilter = this.creditProposal.products.filter(
@@ -391,6 +385,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
                 }
                 if (parsed.FacilityType === 'OD') {
                   this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
+                
                 }
                 if (parsed.FacilityType === 'LC') {
                   this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);

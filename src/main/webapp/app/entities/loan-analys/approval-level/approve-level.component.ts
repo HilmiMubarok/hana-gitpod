@@ -80,6 +80,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   }
 
   ngOnInit(): void {
+    
     this.getWhoAmI().then(res => {
       this.getApplicationRolesByApplicationId();
     });
@@ -168,7 +169,6 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
         this.items = res.body;
         this.filteringRelType(this.items);
         this.creditProposalService.find(this.idApp).subscribe((response: any) => {
-          console.log('oke', response.body.statusId, this.relType);
           for (let i = 0; i < this.statusList.length; i++) {
             if (this.statusList[i] === response.body.statusId) {
               this.selectedRelationType = 'CREDIT_PROPOSAL';
@@ -176,8 +176,14 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
             } else {
               for (let j = 0; j < this.relType.length; j++) {
                 if (this.relType[j].id !== 'CREDIT_PROPOSAL') {
-                  this.selectedRelationType = this.relType[j].id;
-                  this.selRelType(this.relType[j].id);
+                  if (this.router.url.split('=').indexOf('summary') > -1 !== true) {
+                    this.selectedRelationType = this.relType[j].id;
+                    this.selRelType(this.relType[j].id);
+                  }else if (this.router.url.split('=').indexOf('summary') > -1 === true) {
+                    this.selectedRelationType = 'CREDIT_PROPOSAL';
+                  this.selRelType('CREDIT_PROPOSAL');
+                  }
+                 
                 }
               }
             }
