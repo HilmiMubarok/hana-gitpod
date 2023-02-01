@@ -1247,7 +1247,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnAssigned.buildingDetail = false;
       }
-      if (landCertificate === undefined || landCertificate === '') {
+      if (landCertificate === undefined || landCertificate === "") {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnAssigned.certificate = false;
       }
@@ -1403,7 +1403,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         mustValidatedOnVisited.building = false;
       }
 
-      if (!landCertificate.length) {
+      if (landCertificate === undefined || landCertificate === "") {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnVisited.certificate = false;
       }
