@@ -1,14 +1,14 @@
-import { Component, Inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentEditorComponent, DocumentEditorContainerComponent } from '@syncfusion/ej2-angular-documenteditor';
-import { AccountService } from 'app/core/auth/account.service';
-import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+
+import { DocumentEditorComponent, DocumentEditorContainerComponent } from '@syncfusion/ej2-angular-documenteditor';
+
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
+import { StorageService } from 'app/entities/storage/storage.service';
+
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 @Component({
   selector: 'jhi-loan-analys-dialog-opinion',
@@ -16,26 +16,22 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
   styleUrls: ['./loan-analys-dialog-opinion.css'],
 })
 export class LoanAnalysDialogOpinionComponent implements OnInit {
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
-
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
+
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
 
   @ViewChild('document_editor_container_condition')
   public container_condition: DocumentEditorContainerComponent;
 
   public notes: any;
-
-  creditProposalItem: ICreditProposal;
-
+  public positionName: string;
+  private creditProposalItem: ICreditProposal;
   private ngUnsubscribe = new Subject();
   private fileGet: File;
-  public userId: any;
-  public getObj: any;
-  public positionUserId: any;
-  public resourceUrl: string;
   private BUCKET: string;
+  public approverName: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -44,38 +40,28 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
       item: ICreditProposal;
     },
     _dialog: MatDialogRef<LoanAnalysDialogOpinionComponent>,
-    protected router: Router,
-    private storageService: StorageService,
-    protected activatedRoute: ActivatedRoute,
-    public accountService: AccountService,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    protected storageService: StorageService
   ) {
-	const tempNotes = this.dataNotes.notes;
-    this.creditProposalItem = this.dataNotes.item;
-	for (let i = 0; i < this.creditProposalItem.notes.length; i++) {
-	  if (this.creditProposalItem.notes[i].userId === tempNotes['userId'] && this.creditProposalItem.notes[i].positionUserId === tempNotes['positionUserId']) {
-		this.notes = this.creditProposalItem.notes[i];
-	  }
-	}
+	this.notes = this.dataNotes.notes;
+	this.creditProposalItem = this.dataNotes.item;
+	this.positionName = this.notes.employeeFirstName + ' ' + this.notes.employeeLastName;
   }
+
   ngOnInit(): void {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     this.getWord();
   }
 
-  onDocumentChange() {
+  public onDocumentChange() {
     this.container.restrictEditing = true;
   }
 
-  onDocumentChanges() {
+  public onDocumentChanges() {
     this.container_condition.restrictEditing = true;
   }
 
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
-	  
       this.getContainer();
       this.getContainerCondition();
     });
@@ -83,7 +69,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 
   private getContainer(): void {
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes['condition'] + '-opinion/sfdt',
+      key: 'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.path + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -95,7 +81,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes['condition'] + '.sfdt'
+                [res.body], this.notes.path + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -111,7 +97,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
 
   private getContainerCondition(): void {
     const obj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes['condition'] + '-condition/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.path + '-condition/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
@@ -123,7 +109,7 @@ export class LoanAnalysDialogOpinionComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes['condition'] + '.sfdt'
+                [res.body], this.notes.path + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {

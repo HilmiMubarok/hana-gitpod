@@ -438,16 +438,17 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  private addNewNotes(messageVal: any, recomendationVal: string, conditionVal: string, userIdVal: string, positionVal: string): INotes {
+  private addNewNotes(positionVal: number, messageVal: any, recomendationVal: string, pathVal: string): INotes {
     let note: INotes = new Notes();
 
     return (note = {
-      message: messageVal,
-      userId: userIdVal,
-      createDate: new Date(),
-      recomendation: recomendationVal,
-      condition: conditionVal,
-      positionUserId: positionVal,
+	  applicationId: this.id,
+	  positionId: positionVal,
+	  message: messageVal,
+	  createDate: new Date().toISOString(),
+	  recomendation: recomendationVal,
+      path: pathVal,
+	  type: 'credit_proposal'
     });
   }
 
@@ -596,45 +597,43 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
 
     let tempHelper = 0;
-    if (lodash.has(copyCreditProposal.attributes, 'tempLoggedInNotes')) {
-      if (copyCreditProposal.notes.length > 0) {
-        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-          if (copyCreditProposal.notes[i].userId === this.currentAccount.firstName + ' ' + this.currentAccount.lastName) {
-            copyCreditProposal.notes[i].message = '';
-            copyCreditProposal.notes[i].recomendation = this.recomendation;
-            copyCreditProposal.notes[i].condition = this.uuidPath;
-            copyCreditProposal.notes[i].positionUserId = copyCreditProposal.attributes['positionLogin'];
-            tempHelper = tempHelper + 1;
-          }
-        }
+	const tempRouter = this.router.url.split('/')[1];
 
-        if (tempHelper === 0) {
-          copyCreditProposal.notes.push(
-            this.addNewNotes(
-              '',
-              this.recomendation,
-              this.uuidPath,
-              this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
-              copyCreditProposal.attributes['positionLogin']
-            )
-          );
-        }
-      } else {
-        copyCreditProposal.notes.push(
-          this.addNewNotes(
-            '',
-            this.recomendation,
-            this.uuidPath,
-            this.currentAccount.firstName + ' ' + this.currentAccount.lastName,
-            copyCreditProposal.attributes['positionLogin']
-          )
-        );
-      }
-      delete copyCreditProposal.attributes['tempLoggedInNotes'];
-      delete copyCreditProposal.attributes['tempLoggedInRecomendation'];
-      delete copyCreditProposal.attributes['tempLoggedInCondition'];
-      delete copyCreditProposal.attributes['positionLogin'];
-    }
+    if (tempRouter === 'cp-status-approval') {
+	  if (copyCreditProposal.notes.length > 0) {
+		for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+		  if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
+			copyCreditProposal.notes[i].applicationId = this.id;
+			copyCreditProposal.notes[i].message = '';
+			copyCreditProposal.notes[i].recomendation = this.recomendation;
+			copyCreditProposal.notes[i].path = this.uuidPath;
+			tempHelper = tempHelper + 1;
+		  }
+		}
+
+		if (tempHelper === 0) {
+		  copyCreditProposal.notes.push(
+			this.addNewNotes(
+			  copyCreditProposal.attributes['positionLogin'],
+			  '',
+			  this.recomendation,
+			  this.uuidPath
+			)
+		  );
+		}
+	  } else {
+		copyCreditProposal.notes.push(
+		  this.addNewNotes(
+			copyCreditProposal.attributes['positionLogin'],
+			'',
+			this.recomendation,
+			this.uuidPath
+		  )
+		);
+	  }
+
+	  delete copyCreditProposal.attributes['positionLogin'];
+	}
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);

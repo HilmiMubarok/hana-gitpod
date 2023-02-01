@@ -1,6 +1,7 @@
-import { Component, Inject, SimpleChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -8,13 +9,12 @@ import {
   SelectionService,
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { StorageService } from 'app/entities/storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
-import { ICreditProposal } from '../../credit-proposal.model';
-import { AccountService } from 'app/core/auth/account.service';
-import { HttpClient } from '@angular/common/http';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
+
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+
+import { StorageService } from 'app/entities/storage/storage.service';
+
+import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
   selector: 'jhi-credit-proposal-dialog-opinion-history',
@@ -23,25 +23,20 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
-  @ViewChild('document_editor_container')
-  public container: DocumentEditorContainerComponent;
-
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
+
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
 
   @ViewChild('document_editor_container_condition')
   public container_condition: DocumentEditorContainerComponent;
 
   public notes: any;
-  public creditProposalItem: ICreditProposal;
+  private creditProposalItem: ICreditProposal;
   private ngUnsubscribe = new Subject();
-  private paramsIdGet: string;
-  private getKey: string;
   private fileGet: File;
-  private userId: any;
   private getObj: any;
-  private paramId: string;
-  public resourceUrl: string;
   private BUCKET: string;
 
   constructor(
@@ -51,37 +46,25 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
       creditProposalItem: ICreditProposal;
     },
     _dialog: MatDialogRef<CreditProposalDialogOpinionHistoryComponent>,
-    private storageService: StorageService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    public accountService: AccountService,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
+    protected storageService: StorageService
   ) {
     this.notes = this.dataNotes.notes;
     this.creditProposalItem = this.dataNotes.creditProposalItem;
   }
+
   ngOnInit(): void {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    this.getLogin();
     this.getWord();
   }
 
-  public getLogin() {
-    this.accountService.identity().subscribe(account => {
-      this.userId = account.login;
-    });
-  }
-
-  onDocumentChange() {
+  public onDocumentChange() {
     this.container.restrictEditing = true;
   }
 
-  onDocumentChanges() {
+  public onDocumentChanges() {
     this.container_condition.restrictEditing = true;
   }
 
-  public getWord() {
+  private getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
       this.getContainer();
@@ -91,7 +74,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   private getContainer(): void {
     this.getObj = {
-      key:'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.condition + '-opinion/sfdt',
+      key:'credit_proposal/remark/opinion-history/opinion/' + this.creditProposalItem.id + '/' + this.notes.path + '-opinion/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, this.getObj)
@@ -103,7 +86,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes.condition + '.sfdt'
+                [res.body], this.notes.path + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {
@@ -119,7 +102,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
 
   private getContainerCondition(): void {
     const getObj = {
-      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.condition + '-condition/sfdt',
+      key: 'credit_proposal/remark/opinion-history/condition/' + this.creditProposalItem.id + '/' + this.notes.path + '-condition/sfdt',
     };
     this.storageService
       .getObjects(this.BUCKET, getObj)
@@ -131,7 +114,7 @@ export class CreditProposalDialogOpinionHistoryComponent implements OnInit {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
               this.fileGet = new File(
-                [res.body], this.notes.condition + '.sfdt'
+                [res.body], this.notes.path + '.sfdt'
               );
               const fileReader: FileReader = new FileReader();
               fileReader.onload = (e: any) => {

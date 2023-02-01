@@ -5,19 +5,19 @@
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Reviewer Name</mat-label>
-          <input matInput type="text" [(ngModel)]="notes.userId" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="positionName" [disabled]="true" />
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Position</mat-label>
-          <input matInput type="text" [(ngModel)]="notes.positionUserId" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="notes.positionTypeDescription" [disabled]="true" />
         </mat-form-field>
       </div>
 
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Date</mat-label>
-          <input matInput type="text" [(ngModel)]="notes.createDate" [disabled]="true" />
+          <input matInput type="text" [(ngModel)]="notes.createDate.split('T')[0]" [disabled]="true" />
         </mat-form-field>
       </div>
     </div>
