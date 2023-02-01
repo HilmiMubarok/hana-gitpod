@@ -422,8 +422,8 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public onAssignTo(ev: any): void {
     this.isAssignedTo = ev && true;
-    this.applicationRole = ev;
-    this.creditProposal.attributes['dataAssignTo'] = ev;
+    this.applicationRole = ev.applicationRole;
+    this.applicationRoleId = ev.applicationRoleId;
   }
 
   public validate() {
@@ -515,92 +515,75 @@ export class LoanAnalysMainComponent implements OnInit {
   public positionApproval: any;
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
-    const applicationRolePreSave = {
-      id: 0,
-      applicationId: 0,
-      partyId: '',
-      partyName: '',
-      roleDescription: '',
-      roleId: '',
-    };
-
-    applicationRolePreSave.id = Number(this.applicationRole.id);
-    applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
-    applicationRolePreSave.partyId = this.applicationRole.partyId;
-    applicationRolePreSave.partyName = this.applicationRole.partyName;
-    applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
-    applicationRolePreSave.roleId = this.applicationRole.roleId;
 
     const tempRouter = this.router.url.split('/')[1];
 
-    if (this.recomendation && this.positionLoginFromEmit) {
-      if (tempRouter === 'cc-review') {
-        if (this.opinionType === 'compliance') {
+	if (this.recomendation && this.positionLoginFromEmit) {
+	  if (tempRouter === 'cc-review') {
+		if (this.opinionType === 'compliance') {
           let tempHelper = 0;
           let tempOpinionType = '';
 
           tempOpinionType = 'compliance';
 
           if (copyCreditProposal.notes.length > 0) {
-            for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+			for (let i = 0; i < copyCreditProposal.notes.length; i++) {
               if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
-                copyCreditProposal.notes[i].applicationId = this.id;
-                copyCreditProposal.notes[i].message = '';
-                copyCreditProposal.notes[i].recomendation = this.recomendation;
-                copyCreditProposal.notes[i].path = this.uuidPath;
-                copyCreditProposal.notes[i].type = tempOpinionType;
-                tempHelper = tempHelper + 1;
+				copyCreditProposal.notes[i].applicationId = this.id;
+				copyCreditProposal.notes[i].message = '';
+				copyCreditProposal.notes[i].recomendation = this.recomendation;
+				copyCreditProposal.notes[i].path = this.uuidPath;
+				copyCreditProposal.notes[i].type = tempOpinionType;
+				tempHelper = tempHelper + 1;
               }
-            }
+			}
 
-            if (tempHelper === 0) {
+			if (tempHelper === 0) {
               copyCreditProposal.notes.push(
-                this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
+				this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
               );
-            }
+			}
           } else {
-            copyCreditProposal.notes.push(
+			copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
-            );
+			);
           }
-        }
+		}
       }
 
       if (
-        tempRouter === 'la-analyst' ||
-        tempRouter === 'la-SME-CRC' ||
-        tempRouter === 'la-approval' ||
-        tempRouter === 'loan-committee-approval'
+		tempRouter === 'la-analyst' ||
+		tempRouter === 'la-SME-CRC' ||
+		tempRouter === 'la-approval' ||
+		tempRouter === 'loan-committee-approval'
       ) {
-        let tempHelper = 0;
-        let tempOpinionType = '';
+		let tempHelper = 0;
+		let tempOpinionType = '';
 
-        tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
+		tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
 
-        if (copyCreditProposal.notes.length > 0) {
+		if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-            if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
+			if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
               copyCreditProposal.notes[i].applicationId = this.id;
               copyCreditProposal.notes[i].message = '';
               copyCreditProposal.notes[i].recomendation = this.recomendation;
               copyCreditProposal.notes[i].path = this.uuidPath;
               copyCreditProposal.notes[i].type = tempOpinionType;
               tempHelper = tempHelper + 1;
-            }
+			}
           }
 
           if (tempHelper === 0) {
-            copyCreditProposal.notes.push(
+			copyCreditProposal.notes.push(
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
-            );
+			);
           }
-        } else {
-          copyCreditProposal.notes.push(
-            this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
-          );
-        }
+		} else {
+          copyCreditProposal.notes.push(this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType));
+		}
       }
-    }
+	}
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -650,7 +633,6 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
-    copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     return copyCreditProposal;
   }
 
