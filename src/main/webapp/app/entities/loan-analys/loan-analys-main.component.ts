@@ -348,7 +348,7 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-		let isAllowSave = false;
+        let isAllowSave = false;
         this.resAttr = _res;
 
         if (
@@ -361,11 +361,7 @@ export class LoanAnalysMainComponent implements OnInit {
             summary: 'Error',
             detail: 'Dont press button Approve!',
           });
-        } else {
-		  isAllowSave = true;
-        }
-
-        if (
+        } else if (
           (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
             this.creditProposal.attributes['approvalStatus'] === 'Approved as proposed') ||
           (this.creditProposal.attributes['approvalStatus'] === 'Approved as condition' && _res.caption === 'Reject')
@@ -375,14 +371,10 @@ export class LoanAnalysMainComponent implements OnInit {
             summary: 'Error',
             detail: 'Dont press button Reject!',
           });
-        } else {
-          isAllowSave = true
-        }
-
-        if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
           this.validate()
             .then(() => {
-              isAllowSave = true;
+              this.onSave('process');
             })
             .catch(() => {
               this.messageService.add({
@@ -392,12 +384,8 @@ export class LoanAnalysMainComponent implements OnInit {
               });
             });
         } else {
-          isAllowSave = true;
+          this.onSave('process');
         }
-
-		if (isAllowSave) {
-		  this.onSave('process');
-		}
       }
     });
   }
@@ -420,13 +408,13 @@ export class LoanAnalysMainComponent implements OnInit {
     let note: INotes = new Notes();
 
     return (note = {
-	  applicationId: this.id,
-	  positionId: positionVal,
-	  message: messageVal,
-	  createDate: new Date().toISOString(),
-	  recomendation: recomendationVal,
+      applicationId: this.id,
+      positionId: positionVal,
+      message: messageVal,
+      createDate: new Date().toISOString(),
+      recomendation: recomendationVal,
       path: pathVal,
-	  type: typeVal
+      type: typeVal,
     });
   }
 
@@ -534,86 +522,65 @@ export class LoanAnalysMainComponent implements OnInit {
         let tempOpinionType = '';
 
         // tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
-		tempOpinionType = 'compliance';
+        tempOpinionType = 'compliance';
 
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
             if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
-			  copyCreditProposal.notes[i].applicationId = this.id;
-			  copyCreditProposal.notes[i].message = '';
-			  copyCreditProposal.notes[i].recomendation = this.recomendation;
-			  copyCreditProposal.notes[i].path = this.uuidPath;
-			  copyCreditProposal.notes[i].type = tempOpinionType;
+              copyCreditProposal.notes[i].applicationId = this.id;
+              copyCreditProposal.notes[i].message = '';
+              copyCreditProposal.notes[i].recomendation = this.recomendation;
+              copyCreditProposal.notes[i].path = this.uuidPath;
+              copyCreditProposal.notes[i].type = tempOpinionType;
               tempHelper = tempHelper + 1;
             }
           }
 
           if (tempHelper === 0) {
             copyCreditProposal.notes.push(
-              this.addNewNotes(
-                this.positionLoginFromEmit,
-				'',
-				this.recomendation,
-				this.uuidPath,
-				tempOpinionType
-              )
+              this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
           }
         } else {
           copyCreditProposal.notes.push(
-            this.addNewNotes(
-              this.positionLoginFromEmit,
-			  '',
-			  this.recomendation,
-			  this.uuidPath,
-			  tempOpinionType
-            )
+            this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
           );
         }
       }
     }
 
-    if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+    if (
+      tempRouter === 'la-analyst' ||
+      tempRouter === 'la-SME-CRC' ||
+      tempRouter === 'la-approval' ||
+      tempRouter === 'loan-committee-approval'
+    ) {
       let tempHelper = 0;
       let tempOpinionType = '';
 
       // tempOpinionType = this.opinionType === 'compliance' ? 'compliance' : '';
-	  tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
+      tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
 
       if (copyCreditProposal.notes.length > 0) {
-		for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-		  if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
-			copyCreditProposal.notes[i].applicationId = this.id;
-			copyCreditProposal.notes[i].message = '';
-			copyCreditProposal.notes[i].recomendation = this.recomendation;
-			copyCreditProposal.notes[i].path = this.uuidPath;
-			copyCreditProposal.notes[i].type = tempOpinionType;
-			tempHelper = tempHelper + 1;
-		  }
-		}
+        for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+          if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
+            copyCreditProposal.notes[i].applicationId = this.id;
+            copyCreditProposal.notes[i].message = '';
+            copyCreditProposal.notes[i].recomendation = this.recomendation;
+            copyCreditProposal.notes[i].path = this.uuidPath;
+            copyCreditProposal.notes[i].type = tempOpinionType;
+            tempHelper = tempHelper + 1;
+          }
+        }
 
-		if (tempHelper === 0) {
-		  copyCreditProposal.notes.push(
-			this.addNewNotes(
-			  this.positionLoginFromEmit,
-			  '',
-			  this.recomendation,
-			  this.uuidPath,
-			  tempOpinionType
-			)
-		  );
-		}
-	  } else {
-		copyCreditProposal.notes.push(
-		  this.addNewNotes(
-			this.positionLoginFromEmit,
-			'',
-			this.recomendation,
-			this.uuidPath,
-			tempOpinionType
-		  )
-		);
-	  }
+        if (tempHelper === 0) {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
+          );
+        }
+      } else {
+        copyCreditProposal.notes.push(this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType));
+      }
     }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
@@ -693,9 +660,9 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public onSave(source: string): void {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks,  this.creditProposal.sliks[i]]
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposal.sliks[i]];
     }
-   
+
     if (this.creditProposal.id) {
       this.creditProposalService.update(this.preSave()).subscribe(res => {
         this.creditProposal.products = res.body.products;
@@ -703,7 +670,12 @@ export class LoanAnalysMainComponent implements OnInit {
 
         const tempRouter = this.router.url.split('/')[1];
 
-        if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+        if (
+          tempRouter === 'la-analyst' ||
+          tempRouter === 'la-SME-CRC' ||
+          tempRouter === 'la-approval' ||
+          tempRouter === 'loan-committee-approval'
+        ) {
           if (this.loanAnalysOpinionComponent) {
             this.loanAnalysOpinionComponent.triggeredSave();
             this.loanAnalysOpinionComponent.triggeredSaveCondition();
@@ -738,7 +710,12 @@ export class LoanAnalysMainComponent implements OnInit {
 
         const tempRouter = this.router.url.split('/')[1];
 
-        if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+        if (
+          tempRouter === 'la-analyst' ||
+          tempRouter === 'la-SME-CRC' ||
+          tempRouter === 'la-approval' ||
+          tempRouter === 'loan-committee-approval'
+        ) {
           if (this.loanAnalysOpinionComponent) {
             this.loanAnalysOpinionComponent.triggeredSave();
             this.loanAnalysOpinionComponent.triggeredSaveCondition();
