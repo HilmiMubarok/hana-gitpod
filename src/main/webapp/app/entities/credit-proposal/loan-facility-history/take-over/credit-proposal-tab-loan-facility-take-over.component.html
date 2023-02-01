@@ -43,7 +43,7 @@
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="facilityTakeOver.currency + ' ' + facilityTakeOver.initialLimitBank"
+              [value]="facilityTakeOver.currency + ' ' + facilityTakeOver.initialLimitBank"
               [disabled]="view"
               [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
@@ -70,7 +70,7 @@
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="facilityTakeOver.currency2 + ' ' + facilityTakeOver.outstandingBank"
+              [value]="facilityTakeOver.currency2 + ' ' + facilityTakeOver.outstandingBank"
               [disabled]="view"
               [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
