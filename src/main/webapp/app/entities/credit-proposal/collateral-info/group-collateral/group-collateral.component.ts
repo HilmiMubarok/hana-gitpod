@@ -29,7 +29,7 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './group-collateral.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class GroupCollateralComponent implements OnChanges {
+export class GroupCollateralComponent implements OnChanges, OnInit {
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -52,6 +52,9 @@ export class GroupCollateralComponent implements OnChanges {
     'action',
   ];
 
+  public certificateType: any;
+  public dataItem: any;
+  public dataCertyficate: any;
   private bindingTypeVal: any;
   public listGroupCollateral: ICollateral[];
   public collateralProperties: ICollateralProperty[];
@@ -90,6 +93,9 @@ export class GroupCollateralComponent implements OnChanges {
     // this.totalKJJPLVInt = 0;
     // this.totalKJJPMVInt = 0;
   }
+  ngOnInit(): void {
+    this.setCertyficateType();
+  }
 
   @ViewChild('paginator') paginator: MatPaginator;
 
@@ -107,6 +113,21 @@ export class GroupCollateralComponent implements OnChanges {
     }
   }
 
+  // cp: this.creditProposal,
+  // collateral: element,
+  // marketability: this.getMarketability(element),
+  // internalMV: this.countMV(element),
+  // internalLV: this.countLV(element),
+  // externalMV: this.countKJJPMV(element),
+  // externalLV: this.countKJJPLV(element),
+  // properties: this.filterProperties(element),
+  // binding: this.getBinding(element),
+  // insurance: this.getInsurance(element),
+  // certDueDate: this.getExpiry(element),
+  // ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
+  // applicationProduct: this.creditProposal.products,
+  // matrikBindingType: this.getBindingType(element.collBindingType),
+
   public openDialog(element: ICollateral): void {
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
@@ -123,12 +144,14 @@ export class GroupCollateralComponent implements OnChanges {
         marketability: this.getMarketability(),
         internalMV: this.countMV(element),
         internalLV: this.countLV(element),
-        KJJPMV: this.countKJJPMV(element),
-        KJJPLV: this.countKJJPLV(element),
+        externalMV: this.countKJJPMV(element),
+        externalLV: this.countKJJPLV(element),
         properties: this.filterProperties(element),
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
         applicationProduct: this.creditProposal.products,
+        matrikBindingType: this.getBindingType(element.collBindingType),
+        ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -562,5 +585,44 @@ export class GroupCollateralComponent implements OnChanges {
       return '';
     }
     return '';
+  }
+
+  public setCertyficateType() {
+    this.partyCifService.getCertificate().subscribe(res => {
+      this.certificateType = res.body;
+    });
+  }
+
+  public findCertyficate(id) {
+    if (this.certificateType) {
+      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
+      if (this.dataCertyficate) {
+        return this.dataCertyficate.label;
+      }
+      return '';
+    }
+  }
+
+  public getOwnerShip(collateral: ICollateral) {
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    let string1: string;
+    let string2: string;
+    let result: string;
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    return string2;
   }
 }
