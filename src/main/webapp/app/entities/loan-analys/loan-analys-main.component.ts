@@ -348,7 +348,6 @@ export class LoanAnalysMainComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
-        let isAllowSave = false;
         this.resAttr = _res;
 
         if (
