@@ -320,10 +320,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
-    if (this.parsedAttr.previousHistory) {
-      this.dataSource = this.parsedAttr.previousHistory.products;
-    } else {
+ 
       this.dataSource = this.creditProposal.products;
       let a = [];
       for (let i = 0; i < this.creditProposal.products.length; i++) {
@@ -331,7 +328,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       }
       this.debtor = new MatTableDataSource(a);
       this.debtor.paginator = this.paginator2;
-    }
+
     this.defaultCurrency();
     this.fungsiSuminit();
     this.fungsiSumchange();
@@ -363,6 +360,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   totalNonCashLoan() {
     if (this.nonCashLoanDebitur.length > 0) {
       this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
+      console.log('ompu',this.nonCashLoanDebitur)
       this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
     } else {
       this.totalDebiturNonCashLoan = 0;
