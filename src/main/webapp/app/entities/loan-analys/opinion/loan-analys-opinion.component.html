@@ -10,7 +10,7 @@
       </ng-container>
       <ng-container matColumnDef="reviewerName">
         <th mat-header-cell *matHeaderCellDef>Approver Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.employeeFirstName + ' ' +  element.employeeLastName }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.employeeFirstName + ' ' + element.employeeLastName }}</td>
       </ng-container>
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>Position</th>
@@ -97,14 +97,14 @@
           </section>
         </div>
 
-        <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE'">
+        <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE' && creditProposalItem.statusId !== 'CP_LOAN_APPROVAL'">
           <div class="form-group">
-            <p class="e-card-sub-title">{{ nameLabel }}</p>
+            <p class="e-card-sub-title">Recomendation</p>
             <div class="d-flex justify-content-around">
               <div class="mx-2">
                 <ejs-radiobutton
                   [checked]="recomendasi === 'Recommend as Propose'"
-				  value="Recommend as Propose"
+                  value="Recommend as Propose"
                   (change)="change('Recommend as Propose')"
                   label="Recommend as Propose"
                 ></ejs-radiobutton>
@@ -112,7 +112,7 @@
               <div class="mx-2">
                 <ejs-radiobutton
                   [checked]="recomendasi === 'Recommend With Condition'"
-				  value="Recommend With Condition"
+                  value="Recommend With Condition"
                   (change)="change('Recommend With Condition')"
                   label="Recommend With Condition"
                 ></ejs-radiobutton>
@@ -120,7 +120,7 @@
               <div class="mx-2">
                 <ejs-radiobutton
                   [checked]="recomendasi === 'Not Recommend'"
-				  value="Not Recommend"
+                  value="Not Recommend"
                   (change)="change('Not Recommend')"
                   label="Not Recommend"
                 ></ejs-radiobutton>
@@ -129,31 +129,31 @@
           </div>
         </section>
 
-        <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE'">
+        <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' || creditProposalItem.statusId === 'CP_LOAN_APPROVAL'">
           <div class="form-group">
             <p class="e-card-sub-title">Approved Status</p>
             <div class="d-flex justify-content-around">
               <div class="mx-2">
                 <ejs-radiobutton
-				  [checked]="recomendasi === 'Approved as Propose'"
-				  value="Approved as Propose"
-				  (change)="change('Approved as Propose')"
+                  [checked]="recomendasi === 'Approved as Propose'"
+                  value="Approved as Propose"
+                  (change)="change('Approved as Propose')"
                   label="Approved as Propose"
                 ></ejs-radiobutton>
               </div>
               <div class="mx-2">
                 <ejs-radiobutton
-				  [checked]="recomendasi === 'Approved With Condition'"
-				  value="Approved With Condition"
-				  (change)="change('Approved With Condition')"
+                  [checked]="recomendasi === 'Approved With Condition'"
+                  value="Approved With Condition"
+                  (change)="change('Approved With Condition')"
                   label="Approved With Condition"
                 ></ejs-radiobutton>
               </div>
               <div class="mx-2">
                 <ejs-radiobutton
-				  [checked]="recomendasi === 'Not Approved'"
-				  value="Not Approved"
-				  (change)="change('Not Approved')"
+                  [checked]="recomendasi === 'Not Approved'"
+                  value="Not Approved"
+                  (change)="change('Not Approved')"
                   label="Not Approved"
                 ></ejs-radiobutton>
               </div>
@@ -182,7 +182,8 @@
               [enableSpellCheck]="false"
               (keyDown)="onKeyDownCondition($event)"
               (created)="onCreateCondition()"
-            ></ejs-documenteditorcontainer>
+            >
+            </ejs-documenteditorcontainer>
           </section>
 
           <section
