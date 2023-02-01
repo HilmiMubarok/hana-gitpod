@@ -58,7 +58,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     'totalCreditLimit',
     'interestrate',
     'provisionAmount',
-    'provisionCcy',
+    // 'provisionCcy',
     'tenor',
     'maturityDate',
     'action',
@@ -184,5 +184,23 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
 
   print() {
     console.log(this._creditProposal);
+  }
+
+  public getCurrency(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+      return 'IDR';
+    }
+
+    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+      return 'USD';
+    }
+    return '';
+  }
+
+  public getCurrency2(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+      return '%p.a';
+    }
+    return '';
   }
 }
