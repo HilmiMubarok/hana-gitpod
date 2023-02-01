@@ -189,29 +189,26 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
       }
 
       // replace / add binding
-      const bindingIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['binding'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
+      const bindingIdx: number = lodash.findIndex(this.parsedData.previousHistory.binding, function (o: ICreditProposalCollateralBinding) {
+        return o.collateralId === res['collateral'].id;
+      });
       if (bindingIdx > -1) {
-        this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
+        this.parsedData.previousHistory.binding[bindingIdx] = res['binding'];
       } else {
-        this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
+        this.parsedData.previousHistory.binding = [...this.parsedData.previousHistory.binding, res['binding']];
       }
 
       // replace / add insurance
       const insuranceIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['insurance'],
+        this.parsedData.previousHistory.insurance,
         function (o: ICreditProposalCollateralInsurance) {
           return o.collateralId === res['collateral'].id;
         }
       );
       if (insuranceIdx > -1) {
-        this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
+        this.parsedData.previousHistory.insurance[insuranceIdx] = res['insurance'];
       } else {
-        this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
+        this.parsedData.previousHistory.insurance = [...this.parsedData.previousHistory.insurance, res['insurance']];
       }
     });
   }
@@ -277,9 +274,9 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
-    if (this.creditProposal.attributes['insurance'].length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['insurance'].length; i++) {
-        const item: ICreditProposalCollateralInsurance = this.creditProposal.attributes['insurance'][i];
+    if (this.parsedData.previousHistory.insurance.length > 0) {
+      for (let i = 0; i < this.parsedData.previousHistory.insurance.length; i++) {
+        const item: ICreditProposalCollateralInsurance = this.parsedData.previousHistory.insurance[i];
         if (item.collateralId === element.id) {
           return item;
         }
@@ -289,9 +286,9 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
   }
 
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.creditProposal.attributes['binding'].length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
-        const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['binding'][i];
+    if (this.parsedData.previousHistory.binding.length > 0) {
+      for (let i = 0; i < this.parsedData.previousHistory.binding.length; i++) {
+        const item: ICreditProposalCollateralBinding = this.parsedData.previousHistory.binding[i];
         if (item.collateralId === element.id) {
           return item;
         }

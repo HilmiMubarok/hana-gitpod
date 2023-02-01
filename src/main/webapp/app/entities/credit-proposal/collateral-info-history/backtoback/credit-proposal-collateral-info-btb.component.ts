@@ -57,7 +57,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
-
+  public parsedData: any;
   @Input() isViewMode?: Boolean = false;
 
   @Input()
@@ -86,6 +86,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
 
   ngOnInit() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -179,16 +180,13 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       }
 
       // replace / add binding
-      const bindingIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['binding'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
+      const bindingIdx: number = lodash.findIndex(this.parsedData.previousHistory.binding, function (o: ICreditProposalCollateralBinding) {
+        return o.collateralId === res['collateral'].id;
+      });
       if (bindingIdx > -1) {
-        this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
+        this.parsedData.previousHistory.binding[bindingIdx] = res['binding'];
       } else {
-        this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
+        this.parsedData.previousHistory.binding = [...this.parsedData.previousHistory.binding, res['binding']];
       }
     });
   }
@@ -230,9 +228,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
 
   public getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.creditProposal.attributes['binding'].length > 0) {
-      for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
-        const item: ICreditProposalCollateralBinding = this.creditProposal.attributes['binding'][i];
+    if (this.parsedData.previousHistory.binding.length > 0) {
+      for (let i = 0; i < this.parsedData.previousHistory.binding.length; i++) {
+        const item: ICreditProposalCollateralBinding = this.parsedData.previousHistory.binding[i];
         if (item.collateralId === element.id) {
           return item;
         }
