@@ -684,7 +684,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     }
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
-        copySurveyAppraisal.collateral.attributes['landCertificates']
+        this.collateralAppraisal.attributes['landCertificates']
       );
     } else {
       copySurveyAppraisal.collateral.attributes['landCertificates'];

@@ -134,7 +134,13 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
         this.collateral.attributes['landCertificates'] = new Array<ICollateralLandAttribute>();
       } else {
         if (typeof this.collateral.attributes['landCertificates'] === 'string') {
-          this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates']);
+          if (this.collateral.attributes['landCertificates'] === '') {
+            this.collateral.attributes['landCertificates'] = '[]';
+            this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates'])
+          }else{
+            this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates'])
+          }
+          
         }
       }
     }
@@ -149,7 +155,7 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.collateral = lodash.cloneDeep(result);
+        this.collateral.attributes['landCertificates'] = lodash.cloneDeep(result.attributes['landCertificates']);
         this.certificates = lodash.cloneDeep(result.attributes['landCertificates']);
         this.collateralLandCertificateService.setparam(this.certificates);
         console.log('ini hasil log', this.certificates);
