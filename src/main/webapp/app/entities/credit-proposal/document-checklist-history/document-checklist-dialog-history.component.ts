@@ -200,6 +200,6 @@ export class DocumentChecklistDialogHistoryComponent implements OnInit {
   }
 
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.document + '.' + name.objectName.split('.')[1]);
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
 }
