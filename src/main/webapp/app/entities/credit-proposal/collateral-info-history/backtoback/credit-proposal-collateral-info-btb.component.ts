@@ -86,7 +86,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
 
   ngOnInit() {
-    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    this.loadData();
+
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -97,6 +98,19 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
     this.setCertyficateType();
     // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
+  }
+
+  private loadData(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
+    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    this.dataItem = new MatTableDataSource(dataFilter);
+    this.dataItem.paginator = this.paginator;
+    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
+      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
+    }
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
   }
 
   private loadByPartyId(param: string): void {
