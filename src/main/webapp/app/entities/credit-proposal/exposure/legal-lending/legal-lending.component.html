@@ -63,8 +63,7 @@
                   currencyMask
                   matInput
                   type="text"
-                  [(ngModel)]="totalExposureDebtorAndGroub"
-                  [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  [value]="countBuffer(totalExposureDebtorAndGroub)"
                   disabled
                 />
               </mat-form-field>
@@ -75,7 +74,7 @@
               <div class="col-5">Total Exposure (Debtor & Group)</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ totalExposureDebtorAndGroub | currency: 'IDR ':'symbol':'1.0-0' }}
+                {{ countBuffer(totalExposureDebtorAndGroub) }}
               </div>
             </div>
           </section>
@@ -126,7 +125,7 @@
               <div class="col-5">Buffer</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                countBuffer(this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - this.totalExposureDebtorAndGroub)
+                {{countBuffer(this.creditProposal.attributes['legalLendingLimit'].legalLendingLimitValue - this.totalExposureDebtorAndGroub)}}
               </div>
             </div>
           </section>
