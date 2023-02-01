@@ -1,4 +1,4 @@
-import { Component, Inject, Output, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Inject, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
@@ -10,9 +10,11 @@ import lodash from 'lodash';
   selector: 'jhi-mapping-facility-history',
   templateUrl: './mapping-facility.component.html',
 })
-export class MappingFacilityHistoryComponent implements OnInit {
+export class MappingFacilityHistoryComponent implements OnInit, OnChanges {
   @Output() outputCreditProposalMappingData = new EventEmitter();
   @Input() disabledData: Boolean;
+  @Input() collateralData: ICollateral;
+  @Input() creditProposal: ICreditProposal;
 
   public collateralInfo: any;
   public creditProposalData: any;
@@ -39,6 +41,12 @@ export class MappingFacilityHistoryComponent implements OnInit {
     // this.sableFeild();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralData']) {
+      this.setUp();
+    }
+  }
+
   ngOnInit(): void {
     console.log('disable mode ', this.disabledData);
   }
@@ -48,6 +56,7 @@ export class MappingFacilityHistoryComponent implements OnInit {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
+        this.setCrossCollateral(i);
         if (this.creditProposalData.collateralProductRelations.length > 0) {
           for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
             if (
@@ -107,4 +116,17 @@ export class MappingFacilityHistoryComponent implements OnInit {
   //     this.field = true;
   //   }
   // }
+
+  public setCrossCollateral(index: number) {
+    if (this.collateralData) {
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+        const tempCollateralProductRelationObject = {
+          collateralId: this.collateralInfo.id,
+          bindingValue: this.bindingValueHelper[index],
+          applicationProduct: this.applicationProductData[index],
+        };
+        this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+      }
+    }
+  }
 }
