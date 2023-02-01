@@ -1403,7 +1403,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         mustValidatedOnVisited.building = false;
       }
 
-      if (!landCertificate.length || landCertificate === "") {
+      if (landCertificate === undefined || landCertificate === "") {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnVisited.certificate = false;
       }
