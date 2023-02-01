@@ -523,7 +523,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else if (node.id === 'negative-collateral') {
         return true;
       } else if (node.id === 'foto-object-jaminan') {
-        if (this.collateralAppraisalService.totalDataFotoObjectJaminan?.length > 5) {
+        if (this.collateralAppraisalService.totalDataFotoObjectJaminan?.length > 6) {
           return true;
         }
       } else if (node.id === 'collateral-info') {
@@ -1247,7 +1247,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnAssigned.buildingDetail = false;
       }
-      if (landCertificate === undefined || landCertificate === "") {
+      if (landCertificate === undefined || landCertificate === '') {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnAssigned.certificate = false;
       }
@@ -1403,7 +1403,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         mustValidatedOnVisited.building = false;
       }
 
-      if (landCertificate === undefined || landCertificate === "") {
+      if (landCertificate === undefined || landCertificate === '') {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnVisited.certificate = false;
       }
