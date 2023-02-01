@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApplicationRole, IApplicationRole } from 'app/entities/application-role/application-role.model';
-import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { IPosition } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
-import _ from 'lodash';
 import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-proposal.model';
 
@@ -11,28 +10,13 @@ import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-pr
   selector: 'jhi-assign-to',
   templateUrl: './assign-to.component.html',
 })
-export class AssignToComponent implements OnInit {
-  constructor(private positionService: PositionService, public applicationRoleService: ApplicationRoleService) {
-    this.applicationRole = new ApplicationRole();
-  }
+export class AssignToComponent {
+  constructor(private router: Router, private positionService: PositionService, public creditProposalService: CreditProposalService) {}
 
-  public applicationRoles: IApplicationRole[];
-  public applicationRoleId;
   public applicationRole;
+  public applicationRoleId;
   public position: IPosition[];
   public _creditProposal: ICreditProposal = new CreditProposal();
-
-  ngOnInit(): void {
-    if (this.url === 'la-distribution') {
-      this.loadPosition(['CRO']);
-    } else if (this.url === 'cc-distribution') {
-      this.loadPosition(['CC_ANALYST']);
-      // this.loadPosition(['CC_ANALYST', 'COMPLIANCE_OFCR']);
-    } else if (this.url === 'distribution') {
-      this.loadPosition(['LEGAL_OFFICER']);
-      // this.loadPosition(['SMELEGALOFRAM', 'OUTLEGALOFRAM', 'OUTLEGALOFRM', 'COMLEGALOFRAM', 'COMLEGALOFRM', 'LEGAL_OFFICER']);
-    }
-  }
 
   @Input() url: string;
 
@@ -45,50 +29,40 @@ export class AssignToComponent implements OnInit {
 
   set creditProposal(item: any) {
     this._creditProposal = item;
+
+    if (this.router.url.split('/')[1] === 'la-distribution') {
+      this.loadPosition(['CRO']);
+    } else if (this.router.url.split('/')[1] === 'cc-distribution') {
+      this.loadPosition(['CC_ANALYST']);
+    } else if (this.router.url.split('/')[1] === 'distribution') {
+      this.loadPosition(['LEGAL_OFFICER']);
+    }
   }
 
   public loadPosition(position: any): void {
     this.positionService.queryFilterByNew({ idPositionTypes: position, size: 9999, page: 0 }).subscribe(res => {
+      let tempDataAssignTo = {};
       this.position = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
 
-      this.applicationRoleService
-        .queryFilterBy({ idApplication: this.creditProposal.id, size: 9999, page: 0 })
-        .subscribe(resApplicationRole => {
-          if (resApplicationRole) {
-            this.applicationRoles = resApplicationRole.body;
-            for (let i = 0; i < this.applicationRoles.length; i++) {
-              if (_.includes(position, this.applicationRoles[i].roleId)) {
-                for (let j = 0; j < this.position.length; j++) {
-                  if (this.applicationRoles[i].partyId === this.position[j].partyId) {
-                    this.applicationRoleId = this.position[j].id;
-                    this.applicationRole = this.applicationRoles[i];
-                  }
-                }
-              }
-            }
-          }
-        });
+      tempDataAssignTo = this._creditProposal.attributes['dataAssignTo'];
+
+      this.applicationRoleId = tempDataAssignTo['id'];
     });
   }
 
   public onSelectAssignTo(event: any) {
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
-        for (let j = 0; j < this.applicationRoles.length; j++) {
-          if (this.applicationRoles[j].partyId === this.position[i].partyId) {
-            this.applicationRole.id = this.applicationRoles[j].id;
-          }
-        }
-        this.applicationRole.applicationId = this.creditProposal.id;
-        this.applicationRole.partyId = this.position[i].partyId;
-        this.applicationRole.partyName = this.position[i].employeeFirstName;
-        this.applicationRole.roleId = this.position[i].positionTypeId;
-        this.applicationRole.roleDescription = this.position[i].positionTypeDescription;
+        this.creditProposal.attributes['dataAssignTo'].id = event.value;
+        this.creditProposal.attributes['dataAssignTo'].applicationId = this.creditProposal.id;
+        this.creditProposal.attributes['dataAssignTo'].partyId = this.position[i].partyId;
+        this.creditProposal.attributes['dataAssignTo'].partyName = this.position[i].employeeFirstName;
+        this.creditProposal.attributes['dataAssignTo'].roleId = this.position[i].positionTypeId;
+        this.creditProposal.attributes['dataAssignTo'].roleDescription = this.position[i].positionTypeDescription;
       }
     }
-    // send data to parent
-    this.assignTo.emit({ applicationRole: this.applicationRole, applicationRoleId: this.applicationRoleId });
+    this.assignTo.emit(this.creditProposal.attributes['dataAssignTo']);
   }
 }

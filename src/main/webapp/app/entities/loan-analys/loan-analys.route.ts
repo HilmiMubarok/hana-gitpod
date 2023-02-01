@@ -37,6 +37,7 @@ import { ComplienceRecommendation } from './compliance/complience.model';
 import { OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
 import { RejectReason } from '../credit-proposal/forward-to/reject-to.model';
 import { LegalLendingLimit } from '../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
+import { DocumentData } from './assign-to/assign.model';
 
 @Injectable({ providedIn: 'root' })
 export class LoanAnalysResolve implements Resolve<ICreditProposal> {
@@ -160,6 +161,13 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['repaymentCapability'].push(new RepaymentCapability());
             } else {
               creditProposal.body.attributes['repaymentCapability'] = JSON.parse(creditProposal.body.attributes['repaymentCapability']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
+              creditProposal.body.attributes['dataAssignTo'] = [];
+              creditProposal.body.attributes['dataAssignTo'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignTo'] = JSON.parse(creditProposal.body.attributes['dataAssignTo']);
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'facilityDetail')) {
