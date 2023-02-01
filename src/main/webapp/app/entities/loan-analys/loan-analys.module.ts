@@ -39,8 +39,11 @@ import { LoanAnalysCreditRatingViewComponent } from './credit-rating/loan-analys
 import { CreditProposalDeviationDarAboveComponent } from './dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
 import { LoanAnalysFacilityDetailGridDarNotifComponent } from './dar-notif/loan-facility/grid/loan-analys-facility-detail-grid-dar-notif.component';
 import { LoanAnalysFacilityDetaliMainComponent } from './dar-notif/loan-facility/loan-analys-facility-detali-main.component';
+import { SharedLibsModule } from 'app/shared/shared-libs.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute)],
+  imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute), MatSlideToggleModule],
   declarations: [
     LoanAnalysComponent,
     LoanAnalysMComponent,
