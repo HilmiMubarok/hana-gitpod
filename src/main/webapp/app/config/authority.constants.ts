@@ -25,5 +25,6 @@ export enum Authority {
   CRO = 'ROLE_CRO',
   DEPT_HEAD = 'ROLE_DEPT_HEAD',
   DH = 'ROLE_DH',
+  APR_DH = 'ROLE_APR_DH',
   CREDIT_LEGAL_LEAD = 'ROLE_CREDIT_LEGAL_LEAD',
 }
