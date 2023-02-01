@@ -768,7 +768,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   // loaddata
   public loaddata() {
-    console.log('ccy', this.ccy, this.rateType, this.dateIndex);
     const dateNew = new Date().toISOString().split('T')[0];
     this.indexRateService
       .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
