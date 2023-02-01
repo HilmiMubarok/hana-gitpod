@@ -330,16 +330,18 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     if (item !== undefined) {
       // Get Foto Object Jaminan
       this.collateralData(item.collateral.id);
-      this.storageService.getBucketName().subscribe(res => {
-        this.storageService
-          .getObjects(res.body['bucket'], {
-            key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
-          })
-          .subscribe((result: any) => {
-            this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
-          });
-      });
-
+      // this.storageService.getBucketName().subscribe(res => {
+      //   this.storageService
+      //     .getObjects(res.body['bucket'], {
+      //       key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+      //     })
+      //     .subscribe((result: any) => {
+      //       this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
+      //     });
+      // });
+      this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+      console.log('zzzzz', this.collateralAppraisalService.totalDataFotoObjectJaminan);
+      this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
@@ -416,6 +418,24 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       });
     });
   }
+
+  public getFotoObjectJaminan() {
+    const arr = [];
+    this.storageService.getBucketName().subscribe(res => {
+      this.storageService
+        .getObjects(res.body['bucket'], {
+          key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+        })
+        .subscribe((result: any) => {
+          result.body.forEach(e => {
+            arr.push(e['tags']['category']);
+          });
+          this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
+          console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
+        });
+    });
+  }
+
   public checkCompletedData(node: IOptionNode): boolean {
     if (this.collateralAppraisal) {
       if (node.id === 'comparison-data') {
@@ -482,7 +502,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       } else if (node.id === 'negative-collateral') {
         return true;
       } else if (node.id === 'foto-object-jaminan') {
-        if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
+        if (this.collateralAppraisalService.totalDataFotoObjectJaminan?.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
           return true;
         }
       } else if (node.id === 'collateral-info') {
@@ -550,6 +570,9 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
 
   private async initialize(): Promise<void> {
     this.bucket = this.getBucketName()['bucket'];
+    this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
+
+    console.log('yyyyy', this.collateralAppraisalService.totalDataFotoObjectJaminan);
 
     let key: string;
     key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
@@ -1145,12 +1168,30 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
       picDebtor: true,
       picPhone: true,
       reviewedOpinion: true,
+      comparisonData: true,
+      fotoObjectJaminan: true,
     };
 
     if (this.surveyAppraisal.apprOfficer === 'External') {
       if (!this.surveyAppraisal.reviewedOpinion) {
         this._showNotification('error', 'Masukkan Review Opinion terlebih dahulu');
         mustValidateOnTL.reviewedOpinion = false;
+      }
+    }
+    if (
+      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
+      this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
+    ) {
+      if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+          this._showNotification('error', 'Comparison data less than 3');
+          mustValidateOnTL.comparisonData = false;
+        }
+      }
+
+      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+        this._showNotification('error', 'Foto object jaminan data less than 6');
+        mustValidateOnTL.fotoObjectJaminan = false;
       }
     }
 
