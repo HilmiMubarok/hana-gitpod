@@ -609,8 +609,7 @@ export const SIDEBAR_MENU_ROLE_SME_HEAD: ISidebarMenuModel[] = [
     ],
   },
 ];
-
-export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
+export const SIDEBAR_MENU_APR_DH: ISidebarMenuModel[] = [
   {
     name: 'Appraisal',
     iconname: 'file',
@@ -622,6 +621,9 @@ export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
       },
     ],
   },
+];
+
+export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
   {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',

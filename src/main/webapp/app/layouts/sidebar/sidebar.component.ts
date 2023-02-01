@@ -35,6 +35,7 @@ import {
   APPRAISAL_MENU_CRO,
   APPRAISAL_DEPT_HEAD,
   APPRAISAL_DEPT_CREDIT_LEGAL_LEAD,
+  SIDEBAR_MENU_APR_DH,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 
@@ -83,6 +84,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = SIDEBAR_MENU_ROLE_SME_HEAD;
         } else if (lodash.indexOf(account.authorities, Authority.DH) >= 0) {
           this.dataSource.data = SIDEBAR_MENU_DH;
+        } else if (lodash.indexOf(account.authorities, Authority.APR_DH) >= 0) {
+          this.dataSource.data = SIDEBAR_MENU_APR_DH;
         } else if (lodash.indexOf(account.authorities, Authority.TL) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_TL;
         } else if (lodash.indexOf(account.authorities, Authority.CRA) >= 0) {
