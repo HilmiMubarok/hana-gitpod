@@ -600,18 +600,29 @@ export class ProposalBasicInformationComponent implements OnInit {
 	const tempRouter = this.router.url.split('/')[1];
 
     if (tempRouter === 'cp-status-approval') {
-	  if (copyCreditProposal.notes.length > 0) {
-		for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-		  if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
-			copyCreditProposal.notes[i].applicationId = this.id;
-			copyCreditProposal.notes[i].message = '';
-			copyCreditProposal.notes[i].recomendation = this.recomendation;
-			copyCreditProposal.notes[i].path = this.uuidPath;
-			tempHelper = tempHelper + 1;
+	  if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
+		if (copyCreditProposal.notes.length > 0) {
+		  for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+			if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
+			  copyCreditProposal.notes[i].applicationId = this.id;
+			  copyCreditProposal.notes[i].message = '';
+			  copyCreditProposal.notes[i].recomendation = this.recomendation;
+			  copyCreditProposal.notes[i].path = this.uuidPath;
+			  tempHelper = tempHelper + 1;
+			}
 		  }
-		}
 
-		if (tempHelper === 0) {
+		  if (tempHelper === 0) {
+			copyCreditProposal.notes.push(
+			  this.addNewNotes(
+				copyCreditProposal.attributes['positionLogin'],
+				'',
+				this.recomendation,
+				this.uuidPath
+			  )
+			);
+		  }
+		} else {
 		  copyCreditProposal.notes.push(
 			this.addNewNotes(
 			  copyCreditProposal.attributes['positionLogin'],
@@ -621,18 +632,9 @@ export class ProposalBasicInformationComponent implements OnInit {
 			)
 		  );
 		}
-	  } else {
-		copyCreditProposal.notes.push(
-		  this.addNewNotes(
-			copyCreditProposal.attributes['positionLogin'],
-			'',
-			this.recomendation,
-			this.uuidPath
-		  )
-		);
-	  }
 
-	  delete copyCreditProposal.attributes['positionLogin'];
+		delete copyCreditProposal.attributes['positionLogin'];
+	  }
 	}
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
