@@ -588,7 +588,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private preSave(): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks,  this.creditProposal.sliks[i]]
+      this.creditProposal.sliks = [...this.creditProposal.sliks,  this.creditProposalService.partySliks[i]]
     }
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 

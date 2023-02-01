@@ -659,7 +659,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   public onSave(source: string): void {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposal.sliks[i]];
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
     }
 
     if (this.creditProposal.id) {
