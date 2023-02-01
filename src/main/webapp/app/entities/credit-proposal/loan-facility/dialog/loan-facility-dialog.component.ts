@@ -292,6 +292,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.getApplicationOption();
     this.getObligation();
     this.setFacilityType();
+    this.loaddata();
   }
 
   public save(): void {
@@ -763,5 +764,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       ).map(([label, id]) => ({ label, id }));
       this.listFacicility = dataData;
     });
+  }
+
+  // loaddata
+  public loaddata() {
+    const dateNew = new Date().toISOString().split('T')[0];
+    this.indexRateService
+      .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
+      .subscribe((res: any) => {
+        this.applicationProduct.attributes.indexRate = res.body['rate' + this.dateIndex + 'M'] + '%';
+      });
   }
 }
