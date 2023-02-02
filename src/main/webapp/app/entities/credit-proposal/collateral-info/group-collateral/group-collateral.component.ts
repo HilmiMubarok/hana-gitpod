@@ -152,6 +152,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
+        certDueDate: this.getExpiry(element),
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -624,5 +625,41 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
       }
     }
     return string2;
+  }
+
+  public getExpiry(collateral: ICollateral) {
+    let result: any;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.expiry === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.expiry;
+        }
+      }
+    }
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    return result;
   }
 }
