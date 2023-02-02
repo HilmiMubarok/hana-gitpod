@@ -260,7 +260,7 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
     let data: ICollateralProperty;
     if (collateral) {
       data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
         if (data.marketability === undefined || data.marketability === null) {

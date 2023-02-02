@@ -140,14 +140,13 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
   }
 
-  public presentage(value: string){
-    const num = parseFloat(value).toFixed(2)
+  public presentage(value: string) {
+    const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%'
-    }else{
-      return num + '%'
+      return 0 + '%';
+    } else {
+      return num + '%';
     }
-    
   }
 
   public collateral: any;
@@ -308,7 +307,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     if (collateral) {
       data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === true
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
         if (data.marketability === undefined || data.marketability === null) {
