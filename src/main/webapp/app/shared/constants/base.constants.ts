@@ -835,6 +835,71 @@ export const CP_APPROVAL_MENU: object[] = [
   },
 ];
 
+export const CP_APPROVAL_MENU_BTB: object[] = [
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'loan-facility-detail',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'slik-checking',
+        text: 'slik checking',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+];
+
 export const SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN: IEJOptionNode[] = [
   {
     id: 'basic-information',
