@@ -450,6 +450,9 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data) {
+        if (data.attributes.marketValueCcy === undefined) {
+          return '';
+        }
         return data.attributes.marketValueCcy;
       }
     }
