@@ -416,52 +416,13 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes) {
-        return data?.attributes.amountCcy;
+      if (data) {
+        return data.attributes.marketValueCcy;
       }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-    //   data = this.collateralProperties.find(
-    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-    //   );
-    //   if (data.attributes.marketValueCcy) {
-    //     return data.attributes.marketValueCcy;
-    //   }
-    // }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
-      return 'IDR';
     }
     return 'IDR';
   }
@@ -471,9 +432,11 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     let dolar: number;
     result = 0;
     dolar = 0;
+
     const dataFilter = this.creditProposal.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
+
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
       const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
@@ -492,6 +455,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
         }
       }
     }
+
     return result + dolar;
   }
 
