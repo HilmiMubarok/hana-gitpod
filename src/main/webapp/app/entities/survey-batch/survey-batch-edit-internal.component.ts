@@ -277,6 +277,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+    this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.getWord();
 
     this.getContainer();

@@ -277,6 +277,7 @@ export class SurveyBatchEditComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+    this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
 
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
@@ -988,10 +989,10 @@ export class SurveyBatchEditComponent implements OnInit {
         }
       }
 
-      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-        this._showNotification('error', 'Foto object jaminan data less than 6');
-        mustValidatedOnAssigned.fotoObjectJaminan = false;
-      }
+      // if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+      //   this._showNotification('error', 'Foto object jaminan data less than 6');
+      //   mustValidatedOnAssigned.fotoObjectJaminan = false;
+      // }
     }
 
     return this._validateProcess(mustValidatedOnAssigned);
