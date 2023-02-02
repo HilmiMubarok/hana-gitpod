@@ -19,19 +19,10 @@
     </div>
     <div class="e-card-content">
       <mat-card>
-        <mat-card-header>
-          <!-- <mat-card-subtitle class="fw-bold">Branch</mat-card-subtitle> -->
-        </mat-card-header>
         <mat-card-content>
           <div class="row">
             <div class="col-12">
               <jhi-person-employee-view mode="view" [item]="item.person"></jhi-person-employee-view>
-              <!-- <div class="form-group">
-                <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Name</mat-label>
-                  <input matInput type="text" name="name" disabled id="name" [value]="item.name" [(ngModel)]="item.name" />
-                </mat-form-field>
-              </div> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>NIK</mat-label>
                 <input matInput type="text" disabled />
@@ -75,10 +66,6 @@
                 <mat-label>Segmen</mat-label>
                 <input matInput type="text" [(ngModel)]="segmentModel" disabled />
               </mat-form-field>
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Superior User Name</mat-label>
-                <input matInput type="text" disabled />
-              </mat-form-field> -->
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100 pr-1">
                   <mat-label>Description </mat-label>
@@ -92,23 +79,6 @@
             </div>
 
             <div class="col-12" align="center">
-              <!-- <div
-                style="
-                  color: #008881;
-                  font-size: 24px;
-                  font-weight: 600;
-                  font-family: 'Poppins', sans-serif;
-                  font-style: normal;
-                  line-height: 35px;
-                  margin-top: 10px;
-                  margin-bottom: 10px;
-                  margin-left: 20px;
-                "
-              >
-                Partner
-              </div> -->
-              <!--  -->
-
               <button style="text-align: center; margin-top: 15px" type="submit" (click)="openDialog({})" mat-raised-button color="primary">
                 Tambah Position
               </button>
@@ -135,8 +105,6 @@
                     <a href="javascript:void();" mat-icon-button (click)="openDialog(element)">
                       <mat-icon>edit</mat-icon>
                     </a>
-                    <!-- <input type="checkbox" (click)="selectPartner(element, $event.target.checked)" /> -->
-                    <!-- <input type="radio" id="id" name="fav_language" value="ID" (click)="selectPartner(element, $event.target.checked)" /> -->
                   </td>
                 </ng-container>
 

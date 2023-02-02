@@ -37,6 +37,7 @@ import { BankAccountAnalystMessage } from '../credit-proposal/bank-account-analy
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
 import { RejectReason } from '../credit-proposal/forward-to/reject-to.model';
 import { LegalLendingLimit } from '../credit-proposal/exposure/legal-lending/legal-lending-limit.model';
+import { DocumentData } from '../loan-analys/assign-to/assign.model';
 
 @Injectable({ providedIn: 'root' })
 export class OfferingLetterResolve implements Resolve<ICreditProposal> {
@@ -290,6 +291,12 @@ export class OfferingLetterResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['approvalStatus'] = [];
             } else {
               creditProposal.body.attributes['approvalStatus'] = JSON.parse(creditProposal.body.attributes['approvalStatus']);
+            }
+            if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
+              creditProposal.body.attributes['dataAssignTo'] = [];
+              creditProposal.body.attributes['dataAssignTo'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignTo'] = JSON.parse(creditProposal.body.attributes['dataAssignTo']);
             }
 
             if (creditProposal.body.prospectOrganization) {

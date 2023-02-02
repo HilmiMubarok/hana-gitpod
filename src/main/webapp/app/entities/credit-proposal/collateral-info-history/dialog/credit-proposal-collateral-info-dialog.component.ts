@@ -24,7 +24,7 @@ import { OptionNode } from 'app/shared/model/option-node.model';
 })
 export class CollateralInfoHistoryDialogComponent implements OnInit {
   public collateralTypes: ICollateralType[];
-  public collateralCode: object[];
+  public collateralCode: any;
   public collateralGrading: OptionNode[];
   public collateralDetails: object[];
   public bindingTypesHobies: any;
@@ -43,6 +43,9 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
   public filteredOptionBindingTypes: Observable<string[]>;
   public binding: ICreditProposalCollateralBinding;
   public lovRank = [];
+  public matrikBindingType;
+  public facilityTypeMatrik: any;
+  public collateralCodeMatrik: any;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -99,6 +102,16 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
     });
     this.loadCollateralType();
     this.loadCollateralGrading();
+  }
+
+  public getFacilityType() {
+    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
+    return this.facilityTypes[keyy];
+  }
+
+  public getCollateralCode() {
+    const data = this.collateralCode.find(obj => obj.id === this.collateral.attributes.collateralCode);
+    this.collateralCodeMatrik = data.description;
   }
 
   private loadCollateralGrading(): void {

@@ -130,8 +130,8 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   public onAssignTo(ev) {
-    this.applicationRole = ev.applicationRole;
-    this.applicationRoleId = ev.applicationRoleId;
+    this.applicationRole = ev;
+    this.creditProposal.attributes['dataAssignTo'] = ev;
   }
 
   private saveApplicationRole(source: string): void {
@@ -249,6 +249,21 @@ export class OfferingLetterMainComponent implements OnInit {
 
   private preSave(): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
+    const applicationRolePreSave = {
+      id: 0,
+      applicationId: 0,
+      partyId: '',
+      partyName: '',
+      roleDescription: '',
+      roleId: '',
+    };
+
+    applicationRolePreSave.id = Number(this.applicationRole.id);
+    applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
+    applicationRolePreSave.partyId = this.applicationRole.partyId;
+    applicationRolePreSave.partyName = this.applicationRole.partyName;
+    applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
+    applicationRolePreSave.roleId = this.applicationRole.roleId;
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -298,6 +313,7 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
+    copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     return copyCreditProposal;
   }
 

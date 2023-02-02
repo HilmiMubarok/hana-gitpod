@@ -56,7 +56,7 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
       }
     }
 
-    this.changeLogo(this.facilityTakeOverAfterBank.currency);
+    // this.changeLogo(this.facilityTakeOverAfterBank.currency);
     // this.changeLogo(this.)
     console.log('ini take over', this.facilityTakeOverAfterBank);
     console.log('object', this.creditProposal);
@@ -87,21 +87,21 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
         this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
         this.facilityTakeOverAfterBank.maturityPeriodType = result.attributes['maturityPeriodType'];
         this.facilityTakeOverAfterBank.currency = result.attributes['currency'];
-        this.changeLogo(result.attributes.currency);
+        // this.changeLogo(result.attributes.currency);
       } else {
         this.lock = true;
       }
     }
   }
 
-  public changeLogo(data: string) {
-    if (data) {
-      if (data === 'USD') {
-        this.logoCcy = {};
-      }
-      if (data === 'IDR') {
-        this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-      }
-    }
-  }
+  // public changeLogo(data: string) {
+  //   if (data) {
+  //     if (data === 'USD') {
+  //       this.logoCcy = {};
+  //     }
+  //     if (data === 'IDR') {
+  //       this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  //     }
+  //   }
+  // }
 }

@@ -956,7 +956,7 @@ export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
   },
 ];
 
-export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
+export const APPRAISAL_APR_DEPT_HEAD: ISidebarMenuModel[] = [
   {
     name: 'Appraisal',
     iconname: 'file',
@@ -973,6 +973,25 @@ export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
       },
     ],
   },
+];
+
+export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
+  // {
+  //   name: 'Appraisal',
+  //   iconname: 'file',
+  //   children: [
+  //     {
+  //       name: 'Appraisal Process',
+  //       iconname: 'minus',
+  //       route: 'batch-apprisal/process',
+  //     },
+  //     {
+  //       name: 'Appraisal Report Approval',
+  //       iconname: 'minus',
+  //       route: 'batch-apprisal/approval',
+  //     },
+  //   ],
+  // },
   {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',

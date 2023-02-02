@@ -22,7 +22,7 @@
     <div class="fontsebled row">
       <div class="col-3">Nilai Pembelian</div>
       <div class="col-md-auto">:</div>
-      <div class="col col-lg-3">{{ nilaiRac.nilaiPembelian}}</div>
+      <div class="col col-lg-3">{{ nilaiRac.nilaiPembelian | currency: ' ':'symbol':'1.0-0'}}</div>
     </div>
   </section>
   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

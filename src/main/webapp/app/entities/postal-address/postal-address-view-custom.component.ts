@@ -77,7 +77,6 @@ export class PostalAddressViewCustomComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeCountry();
-    this.initializeProvince();
     this.initializeCity();
     this.initializeDistrict();
     this.initializeVillage();
@@ -235,6 +234,7 @@ export class PostalAddressViewCustomComponent implements OnInit {
   }
 
   public initializeProvince(): void {
+    console.log('province ', this.postalAddress.provinceId);
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
@@ -270,6 +270,7 @@ export class PostalAddressViewCustomComponent implements OnInit {
         // const indonesia : IStateBoundary = res.body.find(obj => obj.id === 199 )
         // this.optionsCountry = res.body.splice()
         this.country = this.optionsCountry.find(obj => obj.id === this.postalAddress.countryId);
+        this.initializeProvince();
       });
   }
 
@@ -366,7 +367,6 @@ export class PostalAddressViewCustomComponent implements OnInit {
       this.myControlDistrict.disable();
       this.myControlVillage.disable();
     } else {
-      this.myControlProvince.disable();
       this.myControlCity.disable();
       this.myControlDistrict.disable();
       this.myControlVillage.disable();

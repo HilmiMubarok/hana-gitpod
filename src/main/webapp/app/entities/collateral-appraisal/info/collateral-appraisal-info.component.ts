@@ -148,6 +148,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
+    this.visitDate = this.surveyAppraisal.apprDate.toString();
+    console.log('visit Date', this.visitDate);
   }
 
   private loadWilayah(): void {
@@ -215,15 +217,19 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
-      if (this.surveyAppraisal.statusId === 'VISITED') {
-        this.visitDate = this.surveyAppraisal.apprDate.toString();
-      }
+      // if (this.surveyAppraisal.statusId === 'VISITED') {
+      this.visitDate = this.surveyAppraisal.apprDate.toString();
+      console.log('visit Date', this.visitDate);
+
+      // }
     }
     if (changes['surveyAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
+      this.visitDate = this.surveyAppraisal.apprDate.toString();
+      console.log('visit Date', this.visitDate);
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
@@ -232,12 +238,12 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
           if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
             this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
           }
-          // else {
+          //  else {
           //   this.visitDate = changes.surveyAppraisal.currentValue[i].apprDate;
           // }
         }
       }
-      console.log('visit', this.visitDate);
+      // console.log('visit', this.visitDate);
     }
   }
 

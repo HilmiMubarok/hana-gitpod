@@ -1,43 +1,3 @@
-<!-- <div class="row" *ngIf="customerType === 'CORPORATE'">
-  <div class="col-6">
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Establish Date</mat-label>
-        <input matInput [matDatepicker]="corporateEstablishDate" [(ngModel)]="debtorData.corporateEstablishDate" [disabled]="true" />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="corporateEstablishDate"></mat-datepicker-toggle>
-        <mat-datepicker #corporateEstablishDate></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Deed of Establish No</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.corporateDeedOfEstablishmentNumber" [disabled]="true" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Deed of Establish Place</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.corporateDeedOfEstablishmentPlace" [disabled]="true" />
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="col-6">
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Deed of Establish Nota</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.corporateDeedOfEstablishNota" [disabled]="true" />
-      </mat-form-field>
-    </div>
-    <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>SIUP</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.businessPermitNumber" [disabled]="true" />
-      </mat-form-field>
-    </div>
-  </div>
-</div> -->
-
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
@@ -52,12 +12,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <!-- <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Identity Number</mat-label>
-        <input matInput type="text" [(ngModel)]="debtorData.identityNumber" [disabled]="true" />
-      </mat-form-field>
-    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Account Number (IDR)</mat-label>
@@ -114,12 +68,6 @@
         <mat-datepicker #debtorSince></mat-datepicker>
       </mat-form-field>
     </div>
-    <!-- <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Existing Debtor Since</mat-label>
-        <input matInput type="text" [formControl]="date" [(ngModel)]="partyCif.debtorData.debtorSince" [disabled]="view" />
-      </mat-form-field>
-    </div> -->
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>LBU Code</mat-label>

@@ -41,9 +41,6 @@ export const MY_FORMATS = {
   templateUrl: './party-cif-customer-info-debtor-data.component.html',
   styleUrls: ['../party-cif.style.scss'],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -56,7 +53,6 @@ export const MY_FORMATS = {
 export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewPageComponent<IDebtorData> implements OnInit, OnChanges {
   public categoryDebtor: any;
   public umkmClassification: any;
-  // private _debtorData: IDebtorData;
   private _cif: IPartyCif;
   public value: string;
   public separate: string;
@@ -77,14 +73,6 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   date = new FormControl(moment());
 
   @Input() customerType: string;
-  // @Input()
-  // get debtorData() {
-  //   return this._debtorData;
-  // }
-
-  // set debtorData(data: IDebtorData) {
-  //   this._debtorData = data;
-  // }
 
   @Input()
   get partyCif() {
@@ -118,17 +106,11 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   ngOnInit(): void {
     this.test();
     this.getDate();
-    // this.getExis();
     this.CollectabilityStatus();
     this.showHideElement();
-    console.log('party cif', this.partyCif);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyCif']) {
-      console.log('party cif', this.partyCif);
-    }
-    // this.loadPositionRM();
     this.loadInternalInformationRM(this.partyCif.rm.id);
   }
 
@@ -160,12 +142,6 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.partyCif.debtorData.occupiedSince = fullYear;
   }
 
-  // getExis() {
-  //   this.year = new Date(this.partyCif.debtorData.customerSince);
-  //   const fullYear = this.year.toISOString().split('T')[0];
-  //   this.partyCif.debtorData.customerSince = fullYear.replace(/-/g, '/');
-  // }
-
   private loadPositionRM(): void {
     const tempName = this.partyCif.rm.firstName;
     this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
@@ -190,8 +166,6 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         this.loadInternalById(res.internalId).then((res2: IInternal) => {
           if (res2.parentId) {
             this.rmBranch = res2;
-
-            // this.creditProposal.internalId = this.rmBranch.parentId.toString();
 
             this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
@@ -246,13 +220,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     for (let i = 0; i < this.branchs.length; i++) {
       if (event.value === this.branchs[i].id) {
         this.partyCif.debtorData.bookingBranch = this.branchs[i].id.toString();
-        console.log('booking branch', typeof this.partyCif.debtorData.bookingBranch);
-        // this.debtorData.internalName = this.branchs[i].name;
       }
     }
-    // this.year = new Date(this.partyCif.debtorData.customerSince);
-    // const fullYear = this.year.toISOString().split('T')[0];
-    // this.partyCif.debtorData.customerSince = fullYear;
   }
 
   public showHideElement() {
