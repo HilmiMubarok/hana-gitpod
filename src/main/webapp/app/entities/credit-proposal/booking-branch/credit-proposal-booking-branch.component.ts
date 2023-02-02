@@ -1,33 +1,25 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
 import { InternalService } from 'app/entities/internal/internal.service';
 import { IPosition, Position } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
-import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../credit-proposal.model';
 import lodash from 'lodash';
-import { DebtorDataService } from 'app/entities/debtor-data/debtor-data.service';
 
 @Component({
   selector: 'jhi-credit-proposal-booking-branch',
   templateUrl: './credit-proposal-booking-branch.component.html',
   styleUrls: ['./booking-branch.css'],
 })
-export class CreditProposalBookingBranchComponent implements OnChanges, OnInit {
-  public internals: IInternal[];
-  public segments: IInternal[];
-  public regionals: IInternal[];
-  public branchs: IInternal[];
-  public positionRM: IPosition[];
-  public rmSegment: IInternal;
-  public rmRegional: IInternal;
-  public rmBranch: IInternal;
-  public rmPosition: IPosition;
-  public internalId: any;
+export class CreditProposalBookingBranchComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
-  public branchsss = [];
+  public rmPosition: IPosition;
+  public rmBranch: IInternal;
+  public rmRegional: IInternal;
   public penampung: string;
+
   @Input() isViewLoan: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -39,49 +31,50 @@ export class CreditProposalBookingBranchComponent implements OnChanges, OnInit {
 
   constructor(
     private internalService: InternalService,
-    private positionService: PositionService,
-    private debtorDataService: DebtorDataService
+    private positionService: PositionService
   ) {
-    this.internals = [];
+	this.rmPosition = new Position();
+	this.rmBranch = new Internal();
     this.rmRegional = new Internal();
-    this.rmPosition = new Position();
-    this.rmBranch = new Internal();
-    this.rmSegment = new Internal();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      console.log('iniCp', changes);
-      this.loadInternalInformationRM(this.creditProposal.cif.rm.id);
+	  if (this.creditProposal.internalId) {
+		this.loadInternalInformationRMByInternalId(this.creditProposal.internalId);
+	  } else {
+		this.loadInternalInformationRM(this.creditProposal.cif.rm.id);
+	  }
     }
+  }
+  
+  private loadInternalInformationRMByInternalId(internalId: string): void {
+    this.branchs = [];
+	this.loadInternalById(internalId).then((res2: IInternal) => {
+	  if (res2.parentId) {
+		this.rmBranch = res2;
+		this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+		  this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+			if (res4.parentId) {
+			  this.rmRegional = res4;
+			}
+		  });
+		});
+	  }
+	});
   }
 
   private loadInternalInformationRM(partyId: string): void {
     this.branchs = [];
-    this.segments = [];
-    this.regionals = [];
     this.findPositionByIdParty(partyId).then((res: IPosition) => {
       if (res) {
         this.loadInternalById(res.internalId).then((res2: IInternal) => {
           if (res2.parentId) {
             this.rmBranch = res2;
-            console.log('ini regional', this.rmBranch);
-
-            // this.creditProposal.internalId = this.rmBranch.parentId.toString();
-
             this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-              console.log('iniloadBranch', this.rmBranch.parentId);
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
                 if (res4.parentId) {
                   this.rmRegional = res4;
-                  console.log('ini regional', this.rmRegional);
-
-                  //   this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                  //     this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                  //       this.rmSegment = res6;
-                  //       this.loadSegment();
-                  //     });
-                  //   });
                 }
               });
             });
@@ -118,42 +111,6 @@ export class CreditProposalBookingBranchComponent implements OnChanges, OnInit {
     });
   }
 
-  //   public selectRM(event: any): void {
-  //     const value: string = event['value'];
-  //     if (value) {
-  //       const position: IPosition = lodash.find(this.positionRM, function (o) {
-  //         return o.id === parseInt(value, 10);
-  //       });
-  //       this.creditProposal.rm.partyId = position.partyId;
-  //       this.loadInternalInformationRM(position.partyId);
-  //     } else {
-  //       this.creditProposal.rm.partyId = null;
-  //     }
-  //   }
-
-  //   private loadPositionRM(): void {
-  //     this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
-  //       this.positionRM = lodash.filter(res.body, function (o) {
-  //         return o.partyId !== null;
-  //       });
-  //     });
-  //   }
-
-  //   private loadSegment(): void {
-  //     this.internalService.queryFilterBy({ idInternalType: APPLICATION_TYPE.BUSINESS_UNIT, size: 9999, page: 0 }).subscribe(res => {
-  //       this.segments = res.body;
-  //     });
-  //   }
-
-  //   private loadRegional(value: string): Promise<void> {
-  //     return new Promise<void>((resolve, reject) => {
-  //       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-  //         this.regionals = res.body;
-  //         resolve();
-  //       });
-  //     });
-  //   }
-
   private loadBranch(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
@@ -172,13 +129,6 @@ export class CreditProposalBookingBranchComponent implements OnChanges, OnInit {
           }
         }
 
-        //   this.internalId= this.creditProposal.internalId
-        //   for (let i = 0; i < this.branchs.length; i++) {
-        //    this.creditProposal.internalId = this.branchs[i].id.toString()
-
-        //   }
-        // console.log("cek",this.branchs );
-
         resolve();
       });
     });
@@ -191,20 +141,5 @@ export class CreditProposalBookingBranchComponent implements OnChanges, OnInit {
         this.creditProposal.internalName = this.branchs[i].name;
       }
     }
-  }
-
-  ngOnInit(): void {
-    this.debtorDataService
-      .queryFilterBy({
-        idParty: this.creditProposal.cif.partyId,
-        page: 0,
-        size: 10,
-        sort: ['id', 'desc'],
-      })
-      .subscribe(res => {
-        for (let i = 0; i < res.body.length; i++) {
-          this.branchsss.push(res.body[i]);
-        }
-      });
   }
 }
