@@ -14,9 +14,11 @@ import {
   SUBMENU_LOAN_ANALYS_CC_CHECKING,
   SUBMENU_LOAN_ANALYS_CC_REVIEW,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+  SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
   SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER,
   SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE,
+  SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW,
   SUBMENU_LOAN_ANALYS_DAR_FINAL,
   SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE,
   SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE,
@@ -152,11 +154,29 @@ export class LoanAnalysMainComponent implements OnInit {
         if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+            ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW)
             : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
         } else {
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? (this.subMenu = [
                 ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+                {
+                  id: 'loan-slik-checking',
+                  text: 'SLIK Checking',
+                },
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'compare-data',
+                  text: 'Compare Data',
+                },
+              ])
+            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+            ? (this.subMenu = [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
                 {
                   id: 'loan-slik-checking',
                   text: 'SLIK Checking',
@@ -195,6 +215,12 @@ export class LoanAnalysMainComponent implements OnInit {
               { id: 'opinion', text: 'Opinion' },
               { id: 'compare-data', text: 'Compare Data' },
             ])
+          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              { id: 'opinion', text: 'Opinion' },
+              { id: 'compare-data', text: 'Compare Data' },
+            ])
           : (this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
               { id: 'opinion', text: 'Opinion' },
@@ -205,12 +231,16 @@ export class LoanAnalysMainComponent implements OnInit {
       case 'cc-distribution':
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY)
+          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+          ? (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW)
           : (this.subMenu = SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB);
         break;
 
       case 'la-analyst':
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = [...SUBMENU_LOAN_ANALYS])
+          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW])
           : (this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB]);
         break;
 
@@ -230,6 +260,13 @@ export class LoanAnalysMainComponent implements OnInit {
 
               { id: 'compare-data', text: 'Compare Data' },
             ])
+          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              { id: 'opinion', text: 'Opinion' },
+
+              { id: 'compare-data', text: 'Compare Data' },
+            ])
           : (this.subMenu = [
               ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB,
               { id: 'opinion', text: 'Opinion' },
@@ -241,6 +278,8 @@ export class LoanAnalysMainComponent implements OnInit {
         this.subMenu =
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
+            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+            ? [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW, { id: 'compare-data', text: 'Compare Data' }]
             : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
@@ -255,6 +294,8 @@ export class LoanAnalysMainComponent implements OnInit {
         this.subMenu =
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? SUBMENU_LOAN_ANALYS_DAR_CHECKER_ABOVE
+            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+            ? SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW
             : SUBMENU_LOAN_ANALYS_DAR_CHECKER;
         break;
 

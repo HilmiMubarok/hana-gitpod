@@ -446,11 +446,11 @@
     </div>
     <!-- Repayment Capability  -->
 
-    <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval'">
-      <div *ngIf="selectedMenu === 'repayment-capability'">
-        <jhi-credit-proposal-repayment-capability [creditProposal]="creditProposal"> </jhi-credit-proposal-repayment-capability>
-      </div>
+    <!-- <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval'"> -->
+    <div *ngIf="selectedMenu === 'repayment-capability'">
+      <jhi-credit-proposal-repayment-capability [creditProposal]="creditProposal"> </jhi-credit-proposal-repayment-capability>
     </div>
+    <!-- </div> -->
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <!-- Generate Compliance -->

@@ -23,6 +23,7 @@ import {
   ID_BACK_TO_BACK,
   CP_APPROVAL_MENU,
   CP_APPROVAL_MENU_BTB,
+  CP_APPROVAL_MENU_BELOW,
 } from 'app/shared/constants/base.constants';
 
 import { Account } from 'app/core/auth/account.model';
@@ -280,7 +281,7 @@ export class ProposalBasicInformationComponent implements OnInit {
             id: 'credit-proposal-approval',
             text: 'Credit Proposal Summary',
           },
-          ...CP_APPROVAL_MENU_BTB,
+          ...CP_APPROVAL_MENU_BELOW,
           {
             id: 'opinion',
             text: 'Opinion',

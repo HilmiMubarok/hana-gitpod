@@ -26,18 +26,35 @@
           <tbody></tbody>
           <tr>
             <td style="vertical-align: middle; text-align: center">Monthly Sales (EBIT)</td>
-            <td width="1%" style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] | number: '1.0-0'"
-                  (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] = numberInputChanged($event)
-                  "
-                />
-              </mat-form-field>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td width="1%" style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] = numberInputChanged($event)
+                    "
+                  />
+                </mat-form-field>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td width="1%" style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] = numberInputChanged($event)
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </td>
+            </section>
             <td style="vertical-align: middle; text-align: center">Average Balance</td>
             <td width="1%" style="vertical-align: middle; text-align: center">
               <mat-form-field class="w-100" appearance="outline">
@@ -53,18 +70,35 @@
               </mat-form-field>
             </td>
             <td style="vertical-align: middle; text-align: center">Credit Mutation</td>
-            <td width="1%" style="vertical-align: middle; text-align: center">
-              <mat-form-field class="w-100" appearance="outline">
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] | number: '1.0-0'"
-                  (ngModelChange)="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] = numberInputChanged($event)
-                  "
-                />
-              </mat-form-field>
-            </td>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              <td width="1%" style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] = numberInputChanged($event)
+                    "
+                  />
+                </mat-form-field>
+              </td>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <td width="1%" style="vertical-align: middle; text-align: center">
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] | number: '1.0-0'"
+                    (ngModelChange)="
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] = numberInputChanged($event)
+                    "
+                    disabled
+                  />
+                </mat-form-field>
+              </td>
+            </section>
           </tr>
           <tr>
             <!-- [(ngModel)]="creditProposal.attributes['bankAnalyst'][0]['detail'][0]['credit']" -->

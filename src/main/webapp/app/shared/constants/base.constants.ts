@@ -835,6 +835,75 @@ export const CP_APPROVAL_MENU: object[] = [
   },
 ];
 
+export const CP_APPROVAL_MENU_BELOW: object[] = [
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'loan-facility-detail',
+        text: 'Loan Facility Detail',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'repayment-capability',
+        text: 'repayment capability',
+      },
+      {
+        id: 'slik-checking',
+        text: 'slik checking',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'trade-checking',
+        text: 'trade checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
+];
+
 export const CP_APPROVAL_MENU_BTB: object[] = [
   {
     id: 'credit-proposal',
@@ -1343,10 +1412,10 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB: object[] = [
         id: 'bank-account-analyst',
         text: 'bank account analysis',
       },
-      {
-        id: 'credit-rating',
-        text: 'credit rating',
-      },
+      // {
+      //   id: 'credit-rating',
+      //   text: 'credit rating',
+      // },
       {
         id: 'trade-checking',
         text: 'trade checking',
@@ -1495,10 +1564,6 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW: object[] = [
         text: 'Repayment Capability',
       },
       {
-        id: 'credit-rating',
-        text: 'credit rating',
-      },
-      {
         id: 'trade-checking',
         text: 'trade checking',
       },
@@ -1620,10 +1685,10 @@ export const SUBMENU_LOAN_DAR: object[] = [
         id: 'bank-account-analyst',
         text: 'bank account analysis',
       },
-      {
-        id: 'credit-rating',
-        text: 'credit rating',
-      },
+      // {
+      //   id: 'credit-rating',
+      //   text: 'credit rating',
+      // },
       {
         id: 'trade-checking',
         text: 'Trade Checking',
@@ -2012,6 +2077,99 @@ export const SUBMENU_LOAN_ANALYS_DAR_CHECKER: object[] = [
     text: 'Credit Proposal Summary',
   },
   ...SUBMENU_LOAN_DAR,
+  {
+    id: 'opinion',
+    text: 'Opinion',
+  },
+  {
+    id: 'dar-convenant',
+    text: 'Convenant & Document Checklist',
+  },
+  {
+    id: 'loan-facility-detail',
+    text: 'Loan Facility Detail',
+  },
+  {
+    id: 'facility-mapping',
+    text: 'Collateral Mapping Facility',
+  },
+  {
+    id: 'compare-data',
+    text: 'Compare Data',
+  },
+];
+
+export const SUBMENU_LOAN_ANALYS_DAR_CHECKER_BELOW: object[] = [
+  {
+    id: 'credit-proposal-summary',
+    text: 'Credit Proposal Summary',
+  },
+  {
+    id: 'credit-proposal',
+    text: 'Credit Proposal',
+    child: [
+      {
+        id: 'basic-information',
+        text: 'basic information',
+      },
+      {
+        id: 'business-activity',
+        text: 'business activity',
+      },
+      {
+        id: 'loan-facility',
+        text: 'Loan Facility',
+      },
+      {
+        id: 'exposure',
+        text: 'Exposure',
+      },
+      {
+        id: 'risk-acceptance-criteria',
+        text: 'risk acceptance criteria',
+      },
+      {
+        id: 'collateral-info',
+        text: 'Collateral Info',
+      },
+      {
+        id: 'slik-summary',
+        text: 'slik checking',
+      },
+      {
+        id: 'management-information',
+        text: 'management information',
+      },
+      {
+        id: 'financial-statement',
+        text: 'financial statement',
+      },
+      {
+        id: 'repayment-capability',
+        text: 'repayment capability',
+      },
+      {
+        id: 'bank-account-analyst',
+        text: 'bank account analysis',
+      },
+      {
+        id: 'trade-checking',
+        text: 'Trade Checking',
+      },
+      {
+        id: 'propose-pricing',
+        text: 'propose pricing',
+      },
+      {
+        id: 'convenant-tbo',
+        text: 'covenant & TBO',
+      },
+      {
+        id: 'summary',
+        text: 'Summary',
+      },
+    ],
+  },
   {
     id: 'opinion',
     text: 'Opinion',
