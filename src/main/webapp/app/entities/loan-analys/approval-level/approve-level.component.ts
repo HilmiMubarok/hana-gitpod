@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IApplicationRole } from 'app/entities/application-role/application-role.model';
 import { ApplicationRoleService } from 'app/entities/application-role/application-role.service';
-import lodash from 'lodash';
+import lodash, { size } from 'lodash';
 import { PositionReportingStructureService } from 'app/entities/position-reporting-structure/position-reporting-structure.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { IOptionNode } from 'app/shared/model/option-node.model';
@@ -16,11 +16,30 @@ import { IPerson } from 'app/entities/person/person.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { INotes } from 'app/entities/notes/notes.model';
-
+import { NoteDataService } from 'app/entities/note-data/note-data.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 @Component({
   selector: 'jhi-loan-facility-approve-level',
   templateUrl: './approve-level.component.html',
   styleUrls: ['./approve-level.css'],
+  animations: [
+    trigger('detailExpand', [
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          minHeight: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+        })
+      ),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
   public displayColumns: string[]
@@ -47,6 +66,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     'CP_REJECT',
     'CP_COMPLETE',
   ];
+  public dropDwon = false
   public approvalStatus: string;
   @Output() newItemEvent = new EventEmitter<string>();
   public disabled: boolean;
@@ -60,7 +80,8 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     protected applicationRoleService: ApplicationRoleService,
     protected personService: PersonService,
     protected accountService: AccountService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    public noteDataService: NoteDataService
   ) {
     super(snackbar, positionReportingStructureService);
     this.loading = false;
@@ -79,6 +100,8 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     this._creditProposal = item;
   }
 
+  public displayedColumnsExpand = []
+
   ngOnInit(): void {
     
     this.getWhoAmI().then(res => {
@@ -87,9 +110,13 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     // this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
     // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
     if (this.creditProposal.statusId === 'LA_DAR_NOTIF') {
-      this.displayColumns = ['no', 'approval_name', 'position', 'availableStatus','recomendation', 'date', 'alternatename', 'confirmation'];
+      this.displayColumns = [ 'approval_name', 'position', 'date', 'alternatename',];
+
+
+
+     this.displayedColumnsExpand = [...this.displayColumns, 'expand'];
     }else{
-      this.displayColumns = ['no', 'approval_name', 'position', 'date', 'alternatename'];
+      this.displayColumns = ['approval_name', 'position', 'date', 'alternatename'];
     }
     this.hidePleaseSelect();
   }
@@ -101,6 +128,8 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
       this.hidden = true;
     }
   }
+
+  
 
   singleCheck(checkNode: any) {
     if (checkNode.target.classList.contains('checked')) {
@@ -152,6 +181,7 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
   }
 
   public recomendation(applicationId: number): any{
+    console.log('app', this.filteringItems)
     const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId)
     return this.creditProposal.notes[notesCp].recomendation
 
@@ -190,5 +220,23 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
           }
         });
       });
+  }
+
+  public recomendationData: string
+  public receivedData: string
+
+  public getNoteDataByPartyIdAndApplicationId(element: IApplicationRole){
+
+    this.noteDataService.queryFilterBy({
+      idParty: element.partyId,
+      idApplication: element.applicationId,
+      size: 1,
+      page: 0
+
+    }).subscribe((res: any)=> {
+      console.log('oke',res)
+      this.recomendationData = res.body[0].recomendation
+      this.receivedData = res.body[0].received === null || res.body[0].received === false ? 'Not Confirmation' : 'Confirmation'
+    })
   }
 }
