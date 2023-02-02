@@ -43,9 +43,8 @@
               currencyMask
               matInput
               type="text"
-              [value]="facilityTakeOver.currency + ' ' + facilityTakeOver.initialLimitBank"
+              [value]="facilityTakeOver.currency + ' ' + (facilityTakeOver.initialLimitBank | number: '1.0-0')"
               [disabled]="view"
-              [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
           </mat-form-field>
         </div>
@@ -70,9 +69,8 @@
               currencyMask
               matInput
               type="text"
-              [value]="facilityTakeOver.currency2 + ' ' + facilityTakeOver.outstandingBank"
+              [value]="facilityTakeOver.currency2 + ' ' + (facilityTakeOver.outstandingBank | number: '1.0-0')"
               [disabled]="view"
-              [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
             />
           </mat-form-field>
         </div>
