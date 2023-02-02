@@ -1,7 +1,7 @@
 <div class="style-close">
   <button class="button-close" mat-button mat-dialog-close (click)="cancel()">X</button>
 </div>
-<h2 mat-dialog-title class="header-title">Collateral Detail loan</h2>
+<h2 mat-dialog-title class="header-title">Collateral Detail</h2>
 <mat-dialog-content>
   <mat-card>
     <mat-card-header>
@@ -78,7 +78,7 @@
               <div class="col-4">Collateral Code</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.attributes.collateralCode }}
+                {{ collateralCodeMatrik }}
               </div>
             </div>
           </section>
@@ -306,7 +306,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Certificates Due Date</mat-label>
-                <input matInput type="text" [(ngModel)]="dataCertDueDate" disabled />
+                <input matInput type="text" [value]="dataCertDueDate | date: 'yyyy/MM/dd'" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -315,7 +315,7 @@
               <div class="col-4">Certificates Due Date</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ dataCertDueDate }}
+                {{ dataCertDueDate | date: 'yyyy/MM/dd' }}
               </div>
             </div>
           </section>
@@ -352,7 +352,7 @@
               <div class="col-4">Release Date</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.releaseDate }}
+                {{ collateral.releaseDate | date: 'yyyy/MM/dd' }}
               </div>
             </div>
           </section>
@@ -410,7 +410,7 @@
               <div class="col-4">Facility Type</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.facilityType }}
+                {{ getFacilityType() }}
               </div>
             </div>
           </section>
@@ -551,7 +551,7 @@
                   <div class="col-4">Cross Collateral Status</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
-                    {{ item }}
+                    {{ printCollateralStatus(collateral.paripasuStatus) }}
                   </div>
                 </div>
               </section>
@@ -622,7 +622,7 @@
                 <div class="col-4">Binding Type</div>
                 <div class="col-md-auto">:</div>
                 <div class="col">
-                  {{ collateral.collBindingType }}
+                  {{ matrikBindingType }}
                 </div>
               </div>
             </section>
@@ -637,7 +637,7 @@
       </section>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
         <div class="fontsebled row">
-          <div class="col-4">REMARKS</div>
+          <div class="col-2">Remarks</div>
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ collateral.attributes['collateralRemaks'] }}
@@ -648,22 +648,21 @@
   </mat-card>
   <div>
     <mat-label>Mapping to Facility</mat-label>
-    <jhi-mapping-facility-history
+    <jhi-mapping-facility
       [collateralData]="collateral"
       [creditProposal]="creditProposal"
-      [disabledData]="disabledData"
       (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"
     >
-    </jhi-mapping-facility-history>
+    </jhi-mapping-facility>
   </div>
   <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'"> -->
-  <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()">Save</button>
-  <!-- </section> -->
-  <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
     <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-  </section> -->
+    <button mat-button (click)="save()">Save</button>
+  </section>
+  <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+  </section>
 </mat-dialog-actions>

@@ -37,7 +37,16 @@ export const MY_FORMATS = {
   selector: 'jhi-dialog-btb-dar-final',
   templateUrl: './dialog-credit-proposal-collateral-info-btb.component.html',
   styleUrls: ['../../../../credit-proposal/proposal-basic-information.css'],
-  providers: [ToolbarService, HtmlEditorService],
+  providers: [
+    ToolbarService,
+    HtmlEditorService,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
   private branceManagement: any;
