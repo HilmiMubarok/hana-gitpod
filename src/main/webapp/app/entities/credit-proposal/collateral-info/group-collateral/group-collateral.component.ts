@@ -157,6 +157,12 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        }
+      }
+
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
