@@ -549,25 +549,6 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
   },
 ];
 
-export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
-  {
-    name: 'Appraisal',
-    iconname: 'file',
-    children: [
-      {
-        name: 'Appraisal Distribution External',
-        iconname: 'minus',
-        route: 'batch-apprisal',
-      },
-      {
-        name: 'Appraisal Distribution Internal',
-        iconname: 'minus',
-        route: 'batch-apprisal/internal',
-      },
-    ],
-  },
-];
-
 export const SIDEBAR_MENU_BM: ISidebarMenuModel[] = [
   {
     name: 'Credit Proposal',
@@ -1004,6 +985,9 @@ export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
     ],
   },
 ];
+
+export const APPRAISAL_MENU_SIDEBAR_ALL: ISidebarMenuModel[] = [];
+
 export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
   {
     name: 'Offering Letter & Legal',
@@ -1024,6 +1008,25 @@ export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
       //   iconname: 'minus',
       //   route: 'review',
       // },
+    ],
+  },
+];
+
+export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
+  {
+    name: 'Appraisal',
+    iconname: 'file',
+    children: [
+      {
+        name: 'Appraisal Distribution External',
+        iconname: 'minus',
+        route: 'batch-apprisal',
+      },
+      {
+        name: 'Appraisal Distribution Internal',
+        iconname: 'minus',
+        route: 'batch-apprisal/internal',
+      },
     ],
   },
 ];
