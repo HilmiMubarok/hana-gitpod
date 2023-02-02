@@ -477,6 +477,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (this.creditProposal.id) {
         this.creditProposalService.update(this.preSave()).subscribe(res => {
           this.creditProposal.products = res.body.products;
+          this.creditProposal.collaterals = res.body.collaterals;
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
           }
@@ -522,6 +523,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         });
       } else {
         this.creditProposalService.create(this.preSave()).subscribe(res => {
+          this.creditProposal.collaterals = res.body.collaterals;
           this.creditProposal.products = res.body.products;
           if (this.creditProposalTabBusinessActivityComponent) {
             this.creditProposalTabBusinessActivityComponent.triggeredSaveAll();
