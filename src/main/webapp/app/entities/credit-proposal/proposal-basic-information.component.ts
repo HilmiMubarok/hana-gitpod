@@ -442,13 +442,13 @@ export class ProposalBasicInformationComponent implements OnInit {
     let note: INotes = new Notes();
 
     return (note = {
-	  applicationId: this.id,
-	  positionId: positionVal,
-	  message: messageVal,
-	  createDate: new Date().toISOString(),
-	  recomendation: recomendationVal,
+      applicationId: this.id,
+      positionId: positionVal,
+      message: messageVal,
+      createDate: new Date().toISOString(),
+      recomendation: recomendationVal,
       path: pathVal,
-	  type: 'credit_proposal'
+      type: 'credit_proposal',
     });
   }
 
@@ -588,7 +588,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   private preSave(): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
-      this.creditProposal.sliks = [...this.creditProposal.sliks,  this.creditProposalService.partySliks[i]]
+      this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
     }
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
@@ -597,45 +597,35 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
 
     let tempHelper = 0;
-	const tempRouter = this.router.url.split('/')[1];
+    const tempRouter = this.router.url.split('/')[1];
 
     if (tempRouter === 'cp-status-approval') {
-	  if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
-		if (copyCreditProposal.notes.length > 0) {
-		  for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-			if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
-			  copyCreditProposal.notes[i].applicationId = this.id;
-			  copyCreditProposal.notes[i].message = '';
-			  copyCreditProposal.notes[i].recomendation = this.recomendation;
-			  copyCreditProposal.notes[i].path = this.uuidPath;
-			  tempHelper = tempHelper + 1;
-			}
-		  }
+      if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
+        if (copyCreditProposal.notes.length > 0) {
+          for (let i = 0; i < copyCreditProposal.notes.length; i++) {
+            if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
+              copyCreditProposal.notes[i].applicationId = this.id;
+              copyCreditProposal.notes[i].message = '';
+              copyCreditProposal.notes[i].recomendation = this.recomendation;
+              copyCreditProposal.notes[i].path = this.uuidPath;
+              tempHelper = tempHelper + 1;
+            }
+          }
 
-		  if (tempHelper === 0) {
-			copyCreditProposal.notes.push(
-			  this.addNewNotes(
-				copyCreditProposal.attributes['positionLogin'],
-				'',
-				this.recomendation,
-				this.uuidPath
-			  )
-			);
-		  }
-		} else {
-		  copyCreditProposal.notes.push(
-			this.addNewNotes(
-			  copyCreditProposal.attributes['positionLogin'],
-			  '',
-			  this.recomendation,
-			  this.uuidPath
-			)
-		  );
-		}
+          if (tempHelper === 0) {
+            copyCreditProposal.notes.push(
+              this.addNewNotes(copyCreditProposal.attributes['positionLogin'], '', this.recomendation, this.uuidPath)
+            );
+          }
+        } else {
+          copyCreditProposal.notes.push(
+            this.addNewNotes(copyCreditProposal.attributes['positionLogin'], '', this.recomendation, this.uuidPath)
+          );
+        }
 
-		delete copyCreditProposal.attributes['positionLogin'];
-	  }
-	}
+        delete copyCreditProposal.attributes['positionLogin'];
+      }
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -688,6 +678,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
+    copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
 
     return copyCreditProposal;
   }
