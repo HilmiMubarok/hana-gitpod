@@ -335,7 +335,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-    console.log('vvvvv', this.collateralAppraisalService.totalDataFotoObjectJaminan);
+    this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.getKeteranganObjectJaminan();
 
     if (item.collateral.propertyUsage !== '') {
@@ -348,6 +348,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   public surveyAppraisalFunc(item: ISurveyAppraisals) {
     if (item !== undefined) {
       // Get Foto Object Jaminan
+      this.loadData(item.collateral);
       this.collateralData(item.collateral.id);
       this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
       console.log('zzzzz', this.collateralAppraisalService.totalDataFotoObjectJaminan);
@@ -590,11 +591,11 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   private async initialize(): Promise<void> {
+    this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
     // this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
 
-    console.log('yyyyy', this.collateralAppraisalService.totalDataFotoObjectJaminan);
     this.getKeteranganObjectJaminan();
 
     // console totalKeteranganJaminan after await
@@ -1239,11 +1240,11 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Masukkan Market Value M2 di Valuation Dahulu');
         mustValidatedOnAssigned.marketValueM2 = false;
       }
-      if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
         this._showNotification('error', 'Masukkan Land Detail Dahulu');
         mustValidatedOnAssigned.landDetail = false;
       }
-      if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnAssigned.buildingDetail = false;
       }
@@ -1394,11 +1395,11 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
     ) {
-      if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
         this._showNotification('error', 'Masukkan Land Detail Dahulu');
         mustValidatedOnVisited.landDetail = false;
       }
-      if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnVisited.building = false;
       }

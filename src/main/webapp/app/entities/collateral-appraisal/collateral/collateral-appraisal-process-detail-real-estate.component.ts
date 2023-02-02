@@ -14,6 +14,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { CollateralAppraisalService } from '../collateral-appraisal.service';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
   templateUrl: './collateral-appraisal-process-detail-real-estate.component.html',
@@ -67,7 +68,8 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   constructor(
     public dialog: MatDialog,
     private collateralPropertyService: CollateralPropertyService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private collateralAppraisalService: CollateralAppraisalService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -100,6 +102,8 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
         })
         .subscribe(res => {
           this.items = res.body;
+          // Validation
+          this.collateralAppraisalService.totalDataDetailBuilding = res.body;
         });
     }
   }
