@@ -278,6 +278,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+    this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.getWord();
 
     // this.getContainer();
@@ -1180,22 +1181,22 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         mustValidateOnTL.reviewedOpinion = false;
       }
     }
-    if (
-      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
-      this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
-    ) {
-      if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
-        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
-          this._showNotification('error', 'Comparison data less than 3');
-          mustValidateOnTL.comparisonData = false;
-        }
-      }
+    // if (
+    //   this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
+    //   this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
+    // ) {
+    //   if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+    //     if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+    //       this._showNotification('error', 'Comparison data less than 3');
+    //       mustValidateOnTL.comparisonData = false;
+    //     }
+    //   }
 
-      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-        this._showNotification('error', 'Foto object jaminan data less than 6');
-        mustValidateOnTL.fotoObjectJaminan = false;
-      }
-    }
+    //   if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+    //     this._showNotification('error', 'Foto object jaminan data less than 6');
+    //     mustValidateOnTL.fotoObjectJaminan = false;
+    //   }
+    // }
 
     return this._validateProcess(mustValidateOnTL);
   }
