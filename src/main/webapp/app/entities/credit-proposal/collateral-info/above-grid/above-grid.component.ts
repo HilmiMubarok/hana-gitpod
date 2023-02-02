@@ -77,6 +77,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this._creditProposal = cp;
   }
 
+  public presentage(value: string){
+    const num = parseFloat(value).toFixed(2)
+    if (num === 'Infinity') {
+      return 0 + '%'
+    }else{
+      return num + '%'
+    }
+    
+  }
+
   @Input() isViewMode;
 
   constructor(
@@ -484,6 +494,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+
     return result + dolar;
   }
 
