@@ -593,8 +593,14 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
 
-    if (copyCreditProposal.attributes.businessActivity.visitDate) {
-      copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(copyCreditProposal.attributes.businessActivity.visitDate);
+    if (this.router.url.split('/')[1] === 'credit-proposal-status') {
+      if (copyCreditProposal.attributes.businessActivity.visitDate) {
+        if (typeof copyCreditProposal.attributes.businessActivity.visitDate === 'object') {
+          copyCreditProposal.attributes.businessActivity.visitDate = this.convertDate(
+            copyCreditProposal.attributes.businessActivity.visitDate
+          );
+        }
+      }
     }
 
     let tempHelper = 0;

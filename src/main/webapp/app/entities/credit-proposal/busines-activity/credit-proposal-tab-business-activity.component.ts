@@ -41,7 +41,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   set creditProposalItem(item: ICreditProposal) {
     this._item = item;
     
-    this._item.attributes.businessActivity['visitDate'] = this._item.attributes.businessActivity['visitDate'].split('T')[0];
+    this._item.attributes['businessActivity'].visitDate = this._item.attributes['businessActivity'].visitDate.split('T')[0];
   }
 
   @Input()
