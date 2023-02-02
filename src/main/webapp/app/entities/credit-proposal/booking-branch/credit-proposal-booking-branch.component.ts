@@ -16,6 +16,7 @@ export class CreditProposalBookingBranchComponent implements OnChanges {
   public rmPosition: IPosition;
   public rmBranch: IInternal;
   public rmRegional: IInternal;
+  public branchs: IInternal[];
   public penampung: string;
 
   @Input() isViewLoan: Boolean = false;
