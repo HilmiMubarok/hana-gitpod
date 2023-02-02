@@ -94,7 +94,6 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
   }
 
   initialize() {
-    console.log('this role update');
     this.desc = [
       {
         id: 'ACTIVE',
@@ -113,17 +112,14 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
       .subscribe(response => {
         this.branchtype = response.body;
         if (this.activatedRoute.snapshot.paramMap.get('id')) {
-          console.log('masuk edit');
           this.id = this.activatedRoute.snapshot.paramMap.get('id');
           this.employeeService.find(this.id).subscribe(res => {
-            console.log('res detail', res.body);
             if (new Date(res.body.thruDate).getFullYear() !== 9999) {
               this.thruDateTMP = res.body.thruDate;
             }
             const filtered = this.branchtype.filter(function (item) {
               return item.id === res.body.internalId;
             });
-            console.log('filtered', filtered);
             if (filtered.length > 0) {
               this.choosedBranch(filtered[0]);
             }
@@ -135,7 +131,6 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
   }
 
   choosedBranch(data) {
-    console.log('data branch', data);
     if (data.parentId !== null) {
       this.getSegment(data.parentId);
     } else {
@@ -144,20 +139,16 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
   }
 
   getSegment(parentId) {
-    console.log('parentId', parentId);
     if (parentId === null) {
       this.segmentModel = '';
     } else {
       this.internalService.find(parentId).subscribe(res => {
-        console.log('res parent', res);
         const arr = [];
         arr.push(res.body);
-        console.log('arr', arr);
         for (let a = 0; a < arr.length; a++) {
           if (arr[a].parentId !== '10000') {
             this.getSegment(arr[a].parentId);
           } else {
-            console.log('stop sudah dapat', arr[a]);
             this.segmentModel = arr[a].facilityName;
           }
         }
@@ -167,7 +158,7 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
 
   submit() {
     this.item.positions = this.arrayName;
-    console.log('this submit role', this.item);
+	this.item.positions['partyId'] = this.item.partyId;
     this.employeeService.update(this.item).subscribe(res => {
       this.messageService.add({
         severity: 'success',
@@ -175,31 +166,20 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
         detail: 'Update Success',
       });
 
-      console.log('hasil post', res);
-
       if (res.body) {
         this.router.navigate(['/employee/role']);
       }
     });
   }
+
   // headers: HttpHeaders
   initTable(data: any): void {
-    console.log('data', data);
     if (data.positions) {
-      console.log('masuk sini');
       for (let i = 0; i < data.positions.length; i++) {
         this.arrayName.push(data.positions[i]);
       }
     }
-    console.log('this.arrayName', this.arrayName);
     this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName));
-    if (!this.itemsPartner) {
-      // this.itemsPartner.paginator = this.paginator;
-    }
-    // this.itemsPartner.sort = this.sort;
-    // console.log("headers",headers);
-    // this.paginatorLengthP = parseInt(headers.get('X-Total-Count'), 10);
-    // this.paginatorPageSizeP = this.paginator.pageSize;
     this.loading = false;
   }
 
@@ -214,7 +194,6 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
   }
 
   public openDialog(val): void {
-    console.log('data dipilih', val);
     const predicate: object = {
       width: '80vw',
       data: val,
@@ -222,15 +201,12 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
 
     const dialogRef = this.dialog.open(PopupPositionComponent, predicate);
     dialogRef.afterClosed().subscribe(result => {
-      console.log('result', result);
       if (result) {
         if (result.id) {
-          console.log('masuk id tidak undefined');
           const filtered = this.arrayName.filter(function (item) {
             return item.id === result.id;
           });
 
-          console.log('filtered', filtered);
           if (filtered.length > 0) {
             this.arrayName = this.arrayName.filter(function (item) {
               if (item.id === result.id) {
@@ -243,11 +219,9 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
             this.arrayName.push(result);
           }
         } else {
-          console.log('masuk id undefined');
           const filtered = this.arrayName.filter(function (item) {
             return item.idx === result.idx;
           });
-          console.log('filtered', filtered);
           if (filtered.length > 0) {
             this.arrayName = this.arrayName.filter(function (item) {
               if (item.id === result.id) {
