@@ -28,7 +28,7 @@
           <input
             matInput
             type="text"
-            [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank.label + '.' + facilityTakeOverAfterBank.facilityTypeOverBank.label"
+            [(ngModel)]="facilityTakeOverAfterBank.facilityTypeOverBank.id + '.' + facilityTakeOverAfterBank.facilityTypeOverBank.label"
             [disabled]="view"
           />
         </mat-form-field>
@@ -37,11 +37,7 @@
         <div class="col-4">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tenor</mat-label>
-            <input
-              matInput
-              [value]="facilityTakeOverAfterBank.initialLimitBankOver + ' ' + facilityTakeOverAfterBank?.maturityPeriodType"
-              [disabled]="true"
-            />
+            <input matInput [value]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
           </mat-form-field>
         </div>
         <div class="col-4">
@@ -63,9 +59,8 @@
             currencyMask
             matInput
             type="text"
-            [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
+            [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.maturityBankOver | number: '1.0-0')"
             [disabled]="view"
-            [options]="logoCcy"
             [disabled]="true"
           />
         </mat-form-field>
@@ -77,9 +72,8 @@
             currencyMask
             matInput
             type="text"
-            [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+            [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.outstandingBankOver | number: '1.0-0')"
             [disabled]="view"
-            [options]="logoCcy"
             [disabled]="true"
           />
         </mat-form-field>
