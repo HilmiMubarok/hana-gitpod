@@ -4,12 +4,12 @@
   </mat-card-header>
   <mat-card-content>
     <div style="margin: 30px">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
         <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
           >Is Collateral Cross col, All Facillities?</mat-slide-toggle
         >
       </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
         <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
           >Is Collateral Cross col, All Facillities?</mat-slide-toggle
         >
@@ -90,8 +90,9 @@
   </mat-card-content>
 </mat-card>
 
-<!-- <mat-card>
+<mat-card>
   <mat-card-content>
     <jhi-group-collateral [creditProposal]="creditProposal"></jhi-group-collateral>
+    <!-- <jhi-credit-proposal-collateral-info-remarks [creditProposal]="creditProposal"></jhi-credit-proposal-collateral-info-remarks> -->
   </mat-card-content>
-</mat-card> -->
+</mat-card>

@@ -78,9 +78,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.disableField === 'distribution' ||
       this.disableField === 'finalize' ||
       this.disableField === 'review' ||
-      this.disableField === 'confirmation' ||
-      this.disableField === 'dar-final' ||
-      this.disableField === 'loan-committee-approval'
+      this.disableField === 'confirmation'
     ) {
       this.field = true;
     }

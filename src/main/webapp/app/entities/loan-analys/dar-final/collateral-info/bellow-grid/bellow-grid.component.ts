@@ -57,6 +57,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
+  private facilityTypes: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
@@ -139,6 +140,15 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     }
   }
 
+  public presentage(value: string) {
+    const num = parseFloat(value).toFixed(2);
+    if (num === 'Infinity') {
+      return 0 + '%';
+    } else {
+      return num + '%';
+    }
+  }
+
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
@@ -172,6 +182,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
+        matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoDialogTempComponent, predicate);
@@ -216,6 +227,36 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
       }
     });
   }
+
+  fungsiSumcredit() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
   countKJJPLV(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
@@ -436,14 +477,14 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
         return data.attributes.marketValueCcy;
       }
     }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
-      }
-    }
+    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+    //   data = this.collateralProperties.find(
+    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+    //   );
+    //   if (data.attributes.marketValueCcy) {
+    //     return data.attributes.marketValueCcy;
+    //   }
+    // }
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
@@ -653,6 +694,11 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
+  }
+
+  public getFacilityTypeMatrik() {
+    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
+    return this.facilityTypes[keyy];
   }
 
   public getCrossStatus(status: string) {

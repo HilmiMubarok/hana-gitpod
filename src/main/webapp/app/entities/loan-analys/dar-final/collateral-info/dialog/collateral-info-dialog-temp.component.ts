@@ -50,7 +50,7 @@ export const MY_FORMATS = {
 export class CollateralInfoDialogTempComponent implements OnInit {
   public disabledData: Boolean = true;
   public collateralTypes: ICollateralType[];
-  public collateralCode: object[];
+  public collateralCode: any;
   public collateralGrading: OptionNode[];
   public collateralDetails: object[];
   public bindingTypesHobies: any;
@@ -72,6 +72,9 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public paripasuStatus: any;
   public dataCertDueDate: any;
   public dataOwnerShip: string;
+  public matrikBindingType;
+  public facilityTypeMatrik: any;
+  public collateralCodeMatrik: any;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -108,6 +111,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       insurance: ICreditProposalCollateralInsurance;
       certDueDate: any;
       ownerShip: string;
+      matrikBindingType: string;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
@@ -123,8 +127,9 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
+    this.matrikBindingType = this.data.matrikBindingType;
     for (let i = 1; i < 101; i++) {
-      this.lovRank.push(i);
+      this.lovRank.push(i.toString());
     }
     this.lovCollateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
@@ -139,9 +144,19 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     this.loadCollateralGrading();
     this.trashUndefined();
     this.checkStatusCOllateral();
+    this.getFacilityType();
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposal.statusId === 'CP_DAR_FINAL') {
       this.disabledData = false;
     }
+  }
+  public getFacilityType() {
+    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
+    return this.facilityTypes[keyy];
+  }
+
+  public getCollateralCode() {
+    const data = this.collateralCode.find(obj => obj.id === this.collateral.attributes.collateralCode);
+    this.collateralCodeMatrik = data.description;
   }
 
   private loadCollateralGrading(): void {
@@ -165,6 +180,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       this.collateralCode = lodash.find(this.collateralDetails, function (o) {
         return o['id'] === collateral.collateralTypeId;
       })['child'];
+      this.getCollateralCode();
     }
   }
 
@@ -236,6 +252,10 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     if (this.marketability === undefined && this.marketability === 'undefined') {
       this.marketability = '';
     }
+  }
+
+  printCollateralStatus(status) {
+    return status === 'Y' ? 'YES' : 'NO';
   }
 
   public checkStatusCOllateral() {
