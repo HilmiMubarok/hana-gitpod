@@ -140,6 +140,16 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
   }
 
+  public presentage(value: string){
+    const num = parseFloat(value).toFixed(2)
+    if (num === 'Infinity') {
+      return 0 + '%'
+    }else{
+      return num + '%'
+    }
+    
+  }
+
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
