@@ -15,7 +15,7 @@ import { IApplicationProduct } from 'app/entities/application-product/applicatio
 import { CreditProposalService } from '../../credit-proposal.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-total-exposure',
   templateUrl: './total-exposure.component.html',
@@ -56,7 +56,8 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     protected _snackbar: MatSnackBar,
     protected partyCifService: PartyCifService,
     protected fakeFacilityService: FakeFacilityService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    public router: Router
   ) {
     super(_snackbar, partyCifService);
     this.myBusinessGroup = [];
@@ -124,12 +125,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   ngAfterViewInit(): void {
-    let a = [];
-    for (let i = 0; i < this.creditProposal.products.length; i++) {
-      a = lodash.concat(a, this.creditProposal.products[i]);
-    }
-    this.debtor = new MatTableDataSource(a);
-    this.debtor.paginator = this.paginator2;
+    this.debtorData()
   }
 
   private getMyBusinessGroup(): void {
@@ -320,15 +316,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   }
 
   ngOnChanges(changes: SimpleChanges) {
- 
-      this.dataSource = this.creditProposal.products;
-      let a = [];
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        a = lodash.concat(a, this.creditProposal.products[i]);
-      }
-      this.debtor = new MatTableDataSource(a);
-      this.debtor.paginator = this.paginator2;
-
+    this.debtorData()
     this.defaultCurrency();
     this.fungsiSuminit();
     this.fungsiSumchange();
@@ -347,6 +335,51 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
   }
 
+  public debtorData(){
+    let a = [];
+    if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1) {
+      if (this.router.url.split('=').indexOf('exposure') > -1) {
+      
+        this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+        if (this.parsedAttr.previousHistory) {
+
+          this.dataSource = this.parsedAttr.previousHistory.products;
+          
+          for (let i = 0; i < this.parsedAttr.previousHistory.products.length; i++) {
+            a = lodash.concat(a, this.parsedAttr.previousHistory.products[i]);
+          }
+          
+
+        } else {
+       
+          this.dataSource = this.creditProposal.products;
+       
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            a = lodash.concat(a, this.creditProposal.products[i]);
+          }
+
+      }
+    }else{
+      this.dataSource = this.creditProposal.products;
+         
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            a = lodash.concat(a, this.creditProposal.products[i]);
+          }
+    }
+
+    }else{
+      this.dataSource = this.creditProposal.products;
+       
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            a = lodash.concat(a, this.creditProposal.products[i]);
+          }
+    }
+
+    this.debtor = new MatTableDataSource(a);
+
+    this.debtor.paginator = this.paginator2;
+  }
+
   totalCashLoan() {
     if (this.nonCashLoanDebitur.length > 0) {
       this.totalDebiturCashLoan = this.fungsiSumcredit() - this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
@@ -360,7 +393,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   totalNonCashLoan() {
     if (this.nonCashLoanDebitur.length > 0) {
       this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
-      console.log('ompu',this.nonCashLoanDebitur)
+  
       this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
     } else {
       this.totalDebiturNonCashLoan = 0;
@@ -399,7 +432,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.dataSource.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -430,7 +463,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.dataSource.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -464,7 +497,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.dataSource.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -493,10 +526,10 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     let result: number;
     result = 0;
 
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.availableLimit !== undefined) {
-          result = result + Number(this._creditProposal.products[i].attributes.availableLimit);
+    if (this.dataSource.length > 0) {
+      for (let i = 0; i < this.dataSource.length; i++) {
+        if (this.dataSource[i].attributes.availableLimit !== undefined) {
+          result = result + Number(this.dataSource[i].attributes.availableLimit);
         }
       }
     }
@@ -509,7 +542,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.dataSource.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
