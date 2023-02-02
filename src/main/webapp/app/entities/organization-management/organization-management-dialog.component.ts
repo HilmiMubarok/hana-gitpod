@@ -42,9 +42,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.removepacth();
     this.setPep();
     this.setPosition();
-    console.log('ini typeSable', this.typeSable);
-    console.log('return type sable', this.dataSource());
-    this.closes();
+    // this.closes();
   }
 
   public dataSource() {
