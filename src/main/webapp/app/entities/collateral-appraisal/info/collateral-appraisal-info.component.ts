@@ -21,6 +21,8 @@ import { Account } from 'app/core/auth/account.model';
 import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.service';
 import { PartnerService } from 'app/entities/partner/partner.service';
 import { ActivatedRoute } from '@angular/router';
+import moment from 'moment'; // import moment.
+import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
@@ -124,7 +126,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     private internalService: InternalService,
     private positionService: PositionService,
     private surveyBatchService: SurveyBatchService,
-    private partnerService: PartnerService
+    private partnerService: PartnerService,
+    protected applicationStateLogService: ApplicationStateLogService
   ) {
     this.internals = [];
     this.rmRegional = new Internal();
@@ -135,7 +138,24 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.approvalDate = '';
     this.visitDate = '';
   }
-
+  public timeLineStatus: any[];
+  public timeLine() {
+    this.applicationStateLogService
+      .findByBusinessKeyAndRefKey('APPRAISAL', this.collateralAppraisal.id || this.surveyAppraisal.id)
+      .subscribe(res => {
+        if (res.body.length > 0) {
+          for (let i = 0; i < res.body.length; i++) {
+            // this.statusAppraisal = this.timeLineStatus
+            // for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
+            if (res.body[i].status === 'APPROVED') {
+              this.approvalDate = moment(res.body[i].createdDate).format('yyyy/MM/dd');
+              console.log('franco', this.approvalDate);
+            }
+          }
+          // console.log('visit', this.visitDate);
+        }
+      });
+  }
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
@@ -144,11 +164,14 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.loadSurveyBatchKjjp();
     this.loadBranchNew();
     this.loadWilayah();
+    this.timeLine();
 
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
-    this.visitDate = this.surveyAppraisal.apprDate.toString();
+    // this.visitDate = this.surveyAppraisal.apprDate.toString();
+    this.visitDate = moment(this.surveyAppraisal.apprDate).format('yyyy/MM/dd');
+
     console.log('visit Date', this.visitDate);
   }
 
@@ -218,7 +241,9 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
       // if (this.surveyAppraisal.statusId === 'VISITED') {
-      this.visitDate = this.surveyAppraisal.apprDate.toString();
+      // this.visitDate = this.surveyAppraisal.apprDate.toString();
+      this.visitDate = moment(this.surveyAppraisal.apprDate).format('yyyy/MM/dd');
+
       console.log('visit Date', this.visitDate);
 
       // }
@@ -228,16 +253,18 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
-      this.visitDate = this.surveyAppraisal.apprDate.toString();
-      console.log('visit Date', this.visitDate);
+      // const visit=this.surveyAppraisal.apprDate
+      this.visitDate = moment(this.surveyAppraisal.apprDate).format('yyyy/MM/dd');
+      // this.approvalDate = this.surveyAppraisal.createdDate.toString();
+      // console.log('approvalDate', this.approvalDate);
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
-      for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
-        if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL' || changes.statusAppraisal.currentValue[i].status === 'VISITED') {
-          if (changes.statusAppraisal.currentValue[i].status === 'APPROVAL') {
-            this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
-          }
+      console.log('collateralAppraisal', changes.statusAppraisal);
+      for (let i = 0; i < changes.statusAppraisal.currentValue.length; i++) {
+        // for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
+        if (changes.statusAppraisal.currentValue[i].status === 'APPROVED') {
+          this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
           //  else {
           //   this.visitDate = changes.surveyAppraisal.currentValue[i].apprDate;
           // }
