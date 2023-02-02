@@ -100,6 +100,7 @@ export class CollateralAppraisalDetailProcessLandComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
       this.loadAll(this.collateral.id);
+      this.propertyData(this.collateral.id, CollateralPropertyType.LAND);
     }
 
     this.checkLogin();
@@ -136,6 +137,7 @@ export class CollateralAppraisalDetailProcessLandComponent
         idPropertyType: data,
       })
       .subscribe((res: any) => {
+        // Validation
         this.collateralAppraisalService.totalDataDetailLand = res.body;
       });
   }
@@ -155,6 +157,8 @@ export class CollateralAppraisalDetailProcessLandComponent
   public delete(element: ICollateralProperty): void {
     this.collateralPropertyService.delete(element.id).subscribe(res => {
       this.loadAll(this.collateral.id);
+      // Validation
+      this.collateralAppraisalService.totalDataDetailLand = res.body;
     });
   }
 

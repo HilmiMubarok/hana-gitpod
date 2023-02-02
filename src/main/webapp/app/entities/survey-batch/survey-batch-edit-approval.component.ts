@@ -278,6 +278,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
     this.documentLainnya(item.id);
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+    this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.getWord();
 
     // this.getContainer();
@@ -328,6 +329,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
 
   public surveyAppraisalFunc(item: ISurveyAppraisals) {
     if (item !== undefined) {
+      this.loadData(item.collateral);
       // Get Foto Object Jaminan
       this.collateralData(item.collateral.id);
       // this.storageService.getBucketName().subscribe(res => {
@@ -569,6 +571,7 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
   }
 
   private async initialize(): Promise<void> {
+    this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
 
@@ -1178,22 +1181,22 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         mustValidateOnTL.reviewedOpinion = false;
       }
     }
-    if (
-      this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
-      this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
-    ) {
-      if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
-        if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
-          this._showNotification('error', 'Comparison data less than 3');
-          mustValidateOnTL.comparisonData = false;
-        }
-      }
+    // if (
+    //   this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA ||
+    //   this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA
+    // ) {
+    //   if (this.collateralAppraisal.collateral.collateralTypeId !== 'MACHINE') {
+    //     if (this.collateralAppraisalService.totalDataComparison.length < MINIMUM_COMPARISON_DATA) {
+    //       this._showNotification('error', 'Comparison data less than 3');
+    //       mustValidateOnTL.comparisonData = false;
+    //     }
+    //   }
 
-      if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
-        this._showNotification('error', 'Foto object jaminan data less than 6');
-        mustValidateOnTL.fotoObjectJaminan = false;
-      }
-    }
+    //   if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length < MINIMUM_OBJECT_JAMINAN_DATA) {
+    //     this._showNotification('error', 'Foto object jaminan data less than 6');
+    //     mustValidateOnTL.fotoObjectJaminan = false;
+    //   }
+    // }
 
     return this._validateProcess(mustValidateOnTL);
   }
@@ -1252,11 +1255,11 @@ export class SurveyBatchEditApprovalComponent implements OnInit {
         this._showNotification('error', 'Masukkan Market Value M2 di Valuation Dahulu');
         mustValidatedOnVisited.marketValueM2 = false;
       }
-      if (this.collateralAppraisalService.totalDataValuationLand.length < MINIMUM_LAND_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailLand.length < MINIMUM_LAND_DETAIL) {
         this._showNotification('error', 'Masukkan Land Detail Dahulu');
         mustValidatedOnVisited.landDetail = false;
       }
-      if (this.collateralAppraisalService.totalDataValuationBuilding.length < MINIMUM_BUILDING_DETAIL) {
+      if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnVisited.building = false;
       }

@@ -327,9 +327,21 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx: number;
     if (!this.applicationProduct.id) {
-      idx = lodash.findIndex(this.creditProposal.products, function (o) {
+	  if (this.creditProposal.products) {
+		if (this.creditProposal.products.length) {
+		  for (let i = 0; i < this.creditProposal.products.length; i++) {
+			if (appProduct) {
+			  if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+				idx = i;
+			  }
+			}
+		  }
+		}
+	  }
+
+      /* idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.uniqueKey === appProduct.uniqueKey;
-      });
+      }); */
 
       if (idx === -1) {
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);

@@ -45,7 +45,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateralInfo;
-    this.collateralData = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
+
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.disableField = this.data.hideField;
@@ -53,6 +53,8 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.collateralData = this.collateralInfo.filter((obj => obj.statusId !== 'CANCEL') || (o => o.collateralTypeId !== 'CASH'));
+
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
     } else {
@@ -100,7 +102,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     if (this.creditProposalData.collateralProductRelations.length > 0) {
       for (let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++) {
         if (
-          this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id &&
+          this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
           this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData.id
         ) {
           this.creditProposalData.collateralProductRelations[i].bindingValue = event.target.value;
@@ -118,7 +120,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
         bindingValue: this.bindingValueHelper[index],
         applicationProduct: this.applicationProductData,
       };
-
       this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
     } else if (event.checked === false) {
       if (this.creditProposalData.collateralProductRelations.length > 0) {
@@ -145,7 +146,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        data = res.body.find(obj => obj.external === false);
+        data = res.body.find(obj => obj.propertyType === 'GENERAL' && obj.collateralId && obj.external === true);
         console.log(data);
         if (data !== undefined) {
           if (this.collateralInfo[i].collateralTypeId === 'VEHICLE') {
