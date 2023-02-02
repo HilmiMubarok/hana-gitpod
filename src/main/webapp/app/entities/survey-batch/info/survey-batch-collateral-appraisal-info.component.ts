@@ -218,9 +218,9 @@ export class SurveyBatchCollateralAppraisalInfoComponent implements OnChanges, O
       if (this.surveyAppraisal.apprOfficer) {
         this.outputTipeOfficerAppraisal.emit(this.surveyAppraisal.apprOfficer);
       }
-      if (this.surveyAppraisal.statusId === 'VISITED') {
-        this.visitDate = this.surveyAppraisal.apprDate.toString();
-      }
+      // if (this.surveyAppraisal.statusId === 'VISITED') {
+      this.visitDate = this.surveyAppraisal.apprDate.toString();
+      // }
     }
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
