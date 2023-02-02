@@ -1,36 +1,35 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { MatDialog } from '@angular/material/dialog';
-import { CollateralInfoHistoryDialogComponent } from '../dialog/credit-proposal-collateral-info-dialog.component';
 import { CreditProposalService } from '../../credit-proposal.service';
-import {
-  CreditProposalCollateralBinding,
-  CreditProposalCollateralInsurance,
-  ICreditProposalCollateralBinding,
-  ICreditProposalCollateralInsurance,
-} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CollateralPropertyResultListComponent } from 'app/entities/collateral-property/collateral-property-result-list.component';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { parsePreviousAtrribute } from 'app/shared/helper/utils';
-import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { CollateralInfoHistoryDialogComponent } from '../dialog/credit-proposal-collateral-info-dialog.component';
+import {
+  CreditProposalCollateralBinding,
+  CreditProposalCollateralInsurance,
+  ICreditProposalCollateralBinding,
+  ICreditProposalCollateralInsurance,
+} from '../../collateral-info/credit-proposal-collateral-info.model';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-above-grid-history',
   templateUrl: './above-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewInit {
+export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
   public displayedColumns: string[] = [
     'no',
     // 'id',
@@ -55,14 +54,15 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
   ];
 
   public parsedData: any;
+  public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
   private bindingTypeVal: any;
+  private facilityTypes: any;
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
-  public certificateType: any;
   public dataString1: string;
 
   public selectedMenu: string;
@@ -80,6 +80,15 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
     this._creditProposal = cp;
   }
 
+  public presentage(value: string) {
+    const num = parseFloat(value).toFixed(2);
+    if (num === 'Infinity') {
+      return 0 + '%';
+    } else {
+      return num + '%';
+    }
+  }
+
   @Input() isViewMode;
 
   constructor(
@@ -90,7 +99,11 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
     private collateralService: CollateralService,
     private partyCifService: PartyCifService
   ) {
+    super(_snackbar, collateralService);
+    this.itemsPerPage = 10;
+    this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
+    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
@@ -126,9 +139,9 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
     // if (changes['creditProposal']) {
-    //   if (this.parsedData.previousHistory.collaterals.length > 0) {
-    //     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
-    //       const collateral = this.parsedData.previousHistory.collaterals[i];
+    //   if (this.creditProposal.collaterals.length > 0) {
+    //     for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+    //       const collateral = this.creditProposal.collaterals[i];
     //       this.findCollateralProperty(collateral);
     //       if (this.creditProposal.cif) {
     //         this.loadByPartyId(this.creditProposal.cif.partyId);
@@ -146,6 +159,7 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
     }
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
+    this.dataItem.paginator = this.paginator;
   }
 
   public openDialog(element: ICollateral): void {
@@ -171,6 +185,7 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
+        matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
     const dialogRef = this.dialog.open(CollateralInfoHistoryDialogComponent, predicate);
@@ -414,34 +429,34 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
+      if (data.attributes.marketValueCcy !== undefined) {
+        return data?.attributes.marketValueCcy;
       }
     }
     if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
+      if (data.attributes.marketValueCcy !== undefined) {
+        return data?.attributes.marketValueCcy;
       }
     }
     if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
+      if (data.attributes.marketValueCcy !== undefined) {
+        return data?.attributes.marketValueCcy;
       }
     }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
-      }
-    }
+    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+    //   data = this.collateralProperties.find(
+    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+    //   );
+    //   if (data.attributes.marketValueCcy !== undefined) {
+    //     return data?.attributes.marketValueCcy;
+    //   }
+    // }
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
@@ -450,6 +465,38 @@ export class AboveGridHistoryComponent implements OnChanges, OnInit, AfterViewIn
       return 'IDR';
     }
     return 'IDR';
+  }
+
+  fungsiSumcredit() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+
+    return result + dolar;
   }
 
   public countMVOriginal(collateral: ICollateral): number {

@@ -261,4 +261,13 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       this.collateral.paripasuStatus = 'N';
     }
   }
+
+  public getCollateralStatus(element) {
+    if (element.paripasuStatus === 'Y' || element.paripasuStatus === 'y') {
+      return 'YES';
+    } else if (element.paripasuStatus === 'N' || element.paripasuStatus === 'n') {
+      return 'NO';
+    }
+    return '';
+  }
 }

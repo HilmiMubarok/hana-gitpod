@@ -1,14 +1,10 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { Observable, of } from 'rxjs';
-import {
-  ICreditProposalCollateralBinding,
-  ICreditProposalCollateralInsurance,
-} from 'app/entities/credit-proposal/collateral-info/credit-proposal-collateral-info.model';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
@@ -16,13 +12,48 @@ import { ICollateralType } from 'app/entities/collateral-type/collateral-type.mo
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { OptionNode } from 'app/shared/model/option-node.model';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
+import moment from 'moment';
+import { FormControl } from '@angular/forms';
+import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import {
+  ICreditProposalCollateralBinding,
+  ICreditProposalCollateralInsurance,
+} from '../../collateral-info/credit-proposal-collateral-info.model';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY/MM/DD',
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD',
+    monthYearLabel: 'YYYY/MM/DD',
+    dateA11yLabel: 'YYYY/MM/DD',
+    monthYearA11yLabel: 'YYYY/MM/DD',
+  },
+};
+
 @Component({
   selector: 'jhi-collateral-info-history-dialog',
   templateUrl: './credit-proposal-collateral-info-dialog.component.html',
   styleUrls: ['./collateral-info-dialog.css'],
-  providers: [ToolbarService, HtmlEditorService],
+  providers: [
+    ToolbarService,
+    HtmlEditorService,
+
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
-export class CollateralInfoHistoryDialogComponent implements OnInit {
+export class CollateralInfoHistoryDialogComponent implements OnInit, AfterViewInit {
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
   public collateralGrading: OptionNode[];
@@ -43,6 +74,9 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
   public filteredOptionBindingTypes: Observable<string[]>;
   public binding: ICreditProposalCollateralBinding;
   public lovRank = [];
+  public paripasuStatus: any;
+  public dataCertDueDate: any;
+  public dataOwnerShip: string;
   public matrikBindingType;
   public facilityTypeMatrik: any;
   public collateralCodeMatrik: any;
@@ -57,14 +91,17 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
-  public lovCollateralStatus: string[] = ['New', 'Existing', 'To be Released'];
+  public lovCollateralStatus: any;
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
 
   constructor(
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
     private _dialog: MatDialogRef<CollateralInfoHistoryDialogComponent>,
+
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
@@ -77,6 +114,9 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
       properties: ICollateralProperty[];
       binding: ICreditProposalCollateralBinding;
       insurance: ICreditProposalCollateralInsurance;
+      certDueDate: any;
+      ownerShip: string;
+      matrikBindingType: string;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
@@ -92,9 +132,17 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
     this.properties = this.data.properties;
     this.binding = this.data.binding;
     this.insurance = this.data.insurance;
+    this.matrikBindingType = this.data.matrikBindingType;
     for (let i = 1; i < 101; i++) {
       this.lovRank.push(i.toString());
     }
+    this.lovCollateralStatus = STATUS_COLLATERAL;
+    this.paripasuStatus = PARIPASU_STATUS;
+    this.dataCertDueDate = data.certDueDate;
+    this.dataOwnerShip = data.ownerShip;
+  }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
   }
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
@@ -102,6 +150,9 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
     });
     this.loadCollateralType();
     this.loadCollateralGrading();
+    this.trashUndefined();
+    this.checkStatusCOllateral();
+    this.getFacilityType();
   }
 
   public getFacilityType() {
@@ -135,6 +186,7 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
       this.collateralCode = lodash.find(this.collateralDetails, function (o) {
         return o['id'] === collateral.collateralTypeId;
       })['child'];
+      this.getCollateralCode();
     }
   }
 
@@ -201,5 +253,25 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  public trashUndefined() {
+    if (this.marketability === undefined && this.marketability === 'undefined') {
+      this.marketability = '';
+    }
+  }
+
+  public checkStatusCOllateral() {
+    if (this.collateral.paripasuStatus === undefined) {
+      this.collateral.paripasuStatus = 'N';
+    }
+  }
+
+  public getCollateralStatus(element) {
+    if (element.paripasuStatus === 'Y' || element.paripasuStatus === 'y') {
+      return 'YES';
+    } else if (element.paripasuStatus === 'N' || element.paripasuStatus === 'n') {
+      return 'NO';
+    }
+    return '';
   }
 }
