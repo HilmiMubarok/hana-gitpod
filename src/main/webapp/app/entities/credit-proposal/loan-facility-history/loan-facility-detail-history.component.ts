@@ -318,9 +318,9 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
   fungsiSuminit() {
     let result: number;
-    let limit: number;
+    let dolar: number;
     result = 0;
-
+    dolar = 0;
     const dataFilter =
       this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
@@ -332,23 +332,30 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < dataFilter.length; i++) {
-          if (dataFilter[i].attributes.initialLimit !== undefined) {
-            result = result + Number(dataFilter[i].attributes.initialLimit);
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    this.totallimt = result;
-    return result;
+    return result + dolar;
   }
 
   fungsiSumchange() {
     let result: number;
+    let dolar: number;
     result = 0;
-    let change: number;
-
+    dolar = 0;
     const filterSubLimit =
       this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
@@ -360,24 +367,30 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
     if (filterSubLimit.length > 0) {
       const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < filterSubLimit.length; i++) {
-          if (filterSubLimit[i].attributes.changes !== undefined) {
-            result = result + Number(filterSubLimit[i].attributes.changes);
+      const filterIdr = filterSubLimit.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    this.totallimt = result;
-    return result;
+    return result + dolar;
   }
 
   fungsiSumOS() {
     let result: number;
+    let dolar: number;
     result = 0;
-    let os: number;
-    os = 0;
-
+    dolar = 0;
     const dataFilter =
       this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
         ? this.parsedAttribute.previousReturn.products.filter(
@@ -388,18 +401,24 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
           );
 
     if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.outstanding !== undefined) {
-          if (dataFilter[i].attributes.currency === 'USD') {
-            os = Number(dataFilter[i].attributes.outstanding) * Number(dataFilter[i].attributes.kurs);
-            result = result + os;
-          } else {
-            result = result + Number(dataFilter[i].attributes.outstanding);
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    return result;
+    return result + dolar;
   }
 
   fungsiSumavailable() {
@@ -418,9 +437,9 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
 
   fungsiSumcredit() {
     let result: number;
+    let dolar: number;
     result = 0;
-    let plafond: number;
-    plafond = 0;
+    dolar = 0;
 
     const dataFilter =
       this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar
@@ -432,19 +451,24 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
           );
 
     if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.totalPlafond !== undefined) {
-          if (dataFilter[i].attributes.currency === 'USD') {
-            plafond = Number(dataFilter[i].attributes.totalPlafond) * Number(dataFilter[i].attributes.kurs);
-            result = result + plafond;
-          } else {
-            result = result + Number(dataFilter[i].attributes.totalPlafond);
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-
-    return result;
+    return result + dolar;
   }
 
   // matrix reove tag
