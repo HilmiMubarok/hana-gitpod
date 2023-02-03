@@ -169,8 +169,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
       this.surveyors = res.body;
     });
-    // this.visitDate = this.surveyAppraisal.apprDate.toString();
-    this.visitDate = moment(this.surveyAppraisal.apprDate).format('yyyy/MM/dd');
+    this.visitDate = this.surveyAppraisal.apprDate.toString();
 
     console.log('visit Date', this.visitDate);
   }
@@ -241,8 +240,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
       // if (this.surveyAppraisal.statusId === 'VISITED') {
-      // this.visitDate = this.surveyAppraisal.apprDate.toString();
-      this.visitDate = moment(this.surveyAppraisal.apprDate).format('yyyy/MM/dd');
+      this.visitDate = this.surveyAppraisal.apprDate.toString();
 
       console.log('visit Date', this.visitDate);
 
@@ -253,10 +251,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
-      // const visit=this.surveyAppraisal.apprDate
-      this.visitDate = moment(this.surveyAppraisal.apprDate).format('yyyy/MM/dd');
-      // this.approvalDate = this.surveyAppraisal.createdDate.toString();
-      // console.log('approvalDate', this.approvalDate);
+
+      this.visitDate = this.surveyAppraisal.apprDate.toString();
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
