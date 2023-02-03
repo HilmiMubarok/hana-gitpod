@@ -344,7 +344,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         if (this.creditProposal.products.length) {
 		  for (let i = 0; i < this.creditProposal.products.length; i++) {
 			if (appProduct) {
-			  if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+			  if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['attributes']['nomorUrutFasilitas']) {
 				idx = i;
 			  }
 			}
