@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="this.creditProposal.statusId !== 'LA_DAR_NOTIF'">
   <mat-card-header>
     <mat-card-subtitle>
       <div style="float: left; line-height: 85px">Approval User</div>
@@ -18,10 +18,7 @@
   </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="filteringItems" class="w-100">
-      <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef>No</th>
-        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-      </ng-container>
+  
       <ng-container matColumnDef="approval_name">
         <th mat-header-cell *matHeaderCellDef>Approval Name</th>
         <td mat-cell *matCellDef="let element">{{ element.partyName }}</td>
@@ -46,18 +43,7 @@
           {{ element.delegationPartyName }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="recomendation">
-        <th mat-header-cell *matHeaderCellDef>Recomendation / Decision</th>
-        <td mat-cell *matCellDef="let element">
-          {{ recomendation(element.applicationId) }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="confirmation">
-        <th mat-header-cell *matHeaderCellDef>Email Confirmation</th>
-        <td mat-cell *matCellDef="let element">
-          {{emailConfirmation(element.applicationId)}}
-        </td>
-      </ng-container>
+      
       <!-- <ng-container matColumnDef="available_status">
         <th mat-header-cell *matHeaderCellDef>Available Status</th>
         <td mat-cell *matCellDef="let element">
@@ -81,3 +67,134 @@
     </mat-card>
   </mat-card-content>
 </mat-card>
+
+
+
+<div class="e-card-content" *ngIf="this.creditProposal.statusId === 'LA_DAR_NOTIF'">
+  <mat-card >
+    
+  <mat-card-header>
+    <mat-card-subtitle>
+      <div style="float: left; line-height: 85px">Approval User</div>
+      <div style="float: right">
+        <mat-form-field appearance="fill">
+          <mat-label>Approval Level</mat-label>
+          <mat-select [(value)]="selectedRelationType" (selectionChange)="selRelType($event.value)">
+            <mat-option [hidden]="hidden" value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of relType" [value]="item.id">
+              {{ item.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="clear: both"></div>
+    </mat-card-subtitle>
+  </mat-card-header>
+  </mat-card>
+
+  <table mat-table [dataSource]="filteringItems" class="mat-table-expand" multiTemplateDataRows>
+
+    <ng-container matColumnDef="approval_name">
+      <th mat-header-cell *matHeaderCellDef>Approval Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.partyName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Position</th>
+      <td mat-cell *matCellDef="let element">{{ element.roleDescription }}</td>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.fromDate | formatMediumDate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="alternatename">
+      <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.delegationPartyName }}
+      </td>
+    </ng-container>
+  
+  
+ 
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        <a href="javascript:void();" [routerLink]="[element.id, 'single-assign']" mat-icon-button (click)="$event.stopPropagation()">
+          <fa-icon icon="pencil-alt"></fa-icon>
+        </a>
+        <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
+          <fa-icon [icon]="iconTimeline"></fa-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          aria-label="expand row"
+          (click)="getNoteDataByPartyIdAndApplicationId(element); expandedElement = expandedElement === element ? null : element; $event.stopPropagation(); !dropDwon"
+        >
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
+        <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="p-3 w-100">
+            <mat-card class="w-50 mx-auto">
+              <mat-card-header class="w-100">
+                <mat-card-subtitle class="fw-bold black text-uppercase">Information</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="clearfix">
+                  <div class="float-start fw-bolder">Recomendation / Decision</div>
+                  <div class="float-end">{{recomendationData}}</div>
+                </div>
+                <div class="clearfix mt-3">
+                  <div class="float-start fw-bolder">	Email Confirmation</div>
+                  <div class="float-end text-capitalize">{{receivedData}}</div>
+                </div>
+
+                <div class="clearfix mt-3">
+                  <div class="float-start fw-bolder">	Available Status</div>
+                  <div class="float-end text-capitalize"></div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+         
+     
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: displayedColumnsExpand"
+      [class.mat-expanded-row]="expandedElement === element"
+      class="mat-element-row"
+      (click)="expandedElement = expandedElement === element ? null : element"
+    ></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
+  </table>
+  <mat-card *ngIf="loading" id="material-loading-bar">
+    <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+  </mat-card>
+  <mat-paginator
+    showFirstLastButtons
+    ngClass="transparant"
+    [length]="paginatorLength"
+    [pageSize]="paginatorPageSize"
+    [pageSizeOptions]="paginatorPageSizeOption"
+    (page)="loadDataLazy($event)"
+  >
+  </mat-paginator>
+</div>
