@@ -158,7 +158,13 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
 
   submit() {
     this.item.positions = this.arrayName;
-	this.item.positions['partyId'] = this.item.partyId;
+	if (this.item.positions) {
+	  if (this.item.positions.length > 0) {
+		for (let i = 0; i < this.item.positions.length; i++) {
+		  this.item.positions[i]['partyId'] = this.item.partyId;
+		}
+	  }
+	}
     this.employeeService.update(this.item).subscribe(res => {
       this.messageService.add({
         severity: 'success',

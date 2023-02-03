@@ -299,7 +299,20 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     } else {
       this.applicationProduct = new ApplicationProduct();
       const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
-      attr.nomorUrutFasilitas = this.creditProposal.products.length + 1;
+	  if (this.creditProposal.products) {
+		if (this.creditProposal.products.length > 0) {
+		  for (let i = 0; i < this.creditProposal.products.length; i++) {
+			const nomorUrutFasilitasUnsorted = [];
+			nomorUrutFasilitasUnsorted.push(this.creditProposal.products[i].attributes['nomorUrutFasilitas']);
+			const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b) ? 1 : -1);
+			if (nomorUrutFasilitasSorted) {
+			  if (nomorUrutFasilitasSorted.length > 0) {
+				attr.nomorUrutFasilitas = nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1] + 1;
+			  }
+			}
+		  }
+		}
+	  }
       this.applicationProduct.attributes = attr;
     }
 
@@ -329,31 +342,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     if (!this.applicationProduct.id) {
       if (this.creditProposal.products) {
         if (this.creditProposal.products.length) {
-		  let productHaveId = false;
 		  for (let i = 0; i < this.creditProposal.products.length; i++) {
-			if (this.creditProposal.products[i].id) {
-			  productHaveId = true;
+			if (appProduct) {
+			  if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+				idx = i;
+			  }
 			}
 		  }
-
-		  if (productHaveId) {
-			for (let i = 0; i < this.creditProposal.products.length; i++) {
-			  if (appProduct) {
-				if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
-                  idx = i;
-				}
-              }
-			}
-		  } else {
-			for (let i = 0; i < this.creditProposal.products.length; i++) {
-			  if (appProduct) {
-				if (this.creditProposal.products[i]['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
-                  idx = i;
-				}
-              }
-			}
-		  }
-          
         }
       }
 
