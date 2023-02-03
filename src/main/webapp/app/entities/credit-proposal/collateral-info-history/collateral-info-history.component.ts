@@ -17,6 +17,10 @@ export class CollateralInfoHistoryComponent implements OnInit {
 
   constructor(private router: Router) {}
 
+  /** [isOnCompareData]="true"
+    [takeOutCompare]="true"
+     */
+
   @Input() source = '';
 
   @ViewChild('creditProposalCollateralInfoRemarksInfoComponentAbove', {

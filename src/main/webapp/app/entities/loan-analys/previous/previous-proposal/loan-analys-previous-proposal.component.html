@@ -41,8 +41,8 @@
   <jhi-collateral-info-history
     *ngIf="creditProposal.attributes['previousReturn']"
     [isOnCompareData]="true"
-    [isCompareDar]="true"
-    [isViewMode]="true"
+    [source]="'summaryAll'"
+    [parentSource]="'loan-analys'"
     [takeOutCompare]="true"
     [creditProposal]="creditProposal"
   ></jhi-collateral-info-history>
