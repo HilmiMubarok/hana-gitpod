@@ -325,27 +325,39 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
   public onSave(): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
-    let idx: number;
-    console.log('ini application product', this.applicationProduct);
+    let idx = -1;
     if (!this.applicationProduct.id) {
       if (this.creditProposal.products) {
         if (this.creditProposal.products.length) {
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            if (appProduct) {
-              if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
-                idx = i;
+		  let productHaveId = false;
+		  for (let i = 0; i < this.creditProposal.products.length; i++) {
+			if (this.creditProposal.products[i].id) {
+			  productHaveId = true;
+			}
+		  }
+
+		  if (productHaveId) {
+			for (let i = 0; i < this.creditProposal.products.length; i++) {
+			  if (appProduct) {
+				if (this.creditProposal.products.attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+                  idx = i;
+				}
               }
-            }
-          }
+			}
+		  } else {
+			for (let i = 0; i < this.creditProposal.products.length; i++) {
+			  if (appProduct) {
+				if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+                  idx = i;
+				}
+              }
+			}
+		  }
+          
         }
       }
 
-      /* idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.uniqueKey === appProduct.uniqueKey;
-      }); */
-
       if (idx === -1) {
-        console.log('mines 1');
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
         this.dataParty = [...this.dataParty, this.applicationProduct];
@@ -364,7 +376,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public onDelete(element: IApplicationProduct) {
-    console.log('ini element ', element);
     const dataGrid = this.creditProposal.products.filter(
       ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
     );
@@ -395,9 +406,5 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     } else {
       return false;
     }
-  }
-
-  print() {
-    console.log(this._creditProposal);
   }
 }
