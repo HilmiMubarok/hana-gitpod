@@ -45,7 +45,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateralInfo;
-    this.collateralProperties = []
+    this.collateralProperties = [];
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.disableField = this.data.hideField;
@@ -53,9 +53,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     for (let i = 0; i < this.creditProposalData.collaterals.length; i++) {
       const collateral = this.creditProposalData.collaterals[i];
       this.findCollateralProperty(collateral);
-      
     }
-  
   }
 
   ngOnInit(): void {
@@ -85,7 +83,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   public findCollateralProperty(collateral: ICollateral): void {
-    console.log('collateral', collateral)
+    console.log('collateral', collateral);
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
@@ -101,6 +99,17 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
+          if (
+            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+          ) {
+            if (data.attributes.marketValueOriginalCcy === undefined) {
+              return 'IDR';
+            } else {
+              return data.attributes.marketValueOriginalCcy;
+            }
+          }
           return '';
         }
         return data.attributes.marketValueCcy;
@@ -108,7 +117,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     }
     return 'IDR';
   }
-
 
   public countMVOriginal(collateral: ICollateral): number {
     let result: string;
@@ -193,7 +201,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
     }
     return 0;
   }
-  
 
   public countLV(collateral: ICollateral): number {
     let result: number;
