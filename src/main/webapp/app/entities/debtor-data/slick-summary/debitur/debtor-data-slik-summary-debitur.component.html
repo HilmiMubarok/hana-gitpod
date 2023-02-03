@@ -26,8 +26,8 @@
         <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
       </ng-container>
       <ng-container matColumnDef="rate">
-        <th mat-header-cell *matHeaderCellDef>Rate</th>
-        <td mat-cell *matCellDef="let element">{{ element.rate | number: '1.0-0' }}</td>
+        <th mat-header-cell *matHeaderCellDef>Rate(%)</th>
+        <td mat-cell *matCellDef="let element">{{ element.rate | number: '1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="period">
         <th mat-header-cell *matHeaderCellDef>Tanggal Penarikan</th>
@@ -42,7 +42,7 @@
         <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="tenor">
-        <th mat-header-cell *matHeaderCellDef>Tenor</th>
+        <th mat-header-cell *matHeaderCellDef>Tenor (Mounth)</th>
         <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
       </ng-container>
       <ng-container matColumnDef="lastKol">
@@ -98,11 +98,11 @@
 
 <div *ngIf="mode === 'view'">
   <div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
-    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">Upload</button>
-      <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
-      
-   
-</div>
+    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
+      Upload
+    </button>
+    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
+  </div>
   <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
@@ -191,11 +191,12 @@
 </div>
 
 <div *ngIf="mode === 'loan'">
-<div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
-    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">Upload</button>
-      <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
-
-</div>
+  <div [hidden]="_loanStatus !== 'CP_ASSIGNMENT'">
+    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
+      Upload
+    </button>
+    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
+  </div>
   <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
