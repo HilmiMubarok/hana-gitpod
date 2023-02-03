@@ -115,13 +115,13 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
       this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
     }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
 
     // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.setCertyficateType();
@@ -138,8 +138,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
       this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
     }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 

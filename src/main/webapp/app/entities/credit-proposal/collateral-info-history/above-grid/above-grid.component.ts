@@ -114,7 +114,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
     // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.setCertyficateType();
@@ -124,6 +124,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   @ViewChild('paginator2') paginator2: MatPaginator;
 
   private loadData(): void {
+    console.log('parsed', parsePreviousAtrribute(this.creditProposal));
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
     const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
@@ -131,8 +132,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
       this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
     }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -184,7 +185,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
-        applicationProduct: this.creditProposal.products,
+        applicationProduct: this.parsedData.previousHistory ? this.parsedData.previousHistory.products : this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
@@ -689,9 +690,9 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
   public slideChange($event) {
     if (this.isChecked === true) {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'Yes';
     } else {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
