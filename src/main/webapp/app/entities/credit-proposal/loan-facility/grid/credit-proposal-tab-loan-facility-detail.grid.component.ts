@@ -339,7 +339,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		  if (productHaveId) {
 			for (let i = 0; i < this.creditProposal.products.length; i++) {
 			  if (appProduct) {
-				if (this.creditProposal.products.attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+				if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
                   idx = i;
 				}
               }
@@ -347,7 +347,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		  } else {
 			for (let i = 0; i < this.creditProposal.products.length; i++) {
 			  if (appProduct) {
-				if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+				if (this.creditProposal.products[i]['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
                   idx = i;
 				}
               }
