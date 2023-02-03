@@ -326,24 +326,26 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public onSave(): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx: number;
+    console.log('ini application product', this.applicationProduct);
     if (!this.applicationProduct.id) {
-	  if (this.creditProposal.products) {
-		if (this.creditProposal.products.length) {
-		  for (let i = 0; i < this.creditProposal.products.length; i++) {
-			if (appProduct) {
-			  if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
-				idx = i;
-			  }
-			}
-		  }
-		}
-	  }
+      if (this.creditProposal.products) {
+        if (this.creditProposal.products.length) {
+          for (let i = 0; i < this.creditProposal.products.length; i++) {
+            if (appProduct) {
+              if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+                idx = i;
+              }
+            }
+          }
+        }
+      }
 
       /* idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.uniqueKey === appProduct.uniqueKey;
       }); */
 
       if (idx === -1) {
+        console.log('mines 1');
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
         copyApplicationProduct.applicationId = this.creditProposal.id;
         this.dataParty = [...this.dataParty, this.applicationProduct];
