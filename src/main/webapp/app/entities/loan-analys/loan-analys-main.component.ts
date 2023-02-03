@@ -240,7 +240,21 @@ export class LoanAnalysMainComponent implements OnInit {
         this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
           ? (this.subMenu = [...SUBMENU_LOAN_ANALYS])
           : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-          ? (this.subMenu = [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW])
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'loan-slik-checking',
+                text: 'SLIK Checking',
+              },
+              {
+                id: 'opinion',
+                text: 'Opinion',
+              },
+              {
+                id: 'compare-data',
+                text: 'Compare Data',
+              },
+            ])
           : (this.subMenu = [...SUBMENU_LOAN_ANALYS_BELOW_AND_BTB]);
         break;
 
@@ -279,7 +293,26 @@ export class LoanAnalysMainComponent implements OnInit {
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
             : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
-            ? [...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW, { id: 'compare-data', text: 'Compare Data' }]
+            ? [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'covenant',
+                  text: 'convenant & Document Checklist',
+                },
+                {
+                  id: 'loan-facility-detail',
+                  text: 'Loan Facility',
+                },
+                {
+                  id: 'facility-mapping',
+                  text: 'Collateral Mapping Facility',
+                },
+                { id: 'compare-data', text: 'Compare Data' },
+              ]
             : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 
