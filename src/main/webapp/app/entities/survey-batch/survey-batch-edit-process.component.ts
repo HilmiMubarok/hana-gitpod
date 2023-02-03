@@ -60,6 +60,7 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../colla
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
+import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 
 @Component({
   providers: [
@@ -71,6 +72,7 @@ import { CollateralLandCertificateService } from '../collateral-appraisal/collat
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
   ],
   selector: 'jhi-survey-batch-edit-process',
   templateUrl: './survey-batch-edit-process.component.html',
@@ -219,7 +221,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
-    private collateralLandCertificateService: CollateralLandCertificateService
+    private collateralLandCertificateService: CollateralLandCertificateService,
+    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent
   ) {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -336,6 +339,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
     this.getKeteranganObjectJaminan();
 
     if (item.collateral.propertyUsage !== '') {
@@ -356,6 +360,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
     }
@@ -1248,7 +1254,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnAssigned.buildingDetail = false;
       }
-      if (landCertificate === undefined || landCertificate === '') {
+      if (this.surveyAppraisal.collateral.attributes['landCertificates'] === '') {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnAssigned.certificate = false;
       }
@@ -1404,7 +1410,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         mustValidatedOnVisited.building = false;
       }
 
-      if (landCertificate === undefined || landCertificate === '') {
+      if (this.surveyAppraisal.collateral.attributes['landCertificates'] === '') {
         this._showNotification('error', 'Masukkan Certificate Dahulu');
         mustValidatedOnVisited.certificate = false;
       }
