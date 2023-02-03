@@ -445,52 +445,16 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.amountCcy) {
-        return data.attributes.amountCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
+      if (data) {
+        if (data.attributes.marketValueCcy === undefined) {
+          return '';
+        }
         return data.attributes.marketValueCcy;
       }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy) {
-        return data.attributes.marketValueCcy;
-      }
-    }
-    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-    //   data = this.collateralProperties.find(
-    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-    //   );
-    //   if (data.attributes.marketValueCcy) {
-    //     return data.attributes.marketValueCcy;
-    //   }
-    // }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
-      return 'IDR';
     }
     return 'IDR';
   }

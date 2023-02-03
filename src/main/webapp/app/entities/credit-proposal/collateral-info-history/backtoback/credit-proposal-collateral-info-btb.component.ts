@@ -88,11 +88,11 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   ngOnInit() {
     this.loadData();
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
 
@@ -108,8 +108,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
       this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
     }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -381,9 +381,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
   public slideChange($event) {
     if (this.isChecked === true) {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'Yes';
     } else {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 

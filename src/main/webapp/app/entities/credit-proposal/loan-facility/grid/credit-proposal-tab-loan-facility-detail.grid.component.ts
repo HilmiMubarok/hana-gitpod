@@ -325,23 +325,37 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
   public onSave(): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
-    let idx: number;
+    let idx = -1;
     if (!this.applicationProduct.id) {
-	  if (this.creditProposal.products) {
-		if (this.creditProposal.products.length) {
+      if (this.creditProposal.products) {
+        if (this.creditProposal.products.length) {
+		  let productHaveId = false;
 		  for (let i = 0; i < this.creditProposal.products.length; i++) {
-			if (appProduct) {
-			  if (this.creditProposal.products['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
-				idx = i;
-			  }
+			if (this.creditProposal.products[i].id) {
+			  productHaveId = true;
 			}
 		  }
-		}
-	  }
 
-      /* idx = lodash.findIndex(this.creditProposal.products, function (o) {
-        return o.uniqueKey === appProduct.uniqueKey;
-      }); */
+		  if (productHaveId) {
+			for (let i = 0; i < this.creditProposal.products.length; i++) {
+			  if (appProduct) {
+				if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+                  idx = i;
+				}
+              }
+			}
+		  } else {
+			for (let i = 0; i < this.creditProposal.products.length; i++) {
+			  if (appProduct) {
+				if (this.creditProposal.products[i]['nomorUrutFasilitas'] === appProduct['nomorUrutFasilitas']) {
+                  idx = i;
+				}
+              }
+			}
+		  }
+          
+        }
+      }
 
       if (idx === -1) {
         const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
@@ -362,7 +376,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public onDelete(element: IApplicationProduct) {
-    console.log('ini element ', element);
     const dataGrid = this.creditProposal.products.filter(
       ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
     );
@@ -393,9 +406,5 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     } else {
       return false;
     }
-  }
-
-  print() {
-    console.log(this._creditProposal);
   }
 }
