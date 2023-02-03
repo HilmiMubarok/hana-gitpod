@@ -18,7 +18,7 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label *ngIf="f.url === undefined">
+            <ngx-dropzone-label  [hidden]="f.name === 'los_logo.png'" *ngIf="f.url === undefined">
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
@@ -93,7 +93,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" name="status">
+                <mat-select [(ngModel)]="documentChecklist.status" name="status" (selectionChange)="onChange(documentChecklist.status)">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -163,6 +163,7 @@
             (removed)="onRemove(f)"
           >
             <ngx-dropzone-label>
+              <div *ngIf="item.name !== 'los_logo.png'">
               <img
                 width="150px"
                 [src]="item.url"
@@ -173,7 +174,7 @@
                   item.key.indexOf('gif') > -1
                 "
               />
-
+            </div>
               <img
                 (click)="donwload(item.url, item)"
                 width="150px"
@@ -277,7 +278,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" name="status">
+                <mat-select [(ngModel)]="documentChecklist.status"  (selectionChange)="onChange(documentChecklist.status)" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}

@@ -38,6 +38,11 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     if (parsedAttribute['previousReturn']['facilityDetail']) {
       parsedAttribute['previousReturn']['facilityDetail'] = JSON.parse(previousReturn['facilityDetail']);
     }
+
+    // check if creditProposalCollateralData attribute is exist
+    if (parsedAttribute['previousReturn']['creditProposalCollateralData']) {
+      parsedAttribute['previousReturn']['creditProposalCollateralData'] = JSON.parse(previousReturn['creditProposalCollateralData']);
+    }
   }
 
   // check if previousHistory attribute is exist
@@ -64,6 +69,11 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     // check if facilityDetail attribute is exist
     if (parsedAttribute['previousHistory']['facilityDetail']) {
       parsedAttribute['previousHistory']['facilityDetail'] = JSON.parse(previousHistory['facilityDetail']);
+    }
+
+    // check if creditProposalCollateralData attribute is exist
+    if (parsedAttribute['previousHistory']['creditProposalCollateralData']) {
+      parsedAttribute['previousHistory']['creditProposalCollateralData'] = JSON.parse(previousHistory['creditProposalCollateralData']);
     }
   }
 

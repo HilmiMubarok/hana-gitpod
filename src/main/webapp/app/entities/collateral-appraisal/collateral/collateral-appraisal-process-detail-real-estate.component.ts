@@ -108,6 +108,18 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     }
   }
 
+  public propertyDataBuilding(_collateralId: number) {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: _collateralId,
+        size: 9999,
+        idPropertyType: CollateralPropertyType.BUILDING,
+      })
+      .subscribe((res: any) => {
+        // Validation
+        this.collateralAppraisalService.totalDataDetailBuilding = res.body;
+      });
+  }
   public openDialogBuilding(property: ICollateralProperty = null): void {
     const predicate = {
       width: '80vw',
@@ -181,6 +193,8 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   public deleteBuilding(element) {
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getData();
+      this.propertyDataBuilding(this.collateral.id);
+      // this.collateralAppraisalService.totalDataDetailBuilding = element.id;
     });
   }
 

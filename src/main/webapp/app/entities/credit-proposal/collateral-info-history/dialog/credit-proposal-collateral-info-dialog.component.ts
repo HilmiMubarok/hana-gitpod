@@ -53,7 +53,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class CollateralInfoHistoryDialogComponent implements OnInit, AfterViewInit {
+export class CollateralInfoHistoryDialogComponent implements OnInit {
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
   public collateralGrading: OptionNode[];
@@ -141,9 +141,7 @@ export class CollateralInfoHistoryDialogComponent implements OnInit, AfterViewIn
     this.dataCertDueDate = data.certDueDate;
     this.dataOwnerShip = data.ownerShip;
   }
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
+
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();

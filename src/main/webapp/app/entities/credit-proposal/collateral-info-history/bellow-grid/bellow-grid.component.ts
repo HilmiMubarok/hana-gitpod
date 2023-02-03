@@ -115,13 +115,13 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
       this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
     }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
 
     // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.setCertyficateType();
@@ -138,8 +138,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
       this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
     }
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -424,52 +424,16 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes) {
-        return data?.attributes.amountCcy;
+      if (data) {
+        if (data.attributes.marketValueCcy === undefined) {
+          return '';
+        }
+        return data.attributes.marketValueCcy;
       }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-    //   data = this.collateralProperties.find(
-    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-    //   );
-    //   if (data.attributes.marketValueCcy !== undefined) {
-    //     return data?.attributes.marketValueCcy;
-    //   }
-    // }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
-      return 'IDR';
     }
     return 'IDR';
   }

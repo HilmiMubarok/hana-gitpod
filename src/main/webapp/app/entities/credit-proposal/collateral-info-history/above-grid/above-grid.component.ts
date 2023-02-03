@@ -129,7 +129,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
     // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.setCertyficateType();
@@ -139,6 +139,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   @ViewChild('paginator2') paginator2: MatPaginator;
 
   private loadData(): void {
+    console.log('parsed', parsePreviousAtrribute(this.creditProposal));
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
     const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
@@ -146,8 +147,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       this.findCollateralProperty(this.historyData().collaterals[i]);
     }
-    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -199,7 +200,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
-        applicationProduct: this.historyData() ? this.historyData().products : this.creditProposal.products,
+        applicationProduct: this.parsedData.previousHistory ? this.parsedData.previousHistory.products : this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
@@ -429,52 +430,16 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
-      if (data.attributes.amountCcy) {
-        return data.attributes.amountCcy;
+      if (data) {
+        if (data.attributes.marketValueCcy === undefined) {
+          return '';
+        }
+        return data.attributes.marketValueCcy;
       }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data.attributes.marketValueCcy !== undefined) {
-        return data?.attributes.marketValueCcy;
-      }
-    }
-    // if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
-    //   data = this.collateralProperties.find(
-    //     obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-    //   );
-    //   if (data.attributes.marketValueCcy !== undefined) {
-    //     return data?.attributes.marketValueCcy;
-    //   }
-    // }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
-      return 'IDR';
     }
     return 'IDR';
   }
@@ -701,9 +666,9 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
   public slideChange($event) {
     if (this.isChecked === true) {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'Yes';
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'Yes';
     } else {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 

@@ -245,7 +245,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public uncom = false;
   private creditProposalData: ICreditProposal;
   selection = true;
-  // dataProductId: any;
   public setDate: string;
   public currencyName: number;
 
@@ -273,22 +272,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.dateIndex = this.data.applicationProduct.attributes['interestRatePeriod'];
     this.indexRateServiceFun();
   }
-  // public typeListControl = new FormControl(this.listOfValue.applicationTypeList['New']);
+
   ngOnInit(): void {
     this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
 
-    // this.filteredOptions = this.myControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value || ''))
-    // );
-
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
 
     this.hiddenFieldInOffering();
-    // this.hideMatrixOffering();
     this.getApplicationOption();
     this.getObligation();
     this.setFacilityType();
@@ -355,43 +348,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.listLoanType = res.body;
     });
 
-    // console.log('cek',event)
-    // switch (event) {
-    //   case 'OD':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     // console.log('cek od',   this.listLoanType.filter(o => o.id))
-    //     // this.listFacicility
-    //     // this.lovLoanType = this.listOfValue.lovOd;
-    //     break;
-    //   case 'WCI':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   case 'DL':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   case 'MML':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   case 'FL':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   case 'IL':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   case 'BG':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   case 'LC':
-    //     this.listLoanType.id = this.listFacicility.id;
-    //     break;
-    //   default:
-    //     this.listLoanType = [];
-    // }
-
-    // this.facilityType = event;
-
     this.disableButtonChange(event);
-    // this.setFacilityTypeProduct();
   }
 
   public disableButtonChange(value: string) {
@@ -447,54 +404,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     const filterValue = value.toLowerCase();
 
     return this.listOfValue.facilityTypeList.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
-  // public changeCcy(event: string) {
-  //   if (this.preCurent === '') {
-  //     if (event === 'IDR') {
-  //       this.conCcy = true;
-  //       this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-  //       this.preCurent = 'IDR';
-  //     } else if (event === 'USD') {
-  //       this.conCcy = true;
-  //       this.logoCcy = {};
-  //       this.preCurent = 'USD';
-  //     }
-  //   } else if (this.preCurent === 'IDR') {
-  //     if (event === '') {
-  //       this.conCcy = false;
-  //       this.preCurent = '';
-  //     } else if (event === 'USD') {
-  //       this.conCcy = true;
-  //       this.logoCcy = {};
-  //       this.applicationProduct.attributes['initialLimit'] =
-  //         this.applicationProduct.attributes['initialLimit'] / this.applicationProduct.attributes['kurs'];
-  //       this.applicationProduct.attributes['outstanding'] =
-  //         this.applicationProduct.attributes['outstanding'] / this.applicationProduct.attributes['kurs'];
-  //       this.applicationProduct.attributes['changes'] =
-  //         this.applicationProduct.attributes['changes'] / this.applicationProduct.attributes['kurs'];
-  //       this.preCurent = 'USD';
-  //     }
-  //   } else if (this.preCurent === 'USD') {
-  //     if (event === '') {
-  //       this.conCcy = false;
-  //       this.preCurent = '';
-  //     } else if (event === 'IDR') {
-  //       this.conCcy = true;
-  //       this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-  //       this.applicationProduct.attributes['initialLimit'] =
-  //         this.applicationProduct.attributes['initialLimit'] * this.applicationProduct.attributes['kurs'];
-  //       this.applicationProduct.attributes['outstanding'] =
-  //         this.applicationProduct.attributes['outstanding'] * this.applicationProduct.attributes['kurs'];
-  //       this.applicationProduct.attributes['changes'] =
-  //         this.applicationProduct.attributes['changes'] * this.applicationProduct.attributes['kurs'];
-  //       this.preCurent = 'IDR';
-  //     }
-  //   }
-  // }
-
-  public print() {
-    console.log(this.applicationProduct.attributes['initialLimit']);
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
@@ -565,8 +474,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       }
     });
   }
+
   public fee: any;
-  // remove mask
+
   removeSymbolCcy(node) {
     this.fee = document.querySelectorAll('.fee');
     let ccy = node.innerHTML;
@@ -574,7 +484,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     node.innerHTML = this.fee;
   }
 
-  // Function Condition in Offering Letter
   textBoxHidden: boolean;
   paymentIDR: boolean;
   public parentPath = this.router.url.split('/')[1];
@@ -622,65 +531,48 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public paymentObligationNonAngsuran: any;
   public paymentObligationAngsuran: any;
 
-  // Get Parameter Data
   public datacoba = '';
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
-        // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_USD
         if (res.body[i].id === 'LATE_PAYMENT_FEE_USD') {
-          // this.latePaymentFeeUSD = res.body[i].value;
-          // Kondisi Jika attributes late payment fee undefined atau tidak ada di db
           if (
             this.applicationProduct.attributes['latePaymentFee'] === '' ||
             this.applicationProduct.attributes['latePaymentFee'] === undefined
           ) {
-            // cek data berdasarka currency usd
             if (this.applicationProduct.attributes['currency'] === 'USD') {
-              // jika ada yang usd di loan ambil value usd.a
               this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
             }
           }
         }
-        // Cari Data dan Cek Data Berdasarkan LATE_PAYMENT_FEE_IDR
         if (res.body[i].id === 'LATE_PAYMENT_FEE_IDR') {
-          // Kondisi Jika attributes late payment fee undefined atau tidak ada di db
           if (
             this.applicationProduct.attributes['latePaymentFee'] === '' ||
             this.applicationProduct.attributes['latePaymentFee'] === undefined
           ) {
-            // cek data berdasarka currency idr
             if (this.applicationProduct.attributes['currency'] === 'IDR') {
-              // jika ada yang idr di loan ambil value idr.a dari parameter
               this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
             }
           }
         }
-        // Cari Data dan Cek Data Berdasarkan PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK
         if (res.body[i].id === 'PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK') {
-          // Kondisi Jika attributes paymentObligation  undefined atau tidak ada di db
           if (
             this.applicationProduct.attributes['paymentObligation'] === '' ||
             this.applicationProduct.attributes['paymentObligation'] === undefined
           ) {
-            // cek data berdasarka Non Cash loan [BG,LC] dari Loan facility type
             if (
               this.applicationProduct.attributes['facilityType'] === 'BG' ||
               this.applicationProduct.attributes['facilityType'] === 'LC'
             ) {
-              // jika ada facility type dengan kode tersebut di loan ambil value dari parameter
               this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
             }
           }
         }
-        // Cari Data dan Cek Data Berdasarkan PAYMENT_OBLIGATION_ANGSURAN_REMARK
         if (res.body[i].id === 'PAYMENT_OBLIGATION_ANGSURAN_REMARK') {
-          // Kondisi Jika attributes paymentObligation  undefined atau tidak ada di db
           if (
             this.applicationProduct.attributes['paymentObligation'] === '' ||
             this.applicationProduct.attributes['paymentObligation'] === undefined
           ) {
-            // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
             if (
               this.applicationProduct.attributes['facilityType'] === 'DL' ||
               this.applicationProduct.attributes['facilityType'] === 'MML' ||
@@ -688,14 +580,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
               this.applicationProduct.attributes['facilityType'] === 'IL' ||
               this.applicationProduct.attributes['facilityType'] === 'OD'
             ) {
-              // jika ada facility type dengan kode tersebut di loan ambil value dari parameter
               this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
             }
           }
         }
       }
     });
-    // this.getObligation();
   }
 
   public obligationCashLoan: number;
@@ -716,7 +606,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.applicationProduct.attributes['facilityType'] === 'IL' ||
         this.applicationProduct.attributes['facilityType'] === 'OD'
       ) {
-        // cek data berdasarkan Cash loan [DL,MML,FL,IL,OD] dari Loan facility type
         this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationCashLoan;
       }
       if (this.applicationProduct.attributes['facilityType'] === 'BG' || this.applicationProduct.attributes['facilityType'] === 'LC') {
@@ -747,8 +636,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
   }
 
-  // getfacility
-
   setFacilityType() {
     this.creditProposalService.getFacilityTypeProduct().subscribe(res => {
       this.listFacicility = res.body;
@@ -766,7 +653,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     });
   }
 
-  // loaddata
   public loaddata() {
     const dateNew = new Date().toISOString().split('T')[0];
     this.indexRateService
