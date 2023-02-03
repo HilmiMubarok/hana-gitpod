@@ -24,7 +24,6 @@ import {
   ICreditProposalCollateralInsurance,
 } from '../../collateral-info/credit-proposal-collateral-info.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
-import _ from 'lodash';
 @Component({
   selector: 'jhi-above-grid-history',
   templateUrl: './above-grid.component.html',
@@ -141,10 +140,6 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    console.log('Above Grid History Component', {
-      isoncompare: this.isOnCompareData,
-      iscomparedar: this.isCompareDar,
-    });
     const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
