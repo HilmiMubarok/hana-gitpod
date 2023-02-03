@@ -76,8 +76,46 @@ export class DebtorDataDocumentChecklistDialogComponent {
     });
   }
 
+  public onChange(el) {
+    el === 'TBO' && this.isTBO();
+    this.deleteTBO(el)
+  }
+
+  private isTBO() {
+    const img = new Image();
+    img.src = 'content/images/los_logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+        this.file.push(file);
+      }, 'image/png');
+    };
+  }
+
+  public deleteTBO(status: any){
+    console.log('file',this.file)
+    if (status !== 'TBO') {
+      for (let i = 0; i < this.file.length; i++) {
+          if (this.file[i].name === 'los_logo.png') {
+            this.file.splice(this.file.indexOf(this.file), 1);
+          }
+          
+        }
+    }
+    
+    // if (status.value !== 'TBO') {
+    //   this.file = []
+    // }
+  }
+
+
   public save(): void {
-    if (this.documentChecklist.status === 'Available' || this.documentChecklist.status === 'Waived') {
+    
       const promises = [];
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
         for (let i = 0; i < this.file.length; i++) {
@@ -120,50 +158,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
             this._dialog.close();
           }
         }
-    }else{
-      const promises = [];
-        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-        for (let i = 0; i < this.file.length; i++) {
-          const metaData = {
-            objectName: null,
-            entityId: null,
-            documentType: null,
-            document: null,
-            category: null,
-            dueDate: null,
-            status: null,
-            remarks: null,
-            createdDate: null,
-            createdBy: null,
-          };
-          const files = this.file[i].name.replace('&', '');
-          metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
-          metaData.entityId = this.data.partyId;
-          metaData.documentType = this.documentChecklist.documentType;
-          metaData.document = this.documentChecklist.document;
-          metaData.category = this.documentChecklist.category;
-          metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
-          metaData.status = this.documentChecklist.status;
-          metaData.remarks = this.documentChecklist.remarks;
-          metaData.createdDate = new Date();
-
-          const formData = new FormData();
-          formData.append('file', this.file[i]);
-
-          this.accountService.identity().subscribe(resAccount => {
-            metaData.createdBy = resAccount.login;
-            promises.push(this.doUpload(formData, metaData));
-          });
-
-          if (promises.length > 0) {
-            Promise.all(promises).then(res => {
-              this._dialog.close(res);
-            });
-          } else {
-            this._dialog.close();
-          }
-        }
-    }
+    
     
   }
 
