@@ -10,7 +10,7 @@
       </ng-container>
       <ng-container matColumnDef="reviewerName">
         <th mat-header-cell *matHeaderCellDef>Reviewer Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.employeeFirstName + ' ' +  element.employeeLastName }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.employeeFirstName + ' ' + element.employeeLastName }}</td>
       </ng-container>
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>Position</th>
@@ -61,12 +61,23 @@
     <div class="form-group">
       <p class="e-card-sub-title">Recomendation</p>
       <div class="d-flex justify-content-around">
-          <mat-radio-group>
-            <mat-radio-button [checked]="recomendasi === 'Recommend as propose'" value="Recommend as propose" (change)="change('Recommend as propose')">Recommend as propose</mat-radio-button>
-            <mat-radio-button [checked]="recomendasi === 'Recommend With Condition'" value="Recommend With Condition" (change)="change('Recommend With Condition')">Recommend With Condition</mat-radio-button>
-            <mat-radio-button [checked]="recomendasi === 'Not Recommend'" value="Not Recommend" (change)="change('Not Recommend')">Not Recommend</mat-radio-button>
-          </mat-radio-group>
-    
+        <mat-radio-group>
+          <mat-radio-button
+            [checked]="recomendasi === 'Recommend as Propose'"
+            value="Recommend as Propose"
+            (change)="change('Recommend as Propose')"
+            >Recommend as Propose</mat-radio-button
+          >
+          <mat-radio-button
+            [checked]="recomendasi === 'Recommend With Condition'"
+            value="Recommend With Condition"
+            (change)="change('Recommend With Condition')"
+            >Recommend With Condition</mat-radio-button
+          >
+          <mat-radio-button [checked]="recomendasi === 'Not Recommend'" value="Not Recommend" (change)="change('Not Recommend')"
+            >Not Recommend</mat-radio-button
+          >
+        </mat-radio-group>
       </div>
     </div>
 
@@ -85,6 +96,5 @@
       >
       </ejs-documenteditorcontainer>
     </div>
-
   </mat-card-content>
 </mat-card>

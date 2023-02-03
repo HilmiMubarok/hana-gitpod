@@ -56,6 +56,7 @@ import { CollateralAppraisalDetailProcessLandComponent } from '../collateral-app
 import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-unit-condition.component';
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
+import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
 
 @Component({
   providers: [
@@ -67,6 +68,7 @@ import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/sum
     CollateralAppraisalDetailProcessLandComponent,
     CollateralAppraisalDetailProcessUnitConditionComponent,
     CollateralAppraisalDetailProcessMesinComponent,
+    CollateralAppraisalDetailProcessRealEstateComponent,
   ],
   selector: 'jhi-survey-batch-edit-internal',
   templateUrl: './survey-batch-edit-internal.component.html',
@@ -215,7 +217,8 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     public documentCollateralComponent: CollateralAppraisalComparisonComponent,
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
-    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
+    public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
+    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent
   ) {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -278,6 +281,8 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+
     this.getWord();
 
     this.getContainer();
@@ -346,6 +351,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
     }
   }
 
@@ -1193,10 +1199,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
         mustValidatedOnVisited.documentLainnya = false;
       }
     }
-    if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
-      this._showNotification('error', 'Masukkan Certificate Dahulu');
-      mustValidatedOnVisited.certificate = false;
-    }
     if (
       this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
@@ -1212,6 +1214,10 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       if (this.collateralAppraisalService.totalDataDetailBuilding.length < MINIMUM_BUILDING_DETAIL) {
         this._showNotification('error', 'Masukkan Building Detail Dahulu');
         mustValidatedOnVisited.building = false;
+      }
+      if (this.surveyAppraisal.collateral.attributes['landCertificates'] === '') {
+        this._showNotification('error', 'Masukkan Certificate Dahulu');
+        mustValidatedOnVisited.certificate = false;
       }
     }
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
