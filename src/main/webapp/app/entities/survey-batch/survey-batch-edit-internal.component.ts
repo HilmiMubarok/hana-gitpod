@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -282,18 +283,29 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
     this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+    this.getKeteranganObjectJaminan();
 
-    this.getWord();
-
-    this.getContainer();
     if (item.collateral.propertyUsage !== '') {
       this.checkedData = true;
     }
   }
   private ngUnsubscribe = new Subject();
   public totalKeteranganObjectJaminan;
+  // create function to read content of Blob file and return as string
+  private async readFile(file: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(JSON.parse(reader.result as string));
+      };
+      reader.onerror = error => reject(error);
+
+      reader.readAsText(file);
+    });
+  }
+
   // get keterangan objek jaminan
-  private getContainer(): void {
+  private getKeteranganObjectJaminan(): void {
     let paramsId = '';
     this.activatedRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -301,24 +313,32 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     const obj = {
       key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
     };
+    // eslint-disable-next-line @typescript-eslint/require-await
+    this.storageService.getBucketName().subscribe(async bucket => {
+      this.storageService
+        .getObjects(bucket.body['bucket'], obj)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(async response => {
+          // return new file from response
+          const document_file = await firstValueFrom(this.storageService.fileBlob(response.body[0]['url']));
+          // return content of file as string
+          this.totalKeteranganObjectJaminan = await this.readFile(document_file.body);
+          // return this.totalKeteranganObjectJaminan = array of block in section;
+          this.totalKeteranganObjectJaminan = await this.totalKeteranganObjectJaminan.sections[0].blocks;
 
-    this.storageService
-      .getObjects(this.bucket, obj)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(response => {
-        this.totalKeteranganObjectJaminan = response.body;
+          const arr = [];
+          this.totalKeteranganObjectJaminan.forEach(el => {
+            if (el.inlines) {
+              el.inlines.forEach(inline => {
+                if (inline.text) {
+                  arr.push(inline.text);
+                }
+              });
+            }
+          });
 
-        // if (response.body.length > 0) {
-        //   this.totalKeteranganObjectJaminan = true;
-        console.log('vvvvv', this.totalKeteranganObjectJaminan);
-        // }
-      });
-  }
-
-  public getWord() {
-    this.storageService.getBucketName().subscribe(val => {
-      this.bucket = val.body['bucket'];
-      this.getContainer();
+          this.totalKeteranganObjectJaminan = arr;
+        });
     });
   }
 
@@ -333,26 +353,37 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   public surveyAppraisalFunc(item: ISurveyAppraisals) {
     if (item !== undefined) {
-      this.loadData(item.collateral);
       // Get Foto Object Jaminan
+      this.loadData(item.collateral);
       this.collateralData(item.collateral.id);
-      this.storageService.getBucketName().subscribe(res => {
-        this.storageService
-          .getObjects(res.body['bucket'], {
-            key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
-          })
+      this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
+      console.log('zzzzz', this.collateralAppraisalService.totalDataFotoObjectJaminan);
 
-          .subscribe((result: any) => {
-            this.collateralAppraisalService.totalDataFotoObjectJaminan = result.body;
-          });
-      });
-
+      this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
-      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
     }
+  }
+
+  public getFotoObjectJaminan() {
+    const arr = [];
+    this.storageService.getBucketName().subscribe(res => {
+      this.storageService
+        .getObjects(res.body['bucket'], {
+          key: `/appraisals/${this.collateralAppraisal.id}/jaminan`,
+        })
+        .subscribe((result: any) => {
+          result.body.forEach(e => {
+            arr.push(e['tags']['category']);
+          });
+          this.collateralAppraisalService.totalDataFotoObjectJaminan = arr.filter(item => item === 'OBJECT');
+          console.log('category Foto Object', this.collateralAppraisalService.totalDataFotoObjectJaminan);
+        });
+    });
   }
 
   public loadData(collateral: ICollateral): void {
@@ -560,6 +591,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   private async initialize(): Promise<void> {
     this.loadData(this.collateralAppraisal.collateral);
     this.bucket = this.getBucketName()['bucket'];
+    // this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
+    this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${this.collateralAppraisal.id}/jaminan`);
+
+    this.getKeteranganObjectJaminan();
+
+    // console totalKeteranganJaminan after await
 
     let key: string;
     key = `/collateral/${this.collateralAppraisal.collateralId}/document`;
@@ -910,35 +947,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
   private async loadCollateralAppraisal(id: number): Promise<void> {
     this.collateralAppraisal = this.parseCollateralAppraisal((await firstValueFrom(this.collateralAppraisalService.find(id))).body);
-
-    // this.parseCollateralAppraisal(this.collateralAppraisal);
-
-    // this.collateralAppraisal = (await firstValueFrom(this.collateralAppraisalService.find(id))).body;
-    // if (this.collateralAppraisal.attributes === undefined || this.collateralAppraisal.attributes === null) {
-    //   this.collateralAppraisal.attributes['scoreCard'] = scoreCard;
-    //   this.collateralAppraisal.attributes['summary'] = {
-    //     keterangan: '',
-    //     marketbility: '',
-    //     returnNotes: '',
-    //   };
-    // } else {
-    //   if (!Object.prototype.hasOwnProperty.call(this.collateralAppraisal.attributes, 'scoreCard')) {
-    //     this.collateralAppraisal.attributes['scoreCard'] = scoreCard;
-    //   } else {
-    //     this.collateralAppraisal.attributes['scoreCard'] = JSON.parse(this.collateralAppraisal.attributes['scoreCard']);
-    //   }
-
-    //   if (!Object.prototype.hasOwnProperty.call(this.collateralAppraisal.attributes, 'summary')) {
-    //     this.collateralAppraisal.attributes['summary'] = {
-    //       keterangan: '',
-    //       marketbility: '',
-    //       returnNotes: '',
-    //     };
-    //   } else {
-    //     this.collateralAppraisal.attributes['summary'] = JSON.parse(this.collateralAppraisal.attributes['summary']);
-    //   }
-    // }
-    console.log('collateral appraisal', this.collateralAppraisal);
   }
   private _showNotification(severity: string, message: string): void {
     // capitalize first letter for summary
@@ -1318,12 +1326,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
-            this.getWord();
+            this.getKeteranganObjectJaminan();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
-            this.getWord();
+            this.getKeteranganObjectJaminan();
           }
           this.messageService.add({
             severity: 'success',
@@ -1338,12 +1346,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
-            this.getWord();
+            this.getKeteranganObjectJaminan();
           }
         } else if (source === 'default') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
-            this.getWord();
+            this.getKeteranganObjectJaminan();
           }
           this.messageService.add({
             severity: 'success',
