@@ -151,4 +151,13 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
       this._isViewMode = true;
     }
   }
+
+  public convertDan(value: string): any{
+    if(value !== null){
+      return value.replace('codeSpecialOmpu', '&')
+    }else{
+      return ''
+    }
+    
+  }
 }

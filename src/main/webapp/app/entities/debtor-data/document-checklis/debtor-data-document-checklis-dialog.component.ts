@@ -64,7 +64,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
-    console.log('ompu', this.documentChecklist.files)
   }
 
   public doUpload(formData: FormData, metaData: object): Promise<void> {
@@ -98,7 +97,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
   }
 
   public deleteTBO(status: any){
-    console.log('file',this.file)
     if (status !== 'TBO') {
       for (let i = 0; i < this.file.length; i++) {
           if (this.file[i].name === 'los_logo.png') {
@@ -134,12 +132,12 @@ export class DebtorDataDocumentChecklistDialogComponent {
           const files = this.file[i].name.replace('&', '');
           metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
           metaData.entityId = this.data.partyId;
-          metaData.documentType = this.documentChecklist.documentType;
-          metaData.document = this.documentChecklist.document;
-          metaData.category = this.documentChecklist.category;
-          metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
-          metaData.status = this.documentChecklist.status;
-          metaData.remarks = this.documentChecklist.remarks;
+          metaData.documentType = this.documentChecklist.documentType
+          metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialOmpu');
+          metaData.category = this.documentChecklist.category
+          metaData.dueDate = this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
+          metaData.status = this.documentChecklist.status
+          metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialOmpu');
           metaData.createdDate = new Date();
 
           const formData = new FormData();
@@ -162,18 +160,33 @@ export class DebtorDataDocumentChecklistDialogComponent {
     
   }
 
+  public convertDan(value: string): any{
+    if(value !== null){
+      return value.replace('codeSpecialOmpu', '&')
+    }else{
+      return ''
+    }
+   
+  }
+
+  public setModel(event: any){
+    this.documentChecklist.remarks = event.target.value
+  }
+
   public edit(): void {
     const files: IDocumentNode[] = this.documentChecklist['files'];
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
         this.accountService.identity().subscribe(resAccount => {
-          file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
-          file.tags['status'] = this.documentChecklist.status;
-          file.tags['remarks'] = this.documentChecklist.remarks;
+          file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' || this.documentChecklist.dueDate=== null ?  'null' : new Date(this.documentChecklist.dueDate).toISOString();
+          file.tags['status'] = this.documentChecklist.status
+          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialOmpu');
 
           file.tags['createdBy'] = resAccount.login;
         });
+
+       
 
         this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
           this._dialog.close(res);

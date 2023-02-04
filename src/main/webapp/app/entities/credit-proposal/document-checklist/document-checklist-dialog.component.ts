@@ -66,7 +66,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
     this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
-    console.log('ompu', this.documentChecklist )
+  
   }
 
   public onChange(el) {
@@ -147,12 +147,14 @@ export class DocumentChecklistDialogComponent implements OnInit {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
         this.accountService.identity().subscribe(resAccount => {
+          file.tags['dueDate'] =  this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? 'null' : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
           file.tags['remarks'] = this.documentChecklist.remarks;
-          file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
+        
           file.tags['createdBy'] = resAccount.login;
         });
-
+        
+   
         this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
           this._dialog.close(res);
         });
@@ -161,9 +163,23 @@ export class DocumentChecklistDialogComponent implements OnInit {
     
   }
 
+  public setModel(event: any){
+    this.documentChecklist.remarks = event.target.value
+  }
+
+
+  public convertDan(value: string): any{
+    if(value !== null){
+      return value.replace('codeSpecialOmpu', '&')
+    }else{
+      return ''
+    }
+    
+  }
+
   public onSelect(event: any) {
     this.file.push(...event.addedFiles);
-    console.log(this.file);
+ 
   }
 
   private isTBO() {
@@ -181,7 +197,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
       }, 'image/png');
     };
 
-    console.log('file', this.file)
+
   }
 
   public onRemove(event: any) {
