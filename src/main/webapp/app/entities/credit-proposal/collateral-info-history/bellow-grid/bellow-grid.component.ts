@@ -91,6 +91,10 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   @Input() isViewMode;
 
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   constructor(
     protected _snackbar: MatSnackBar,
     private collateralPropertyService: CollateralPropertyService,
@@ -109,19 +113,31 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     this.totalLVInt = 0;
   }
 
+  public historyData() {
+    // if isOnCompare and not isCompareDar, then set dynamic data to previousReturn
+    if (this.isOnCompareData && !this.isCompareDar) {
+      return this.parsedData.previousReturn;
+    } else if (this.isOnCompareData && this.isCompareDar) {
+      // return dataDar
+      return this.creditProposal.products;
+    } else {
+      return this.parsedData.previousHistory;
+    }
+  }
+
   ngOnInit(): void {
     this.loadData();
 
-    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
-      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
+    for (let i = 0; i < this.historyData().collaterals.length; i++) {
+      this.findCollateralProperty(this.historyData().collaterals[i]);
     }
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
 
     // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.setCertyficateType();
@@ -132,14 +148,14 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
-    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
-      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
+    for (let i = 0; i < this.historyData().collaterals.length; i++) {
+      this.findCollateralProperty(this.historyData().collaterals[i]);
     }
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -161,8 +177,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
-    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
-      a = lodash.concat(a, this.parsedData.previousHistory.collaterals[i]);
+    for (let i = 0; i < this.historyData().collaterals.length; i++) {
+      a = lodash.concat(a, this.historyData().collaterals[i]);
     }
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
@@ -171,8 +187,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   public openDialog(element: ICollateral): void {
     let cp = {};
-    for (let index = 0; index < this.parsedData.previousHistory.collaterals.length; index++) {
-      if (this.parsedData.previousHistory.collaterals[index].collateralId === element.collateralId) {
+    for (let index = 0; index < this.historyData().collaterals.length; index++) {
+      if (this.historyData().collaterals[index].collateralId === element.collateralId) {
         cp = this.creditProposal;
       }
     }
@@ -203,34 +219,31 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         }
       }
 
-      const collateralIdx: number = lodash.findIndex(this.parsedData.previousHistory.collaterals, function (o: any) {
+      const collateralIdx: number = lodash.findIndex(this.historyData().collaterals, function (o: any) {
         return o.id === res['collateral'].id;
       });
       if (collateralIdx > -1) {
-        this.parsedData.previousHistory.collaterals[collateralIdx] = res['collateral'];
+        this.historyData().collaterals[collateralIdx] = res['collateral'];
       }
 
       // replace / add binding
-      const bindingIdx: number = lodash.findIndex(this.parsedData.previousHistory.binding, function (o: ICreditProposalCollateralBinding) {
+      const bindingIdx: number = lodash.findIndex(this.historyData().binding, function (o: ICreditProposalCollateralBinding) {
         return o.collateralId === res['collateral'].id;
       });
       if (bindingIdx > -1) {
-        this.parsedData.previousHistory.binding[bindingIdx] = res['binding'];
+        this.historyData().binding[bindingIdx] = res['binding'];
       } else {
-        this.parsedData.previousHistory.binding = [...this.parsedData.previousHistory.binding, res['binding']];
+        this.historyData().binding = [...this.historyData().binding, res['binding']];
       }
 
       // replace / add insurance
-      const insuranceIdx: number = lodash.findIndex(
-        this.parsedData.previousHistory.insurance,
-        function (o: ICreditProposalCollateralInsurance) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
+      const insuranceIdx: number = lodash.findIndex(this.historyData().insurance, function (o: ICreditProposalCollateralInsurance) {
+        return o.collateralId === res['collateral'].id;
+      });
       if (insuranceIdx > -1) {
-        this.parsedData.previousHistory.insurance[insuranceIdx] = res['insurance'];
+        this.historyData().insurance[insuranceIdx] = res['insurance'];
       } else {
-        this.parsedData.previousHistory.insurance = [...this.parsedData.previousHistory.insurance, res['insurance']];
+        this.historyData().insurance = [...this.historyData().insurance, res['insurance']];
       }
     });
   }
@@ -296,9 +309,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
-    if (this.parsedData.previousHistory.insurance.length > 0) {
-      for (let i = 0; i < this.parsedData.previousHistory.insurance.length; i++) {
-        const item: ICreditProposalCollateralInsurance = this.parsedData.previousHistory.insurance[i];
+    if (this.historyData().insurance.length > 0) {
+      for (let i = 0; i < this.historyData().insurance.length; i++) {
+        const item: ICreditProposalCollateralInsurance = this.historyData().insurance[i];
         if (item.collateralId === element.id) {
           return item;
         }
@@ -308,9 +321,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.parsedData.previousHistory.binding.length > 0) {
-      for (let i = 0; i < this.parsedData.previousHistory.binding.length; i++) {
-        const item: ICreditProposalCollateralBinding = this.parsedData.previousHistory.binding[i];
+    if (this.historyData().binding.length > 0) {
+      for (let i = 0; i < this.historyData().binding.length; i++) {
+        const item: ICreditProposalCollateralBinding = this.historyData().binding[i];
         if (item.collateralId === element.id) {
           return item;
         }

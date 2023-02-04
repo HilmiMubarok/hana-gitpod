@@ -60,6 +60,10 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public parsedData: any;
   @Input() isViewMode?: Boolean = false;
 
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -85,14 +89,26 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     this.totalLVInt = 0;
   }
 
+  public historyData() {
+    // if isOnCompare and not isCompareDar, then set dynamic data to previousReturn
+    if (this.isOnCompareData && !this.isCompareDar) {
+      return this.parsedData.previousReturn;
+    } else if (this.isOnCompareData && this.isCompareDar) {
+      // return dataDar
+      return this.creditProposal.products;
+    } else {
+      return this.parsedData.previousHistory;
+    }
+  }
+
   ngOnInit() {
     this.loadData();
 
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
 
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
 
@@ -102,14 +118,14 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
   private loadData(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposal);
-    const dataFilter = this.parsedData.previousHistory.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    const dataFilter = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     this.dataItem = new MatTableDataSource(dataFilter);
     this.dataItem.paginator = this.paginator;
-    for (let i = 0; i < this.parsedData.previousHistory.collaterals.length; i++) {
-      this.findCollateralProperty(this.parsedData.previousHistory.collaterals[i]);
+    for (let i = 0; i < this.historyData().collaterals.length; i++) {
+      this.findCollateralProperty(this.historyData().collaterals[i]);
     }
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -194,13 +210,13 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       }
 
       // replace / add binding
-      const bindingIdx: number = lodash.findIndex(this.parsedData.previousHistory.binding, function (o: ICreditProposalCollateralBinding) {
+      const bindingIdx: number = lodash.findIndex(this.historyData().binding, function (o: ICreditProposalCollateralBinding) {
         return o.collateralId === res['collateral'].id;
       });
       if (bindingIdx > -1) {
-        this.parsedData.previousHistory.binding[bindingIdx] = res['binding'];
+        this.historyData().binding[bindingIdx] = res['binding'];
       } else {
-        this.parsedData.previousHistory.binding = [...this.parsedData.previousHistory.binding, res['binding']];
+        this.historyData().binding = [...this.historyData().binding, res['binding']];
       }
     });
   }
@@ -242,9 +258,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
 
   public getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.parsedData.previousHistory.binding.length > 0) {
-      for (let i = 0; i < this.parsedData.previousHistory.binding.length; i++) {
-        const item: ICreditProposalCollateralBinding = this.parsedData.previousHistory.binding[i];
+    if (this.historyData().binding.length > 0) {
+      for (let i = 0; i < this.historyData().binding.length; i++) {
+        const item: ICreditProposalCollateralBinding = this.historyData().binding[i];
         if (item.collateralId === element.id) {
           return item;
         }
@@ -381,9 +397,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
 
   public slideChange($event) {
     if (this.isChecked === true) {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'Yes';
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'Yes';
     } else {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 

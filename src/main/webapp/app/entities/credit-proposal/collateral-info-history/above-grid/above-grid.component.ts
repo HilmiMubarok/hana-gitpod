@@ -129,7 +129,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
 
     // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.isChecked = true;
     }
     this.setCertyficateType();
@@ -147,8 +147,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       this.findCollateralProperty(this.historyData().collaterals[i]);
     }
-    if (this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus === '') {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
@@ -200,7 +200,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
-        applicationProduct: this.parsedData.previousHistory ? this.parsedData.previousHistory.products : this.creditProposal.products,
+        applicationProduct: this.parsedData.previousHistory ? this.historyData().products : this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
@@ -666,9 +666,9 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
   public slideChange($event) {
     if (this.isChecked === true) {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'Yes';
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'Yes';
     } else {
-      this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus = 'No';
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
     }
   }
 
