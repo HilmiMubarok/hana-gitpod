@@ -316,6 +316,17 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
+          if (
+            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+          ) {
+            if (data.attributes.marketValueOriginalCcy === undefined) {
+              return 'IDR';
+            } else {
+              return data.attributes.marketValueOriginalCcy;
+            }
+          }
           return '';
         }
         return data.attributes.marketValueCcy;

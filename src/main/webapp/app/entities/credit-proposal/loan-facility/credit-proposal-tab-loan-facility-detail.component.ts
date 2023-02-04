@@ -106,6 +106,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onDocumentChange() {
+    this.container.restrictEditing = true;
     if (this.isViewMode === true) {
       if (this.parentSource === '') {
         this.container_view_false.restrictEditing = true;
@@ -193,6 +194,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_view_false.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_view_false_loan_analys.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
