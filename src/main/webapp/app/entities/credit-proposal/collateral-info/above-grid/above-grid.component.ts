@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
@@ -421,17 +422,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
-          if (
-            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-          ) {
-            if (data.attributes.marketValueOriginalCcy === undefined) {
-              return 'IDR';
-            } else {
-              return data.attributes.marketValueOriginalCcy;
-            }
-          }
           return '';
         }
         return data.attributes.marketValueCcy;
@@ -660,11 +650,92 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       data: { collateral: element },
     });
   }
+
+  // testing
+  // private selectAllCollateralProductRelation(status: string): void {
+  //   console.log('cek status', status)
+  //   if (this.creditProposal.collaterals && this.creditProposal.products) {
+  //     if (this.creditProposal.collaterals.length > 0 && this.creditProposal.products.length > 0) {
+  //     for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+  //       for (let j = 0; j < this.creditProposal.products.length; j++) {
+  //       if (status === 'exist') {
+  //         const isExistAtColateralProductRelation = false;
+  //         for (let k = 0; k < this.creditProposal.collateralProductRelations.length; k++) {
+  //         if (this.creditProposal.collateralProductRelations[k].collateralId === this.creditProposal.collaterals[i].id && this.creditProposal.collateralProductRelations[k].applicationProduct.id === this.creditProposal.products[j].id) {
+  //           // already mapping
+  //         } else {
+  //           const collateralProductRelations = {
+  //           collateralId: 0,
+  //           bindingValue: 0,
+  //           applicationProduct: new ApplicationProduct()
+  //           };
+
+  //           collateralProductRelations.collateralId = this.creditProposal.collaterals[i].id;
+  //           collateralProductRelations.bindingValue = 0;
+  //           collateralProductRelations.applicationProduct.productId = this.creditProposal.products[j].id;
+  //           collateralProductRelations.applicationProduct.applicationId = this.creditProposal.id;
+
+  //           this.creditProposal.collateralProductRelations.push(collateralProductRelations);
+  //         }
+  //         }
+  //       } else if (status === 'empty') {
+  //         if (this.creditProposal.collaterals[i].id && this.creditProposal.products[j].id) {
+  //           const collateralProductRelations = {
+  //             collateralId: 0,
+  //             bindingValue: 0,
+  //             applicationProduct: new ApplicationProduct()
+  //           };
+
+  //           collateralProductRelations.collateralId = this.creditProposal.collaterals[i].id;
+  //           collateralProductRelations.bindingValue = 0;
+  //           collateralProductRelations.applicationProduct.productId = this.creditProposal.products[j].id;
+  //           collateralProductRelations.applicationProduct.applicationId = this.creditProposal.id;
+
+  //         this.creditProposal.collateralProductRelations.push(collateralProductRelations);
+  //         }
+  //       }
+  //       }
+  //     }
+  //     }
+  //   }
+  //   }
+
   public slideChange($event) {
     if (this.isChecked === true) {
+      // console.log('cek data product', this.creditProposal.collaterals,  this.creditProposal.products)
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          for (let j = 0; j < this.creditProposal.products.length; j++) {
+            if ($event === true) {
+              const tempCollateralProductRelationObject = {
+                collateralId: this.creditProposal.collaterals[i].id,
+                bindingValue: 0,
+                applicationProduct: this.creditProposal.products[i],
+              };
+              console.log('masuk', tempCollateralProductRelationObject);
+              this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+            }
+          }
+        }
+        // console.log('cek data masuk sini')
+      }
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      if (this.creditProposal.collateralProductRelations.length > 0) {
+        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+          if (
+            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
+            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
+          ) {
+            console.log(
+              'masuk',
+              this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length)
+            );
+            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+          }
+        }
+      }
     }
   }
 

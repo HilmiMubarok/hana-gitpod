@@ -108,7 +108,7 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
             for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
               if (
                 this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
-                this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[i].id
+                this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData[i].id
               ) {
                 this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
                 this.mappingStatusHelper[i] = 'yes';

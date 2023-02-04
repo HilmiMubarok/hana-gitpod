@@ -232,7 +232,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
           for (let j = 0; j < this.creditProposalData.collateralProductRelations.length; j++) {
             if (
               this.creditProposalData.collateralProductRelations[j].collateralId === this.collateralInfo[i].id &&
-              this.creditProposalData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData.id
+              this.creditProposalData.collateralProductRelations[j].applicationProduct?.id === this.applicationProductData.id
             ) {
               this.mappingStatusHelper[i] = 'yes';
               this.bindingValueHelper[i] = this.creditProposalData.collateralProductRelations[j].bindingValue;
@@ -271,7 +271,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
         for (let i = 0; i < this.creditProposalData.collateralProductRelations.length; i++) {
           if (
             this.creditProposalData.collateralProductRelations[i].collateralId === this.collateralInfo[index].id &&
-            this.creditProposalData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData.id
+            this.creditProposalData.collateralProductRelations[i].applicationProduct?.id === this.applicationProductData.id
           ) {
             this.creditProposalData.collateralProductRelations.splice(i, 1);
           }
