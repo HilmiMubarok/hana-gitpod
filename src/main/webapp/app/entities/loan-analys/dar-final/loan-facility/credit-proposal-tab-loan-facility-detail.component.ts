@@ -141,11 +141,10 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   };
 
   fungsiSuminit() {
-    // alert('ok');
     let result: number;
-    let limit: number;
-    // limit = 0;
+    let dolar: number;
     result = 0;
+    dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
@@ -153,42 +152,55 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < dataFilter.length; i++) {
-          if (dataFilter[i].attributes.initialLimit !== undefined) {
-            result = result + Number(dataFilter[i].attributes.initialLimit);
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    // console.log('ini', result);
-    // return result;
-    this.totallimt = result;
-    return result;
+    return result + dolar;
   }
 
   fungsiSumchange() {
     let result: number;
+    let dolar: number;
     result = 0;
-    let change: number;
-    // change = 0;
+    dolar = 0;
 
-    const filterSubLimit = this.creditProposal.products.filter(
+    const dataFilter = this.creditProposal.products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
-    if (filterSubLimit.length > 0) {
-      const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < filterSubLimit.length; i++) {
-          if (filterSubLimit[i].attributes.changes !== undefined) {
-            result = result + Number(filterSubLimit[i].attributes.changes);
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
           }
         }
       }
     }
-    this.totallimt = result;
-    return result;
+    this.totalChanges = result + dolar;
+    return result + dolar;
   }
 
   fungsiSumOS() {
