@@ -15,7 +15,7 @@
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSuminit()"
@@ -28,7 +28,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Initial Limit</div>
             <div class="col-md-auto">:</div>
@@ -36,7 +36,7 @@
           </div>
         </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSumchange()"
@@ -49,7 +49,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
@@ -58,7 +58,7 @@
         </section>
       </div>
       <div class="col-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSumOS()"
@@ -71,7 +71,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
@@ -79,7 +79,7 @@
           </div>
         </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSumcredit()"
@@ -93,7 +93,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
@@ -105,7 +105,7 @@
 
     <div class="row mb-3 mt-3" *ngIf="takeOutCompare !== true">
       <div class="col-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [(ngModel)]="dynamicCP().facilityDetail.custodianFee"
@@ -118,7 +118,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Custody Fee</div>
             <div class="col-md-auto">:</div>
@@ -130,7 +130,7 @@
     <div class="mb-2">
       <section *ngIf="parentSource === 'credit-proposal'">
         <mat-label>REMARKS</mat-label>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
             [enableToolbar]="false"
@@ -143,7 +143,7 @@
           >
           </ejs-documenteditorcontainer>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <ejs-documenteditorcontainer
             #document_editor_container_view_false
             [enableToolbar]="false"
@@ -181,7 +181,7 @@
     </div>
     <div class="e-card-content">
       <div class="row">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="col-6">
             <mat-label>Previous Bank</mat-label>
             <mat-form-field class="w-100" appearance="outline">
@@ -189,7 +189,7 @@
             </mat-form-field>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Previous Bank</div>
             <div class="col-md-auto">:</div>
@@ -241,7 +241,7 @@
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSuminit()"
@@ -254,7 +254,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Initial Limit</div>
             <div class="col-md-auto">:</div>
@@ -262,7 +262,7 @@
           </div>
         </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSumchange()"
@@ -275,7 +275,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Changes</div>
             <div class="col-md-auto">:</div>
@@ -284,7 +284,7 @@
         </section>
       </div>
       <div class="col-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="countOs"
@@ -297,7 +297,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total O/S</div>
             <div class="col-md-auto">:</div>
@@ -305,7 +305,7 @@
           </div>
         </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [value]="fungsiSumcredit()"
@@ -319,7 +319,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Plafond</div>
             <div class="col-md-auto">:</div>
@@ -331,7 +331,7 @@
 
     <div class="row mb-3 mt-3" *ngIf="takeOutCompare !== true">
       <div class="col-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
               [(ngModel)]="dynamicCP().facilityDetail.custodianFee"
@@ -344,7 +344,7 @@
             ></ejs-numerictextbox>
           </div>
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Custody Fee</div>
             <div class="col-md-auto">:</div>
@@ -354,7 +354,7 @@
       </div>
     </div>
     <section *ngIf="parentSource === 'credit-proposal'">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
         <ejs-documenteditorcontainer
           #document_editor_container
           [enableToolbar]="true"
@@ -369,7 +369,7 @@
           [isReadOnly]="false"
         ></ejs-documenteditorcontainer>
       </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
         <ejs-documenteditorcontainer
           #document_editor_container
           [enableToolbar]="false"
@@ -402,7 +402,7 @@
       </div>
       <div class="e-card-content">
         <div class="row">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="col-6">
               <mat-label>Previous Bank</mat-label>
               <mat-form-field class="w-100" appearance="outline">
@@ -410,7 +410,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
               <div class="col-2">Previous Bank</div>
               <div class="col-md-auto">:</div>
