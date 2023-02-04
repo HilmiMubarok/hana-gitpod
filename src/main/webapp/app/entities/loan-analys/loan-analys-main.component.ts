@@ -336,6 +336,27 @@ export class LoanAnalysMainComponent implements OnInit {
         this.subMenu =
           this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
             ? [...SUBMENU_LOAN_COMMITTEE_APPROVAL_ABOVE, { id: 'compare-data', text: 'Compare Data' }]
+            : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+            ? [
+                ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+                {
+                  id: 'opinion',
+                  text: 'Opinion',
+                },
+                {
+                  id: 'covenant',
+                  text: 'convenant & Document Checklist',
+                },
+                {
+                  id: 'loan-facility-detail',
+                  text: 'Loan Facility',
+                },
+                {
+                  id: 'facility-mapping',
+                  text: 'Collateral Mapping Facility',
+                },
+                { id: 'compare-data', text: 'Compare Data' },
+              ]
             : [...SUBMENU_LOAN_ANALYS_DAR_FINAL, { id: 'compare-data', text: 'Compare Data' }];
         break;
 

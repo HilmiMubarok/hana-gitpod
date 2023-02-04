@@ -8,7 +8,11 @@
       (select)="selectMenuItem($event)"
     ></ejs-menu>
     <div [hidden]="selectedMenu === 'CHECKLIST'">
-      <jhi-above-grid-history [creditProposal]="creditProposal"></jhi-above-grid-history>
+      <jhi-above-grid-history
+        [creditProposal]="creditProposal"
+        [isOnCompareData]="isOnCompareData"
+        [isCompareDar]="isCompareDar"
+      ></jhi-above-grid-history>
       <jhi-credit-proposal-collateral-info-remarks-information
         #creditProposalCollateralInfoRemarksInfoComponentAbove
         [creditProposal]="creditProposal"
@@ -33,7 +37,11 @@
   </div>
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-    <jhi-bellow-grid-history [creditProposal]="creditProposal"></jhi-bellow-grid-history>
+    <jhi-bellow-grid-history
+      [isOnCompareData]="isOnCompareData"
+      [isCompareDar]="isCompareDar"
+      [creditProposal]="creditProposal"
+    ></jhi-bellow-grid-history>
     <jhi-credit-proposal-collateral-info-remarks-information
       #creditProposalCollateralInfoRemarksInfoComponentBelow
       [creditProposal]="creditProposal"
@@ -43,7 +51,11 @@
   </div>
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-    <jhi-collateral-info-btb-history [creditProposal]="creditProposal"></jhi-collateral-info-btb-history>
+    <jhi-collateral-info-btb-history
+      [isOnCompareData]="isOnCompareData"
+      [isCompareDar]="isCompareDar"
+      [creditProposal]="creditProposal"
+    ></jhi-collateral-info-btb-history>
     <jhi-credit-proposal-collateral-info-remarks-information
       #creditProposalCollateralInfoRemarksInfoComponentBtb
       [creditProposal]="creditProposal"
@@ -63,23 +75,40 @@
       (select)="selectMenuItem($event)"
     ></ejs-menu>
     <div [hidden]="selectedMenu === 'CHECKLIST'">
-      <jhi-above-grid-history [creditProposal]="creditProposal"></jhi-above-grid-history>
+      <jhi-above-grid-history
+        [isOnCompareData]="isOnCompareData"
+        [isCompareDar]="isCompareDar"
+        [creditProposal]="creditProposal"
+      ></jhi-above-grid-history>
     </div>
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
     <div *ngIf="selectedMenu === 'CHECKLIST'">
       <div class="card-content">
-        <jhi-collateral-info-checklist-history [creditProposal]="creditProposal" [isViewMode]="isViewMode">
+        <jhi-collateral-info-checklist-history
+          [isOnCompareData]="isOnCompareData"
+          [isCompareDar]="isCompareDar"
+          [creditProposal]="creditProposal"
+          [isViewMode]="isViewMode"
+        >
         </jhi-collateral-info-checklist-history>
       </div>
     </div>
   </div>
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-    <jhi-bellow-grid-history [creditProposal]="creditProposal"></jhi-bellow-grid-history>
+    <jhi-bellow-grid-history
+      [isOnCompareData]="isOnCompareData"
+      [isCompareDar]="isCompareDar"
+      [creditProposal]="creditProposal"
+    ></jhi-bellow-grid-history>
   </div>
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-    <jhi-collateral-info-btb-history [creditProposal]="creditProposal"></jhi-collateral-info-btb-history>
+    <jhi-collateral-info-btb-history
+      [isOnCompareData]="isOnCompareData"
+      [isCompareDar]="isCompareDar"
+      [creditProposal]="creditProposal"
+    ></jhi-collateral-info-btb-history>
   </div>
 </section>
