@@ -43,7 +43,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   }
   public convertDan(value: string): any{
     if(value !== null){
-      return value.replace('codeSpecialOmpu', '&')
+      return value.replace('codeSpecialDan', '&')
     }else{
       return ''
     }

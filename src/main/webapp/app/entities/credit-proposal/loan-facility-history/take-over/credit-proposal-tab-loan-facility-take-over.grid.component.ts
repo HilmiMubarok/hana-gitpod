@@ -26,7 +26,7 @@ import {
   ApplicationProductTakeOver,
 } from 'app/entities/credit-proposal/loan-facility/application-product-take-over/application-product-take-over.model';
 import { LoanFacilityTakeOverAfterHistoryComponent } from '../take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
-
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-loan-facility-take-over-grid-history',
   templateUrl: './credit-proposal-tab-loan-facility-take-over.grid.component.html',
@@ -59,16 +59,43 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
   public loading: boolean;
   public cloneData: any;
 
+
+
   // dataData: any;
 
   private loanApplication: ILoanApplication;
-  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
+  constructor(public router: Router,public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
     this.loading = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       this.getLoanApplication();
+    }
+    this.historyGet()
+  }
+
+  public parsedAttr: any
+  public historyGet(){
+    if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1) {
+      if (this.router.url.split('=').indexOf('loan-facility') > -1) {
+      
+        this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+        if (this.parsedAttr.previousHistory) {
+          this.facilityTakeOver = this.parsedAttr.previousHistory.facilityTakeOver;
+      
+        } else {
+          this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
+      }
+    }else{
+      this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
+
+    }
+
+    }else{
+      this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
+       
+
     }
   }
 
@@ -96,9 +123,11 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
       }
     });
   }
+  public facilityTakeOver: any
   public onDelete(element: ICreditProposal) {
     const dataGridTake = this.creditProposal.attributes['facilityTakeOver'].filter(({ id }) => id !== element.id);
-    this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
+    this.facilityTakeOver = dataGridTake;
     this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
   }
+
 }

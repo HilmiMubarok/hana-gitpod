@@ -97,11 +97,11 @@ export class DocumentChecklistDialogComponent implements OnInit {
         metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
         metaData.entityId = this.data.creditProposal.id;
         metaData.documentType = this.documentChecklist.documentType;
-        metaData.document = this.documentChecklist.document;
+        metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
         metaData.category = this.documentChecklist.category;
         metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
         metaData.status = this.documentChecklist.status;
-        metaData.remarks = this.documentChecklist.remarks;
+        metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
         metaData.createdDate = new Date();
   
         const formData = new FormData();
@@ -149,7 +149,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
         this.accountService.identity().subscribe(resAccount => {
           file.tags['dueDate'] =  this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? 'null' : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
-          file.tags['remarks'] = this.documentChecklist.remarks;
+          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');;
         
           file.tags['createdBy'] = resAccount.login;
         });
@@ -170,7 +170,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
   public convertDan(value: string): any{
     if(value !== null){
-      return value.replace('codeSpecialOmpu', '&')
+      return value.replace('codeSpecialDan', '&')
     }else{
       return ''
     }

@@ -133,11 +133,11 @@ export class DebtorDataDocumentChecklistDialogComponent {
           metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
           metaData.entityId = this.data.partyId;
           metaData.documentType = this.documentChecklist.documentType
-          metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialOmpu');
+          metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
           metaData.category = this.documentChecklist.category
           metaData.dueDate = this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
           metaData.status = this.documentChecklist.status
-          metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialOmpu');
+          metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
           metaData.createdDate = new Date();
 
           const formData = new FormData();
@@ -162,7 +162,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
   public convertDan(value: string): any{
     if(value !== null){
-      return value.replace('codeSpecialOmpu', '&')
+      return value.replace('codeSpecialDan', '&')
     }else{
       return ''
     }
@@ -181,7 +181,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
         this.accountService.identity().subscribe(resAccount => {
           file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' || this.documentChecklist.dueDate=== null ?  'null' : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status
-          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialOmpu');
+          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
 
           file.tags['createdBy'] = resAccount.login;
         });
