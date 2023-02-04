@@ -63,14 +63,14 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   constructor(
     protected datePipe: DatePipe,
-	protected dialog: MatDialog,
+    protected dialog: MatDialog,
     protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected storageService: StorageService,
     protected creditProposalService: CreditProposalService,
     protected positionService: PositionService
   ) {
-	this.uuid = uuid.v4();
+    this.uuid = uuid.v4();
   }
 
   private getWord() {
@@ -85,14 +85,14 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       for (let i = 0; i < this.positionLogin.length; i++) {
         this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].id;
       }
-	  this.refresh();
+      this.refresh();
     });
   }
 
   ngOnInit(): void {
-	this.uuidPath.emit(this.uuid);
+    this.uuidPath.emit(this.uuid);
 
-	this.getWord();
+    this.getWord();
     this.filterPositionLogin();
   }
 
@@ -113,43 +113,43 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public triggeredSave(): void {
-	let paramsId = '';
+    let paramsId = '';
 
-	this.activatedRoute.params.subscribe(params => {
-	  paramsId = params['id'];
-	});
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
 
-	const key = 'credit_proposal/remark/opinion-history/opinion';
+    const key = 'credit_proposal/remark/opinion-history/opinion';
 
-	const timeStamp = Math.floor(Date.now() / 1000);
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-	const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
-	docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-	  const fileType = 'word';
-	  const pathHelper = this.uuid + '-opinion';
-	  const fileName = this.uuid + '.docs';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const pathHelper = this.uuid + '-opinion';
+      const fileName = this.uuid + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
 
-	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-	  const fileType = 'sfdt';
-	  const pathHelper = this.uuid + '-opinion';
-	  const fileName = this.uuid + '.sfdt';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const pathHelper = this.uuid + '-opinion';
+      const fileName = this.uuid + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -169,43 +169,43 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public triggeredSaveCondition(): void {
-	let paramsId = '';
+    let paramsId = '';
 
-	this.activatedRoute.params.subscribe(params => {
-	  paramsId = params['id'];
-	});
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
 
-	const key = 'credit_proposal/remark/opinion-history/condition';
+    const key = 'credit_proposal/remark/opinion-history/condition';
 
-	const timeStamp = Math.floor(Date.now() / 1000);
+    const timeStamp = Math.floor(Date.now() / 1000);
 
-	const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+    const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-	docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-	  const fileType = 'word';
-	  const pathHelper = this.uuid + '-condition';
-	  const fileName = this.uuid + '.docs';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const pathHelper = this.uuid + '-condition';
+      const fileName = this.uuid + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
 
-	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-	  const fileType = 'sfdt';
-	  const pathHelper = this.uuid + '-condition';
-	  const fileName = this.uuid + '.sfdt';
-	  const metaData = {
-		objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&','')}/${fileName}`,
-	  };
-	  const formData = new FormData();
-	  formData.append('file', new File([exportedDocument], fileName));
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const pathHelper = this.uuid + '-condition';
+      const fileName = this.uuid + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${pathHelper}/${fileType.replace('&', '')}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
 
-	  this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
-	});
+      this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
+    });
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
@@ -223,22 +223,20 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public refresh() {
-	this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
-	  this.notes = res.body.notes;
+    this.creditProposalService.find(this.creditProposalItem.id).subscribe(res => {
+      this.notes = res.body.notes;
 
-	  if (this.notes) {
-		if (this.notes.length > 0) {
-		  this.notes.sort((a, b) => (a.id > b.id) ? 1 : -1);
-		}
-	  }
-	  
-	  if (this.notes) {
-		if (this.notes.length > 0) {
-		  this.notes = this.notes.filter(note => {
-			return (note.type === 'credit_proposal');
-		  });
+      if (this.notes) {
+        if (this.notes.length > 0) {
+          this.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
+        }
+      }
 
-		  /* let index = 0;
+      if (this.notes) {
+        if (this.notes.length > 0) {
+          this.notes = this.notes.filter(note => note.type === 'credit_proposal');
+
+          /* let index = 0;
 		  for (const note of [...this.notes]) {
 			if (note.type === 'loan_analysis' || note.type === 'loan_committee' || note.type === 'compliance' || note.type === '' || note.type === null) {
 			  this.notes.splice(index, 1);
@@ -246,8 +244,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 			  ++index;
 			}
 		  } */
-		}
-	  }
-	});
+        }
+      }
+    });
   }
 }
