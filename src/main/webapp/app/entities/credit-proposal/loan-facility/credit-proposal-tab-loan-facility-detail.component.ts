@@ -193,7 +193,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.container_view_false.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.container_view_false_loan_analys.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
   }
