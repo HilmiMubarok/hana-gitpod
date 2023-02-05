@@ -43,6 +43,13 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     if (parsedAttribute['previousReturn']['creditProposalCollateralData']) {
       parsedAttribute['previousReturn']['creditProposalCollateralData'] = JSON.parse(previousReturn['creditProposalCollateralData']);
     }
+
+    if (parsedAttribute['previousReturn']['facilityTakeOver']) {
+      parsedAttribute['previousReturn']['facilityTakeOver'] = JSON.parse(previousReturn['facilityTakeOver']);
+    }
+    if (parsedAttribute['previousReturn']['facilityTakeOverAfterBank']) {
+      parsedAttribute['previousReturn']['facilityTakeOverAfterBank'] = JSON.parse(previousReturn['facilityTakeOverAfterBank']);
+    }
   }
 
   // check if previousHistory attribute is exist
@@ -72,8 +79,11 @@ export function parsePreviousAtrribute(cp: ICreditProposal) {
     }
 
     // check if creditProposalCollateralData attribute is exist
-    if (parsedAttribute['previousHistory']['creditProposalCollateralData']) {
-      parsedAttribute['previousHistory']['creditProposalCollateralData'] = JSON.parse(previousHistory['creditProposalCollateralData']);
+    if (parsedAttribute['previousHistory']['facilityTakeOver']) {
+      parsedAttribute['previousHistory']['facilityTakeOver'] = JSON.parse(previousHistory['facilityTakeOver']);
+    }
+    if (parsedAttribute['previousHistory']['facilityTakeOverAfterBank']) {
+      parsedAttribute['previousHistory']['facilityTakeOverAfterBank'] = JSON.parse(previousHistory['facilityTakeOverAfterBank']);
     }
   }
 

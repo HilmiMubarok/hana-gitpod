@@ -268,7 +268,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Name</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.document" [disabled]="view" />
+                <input matInput type="text" [value]="convertDan(documentChecklist.document)" [disabled]="view" />
               </mat-form-field>
             </div>
           </div>
@@ -304,7 +304,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Category</mat-label>
-                <mat-select [disabled]="view" [(ngModel)]="documentChecklist.category" name="category">
+                <mat-select [disabled]="view"  [value]="documentChecklist.category" name="category">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['A', 'B', 'C']" [value]="item">
                     {{ item }}
@@ -317,7 +317,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" />
+                <input matInput type="text" (change)="setModel($event)" [value]="convertDan(documentChecklist.remarks)" />
               </mat-form-field>
             </div>
           </div>
@@ -347,12 +347,12 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ documentChecklist.documentType }}</td>
-          <td>{{ documentChecklist.document }}</td>
-          <td>{{ documentChecklist.category }}</td>
+          <td>{{ convertDan(documentChecklist.documentType)}}</td>
+          <td>{{ convertDan(documentChecklist.document) }}</td>
+          <td>{{ convertDan(documentChecklist.category)}}</td>
           <td><span *ngIf="documentChecklist.dueDate !== 'null'"></span>{{ documentChecklist.dueDate | date: 'medium' }}</td>
-          <td>{{ documentChecklist.remarks }}</td>
-          <td>{{ documentChecklist.status }}</td>
+          <td>{{ convertDan(documentChecklist.remarks) }}</td>
+          <td>{{ convertDan(documentChecklist.status)}}</td>
         </tr>
       </tbody>
     </table>
@@ -364,11 +364,13 @@
               item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
             "
           >
+          <div *ngIf="item.name !== 'los_logo.png'">
             <img style="width: 300px; border-radius: 20px" [src]="item.url" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
+        </div>
           <div
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
@@ -443,7 +445,8 @@
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
-          <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
+      
+          <div *ngIf="item.name !== 'los_logo.png'" style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
               Nama File: {{ item.name }}
             </p>
