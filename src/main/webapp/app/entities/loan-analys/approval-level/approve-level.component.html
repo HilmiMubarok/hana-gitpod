@@ -181,7 +181,7 @@
       *matRowDef="let element; columns: displayedColumnsExpand"
       [class.mat-expanded-row]="expandedElement === element"
       class="mat-element-row"
-      (click)="expandedElement = expandedElement === element ? null : element"
+      (click)="getNoteDataByPartyIdAndApplicationId(element);expandedElement = expandedElement === element ? null : element"
     ></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
   </table>
