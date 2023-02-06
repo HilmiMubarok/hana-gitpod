@@ -56,26 +56,29 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
 
   public parsedAttr: any;
   public historyData() {
+    this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
     if (this.isOnCompareData) {
       if (this.isCompareDar) {
+        // compare dar not done yet
         return this.creditProposalItem.attributes;
       } else {
         if (this.creditProposalItem.attributes.previousReturn) {
-          return this.creditProposalItem.attributes.previousReturn;
+          return this.parsedAttr.previousReturn;
         } else {
-          return this.creditProposalItem.attributes.previousHistory;
+          return this.parsedAttr.previousHistory;
         }
       }
     } else {
       if (this.creditProposalItem.attributes.previousReturn) {
-        return this.creditProposalItem.attributes.previousReturn;
+        return this.parsedAttr.previousReturn;
       } else {
-        return this.creditProposalItem.attributes.previousHistory;
+        return this.parsedAttr.previousHistory;
       }
     }
   }
 
   ngOnInit(): void {
+    console.log('this.historyData()', this.historyData());
     this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
     if (this.historyData().convenant.standardDataGridAbove.length !== 0) {
       console.log('true');
