@@ -17,12 +17,18 @@
       <div class="col-4">Booking Branchs</div>
       <div class="col-md-auto">:</div>
       <div class="col col-lg-4">
-        {{ penampung }}
+        {{ creditProposal.internalName }}
       </div>
     </div>
   </section>
 </section>
 
 <section *ngIf="isViewLoan === true">
-  <ejs-textbox [(ngModel)]="penampung" placeholder="Booking Branchs" cssClass="e-outline" floatLabelType="Auto" disabled></ejs-textbox>
+  <ejs-textbox
+    [(ngModel)]="creditProposal.internalName"
+    placeholder="Booking Branchs"
+    cssClass="e-outline"
+    floatLabelType="Auto"
+    disabled
+  ></ejs-textbox>
 </section>
