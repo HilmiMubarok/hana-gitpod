@@ -370,7 +370,47 @@ export class LoanAnalysMainComponent implements OnInit {
         break;
 
       case 'loan-analys-and-approval-monitoring':
-        this.subMenu = SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING;
+        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY,
+              {
+                id: 'opinion',
+                text: 'Credit Opinion',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'loan facility detail',
+              },
+              {
+                id: 'convenant-tbo',
+                text: 'Covenant & Document Checklist',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Facility Mapping',
+              },
+            ])
+          : this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio'
+          ? (this.subMenu = [
+              ...SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW,
+              {
+                id: 'opinion',
+                text: 'Credit Opinion',
+              },
+              {
+                id: 'loan-facility-detail',
+                text: 'loan facility detail',
+              },
+              {
+                id: 'convenant-tbo',
+                text: 'Covenant & Document Checklist',
+              },
+              {
+                id: 'facility-mapping',
+                text: 'Collateral Facility Mapping',
+              },
+            ])
+          : (this.subMenu = [...SUBMENU_LOAN_ANALYS_APPROVAL_MONITORING]);
         break;
 
       default:
