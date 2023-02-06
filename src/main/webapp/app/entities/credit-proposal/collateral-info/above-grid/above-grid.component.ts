@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
+import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
@@ -421,17 +422,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
-          if (
-            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-          ) {
-            if (data.attributes.marketValueOriginalCcy === undefined) {
-              return 'IDR';
-            } else {
-              return data.attributes.marketValueOriginalCcy;
-            }
-          }
           return '';
         }
         return data.attributes.marketValueCcy;
@@ -660,11 +650,36 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       data: { collateral: element },
     });
   }
+
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          for (let j = 0; j < this.creditProposal.products.length; j++) {
+            if ($event === true) {
+              const tempCollateralProductRelationObject = {
+                collateralId: this.creditProposal.collaterals[i].id,
+                bindingValue: 0,
+                applicationProduct: this.creditProposal.products[j],
+              };
+              this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+            }
+          }
+        }
+      }
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      if (this.creditProposal.collateralProductRelations.length > 0) {
+        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+          if (
+            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
+            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
+          ) {
+            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+          }
+        }
+      }
     }
   }
 
