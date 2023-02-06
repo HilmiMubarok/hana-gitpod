@@ -83,7 +83,6 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   public findCollateralProperty(collateral: ICollateral): void {
-    console.log('collateral', collateral);
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
