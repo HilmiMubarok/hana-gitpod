@@ -339,7 +339,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
-    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
     this.getKeteranganObjectJaminan();
 
     if (item.collateral.propertyUsage !== '') {
@@ -347,8 +347,6 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     }
   }
 
-  public categoryName = [];
-  public categoryNames = [];
   public surveyAppraisalFunc(item: ISurveyAppraisals) {
     if (item !== undefined) {
       // Get Foto Object Jaminan
@@ -360,7 +358,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
-      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
 
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
@@ -519,7 +517,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         if (this.collateralAppraisal.attributes['marketbility'] !== '') {
           arr.marketbility = true;
         }
-        if (this.totalKeteranganObjectJaminan?.length > 0) {
+        if (this.totalKeteranganObjectJaminan?.length >= 0) {
           arr.keterangan = true;
         }
         if (arr.marketbility && arr.keterangan) {
@@ -530,7 +528,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else if (node.id === 'negative-collateral') {
         return true;
       } else if (node.id === 'foto-object-jaminan') {
-        if (this.collateralAppraisalService.totalDataFotoObjectJaminan?.length > 6) {
+        if (this.collateralAppraisalService.totalDataFotoObjectJaminan.length >= MINIMUM_OBJECT_JAMINAN_DATA) {
           return true;
         }
       } else if (node.id === 'collateral-info') {
@@ -632,6 +630,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
         this.collateralAppraisalService.totalDataDetailLand = await this.getCollateralProperty(
           this.collateralAppraisal.collateralId,
           CollateralPropertyType.LAND
+        );
+        this.collateralAppraisalService.totalDataDetailBuilding = await this.getCollateralProperty(
+          this.collateralAppraisal.collateralId,
+          CollateralPropertyType.BUILDING
         );
       }
     }

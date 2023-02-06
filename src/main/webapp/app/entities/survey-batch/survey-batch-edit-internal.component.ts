@@ -282,7 +282,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
     this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
-    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+    this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
     this.getKeteranganObjectJaminan();
 
     if (item.collateral.propertyUsage !== '') {
@@ -362,7 +362,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       this.getFotoObjectJaminan();
       this.documentCollateralComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessLandComponent.propertyData(item.collateralId, CollateralPropertyType.LAND);
-      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId);
+      this.collateralAppraisalDetailProcessRealEstateComponent.propertyDataBuilding(item.collateralId, CollateralPropertyType.BUILDING);
 
       this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
       this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
