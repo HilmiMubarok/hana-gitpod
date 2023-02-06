@@ -32,6 +32,10 @@ export class CreditProposalTabCovenantHistoryComponent implements OnInit {
   public otherDeviation?: string;
   public otherJustification?: string;
 
+  public takeOutCompare: Boolean = false;
+  @Input() isOnCompareData: Boolean = false;
+  @Input() isCompareDar: Boolean = false;
+
   public finalData: any;
 
   public selectMenuItem(args: MenuEventArgs): void {

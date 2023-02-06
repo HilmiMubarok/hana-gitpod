@@ -2,7 +2,7 @@
   mat-table
   id="tblOtherCovenant"
   *ngIf="creditProposalItem && !loading && isViewMode === true"
-  [dataSource]="parsedData.previousHistory.convenant.otherCovenant"
+  [dataSource]="parsedData.otherCovenant"
   class="w-100"
 >
   <ng-container matColumnDef="no">

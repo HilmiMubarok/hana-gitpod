@@ -25,6 +25,10 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
 
   @Input() isViewMode: Boolean = false;
 
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -51,18 +55,34 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
   }
 
   public parsedAttr: any;
+  public historyData() {
+    if (this.isOnCompareData) {
+      if (this.isCompareDar) {
+        return this.creditProposalItem.attributes;
+      } else {
+        if (this.creditProposalItem.attributes.previousReturn) {
+          return this.creditProposalItem.attributes.previousReturn;
+        } else {
+          return this.creditProposalItem.attributes.previousHistory;
+        }
+      }
+    } else {
+      if (this.creditProposalItem.attributes.previousReturn) {
+        return this.creditProposalItem.attributes.previousReturn;
+      } else {
+        return this.creditProposalItem.attributes.previousHistory;
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
-    console.log({
-      parsedAttr: this.parsedAttr,
-      isViewMode: this.isViewMode,
-    });
-    if (this.parsedAttr.previousHistory.convenant.standardDataGridAbove.length !== 0) {
+    if (this.historyData().convenant.standardDataGridAbove.length !== 0) {
       console.log('true');
-      for (let i = 0; i < this.parsedAttr.previousHistory.convenant.standardDataGridAbove.length; i++) {
-        this.statusValue[i] = this.parsedAttr.previousHistory.convenant.standardDataGridAbove[i].status;
-        this.deviation[i] = this.parsedAttr.previousHistory.convenant.standardDataGridAbove[i].deviation;
-        this.justification[i] = this.parsedAttr.previousHistory.convenant.standardDataGridAbove[i].justification;
+      for (let i = 0; i < this.historyData().convenant.standardDataGridAbove.length; i++) {
+        this.statusValue[i] = this.historyData().convenant.standardDataGridAbove[i].status;
+        this.deviation[i] = this.historyData().convenant.standardDataGridAbove[i].deviation;
+        this.justification[i] = this.historyData().convenant.standardDataGridAbove[i].justification;
       }
     } else {
       console.log('false');
