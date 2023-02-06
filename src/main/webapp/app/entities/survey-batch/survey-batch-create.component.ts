@@ -43,6 +43,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   public pageP: number;
   public paginatorLengthP: number;
   public paginatorPageSizeP: number;
+  public searchCif: string
 
   clickedChip: { id: string; label: string };
   iconTimeline: any;
@@ -144,6 +145,13 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
         }
       }
     }
+  }
+  
+  doSearch(event: any){
+    this.surveyAppraisalsService.searchCifDistributionExternalNoBatch(this.searchCif, {page: 0, size: 20}).subscribe(res => {
+      this.items = new MatTableDataSource(this.addIdx(res.body));
+        this.items.paginator = this.paginator;
+    })
   }
 
   initTableFirst(data: any, headers: HttpHeaders): void {
