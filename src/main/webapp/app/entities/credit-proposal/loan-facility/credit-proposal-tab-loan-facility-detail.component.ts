@@ -106,20 +106,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = true;
-    if (this.isViewMode === true) {
-      if (this.parentSource === '') {
-        this.container_view_false.restrictEditing = true;
-      } else if (this.parentSource === 'loan-analys') {
-        this.container_view_false_loan_analys.restrictEditing = true;
-      }
-    } else if (this.isViewMode === false) {
-      if (this.parentSource === '') {
-        this.container.restrictEditing = true;
-      } else if (this.parentSource === 'loan-analys') {
-        this.container_loan_analys.restrictEditing = true;
-      }
-    }
+	if (this.parentSource === '') {
+	  this.container_view_false.restrictEditing = true;
+	} else if (this.parentSource === 'loan-analys') {
+	  this.container_view_false_loan_analys.restrictEditing = true;
+	}
   }
 
   ngOnInit(): void {
