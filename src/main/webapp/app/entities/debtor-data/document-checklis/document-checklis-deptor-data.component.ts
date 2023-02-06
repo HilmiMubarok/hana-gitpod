@@ -41,7 +41,14 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
       });
     });
   }
-
+  public convertDan(value: string): any{
+    if(value !== null){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
+    }
+  
+  }
   private getFiles(id: string): void {
     const predicate: Object = {
       key: `/cif/${id}/document`,

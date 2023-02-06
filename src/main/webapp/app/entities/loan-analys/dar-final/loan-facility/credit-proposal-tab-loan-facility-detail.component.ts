@@ -1,19 +1,23 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
   DocumentEditorKeyDownEventArgs,
+  EditorService,
+  SelectionService,
+  SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import {
   ApplicationProduct,
   ApplicationProductAttribute,
   IApplicationProduct,
-} from '../../../application-product/application-product.model';
-import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
+} from 'app/entities/application-product/application-product.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 @Component({
   selector: 'jhi-loan-facility-detail-temp',
@@ -25,12 +29,9 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   public rateAmountTypeList = ['Rate Percentage', 'Amount IDR', 'Amount USD'];
   public dataFilter = [];
   public viewMode = false;
-  public viewLoan = true;
-
-  @Input() isDisableMode: Boolean;
-  @Input() isViewMode: Boolean = false;
 
   @Input() isViewLoan: Boolean = false;
+  @Input() takeOutCompare: Boolean = false;
 
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
@@ -47,15 +48,6 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
 
-  @Input()
-  get creditProposal() {
-    return this._creditProposal;
-  }
-
-  set creditProposal(item: ICreditProposal) {
-    this._creditProposal = item;
-  }
-
   private ngUnsubscribe = new Subject();
   private BUCKET: string;
   private paramsIdGet: string;
@@ -66,11 +58,24 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
 
   @Input() parentSource: String = '';
 
+  @Input() parentSourceSub: String = '';
+
+  @Input() isViewMode: Boolean = false;
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
+  }
+
   public applicationProduct: IApplicationProduct;
   public totalInitialLimit?: number;
   public totalChanges?: number;
   public totalAvailableLimit?: number;
-  public totalOs?: number;
+  public totalOS?: number;
   public totalCreditLimit?: number;
   public init = 0;
   public init2 = 0;
@@ -81,7 +86,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   public totallimt = 0;
   public totalos = 0;
   public totalchange = 0;
-  public totalCredit = 0;
+  public totalcredit = 0;
   public totalavilable = 0;
   public change2 = 0;
   public newMessage: string;
@@ -103,174 +108,6 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
   }
-  ngOnInit(): void {
-    this.removeTagRemaks();
-    this.setCurrency();
-    this.getWord();
-    if (this.isDisableMode === true) {
-      this.viewMode = true;
-      this.viewLoan = false;
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.saveWord === true) {
-      this.triggeredSave();
-    }
-  }
-
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
-
-  fungsiSuminit() {
-    // alert('ok');
-    let result: number;
-    let limit: number;
-    // limit = 0;
-    result = 0;
-
-    const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
-
-    if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < dataFilter.length; i++) {
-          if (dataFilter[i].attributes.initialLimit !== undefined) {
-            result = result + Number(dataFilter[i].attributes.initialLimit);
-          }
-        }
-      }
-    }
-    // console.log('ini', result);
-    // return result;
-    this.totallimt = result;
-    return result;
-  }
-
-  fungsiSumchange() {
-    let result: number;
-    result = 0;
-    let change: number;
-    // change = 0;
-
-    const filterSubLimit = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
-
-    if (filterSubLimit.length > 0) {
-      const filterUsd = filterSubLimit.filter(obj => obj.attributes.currency === 'USD');
-      if (filterUsd.length === 0) {
-        for (let i = 0; i < filterSubLimit.length; i++) {
-          if (filterSubLimit[i].attributes.changes !== undefined) {
-            result = result + Number(filterSubLimit[i].attributes.changes);
-          }
-        }
-      }
-    }
-    this.totallimt = result;
-    return result;
-  }
-
-  fungsiSumOS() {
-    let result: number;
-    result = 0;
-    let os: number;
-    os = 0;
-
-    const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
-
-    if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.outstanding !== undefined) {
-          if (dataFilter[i].attributes.currency === 'USD') {
-            os = Number(dataFilter[i].attributes.outstanding) * Number(dataFilter[i].attributes.kurs);
-            result = result + os;
-          } else {
-            result = result + Number(dataFilter[i].attributes.outstanding);
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  fungsiSumavailable() {
-    let result: number;
-    result = 0;
-
-    if (this._creditProposal.products.length > 0) {
-      for (let i = 0; i < this._creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes.availableLimit !== undefined) {
-          result = result + Number(this._creditProposal.products[i].attributes.availableLimit);
-        }
-      }
-    }
-    return result;
-  }
-
-  fungsiSumcredit() {
-    let result: number;
-    result = 0;
-    let plafond: number;
-    plafond = 0;
-
-    const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
-
-    if (dataFilter.length > 0) {
-      for (let i = 0; i < dataFilter.length; i++) {
-        if (dataFilter[i].attributes.totalPlafond !== undefined) {
-          if (dataFilter[i].attributes.currency === 'USD') {
-            plafond = Number(dataFilter[i].attributes.totalPlafond) * Number(dataFilter[i].attributes.kurs);
-            result = result + plafond;
-          } else {
-            result = result + Number(dataFilter[i].attributes.totalPlafond);
-            // console.log('imi total credit limit', this._creditProposal.products[i].attributes.totalPlafond);
-          }
-        }
-      }
-    }
-
-    return result;
-  }
-
-  print() {
-    console.log(this._creditProposal);
-  }
-
-  // matrix reove tag
-  removeTagRemaks() {
-    this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
-    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
-  }
-
-  // setCurrency
-  setCurrency() {
-    this.ccy = this.creditProposal.products[0].attributes.currency;
-  }
 
   onDocumentChange() {
     if (this.isViewMode === true) {
@@ -287,12 +124,39 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  ngOnInit(): void {
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
+    if (this.parentSourceSub === 'from-click-menu') {
+      if (this.router.url.split('/')[1] === 'cp-status-approval') {
+        this.parentSource = 'loan-analys';
+      }
+    }
+    this.getWord();
+
+    this.removeTagRemaks();
+    this.setCurrency();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.saveWord === true) {
+      this.triggeredSave();
+    }
+    if (changes['creditProposal']) {
+      this.fungsiSuminit();
+      this.fungsiSumchange();
+      this.fungsiSumOS();
+      this.fungsiSumavailable();
+    }
+  }
+  // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
       this.getContainer();
     });
   }
+
   private getContainer(): void {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
@@ -316,18 +180,10 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
               fileReader.onload = (e: any) => {
                 let docEditor: any;
 
-                if (this.isViewMode === true) {
-                  if (this.parentSource === '') {
-                    docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-                  } else if (this.parentSource === 'loan-analys') {
-                    docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-                  }
-                } else if (this.isViewMode === false) {
-                  if (this.parentSource === '') {
-                    docEditor = this.container?.documentEditor as DocumentEditorComponent;
-                  } else if (this.parentSource === 'loan-analys') {
-                    docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-                  }
+                if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+                  docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+                } else if (this.parentSource === 'loan-analys') {
+                  docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
                 }
 
                 const contents: string = e.target.result;
@@ -354,6 +210,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   }
 
   public triggeredSave(): void {
+    // if (this.parentSource === '' || this.parentSource === 'loan-analys') {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
       paramsId = params['id'];
@@ -364,18 +221,10 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
 
     let docEditor: any;
 
-    if (this.isViewMode === true) {
-      if (this.parentSource === '') {
-        docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
-      } else if (this.parentSource === 'loan-analys') {
-        docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
-      }
-    } else if (this.isViewMode === false) {
-      if (this.parentSource === '') {
-        docEditor = this.container?.documentEditor as DocumentEditorComponent;
-      } else if (this.parentSource === 'loan-analys') {
-        docEditor = this.container_loan_analys?.documentEditor as DocumentEditorComponent;
-      }
+    if (this.parentSource === '' || this.parentSource === 'credit-proposal') {
+      docEditor = this.container_view_false?.documentEditor as DocumentEditorComponent;
+    } else if (this.parentSource === 'loan-analys') {
+      docEditor = this.container_view_false_loan_analys?.documentEditor as DocumentEditorComponent;
     }
 
     docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
@@ -389,6 +238,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
+
     docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
       const fileType = 'sfdt';
       const fileName = 'credit-proposal-remark-' + paramsId + '-loan-facility-' + fileType + '.sfdt';
@@ -400,5 +250,177 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
 
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
+    // }
+  }
+
+  public tools: object = {
+    items: [
+      'FontName',
+      'FontSize',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      'FontColor',
+      'BackgroundColor',
+      'OrderedList',
+      'UnorderedList',
+      'Indent',
+      'Outdent',
+      'SuperScript',
+      'SubScript',
+      'Alignments',
+      'CreateLink',
+    ],
+  };
+
+  fungsiSuminit() {
+    let result: number;
+    let dolar: number;
+    let hasil: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  fungsiSumchange() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  public fungsiSumOS() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  fungsiSumavailable() {
+    let result: number;
+    result = 0;
+
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].attributes.availableLimit !== undefined) {
+          result = result + Number(this._creditProposal.products[i].attributes.availableLimit);
+        }
+      }
+    }
+    return result;
+  }
+
+  fungsiSumcredit() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  // matrix reove tag
+  removeTagRemaks() {
+    this.newMessage = this.creditProposal.attributes['collateralChecklist'].remarks;
+    this.newMessage = this.newMessage.replace(/<(.|\n)*?>/g, '');
+  }
+
+  // setCurrency
+  setCurrency() {
+    this.ccy = this.creditProposal.products[0].attributes.currency;
   }
 }

@@ -275,7 +275,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Name</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.document" [disabled]="view" />
+                <input matInput type="text" [value]="convertDan(documentChecklist.document)" [disabled]="view" />
               </mat-form-field>
             </div>
           </div>
@@ -285,7 +285,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="documentChecklist.status" name="status">
+                <mat-select [(ngModel)]="documentChecklist.status" (selectionChange)="deleteTBO($event)" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -324,7 +324,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="documentChecklist.remarks" />
+                <input matInput type="text" (change)="setModel($event)" [value]="convertDan(documentChecklist.remarks)" />
               </mat-form-field>
             </div>
           </div>
@@ -354,12 +354,12 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ documentChecklist.documentType }}</td>
-          <td>{{ documentChecklist.document }}</td>
+          <td>{{ convertDan(documentChecklist.documentType) }}</td>
+          <td>{{ convertDan(documentChecklist.document) }}</td>
           <td>{{ documentChecklist.category }}</td>
           <td><span *ngIf="documentChecklist.dueDate !== 'null'">{{ documentChecklist.dueDate | date: 'medium' }}</span></td>
-          <td>{{ documentChecklist.remarks }}</td>
-          <td>{{ documentChecklist.status }}</td>
+          <td>{{ convertDan(documentChecklist.remarks) }}</td>
+          <td>{{ convertDan(documentChecklist.status) }}</td>
         </tr>
       </tbody>
     </table>
