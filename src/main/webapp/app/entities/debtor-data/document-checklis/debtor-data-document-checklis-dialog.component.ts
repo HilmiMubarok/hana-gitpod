@@ -99,7 +99,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public deleteTBO(status: any){
     if (status !== 'TBO') {
       for (let i = 0; i < this.file.length; i++) {
-          if (this.file[i].name === 'los_logo.png') {
+          if (this.file[i].name.indexOf('los_logo.png') > -1) {
             this.file.splice(this.file.indexOf(this.file), 1);
           }
           
@@ -129,7 +129,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
             createdDate: null,
             createdBy: null,
           };
-          const files = this.file[i].name.replace('&', '');
+          const files = new Date +'-'+this.file[i].name.replace('&', '');
           metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
           metaData.entityId = this.data.partyId;
           metaData.documentType = this.documentChecklist.documentType

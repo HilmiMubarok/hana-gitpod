@@ -317,6 +317,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   ngOnChanges(changes: SimpleChanges) {
     this.debtorData()
+    this.debtorData()
     this.defaultCurrency();
     this.fungsiSuminit();
     this.fungsiSumchange();
@@ -337,7 +338,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   public debtorData(){
     let a = [];
-    if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1) {
+    if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1 || this.router.url.split('/').indexOf('dar-final') > -1) {
       if (this.router.url.split('=').indexOf('exposure') > -1) {
       
         this.parsedAttr = parsePreviousAtrribute(this.creditProposal);

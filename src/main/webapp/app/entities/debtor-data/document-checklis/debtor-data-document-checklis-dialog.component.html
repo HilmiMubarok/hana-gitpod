@@ -18,7 +18,7 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label  [hidden]="f.name === 'los_logo.png'" *ngIf="f.url === undefined">
+            <ngx-dropzone-label  [hidden]="f.name.indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
@@ -163,7 +163,7 @@
             (removed)="onRemove(f)"
           >
             <ngx-dropzone-label>
-              <div *ngIf="item.name !== 'los_logo.png'">
+              <div [hidden]="item.name.indexOf('los_logo.png') > -1">
               <img
                 width="150px"
                 [src]="item.url"
@@ -364,7 +364,7 @@
               item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
             "
           >
-          <div *ngIf="item.name !== 'los_logo.png'">
+          <div *ngIf="item.name.indexOf('los_logo.png') > -1">
             <img style="width: 300px; border-radius: 20px" [src]="item.url" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
@@ -446,7 +446,7 @@
             </div>
           </div>
       
-          <div *ngIf="item.name !== 'los_logo.png'" style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
+          <div [hidden]="f.name.indexOf('los_logo.png') > -1" style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
               Nama File: {{ item.name }}
             </p>

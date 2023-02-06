@@ -92,7 +92,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
           createdBy: null,
         };
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-        const files = this.file[i].name.replace('&', '');
+        const files = new Date() +'-'+this.file[i].name.replace('&', '');
   
         metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
         metaData.entityId = this.data.creditProposal.id;
@@ -197,7 +197,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
       }, 'image/png');
     };
 
-
+  
   }
 
   public onRemove(event: any) {
@@ -206,9 +206,9 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
 
   public deleteTBO(status: any){
-    if (status !== 'TBO') {
+    if (status.value !== 'TBO') {
       for (let i = 0; i < this.file.length; i++) {
-          if (this.file[i].name === 'los_logo.png') {
+          if (this.file[i].name.indexOf('los_logo.png') > -1) {
             this.file.splice(this.files.indexOf(this.file), 1);
           }
           
