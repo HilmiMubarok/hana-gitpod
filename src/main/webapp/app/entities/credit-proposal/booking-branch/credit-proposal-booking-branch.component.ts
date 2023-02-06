@@ -30,39 +30,36 @@ export class CreditProposalBookingBranchComponent implements OnChanges {
     this._creditProposal = data;
   }
 
-  constructor(
-    private internalService: InternalService,
-    private positionService: PositionService
-  ) {
-	this.rmPosition = new Position();
-	this.rmBranch = new Internal();
+  constructor(private internalService: InternalService, private positionService: PositionService) {
+    this.rmPosition = new Position();
+    this.rmBranch = new Internal();
     this.rmRegional = new Internal();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-	  if (this.creditProposal.internalId) {
-		this.loadInternalInformationRMByInternalId(this.creditProposal.internalId);
-	  } else {
-		this.loadInternalInformationRM(this.creditProposal.cif.rm.id);
-	  }
+      if (this.creditProposal.internalId) {
+        this.loadInternalInformationRMByInternalId(this.creditProposal.internalId);
+      } else {
+        this.loadInternalInformationRM(this.creditProposal.cif.rm.id);
+      }
     }
   }
-  
+
   private loadInternalInformationRMByInternalId(internalId: string): void {
     this.branchs = [];
-	this.loadInternalById(internalId).then((res2: IInternal) => {
-	  if (res2.parentId) {
-		this.rmBranch = res2;
-		this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-		  this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-			if (res4.parentId) {
-			  this.rmRegional = res4;
-			}
-		  });
-		});
-	  }
-	});
+    this.loadInternalById(internalId).then((res2: IInternal) => {
+      if (res2.parentId) {
+        this.rmBranch = res2;
+        this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+          this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+            if (res4.parentId) {
+              this.rmRegional = res4;
+            }
+          });
+        });
+      }
+    });
   }
 
   private loadInternalInformationRM(partyId: string): void {
@@ -116,19 +113,6 @@ export class CreditProposalBookingBranchComponent implements OnChanges {
     return new Promise<void>((resolve, reject) => {
       this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
         this.branchs = res.body;
-        if (this.creditProposal.internalId !== null || this.creditProposal.internalId !== undefined) {
-          for (let i = 0; i < res.body.length; i++) {
-            if ((this.creditProposal.internalId = this.branchs[i].id.toString())) {
-              this.penampung = this.branchs[i].name;
-            }
-          }
-        } else {
-          for (let i = 0; i < res.body.length; i++) {
-            if (this.creditProposal.debtorData.bookingBranch === this.branchs[i].id.toString()) {
-              this.penampung = this.branchs[i].organizationName;
-            }
-          }
-        }
 
         resolve();
       });
@@ -139,7 +123,6 @@ export class CreditProposalBookingBranchComponent implements OnChanges {
     for (let i = 0; i < this.branchs.length; i++) {
       if (event.value === this.branchs[i].id) {
         this.creditProposal.internalId = this.branchs[i].id.toString();
-        this.creditProposal.internalName = this.branchs[i].name;
       }
     }
   }

@@ -77,6 +77,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       this.getData();
       this.setAttribute();
       this.actionSelectionMenuProperty.emit(this.selectedMenuId);
+      this.propertyDataBuilding(this.collateral.id, CollateralPropertyType.BUILDING);
     }
 
     this.checkLogin();
@@ -108,12 +109,14 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     }
   }
 
-  public propertyDataBuilding(_collateralId: number) {
+  public propertyDataBuilding(_collateralId: number, data: string) {
     this.collateralPropertyService
       .queryFilterBy({
+        page: 0,
+        size: 10,
+        sort: ['asc'],
         idCollateral: _collateralId,
-        size: 9999,
-        idPropertyType: CollateralPropertyType.BUILDING,
+        idPropertyType: data,
       })
       .subscribe((res: any) => {
         // Validation
@@ -193,7 +196,8 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   public deleteBuilding(element) {
     this.collateralPropertyService.delete(element.id).subscribe(() => {
       this.getData();
-      this.propertyDataBuilding(this.collateral.id);
+      // this.propertyDataBuilding(this.collateral.id, CollateralPropertyType.BUILDING);
+      this.collateralAppraisalService.totalDataDetailLand = element;
       // this.collateralAppraisalService.totalDataDetailBuilding = element.id;
     });
   }
