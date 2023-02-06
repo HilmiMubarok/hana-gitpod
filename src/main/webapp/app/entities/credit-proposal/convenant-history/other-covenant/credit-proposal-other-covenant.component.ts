@@ -18,13 +18,20 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
   public _creditProposalItem: ICreditProposal;
 
   public parsedData: any;
+
+  public dataSource;
+
   ngOnInit() {
-    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
+    this.parsedData = this.historyData();
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
   }
   @Input() isViewMode: Boolean = false;
   // @Input() isOtherDeviation: Boolean = false;
+
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
 
   @Input()
   get creditProposalItem() {
@@ -39,6 +46,27 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
 
   constructor(public dialog: MatDialog) {
     this.loading = false;
+  }
+
+  public historyData() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
+    if (this.isOnCompareData) {
+      if (this.isCompareDar) {
+        return this.creditProposalItem.attributes;
+      } else {
+        if (this.parsedData.previousReturn) {
+          return this.parsedData.previousReturn;
+        } else {
+          return this.parsedData.previousHistory;
+        }
+      }
+    } else {
+      if (this.parsedData.previousReturn) {
+        return this.parsedData.previousReturn;
+      } else {
+        return this.parsedData.previousHistory;
+      }
+    }
   }
 
   // Add View Dialog

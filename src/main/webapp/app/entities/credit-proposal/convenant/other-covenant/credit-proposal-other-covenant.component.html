@@ -93,7 +93,7 @@
 </mat-card>
 <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
   <div align="right" class="mt-2">
-    <button mat-raised-button color="success" (click)="openDialog()">ADD DATA</button>
+    <button mat-raised-button color="success" (click)="openDialog()" *ngIf="!isViewMode">ADD DATA</button>
   </div>
 </section>
 <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">

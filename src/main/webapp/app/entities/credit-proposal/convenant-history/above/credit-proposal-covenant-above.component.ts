@@ -25,6 +25,10 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
 
   @Input() isViewMode: Boolean = false;
 
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -51,26 +55,40 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
   }
 
   public parsedAttr: any;
-  ngOnInit(): void {
+  public historyData() {
     this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
-    console.log({
-      parsedAttr: this.parsedAttr,
-      isViewMode: this.isViewMode,
-    });
-    if (this.parsedAttr.previousHistory.convenant.standardDataGridAbove.length !== 0) {
-      console.log('true');
-      for (let i = 0; i < this.parsedAttr.previousHistory.convenant.standardDataGridAbove.length; i++) {
-        this.statusValue[i] = this.parsedAttr.previousHistory.convenant.standardDataGridAbove[i].status;
-        this.deviation[i] = this.parsedAttr.previousHistory.convenant.standardDataGridAbove[i].deviation;
-        this.justification[i] = this.parsedAttr.previousHistory.convenant.standardDataGridAbove[i].justification;
+    if (this.isOnCompareData) {
+      if (this.isCompareDar) {
+        // compare dar not done yet
+        return this.creditProposalItem.attributes;
+      } else {
+        if (this.creditProposalItem.attributes.previousReturn) {
+          return this.parsedAttr.previousReturn;
+        } else {
+          return this.parsedAttr.previousHistory;
+        }
       }
     } else {
-      console.log('false');
+      if (this.creditProposalItem.attributes.previousReturn) {
+        return this.parsedAttr.previousReturn;
+      } else {
+        return this.parsedAttr.previousHistory;
+      }
+    }
+  }
+
+  ngOnInit(): void {
+    this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
+    if (this.historyData().convenant.standardDataGridAbove.length !== 0) {
+      for (let i = 0; i < this.historyData().convenant.standardDataGridAbove.length; i++) {
+        this.statusValue[i] = this.historyData().convenant.standardDataGridAbove[i].status;
+        this.deviation[i] = this.historyData().convenant.standardDataGridAbove[i].deviation;
+        this.justification[i] = this.historyData().convenant.standardDataGridAbove[i].justification;
+      }
+    } else {
       for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
         this.statusValue[i] = 'Applied';
       }
     }
-
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 }
