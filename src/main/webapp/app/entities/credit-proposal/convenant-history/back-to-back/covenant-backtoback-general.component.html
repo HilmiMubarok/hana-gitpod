@@ -1,4 +1,4 @@
-<div class="e-card" [hidden]="isViewMode == false">
+<div class="e-card" *ngIf="isViewMode">
   <div class="e-card-sub-title">
     <h5>General Times Condition</h5>
   </div>
@@ -19,7 +19,7 @@
           </ejs-dropdownlist>
         </ng-template>
       </e-column>
-      <!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+      <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
         <ng-template #template let-data>
           <ejs-textbox
             [multiline]="true"
@@ -31,8 +31,8 @@
           >
           </ejs-textbox>
         </ng-template>
-      </e-column> -->
-      <!-- <e-column field="justification" headerText="Justification" width="130" textAlign="center">
+      </e-column>
+      <e-column field="justification" headerText="Justification" width="130" textAlign="center">
         <ng-template #template let-data>
           <ejs-textbox
             [multiline]="true"
@@ -44,12 +44,12 @@
           >
           </ejs-textbox>
         </ng-template>
-      </e-column> -->
+      </e-column>
     </e-columns>
   </ejs-grid>
 </div>
 
-<div class="e-card" [hidden]="isViewMode == true">
+<div class="e-card" *ngIf="!isViewMode">
   <div class="e-card-sub-title">
     <h5>General Times Condition</h5>
   </div>
