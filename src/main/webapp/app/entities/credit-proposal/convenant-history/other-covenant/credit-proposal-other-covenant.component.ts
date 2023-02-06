@@ -23,7 +23,15 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.parsedData = this.historyData();
-    this.dataSource = (typeof this.parsedData.convenant === 'string' && JSON.parse(this.parsedData.convenant)) || this.parsedData.convenant;
+    // this.dataSource =
+    //   typeof this.parsedData.convenant === 'string' ||
+    //   (typeof this.parsedData.convenant === 'undefined' && JSON.parse(this.parsedData.convenant));
+    console.log('padsdfs', {
+      parsed: this.parsedData,
+      parsedType: typeof this.parsedData.convenant,
+      // dataSource: this.dataSource,
+      // dataSourceType: typeof this.dataSource,
+    });
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
   }
@@ -50,21 +58,22 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
   }
 
   public historyData() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     if (this.isOnCompareData) {
       if (this.isCompareDar) {
         return this.creditProposalItem.attributes;
       } else {
-        if (this.creditProposalItem.attributes.previousReturn) {
-          return this.creditProposalItem.attributes.previousReturn;
+        if (this.parsedData.previousReturn) {
+          return this.parsedData.previousReturn;
         } else {
-          return this.creditProposalItem.attributes.previousHistory;
+          return this.parsedData.previousHistory;
         }
       }
     } else {
-      if (this.creditProposalItem.attributes.previousReturn) {
-        return this.creditProposalItem.attributes.previousReturn;
+      if (this.parsedData.previousReturn) {
+        return this.parsedData.previousReturn;
       } else {
-        return this.creditProposalItem.attributes.previousHistory;
+        return this.parsedData.previousHistory;
       }
     }
   }

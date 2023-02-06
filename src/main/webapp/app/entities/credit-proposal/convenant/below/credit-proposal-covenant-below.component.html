@@ -60,8 +60,52 @@
     </e-column> -->
 <!-- </e-columns>
 </ejs-grid> -->
+<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" *ngIf="isViewMode">
+  <e-columns>
+    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
+    <e-column headerText="Status" width="150" textAlign="center">
+      <ng-template #template let-data>
+        <ejs-dropdownlist
+          (change)="onKeyUpEvent('status', $event, data)"
+          [(ngModel)]="statusValue[data.id]"
+          [dataSource]="status"
+          placeholder="Select a Status"
+          cssClass="e-outline"
+          disabled
+        >
+        </ejs-dropdownlist>
+      </ng-template>
+    </e-column>
+    <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
+      <ng-template #template let-data>
+        <ejs-textbox
+          class="txtHeight"
+          [multiline]="true"
+          (keyup)="onKeyUpEvent('deviation', $event, data)"
+          [(ngModel)]="deviation[data.id]"
+          cssClass="e-outline"
+          disabled
+        >
+        </ejs-textbox>
+      </ng-template>
+    </e-column>
+    <e-column field="justification" headerText="Justification" width="200" textAlign="center">
+      <ng-template #template let-data>
+        <ejs-textbox
+          class="txtHeight"
+          [multiline]="true"
+          (keyup)="onKeyUpEvent('justification', $event, data)"
+          [(ngModel)]="justification[data.id]"
+          cssClass="e-outline"
+          disabled
+        >
+        </ejs-textbox>
+      </ng-template>
+    </e-column>
+  </e-columns>
+</ejs-grid>
 
-<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true">
+<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" *ngIf="!isViewMode">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">

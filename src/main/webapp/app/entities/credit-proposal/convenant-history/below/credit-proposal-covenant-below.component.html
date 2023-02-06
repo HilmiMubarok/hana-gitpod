@@ -1,4 +1,4 @@
-<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" [hidden]="isViewMode == false">
+<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="250" textAlign="left" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
@@ -9,21 +9,20 @@
           [dataSource]="status"
           placeholder="Select a Status"
           cssClass="e-outline"
-          [readonly]="true"
+          disabled
           [value]="statusValue[data.id]"
         >
         </ejs-dropdownlist>
       </ng-template>
     </e-column>
-    <!-- <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
+    <e-column field="deviation" headerText="Deviation" width="200" textAlign="left" headerTextAlign="center">
       <ng-template #template let-data>
         <ejs-textbox
           [multiline]="true"
           (keyup)="onKeyUpEvent('deviation', $event, data)"
           [(ngModel)]="deviation[data.id]"
-          [disabled]="statusValue[data.id] == 'Applied'"
           cssClass="e-outline"
-          [readonly]="statusValue[data.id] !== 'Applied'"
+          disabled
         >
         </ejs-textbox>
       </ng-template>
@@ -34,17 +33,16 @@
           [multiline]="true"
           (keyup)="onKeyUpEvent('justification', $event, data)"
           [(ngModel)]="justification[data.id]"
-          [disabled]="statusValue[data.id] == 'Applied'"
           cssClass="e-outline"
-          [readonly]="statusValue[data.id] !== 'Applied'"
+          disabled
         >
         </ejs-textbox>
       </ng-template>
-    </e-column> -->
+    </e-column>
   </e-columns>
 </ejs-grid>
 
-<ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" [hidden]="isViewMode == true">
+<!-- <ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" [hidden]="isViewMode == true">
   <e-columns>
     <e-column field="covenant" headerText="Covenant" width="250" textAlign="justify" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
@@ -86,4 +84,4 @@
       </ng-template>
     </e-column>
   </e-columns>
-</ejs-grid>
+</ejs-grid> -->

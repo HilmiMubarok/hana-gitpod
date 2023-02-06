@@ -43,7 +43,7 @@ export class CreditProposalTabCovenantHistoryComponent implements OnInit {
   }
 
   @Input() setActiveMenu: string;
-  @Input() isViewMode: Boolean = false;
+  @Input() isViewMode: boolean;
 
   @Input()
   get creditProposalItem() {
@@ -55,6 +55,7 @@ export class CreditProposalTabCovenantHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('isview', this.isViewMode);
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
   }
 }
