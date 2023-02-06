@@ -55,7 +55,6 @@ export class CreditProposalTabCovenantHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('isview', this.isViewMode);
     this.selectedMenu = !this.setActiveMenu ? 'COVENANT' : this.setActiveMenu;
   }
 }

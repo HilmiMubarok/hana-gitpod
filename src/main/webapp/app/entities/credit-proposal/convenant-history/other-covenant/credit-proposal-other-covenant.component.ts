@@ -23,15 +23,6 @@ export class CreditProposalOtherCovenantHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.parsedData = this.historyData();
-    // this.dataSource =
-    //   typeof this.parsedData.convenant === 'string' ||
-    //   (typeof this.parsedData.convenant === 'undefined' && JSON.parse(this.parsedData.convenant));
-    console.log('padsdfs', {
-      parsed: this.parsedData,
-      parsedType: typeof this.parsedData.convenant,
-      // dataSource: this.dataSource,
-      // dataSourceType: typeof this.dataSource,
-    });
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     // this.isOtherDeviation && this.filterDeviation();
   }

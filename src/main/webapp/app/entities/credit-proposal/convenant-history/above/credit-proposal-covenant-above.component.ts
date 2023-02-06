@@ -78,22 +78,17 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('this.historyData()', this.historyData());
     this.parsedAttr = parsePreviousAtrribute(this.creditProposalItem);
     if (this.historyData().convenant.standardDataGridAbove.length !== 0) {
-      console.log('true');
       for (let i = 0; i < this.historyData().convenant.standardDataGridAbove.length; i++) {
         this.statusValue[i] = this.historyData().convenant.standardDataGridAbove[i].status;
         this.deviation[i] = this.historyData().convenant.standardDataGridAbove[i].deviation;
         this.justification[i] = this.historyData().convenant.standardDataGridAbove[i].justification;
       }
     } else {
-      console.log('false');
       for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
         this.statusValue[i] = 'Applied';
       }
     }
-
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 }
