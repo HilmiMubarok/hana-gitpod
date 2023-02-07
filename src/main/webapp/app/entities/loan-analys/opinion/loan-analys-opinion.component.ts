@@ -212,6 +212,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
     this.applicationRoleService
       .queryFilterBy({
         idApplication: this.creditProposalItem.id,
+		isActive: true,
         page: 0,
         size: 9999,
       })
@@ -220,11 +221,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
         this.filteringRelType(this.items);
         for (let i = 0; i < this.items.length; i++) {
           const each: IApplicationRole = this.items[i];
-          if (
-            each.relationTypeId &&
-            each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase() &&
-            each.fromPartyId === this.whoAmI.id
-          ) {
+          if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase()) {
             this.approvalUserData.push(each);
           }
         }
