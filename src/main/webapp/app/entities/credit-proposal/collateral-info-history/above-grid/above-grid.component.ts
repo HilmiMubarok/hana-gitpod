@@ -199,7 +199,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         binding: this.getBinding(element),
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
-        ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
+        ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.parsedData.previousHistory ? this.historyData().products : this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
       },
@@ -329,8 +329,6 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-        console.log('ini collateral id ', collateral.id);
-        console.log('collateral properties', this.collateralProperties);
       });
     }
   }
@@ -675,11 +673,43 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       data: { collateral: element },
     });
   }
+  // public slideChange($event) {
+  //   if (this.isChecked === true) {
+  //     this.historyData().creditProposalCollateralData.crossCollateralStatus = 'Yes';
+  //   } else {
+  //     this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+  //   }
+  // }
+
   public slideChange($event) {
     if (this.isChecked === true) {
       this.historyData().creditProposalCollateralData.crossCollateralStatus = 'Yes';
+      if (this.historyData().collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.historyData().collaterals.length; i++) {
+          for (let j = 0; j < this.historyData().products.length; j++) {
+            if ($event === true) {
+              const tempCollateralProductRelationObject = {
+                collateralId: this.historyData().collaterals[i].id,
+                bindingValue: 0,
+                applicationProduct: this.historyData().products[j],
+              };
+              this.historyData().collateralProductRelations.push(tempCollateralProductRelationObject);
+            }
+          }
+        }
+      }
     } else {
-      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+      this.historyData().attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      if (this.historyData().collateralProductRelations.length > 0) {
+        for (let i = 0; i < this.historyData().collateralProductRelations.length; i++) {
+          if (
+            this.historyData().collateralProductRelations[i].collateralId === this.historyData().collaterals[i]?.id &&
+            this.historyData().collateralProductRelations[i].applicationProduct?.id === this.historyData().products[i]?.id
+          ) {
+            this.historyData().collateralProductRelations.splice(i, this.historyData().collateralProductRelations.length);
+          }
+        }
+      }
     }
   }
 
@@ -707,13 +737,26 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     });
   }
 
-  public findCertyficate(id) {
-    if (this.certificateType) {
-      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
-      if (this.dataCertyficate) {
-        return this.dataCertyficate.label;
+  public findCertyficate(collateral) {
+    let data: ICollateralProperty;
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateType !== undefined) {
+          if (this.certificateType) {
+            this.dataCertyficate = this.certificateType.find(obj => obj.id === data.attributes.certificateType);
+            if (this.dataCertyficate) {
+              return this.dataCertyficate.label;
+            }
+            return '';
+          }
+        }
       }
-      return '';
     }
+    return '';
   }
 }
