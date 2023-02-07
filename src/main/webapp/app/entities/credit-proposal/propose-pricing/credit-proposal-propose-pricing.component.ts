@@ -344,7 +344,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       this.paramsId = params['id'];
     });
 
-    if (this.creditProposal.products.length > 1) {
+    if (this.creditProposal.products.length > 0) {
       this.setValue(this.creditProposal);
     }
 
