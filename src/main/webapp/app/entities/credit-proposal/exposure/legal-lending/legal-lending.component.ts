@@ -16,7 +16,7 @@ import { IGeneralParameter } from 'app/entities/master-parameter/general-paramet
 import { IMasterParameter } from 'app/entities/master-parameter/master-parameter.model';
 import { PARAMETER_TYPE } from 'app/shared/constants/base.constants';
 import { CreditProposalService } from '../../credit-proposal.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-legal-lending',
   templateUrl: './legal-lending.component.html',
@@ -83,7 +83,8 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     protected partyCifService: PartyCifService,
     protected _snackbar: MatSnackBar,
     protected generalParameterService: GeneralParameterService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    public router: Router
   ) {
     super(_snackbar, partyCifService);
   }
@@ -110,15 +111,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     }
   }
   ngOnChanges(changes: SimpleChanges) {
-    this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
-    if (this.parsedAttr.previousHistory) {
-   
-      this.dataSource = this.parsedAttr.previousHistory.products;
-    } else {
-  
-      this.dataSource = this.creditProposal.products;
-    }
-
+   this.debtorData()
  
 
    
@@ -138,6 +131,28 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyMaster = res.body[0]?.factor;
     });
+  }
+
+
+  public debtorData(){
+  
+    
+      if (this.router.url.split('=').indexOf('exposure') > -1) {
+      
+        this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+        if (this.parsedAttr.previousHistory) {
+          this.dataSource = this.parsedAttr.previousHistory.products;
+        } else {
+       
+          this.dataSource = this.creditProposal.products;
+      }
+    }else{
+      this.dataSource = this.creditProposal.products;
+    }
+
+   
+
+
   }
 
 
@@ -167,7 +182,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
 
 
   fungsiSuminit() {
-    const datafilter = this.creditProposal.products.filter(
+    const datafilter = this.dataSource.filter(
       obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
     );
 
@@ -183,7 +198,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
       if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
         if (this.dataSource[i].attributes.currency === 'IDR') {
           if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-            if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+            if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
               this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
              
             } else {
@@ -197,14 +212,14 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
             this.totalMML = this.totalMML + Number(this.dataSource[i].attributes.totalPlafond);
           }
           if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-            if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+            if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
               this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.totalPlafond);
             } else {
               this.totalFL = this.totalFL + Number(this.dataSource[i].attributes.outstanding);
             }
           }
           if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-            if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+            if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
               this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
             } else {
        
@@ -232,7 +247,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
               this.totalLC = this.totalLC + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
             }
             if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
-              if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+              if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
                 this.totalWcl =this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
                   
               } else {
@@ -249,7 +264,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
                 this.totalMML + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
             }
             if (this.dataSource[i].attributes['facilityType'] === 'FL') {
-              if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+              if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
                 this.totalFL =
                 this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {
@@ -259,7 +274,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'IL') {
-              if (this.dataSource[i].attributes['applicationType'] === 'NEW') {
+              if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
                 this.totalIL =
                 this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {

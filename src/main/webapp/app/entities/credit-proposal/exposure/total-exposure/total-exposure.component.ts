@@ -338,7 +338,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   public debtorData(){
     let a = [];
-    if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1 || this.router.url.split('/').indexOf('dar-final') > -1) {
+  
       if (this.router.url.split('=').indexOf('exposure') > -1) {
       
         this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
@@ -363,14 +363,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }else{
       this.dataSource = this.creditProposal.products;
          
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            a = lodash.concat(a, this.creditProposal.products[i]);
-          }
-    }
-
-    }else{
-      this.dataSource = this.creditProposal.products;
-       
           for (let i = 0; i < this.creditProposal.products.length; i++) {
             a = lodash.concat(a, this.creditProposal.products[i]);
           }
