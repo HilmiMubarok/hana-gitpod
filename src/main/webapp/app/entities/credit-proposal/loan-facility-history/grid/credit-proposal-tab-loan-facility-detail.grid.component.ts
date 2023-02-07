@@ -97,6 +97,23 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       this.dataParty.push(previous.products[i]);
     }
   }
+  public getCurrency(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+      return 'IDR';
+    }
+
+    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+      return 'USD';
+    }
+    return '';
+  }
+
+  public getCurrency2(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+      return '%p.a';
+    }
+    return '';
+  }
 
   public openDialog(param: IApplicationProduct = null): void {
     if (param) {
