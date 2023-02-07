@@ -59,6 +59,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   @Input() isCompareDar: Boolean = false;
 
   @Input() takeOutCompare: Boolean = false;
+  public previousBank: any;
 
   @Input()
   get creditProposal() {
@@ -89,6 +90,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   public change2 = 0;
   public newMessage: string;
   public ccy: string;
+  public parentPath: any;
 
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
@@ -105,6 +107,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+    this.parentPath = this.router.url.split('/')[1];
   }
 
   onDocumentChange() {
@@ -130,6 +133,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     }
     this.getWord();
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
+    this.previousBank = this.parsedAttribute.previousHistory.facilityDetail.previousBank;
     console.log('parsed', this.parsedAttribute);
     this.removeTagRemaks();
     this.setCurrency();

@@ -179,6 +179,7 @@
       <div class="e-card-header-title">Take Over Scheme (If Any)</div>
     </div>
   </div>
+
   <div class="row">
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="col-6">
@@ -198,11 +199,12 @@
       </div>
     </section>
   </div>
+
   <div class="row col-12">
     <div class="col-md-6">
       <div class="mb-2">
-        <mat-label>Previous Bank</mat-label>
-        <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal">
+        <mat-label>Previous Bankzzz</mat-label>
+        <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="isViewMode">
         </jhi-credit-proposal-tab-loan-facility-take-over-grid>
       </div>
     </div>
@@ -210,7 +212,7 @@
     <div class="col-md-6">
       <div class="mb-2">
         <mat-label>After Bank</mat-label>
-        <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal">
+        <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="true">
         </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
       </div>
     </div>

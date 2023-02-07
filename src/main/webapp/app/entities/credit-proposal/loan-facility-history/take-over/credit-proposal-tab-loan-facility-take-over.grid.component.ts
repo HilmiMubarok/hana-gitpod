@@ -32,7 +32,7 @@ import { parsePreviousAtrribute } from 'app/shared/helper/utils';
   templateUrl: './credit-proposal-tab-loan-facility-take-over.grid.component.html',
   styleUrls: ['../grid/loan.scss'],
 })
-export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
+export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges, OnInit {
   private _creditProposal: ICreditProposal;
   @Input() isViewLoan: Boolean = false;
   @Input() isViewMode: Boolean = false;
@@ -59,45 +59,47 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
   public loading: boolean;
   public cloneData: any;
 
-
-
   // dataData: any;
 
   private loanApplication: ILoanApplication;
-  constructor(public router: Router,public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
+  constructor(public router: Router, public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
     this.loading = false;
+  }
+  ngOnInit(): void {
+    this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+    this.facilityTakeOver = this.parsedAttr.previousHistory.facilityTakeOver;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       this.getLoanApplication();
     }
-    this.historyGet()
+    // this.historyGet();
   }
 
-  public parsedAttr: any
-  public historyGet(){
-    if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1) {
-      if (this.router.url.split('=').indexOf('loan-facility') > -1) {
-      
-        this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
-        if (this.parsedAttr.previousHistory) {
-          this.facilityTakeOver = this.parsedAttr.previousHistory.facilityTakeOver;
-      
-        } else {
-          this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
-      }
-    }else{
-      this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
+  public parsedAttr: any;
+  // Dimatiin dulu sama moyo
+  // public historyGet(){
+  //   if (this.router.url.split('/').indexOf('loan-committee-approval') > -1 || this.router.url.split('/').indexOf('dar-notif') > -1 || this.router.url.split('/').indexOf('dar-final') > -1) {
+  //     if (this.router.url.split('=').indexOf('loan-facility') > -1) {
 
-    }
+  //       this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+  //       if (this.parsedAttr.previousHistory) {
+  //         this.facilityTakeOver = this.parsedAttr.previousHistory.facilityTakeOver;
 
-    }else{
-      this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
-       
+  //       } else {
+  //         this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
+  //     }
+  //   }else{
+  //     this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
 
-    }
-  }
+  //   }
+
+  //   }else{
+  //     this.facilityTakeOver = this.creditProposal.attributes['facilityTakeOver'];
+
+  //   }
+  // }
 
   private getLoanApplication(): void {
     this.loanApplicationService.find(this.creditProposal.id).subscribe(res => {
@@ -118,17 +120,15 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges {
     const dialogRef = this.dialog.open(LoanFacilityTakeOverHistoryComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.facilityTakeOver = [...this.facilityTakeOver, res]
-        this.loanApplication.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
-        this.creditProposal.attributes['facilityTakeOver'] = [...this.creditProposal.attributes['facilityTakeOver'], res];
+        this.facilityTakeOver = [...this.facilityTakeOver, res];
+        this.facilityTakeOver = [...this.parsedAttr.previousHistory.facilityTakeOver, res];
       }
     });
   }
-  public facilityTakeOver: any
+  public facilityTakeOver: any;
   public onDelete(element: ICreditProposal) {
-    const dataGridTake = this.creditProposal.attributes['facilityTakeOver'].filter(({ id }) => id !== element.id);
+    const dataGridTake = this.parsedAttr.previousHistory.facilityTakeOver.filter(({ id }) => id !== element.id);
     this.facilityTakeOver = dataGridTake;
-    this.creditProposal.attributes['facilityTakeOver'] = dataGridTake;
+    this.parsedAttr.previousHistory.facilityTakeOver = dataGridTake;
   }
-
 }
