@@ -90,7 +90,7 @@
       </div>
       <mat-dialog-actions align="center ">
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button (click)="Onsave()">Save</button>
+        <button mat-button *ngIf="view !== true" (click)="Onsave()">Save</button>
       </mat-dialog-actions>
     </div>
   </div>

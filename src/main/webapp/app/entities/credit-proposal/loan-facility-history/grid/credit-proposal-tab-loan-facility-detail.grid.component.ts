@@ -86,7 +86,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
-    this.isViewMode && this.displayColumns.pop();
+    // this.isViewMode && this.displayColumns.pop();
   }
   partyCifFunc() {
     const previous =
@@ -96,6 +96,23 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     for (let i = 0; i < previous.products.length; i++) {
       this.dataParty.push(previous.products[i]);
     }
+  }
+  public getCurrency(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+      return 'IDR';
+    }
+
+    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+      return 'USD';
+    }
+    return '';
+  }
+
+  public getCurrency2(element: IApplicationProduct) {
+    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+      return '%p.a';
+    }
+    return '';
   }
 
   public openDialog(param: IApplicationProduct = null): void {

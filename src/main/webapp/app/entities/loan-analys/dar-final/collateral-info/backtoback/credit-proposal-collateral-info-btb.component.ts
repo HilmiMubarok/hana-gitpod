@@ -382,8 +382,32 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          for (let j = 0; j < this.creditProposal.products.length; j++) {
+            if ($event === true) {
+              const tempCollateralProductRelationObject = {
+                collateralId: this.creditProposal.collaterals[i].id,
+                bindingValue: 0,
+                applicationProduct: this.creditProposal.products[j],
+              };
+              this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+            }
+          }
+        }
+      }
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      if (this.creditProposal.collateralProductRelations.length > 0) {
+        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+          if (
+            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
+            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
+          ) {
+            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+          }
+        }
+      }
     }
   }
 
@@ -447,14 +471,27 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     });
   }
 
-  public findCertyficate(id) {
-    if (this.certificateType) {
-      this.dataCertyficate = this.certificateType.find(obj => obj.id === id);
-      if (this.dataCertyficate) {
-        return this.dataCertyficate.label;
+  public findCertyficate(collateral) {
+    let data: ICollateralProperty;
+
+    // console.log("collateral in above grid",collateral);
+    if (collateral) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.certificateType !== undefined) {
+          if (this.certificateType) {
+            this.dataCertyficate = this.certificateType.find(obj => obj.id === data.attributes.certificateType);
+            if (this.dataCertyficate) {
+              return this.dataCertyficate.label;
+            }
+            return '';
+          }
+        }
       }
-      return '';
     }
+    return '';
   }
 
   public getOwnerShip(collateral: ICollateral) {
