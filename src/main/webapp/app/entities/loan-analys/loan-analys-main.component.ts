@@ -668,10 +668,10 @@ export class LoanAnalysMainComponent implements OnInit {
 
     const tempRouter = this.router.url.split('/')[1];
 
-	if (tempRouter === 'cc-review') {
-	  if (this.opinionType === 'compliance') {
-		if (this.positionLoginFromEmit) {
-		  let tempHelper = 0;
+    if (tempRouter === 'cc-review') {
+      if (this.opinionType === 'compliance') {
+        if (this.positionLoginFromEmit) {
+          let tempHelper = 0;
           let tempOpinionType = '';
 
           tempOpinionType = 'compliance';
@@ -698,18 +698,18 @@ export class LoanAnalysMainComponent implements OnInit {
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
           }
-		}
-	  }
-	}
+        }
+      }
+    }
 
-	if (
-	  tempRouter === 'la-analyst' ||
-	  tempRouter === 'la-SME-CRC' ||
-	  tempRouter === 'la-approval' ||
-	  tempRouter === 'loan-committee-approval'
-	) {
-	  if (this.recomendation && this.positionLoginFromEmit) {
-		let tempHelper = 0;
+    if (
+      tempRouter === 'la-analyst' ||
+      tempRouter === 'la-SME-CRC' ||
+      tempRouter === 'la-approval' ||
+      tempRouter === 'loan-committee-approval'
+    ) {
+      if (this.recomendation && this.positionLoginFromEmit) {
+        let tempHelper = 0;
         let tempOpinionType = '';
 
         tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
@@ -736,8 +736,8 @@ export class LoanAnalysMainComponent implements OnInit {
             this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
           );
         }
-	  }
-	}
+      }
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -788,6 +788,7 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
+    copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     return copyCreditProposal;
   }
 
