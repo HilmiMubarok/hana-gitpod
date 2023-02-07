@@ -26,6 +26,12 @@ export class CreditProposalDeviationBelowHistoryComponent implements OnInit {
 
   public parsedData: any;
 
+  @Input() isViewMode: Boolean = false;
+
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -51,15 +57,31 @@ export class CreditProposalDeviationBelowHistoryComponent implements OnInit {
     this.creditProposalItem.attributes['convenant'].standardCovenant = lodash.clone(this.copystandardCovenant);
   }
 
+  public historyData() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
+    if (this.isOnCompareData) {
+      if (this.isCompareDar) {
+        // compare dar not done yet
+        return this.creditProposalItem.attributes;
+      } else {
+        // compare data previous proposal
+        return this.parsedData.previousReturn;
+      }
+    } else {
+      // menu cp history
+      return this.parsedData.previousHistory;
+    }
+  }
+
   ngOnInit(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
-    if (this.parsedData.previousHistory.convenant.standardCovenant.length !== 0) {
-      const deletedItem = this.parsedData.previousHistory.convenant.standardCovenant.filter(item => item.status !== 'Applied');
+    if (this.historyData().convenant.standardCovenant.length !== 0) {
+      const deletedItem = this.historyData().convenant.standardCovenant.filter(item => item.status !== 'Applied');
       this.standardCovenant = deletedItem;
-      for (let i = 0; i < this.parsedData.previousHistory.convenant.standardCovenant.length; i++) {
-        this.statusValue[i] = this.parsedData.previousHistory.convenant.standardCovenant[i].status;
-        this.deviation[i] = this.parsedData.previousHistory.convenant.standardCovenant[i].deviation;
-        this.justification[i] = this.parsedData.previousHistory.convenant.standardCovenant[i].justification;
+      for (let i = 0; i < this.historyData().convenant.standardCovenant.length; i++) {
+        this.statusValue[i] = this.historyData().convenant.standardCovenant[i].status;
+        this.deviation[i] = this.historyData().convenant.standardCovenant[i].deviation;
+        this.justification[i] = this.historyData().convenant.standardCovenant[i].justification;
       }
     } else {
       this.standardCovenant = [];
