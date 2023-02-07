@@ -149,7 +149,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
         this.accountService.identity().subscribe(resAccount => {
           file.tags['dueDate'] =  this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? 'null' : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
-          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');;
+          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
         
           file.tags['createdBy'] = resAccount.login;
         });
@@ -169,7 +169,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
 
   public convertDan(value: string): any{
-    if(value !== null){
+    if(value !== null && value !== undefined){
       return value.replace('codeSpecialDan', '&')
     }else{
       return ''
