@@ -86,7 +86,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
-    this.isViewMode && this.displayColumns.pop();
+    // this.isViewMode && this.displayColumns.pop();
   }
   partyCifFunc() {
     const previous =
