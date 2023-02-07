@@ -67,18 +67,12 @@ export class DeviationBackToBackGeneralHistoryComponent implements OnInit {
         // compare dar not done yet
         return this.creditProposalItem.attributes;
       } else {
-        if (this.creditProposalItem.attributes.previousReturn) {
-          return this.parsedData.previousReturn;
-        } else {
-          return this.parsedData.previousHistory;
-        }
+        // compare data => previous proposal
+        return this.parsedData.previousReturn;
       }
     } else {
-      if (this.creditProposalItem.attributes.previousReturn) {
-        return this.parsedData.previousReturn;
-      } else {
-        return this.parsedData.previousHistory;
-      }
+      // loan analys => menu cp
+      return this.parsedData.previousHistory;
     }
   }
   ngOnInit(): void {

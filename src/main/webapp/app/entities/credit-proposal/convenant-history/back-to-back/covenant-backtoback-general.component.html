@@ -13,7 +13,7 @@
             [dataSource]="status"
             placeholder="Select a Status"
             cssClass="e-outline"
-            [readonly]="true"
+            disabled
             [value]="statusValue[data.id]"
           >
           </ejs-dropdownlist>
@@ -25,9 +25,8 @@
             [multiline]="true"
             (keyup)="onKeyUpEvent('deviation', $event, data)"
             [(ngModel)]="deviation[data.id]"
-            [disabled]="statusValue[data.id] == 'Applied'"
             cssClass="e-outline"
-            [readonly]="statusValue[data.id] !== 'Applied'"
+            disabled
           >
           </ejs-textbox>
         </ng-template>
@@ -38,9 +37,8 @@
             [multiline]="true"
             (keyup)="onKeyUpEvent('justification', $event, data)"
             [(ngModel)]="justification[data.id]"
-            [disabled]="statusValue[data.id] == 'Applied'"
             cssClass="e-outline"
-            [readonly]="statusValue[data.id] !== 'Applied'"
+            disabled
           >
           </ejs-textbox>
         </ng-template>
@@ -49,7 +47,7 @@
   </ejs-grid>
 </div>
 
-<div class="e-card" *ngIf="!isViewMode">
+<!-- <div class="e-card" *ngIf="!isViewMode">
   <div class="e-card-sub-title">
     <h5>General Times Condition</h5>
   </div>
@@ -94,4 +92,4 @@
       </e-column>
     </e-columns>
   </ejs-grid>
-</div>
+</div> -->

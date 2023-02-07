@@ -66,18 +66,12 @@ export class CovenantBackToBackDepositHistoryComponent implements OnInit {
         // compare dar not done yet
         return this.creditProposalItem.attributes;
       } else {
-        if (this.creditProposalItem.attributes.previousReturn) {
-          return this.parseAttr.previousReturn;
-        } else {
-          return this.parseAttr.previousHistory;
-        }
+        // previous proposal
+        return this.parseAttr.previousReturn;
       }
     } else {
-      if (this.creditProposalItem.attributes.previousReturn) {
-        return this.parseAttr.previousReturn;
-      } else {
-        return this.parseAttr.previousHistory;
-      }
+      // previous history => loan analys menu cp
+      return this.parseAttr.previousHistory;
     }
   }
 
