@@ -358,18 +358,18 @@
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
+        <div [hidden]="item.name.indexOf('los_logo.png') > -1" style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
           <div
             *ngIf="
               item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
             "
           >
-          <div *ngIf="item.name.indexOf('los_logo.png') > -1">
+       
             <img style="width: 300px; border-radius: 20px" [src]="item.url" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
-          </div>
+        
         </div>
           <div
             *ngIf="

@@ -166,7 +166,7 @@
             (removed)="onRemove(f)"
           >
             <ngx-dropzone-label>
-              <div [hidden]="item.name.split('-').indexOf('los_logo.png') > -1">
+              <div [hidden]="item.name.indexOf('los_logo.png') > -1">
               <img
                 width="150px"
                 [src]="item.url"
