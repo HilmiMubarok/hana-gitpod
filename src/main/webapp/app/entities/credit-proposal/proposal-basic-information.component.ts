@@ -689,6 +689,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
+    copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
 
     return copyCreditProposal;
   }

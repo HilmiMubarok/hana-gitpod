@@ -44,7 +44,7 @@ import { IndustryLimit } from './exposure/industry-limit/industry-limit.model';
 import lodash from 'lodash';
 import { ComplienceRecommendation } from '../loan-analys/compliance/complience.model';
 import { OfferingLetter, OfferingLetterPreparation } from '../offering-letter/offering-page/offering-page.model';
-import { CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
+import { CoverageTotal, CreditProposalCollateralData } from './collateral-info/credit-proposal-collateral-info.model';
 import { RetriveData } from './retrive/retrive.model';
 import { BankAccountAnalystMessage } from './bank-account-analyst/bank-account-analyst.model';
 import { CheckRemarks } from './trade-checking/Remarks/remarks.model';
@@ -359,6 +359,13 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['calculationExposure'] = new CalculationExposure();
             } else {
               creditProposal.body.attributes['calculationExposure'] = JSON.parse(creditProposal.body.attributes['calculationExposure']);
+            }
+
+            //
+            if (!lodash.has(creditProposal.body.attributes, 'coverageTotal')) {
+              creditProposal.body.attributes['coverageTotal'] = new CoverageTotal();
+            } else {
+              creditProposal.body.attributes['coverageTotal'] = JSON.parse(creditProposal.body.attributes['coverageTotal']);
             }
             if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
               creditProposal.body.attributes['dataAssignTo'] = [];

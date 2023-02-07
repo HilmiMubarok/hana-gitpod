@@ -79,12 +79,27 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   public presentage(value: string) {
+    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       return 0 + '%';
     } else {
       return num + '%';
     }
+  }
+
+  private totalCoverage() {
+    const mvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
+    const lvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
+    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
+    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+    const lvKjjpCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
 
   @Input() isViewMode;
@@ -118,6 +133,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this.isChecked = true;
     }
     this.setCertyficateType();
+    this.totalCoverage();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -372,6 +388,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+    this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+
     return result;
   }
 
@@ -391,6 +409,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+    this._creditProposal.attributes['coverageTotal'].countTotalMV = result;
     return result;
   }
 
@@ -458,6 +477,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+    const creditLimit = result + dolar;
+    this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
 
     return result + dolar;
   }
@@ -562,6 +583,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+    this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP = result;
     return result;
   }
 
@@ -581,6 +603,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
       }
     }
+    this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP = result;
     return result;
   }
 
