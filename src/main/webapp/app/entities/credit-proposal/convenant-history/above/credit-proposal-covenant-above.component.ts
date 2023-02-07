@@ -62,18 +62,12 @@ export class CreditProposalCovenantAboveHistoryComponent implements OnInit {
         // compare dar not done yet
         return this.creditProposalItem.attributes;
       } else {
-        if (this.creditProposalItem.attributes.previousReturn) {
-          return this.parsedAttr.previousReturn;
-        } else {
-          return this.parsedAttr.previousHistory;
-        }
+        // previous return
+        return this.parsedAttr.previousReturn;
       }
     } else {
-      if (this.creditProposalItem.attributes.previousReturn) {
-        return this.parsedAttr.previousReturn;
-      } else {
-        return this.parsedAttr.previousHistory;
-      }
+      // previous history
+      return this.parsedAttr.previousHistory;
     }
   }
 
