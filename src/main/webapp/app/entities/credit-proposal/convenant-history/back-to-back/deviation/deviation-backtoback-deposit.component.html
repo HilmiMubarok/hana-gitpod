@@ -13,7 +13,7 @@
             [dataSource]="status"
             placeholder="Select a Status"
             cssClass="e-outline"
-            [disabled]="statusValue"
+            disabled
           >
           </ejs-dropdownlist>
         </ng-template>
@@ -24,9 +24,8 @@
             [multiline]="true"
             (keyup)="onKeyUpEvent('deviation', $event, data)"
             [(ngModel)]="deviation[data.id]"
-            [disabled]="statusValue[data.id] == 'Applied'"
             cssClass="e-outline"
-            [disabled]="statusValue"
+            disabled
           >
           </ejs-textbox>
         </ng-template>
@@ -37,9 +36,8 @@
             [multiline]="true"
             (keyup)="onKeyUpEvent('justification', $event, data)"
             [(ngModel)]="justification[data.id]"
-            [disabled]="statusValue[data.id] == 'Applied'"
             cssClass="e-outline"
-            [disabled]="statusValue"
+            disabled
           >
           </ejs-textbox>
         </ng-template>
