@@ -230,7 +230,7 @@
         </ng-container>
         <ng-container matColumnDef="ownership">
           <th mat-header-cell *matHeaderCellDef>Ownership</th>
-          <td mat-cell *matCellDef="let element">{{ findCertyficate(element.certificateType) + ' ' + getOwnerShip(element) }}</td>
+          <td mat-cell *matCellDef="let element">{{ findCertyficate(element) + ' ' + getOwnerShip(element) }}</td>
           <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
         <ng-container matColumnDef="certificateDueDate">
