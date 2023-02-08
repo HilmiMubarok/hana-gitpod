@@ -463,7 +463,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].positionTypeDescription === 'Surveyor') {
+          if (res.body[i].positionTypeId === 'SURVEYOR') {
             surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
           }
         }
