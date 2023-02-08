@@ -97,7 +97,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
   }
 
   public deleteTBO(status: any){
-    if (status !== 'TBO') {
+    if (status === 'Available') {
       for (let i = 0; i < this.file.length; i++) {
           if (this.file[i].name.indexOf('los_logo.png') > -1) {
             this.file.splice(this.file.indexOf(this.file), 1);

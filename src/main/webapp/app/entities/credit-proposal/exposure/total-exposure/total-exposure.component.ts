@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild, AfterViewInit } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { Internationalization } from '@syncfusion/ej2-base';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './total-exposure.component.html',
   styleUrls: ['../../loan-facility/grid/loan.scss'],
 })
-export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges, AfterViewInit {
+export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit,AfterViewInit {
   public parsedAttr;
   public dataSource;
   public selectedMenu: string;
@@ -101,28 +101,44 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   public debtor: any;
   ngOnInit(): void {
     this.selectedMenu = 'TOTAL EXPOSURE';
-    this.defaultCurrency();
-    this.setMenu('');
-    this.getCurrency();
 
-    this.creditProposal.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
-    this.creditProposal.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
-    this.creditProposal.attributes['calculationExposure'].subTotalLimitGroubOs = this.fungsiSumOSGroub();
-    this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
-
-    this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
-    this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
-    this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
-    this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
-  }
-
-  public defaultCurrency() {
     const setDate = new Date().toISOString().split('T')[0];
 
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyMaster = res.body[0]?.factor;
+      this.debtorData()
+
+      this.fungsiSuminit();
+      this.fungsiSumchange();
+      this.fungsiSumOS();
+      this.fungsiSumcredit();
+      this.fungsiSumavailable();
+      this.fungsiSumTotalDebiturCashLoan();
+      this.totalNonCashLoan();
+      this.totalCashLoan();
+      this.getMyBusinessGroup();
+      this.grandTotalDebitur();
+
+      this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
+      this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
+      this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
+      this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
+      this.creditProposal.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
+      this.creditProposal.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
+      this.creditProposal.attributes['calculationExposure'].subTotalLimitGroubOs = this.fungsiSumOSGroub();
+      this.creditProposal.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
+  
+
+
     });
+   
+    this.setMenu('');
+    this.getCurrency();
+
+    
   }
+
+
 
   ngAfterViewInit(): void {
     this.debtorData()
@@ -169,7 +185,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = source[y].FXFIG_TRX_DT;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
-              parsed.CCY = source[y].LNB_BASE_LON_CCY;
+              parsed.CCY =   source[y].LNB_BASE_LON_CCY;;
               parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
@@ -212,6 +228,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
 
     this.totalDebiturCashLoanGroup = this.fungsiSumcreditGroub() - this.totalDebiturNonCashLoanGroup;
+    console.log('okkkkkk', this.fungsiSumcreditGroub())
     this.creditProposal.attributes['calculationExposure'].totalGroubCashLoan = Number(this.totalDebiturCashLoanGroup);
     this.creditProposal.attributes['calculationExposure'].totalGroubNonCashLoan = Number(this.totalDebiturNonCashLoanGroup);
   }
@@ -315,27 +332,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     this._item = item;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.debtorData()
-    this.debtorData()
-    this.defaultCurrency();
-    this.fungsiSuminit();
-    this.fungsiSumchange();
-    this.fungsiSumOS();
-    this.fungsiSumcredit();
-    this.fungsiSumavailable();
-    this.fungsiSumTotalDebiturCashLoan();
-    this.totalNonCashLoan();
-    this.totalCashLoan();
-    this.getMyBusinessGroup();
-    this.grandTotalDebitur();
-
-    this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
-    this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
-    this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
-    this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
-  }
-
+ 
   public debtorData(){
     let a = [];
   

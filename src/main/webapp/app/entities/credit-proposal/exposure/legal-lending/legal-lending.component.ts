@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input,OnInit } from '@angular/core';
 import { ICreditProposal } from '../..//credit-proposal.model';
 
 import lodash from 'lodash';
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   templateUrl: './legal-lending.component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
-export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges {
+export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit{
   // public data = ['25% (Basic)', '30%(BUMN)', '10%(Related Party)'];
   public data: any[];
 
@@ -90,32 +90,13 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   }
 
   ngOnInit(): void {
-    this.defaultCurrency()
-    this.getApplicationOption();
-    this.getParameter();
-  }
-  public countBuffer(value: number): any{
-    // value.toString()
-    if (value.toString().split('')[0]==='-') {
-      const bil = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR"
-      }).format(value);
-      return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
-    }else{
-      const bil = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR"
-      }).format(value);
-      return 'IDR '+ bil.toString().replace('Rp', '')
-    }
-  }
-  ngOnChanges(changes: SimpleChanges) {
-   this.debtorData()
- 
+    const setDate = new Date().toISOString().split('T')[0];
 
-   
-    this.defaultCurrency()
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyMaster = res.body[0]?.factor;
+      this.getApplicationOption();
+      this.getParameter();
+      this.debtorData()
     this.fungsiSuminit();
     this.fungsiSumTotalDebiturCashLoan();
     this.totalCashLoan();
@@ -123,16 +104,31 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.grandTotalDebitur();
     this.getMyBusinessGroup();
     this.getCurrency();
+    })
+   
   }
-
-  public defaultCurrency() {
-    const setDate = new Date().toISOString().split('T')[0];
-
-    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-    });
+  public countBuffer(value: number): any{
+    // value.toString()
+    if(value !== null && value !== undefined){
+      if (value.toString().split('')[0]==='-') {
+        const bil = new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR"
+        }).format(value);
+        return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
+      }else{
+        const bil = new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR"
+        }).format(value);
+        return 'IDR '+ bil.toString().replace('Rp', '')
+      }
+    }else{
+      return 0
+    }
+    
   }
-
+ 
 
   public debtorData(){
   
