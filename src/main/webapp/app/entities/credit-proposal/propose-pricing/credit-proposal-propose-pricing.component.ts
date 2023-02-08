@@ -217,37 +217,37 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         }
       } else if (creditProposal.products[i].attributes.currency === 'USD') {
         if (creditProposal.products[i].attributes.availableLimit !== undefined) {
-          this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit);
+          this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit * creditProposal.products[i].attributes.kurs);
         } else {
           this.availabelLimitArrayUSD = [];
         }
 
         if (creditProposal.products[i].attributes.outstanding !== undefined) {
-          this.OSArrayUSD.push(creditProposal.products[i].attributes.outstanding);
+          this.OSArrayUSD.push(creditProposal.products[i].attributes.outstanding * creditProposal.products[i].attributes.kurs);
         } else {
           this.OSArrayUSD = [];
         }
 
         if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
-          this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond);
+          this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond * creditProposal.products[i].attributes.kurs);
         } else {
           this.plafontArrayUSD = [];
         }
 
         if (creditProposal.products[i].attributes.normalRate !== undefined) {
-          this.normalRateUSDArr.push(creditProposal.products[i].attributes.normalRate);
+          this.normalRateUSDArr.push(creditProposal.products[i].attributes.normalRate * creditProposal.products[i].attributes.kurs);
         } else {
           this.normalRateUSDArr = [];
         }
 
         if (creditProposal.products[i].attributes.discountProposal !== undefined) {
-          this.discountProposalUSDArr.push(creditProposal.products[i].attributes.discountProposal);
+          this.discountProposalUSDArr.push(creditProposal.products[i].attributes.discountProposal * creditProposal.products[i].attributes.kurs);
         } else {
           this.discountProposalUSDArr = [];
         }
 
         if (creditProposal.products[i].attributes.proposedRate !== undefined) {
-          this.proposedRateUSDArr.push(creditProposal.products[i].attributes.proposedRate);
+          this.proposedRateUSDArr.push(creditProposal.products[i].attributes.proposedRate * creditProposal.products[i].attributes.kurs);
         } else {
           this.proposedRateUSDArr = [];
         }
