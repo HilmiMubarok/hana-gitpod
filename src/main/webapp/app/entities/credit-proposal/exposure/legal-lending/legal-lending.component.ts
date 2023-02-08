@@ -1,4 +1,4 @@
-import { Component, Input,OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ICreditProposal } from '../..//credit-proposal.model';
 
 import lodash from 'lodash';
@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
   templateUrl: './legal-lending.component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
-export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit{
+export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges {
   // public data = ['25% (Basic)', '30%(BUMN)', '10%(Related Party)'];
   public data: any[];
 
@@ -91,45 +91,47 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
 
   ngOnInit(): void {
     const setDate = new Date().toISOString().split('T')[0];
-
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-      
-      this.debtorData()
-      this.fungsiSuminit();
-      this.fungsiSumTotalDebiturCashLoan();
-      this.totalCashLoan();
-      this.totalNonCashLoan();
-      this.grandTotalDebitur();
-      this.getMyBusinessGroup();
-      this.getApplicationOption();
-      this.getParameter();
-      this.getCurrency();
+
+    this.getApplicationOption();
+    this.getParameter();
     })
-   
   }
   public countBuffer(value: number): any{
     // value.toString()
     if(value !== null && value !== undefined){
       if (value.toString().split('')[0]==='-') {
-        const bil = new Intl.NumberFormat("id-ID", {
-          style: "currency",
-          currency: "IDR"
-        }).format(value);
-        return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
-      }else{
-        const bil = new Intl.NumberFormat("id-ID", {
-          style: "currency",
-          currency: "IDR"
-        }).format(value);
-        return 'IDR '+ bil.toString().replace('Rp', '')
-      }
-    }else{
-      return 0
+            const bil = new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR"
+            }).format(value);
+            return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
+          }else{
+            const bil = new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR"
+            }).format(value);
+            return 'IDR '+ bil.toString().replace('Rp', '')
+          }
     }
     
   }
+  ngOnChanges(changes: SimpleChanges) {
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+    this.debtorData()
+    this.fungsiSuminit();
+    this.fungsiSumTotalDebiturCashLoan();
+    this.totalCashLoan();
+    this.totalNonCashLoan();
+    this.grandTotalDebitur();
+    this.getMyBusinessGroup();
+    this.getCurrency();
+    })
+  }
+
  
+
 
   public debtorData(){
   
