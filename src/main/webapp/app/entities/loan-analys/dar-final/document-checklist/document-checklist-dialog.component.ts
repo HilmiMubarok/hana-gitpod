@@ -75,7 +75,17 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   }
 
   public onChange(el) {
-    el === 'TBO' && this.isTBO();
+    if (el === 'TBO' || el === 'Waived') {
+      this.isTBO();
+    }
+  }
+
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
+    }
   }
 
   ngOnInit() {
@@ -97,16 +107,16 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
         createdBy: null,
       };
       const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-      const files = this.file[i].name.replace('&', '');
+      const files = new Date() + '-' + this.file[i].name.replace('&', '');
 
-      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${files}`;
+      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
       metaData.entityId = this.data.creditProposal.id;
       metaData.documentType = this.documentChecklist.documentType;
-      metaData.document = this.documentChecklist.document;
+      metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
       metaData.category = this.documentChecklist.category;
-      metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
+      metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
       metaData.status = this.documentChecklist.status;
-      metaData.remarks = this.documentChecklist.remarks;
+      metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
       metaData.createdDate = new Date();
 
       const formData = new FormData();
@@ -146,15 +156,38 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     this.copyDeviation.push(convenantObject);
   }
 
+  public setModel(event: any) {
+    this.documentChecklist.remarks = event.target.value;
+  }
+
+  public deleteTBO(status: any) {
+    console.log('okees', status.value);
+    if (status.value === 'Available') {
+      for (let i = 0; i < this.file.length; i++) {
+        if (this.file[i].name.indexOf('los_logo.png') > -1) {
+          this.file.splice(this.files.indexOf(this.file), 1);
+        }
+      }
+    }
+
+    // if (status.value !== 'TBO') {
+    //   this.file = []
+    // }
+  }
+
   public edit(): void {
     const files: IDocumentNode[] = this.documentChecklist['files'];
+
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
         this.accountService.identity().subscribe(resAccount => {
-          file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
+          file.tags['dueDate'] =
+            this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null'
+              ? 'null'
+              : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
-          file.tags['remarks'] = this.documentChecklist.remarks;
+          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
 
           file.tags['createdBy'] = resAccount.login;
         });
@@ -192,6 +225,6 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   }
 
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.document + '.' + name.objectName.split('.')[1]);
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
 }

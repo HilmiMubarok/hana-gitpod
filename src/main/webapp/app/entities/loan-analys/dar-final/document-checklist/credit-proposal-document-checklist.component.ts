@@ -87,6 +87,15 @@ export class DocumentChecklistTempComponent implements OnChanges, OnInit {
     });
   }
 
+  public convertDan(value: string): any{
+    if(value !== null && value !== undefined){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
+    }
+    
+  }
+
   private groupByFolder(param: any[]): void {
     this.folders = [];
     if (param.length > 0) {
