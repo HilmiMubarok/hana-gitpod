@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output,SimpleChanges, ViewChild } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { IndustryLimit, IIndustryLimit } from './industry-limit.model';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
@@ -12,7 +12,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
   templateUrl: './industry-limit.component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
-export class IndustryLimitComponent implements OnInit {
+export class IndustryLimitComponent implements OnInit, OnChanges {
   public _creditProposal: ICreditProposal;
   public dateAsOf: string;
   public limitPercentage: any;
@@ -56,23 +56,8 @@ export class IndustryLimitComponent implements OnInit {
   ngOnInit(): void {
     this.applicationOption();
     // this.industryLimit();
-
-    this.listOfValueIndustryService.query().subscribe((response: any) => {
-      for (let i = 0; i < response.body.length; i++) {
-        if (
-          response.body[i].label === this.creditProposal.attributes['purposePricing'].industry &&
-          response.body[i].id === this.creditProposal.attributes['purposePricing'].industryCode
-        ) {
-          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
-            this.limitPercentage = res.body.limitPercentage / 100;
-            this.remainingBalance = res.body.remainingBalance;
-            this.industryLimitExposure = res.body.industryLimitExposure;
-            this.limitNominal = this.limitPercentage * Number(res.body.industryLimitExposure);
-            // this.totalAmmountFunc(this.remainingBalance);
-          });
-        }
-      }
-    });
+    this.industry()
+    
     const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
       this.purposeAmmount = message;
       this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
@@ -87,6 +72,29 @@ export class IndustryLimitComponent implements OnInit {
     // this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
   }
 
+
+  ngOnChanges(changes: SimpleChanges) {
+    
+  this.industry()
+  }
+
+  public industry(){
+    this.listOfValueIndustryService.query().subscribe((response: any) => {
+      for (let i = 0; i < response.body.length; i++) {
+        if (
+          response.body[i].label === this.creditProposal.attributes['purposePricing'].industry
+        ) {
+          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
+            this.limitPercentage = res.body.limitPercentage / 100;
+            this.remainingBalance = res.body.remainingBalance;
+            this.industryLimitExposure = res.body.industryLimitExposure;
+            this.limitNominal = this.limitPercentage * Number(res.body.industryLimitExposure);
+            // this.totalAmmountFunc(this.remainingBalance);
+          });
+        }
+      }
+    });
+  }
   public fungsiSumOS() {
     let result: number;
     let dolar: number;
