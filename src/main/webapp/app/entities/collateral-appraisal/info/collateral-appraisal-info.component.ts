@@ -92,7 +92,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
 
-  public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
+  public officerAppraisalFields?: Object = { text: 'employeeFirstName', value: 'id' };
   public officerAppraisalValue?: string;
   public approvalDate: string;
   public visitDate: string;
