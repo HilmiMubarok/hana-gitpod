@@ -29,6 +29,41 @@
       </div>
 
       <div *ngIf="clickedMenu === 'customer-info'">
+        <jhi-collateral-appraisal-person-view
+          mode="view"
+          [collateralAppraisal]="collateralAppraisal"
+          [id]="surveyAppraisal.cif.id"
+          *ngIf="surveyAppraisal.cif.customerType === 'PERSONAL'"
+        >
+        </jhi-collateral-appraisal-person-view>
+        <jhi-collateral-appraisal-party-group-view
+          mode="view"
+          [partyId]="surveyAppraisal.cif.partyId"
+          [collateralAppraisal]="collateralAppraisal"
+          [id]="surveyAppraisal.cif.id"
+          *ngIf="surveyAppraisal.cif.customerType === 'CORPORATE'"
+        >
+        </jhi-collateral-appraisal-party-group-view>
+
+        <div class="e-card mb-3">
+          <div class="e-card-header mb-1">
+            <div class="e-card-header-caption">
+              <div class="header-title">Customer Address</div>
+            </div>
+          </div>
+          <div class="e-card-content">
+            <jhi-party-cif-customer-info-postal-address
+              [disabled]="true"
+              [partyPostalAddress]="postalAddress"
+              [partyId]="surveyAppraisal.cif.partyId"
+              [collateralAppraisal]="collateralAppraisal"
+            >
+            </jhi-party-cif-customer-info-postal-address>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div *ngIf="clickedMenu === 'customer-info'">
         <jhi-survey-batch-collateral-appraisal-person-view
           mode="view"
           [collateralAppraisal]="collateralAppraisal"
@@ -60,19 +95,19 @@
             </jhi-party-cif-customer-info-postal-address>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div
         *ngIf="clickedMenu === 'collateral-info' && surveyAppraisal.collateral"
         class="e-sample-resize-container e-card-resize-container"
       >
-        <jhi-survey-batch-collateral-info
+        <jhi-collateral-info
           mode="edit"
           [collateralAppraisal]="collateralAppraisal"
           [collateral]="surveyAppraisal.collateral"
           [collateralAppraisalId]="collateralAppraisal.id"
           [appraisal]="collateralAppraisal"
-        ></jhi-survey-batch-collateral-info>
+        ></jhi-collateral-info>
       </div>
       <div *ngIf="clickedMenu === 'report-independent'" class="e-sample-resize-container e-card-resize-container">
         <jhi-report-independent [surveyAppraisal]="surveyAppraisal"></jhi-report-independent>
