@@ -47,6 +47,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
   public collaterallInfo: any;
   public collateralProductRelations: any;
   public creditProposaldata: any;
+  public field = false;
 
   length: number;
   pageSize = 10;
@@ -118,7 +119,14 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
+    this.sableFeild();
   }
+ public sableFeild() {
+    if (this.creditProposaldata.statusId === 'LA_DAR_NOTIF') {
+      this.field = true;
+    }
+  }
+
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
