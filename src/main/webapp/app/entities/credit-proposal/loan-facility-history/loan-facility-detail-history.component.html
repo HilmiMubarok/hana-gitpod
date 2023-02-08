@@ -1,4 +1,4 @@
-<div class="e-card" *ngIf="isViewMode">
+<div class="e-card" *ngIf="isViewMode === true">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Facility Details</div>
@@ -184,7 +184,7 @@
           <div class="col-6">
             <mat-label>Previous Bank</mat-label>
             <mat-form-field class="w-100" appearance="outline">
-              <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+              <input matInput type="text" [(ngModel)]="previousBank" disabled />
             </mat-form-field>
           </div>
         </section>
@@ -193,7 +193,7 @@
             <div class="col-2">Previous Bank</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ _creditProposal.attributes['facilityDetail'].previousBank }}
+              {{ previousBank }}
             </div>
           </div>
         </section>
@@ -202,7 +202,7 @@
         <div class="col-md-6">
           <div class="mb-2">
             <mat-label>Previous Bank</mat-label>
-            <jhi-loan-facility-take-over-grid-history [isViewMode]="true" [creditProposal]="creditProposal">
+            <jhi-loan-facility-take-over-grid-history [creditProposal]="creditProposal" [isViewMode]="true">
             </jhi-loan-facility-take-over-grid-history>
           </div>
         </div>
@@ -228,7 +228,7 @@
   </div>
 </div>
 
-<div class="e-card" *ngIf="!isViewMode">
+<div class="e-card" *ngIf="isViewMode === false">
   <div class="e-card-header">
     <div class="e-card-header-caption">
       <div class="e-card-header-title">Facility Details</div>
@@ -404,7 +404,7 @@
             <div class="col-6">
               <mat-label>Previous Bank</mat-label>
               <mat-form-field class="w-100" appearance="outline">
-                <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+                <input matInput type="text" [(ngModel)]="previousBank" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -413,7 +413,7 @@
               <div class="col-2">Previous Bank</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ _creditProposal.attributes['facilityDetail'].previousBank }}
+                {{ previousBank }}
               </div>
             </div>
           </section>

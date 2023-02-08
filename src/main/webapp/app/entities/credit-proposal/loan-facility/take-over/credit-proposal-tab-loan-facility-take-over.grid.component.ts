@@ -33,7 +33,7 @@ import { CreditProposalTabLoanFacilityTakeOverAfterComponent } from '../take-ove
   styleUrls: ['../grid/loan.scss'],
 })
 export class CreditProposalTabLoanFacilityTakeOverGridComponent implements OnChanges {
-  @Input() isViewMode: Boolean = false;
+  @Input() isViewMode;
   private _creditProposal: ICreditProposal;
   @Input()
   get creditProposal() {
@@ -57,12 +57,14 @@ export class CreditProposalTabLoanFacilityTakeOverGridComponent implements OnCha
   public numericFormatOptions: Object;
   public loading: boolean;
   public cloneData: any;
+  public parentPath: any;
 
   // dataData: any;
 
   private loanApplication: ILoanApplication;
-  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
+  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService, public router: Router) {
     this.loading = false;
+    this.parentPath = this.router.url.split('/')[1];
   }
 
   ngOnChanges(changes: SimpleChanges): void {

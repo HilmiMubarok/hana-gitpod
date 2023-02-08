@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import lodash from 'lodash';
 import { IApplicationProduct } from '../../../application-product/application-product.model';
 import { ICreditProposal } from '../../credit-proposal.model';
@@ -17,7 +18,8 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
   public currencyList: any = ['IDR', 'USD'];
   view: boolean;
   facilityTakeOver: IApplicationProductTakeOver;
-
+  public parentPath: any;
+  @Input() isViewMode: Boolean = false;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -26,6 +28,7 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
   }
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -33,13 +36,14 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
       facilityTakeOver: IApplicationProductTakeOver;
       view: boolean;
     },
+    public router: Router,
     private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverComponent>
   ) {
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOver = this.data.facilityTakeOver;
+    this.parentPath = this.router.url.split('/')[1];
   }
-
   public Onsave(): void {
     this._dialog.close(this.facilityTakeOver);
   }

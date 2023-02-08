@@ -106,11 +106,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   onDocumentChange() {
-	if (this.parentSource === '') {
-	  this.container_view_false.restrictEditing = true;
-	} else if (this.parentSource === 'loan-analys') {
-	  this.container_view_false_loan_analys.restrictEditing = true;
-	}
+    if (this.parentSource === '') {
+      this.container_view_false.restrictEditing = true;
+    } else if (this.parentSource === 'loan-analys') {
+      this.container_view_false_loan_analys.restrictEditing = true;
+    }
   }
 
   ngOnInit(): void {

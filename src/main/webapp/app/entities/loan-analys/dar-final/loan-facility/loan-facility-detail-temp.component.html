@@ -171,14 +171,17 @@
   </div>
 </div>
 <div class="e-card" *ngIf="!viewMode">
-  <div class="e-card-header">
-    <div class="e-card-header-caption">
-      <div class="e-card-header-title">Take Over Scheme (If Any)</div>
-    </div>
-  </div>
   <div class="e-card-content">
     <div class="row">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="col-6">
+          <mat-label>Previous Bank</mat-label>
+          <mat-form-field class="w-100" appearance="outline">
+            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
@@ -191,26 +194,27 @@
       <div class="col-md-6">
         <div class="mb-2">
           <mat-label>Previous Bank</mat-label>
-          <jhi-loan-facility-take-over-grid-history [creditProposal]="creditProposal" [isViewLoan]="true">
-          </jhi-loan-facility-take-over-grid-history>
+          <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="true">
+          </jhi-credit-proposal-tab-loan-facility-take-over-grid>
         </div>
       </div>
 
       <div class="col-md-6">
         <div class="mb-2">
           <mat-label>After Bank</mat-label>
-          <jhi-loan-facility-take-over-after-grid-history [creditProposal]="creditProposal" [isViewLoan]="true">
-          </jhi-loan-facility-take-over-after-grid-history>
+          <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="true">
+          </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-6">
-      <jhi-collateral-tab-loan-history [creditProposal]="creditProposal" [isViewLoan]="true"> </jhi-collateral-tab-loan-history>
+      <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal" [darView]="false">
+      </jhi-credit-proposal-collateral-tab-loan>
     </div>
     <div class="col-6">
-      <jhi-collateral-tab-loan-after-history [creditProposal]="creditProposal" [isViewLoan]="true"> </jhi-collateral-tab-loan-after-history>
+      <jhi-credit-proposal-collateral-tab-loan-after [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-tab-loan-after>
     </div>
   </div>
 </div>

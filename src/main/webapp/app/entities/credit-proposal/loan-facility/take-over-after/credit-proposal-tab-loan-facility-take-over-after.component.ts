@@ -4,6 +4,7 @@ import { uiUpdate } from '@syncfusion/ej2-angular-grids';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { IApplicationProductTakeOverBank } from '../application-product-take-over-after-bank/application-product-take-over-after-bank.model';
 import * as uuid from 'uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over-after',
@@ -20,6 +21,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
 
   public lock: boolean;
   public lihat = true;
+  parentPath: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -36,11 +38,13 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       facilityTakeOverAfterBank: IApplicationProductTakeOverBank;
       view: false;
     },
+    public router: Router,
     private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverAfterComponent>
   ) {
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOverAfterBank = this.data.facilityTakeOverAfterBank;
+    this.parentPath = this.router.url.split('/')[1];
   }
 
   ngOnInit(): void {
