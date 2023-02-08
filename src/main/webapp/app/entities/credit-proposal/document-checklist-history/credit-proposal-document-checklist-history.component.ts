@@ -69,6 +69,15 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnChange
     });
   }
 
+  public convertDan(value: string): any{
+    if(value !== null && value !== undefined){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
+    }
+    
+  }
+
   private getFiles(id: any): void {
     // let predicate;
     // console.log('this.parsedData', {
