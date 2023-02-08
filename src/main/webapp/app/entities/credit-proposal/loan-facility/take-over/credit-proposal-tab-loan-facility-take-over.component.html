@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <section *ngIf="parentPath !== 'dar-final'">
+  <section *ngIf="parentPath !== 'dar-final' && parentPath !== 'loan-committee-approval'">
     <div class="e-card-content">
       <div class="row">
         <div class="col-6">
@@ -167,7 +167,7 @@
     </div>
   </section>
 
-  <section *ngIf="parentPath === 'dar-final'">
+  <section *ngIf="parentPath === 'dar-final' && parentPath === 'loan-committee-approval'">
     <div class="e-card-content">
       <div class="row">
         <div class="col-6">
