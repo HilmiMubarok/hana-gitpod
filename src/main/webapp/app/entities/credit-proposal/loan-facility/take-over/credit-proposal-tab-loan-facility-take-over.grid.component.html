@@ -93,7 +93,7 @@
         <button mat-icon-button (click)="openDialog(element)">
           <mat-icon>remove_red_eye</mat-icon>
         </button>
-        <div *ngIf="parentPath === 'dar-final'">
+        <div *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
           <button mat-icon-button (click)="onDelete(element)">
             <mat-icon>delete</mat-icon>
           </button>
