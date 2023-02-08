@@ -69,8 +69,25 @@ export class DocumentChecklistDialogHistoryComponent implements OnInit {
   }
 
   public onChange(el) {
-    el === 'TBO' && this.isTBO();
+    if(el === 'TBO' || el === 'Waived'){
+      this.isTBO()
+    }
+
   }
+
+  public convertDan(value: string): any{
+    if(value !== null && value !== undefined){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
+    }
+    
+  }
+
+  public setModel(event: any){
+    this.documentChecklist.remarks = event.target.value
+  }
+
 
   ngOnInit() {
     this.object = this.data.creditProposal;
@@ -96,11 +113,11 @@ export class DocumentChecklistDialogHistoryComponent implements OnInit {
       metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${currentDate}-${files}`;
       metaData.entityId = this.data.creditProposal.id;
       metaData.documentType = this.documentChecklist.documentType;
-      metaData.document = this.documentChecklist.document;
+      metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
       metaData.category = this.documentChecklist.category;
-      metaData.dueDate = new Date(this.documentChecklist.dueDate).toISOString();
+      metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
       metaData.status = this.documentChecklist.status;
-      metaData.remarks = this.documentChecklist.remarks;
+      metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
       metaData.createdDate = new Date();
 
       const formData = new FormData();
@@ -148,7 +165,7 @@ export class DocumentChecklistDialogHistoryComponent implements OnInit {
         this.accountService.identity().subscribe(resAccount => {
           file.tags['dueDate'] = new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
-          file.tags['remarks'] = this.documentChecklist.remarks;
+          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
 
           file.tags['createdBy'] = resAccount.login;
         });
@@ -185,18 +202,15 @@ export class DocumentChecklistDialogHistoryComponent implements OnInit {
     this.file.splice(this.files.indexOf(event), 1);
   }
 
-  public deleteTBO(status: any) {
-    if (status !== 'TBO') {
+  public deleteTBO(status: any){
+    if (status.value === 'Available') {
       for (let i = 0; i < this.file.length; i++) {
-        if (this.file[i].name === 'los_logo.png') {
-          this.file.splice(this.files.indexOf(this.file), 1);
+          if (this.file[i].name.indexOf('los_logo.png') > -1) {
+            this.file.splice(this.files.indexOf(this.file), 1);
+          }
+          
         }
-      }
     }
-
-    // if (status.value !== 'TBO') {
-    //   this.file = []
-    // }
   }
 
   public donwload(event: any, name: any) {
