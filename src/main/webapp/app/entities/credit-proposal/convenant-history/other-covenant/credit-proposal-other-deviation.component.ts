@@ -20,7 +20,24 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   public filterStatus: any[];
 
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
   public parsedData: any;
+
+  public historyData() {
+    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
+    if (this.isOnCompareData) {
+      if (this.isCompareDar) {
+        return this.creditProposalItem.attributes;
+      } else {
+        return this.parsedData.previousReturn;
+      }
+    } else {
+      return this.parsedData.previousHistory;
+    }
+  }
 
   ngOnInit() {
     this.getFiles(this.creditProposalItem.cif.partyId);
@@ -66,7 +83,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
     const dialogRef = this.dialog.open(CreditProposalOtherCovenantDialogHistoryComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.parsedData.previousHistory.convenant.otherCovenant = [...this.parsedData.previousHistory.convenant.otherCovenant, res];
+        this.historyData().convenant.otherCovenant = [...this.historyData().convenant.otherCovenant, res];
       }
     });
   }
@@ -148,26 +165,23 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
         }
       );
       if (othersCovenantIndex > -1) {
-        this.parsedData.previousHistory.convenant.otherCovenant[othersCovenantIndex] = res['convenant']['otherCovenant'];
+        this.historyData().convenant.otherCovenant[othersCovenantIndex] = res['convenant']['otherCovenant'];
       } else {
-        this.parsedData.previousHistory.convenant.otherCovenant = [
-          ...this.parsedData.previousHistory.convenant.otherCovenant,
-          res['convenant']['otherCovenant'],
-        ];
+        this.historyData().convenant.otherCovenant = [...this.historyData().convenant.otherCovenant, res['convenant']['otherCovenant']];
       }
     });
   }
 
   // DELETE
   public onDelete(element: ICreditProposal) {
-    const dataGrid = this.parsedData.previousHistory.convenant.otherCovenant.filter(({ id }) => id !== element.id);
-    this.parsedData.previousHistory.convenant.otherCovenant = dataGrid;
-    this.parsedData.previousHistory.convenant.otherCovenant = dataGrid;
+    const dataGrid = this.historyData().convenant.otherCovenant.filter(({ id }) => id !== element.id);
+    this.historyData().convenant.otherCovenant = dataGrid;
+    this.historyData().convenant.otherCovenant = dataGrid;
   }
 
   public filterDeviation() {
-    if (this.parsedData.previousHistory.convenant.otherCovenant.length !== 0) {
-      this.filterStatus = this.parsedData.previousHistory.convenant.otherCovenant.filter(element => element.status !== 'Applied');
+    if (this.historyData().convenant.otherCovenant.length !== 0) {
+      this.filterStatus = this.historyData().convenant.otherCovenant.filter(element => element.status !== 'Applied');
     }
   }
 }
