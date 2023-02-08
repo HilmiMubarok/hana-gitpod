@@ -212,7 +212,7 @@ export class CollateralAppraisalSummaryComponent implements OnInit, OnChanges {
     if (this.formatType === 'Word') {
       this.reportUtils.downloadFile2('/services/report/api/report/survey-appraisal/word-stream/' + id, '', 'Report_' + id);
     } else if (this.formatType === 'Pdf') {
-      this.reportUtils.viewFile('/services/report/api/report/survey-appraisal/pdf-word-stream/' + id);
+      this.reportUtils.downloadFile3('/services/report/api/report/survey-appraisal/pdf-word-stream/' + id, '', 'Report_' + id);
     }
   }
 
