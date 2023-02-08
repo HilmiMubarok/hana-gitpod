@@ -100,6 +100,11 @@
               <button mat-icon-button (click)="openDialog(element)">
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
+              <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+                <button mat-icon-button (click)="onDelete(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </section>
             </td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
