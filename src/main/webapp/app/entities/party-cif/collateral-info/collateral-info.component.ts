@@ -94,17 +94,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.items = param;
   }
 
-  public displayedColumns: string[] = [
-    'no',
-    'collateralInfo',
-    'collateralType',
-    'address',
-    'kelurahan',
-    'kecamatan',
-    'kota',
-    'status',
-    'actions',
-  ];
+  public displayedColumns: string[] = ['no', 'collateralInfo', 'collateralType', 'createDate', 'status', 'actions'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   constructor(
     protected positionService: PositionService,
