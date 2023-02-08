@@ -67,7 +67,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
-    console.log('idnama', this.rmPosition);
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -145,14 +144,10 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       .subscribe(res => {
         if (res.body.length > 0) {
           for (let i = 0; i < res.body.length; i++) {
-            // this.statusAppraisal = this.timeLineStatus
-            // for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
             if (res.body[i].status === 'APPROVED') {
               this.approvalDate = moment(res.body[i].createdDate).format('yyyy/MM/dd');
-              console.log('franco', this.approvalDate);
             }
           }
-          // console.log('visit', this.visitDate);
         }
       });
   }
@@ -170,8 +165,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       this.surveyors = res.body;
     });
     this.visitDate = this.surveyAppraisal.apprDate.toString();
-
-    console.log('visit Date', this.visitDate);
   }
 
   private loadWilayah(): void {
@@ -239,12 +232,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
         this.loadPositionRM();
         this.loadInternalInformationRM(this.surveyAppraisal.rm.partyId);
       }
-      // if (this.surveyAppraisal.statusId === 'VISITED') {
       this.visitDate = this.surveyAppraisal.apprDate.toString();
-
-      console.log('visit Date', this.visitDate);
-
-      // }
     }
     if (changes['surveyAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
@@ -256,17 +244,11 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
-      console.log('collateralAppraisal', changes.statusAppraisal);
       for (let i = 0; i < changes.statusAppraisal.currentValue.length; i++) {
-        // for (let i = changes.statusAppraisal.currentValue.length - 1; i >= 0; i--) {
         if (changes.statusAppraisal.currentValue[i].status === 'APPROVED') {
           this.approvalDate = changes.statusAppraisal.currentValue[i].createdDate;
-          //  else {
-          //   this.visitDate = changes.surveyAppraisal.currentValue[i].apprDate;
-          // }
         }
       }
-      // console.log('visit', this.visitDate);
     }
   }
 
@@ -384,16 +366,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       });
   }
 
-  // public selectBranch(event: any): void {
-  //   const value: string = event['value'];
-  //   if (value) {
-  //     const branch = lodash.find(this.branchs, function (o) {
-  //       return o.id === value;
-  //     });
-  //     this.loadInternalInformationBranch(branch.parentId);
-  //   }
-  // }
-
   private loadInternalInformationBranch(parentId): void {
     this.segments = [];
     this.regionals = [];
@@ -476,7 +448,6 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyAppraisal.teamLeadId = args['itemData'].id;
     this.surveyAppraisal.teamLeadPersonId = args['itemData'].employeeId;
     this.surveyAppraisal.teamLeadName = args['itemData'].employeeFirstName;
-    // save nama surveyor ke reviewedBy untuk kebutuhan get data report independent
     this.surveyAppraisal.reviewedBy = args['itemData'].employeeFirstName;
     this.outputTeamReviewer.emit(args['value']);
   }
