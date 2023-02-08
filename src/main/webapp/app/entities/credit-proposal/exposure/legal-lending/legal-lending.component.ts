@@ -90,32 +90,36 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   }
 
   ngOnInit(): void {
-    this.defaultCurrency()
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+
     this.getApplicationOption();
     this.getParameter();
+    })
   }
   public countBuffer(value: number): any{
     // value.toString()
-    if (value.toString().split('')[0]==='-') {
-      const bil = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR"
-      }).format(value);
-      return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
-    }else{
-      const bil = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR"
-      }).format(value);
-      return 'IDR '+ bil.toString().replace('Rp', '')
+    if(value !== null && value !== undefined){
+      if (value.toString().split('')[0]==='-') {
+            const bil = new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR"
+            }).format(value);
+            return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
+          }else{
+            const bil = new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR"
+            }).format(value);
+            return 'IDR '+ bil.toString().replace('Rp', '')
+          }
     }
+    
   }
   ngOnChanges(changes: SimpleChanges) {
-   this.debtorData()
- 
-
-   
-    this.defaultCurrency()
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
+    this.debtorData()
     this.fungsiSuminit();
     this.fungsiSumTotalDebiturCashLoan();
     this.totalCashLoan();
@@ -123,15 +127,10 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.grandTotalDebitur();
     this.getMyBusinessGroup();
     this.getCurrency();
+    })
   }
 
-  public defaultCurrency() {
-    const setDate = new Date().toISOString().split('T')[0];
-
-    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
-    });
-  }
+ 
 
 
   public debtorData(){

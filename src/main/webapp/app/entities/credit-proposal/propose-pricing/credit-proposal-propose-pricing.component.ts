@@ -17,6 +17,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+// import { log } from 'console';
 
 export const MY_FORMATS = {
   parse: {
@@ -131,6 +132,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public getListIndustry() {
     this.listOfIndustryService.query().subscribe((res: any) => {
       this.listOfIndustry = res.body;
+      console.log('cel', this.listOfIndustry)
 
       for (let i = 0; i < res.body.length; i++) {
         this.industryList.push(res.body[i].label);
