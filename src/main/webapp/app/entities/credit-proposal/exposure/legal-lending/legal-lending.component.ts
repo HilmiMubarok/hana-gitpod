@@ -94,16 +94,17 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
 
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyMaster = res.body[0]?.factor;
+      
+      this.debtorData()
+      this.fungsiSuminit();
+      this.fungsiSumTotalDebiturCashLoan();
+      this.totalCashLoan();
+      this.totalNonCashLoan();
+      this.grandTotalDebitur();
+      this.getMyBusinessGroup();
       this.getApplicationOption();
       this.getParameter();
-      this.debtorData()
-    this.fungsiSuminit();
-    this.fungsiSumTotalDebiturCashLoan();
-    this.totalCashLoan();
-    this.totalNonCashLoan();
-    this.grandTotalDebitur();
-    this.getMyBusinessGroup();
-    this.getCurrency();
+      this.getCurrency();
     })
    
   }
