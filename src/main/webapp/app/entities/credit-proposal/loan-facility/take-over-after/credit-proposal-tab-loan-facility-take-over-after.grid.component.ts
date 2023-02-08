@@ -8,6 +8,7 @@ import { IApplicationProductTakeOver } from '../application-product-take-over/ap
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ApplicationProductTakeOverBank } from '../application-product-take-over-after-bank/application-product-take-over-after-bank.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over-after-grid',
@@ -17,6 +18,7 @@ import { ApplicationProductTakeOverBank } from '../application-product-take-over
 export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements OnChanges {
   @Input() isViewMode: Boolean = false;
   private _creditProposal: ICreditProposal;
+  parentPath: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -31,8 +33,9 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
   public numericFormatOptions: Object;
   public loading: boolean;
   private loanApplication: ILoanApplication;
-  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
+  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService, public router: Router) {
     this.loading = false;
+    this.parentPath = this.router.url.split('/')[1];
   }
 
   ngOnChanges(changes: SimpleChanges): void {

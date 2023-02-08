@@ -111,7 +111,7 @@
     <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
   </mat-card>
   <!-- Dar Final -->
-  <section *ngIf="parentPath === 'dar-final'">
+  <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
     <div align="right" class="mt-5">
       <button mat-raised-button color="success" (click)="openDialog()">ADD</button>
     </div>
