@@ -157,7 +157,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent
   ) {
-    this.postalAddress = new PostalAddress();
+    // this.postalAddress = new PostalAddress();
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
       this.idParent = params['idParent'];
@@ -305,12 +305,9 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   private loadPartyPostalAddress(partyId: string): void {
     this.partyPostalAddressService.queryFilterBy({ idParty: partyId }).subscribe(res => {
       if (res.body.length > 0) {
-        const partyPostalAddress: IPartyPostalAddress = lodash.find(res.body, function (o) {
+        this.postalAddress = lodash.find(res.body, function (o) {
           return o.purposeTypeId === 'PRIMARY_LOCATION';
         });
-        if (partyPostalAddress) {
-          this.postalAddress = partyPostalAddress.address;
-        }
       }
     });
   }

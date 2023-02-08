@@ -69,25 +69,23 @@
 </div>
 
 <!-- SECURITIES -->
-<div *ngIf="collateral.collateralTypeId === 'SECURITIES'" class="py-3">
+<!-- <div *ngIf="collateral.collateralTypeId === 'SECURITIES'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
       <mat-card-subtitle>Collateral Securities Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-securities-template
-        (openDialogEvent)="openDialog($event)"
-        [dataSource]="dataSource"
-      ></jhi-collateral-property-list-securities-template>
+      <jhi-collateral-property-list-securities-template (openDialogEvent)="openDialog($event)"
+        [dataSource]="dataSource"></jhi-collateral-property-list-securities-template>
     </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD SECURITIES DETAIL</button>
     </mat-card-actions>
   </mat-card>
-</div>
+</div> -->
 
 <!-- OTHER -->
-<div *ngIf="collateral.collateralTypeId === 'OTHER'" class="py-3">
+<!-- <div *ngIf="collateral.collateralTypeId === 'OTHER'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
       <mat-card-subtitle>Collateral Other Info Detail</mat-card-subtitle>
@@ -100,10 +98,10 @@
       <button mat-raised-button (click)="openDialog()">ADD OTHER DETAIL</button>
     </mat-card-actions>
   </mat-card>
-</div>
+</div> -->
 
 <!-- DEPOSIT -->
-<div *ngIf="collateral.collateralTypeId === 'DEPOSIT'" class="py-3">
+<!-- <div *ngIf="collateral.collateralTypeId === 'DEPOSIT'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
       <mat-card-subtitle>Collateral Deposit Info Detail</mat-card-subtitle>
@@ -116,36 +114,80 @@
       <button mat-raised-button (click)="openDialog()">ADD DEPOSIT DETAIL</button>
     </mat-card-actions>
   </mat-card>
-</div>
+</div> -->
 
 <!-- LETTER_OF_GUARANTY -->
-<div *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'" class="py-3">
+<!-- <div *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
       <mat-card-subtitle>Collateral Letter of Guarantee Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-guarantee-letter-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      <jhi-collateral-property-list-guarantee-letter-template (openDialogEvent)="openDialog($event)"
+        [dataSource]="dataSource">
       </jhi-collateral-property-list-guarantee-letter-template>
     </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD GUARANTEE LETTER DETAIL</button>
     </mat-card-actions>
   </mat-card>
-</div>
+</div> -->
 
 <!-- Personal Properties -->
-<div *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY'" class="py-3">
+<!-- <div *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
       <mat-card-subtitle>Collateral Personal Property Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <jhi-collateral-property-list-personal-property-template (openDialogEvent)="openDialog($event)" [dataSource]="dataSource">
+      <jhi-collateral-property-list-personal-property-template (openDialogEvent)="openDialog($event)"
+        [dataSource]="dataSource">
       </jhi-collateral-property-list-personal-property-template>
     </mat-card-content>
     <mat-card-actions align="right">
       <button mat-raised-button (click)="openDialog()">ADD PERSONAL PROPERTY DETAIL</button>
     </mat-card-actions>
+  </mat-card>
+</div> -->
+
+<div class="py-3">
+  <mat-card class="my-3 w-100">
+    <mat-card-header>
+      <mat-card-subtitle>Adress</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="fontsebled row py-1">
+          <div class="col-2">Address</div>
+          <div class="col-1" style="margin-right: 0px">:</div>
+          <div class="col" style="margin-left: -90px">{{ collateral.collateralAddress?.address1 }}</div>
+        </div>
+        <div class="fontsebled row py-1">
+          <div class="col-2">Country</div>
+          <div class="col-1" style="margin-right: 0px">:</div>
+          <div class="col" style="margin-left: -90px">{{ country?.description }}</div>
+        </div>
+        <div class="fontsebled row py-1">
+          <div class="col-2">Province</div>
+          <div class="col-1" style="margin-right: 0px">:</div>
+          <div class="col" style="margin-left: -90px">{{ province?.description }}</div>
+        </div>
+        <div class="fontsebled row py-1">
+          <div class="col-2">City</div>
+          <div class="col-1" style="margin-right: 0px">:</div>
+          <div class="col" style="margin-left: -90px">{{ cities?.description }}</div>
+        </div>
+        <div class="fontsebled row py-1">
+          <div class="col-2">District</div>
+          <div class="col-1" style="margin-right: 0px">:</div>
+          <div class="col" style="margin-left: -90px">{{ districts?.description }}</div>
+        </div>
+        <div class="fontsebled row py-1">
+          <div class="col-2">Village</div>
+          <div class="col-1" style="margin-right: 0px">:</div>
+          <div class="col" style="margin-left: -90px">{{ villages?.description }}</div>
+        </div>
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>

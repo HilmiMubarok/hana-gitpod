@@ -70,7 +70,10 @@ export class DocumentChecklistDialogComponent implements OnInit {
   }
 
   public onChange(el) {
-    el === 'TBO' && this.isTBO();
+    if(el === 'TBO' || el === 'Waived'){
+      this.isTBO()
+    }
+
   }
 
   ngOnInit() {
@@ -206,7 +209,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
 
   public deleteTBO(status: any){
-    if (status.value !== 'TBO') {
+    if (status.value === 'Available') {
       for (let i = 0; i < this.file.length; i++) {
           if (this.file[i].name.indexOf('los_logo.png') > -1) {
             this.file.splice(this.files.indexOf(this.file), 1);

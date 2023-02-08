@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_TYPE, GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
 import { map } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralProperty, CollateralPropertyAttribute, ICollateralProperty } from './collateral-property.model';
@@ -15,6 +15,8 @@ import { MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CollateralPropertyLandInfoDialogComponent } from './dialogs/collateral-property-land-info-dialog.component';
 import { CollateralPropertyVehicleDetailDialogComponent } from './dialogs/collateral-property-vehicle-detail-dialog.component';
 import { CollateralPropertyMachineDetailDialogComponent } from './dialogs/collateral-property-machine-detail-dialog.component';
+import { StateBoundaryService } from '../state-boundary/state-boundary.service';
+import { IStateBoundary } from '../state-boundary/state-boundary.model';
 
 @Component({
   selector: 'jhi-collateral-property-list',
@@ -25,6 +27,11 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   public dataBuilding: any;
   public dataLand: any;
   public allProp: any;
+  public country: IStateBoundary;
+  public province: IStateBoundary;
+  public cities: IStateBoundary;
+  public districts: IStateBoundary;
+  public villages: IStateBoundary;
 
   @Input() public collateral: ICollateral;
 
@@ -50,7 +57,12 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
     },
   ];
 
-  constructor(protected _snackbar: MatSnackBar, protected collateralPropertyService: CollateralPropertyService, private dialog: MatDialog) {
+  constructor(
+    protected _snackbar: MatSnackBar,
+    protected collateralPropertyService: CollateralPropertyService,
+    protected stateBoundaryService: StateBoundaryService,
+    private dialog: MatDialog
+  ) {
     super(_snackbar, collateralPropertyService);
     this.itemsPerPage = 10;
     this.page = 0;
@@ -61,6 +73,7 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
     if (changes['collateral']) {
       this.loadData(this.collateral);
       this.postLoad(this.items);
+      this.initializeCountry();
     }
   }
 
@@ -221,5 +234,77 @@ export class CollateralPropertyListComponent extends AbstractEntityMaterialCompo
   public print() {
     console.log('ini collateral', this.collateral);
     console.log('data source', this.dataSource);
+  }
+
+  public initializeCity(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['city'],
+        idParent: this.collateral.collateralAddress.provinceId,
+      })
+      .subscribe(res => {
+        this.cities = res.body.find(obj => obj.id === this.collateral.collateralAddress.cityId);
+        this.initializeDistrict();
+      });
+  }
+
+  public initializeDistrict(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['district'],
+        idParent: this.collateral.collateralAddress.cityId,
+      })
+      .subscribe(res => {
+        this.districts = res.body.find(obj => obj.id === this.collateral.collateralAddress.districtId);
+        this.initializeVillage();
+      });
+  }
+
+  public initializeVillage(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 50,
+        idBoundaryType: GEO_BOUNDARY_TYPE['village'],
+        idParent: this.collateral.collateralAddress.districtId,
+      })
+      .subscribe(res => {
+        this.villages = res.body.find(obj => obj.id === this.collateral.collateralAddress.villageId);
+      });
+  }
+
+  public initializeProvince(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        idParent: this.collateral.collateralAddress.countryId,
+      })
+      .subscribe(res => {
+        if (this.country.id === 199) {
+          this.province = res.body.find(obj => obj.id === this.collateral.collateralAddress.provinceId);
+          this.initializeCity();
+        } else {
+          this.province.description = 'DI LUAR INDONESIA';
+        }
+      });
+  }
+
+  public initializeCountry(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idBoundaryType: GEO_BOUNDARY_TYPE['country'],
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.country = res.body.find(obj => obj.id === this.collateral.collateralAddress.countryId);
+        this.initializeProvince();
+      });
   }
 }

@@ -39,6 +39,13 @@ export class ReportUtilService {
     });
   }
 
+  downloadFile3(api: string, req?: any, fileName?: string) {
+    const options = this.createReportRequestOption(req);
+    this.http.get(api, { params: options, responseType: 'blob', observe: 'response' }).subscribe(response => {
+      saveAs(response.body!, fileName + '.pdf');
+    });
+  }
+
   viewFile(api: string, req?: any, title?: string) {
     const options = this.createReportRequestOption(req);
     if (title === undefined) {
