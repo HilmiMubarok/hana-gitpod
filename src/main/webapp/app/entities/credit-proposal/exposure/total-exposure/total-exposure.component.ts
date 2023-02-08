@@ -209,7 +209,6 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
 
     this.totalDebiturCashLoanGroup = this.fungsiSumcreditGroub() - this.totalDebiturNonCashLoanGroup;
-    console.log('okkkkkk', this.fungsiSumcreditGroub())
     this.creditProposal.attributes['calculationExposure'].totalGroubCashLoan = Number(this.totalDebiturCashLoanGroup);
     this.creditProposal.attributes['calculationExposure'].totalGroubNonCashLoan = Number(this.totalDebiturNonCashLoanGroup);
   }
