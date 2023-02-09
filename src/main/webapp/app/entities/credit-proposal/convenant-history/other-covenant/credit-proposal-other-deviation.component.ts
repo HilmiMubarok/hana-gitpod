@@ -91,6 +91,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   public folders = [];
   public dataFolder = [];
   private groupByFolder(param: any[]): void {
+    console.log('true');
     this.folders = [];
 
     if (param.length > 0) {
@@ -135,8 +136,11 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   }
 
   private getFiles(id: any): void {
+    const path = this.isOnCompareData ? (this.isCompareDar ? 'document' : 'return-doc') : 'history-doc';
+    console.log('path', path);
+
     const predicate: Object = {
-      key: `/cif/${id}/document`,
+      key: `/cif/${id}/${path}`,
     };
     this.storageService.getBucketName().subscribe((res: any) => {
       this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {

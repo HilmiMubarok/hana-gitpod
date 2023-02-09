@@ -34,11 +34,10 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public otherJustification?: string;
 
   public finalData: any;
-  public compareData: boolean
-  
+  public compareData: boolean;
 
-  constructor(public router: Router){
-    this.compareData = this.router.url.split('=').indexOf('compare-data') > -1
+  constructor(public router: Router) {
+    this.compareData = this.router.url.split('=').indexOf('compare-data') > -1;
   }
 
   public selectMenuItem(args: MenuEventArgs): void {
@@ -47,6 +46,7 @@ export class CreditProposalTabCovenantComponent implements OnInit {
 
   @Input() setActiveMenu: string;
   @Input() isViewMode: Boolean = false;
+  @Input() isOnOffering: Boolean = false;
 
   @Input()
   get creditProposalItem() {
