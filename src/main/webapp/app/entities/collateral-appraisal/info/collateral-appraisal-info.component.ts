@@ -194,7 +194,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			const surveyor = [];
 			for (let i = 0; i < res.body.length; i++) {
 			  if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
-				surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].partyId });
+				surveyor.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].partyId });
 			  }
 			}
 
@@ -262,6 +262,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
       }
 
       this.visitDate = this.surveyAppraisal.apprDate.toString();
+	  this.loadWilayah();
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
