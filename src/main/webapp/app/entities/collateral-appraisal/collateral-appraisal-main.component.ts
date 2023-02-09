@@ -479,6 +479,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
   private preSave(): ISurveyAppraisals {
     const copySurveyAppraisal = lodash.cloneDeep(this.surveyAppraisal);
+
     copySurveyAppraisal.attributes['scoreCard'] = JSON.stringify(this.collateralAppraisal.attributes['scoreCard']);
 
     if (typeof copySurveyAppraisal.attributes['marketbility'] === 'object') {
@@ -486,7 +487,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       copySurveyAppraisal.attributes['marketbility'] = this.collateralAppraisal.attributes['marketbility'];
     }
-    // copySurveyAppraisal.attributes['summary'] = JSON.stringify(this.collateralAppraisal.attributes['summary']);
+
     if (typeof copySurveyAppraisal.collateral.attributes['landCertificates'] === 'object') {
       copySurveyAppraisal.collateral.attributes['landCertificates'] = JSON.stringify(
         copySurveyAppraisal.collateral.attributes['landCertificates']
@@ -494,6 +495,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     } else {
       copySurveyAppraisal.collateral.attributes['landCertificates'];
     }
+
     return copySurveyAppraisal;
   }
 

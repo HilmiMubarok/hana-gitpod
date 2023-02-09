@@ -21,14 +21,15 @@ import { Account } from 'app/core/auth/account.model';
 import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.service';
 import { PartnerService } from 'app/entities/partner/partner.service';
 import { ActivatedRoute } from '@angular/router';
-import moment from 'moment'; // import moment.
+import moment from 'moment';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
+
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
-export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
+export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public segments: IInternal[];
   public regionals: IInternal[];
   public branchs: IInternal[];
@@ -67,6 +68,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
+	this.setSurveyor();
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -116,6 +118,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public teamReviewer: any[];
   public officer: any[];
+  public tempSurveyor: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -474,11 +477,33 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
+  private setSurveyor(): void {
+	if (this.surveyAppraisal.surveyorId) {
+	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
+		if (resSur.body.length > 0) {
+		  this.positionService
+			.queryFilterBy({
+			  page: 0,
+			  size: 9999,
+			  idParty: resSur.body.partyId,
+			})
+			.subscribe(resPos => {
+			  this.tempSurveyor = resPos.body.id;
+			});
+		}
+      });
+	}
+  }
+
   public selectSurveyor(args: ChangeEventArgs): void {
-    this.surveyAppraisal.surveyorId = args['itemData'].id;
-    this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
-    this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
-    this.outputSurveyor.emit(args['value']);
+	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
+      if (res.body.length > 0) {
+        this.surveyAppraisal.surveyorId = res.body.id;
+      }
+    });
+    // this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
+    // this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
+    // this.outputSurveyor.emit(args['value']);
   }
 
   private checkLogin() {
