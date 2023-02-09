@@ -882,7 +882,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     if (data.apprOfficer === 'External') {
       this.subMenu =
         this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+          ? // ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE
+            SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL
           : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
     }
   }
