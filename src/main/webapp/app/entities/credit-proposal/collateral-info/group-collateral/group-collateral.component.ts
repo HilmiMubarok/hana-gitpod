@@ -30,6 +30,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class GroupCollateralComponent implements OnChanges, OnInit {
+  @Input() isViewMode;
   public displayedColumns: string[] = [
     'no',
     'collateralType',
@@ -153,6 +154,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
         matrikBindingType: this.getBindingType(element.collBindingType),
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         certDueDate: this.getExpiry(element),
+        isViewMode: true,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
