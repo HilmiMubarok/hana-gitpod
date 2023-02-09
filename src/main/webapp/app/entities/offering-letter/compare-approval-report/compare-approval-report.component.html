@@ -4,7 +4,23 @@
     <div class="e-card-header-title">FINAL CP</div>
   </div>
   <div>
-    <jhi-loan-facility-detail-previous [isOffering]="true" [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous>
+    <!-- <jhi-loan-facility-detail-previous [isOffering]="true" [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous> -->
+    <jhi-loan-facility-detail-history
+      *ngIf="creditProposal.attributes['previousHistory']"
+      [isViewMode]="true"
+      [takeOutCompare]="true"
+      [creditProposal]="creditProposal"
+    ></jhi-loan-facility-detail-history>
+    <div class="e-card" *ngIf="!creditProposal.attributes['previousHistory']">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Facility Details</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
@@ -20,8 +36,27 @@
     <div class="e-card-header-title">FINAL CP</div>
   </div>
   <div>
-    <jhi-credit-proposal-collateral-info-previous [isOffering]="true" [creditProposal]="creditProposal">
-    </jhi-credit-proposal-collateral-info-previous>
+    <!-- <jhi-credit-proposal-collateral-info-previous [isOffering]="true" [creditProposal]="creditProposal">
+    </jhi-credit-proposal-collateral-info-previous> -->
+    <jhi-collateral-info-history
+      *ngIf="creditProposal.attributes['previousHistory']"
+      [isOnCompareData]="true"
+      [isCompareDar]="false"
+      [source]="'summaryAll'"
+      [parentSource]="'loan-analys'"
+      [takeOutCompare]="true"
+      [creditProposal]="creditProposal"
+    ></jhi-collateral-info-history>
+    <div class="e-card" *ngIf="!creditProposal.attributes['previousHistory']">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Collateral Info</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
   </div>
 
   <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
@@ -39,8 +74,81 @@
     <div class="e-card-header-title">FINAL CP</div>
   </div>
   <div>
-    <jhi-credit-proposal-tab-covenant-previous [isViewMode]="true" [setActiveMenu]="menuCovenant" [creditProposalItem]="creditProposal">
-    </jhi-credit-proposal-tab-covenant-previous>
+    <!-- <jhi-credit-proposal-tab-covenant-previous [isViewMode]="true" [setActiveMenu]="menuCovenant" [creditProposalItem]="creditProposal">
+    </jhi-credit-proposal-tab-covenant-previous> -->
+    <jhi-credit-proposal-tab-covenant-history
+      *ngIf="creditProposal.attributes['previousHistory']"
+      [source]="'summaryAll'"
+      [parentSource]="'loan-analys'"
+      [isOnCompareData]="false"
+      [isCompareDar]="false"
+      [isOnOffering]="true"
+      [takeOutCompare]="true"
+      [isViewMode]="true"
+      [setActiveMenu]="menuCovenant"
+      [creditProposalItem]="creditProposal"
+    >
+    </jhi-credit-proposal-tab-covenant-history>
+
+    <div class="e-card" *ngIf="!creditProposal.attributes['previousHistory']">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Standard Covenant</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="e-card-actions"></div>
+
+<div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+  <div class="e-card-header-title">FINAL DAR</div>
+</div>
+<div>
+  <jhi-credit-proposal-tab-covenant
+    [isOnOffering]="true"
+    [isViewMode]="true"
+    [setActiveMenu]="menuCovenant"
+    [creditProposalItem]="creditProposal"
+  >
+  </jhi-credit-proposal-tab-covenant>
+</div>
+
+<div class="e-card-actions"></div>
+
+<!-- Deviation -->
+<div class="e-card-content mt-3">
+  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
+    <div class="e-card-header-title">FINAL CP</div>
+  </div>
+  <div>
+    <!-- <jhi-credit-proposal-tab-covenant-previous [isViewMode]="true" [setActiveMenu]="menuDeviation" [creditProposalItem]="creditProposal">
+      </jhi-credit-proposal-tab-covenant-previous> -->
+    <jhi-credit-proposal-tab-covenant-history
+      *ngIf="creditProposal.attributes['previousHistory']"
+      [source]="'summaryAll'"
+      [parentSource]="'loan-analys'"
+      [isOnOffering]="true"
+      [takeOutCompare]="true"
+      [isViewMode]="true"
+      [setActiveMenu]="menuDeviation"
+      [creditProposalItem]="creditProposal"
+    >
+    </jhi-credit-proposal-tab-covenant-history>
+
+    <div class="e-card" *ngIf="!creditProposal.attributes['previousHistory']">
+      <div class="e-card-header">
+        <div class="e-card-header-caption">
+          <div class="e-card-header-title">Deviation</div>
+        </div>
+      </div>
+      <div class="alert alert-warning m-3" role="alert">
+        <span style="font-weight: bold">No previous data was found!</span>
+      </div>
+    </div>
   </div>
   <div class="e-card-actions"></div>
 
@@ -48,29 +156,12 @@
     <div class="e-card-header-title">FINAL DAR</div>
   </div>
   <div>
-    <jhi-credit-proposal-tab-covenant [isViewMode]="true" [setActiveMenu]="menuCovenant" [creditProposalItem]="creditProposal">
-    </jhi-credit-proposal-tab-covenant>
-  </div>
-
-  <div class="e-card-actions"></div>
-
-  <!-- Deviation -->
-  <div class="e-card-content mt-3">
-    <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
-      <div class="e-card-header-title">FINAL CP</div>
-    </div>
-    <div>
-      <jhi-credit-proposal-tab-covenant-previous [isViewMode]="true" [setActiveMenu]="menuDeviation" [creditProposalItem]="creditProposal">
-      </jhi-credit-proposal-tab-covenant-previous>
-    </div>
-  </div>
-  <div class="e-card-actions"></div>
-
-  <div style="width: 100%; display: flex; justify-content: center; font-size: 20px; color: #008881">
-    <div class="e-card-header-title">FINAL DAR</div>
-  </div>
-  <div>
-    <jhi-credit-proposal-tab-covenant [isViewMode]="true" [setActiveMenu]="menuDeviation" [creditProposalItem]="creditProposal">
+    <jhi-credit-proposal-tab-covenant
+      [isOnOffering]="true"
+      [isViewMode]="true"
+      [setActiveMenu]="menuDeviation"
+      [creditProposalItem]="creditProposal"
+    >
     </jhi-credit-proposal-tab-covenant>
   </div>
 
