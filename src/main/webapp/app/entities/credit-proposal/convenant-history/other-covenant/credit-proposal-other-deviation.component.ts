@@ -40,7 +40,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFiles(this.creditProposalItem.cif.partyId);
+    this.getFiles(this.creditProposalItem.id);
     this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
@@ -140,7 +140,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
     console.log('path', path);
 
     const predicate: Object = {
-      key: `/cif/${id}/${path}`,
+      key: `/credit_proposal/${id}/${path}`,
     };
     this.storageService.getBucketName().subscribe((res: any) => {
       this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
