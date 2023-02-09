@@ -23,6 +23,7 @@ import { PartnerService } from 'app/entities/partner/partner.service';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
+import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-info',
@@ -129,7 +130,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     private positionService: PositionService,
     private surveyBatchService: SurveyBatchService,
     private partnerService: PartnerService,
-    protected applicationStateLogService: ApplicationStateLogService
+    protected applicationStateLogService: ApplicationStateLogService,
+	private surveyAppraisalsService: SurveyAppraisalsService
   ) {
     this.internals = [];
     this.rmRegional = new Internal();
@@ -199,8 +201,9 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			}
 
 			this.officer = surveyor;
-			this.tempSurveyor = this.surveyAppraisal.surveyorPersonId;
-			// this.setSurveyor();
+			this.surveyAppraisalsService.find(this.surveyAppraisal.id).subscribe((resSA) => {
+			  this.tempSurveyor = resSA.body.surveyorPersonId;
+			});
 		  });
       });
   }
@@ -498,26 +501,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
-  /* private setSurveyor(): void {
-	if (this.surveyAppraisal.surveyorId) {
-	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
-		if (resSur.body) {
-		  this.tempSurveyor = resSur.body.personId;
-		  this.cdr.detectChanges();
-		  /* this.positionService
-			.queryFilterBy({
-			  page: 0,
-			  size: 9999,
-			  idParty: resSur.body.personId,
-			})
-			.subscribe(resPos => {
-			  this.tempSurveyor = resPos.body[0].id;
-			}); //
-		}
-      });
-	}
-  } */
-
   public selectSurveyor(args: ChangeEventArgs): void {
 	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
       if (res.body.length > 0) {
@@ -525,9 +508,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 		this.tempSurveyor = res.body[0].id;
       }
     });
-    // this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
-    // this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
-    // this.outputSurveyor.emit(args['value']);
   }
 
   private checkLogin() {
