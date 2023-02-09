@@ -10,6 +10,7 @@ export interface ISurveyor {
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
+  partyId?: string;
 }
 
 export class Surveyor implements ISurveyor {
@@ -24,6 +25,7 @@ export class Surveyor implements ISurveyor {
     public personId?: string,
     public statusId?: string,
     public statusCode?: string,
-    public statusDescription?: string
+    public statusDescription?: string,
+	public partyId?: string
   ) {}
 }

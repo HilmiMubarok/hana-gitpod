@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>{{ folder['files'][0]['tags']['docNo'] }}</td>
+        <td>{{ convertDan(folder['files'][0]['tags']['docNo']) }}</td>
         <td>{{ folder['files'][0]['tags']['createdBy'] }}</td>
         <td>{{ folder['files'][0]['tags']['docDate'] | formatMediumDate }}</td>
       </tr>
@@ -30,7 +30,7 @@
             
           />
           <div style="width: 300px; position: sticky; margin-top: -100px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
       </div>
         <div
@@ -39,7 +39,7 @@
         >
           <img width="300px" src="../../../content/images/csv.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -49,7 +49,7 @@
         >
           <img width="300px" src="../../../content/images/mp3.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -59,7 +59,7 @@
         >
           <img width="300px" src="../../../content/images/svg.jpg" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -69,7 +69,7 @@
         >
           <img width="300px" src="../../../content/images/tiff.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -83,7 +83,7 @@
         >
           <img width="300px" src="../../../content/images/excel.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -95,7 +95,7 @@
         >
           <img width="300px" src="../../../content/images/word.png" />
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -103,7 +103,7 @@
           <img width="300px" src="../../../content/images/pdf.png" />
 
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
 
@@ -116,7 +116,7 @@
           <img width="300px" src="../../../content/images/power-point.jpg" />
 
           <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-            <button mat-raised-button (click)="donwload(item.url, item.tags)"><mat-icon>get_app</mat-icon></button>
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
           </div>
         </div>
         <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">

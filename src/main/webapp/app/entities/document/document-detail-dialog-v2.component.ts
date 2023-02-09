@@ -33,39 +33,19 @@ export class DocumentDialogDialogV2Component implements OnInit {
   }
 
   public donwload(event: any, name: any) {
-    if (name.objectName.split('.').indexOf('pdf') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'pdf');
+
+      this.reportUtilService.downloadFileBYName(event, name.name);
+    
+ 
+  }
+
+  public convertDan(value: string): any{
+    if(value !== null && value !== undefined){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
     }
-    else if(name.objectName.split('.').indexOf('pptx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'pptx');
-    }
-    else if(name.objectName.split('.').indexOf('docx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'docx');
-    }
-    else if(name.objectName.split('.').indexOf('xlsx') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'xlsx');
-    }
-    else if (name.objectName.split('.').indexOf('tiff') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'tiff');
-    }
-    else if (name.objectName.split('.').indexOf('svg') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'svg');
-    }
-    else if (name.objectName.split('.').indexOf('csv') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'csv');
-    }
-    else if (name.objectName.split('.').indexOf('mp3') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'mp3');
-    }
-    else if(name.objectName.split('.').indexOf('png') > -1 ){
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'png');
-    }else if( name.objectName.split('.').indexOf('jpg') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'jpg');
-    }else if (name.objectName.split('.').indexOf('jpeg') > -1) {
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'jpeg');
-    }else if(name.objectName.split('.').indexOf('gif') > -1){
-      this.reportUtilService.downloadFileBYName(event, name.docNo + '.' + 'gif');
-    }
+    
   }
 
   public save(): void {

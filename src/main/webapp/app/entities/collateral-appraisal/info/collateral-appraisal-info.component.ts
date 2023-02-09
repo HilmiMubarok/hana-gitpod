@@ -21,14 +21,15 @@ import { Account } from 'app/core/auth/account.model';
 import { SurveyBatchService } from 'app/entities/survey-batch/survey-batch.service';
 import { PartnerService } from 'app/entities/partner/partner.service';
 import { ActivatedRoute } from '@angular/router';
-import moment from 'moment'; // import moment.
+import moment from 'moment';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
+
 @Component({
   selector: 'jhi-collateral-appraisal-info',
   templateUrl: './collateral-appraisal-info.component.html',
   styleUrls: ['./collateral-appraisal-info.css'],
 })
-export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
+export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public segments: IInternal[];
   public regionals: IInternal[];
   public branchs: IInternal[];
@@ -67,6 +68,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
+	this.loadWilayah();
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -116,6 +118,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public teamReviewer: any[];
   public officer: any[];
+  public tempSurveyor: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -154,11 +157,10 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
-
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
     this.loadBranchNew();
-    this.loadWilayah();
+    
     this.timeLine();
 
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
@@ -181,6 +183,25 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
             this.wilayahKotaInternalValue = res.body[i].id;
           }
         }
+
+		this.positionService
+		  .queryFilterBy({
+			page: 0,
+			size: 9999,
+			idInternal: this.wilayahKotaInternalValue,
+		  })
+		  .subscribe(res => {
+			const surveyor = [];
+			for (let i = 0; i < res.body.length; i++) {
+			  if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+				surveyor.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].partyId });
+			  }
+			}
+
+			this.officer = surveyor;
+			this.tempSurveyor = this.surveyAppraisal.surveyorPersonId;
+			// this.setSurveyor();
+		  });
       });
   }
 
@@ -227,6 +248,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.jpProgress.emit(this.surveyAppraisal.jpProgress);
     this.jpOther.emit(this.surveyAppraisal.jpOther);
 
+	this.loadWilayah();
+
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
         this.loadPositionRM();
@@ -241,6 +264,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       }
 
       this.visitDate = this.surveyAppraisal.apprDate.toString();
+	  this.loadWilayah();
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
@@ -463,8 +487,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].positionTypeId === 'SURVEYOR') {
-            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
+          if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].partyId });
           }
         }
 
@@ -474,11 +498,36 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
     this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
+  /* private setSurveyor(): void {
+	if (this.surveyAppraisal.surveyorId) {
+	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
+		if (resSur.body) {
+		  this.tempSurveyor = resSur.body.personId;
+		  this.cdr.detectChanges();
+		  /* this.positionService
+			.queryFilterBy({
+			  page: 0,
+			  size: 9999,
+			  idParty: resSur.body.personId,
+			})
+			.subscribe(resPos => {
+			  this.tempSurveyor = resPos.body[0].id;
+			}); //
+		}
+      });
+	}
+  } */
+
   public selectSurveyor(args: ChangeEventArgs): void {
-    this.surveyAppraisal.surveyorId = args['itemData'].id;
-    this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
-    this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
-    this.outputSurveyor.emit(args['value']);
+	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
+      if (res.body.length > 0) {
+        this.surveyAppraisal.surveyorId = res.body[0].id;
+		this.tempSurveyor = res.body[0].id;
+      }
+    });
+    // this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
+    // this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
+    // this.outputSurveyor.emit(args['value']);
   }
 
   private checkLogin() {

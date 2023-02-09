@@ -244,7 +244,7 @@
             floatLabelType="Auto"
             [dataSource]="officer"
             [fields]="officerAppraisalFields"
-            [(value)]="surveyAppraisal.surveyorId"
+            [(value)]="tempSurveyor"
             cssClass="e-outline"
             placeholder="Officer Appraisal"
             (change)="selectSurveyor($event)"
@@ -310,9 +310,8 @@
         </section>
 
         <section
-          APPROVAL_TL
           *ngIf="
-            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'APPROVED' ||
             collateralAppraisal.statusId === 'ASSIGNED' ||
             collateralAppraisal.statusId === 'VISITED' ||
             collateralAppraisal.statusId === 'APPEAL' ||
@@ -395,7 +394,7 @@
               floatLabelType="Auto"
               [dataSource]="officer"
               [fields]="officerAppraisalFields"
-              [(value)]="surveyAppraisal.surveyorId"
+              [(value)]="tempSurveyor"
               cssClass="e-outline"
               placeholder="Officer Appraisal"
               (change)="selectSurveyor($event)"
@@ -430,7 +429,7 @@
             floatLabelType="Auto"
             [dataSource]="officer"
             [fields]="officerAppraisalFields"
-            [(value)]="surveyAppraisal.surveyorId"
+            [(value)]="tempSurveyor"
             (change)="selectSurveyor($event)"
             cssClass="e-outline"
             placeholder="Officer Appraisal"
@@ -448,7 +447,7 @@
       <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
         <section
           *ngIf="
-            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'APPROVED' ||
             collateralAppraisal.statusId === 'APPEAL' ||
             collateralAppraisal.statusId === 'APPROVAL' ||
             collateralAppraisal.statusId === 'COMPLETE' ||
@@ -576,7 +575,7 @@
             floatLabelType="Auto"
             [dataSource]="officer"
             [fields]="officerAppraisalFields"
-            [(value)]="surveyAppraisal.surveyorId"
+            [(value)]="tempSurveyor"
             (change)="selectSurveyor($event)"
             cssClass="e-outline"
             placeholder="Officer Appraisal"
