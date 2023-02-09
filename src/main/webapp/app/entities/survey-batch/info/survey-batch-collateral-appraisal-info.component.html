@@ -324,7 +324,7 @@
 
         <section
           *ngIf="
-            surveyAppraisal.statusId === 'APPROVE' ||
+            surveyAppraisal.statusId === 'APPROVED' ||
             surveyAppraisal.statusId === 'ASSIGNED' ||
             surveyAppraisal.statusId === 'VISITED' ||
             surveyAppraisal.statusId === 'APPEAL' ||
@@ -422,7 +422,42 @@
             </ejs-dropdownlist>
           </div>
         </section>
-
+        <!-- disabled tipe officer status approved -->
+        <section *ngIf="surveyAppraisal.statusId === 'APPROVED'">
+          <div class="form-group">
+            <ejs-dropdownlist
+              #ddPropoertyUsage
+              floatLabelType="Auto"
+              (change)="selectWilayahKotaInternal($event)"
+              [dataSource]="cities"
+              [fields]="wilayahKotaFields"
+              [(ngModel)]="surveyAppraisal.surveyorArea"
+              [(value)]="wilayahKotaInternalValue"
+              cssClass="e-outline"
+              placeholder="Wilayah/kota"
+              popupHeight="220px"
+              [disabled]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+          <div class="form-group">
+            <ejs-dropdownlist
+              #ddPropoertyUsage
+              floatLabelType="Auto"
+              [dataSource]="surveyors"
+              [fields]="officerAppraisalFields"
+              [(value)]="surveyAppraisal.surveyorId"
+              (change)="selectSurveyor($event)"
+              cssClass="e-outline"
+              placeholder="Officer Appraisal"
+              popupHeight="220px"
+              [disabled]="true"
+              required
+            >
+            </ejs-dropdownlist>
+          </div>
+        </section>
         <div class="form-group">
           <ejs-dropdownlist
             #ddPropoertyUsage
@@ -464,7 +499,7 @@
       <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
         <section
           *ngIf="
-            surveyAppraisal.statusId === 'APPROVE' ||
+            surveyAppraisal.statusId === 'APPROVED' ||
             surveyAppraisal.statusId === 'APPEAL' ||
             surveyAppraisal.statusId === 'APPROVAL' ||
             surveyAppraisal.statusId === 'COMPLETE' ||

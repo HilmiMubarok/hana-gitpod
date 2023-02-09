@@ -310,9 +310,8 @@
         </section>
 
         <section
-          APPROVAL_TL
           *ngIf="
-            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'APPROVED' ||
             collateralAppraisal.statusId === 'ASSIGNED' ||
             collateralAppraisal.statusId === 'VISITED' ||
             collateralAppraisal.statusId === 'APPEAL' ||
@@ -448,7 +447,7 @@
       <section class="mt-2" *ngIf="surveyAppraisal.apprOfficer === 'External'">
         <section
           *ngIf="
-            collateralAppraisal.statusId === 'APPROVE' ||
+            collateralAppraisal.statusId === 'APPROVED' ||
             collateralAppraisal.statusId === 'APPEAL' ||
             collateralAppraisal.statusId === 'APPROVAL' ||
             collateralAppraisal.statusId === 'COMPLETE' ||
