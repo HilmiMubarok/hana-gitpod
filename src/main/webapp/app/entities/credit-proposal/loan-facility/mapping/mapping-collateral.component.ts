@@ -57,7 +57,7 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collateralData = this.collateralInfo.filter((obj => obj.statusId !== 'CANCEL') && (o => o.collateralTypeId !== 'CASH'));
+    this.collateralData = this.collateralInfo.filter((obj => obj.statusId !== 'CANCEL') || (o => o.collateralTypeId !== 'CASH'));
 
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
