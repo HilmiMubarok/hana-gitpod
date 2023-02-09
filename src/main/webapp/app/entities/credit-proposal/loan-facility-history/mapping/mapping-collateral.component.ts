@@ -20,6 +20,7 @@ export class MappingCollateralHistoryComponent implements OnInit {
   public dataSource: any;
   public creditProposalData: any;
   public applicationProductData: any;
+  public collateralProperties: ICollateralProperty[];
 
   public displayColumns: string[] = ['no', 'collateralType', 'address', 'lvInternal', 'mvInternal', 'bindingValue', 'select'];
 
@@ -36,8 +37,9 @@ export class MappingCollateralHistoryComponent implements OnInit {
     },
     protected collateralPropertyService: CollateralPropertyService
   ) {
-    this.collateralInfo = this.data.collateralInfo;
-    this.collateralData = this.collateralInfo.filter((obj => obj.statusId !== 'CANCEL') || (o => o.collateralTypeId !== 'CASH'));
+    const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
+    this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
+    console.log('collateral data ', this.collateralData);
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.setUp();
@@ -153,5 +155,46 @@ export class MappingCollateralHistoryComponent implements OnInit {
           this.collateralInfo[i].liquidationValueMaping = 0;
         }
       });
+  }
+
+  public countLV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    result = 0;
+
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.liquidationValue === null) {
+          result = 0;
+        } else {
+          result = data.liquidationValue;
+        }
+      }
+    }
+    return result;
+  }
+
+  public countMV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          return 0;
+        } else {
+          return data.marketValue;
+        }
+      }
+    }
+    return 0;
   }
 }
