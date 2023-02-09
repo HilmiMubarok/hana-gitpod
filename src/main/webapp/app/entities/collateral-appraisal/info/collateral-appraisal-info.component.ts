@@ -488,7 +488,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			  idParty: resSur.body.partyId,
 			})
 			.subscribe(resPos => {
-			  this.tempSurveyor = resPos.body.id;
+			  this.tempSurveyor = resPos.body[0].id;
 			});
 		}
       });
@@ -498,7 +498,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   public selectSurveyor(args: ChangeEventArgs): void {
 	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
       if (res.body.length > 0) {
-        this.surveyAppraisal.surveyorId = res.body.id;
+        this.surveyAppraisal.surveyorId = res.body[0].id;
       }
     });
     // this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
