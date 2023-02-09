@@ -480,7 +480,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   private setSurveyor(): void {
 	if (this.surveyAppraisal.surveyorId) {
 	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
-		if (resSur.body.length > 0) {
+		if (resSur.body) {
 		  this.positionService
 			.queryFilterBy({
 			  page: 0,
