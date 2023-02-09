@@ -24,7 +24,7 @@ export interface ISurveyAppraisals {
   collateralId?: number;
   partyId?: string;
   partyTypeId?: string;
-  surveyorId?: string;
+  surveyorId?: number;
   surveyorPersonId?: string;
   surveyorName?: string;
   apprType?: string;
@@ -143,7 +143,7 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public collateralId?: number,
     public partyId?: string,
     public partyTypeId?: string,
-    public surveyorId?: string,
+    public surveyorId?: number,
     public surveyorPersonId?: string,
     public surveyorName?: string,
     public apprType?: string,
