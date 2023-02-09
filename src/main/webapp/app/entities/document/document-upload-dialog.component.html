@@ -15,13 +15,15 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label *ngIf="f.url === undefined">
-              <ngx-dropzone-image-preview
-                ngProjectAs="ngx-dropzone-image-preview"
-                [file]="f"
-                *ngIf="f.type === 'image/jpeg'"
-              ></ngx-dropzone-image-preview>
-            </ngx-dropzone-label>
+          <ngx-dropzone-label>
+            <ngx-dropzone-image-preview
+              ngProjectAs="ngx-dropzone-image-preview"
+              [file]="f"
+              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+            >
+            </ngx-dropzone-image-preview>
+     
+          </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
               <img src="../../../content/images/excel.png" width="100%" height="100%" />
             </ngx-dropzone-label>
