@@ -522,6 +522,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
       if (res.body.length > 0) {
         this.surveyAppraisal.surveyorId = res.body[0].id;
+		this.tempSurveyor = res.body[0].id;
       }
     });
     // this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
