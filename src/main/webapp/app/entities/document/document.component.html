@@ -10,7 +10,7 @@
       </ng-container>
       <ng-container matColumnDef="docName">
         <th mat-header-cell *matHeaderCellDef>Document Name</th>
-        <td mat-cell *matCellDef="let element">{{ element['folder'] }}</td>
+        <td mat-cell *matCellDef="let element">{{ convertDan(element['folder']) }}</td>
       </ng-container>
       <ng-container matColumnDef="docDate">
         <th mat-header-cell *matHeaderCellDef>Document Issued Date</th>
