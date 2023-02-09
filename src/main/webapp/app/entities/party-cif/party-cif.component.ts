@@ -190,6 +190,9 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public data: [];
   updateFromHobis() {
     this.cifNumber = this.expandedElement?.customerId;
+    if (this.cifNumber === undefined) {
+      return;
+    }
     this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
       if (res.status === 200) {
         for (let i = 0; i < this.partyCifs.length; i++) {
@@ -214,21 +217,22 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
         });
       }
     });
+    // this.updateFacilityFromHobis();
   }
 
-  updateFacilityFromHobis() {
-    this.cifNumber = this.expandedElement?.customerId;
-    this.partyCifService.find('cif/retrieve-cp-facility/' + this.cifNumber).subscribe(res => {
-      if (res.status === 200) {
-        this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-        this.debtorData = res.body.debtorData;
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error',
-        });
-      }
-    });
-  }
+  // updateFacilityFromHobis() {
+  //   this.cifNumber = this.expandedElement?.customerId;
+  //   this.partyCifService.find('cif/retrieve-cp-facility/' + this.cifNumber).subscribe(res => {
+  //     if (res.status === 200) {
+  //       this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
+  //       this.debtorData = res.body.debtorData;
+  //     } else {
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: 'Error',
+  //       });
+  //     }
+  //   });
+  // }
 }
