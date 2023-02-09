@@ -485,7 +485,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			.queryFilterBy({
 			  page: 0,
 			  size: 9999,
-			  idParty: resSur.body.partyId,
+			  idParty: resSur.body.personId,
 			})
 			.subscribe(resPos => {
 			  this.tempSurveyor = resPos.body[0].id;
