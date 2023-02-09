@@ -498,7 +498,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 	if (this.surveyAppraisal.surveyorId) {
 	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
 		if (resSur.body) {
-		  this.positionService
+		  this.tempSurveyor = resSur.body.personId;
+		  /* this.positionService
 			.queryFilterBy({
 			  page: 0,
 			  size: 9999,
@@ -506,14 +507,14 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			})
 			.subscribe(resPos => {
 			  this.tempSurveyor = resPos.body[0].id;
-			});
+			}); */
 		}
       });
 	}
   }
 
   public selectSurveyor(args: ChangeEventArgs): void {
-	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
+	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].partyId }).subscribe(res => {
       if (res.body.length > 0) {
         this.surveyAppraisal.surveyorId = res.body[0].id;
       }
