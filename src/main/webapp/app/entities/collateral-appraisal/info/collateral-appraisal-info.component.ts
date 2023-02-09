@@ -68,6 +68,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
+	this.loadWilayah();
 	this.setSurveyor();
   }
 
@@ -157,11 +158,10 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
-
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
     this.loadBranchNew();
-    this.loadWilayah();
+    
     this.timeLine();
 
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
@@ -184,6 +184,23 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
             this.wilayahKotaInternalValue = res.body[i].id;
           }
         }
+
+		this.positionService
+		  .queryFilterBy({
+			page: 0,
+			size: 9999,
+			idInternal: this.wilayahKotaInternalValue,
+		  })
+		  .subscribe(res => {
+			const surveyor = [];
+			for (let i = 0; i < res.body.length; i++) {
+			  if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+				surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].partyId });
+			  }
+			}
+
+			this.officer = surveyor;
+		  });
       });
   }
 
