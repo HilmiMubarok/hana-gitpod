@@ -248,6 +248,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.jpProgress.emit(this.surveyAppraisal.jpProgress);
     this.jpOther.emit(this.surveyAppraisal.jpOther);
 
+	this.loadWilayah();
+
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
         this.loadPositionRM();
