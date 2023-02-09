@@ -515,6 +515,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
+		this.surveyAppraisal.surveyorId = res.body.surveyorId;
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
@@ -531,6 +532,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
     } else {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
+		this.surveyAppraisal.surveyorId = res.body.surveyorId;
         if (source === 'process') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
