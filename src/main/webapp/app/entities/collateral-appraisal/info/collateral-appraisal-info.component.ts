@@ -499,6 +499,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
 		if (resSur.body) {
 		  this.tempSurveyor = resSur.body.personId;
+		  this.cdr.detectChanges();
 		  /* this.positionService
 			.queryFilterBy({
 			  page: 0,
