@@ -69,7 +69,6 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.initializeRole();
     this.setMatrixInput();
 	this.loadWilayah();
-	this.setSurveyor();
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -200,6 +199,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			}
 
 			this.officer = surveyor;
+			this.setSurveyor();
 		  });
       });
   }
