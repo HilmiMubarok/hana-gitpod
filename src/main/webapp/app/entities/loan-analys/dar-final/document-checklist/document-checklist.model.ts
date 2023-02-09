@@ -4,7 +4,7 @@ export interface IDocumentChecklist {
   id?: string;
   document?: any;
   category?: string;
-  dueDate?: Date;
+  dueDate?: any;
   status?: string;
   remarks?: string;
   documentType?: any;

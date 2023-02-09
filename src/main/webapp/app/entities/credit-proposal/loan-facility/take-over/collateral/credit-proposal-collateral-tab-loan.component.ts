@@ -20,6 +20,7 @@ import {
 import { CollateralPrevious, ICollateralPrevious } from './collateral-previous.model';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan',
@@ -31,6 +32,7 @@ export class CreditProposalCollateralTabLoanComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
   public loading: boolean;
   public dataColl = [];
+  parentPath: any;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -42,8 +44,9 @@ export class CreditProposalCollateralTabLoanComponent implements OnChanges {
   }
 
   private loanApplication: ILoanApplication;
-  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService) {
+  constructor(public dialog: MatDialog, private loanApplicationService: LoanApplicationService, public router: Router) {
     this.loading = false;
+    this.parentPath = this.router.url.split('/')[1];
   }
 
   ngOnChanges(changes: SimpleChanges): void {

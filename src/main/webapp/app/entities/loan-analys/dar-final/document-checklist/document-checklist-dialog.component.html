@@ -11,19 +11,14 @@
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
         <div class="row">
-          <ngx-dropzone-preview
-            class="col-6"
-            ngProjectAs="ngx-dropzone-preview"
-            *ngFor="let f of file"
-            [removable]="true"
-            (removed)="onRemove(f)"
-          >
-            <ngx-dropzone-label  [hidden]="f.name.indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
+          <ngx-dropzone-preview class="col-6" *ngFor="let f of file" [removable]="true" (removed)="onRemove(f)">
+            <ngx-dropzone-label [hidden]="f.name.indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
                 *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
-              ></ngx-dropzone-image-preview>
+              >
+              </ngx-dropzone-image-preview>
             </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
               <img src="../../../../content/images/excel.png" width="100%" height="100%" />
@@ -68,7 +63,7 @@
                 <mat-select [(ngModel)]="documentChecklist.documentType" name="documentType">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option
-                    *ngFor="let item of ['', 'Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other']"
+                    *ngFor="let item of ['Debtors Identity', 'Collateral', 'Credit Approval', 'Credit Agreement', 'Other']"
                     [value]="item"
                   >
                     {{ item }}
@@ -93,7 +88,12 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" name="status" (selectionChange)="deleteTBO($event)" (selectionChange)="onChange(documentChecklist.status)">
+                <mat-select
+                  (selectionChange)="deleteTBO($event)"
+                  [(ngModel)]="documentChecklist.status"
+                  name="status"
+                  (selectionChange)="onChange(documentChecklist.status)"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -164,17 +164,17 @@
           >
             <ngx-dropzone-label>
               <div [hidden]="item.name.indexOf('los_logo.png') > -1">
-              <img
-                width="150px"
-                [src]="item.url"
-                *ngIf="
-                  item.key.indexOf('png') > -1 ||
-                  item.key.indexOf('jpg') > -1 ||
-                  item.key.indexOf('jpeg') > -1 ||
-                  item.key.indexOf('gif') > -1
-                "
-              />
-            </div>
+                <img
+                  width="150px"
+                  [src]="item.url"
+                  *ngIf="
+                    item.key.indexOf('png') > -1 ||
+                    item.key.indexOf('jpg') > -1 ||
+                    item.key.indexOf('jpeg') > -1 ||
+                    item.key.indexOf('gif') > -1
+                  "
+                />
+              </div>
               <img
                 (click)="donwload(item.url, item)"
                 width="150px"
@@ -213,33 +213,13 @@
                 "
               />
 
-              <img
-                (click)="donwload(item.url, item)"
-                width="150px"
-                src="../../../content/images/csv.png"
-                *ngIf="item.key.indexOf('csv') > -1"
-              />
+              <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.indexOf('csv') > -1" />
 
-              <img
-                (click)="donwload(item.url, item)"
-                width="150px"
-                src="../../../content/images/svg.jpg"
-                *ngIf="item.key.indexOf('svg') > -1"
-              />
+              <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.indexOf('svg') > -1" />
 
-              <img
-                (click)="donwload(item.url, item)"
-                width="150px"
-                src="../../../content/images/tiff.png"
-                *ngIf="item.key.indexOf('tiff') > -1"
-              />
+              <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.indexOf('tiff') > -1" />
 
-              <img
-                (click)="donwload(item.url, item)"
-                width="150px"
-                src="../../../content/images/mp3.png"
-                *ngIf="item.key.indexOf('mp3') > -1"
-              />
+              <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.indexOf('mp3') > -1" />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
@@ -278,7 +258,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="documentChecklist.status" (selectionChange)="onChange(documentChecklist.status)" name="status">
+                <mat-select [(ngModel)]="documentChecklist.status" (selectionChange)="deleteTBO($event)" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -304,7 +284,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Category</mat-label>
-                <mat-select [disabled]="view"  [value]="documentChecklist.category" name="category">
+                <mat-select [disabled]="view" [(ngModel)]="documentChecklist.category" name="category">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['A', 'B', 'C']" [value]="item">
                     {{ item }}
@@ -347,30 +327,36 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ convertDan(documentChecklist.documentType)}}</td>
+          <td>{{ convertDan(documentChecklist.documentType) }}</td>
           <td>{{ convertDan(documentChecklist.document) }}</td>
-          <td>{{ convertDan(documentChecklist.category)}}</td>
-          <td><span *ngIf="documentChecklist.dueDate !== 'null'"></span>{{ documentChecklist.dueDate | date: 'medium' }}</td>
+          <td>{{ documentChecklist.category }}</td>
+          <td>
+            <span *ngIf="documentChecklist.dueDate !== 'null'">{{ documentChecklist.dueDate | date: 'medium' }}</span>
+          </td>
           <td>{{ convertDan(documentChecklist.remarks) }}</td>
-          <td>{{ convertDan(documentChecklist.status)}}</td>
+          <td>{{ convertDan(documentChecklist.status) }}</td>
         </tr>
       </tbody>
     </table>
     <ul class="list-image">
       <li *ngFor="let item of documentChecklist.files">
-        <div [hidden]="item.name.indexOf('los_logo.png') > -1" style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
-          <div
-            *ngIf="
-              item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
-            "
-          >
-       
-            <img style="width: 300px; border-radius: 20px" [src]="item.url" />
-            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+        <div style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px">
+          <div [hidden]="item.name.indexOf('los_logo.png') > -1">
+            <div
+              *ngIf="
+                item.key.indexOf('png') > -1 ||
+                item.key.indexOf('jpg') > -1 ||
+                item.key.indexOf('jpeg') > -1 ||
+                item.key.indexOf('gif') > -1
+              "
+              style="width: 300px; position: sticky; margin-top: -34px; margin-bottom: 140px"
+            >
+              <img [src]="item.url" style="width: 300px; border-radius: 20px" />
+              <div style="width: 300px; position: sticky; margin-top: -100px; margin-bottom: 140px">
+                <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+              </div>
             </div>
-        
-        </div>
+          </div>
           <div
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
@@ -405,8 +391,14 @@
             </div>
           </div>
 
-          <div *ngIf="item.key.indexOf('mp3') > -1" style="width: 300px">
-            <img width="300px" src="../../../content/images/mp3.png" />
+          <div
+            *ngIf="
+              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            "
+          >
+            <img width="300px" src="../../../content/images/power-point.jpg" />
+
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
@@ -414,6 +406,13 @@
 
           <div *ngIf="item.key.indexOf('csv') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/csv.png" />
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+          <div *ngIf="item.key.indexOf('mp3') > -1" style="width: 300px">
+            <img width="300px" src="../../../content/images/mp3.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
@@ -432,21 +431,10 @@
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
-
           <div
-            *ngIf="
-              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-            "
+            [hidden]="item.name.indexOf('los_logo.png') > -1"
+            style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center"
           >
-            <img width="300px" src="../../../content/images/power-point.jpg" />
-
-            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
-            </div>
-          </div>
-      
-          <div [hidden]="item.name.indexOf('los_logo.png') > -1" style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center">
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
               Nama File: {{ item.name }}
             </p>

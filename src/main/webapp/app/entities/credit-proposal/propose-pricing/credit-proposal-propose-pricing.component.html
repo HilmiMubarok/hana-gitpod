@@ -121,6 +121,7 @@
     <div class="e-card-content">
       <jhi-credit-proposal-propose-pricing-loan-facility-detail
         (spreadPerFacility)="spreadPerFacilityEvent($event)"
+        (calculateDiscount)="averagetoIDR()"
         [creditProposal]="creditProposal"
       >
       </jhi-credit-proposal-propose-pricing-loan-facility-detail>

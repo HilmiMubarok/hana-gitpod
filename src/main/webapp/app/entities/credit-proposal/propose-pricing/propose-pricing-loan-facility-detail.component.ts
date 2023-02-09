@@ -34,6 +34,8 @@ import { ICPFacility } from 'app/shared/model/cp-facility.models';
 export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChanges {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   @Output() spreadPerFacility = new EventEmitter();
+  @Output() calculateDiscount = new EventEmitter();
+
   private _creditProposal: ICreditProposal;
   public aplicationProducts: IApplicationProduct[];
   public collateralProductRelation: ICollateralProductRelation[];
@@ -319,6 +321,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         }
       }
       this.spreadPerFacility.emit(this.aplicationProducts);
+      this.calculateDiscount.emit();
     });
   }
 

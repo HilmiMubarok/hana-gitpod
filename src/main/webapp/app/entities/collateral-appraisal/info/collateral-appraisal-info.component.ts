@@ -92,7 +92,7 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
 
   public teamReviewerFields: Object = { text: 'employeeFirstName', value: 'id' };
 
-  public officerAppraisalFields?: Object = { text: 'personName', value: 'id' };
+  public officerAppraisalFields?: Object = { text: 'employeeFirstName', value: 'id' };
   public officerAppraisalValue?: string;
   public approvalDate: string;
   public visitDate: string;
@@ -463,8 +463,8 @@ export class CollateralAppraisalInfoComponent implements OnChanges, OnInit {
       .subscribe(res => {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].positionTypeDescription === 'Surveyor') {
-            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
+          if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].partyId });
           }
         }
 
