@@ -224,7 +224,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Name</mat-label>
-            <input matInput type="text" [(ngModel)]="folder['files'][0]['tags']['docNo']" />
+            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(folder['files'][0]['tags']['docNo'])"  />
           </mat-form-field>
         </div>
       </div>

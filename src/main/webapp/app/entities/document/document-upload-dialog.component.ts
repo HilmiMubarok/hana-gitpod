@@ -58,7 +58,7 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.documents = this.data.documents;
     this.view = this.data.view;
     this.folder = this.data.obj;
-    console.log('obj d', this.folder);
+  
   }
   public collateralOrAppraisal: string;
 
@@ -84,6 +84,15 @@ export class DocumentUploadDialogComponent implements OnInit {
         error: err => reject(),
       });
     });
+  }
+
+  public convertDan(value: string): any{
+    if(value !== null && value !== undefined){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
+    }
+    
   }
 
   public save(): void {
@@ -126,12 +135,12 @@ export class DocumentUploadDialogComponent implements OnInit {
       const promises: Array<any> = new Array<any>();
       for (let i = 0; i < this.files.length; i++) {
         const metaData = new DocumentMetaData();
-        const files = this.files[i].name.replace('&', '');
+        const files = new Date()+'-'+this.files[i].name.replace('&', '');
 
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-        metaData.folder = this.document.documentNumber;
+        metaData.folder = this.document.documentNumber.replace('&', 'codeSpecialDan');
         metaData.docDate = this.document.documentDate;
-        metaData.docNo = this.document.documentNumber;
+        metaData.docNo = this.document.documentNumber.replace('&', 'codeSpecialDan');
         metaData.docType = this.document.documentType;
         metaData.createdDate = new Date();
         metaData.createdBy = resAccount.login;
@@ -139,7 +148,7 @@ export class DocumentUploadDialogComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', this.files[i]);
         if (this.data.collateral) {
-          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber}/${currentDate}-${files}`;
+          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber.replace('&', 'codeSpecialDan')}/${currentDate}-${files}`;
           metaData.entityId = this.data.collateral.id;
         }
 
@@ -165,6 +174,10 @@ export class DocumentUploadDialogComponent implements OnInit {
         this._dialog.close();
       }
     });
+  }
+
+  public setModel(event: any){
+    this.folder['files'][0]['tags']['docNo'] = event.target.value
   }
 
   public edit(): void {
@@ -204,9 +217,10 @@ export class DocumentUploadDialogComponent implements OnInit {
           const file: IDocumentNode = files[i];
           file.tags['docDate'] = this.folder['files'][0]['tags']['docDate'];
           file.tags['docType'] = this.folder['files'][0]['tags']['docType'];
-          file.tags['docNo'] = this.folder['files'][0]['tags']['docNo'];
-          file.tags['folder'] = this.folder['files'][0]['tags']['docNo'];
+          file.tags['docNo'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan')
+          file.tags['folder'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan')
           file.tags['createdBy'] = resAccount.login;
+          console.log('ompuyy',file)
           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
             this._dialog.close(res);
           });
@@ -215,9 +229,11 @@ export class DocumentUploadDialogComponent implements OnInit {
     });
   }
 
+ 
+
   public onSelect(event: any) {
     this.files.push(...event.addedFiles);
-    console.log('ompu ikeh', this.files)
+
   }
 
   public onRemove(event: any) {

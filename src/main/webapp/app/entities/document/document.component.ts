@@ -68,6 +68,15 @@ export class DocumentComponent implements OnChanges, OnInit {
     }
   }
 
+  public convertDan(value: string): any{
+    if(value !== null && value !== undefined){
+      return value.replace('codeSpecialDan', '&')
+    }else{
+      return ''
+    }
+    
+  }
+
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.storageService.getBucketName().subscribe(res => {
