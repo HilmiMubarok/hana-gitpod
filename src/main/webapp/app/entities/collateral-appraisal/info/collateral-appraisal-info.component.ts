@@ -199,7 +199,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			}
 
 			this.officer = surveyor;
-			this.setSurveyor();
+			this.tempSurveyor = this.surveyAppraisal.surveyorPersonId;
+			// this.setSurveyor();
 		  });
       });
   }
@@ -494,7 +495,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
-  private setSurveyor(): void {
+  /* private setSurveyor(): void {
 	if (this.surveyAppraisal.surveyorId) {
 	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
 		if (resSur.body) {
@@ -508,14 +509,14 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			})
 			.subscribe(resPos => {
 			  this.tempSurveyor = resPos.body[0].id;
-			}); */
+			}); //
 		}
       });
 	}
-  }
+  } */
 
   public selectSurveyor(args: ChangeEventArgs): void {
-	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].partyId }).subscribe(res => {
+	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
       if (res.body.length > 0) {
         this.surveyAppraisal.surveyorId = res.body[0].id;
       }
