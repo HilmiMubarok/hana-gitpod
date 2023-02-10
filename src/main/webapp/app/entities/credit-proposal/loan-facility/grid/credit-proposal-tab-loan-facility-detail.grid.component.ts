@@ -307,7 +307,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
             const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b ? 1 : -1));
             if (nomorUrutFasilitasSorted) {
               if (nomorUrutFasilitasSorted.length > 0) {
-                attr.nomorUrutFasilitas = nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1] + 1;
+                attr.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
               }
             }
           }
