@@ -44,6 +44,7 @@ export class CreditProposalTabCovenantHistoryComponent implements OnInit {
 
   @Input() setActiveMenu: string;
   @Input() isViewMode: boolean;
+  @Input() isOnOffering: boolean;
 
   @Input()
   get creditProposalItem() {

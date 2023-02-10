@@ -10,6 +10,7 @@ export interface IPosition {
   employeeLastName?: string;
   employeeId?: number;
   partyId?: string;
+  personId?: string;
   internalName?: string;
   internalId?: string;
   statusId?: string;
@@ -32,6 +33,7 @@ export class Position implements IPosition {
     public internalName?: string,
     public internalId?: string,
     public partyId?: string,
+	public personId?: string,
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string

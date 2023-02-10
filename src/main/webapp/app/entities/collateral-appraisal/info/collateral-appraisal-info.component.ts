@@ -23,6 +23,7 @@ import { PartnerService } from 'app/entities/partner/partner.service';
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment';
 import { ApplicationStateLogService } from 'app/entities/application-state-log/application-state-log.service';
+import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-info',
@@ -68,7 +69,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this._surveyAppraisal = data;
     this.initializeRole();
     this.setMatrixInput();
-	this.setSurveyor();
+	this.loadWilayah();
   }
 
   @Output() outputTipeOfficerAppraisal = new EventEmitter();
@@ -129,7 +130,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     private positionService: PositionService,
     private surveyBatchService: SurveyBatchService,
     private partnerService: PartnerService,
-    protected applicationStateLogService: ApplicationStateLogService
+    protected applicationStateLogService: ApplicationStateLogService,
+	private surveyAppraisalsService: SurveyAppraisalsService
   ) {
     this.internals = [];
     this.rmRegional = new Internal();
@@ -157,11 +159,10 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.isEnablePlafond;
     this.checkLogin();
-
     this.surveyAppraisal.jpRenewal === null && this.surveyAppraisal.jpRenewal === false;
     this.loadSurveyBatchKjjp();
     this.loadBranchNew();
-    this.loadWilayah();
+    
     this.timeLine();
 
     this.surveyorService.query({ size: 9999 }).subscribe(res => {
@@ -184,6 +185,26 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
             this.wilayahKotaInternalValue = res.body[i].id;
           }
         }
+
+		this.positionService
+		  .queryFilterBy({
+			page: 0,
+			size: 9999,
+			idInternal: this.wilayahKotaInternalValue,
+		  })
+		  .subscribe(res => {
+			const surveyor = [];
+			for (let i = 0; i < res.body.length; i++) {
+			  if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
+				surveyor.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].partyId });
+			  }
+			}
+
+			this.officer = surveyor;
+			this.surveyAppraisalsService.find(this.surveyAppraisal.id).subscribe((resSA) => {
+			  this.tempSurveyor = resSA.body.surveyorPersonId;
+			});
+		  });
       });
   }
 
@@ -230,6 +251,8 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.jpProgress.emit(this.surveyAppraisal.jpProgress);
     this.jpOther.emit(this.surveyAppraisal.jpOther);
 
+	this.loadWilayah();
+
     if (changes['collateralAppraisal']) {
       if (this.surveyAppraisal.rm.partyId) {
         this.loadPositionRM();
@@ -244,6 +267,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
       }
 
       this.visitDate = this.surveyAppraisal.apprDate.toString();
+	  this.loadWilayah();
     }
 
     if (changes.statusAppraisal.currentValue.length > 0) {
@@ -467,7 +491,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         const surveyor = [];
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
-            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].partyId });
+            surveyor.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].partyId });
           }
         }
 
@@ -477,33 +501,13 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
     this.surveyAppraisal.surveyorArea = args['itemData'].id;
   }
 
-  private setSurveyor(): void {
-	if (this.surveyAppraisal.surveyorId) {
-	  this.surveyorService.find(this.surveyAppraisal.surveyorId).subscribe(resSur => {
-		if (resSur.body) {
-		  this.positionService
-			.queryFilterBy({
-			  page: 0,
-			  size: 9999,
-			  idParty: resSur.body.partyId,
-			})
-			.subscribe(resPos => {
-			  this.tempSurveyor = resPos.body[0].id;
-			});
-		}
-      });
-	}
-  }
-
   public selectSurveyor(args: ChangeEventArgs): void {
 	this.surveyorService.queryFilterBy({ idPerson: args['itemData'].id }).subscribe(res => {
       if (res.body.length > 0) {
         this.surveyAppraisal.surveyorId = res.body[0].id;
+		this.tempSurveyor = res.body[0].id;
       }
     });
-    // this.surveyAppraisal.surveyorPersonId = args['itemData'].employeeId;
-    // this.surveyAppraisal.surveyorName = args['itemData'].employeeFirstName;
-    // this.outputSurveyor.emit(args['value']);
   }
 
   private checkLogin() {

@@ -69,13 +69,12 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnChange
     });
   }
 
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
     }
-    
   }
 
   private getFiles(id: any): void {
@@ -88,7 +87,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnChange
     // if (this.parsedData.previousHistory) {
     //   if (this.parsedData.previousHistory.hasDocumentChecklistHistory === true) {
     //     predicate = {
-    //       key: `/credit_proposal/${id}/document-history`,
+    //       key: `/credit_proposal/${id}/history-doc`,
     //     };
     //   } else {
     //     predicate = {
@@ -101,7 +100,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnChange
     //   console.log('res', res.body);
     //   this.groupByFolder(res.body);
     // });
-    this.storageService.getObjects(this.bucket, { key: `/credit_proposal/${id}/document-history` }).subscribe(res => {
+    this.storageService.getObjects(this.bucket, { key: `/credit_proposal/${id}/history-doc` }).subscribe(res => {
       if (res.body.length > 0) {
         this.groupByFolder(res.body);
       } else {

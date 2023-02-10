@@ -99,20 +99,18 @@
     </div>
     <div class="e-card-content">
       <div class="row">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="col-6">
-            <mat-label>Previous Bank</mat-label>
-            <mat-form-field class="w-100" appearance="outline">
-              <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
-            </mat-form-field>
-          </div>
-        </section>
+        <div class="col-6">
+          <mat-label>Previous Bank</mat-label>
+          <mat-form-field class="w-100" appearance="outline">
+            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" disabled />
+          </mat-form-field>
+        </div>
       </div>
       <div class="row col-12">
         <div class="col-md-6">
           <div class="mb-2">
             <mat-label>Previous Bank</mat-label>
-            <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="true">
             </jhi-credit-proposal-tab-loan-facility-take-over-grid>
           </div>
         </div>
@@ -120,7 +118,7 @@
         <div class="col-md-6">
           <div class="mb-2">
             <mat-label>After Bank</mat-label>
-            <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal">
+            <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="false">
             </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
           </div>
         </div>
