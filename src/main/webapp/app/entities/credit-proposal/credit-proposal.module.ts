@@ -30,7 +30,6 @@ import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
-import { CreditProposalMappingCollateralComponent } from './loan-facility/mapping/mapping-collateral.component';
 
 import { CreditProposalApproveUserComponent } from './approve-user/approve-user.component';
 import { ForwardToComponent } from './forward-to/forward-to.component';
@@ -57,7 +56,7 @@ import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collater
     CreditProposalNewComponent,
     CreditProposalNewDialogComponent,
     CreditProposalListMaterialComponent,
-    CreditProposalMappingCollateralComponent,
+
     CreditProposalApproveUserComponent,
     CreditProposalLoanApplicationComponent,
     DialogCreditProposalCollateralInfoDialogBTBComponent,
