@@ -1120,10 +1120,9 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan Team Reviewer terlebih dahulu');
         mustValidateOnAssignment.teamLeadId = false;
       }
-      if (!this.surveyAppraisal.totalMarketValue) {
-        this._showNotification('error', 'Masukkan dan Upload KJPP terlebih dahulu');
-
-        mustValidateOnAssignment.totalMarketValue = false;
+      if (!this.surveyAppraisal.surveyBatchId) {
+        this._showNotification('error', 'Masukkan KJPP Independent Appraisal terlebih dahulu');
+        mustValidateOnAssignment.kjpp = false;
       }
     }
 
