@@ -938,16 +938,13 @@ export class SurveyBatchEditComponent implements OnInit {
         this._showNotification('error', 'Masukkan Team Reviewer terlebih dahulu');
         mustValidateOnAssignment.officerAppraisal = false;
       }
-      if (!this.surveyAppraisal.totalMarketValue) {
-        this._showNotification('error', 'Masukkan dan Upload KJPP terlebih dahulu');
-        mustValidateOnAssignment.totalMarketValue = false;
+      if (!this.surveyAppraisal.surveyBatchId) {
+        this._showNotification('error', 'Silahkan Add Batch KJPP terlebih dahulu terlebih dahulu');
+        mustValidateOnAssignment.kjpp = false;
       }
     }
     // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
+
     //   if (!this.teamReviewerValue) {
     //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
     //     mustValidateOnAssignment.officerAppraisal = false;
