@@ -76,6 +76,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   public matrikBindingType;
   public facilityTypeMatrik: any;
   public collateralCodeMatrik: any;
+  public isViewMode: Boolean;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -113,6 +114,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       certDueDate: any;
       ownerShip: string;
       matrikBindingType: string;
+      isViewMode: boolean;
     }
   ) {
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
@@ -136,6 +138,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.paripasuStatus = PARIPASU_STATUS;
     this.dataCertDueDate = data.certDueDate;
     this.dataOwnerShip = data.ownerShip;
+    this.isViewMode = data.isViewMode;
   }
   ngAfterViewInit(): void {
     throw new Error('Method not implemented.');
