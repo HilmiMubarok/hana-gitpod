@@ -61,6 +61,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   @Input() parentSourceSub: String = '';
 
   @Input() isViewMode: Boolean = false;
+  parentPath: string;
 
   @Input()
   get creditProposal() {
@@ -107,6 +108,7 @@ export class LoanFacilityDetailTempComponent implements OnInit, OnChanges {
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
+    this.parentPath = this.router.url.split('/')[1];
   }
 
   onDocumentChange() {

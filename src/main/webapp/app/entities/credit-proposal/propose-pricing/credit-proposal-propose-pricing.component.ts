@@ -132,7 +132,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public getListIndustry() {
     this.listOfIndustryService.query().subscribe((res: any) => {
       this.listOfIndustry = res.body;
-      console.log('cel', this.listOfIndustry)
+    
 
       for (let i = 0; i < res.body.length; i++) {
         this.industryList.push(res.body[i].label);
@@ -217,37 +217,37 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         }
       } else if (creditProposal.products[i].attributes.currency === 'USD') {
         if (creditProposal.products[i].attributes.availableLimit !== undefined) {
-          this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit * creditProposal.products[i].attributes.kurs);
+          this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit);
         } else {
           this.availabelLimitArrayUSD = [];
         }
 
         if (creditProposal.products[i].attributes.outstanding !== undefined) {
-          this.OSArrayUSD.push(creditProposal.products[i].attributes.outstanding * creditProposal.products[i].attributes.kurs);
+          this.OSArrayUSD.push(creditProposal.products[i].attributes.outstanding);
         } else {
           this.OSArrayUSD = [];
         }
 
         if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
-          this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond * creditProposal.products[i].attributes.kurs);
+          this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond);
         } else {
           this.plafontArrayUSD = [];
         }
 
         if (creditProposal.products[i].attributes.normalRate !== undefined) {
-          this.normalRateUSDArr.push(creditProposal.products[i].attributes.normalRate * creditProposal.products[i].attributes.kurs);
+          this.normalRateUSDArr.push(creditProposal.products[i].attributes.normalRate);
         } else {
           this.normalRateUSDArr = [];
         }
 
         if (creditProposal.products[i].attributes.discountProposal !== undefined) {
-          this.discountProposalUSDArr.push(creditProposal.products[i].attributes.discountProposal * creditProposal.products[i].attributes.kurs);
+          this.discountProposalUSDArr.push(creditProposal.products[i].attributes.discountProposal);
         } else {
           this.discountProposalUSDArr = [];
         }
 
         if (creditProposal.products[i].attributes.proposedRate !== undefined) {
-          this.proposedRateUSDArr.push(creditProposal.products[i].attributes.proposedRate * creditProposal.products[i].attributes.kurs);
+          this.proposedRateUSDArr.push(creditProposal.products[i].attributes.proposedRate);
         } else {
           this.proposedRateUSDArr = [];
         }
@@ -335,6 +335,15 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.saveWordMinio) {
+      this.saveWord = true;
+    }
+    if (changes.creditProposal.currentValue.products.length > 0) {
+      this.setValue(this.creditProposal);
+    }
+  }
+
   ngOnInit(): void {
     this.getListIndustry();
     if (this.creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio') {
@@ -390,11 +399,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       this.defaultCurrencyData = res.body[0]?.factor;
     });
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.saveWordMinio) {
-      this.saveWord = true;
-    }
-  }
+ 
 
   spreadPerFacilityEvent(event): void {
     if (event) {

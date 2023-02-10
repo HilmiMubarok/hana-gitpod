@@ -57,7 +57,11 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collateralData = this.collateralInfo.filter((obj => obj.statusId !== 'CANCEL') && (o => o.collateralTypeId !== 'CASH'));
+    const filterCollateral = this.collateralInfo.filter(obj => obj.statusId !== 'CANCEL');
+    this.collateralData = filterCollateral.filter(o => o.collateralTypeId !== 'CASH');
+
+    // this.collateralData = this.collateralInfo.filter(o => o.collateralTypeId !== 'CASH');
+    console.log('collateral data ', this.collateralData);
 
     if (this.applicationProductData.id === undefined) {
       this.disabled = true;
@@ -326,5 +330,25 @@ export class CreditProposalMappingCollateralComponent implements OnInit {
   public numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+
+  public countMV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          return 0;
+        } else {
+          return data.marketValue;
+        }
+      }
+    }
+    return 0;
   }
 }

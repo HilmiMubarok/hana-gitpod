@@ -40,7 +40,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFiles(this.creditProposalItem.cif.partyId);
+    this.getFiles(this.creditProposalItem.id);
     this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
@@ -91,6 +91,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   public folders = [];
   public dataFolder = [];
   private groupByFolder(param: any[]): void {
+    console.log('true');
     this.folders = [];
 
     if (param.length > 0) {
@@ -135,8 +136,11 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   }
 
   private getFiles(id: any): void {
+    const path = this.isOnCompareData ? (this.isCompareDar ? 'document' : 'return-doc') : 'history-doc';
+    console.log('path', path);
+
     const predicate: Object = {
-      key: `/cif/${id}/document`,
+      key: `/credit_proposal/${id}/${path}`,
     };
     this.storageService.getBucketName().subscribe((res: any) => {
       this.storageService.getObjects(res.body.bucket, predicate).subscribe(a => {
