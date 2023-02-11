@@ -11,10 +11,19 @@
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-6">
-        <!-- <div class="mb-2">
-          <ejs-numerictextbox [value]="fungsiSuminit()" placeholder="Total Initial Limit" cssClass="e-outline"
-            floatLabelType="Always" format="IDR 0," min="0" readonly="true"></ejs-numerictextbox>
-        </div> -->
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+          <div class="mb-2">
+            <ejs-numerictextbox
+              [value]="fungsiSuminit()"
+              placeholder="Total Initial Limit"
+              cssClass="e-outline"
+              floatLabelType="Always"
+              format="IDR 0,"
+              min="0"
+              readonly="true"
+            ></ejs-numerictextbox>
+          </div>
+        </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
           <div class="fontsebled row">
             <div class="col-2">Total Initial Limit</div>
