@@ -201,6 +201,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
+        isViewMode: this.isViewMode,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);

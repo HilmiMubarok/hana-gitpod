@@ -16,8 +16,8 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   @Output() outputCreditProposalMappingData = new EventEmitter();
   @Input() creditProposal: ICreditProposal;
   @Input() collateralData: ICollateral;
-
   @Input() isViewSabled: Boolean = false;
+  @Input() isViewMode: Boolean = false;
 
   public collateralInfo: any;
   public creditProposalData: any;
@@ -56,6 +56,9 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.field === false;
     } else {
       this.field === true;
+    }
+    if (this.isViewMode === true) {
+      this.field = true;
     }
     this.sableFeild();
   }

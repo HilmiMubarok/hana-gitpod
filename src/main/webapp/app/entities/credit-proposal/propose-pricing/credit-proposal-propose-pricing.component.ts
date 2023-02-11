@@ -340,7 +340,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       this.saveWord = true;
     }
     if (changes.creditProposal.currentValue.products.length > 0) {
-      this.setValue(this.creditProposal);
+      this.setValue(changes.creditProposal.currentValue);
     }
   }
 
@@ -354,10 +354,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.actRoute.params.pipe(takeUntil(this.ngUnsubscribe)).subscribe(params => {
       this.paramsId = params['id'];
     });
-
-    if (this.creditProposal.products.length > 0) {
-      this.setValue(this.creditProposal);
-    }
 
     this.primaryXAxis = {
       valueType: 'Category',

@@ -346,7 +346,7 @@
           <div class="col-3">Initial Limit</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['initialLimit'] }}
+            {{ applicationProduct.attributes['initialLimit'] | number }}
           </div>
         </div>
       </section>
@@ -369,7 +369,7 @@
           <div class="col-3">Outstanding</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['outstanding'] }}
+            {{ applicationProduct.attributes['outstanding'] | number }}
           </div>
         </div>
       </section>
@@ -409,7 +409,7 @@
           <div class="col-3">Changes</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['changes'] }}
+            {{ applicationProduct.attributes['changes'] | number }}
           </div>
         </div>
       </section>
@@ -439,7 +439,7 @@
           <div class="col-3">Total Plafond</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['totalPlafond'] }}
+            {{ applicationProduct.attributes['totalPlafond'] | number }}
           </div>
         </div>
       </section>
@@ -713,12 +713,12 @@
           <div class="col-3">Admin Fee</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['adminFee'] }}
+            {{ applicationProduct.attributes['adminFee'] | number }}
           </div>
           <div class="col-3">Rate / Amount Type</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.attributes['adminFeeRateAmountType'] | number }}
+            {{ applicationProduct.attributes['adminFeeRateAmountType'] }}
           </div>
         </div>
       </section>
@@ -833,7 +833,7 @@
   </div>
 
   <mat-label>Mapping to Collateral</mat-label>
-  <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"></jhi-mapping-collateral>
+  <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

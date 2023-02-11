@@ -347,6 +347,7 @@ import { DocumentChecklistTempComponent } from './loan-analys/dar-final/document
 import { DocumentChecklistDialogTempComponent } from './loan-analys/dar-final/document-checklist/document-checklist-dialog.component';
 import { CreditProposalDeviationDarAboveComponent } from './loan-analys/dar-final/convenant/above/deviation/credit-proposal-deviation-above.component';
 import { ApproveFinalComponent } from './loan-analys/approval-final/approve-final.component';
+import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -590,7 +591,8 @@ import { ApproveFinalComponent } from './loan-analys/approval-final/approve-fina
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalMappingFacilityComponent,
-
+    // mapping collateral
+    CreditProposalMappingCollateralComponent,
 
 
     // === Previous === //
@@ -954,7 +956,8 @@ import { ApproveFinalComponent } from './loan-analys/approval-final/approve-fina
     CreditProposalBookingBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     CreditProposalMappingFacilityComponent,
-
+    // mapping collateral
+    CreditProposalMappingCollateralComponent,
     // === Previous === //
 
     // Loan Facility Detail

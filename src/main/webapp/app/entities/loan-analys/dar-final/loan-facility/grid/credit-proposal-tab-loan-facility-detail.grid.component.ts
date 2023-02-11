@@ -121,7 +121,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     this.creditProposaldata = this.creditProposal;
     this.sableFeild();
   }
- public sableFeild() {
+  public sableFeild() {
     if (this.creditProposaldata.statusId === 'LA_DAR_NOTIF') {
       this.field = true;
     }
@@ -316,7 +316,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
             const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b ? 1 : -1));
             if (nomorUrutFasilitasSorted) {
               if (nomorUrutFasilitasSorted.length > 0) {
-                attr.nomorUrutFasilitas = nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1] + 1;
+                attr.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
               }
             }
           }

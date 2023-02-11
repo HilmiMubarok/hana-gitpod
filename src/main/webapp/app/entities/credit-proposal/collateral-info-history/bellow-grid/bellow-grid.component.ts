@@ -207,7 +207,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
-        applicationProduct: this.creditProposal.products,
+        applicationProduct: this.parsedData.previousHistory ? this.historyData().products : this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };

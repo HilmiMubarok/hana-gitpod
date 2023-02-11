@@ -176,7 +176,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         collateral: value,
         binding: this.getBinding(value),
         emptyField: this.getEmptyField(value),
-        applicationProduct: this.creditProposal.products,
+        applicationProduct: this.parsedData.previousHistory ? this.historyData().products : this.creditProposal.products,
         properties: this.collateralProperties,
         isViewMode: this.isViewMode,
       },
