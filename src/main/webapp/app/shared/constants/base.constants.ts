@@ -1969,7 +1969,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE: object[] = [
     text: 'convenant & Document Checklist',
   },
   {
-    id: 'loan-facility',
+    id: 'loan-facility-detail',
     text: 'Loan Facility',
   },
   {
