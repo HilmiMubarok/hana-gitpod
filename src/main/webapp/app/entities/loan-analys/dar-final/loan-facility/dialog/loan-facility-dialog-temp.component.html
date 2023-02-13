@@ -304,10 +304,19 @@
             </mat-form-field>
           </div>
           <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Current Interest Rate</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" disabled />
-            </mat-form-field>
+            <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Interest Rate/Spread rate</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" />
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-4">Interest Rate/Spread rate</div>
+                <div class="col-md-auto">:</div>
+                <div class="col-2">{{ applicationProduct.attributes['currentInterestRate'] }}</div>
+              </div>
+            </section>
           </div>
         </div>
       </div>
