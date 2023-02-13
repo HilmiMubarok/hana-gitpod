@@ -40,8 +40,6 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFiles(this.creditProposalItem.id);
-    this.parsedData = parsePreviousAtrribute(this.creditProposalItem);
     this.isViewMode ? this.displayColumns.splice(this.displayColumns.length - 1, 1) : null;
     this.filterDeviation();
   }
@@ -60,6 +58,7 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public storageService: StorageService) {
     this.loading = false;
+    this.filterStatus = [];
   }
 
   // Add View Dialog
@@ -91,7 +90,6 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   public folders = [];
   public dataFolder = [];
   private groupByFolder(param: any[]): void {
-    console.log('true');
     this.folders = [];
 
     if (param.length > 0) {
@@ -125,11 +123,18 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
         dataset.push(setdata);
       }
 
-      for (let i = 0; i < dataset.length; i++) {
-        if (dataset[i].status === 'Waived') {
-          this.filterStatus = [dataset[i]];
+      // add where staus dataset is Waived to filterStatus
+      dataset.forEach(element => {
+        if (element.status === 'Waived') {
+          this.filterStatus = [...this.filterStatus, element];
         }
-      }
+      });
+
+      // for (let i = 0; i < dataset.length; i++) {
+      //   if (dataset[i].status === 'Waived') {
+      //     this.filterStatus = [...this.filterStatus, dataset[i]];
+      //   }
+      // }
     } else {
       this.folders = [];
     }
@@ -137,7 +142,6 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
 
   private getFiles(id: any): void {
     const path = this.isOnCompareData ? (this.isCompareDar ? 'document' : 'return-doc') : 'history-doc';
-    console.log('path', path);
 
     const predicate: Object = {
       key: `/credit_proposal/${id}/${path}`,
@@ -184,8 +188,13 @@ export class CreditProposalOtherDeviationHistoryComponent implements OnInit {
   }
 
   public filterDeviation() {
+    this.getFiles(this.creditProposalItem.id);
     if (this.historyData().convenant.otherCovenant.length !== 0) {
-      this.filterStatus = this.historyData().convenant.otherCovenant.filter(element => element.status !== 'Applied');
+      for (let i = 0; i < this.historyData().convenant.otherCovenant.length; i++) {
+        if (this.historyData().convenant.otherCovenant[i].status !== 'Applied') {
+          this.filterStatus = [...this.filterStatus, this.historyData().convenant.otherCovenant[i]];
+        }
+      }
     }
   }
 }
