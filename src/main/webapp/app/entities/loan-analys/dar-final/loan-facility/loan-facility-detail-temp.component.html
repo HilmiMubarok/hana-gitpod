@@ -173,6 +173,11 @@
   </div>
 </div>
 <div class="e-card" *ngIf="!viewMode">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Take Over Scheme (If Any)</div>
+    </div>
+  </div>
   <div class="e-card-content">
     <div class="row">
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -183,11 +188,19 @@
           </mat-form-field>
         </div>
       </section>
-      <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval' || parentPath === 'dar-checker'">
+      <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
             <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *ngIf="parentPath !== 'dar-final' || parentPath !== 'loan-committee-approval'">
+        <div class="col-6">
+          <mat-label>Previous Bank</mat-label>
+          <mat-form-field class="w-100" appearance="outline">
+            <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" disabled />
           </mat-form-field>
         </div>
       </section>
