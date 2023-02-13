@@ -285,6 +285,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   };
 
   dynamicCP() {
+    this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     if (this.isOnCompareData && !this.isCompareDar) {
       if (!this.parsedAttribute.previousReturn.facilityDetail) {
         const obj = {
