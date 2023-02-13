@@ -134,16 +134,8 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     this.getWord();
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.previousBank = this.parsedAttribute.previousHistory.facilityDetail.previousBank;
-    console.log('parsed', this.parsedAttribute);
     this.removeTagRemaks();
     this.setCurrency();
-    console.log('asdasdads', {
-      dynamic: this.dynamicCP(),
-      prevret: this.parsedAttribute.previousReturn,
-      isCOpare: this.isOnCompareData,
-      isDar: this.isCompareDar,
-      cp: this._creditProposal.attributes,
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -213,8 +205,6 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
     // 67 is the character code for 'C'
-    console.log('keycode', keyCode);
-    console.log('isCtrlKey', isCtrlKey);
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
@@ -295,10 +285,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
   };
 
   dynamicCP() {
-    // Jika ada previousReturn dan onCompareData true dan isCompareDar false
-    // berarti dia dipanggil di compare data yang bagian tab previous proposal.
-    if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
-      // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
+    if (this.isOnCompareData && !this.isCompareDar) {
       if (!this.parsedAttribute.previousReturn.facilityDetail) {
         const obj = {
           facilityDetail: {
@@ -307,17 +294,36 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         };
         this.parsedAttribute.previousReturn = { ...this.parsedAttribute.previousReturn, ...obj };
       }
-
       return this.parsedAttribute.previousReturn;
-    }
-    // jika ada previousHistory dan isOnCompareData false dan isCompareDar false
-    // berarti dipanggil di menu cp ketika ada attribute previous history
-    else if (this.parsedAttribute.previousHistory && !this.isOnCompareData && !this.isCompareDar) {
-      return this.parsedAttribute.previousHistory;
+    } else if (this.isOnCompareData && this.isCompareDar) {
+      // return dataDar
+      return this.creditProposal;
     } else {
-      // jika
-      return parsePreviousAtrribute(this._creditProposal);
+      return this.parsedAttribute.previousHistory;
     }
+    // // Jika ada previousReturn dan onCompareData true dan isCompareDar false
+    // // berarti dia dipanggil di compare data yang bagian tab previous proposal.
+    // if (this.parsedAttribute.previousReturn && this.isOnCompareData && !this.isCompareDar) {
+    //   // if previousreturn dont have facilityDetail.custodianFee, then set it to 0
+    //   if (!this.parsedAttribute.previousReturn.facilityDetail) {
+    //     const obj = {
+    //       facilityDetail: {
+    //         custodianFee: 0,
+    //       },
+    //     };
+    //     this.parsedAttribute.previousReturn = { ...this.parsedAttribute.previousReturn, ...obj };
+    //   }
+
+    //   return this.parsedAttribute.previousReturn;
+    // }
+    // // jika ada previousHistory dan isOnCompareData false dan isCompareDar false
+    // // berarti dipanggil di menu cp ketika ada attribute previous history
+    // else if (this.parsedAttribute.previousHistory && !this.isOnCompareData && !this.isCompareDar) {
+    //   return this.parsedAttribute.previousHistory;
+    // } else {
+    //   // jika
+    //   return parsePreviousAtrribute(this._creditProposal);
+    // }
   }
 
   fungsiSuminit() {
