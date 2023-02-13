@@ -13,9 +13,9 @@
         <div class="row">
           <ngx-dropzone-preview
             class="col-6"
-     
+            style="background-color: white !important; background-image: none !important;"
             *ngFor="let f of file"
-            [removable]="true"
+            [removable]="f.name.indexOf('los_logo.png') > -1 ? false : true"
             (removed)="onRemove(f)"
           >
             <ngx-dropzone-label [hidden]="f.name.indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
@@ -96,7 +96,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="documentChecklist.status" name="status" (selectionChange)="onChange(documentChecklist.status)">
+                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="documentChecklist.status" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -144,7 +144,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button (click)="save()">Save</button>
+    <button mat-button *ngIf="file.length > 0 || documentChecklist.status === 'Available'" (click)="save()">Save</button>
     <button mat-button mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </div>
@@ -162,7 +162,8 @@
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
             *ngFor="let item of documentChecklist.files"
-            [removable]="true"
+            [removable]="false"
+            style="background-color: white !important; background-image: none !important;"
             (removed)="onRemove(f)"
           >
             <ngx-dropzone-label>
