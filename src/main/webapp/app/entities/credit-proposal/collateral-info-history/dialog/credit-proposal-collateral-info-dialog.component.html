@@ -650,6 +650,8 @@
     <mat-label>Mapping to Facility</mat-label>
     <jhi-mapping-facility-history
       [isUseHistory]="true"
+      [isOnCompare]="isOnCompare"
+      [isCompareDar]="isCompareDar"
       [collateralData]="collateral"
       [creditProposal]="creditProposal"
       (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"

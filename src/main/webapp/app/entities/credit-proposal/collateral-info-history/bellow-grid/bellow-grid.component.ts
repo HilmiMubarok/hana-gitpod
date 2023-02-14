@@ -119,7 +119,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       return this.parsedData.previousReturn;
     } else if (this.isOnCompareData && this.isCompareDar) {
       // return dataDar
-      return this.creditProposal.products;
+      return this.creditProposal;
     } else {
       return this.parsedData.previousHistory;
     }
@@ -195,6 +195,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     const predicate: object = {
       width: '80vw',
       data: {
+        isOnCompare: this.isOnCompareData,
+        isCompareDar: this.isCompareDar,
         cp: this.creditProposal,
         collateral: element,
         marketability: this.getMarketability(element),

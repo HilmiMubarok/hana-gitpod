@@ -104,6 +104,8 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
 
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      isOnCompare: boolean;
+      isCompareDar: boolean;
       cp: ICreditProposal;
       collateral: ICollateral;
       marketability: string;
@@ -119,6 +121,8 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
       matrikBindingType: string;
     }
   ) {
+    this.isOnCompare = this.data.isOnCompare;
+    this.isCompareDar = this.data.isCompareDar;
     this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
@@ -140,7 +144,15 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
     this.paripasuStatus = PARIPASU_STATUS;
     this.dataCertDueDate = data.certDueDate;
     this.dataOwnerShip = data.ownerShip;
+
+    console.log('Console Dialog', {
+      isoncompare: this.isOnCompare,
+      iscomparedar: this.isCompareDar,
+    });
   }
+
+  public isOnCompare: boolean;
+  public isCompareDar: boolean;
 
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {

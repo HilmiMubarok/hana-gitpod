@@ -114,12 +114,16 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
 
   public historyData() {
+    // console.log('Console Above Grid', {
+    //   isOncompare: this.isOnCompareData,
+    //   isCompareDar: this.isCompareDar,
+    // });
     // if isOnCompare and not isCompareDar, then set dynamic data to previousReturn
     if (this.isOnCompareData && !this.isCompareDar) {
       return this.parsedData.previousReturn;
     } else if (this.isOnCompareData && this.isCompareDar) {
       // return dataDar
-      return this.creditProposal.products;
+      return this.creditProposal;
     } else {
       return this.parsedData.previousHistory;
     }
@@ -188,6 +192,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     const predicate: object = {
       width: '80vw',
       data: {
+        isOnCompare: this.isOnCompareData,
+        isCompareDar: this.isCompareDar,
         cp: this.creditProposal,
         collateral: element,
         marketability: this.getMarketability(element),
