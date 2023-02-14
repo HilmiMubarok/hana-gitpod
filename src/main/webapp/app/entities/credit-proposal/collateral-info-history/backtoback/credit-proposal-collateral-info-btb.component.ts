@@ -95,7 +95,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       return this.parsedData.previousReturn;
     } else if (this.isOnCompareData && this.isCompareDar) {
       // return dataDar
-      return this.creditProposal.products;
+      return this.creditProposal;
     } else {
       return this.parsedData.previousHistory;
     }
@@ -172,6 +172,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     const predicate: object = {
       width: '80vw',
       data: {
+        isOnCompare: this.isOnCompareData,
+        isCompareDar: this.isCompareDar,
         cp: this._creditProposal,
         collateral: value,
         binding: this.getBinding(value),

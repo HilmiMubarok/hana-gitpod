@@ -103,6 +103,8 @@ export class CollateralInfoDialogBTBHistoryComponent implements OnInit {
     private _dialog: MatDialogRef<CollateralInfoDialogBTBHistoryComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      isOnCompare: boolean;
+      isCompareDar: boolean;
       cp: ICreditProposal;
       collateral: ICollateral;
       properties: ICollateralProperty[];
@@ -111,6 +113,8 @@ export class CollateralInfoDialogBTBHistoryComponent implements OnInit {
       isViewMode: Boolean;
     }
   ) {
+    this.isOnCompare = this.data.isOnCompare;
+    this.isCompareDar = this.data.isCompareDar;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
@@ -126,6 +130,8 @@ export class CollateralInfoDialogBTBHistoryComponent implements OnInit {
     this.setBranches();
     this.loadByCollateral(this.collateral.id);
   }
+  public isOnCompare: boolean;
+  public isCompareDar: boolean;
   ngOnInit(): void {
     console.log('ini credit proposal ', this.creditProposal);
     this.loadCollateralDetailOption().then(resolve => {
