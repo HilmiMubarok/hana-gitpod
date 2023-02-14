@@ -153,7 +153,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   ngOnInit() {
 	const token = this.getToken('XSRF-TOKEN');
-	this.customHeadersJWT = [{`X-XSRF-TOKEN`: `token` }];
+	this.customHeadersJWT = [{'X-XSRF-TOKEN': token}];
 
     this.selectedMenu = 'BUSINESS ACTIVITY';
     this.activatedRoute.params.subscribe(params => {
