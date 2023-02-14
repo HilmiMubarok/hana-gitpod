@@ -212,13 +212,13 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       }
 
       // replace / add binding
-      const bindingIdx: number = lodash.findIndex(this.historyData().binding, function (o: ICreditProposalCollateralBinding) {
+      const bindingIdx: number = lodash.findIndex(this.historyData().attributes['binding'], function (o: ICreditProposalCollateralBinding) {
         return o.collateralId === res['collateral'].id;
       });
       if (bindingIdx > -1) {
-        this.historyData().binding[bindingIdx] = res['binding'];
+        this.historyData().attributes['binding'][bindingIdx] = res['binding'];
       } else {
-        this.historyData().binding = [...this.historyData().binding, res['binding']];
+        this.historyData().attributes['binding'] = [...this.historyData().attributes['binding'], res['binding']];
       }
     });
   }
@@ -260,9 +260,9 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   }
 
   public getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.historyData().binding.length > 0) {
-      for (let i = 0; i < this.historyData().binding.length; i++) {
-        const item: ICreditProposalCollateralBinding = this.historyData().binding[i];
+    if (this.historyData().attributes['binding'].length > 0) {
+      for (let i = 0; i < this.historyData().attributes['binding'].length; i++) {
+        const item: ICreditProposalCollateralBinding = this.historyData().attributes['binding'][i];
         if (item.collateralId === element.id) {
           return item;
         }
