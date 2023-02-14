@@ -52,7 +52,7 @@ export const scoreCard: IScoreCard[] = [
   },
   {
     id: 9,
-    criteria: 'Diginakan dan atau diperuntukan (zoning) sebagai sawah/ladang/pertanian/rawa-rawa.',
+    criteria: 'Digunakan dan atau diperuntukan (zoning) sebagai sawah/ladang/pertanian/rawa-rawa.',
     value: 'no',
   },
   {

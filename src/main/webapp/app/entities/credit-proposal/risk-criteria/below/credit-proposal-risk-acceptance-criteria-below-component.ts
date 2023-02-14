@@ -188,7 +188,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     {
       No: 3,
       parameterBelow:
-        'Verify the location of the debtors house / business owner where the house is in accordance with (reflecting) the financial data provNoed, the community and the number of debtor credit applications.',
+        'Verify the location of the debtors house / business owner where the house is in accordance with (reflecting) the financial data provided, the community and the number of debtor credit applications.',
       value: 'Yes',
       remarksAm: '',
     },
