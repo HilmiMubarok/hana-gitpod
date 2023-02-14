@@ -168,7 +168,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     this.tes();
   }
 
-  private getToken(cookieName: string): string | null {
+  private getToken(cookieName: string) {
 	let result = null;
     let cookies: string[] = document.cookie.split(";");
     
