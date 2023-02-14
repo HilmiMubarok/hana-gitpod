@@ -80,6 +80,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public parameter: string;
 
+  public customHeadersJWT: any;
+
   public dataAttrPass = [
     {
       No: 1,
@@ -150,6 +152,9 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   ngOnInit() {
+	const token = this.getToken('XSRF-TOKEN');
+	this.customHeadersJWT = [{`X-XSRF-TOKEN`: `token` }];
+
     this.selectedMenu = 'BUSINESS ACTIVITY';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
@@ -161,6 +166,21 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     });
 
     this.tes();
+  }
+
+  private getToken(cookieName: string): string | null {
+	let result = null;
+    let cookies: string[] = document.cookie.split(";");
+    
+    cookies.forEach(o=> {
+      let cookie: string[] = o.split("=");
+      let name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public onDocumentChange() {
@@ -240,10 +260,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-	// this.container.serviceUrl = '/services/los/api/wordeditor/';
-    // this.containers.serviceUrl = '/services/los/api/wordeditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+	this.container.serviceUrl = '/services/los/api/wordeditor/';
+    this.containers.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
