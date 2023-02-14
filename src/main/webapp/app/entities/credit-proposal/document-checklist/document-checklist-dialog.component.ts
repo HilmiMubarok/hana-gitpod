@@ -69,12 +69,6 @@ export class DocumentChecklistDialogComponent implements OnInit {
   
   }
 
-  public onChange(el) {
-    if(el === 'TBO' || el === 'Waived'){
-      this.isTBO()
-    }
-
-  }
 
   ngOnInit() {
     this.object = this.data.creditProposal;
@@ -170,6 +164,8 @@ export class DocumentChecklistDialogComponent implements OnInit {
     this.documentChecklist.remarks = event.target.value
   }
 
+ 
+
 
   public convertDan(value: string): any{
     if(value !== null && value !== undefined){
@@ -180,48 +176,76 @@ export class DocumentChecklistDialogComponent implements OnInit {
     
   }
 
-  public onSelect(event: any) {
+  public onSelect(event: any) { 
     this.file.push(...event.addedFiles);
- 
+    if (this.file.length > 1) {
+      this.handleImage().then()
+    }
   }
 
   private isTBO() {
-    const img = new Image();
-    img.src = 'content/images/los_logo.png';
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      canvas.toBlob(blob => {
-        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
-        this.file.push(file);
-      }, 'image/png');
-    };
 
+      const img = new Image();
+      img.src = 'content/images/los_logo.png';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+          const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+          this.file.push(file);
+        }, 'image/png');
+      };
+    
+    
   
   }
 
   public onRemove(event: any) {
     this.file.splice(this.files.indexOf(event), 1);
+    if (this.file.length < 1 && this.documentChecklist.status !== 'Available') {
+      this.isTBO()
+    }
+    
   }
 
 
   public deleteTBO(status: any){
     if (status.value === 'Available') {
-      for (let i = 0; i < this.file.length; i++) {
-          if (this.file[i].name.indexOf('los_logo.png') > -1) {
-            this.file.splice(this.files.indexOf(this.file), 1);
-          }
-          
+      this.handleImage().then()
+    }else{
+      this.handleImage().then(()=> {
+        if (this.file.length < 1) {
+          this.isTBO()
         }
+        
+      })
+      
     }
     
     // if (status.value !== 'TBO') {
     //   this.file = []
     // }
   }
+
+  public handleImage(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.file.length > 0) {
+        for (let i = 0; i < this.file.length; i++) {
+          if (this.file[i].name.indexOf('los_logo.png') > -1) {
+            this.file.splice(this.file.indexOf(this.file[i]), 1);
+          }
+          
+        }
+      }
+    resolve()
+   
+    });
+  }
+
+
 
 
   public donwload(event: any, name: any) {

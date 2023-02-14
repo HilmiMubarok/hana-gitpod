@@ -58,30 +58,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     });
   }
 
-  private groupByFolder(param: any[]): void {
-    this.folders = [];
-    if (param.length > 0) {
-      this.folders = lodash
-        .chain(param)
-        .groupBy('tags.document')
-        .map((val, key) => ({
-          folder: key,
-          key: val[0].key,
-          data: val,
-          documentType: val[0]['tags']['documentType'],
-          document: val[0]['tags']['document'],
-          category: val[0]['tags']['category'],
-          dueDate: val[0]['tags']['dueDate'],
-          status: val[0]['tags']['status'],
-          remarks: val[0]['tags']['remarks'],
-          nameFile: val[0].name,
-          files: val,
-        }))
-        .value();
-    } else {
-      this.folders = [];
-    }
-  }
+ 
 
   public deleteFile(element: IDocumentChecklistDebtorData = null): void {
     this.dataKey = element;
@@ -113,5 +90,31 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
         this.getFiles(this.partyCif.partyId);
       });
     });
+  }
+
+
+  private groupByFolder(param: any[]): void {
+    this.folders = [];
+    if (param.length > 0) {
+      this.folders = lodash
+        .chain(param)
+        .groupBy('tags.document')
+        .map((val, key) => ({
+          folder: key,
+          key: val[0].key,
+          data: val,
+          documentType: val[0]['tags']['documentType'],
+          document: val[0]['tags']['document'],
+          category: val[0]['tags']['category'],
+          dueDate: val[0]['tags']['dueDate'],
+          status: val[0]['tags']['status'],
+          remarks: val[0]['tags']['remarks'],
+          nameFile: val[0].name,
+          files: val,
+        }))
+        .value();
+    } else {
+      this.folders = [];
+    }
   }
 }

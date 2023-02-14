@@ -80,30 +80,19 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.deleteTBO(el)
   }
 
-  private isTBO() {
-    const img = new Image();
-    img.src = 'content/images/los_logo.png';
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      canvas.toBlob(blob => {
-        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
-        this.file.push(file);
-      }, 'image/png');
-    };
-  }
+
 
   public deleteTBO(status: any){
-    if (status === 'Available') {
-      for (let i = 0; i < this.file.length; i++) {
-          if (this.file[i].name.indexOf('los_logo.png') > -1) {
-            this.file.splice(this.file.indexOf(this.file), 1);
-          }
-          
+    if (status.value === 'Available') {
+      this.handleImage().then()
+    }else{
+      this.handleImage().then(()=> {
+        if (this.file.length < 1) {
+          this.isTBO()
         }
+        
+      })
+      
     }
     
     // if (status.value !== 'TBO') {
@@ -195,16 +184,59 @@ export class DebtorDataDocumentChecklistDialogComponent {
     }
   }
 
-  public onSelect(event: any) {
+  public onSelect(event: any) { 
     this.file.push(...event.addedFiles);
+    if (this.file.length > 1) {
+      this.handleImage().then()
+    }
   }
 
   public onRemove(event: any) {
     this.file.splice(this.file.indexOf(event), 1);
+    if (this.file.length < 1 && this.documentChecklist.status !== 'Available') {
+      this.isTBO()
+    }
+    
   }
 
 
   public donwload(event: any, name: any) {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
+
+  public handleImage(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.file.length > 0) {
+        for (let i = 0; i < this.file.length; i++) {
+          if (this.file[i].name.indexOf('los_logo.png') > -1) {
+            this.file.splice(this.file.indexOf(this.file[i]), 1);
+          }
+          
+        }
+      }
+    resolve()
+   
+    });
+  }
+
+
+  private isTBO() {
+   
+    const img = new Image();
+    img.src = 'content/images/los_logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+        this.file.push(file);
+      }, 'image/png');
+    };
+  
+   
+
+}
 }
