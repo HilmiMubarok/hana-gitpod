@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../credit-proposal.model';
-import lodash from 'lodash';
 import { Router } from '@angular/router';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 
@@ -42,13 +41,23 @@ export class MappingFacilityHistoryComponent implements OnInit, OnChanges {
       applicationProduct: IApplicationProduct;
       collateral: ICollateral;
       cp: ICreditProposal;
+      isOnCompare: Boolean;
+      isCompareDar: Boolean;
     }
   ) {
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
-    this.setUp();
     this.checked = false;
+    this.isOnCompare = this.data.isOnCompare;
+    this.isCompareDar = this.data.isCompareDar;
+    this.parsedData = parsePreviousAtrribute(this.creditProposalData);
+    this.dynamicData =
+      this.isOnCompare && !this.isCompareDar
+        ? this.parsedData.previousReturn
+        : this.isOnCompare && this.isCompareDar
+        ? this.creditProposal
+        : this.parsedData.previousHistory;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralData']) {
@@ -57,56 +66,45 @@ export class MappingFacilityHistoryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.parsedData = parsePreviousAtrribute(this.creditProposalData);
-    this.dynamicData = this.isUseHistory
-      ? this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus
-      : this.parsedData.previousReturn.creditProposalCollateralData.crossCollateralStatus;
-    console.log({
-      isuse: this.isUseHistory,
-      parse: this.parsedData.previousHistory.creditProposalCollateralData.crossCollateralStatus,
-      attr: this.parsedData.previousHistory,
-      test: this.parsedData['previousHistory']['collateralProductRelations'],
-      dynamic: this.dynamicData,
-    });
-    if (this.dynamicData === 'Yes') {
+    if (this.dynamicData.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
       this.field === false;
     } else {
       this.field === true;
     }
   }
 
+  @Input() isOnCompare: any;
+  @Input() isCompareDar: any;
+
   public setCrossCollateral(index: number) {
     if (this.collateralData) {
-      if (this.dynamicData === 'Yes') {
+      if (this.dynamicData.creditProposalCollateralData.crossCollateralStatus === 'Yes') {
         const tempCollateralProductRelationObject = {
           collateralId: this.collateralInfo.id,
           bindingValue: this.bindingValueHelper[index],
           applicationProduct: this.applicationProductData[index],
         };
-        this.isUseHistory
-          ? this.parsedData.previousHistory.collateralProductRelations.push(tempCollateralProductRelationObject)
-          : this.parsedData.previousReturn.collateralProductRelations.push(tempCollateralProductRelationObject);
+        this.dynamicData.collateralProductRelations.push(tempCollateralProductRelationObject);
       }
     }
   }
 
   private setUp(): void {
     this.parsedData = parsePreviousAtrribute(this.creditProposalData);
+    console.log('Setup', this.dynamicData);
     if (this.applicationProductData.length > 0) {
       for (let i = 0; i < this.applicationProductData.length; i++) {
         this.bindingValueHelper.push(0);
         this.mappingStatusHelper.push('no');
         this.setCrossCollateral(i);
-        if (this.parsedData.previousHistory) {
-          if (this.parsedData.previousHistory.collateralProductRelations.length > 0) {
-            for (let j = 0; j < this.parsedData.previousHistory.collateralProductRelations.length; j++) {
-              if (
-                this.parsedData.previousHistory.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
-                this.parsedData.previousHistory.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[i].id
-              ) {
-                this.bindingValueHelper[i] = this.parsedData.previousHistory.collateralProductRelations[j].bindingValue;
-                this.mappingStatusHelper[i] = 'yes';
-              }
+        if (this.dynamicData.collateralProductRelations.length > 0) {
+          for (let j = 0; j < this.dynamicData.collateralProductRelations.length; j++) {
+            if (
+              this.dynamicData.collateralProductRelations[j].collateralId === this.collateralInfo.id &&
+              this.dynamicData.collateralProductRelations[j].applicationProduct.id === this.applicationProductData[i].id
+            ) {
+              this.bindingValueHelper[i] = this.dynamicData.collateralProductRelations[j].bindingValue;
+              this.mappingStatusHelper[i] = 'yes';
             }
           }
         }
@@ -115,13 +113,13 @@ export class MappingFacilityHistoryComponent implements OnInit, OnChanges {
   }
 
   public onChangeBindingValue(event: any, index: number): void {
-    if (this.parsedData.previousHistory.collateralProductRelations.length > 0) {
-      for (let i = 0; i < this.parsedData.previousHistory.collateralProductRelations.length; i++) {
+    if (this.dynamicData.collateralProductRelations.length > 0) {
+      for (let i = 0; i < this.dynamicData.collateralProductRelations.length; i++) {
         if (
-          this.parsedData.previousHistory.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
-          this.parsedData.previousHistory.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id
+          this.dynamicData.collateralProductRelations[i].collateralId === this.collateralInfo.id &&
+          this.dynamicData.collateralProductRelations[i].applicationProduct.id === this.applicationProductData[index].id
         ) {
-          this.parsedData.previousHistory.collateralProductRelations[i].bindingValue = event;
+          this.dynamicData.collateralProductRelations[i].bindingValue = event;
         }
       }
     }

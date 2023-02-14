@@ -160,20 +160,25 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     this.documentChecklist.remarks = event.target.value;
   }
 
-  public deleteTBO(status: any) {
-    console.log('okees', status.value);
+   public deleteTBO(status: any){
     if (status.value === 'Available') {
-      for (let i = 0; i < this.file.length; i++) {
-        if (this.file[i].name.indexOf('los_logo.png') > -1) {
-          this.file.splice(this.files.indexOf(this.file), 1);
+      this.handleImage().then()
+    }else{
+      this.handleImage().then(()=> {
+        if (this.file.length < 1) {
+          this.isTBO()
         }
-      }
+        
+      })
+      
     }
-
+    
     // if (status.value !== 'TBO') {
     //   this.file = []
     // }
   }
+
+ 
 
   public edit(): void {
     const files: IDocumentNode[] = this.documentChecklist['files'];
@@ -199,9 +204,11 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     }
   }
 
-  public onSelect(event: any) {
+  public onSelect(event: any) { 
     this.file.push(...event.addedFiles);
-    console.log(this.file);
+    if (this.file.length > 1) {
+      this.handleImage().then()
+    }
   }
 
   private isTBO() {
@@ -221,7 +228,26 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   }
 
   public onRemove(event: any) {
-    this.file.splice(this.files.indexOf(event), 1);
+    this.file.splice(this.file.indexOf(event), 1);
+    if (this.file.length < 1 && this.documentChecklist.status !== 'Available') {
+      this.isTBO()
+    }
+    
+  }
+
+  public handleImage(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.file.length > 0) {
+        for (let i = 0; i < this.file.length; i++) {
+          if (this.file[i].name.indexOf('los_logo.png') > -1) {
+            this.file.splice(this.file.indexOf(this.file[i]), 1);
+          }
+          
+        }
+      }
+    resolve()
+   
+    });
   }
 
   public donwload(event: any, name: any) {

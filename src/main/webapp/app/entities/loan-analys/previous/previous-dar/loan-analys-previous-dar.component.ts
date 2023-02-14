@@ -55,7 +55,8 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
     }
 
     console.log('res', {
-      data: this.dataToCompare,
+      ori: data,
+      final: this.dataToCompare,
       isExist: this.isDataToCompareExist,
     });
   }
