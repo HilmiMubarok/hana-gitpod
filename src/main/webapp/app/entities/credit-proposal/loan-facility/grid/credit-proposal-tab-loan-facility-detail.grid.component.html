@@ -170,7 +170,9 @@
               ' ' +
               element.attributes.interestRatePeriod +
               ' ' +
-              element.attributes.interestRatePeriodType
+              element.attributes.interestRatePeriodType +
+              ' ' +
+              element.attributes.requiredSpread?.substring(0, element.attributes.requiredSpread.length - 1)
           }}
         </div>
       </td>
