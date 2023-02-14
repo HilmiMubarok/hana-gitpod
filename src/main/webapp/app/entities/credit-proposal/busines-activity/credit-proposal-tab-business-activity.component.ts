@@ -172,13 +172,13 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 	let result = null;
     let cookies: string[] = document.cookie.split(";");
     
-    cookies.forEach(o=> {
+    cookies.forEach(o => {
       let cookie: string[] = o.split("=");
       let name: string = cookie[0].trim();
       if (name === cookieName) {
         result = cookie[1];
       }
-    });
+    })
 
     return result;
   }
