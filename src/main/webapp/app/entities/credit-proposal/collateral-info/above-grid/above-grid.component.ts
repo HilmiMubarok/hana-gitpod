@@ -62,6 +62,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
+  public totalPlafond: number
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -82,7 +83,9 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%';
+      return '0.00' + '%';
+    } else if(num === 'NaN'){
+      return '0.00' + '%';
     } else {
       return num + '%';
     }
@@ -123,17 +126,20 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   ngOnInit(): void {
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-    }
-
-    // this.isViewMode && this.displayedColumns.pop();
-
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-      this.isChecked = true;
-    }
-    this.setCertyficateType();
-    this.totalCoverage();
+    this.fungsiSumcredit().then(()=> {
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+        this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      }
+  
+      // this.isViewMode && this.displayedColumns.pop();
+  
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+        this.isChecked = true;
+      }
+      this.setCertyficateType();
+      this.totalCoverage();
+    })
+    
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -450,8 +456,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     }
     return 'IDR';
   }
-
-  fungsiSumcredit() {
+  private fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
     let result: number;
     let dolar: number;
     result = 0;
@@ -482,8 +488,11 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     const creditLimit = result + dolar;
     this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
 
-    return result + dolar;
+    this.totalPlafond = result + dolar;
+      resolve();
+    });
   }
+ 
 
   public countMVOriginal(collateral: ICollateral): number {
     let result: string;
