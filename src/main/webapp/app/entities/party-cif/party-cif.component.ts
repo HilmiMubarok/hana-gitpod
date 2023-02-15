@@ -106,7 +106,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     this.loadAll();
   }
 
-  public findDetail(element: ICustomer): void {
+  public findDetail(element: ICustomer, event: Event): void {
+	event.stopPropagation();
     if (element) {
       this.personalCustomer = new Person();
       this.corporateCustomer = new PartyGroup();
@@ -188,7 +189,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
   public cifNumber: any;
   public data: [];
-  updateFromHobis() {
+  updateFromHobis(event: Event) {
+	event.stopPropagation();
     this.cifNumber = this.expandedElement?.customerId;
     if (this.cifNumber === undefined) {
       return;
