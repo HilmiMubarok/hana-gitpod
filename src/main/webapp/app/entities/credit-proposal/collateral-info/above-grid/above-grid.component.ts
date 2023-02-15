@@ -53,6 +53,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     'action',
   ];
 
+  public dataCollateral: ICollateral[];
   public certificateType: any;
   public dataItem: any;
   public dataCertyficate: any;
@@ -152,7 +153,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         isActive: true,
       })
       .subscribe(res => {
-        console.log('data item ', res.body);
+        this.dataCollateral = res.body;
         this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
       });
@@ -384,7 +385,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -405,11 +406,12 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
+          console.log('ini proprties ', properties);
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
             result = result + Number(data.marketValue);
@@ -582,7 +584,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -602,7 +604,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -738,7 +740,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public setCertyficateType() {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
-      console.log('certyficate ', this.certificateType);
     });
   }
 
