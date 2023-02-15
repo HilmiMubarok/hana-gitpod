@@ -63,7 +63,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
-
+  public totalPlafond: number
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -99,6 +99,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   ngOnInit(): void {
+    this.fungsiSumcredit().then(()=> {
+   
     if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
     }
@@ -110,6 +112,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
     this.setCertyficateType();
     this.totalCoverage();
+  })
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -144,9 +147,12 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public presentage(value: string) {
+    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%';
+      return '0.00' + '%';
+    } else if(num === 'NaN'){
+      return '0.00' + '%';
     } else {
       return num + '%';
     }
@@ -246,7 +252,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     });
   }
 
-  fungsiSumcredit() {
+  private fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
     let result: number;
     let dolar: number;
     result = 0;
@@ -276,9 +283,11 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
     const creditLimit = result + dolar;
     this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
-    return result + dolar;
-  }
 
+    this.totalPlafond = result + dolar;
+      resolve();
+    });
+  }
   countKJJPLV(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
