@@ -55,6 +55,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
 
   public certificateType: any;
   public dataItem: any;
+  public dataCollateral: ICollateral[];
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
@@ -122,6 +123,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       })
       .subscribe(res => {
         this.dataItem = new MatTableDataSource(res.body);
+        this.dataCollateral = res.body;
         this.dataItem.paginator = this.paginator;
       });
   }
@@ -409,7 +411,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -429,7 +431,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -580,7 +582,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -600,7 +602,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.dataCollateral;
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);

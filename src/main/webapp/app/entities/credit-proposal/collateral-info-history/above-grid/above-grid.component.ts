@@ -53,6 +53,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     'action',
   ];
 
+  public dataCollateral: ICollateral[];
   public parsedData: any;
   public certificateType: any;
   public dataItem: any;
@@ -381,7 +382,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -400,7 +401,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -582,7 +583,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
@@ -601,7 +602,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
     if (collaterals.length > 0) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
