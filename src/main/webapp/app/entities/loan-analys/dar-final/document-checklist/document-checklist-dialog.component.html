@@ -21,36 +21,48 @@
               >
               </ngx-dropzone-image-preview>
             </ngx-dropzone-label>
-            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
-              <img src="../../../../content/images/excel.png" width="100%" height="100%" />
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.name.split('.').indexOf('xls') > -1">
+              <img src="../../../../../../content/images/excel.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
-              <img src="../../../../content/images/word.png" width="100%" height="100%" />
+            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || f.name.split('.').indexOf('doc') > -1">
+              <img src="../../../../../../content/images/word.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.type === 'application/pdf'">
-              <img src="../../../../content/images/pdf.png" width="100%" height="100%" />
+              <img src="../../../../../../content/images/pdf.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'">
-              <img src="../../../../content/images/power-point.jpg" width="100%" height="100%" />
+              <img src="../../../../../../content/images/power-point.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('csv') > -1">
-              <img src="../../../../content/images/csv.png" width="100%" height="100%" />
+              <img src="../../../../../content/images/csv.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp3') > -1">
-              <img src="../../../../content/images/mp3.png" width="100%" height="100%" />
+              <img src="../../../../../content/images/mp3.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('svg') > -1">
-              <img src="../../../../content/images/svg.jpg" width="100%" height="100%" />
+              <img src="../../../../../content/images/svg.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
 
             <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('tiff') > -1">
-              <img src="../../../../content/images/tiff.png" width="100%" height="100%" />
+              <img src="../../../../../content/images/tiff.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('aac') > -1">
+              <img src="../../../../../content/images/acc.jpg" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('mp4') > -1">
+              <img src="../../../../../content/images/mp4.png" width="100%" height="100%" />
+            </ngx-dropzone-label>
+
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('txt') > -1">
+              <img src="../../../../../content/images/Txt.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
@@ -180,48 +192,69 @@
               <img
                 (click)="donwload(item.url, item)"
                 width="150px"
-                src="../../../content/images/excel.png"
+                src="../../../../../content/images/excel.png"
                 *ngIf="
                   item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                   item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                  item['metaData']['Value'] === 'application/vnd.ms-excel'
+                  item['metaData']['Value'] === 'application/vnd.ms-excel' || f.name.split('.').indexOf('xls') > -1
                 "
               />
 
               <img
                 (click)="donwload(item.url, item)"
                 width="150px"
-                src="../../../content/images/word.png"
+                src="../../../../../content/images/mp4.png"
+                *ngIf="item.key.split('.').indexOf('mp4') > -1"
+              />
+
+              <img
+                (click)="donwload(item.url, item)"
+                width="150px"
+                src="../../../../../content/images/Txt.jpg"
+                *ngIf="item.key.split('.').indexOf('txt') > -1"
+              />
+
+              <img
+                (click)="donwload(item.url, item)"
+                width="150px"
+                src="../../../../../content/images/acc.jpg"
+                *ngIf="item.key.split('.').indexOf('aac') > -1"
+              />
+
+              <img
+                (click)="donwload(item.url, item)"
+                width="150px"
+                src="../../../../../content/images/word.png"
                 *ngIf="
                   item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || item.key.split('.').indexOf('doc') > -1
                 "
               />
 
               <img
                 (click)="donwload(item.url, item)"
                 width="150px"
-                src="../../../content/images/pdf.png"
+                src="../../../../../content/images/pdf.png"
                 *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'"
               />
 
               <img
                 (click)="donwload(item.url, item)"
                 width="150px"
-                src="../../../content/images/power-point.jpg"
+                src="../../../../../content/images/power-point.jpg"
                 *ngIf="
                   item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
                   item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
                 "
               />
 
-              <img width="150px" src="../../../content/images/csv.png" *ngIf="item.key.indexOf('csv') > -1" />
+              <img width="150px" src="../../../../../content/images/csv.png" *ngIf="item.key.indexOf('csv') > -1" />
 
-              <img width="150px" src="../../../content/images/svg.jpg" *ngIf="item.key.indexOf('svg') > -1" />
+              <img width="150px" src="../../../../../content/images/svg.jpg" *ngIf="item.key.indexOf('svg') > -1" />
 
-              <img width="150px" src="../../../content/images/tiff.png" *ngIf="item.key.indexOf('tiff') > -1" />
+              <img width="150px" src="../../../../../content/images/tiff.png" *ngIf="item.key.indexOf('tiff') > -1" />
 
-              <img width="150px" src="../../../content/images/mp3.png" *ngIf="item.key.indexOf('mp3') > -1" />
+              <img width="150px" src="../../../../../content/images/mp3.png" *ngIf="item.key.indexOf('mp3') > -1" />
             </ngx-dropzone-label>
           </ngx-dropzone-preview>
         </div>
@@ -363,7 +396,7 @@
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
               item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-              item['metaData']['Value'] === 'application/vnd.ms-excel'
+              item['metaData']['Value'] === 'application/vnd.ms-excel' || item.key.split('.').indexOf('xls') > -1
             "
             style="width: 300px"
           >
@@ -376,7 +409,7 @@
           <div
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || item.key.split('.').indexOf('doc') > -1
             "
           >
             <img width="300px" src="../../../content/images/word.png" />
@@ -387,6 +420,37 @@
 
           <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
             <img width="300px" src="../../../content/images/pdf.png" />
+
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+          <div
+            *ngIf="item.key.split('.').indexOf('mp4') > -1"
+          >
+            <img width="300px" src="../../../content/images/mp4.png" />
+
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+
+          <div
+            *ngIf="item.key.split('.').indexOf('txt') > -1"
+          >
+            <img width="300px" src="../../../content/images/Txt.jpg" />
+
+            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
+              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            </div>
+          </div>
+
+          <div
+            *ngIf="item.key.split('.').indexOf('aac') > -1"
+          >
+            <img width="300px" src="../../../content/images/acc.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
