@@ -247,7 +247,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     {
       No: 20,
       regulation: '',
-      criteria: 'Tidak dapat diperpanjang secara otomatis (automatic roll over',
+      criteria: 'Tidak dapat diperpanjang secara otomatis (automatic roll over)',
       value: '',
       remarks: '',
     },
@@ -370,7 +370,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       No: 37,
       regulation: '',
       criteria:
-        'Bank  hanya  dapat  memberikan  kredit  atau  pembiayaankepada  suatu  Perusahaan  Efek  masing-masing paling tinggi  sebesar  jumlah  yang  terkecil  antara  25% dari  modal  Perusahaan  Efek  yang bersangkutan  atau 15%  dari  modal Bank',
+        'Bank  hanya  dapat  memberikan  kredit  atau  pembiayaan kepada  suatu  Perusahaan  Efek  masing-masing paling tinggi  sebesar  jumlah  yang  terkecil  antara  25% dari  modal  Perusahaan  Efek  yang bersangkutan  atau 15%  dari  modal Bank',
       value: '',
       remarks: '',
     },

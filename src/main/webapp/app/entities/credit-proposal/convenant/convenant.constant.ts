@@ -74,7 +74,7 @@ export const dataCovenantBelow = [
   {
     id: 4,
     covenant:
-      'DEBITOR wajib menyalurkan aktivitas keuangan usaha dan aktifitas bertransaksi melalui rekening DEBITOR di BANK min 50% dari total revenue atay secara Prorata (Prorate).',
+      'DEBITOR wajib menyalurkan aktivitas keuangan usaha dan aktifitas bertransaksi melalui rekening DEBITOR di BANK min 50% dari total revenue atau secara Prorata (Prorate).',
     status: '',
     deviation: '',
     justification: '',
@@ -109,7 +109,7 @@ export const dataCovenantBelow = [
   {
     id: 8,
     covenant:
-      'DEBITOR, Direksi dan anggota Dewan Komisaris serta pemegang saham DEBITOR, semua atau masing-masin tidak memiliki sengketa hukum, tunggakan pajak atau kewajiban keuangan lainnya yang dapat mempengaruhi jalannya usaha.',
+      'DEBITOR, Direksi dan anggota Dewan Komisaris serta pemegang saham DEBITOR, semua atau masing-masing tidak memiliki sengketa hukum, tunggakan pajak atau kewajiban keuangan lainnya yang dapat mempengaruhi jalannya usaha.',
     status: '',
     deviation: '',
     justification: '',
@@ -157,7 +157,7 @@ export const dataCovenantAbove = [
   {
     id: 3,
     covenant:
-      'DEBITOR wajib menyalurkan aktivitas keuangan usaha dan aktifitas bertransaksi melalui rekening DEBITOR di BANK min 50% dari total revenue atay secara Prorata (Prorate).',
+      'DEBITOR wajib menyalurkan aktivitas keuangan usaha dan aktifitas bertransaksi melalui rekening DEBITOR di BANK min 50% dari total revenue atau secara Prorata (Prorate).',
     status: '',
     deviation: '',
     justification: '',
