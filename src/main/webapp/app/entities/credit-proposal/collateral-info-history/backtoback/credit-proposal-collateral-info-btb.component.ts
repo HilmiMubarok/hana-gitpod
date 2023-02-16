@@ -95,7 +95,13 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
       return this.parsedData.previousReturn;
     } else if (this.isOnCompareData && this.isCompareDar) {
       // return dataDar
-      return this.creditProposal;
+      return {
+        collaterals: this.creditProposal.collaterals,
+        insurance: this.creditProposal.attributes.insurance,
+        binding: this.creditProposal.attributes.binding,
+        creditProposalCollateralData: this.creditProposal.attributes.creditProposalCollateralData,
+        products: this.creditProposal.products,
+      };
     } else {
       return this.parsedData.previousHistory;
     }
@@ -178,7 +184,7 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         collateral: value,
         binding: this.getBinding(value),
         emptyField: this.getEmptyField(value),
-        applicationProduct: this.parsedData.previousHistory ? this.historyData().products : this.creditProposal.products,
+        applicationProduct: this.historyData().products,
         properties: this.collateralProperties,
         isViewMode: this.isViewMode,
       },
@@ -189,7 +195,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         if (res.action === 'cancel') {
           this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
         }
-        console.log('after closed ', this.creditProposal.attributes);
       }
 
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
@@ -239,8 +244,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
       }
     }
@@ -428,7 +431,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -468,7 +470,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -495,7 +496,6 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
