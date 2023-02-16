@@ -78,7 +78,7 @@
               <button
                 mat-icon-button
                 aria-label="expand row"
-                (click)="expandedElement = expandedElement === element ? null : element; findDetail(expandedElement)"
+                (click)="expandedElement = expandedElement === element ? null : element; findDetail(expandedElement); $event.stopPropagation()"
               >
                 <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
                 <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
