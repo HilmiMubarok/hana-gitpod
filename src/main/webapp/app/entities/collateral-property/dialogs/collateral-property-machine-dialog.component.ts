@@ -120,6 +120,9 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
       await this.loadCollateralProperty(this.collateral.id);
       this.setLiquidValueMV();
     }
+    if (changes['collateralProperty']) {
+      console.log('collateral property ', this.collateralProperty);
+    }
   }
 
   ngOnInit(): void {
@@ -309,7 +312,7 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
         this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
         this.optionsMVOri = res.body;
         this.filteredMVOri();
-        this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.attributes.marketValueOriginalCcy);
+        this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
       });
   }
 
@@ -399,6 +402,6 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
   }
 
   public getMVOriCcy() {
-    this.collateralProperty.attributes.marketValueOriginalCcy = this.MVOriCcy.id;
+    this.collateralProperty.marketValueOriginalCcy = this.MVOriCcy.id;
   }
 }
