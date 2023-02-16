@@ -63,7 +63,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
-  public totalPlafond: number
+  public totalPlafond: number;
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -85,7 +85,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       return '0.00' + '%';
-    } else if(num === 'NaN'){
+    } else if (num === 'NaN') {
       return '0.00' + '%';
     } else {
       return num + '%';
@@ -127,20 +127,19 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   ngOnInit(): void {
-    this.fungsiSumcredit().then(()=> {
+    this.fungsiSumcredit().then(() => {
       if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
         this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
       }
-  
+
       // this.isViewMode && this.displayedColumns.pop();
-  
+
       if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
         this.isChecked = true;
       }
       this.setCertyficateType();
       this.totalCoverage();
-    })
-    
+    });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -386,7 +385,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.dataCollateral;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -407,11 +406,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.dataCollateral;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
-          console.log('ini proprties ', properties);
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
             result = result + Number(data.marketValue);
@@ -445,7 +443,21 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral) {
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
+          return '';
+        }
+        return data.marketValueOriginalCcy;
+      }
+    } else {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -460,41 +472,40 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
   private fungsiSumcredit(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-    let result: number;
-    let dolar: number;
-    result = 0;
-    dolar = 0;
+      let result: number;
+      let dolar: number;
+      result = 0;
+      dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+      const dataFilter = this.creditProposal.products.filter(
+        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+      );
 
-    if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.totalPlafond !== undefined) {
-            result = result + Number(filterIdr[i].attributes.totalPlafond);
+      if (dataFilter.length > 0) {
+        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].attributes.totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].attributes.totalPlafond);
+            }
+          }
+        }
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].attributes.totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
-          }
-        }
-      }
-    }
-    const creditLimit = result + dolar;
-    this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+      const creditLimit = result + dolar;
+      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
 
-    this.totalPlafond = result + dolar;
+      this.totalPlafond = result + dolar;
       resolve();
     });
   }
- 
 
   public countMVOriginal(collateral: ICollateral): number {
     let result: string;
@@ -570,10 +581,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.marketValue === null) {
+        if (data.marketValueOriginalAmt === null) {
           return 0;
         } else {
-          return data.marketValue;
+          return data.marketValueOriginalAmt;
         }
       }
     }
@@ -585,7 +596,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.dataCollateral;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -605,7 +616,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.dataCollateral;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
