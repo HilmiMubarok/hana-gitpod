@@ -188,7 +188,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
   public cifNumber: any;
   public data: [];
-  updateFromHobis(): void {
+  updateFromHobis(event: Event): void {
     this.cifNumber = this.expandedElement?.customerId;
     if (this.cifNumber !== undefined) {
       this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
@@ -214,6 +214,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
 			detail: 'Data From HOBIS Not Found!',
           });
 		}
+		event.stopPropagation();
       });
     }
   }
