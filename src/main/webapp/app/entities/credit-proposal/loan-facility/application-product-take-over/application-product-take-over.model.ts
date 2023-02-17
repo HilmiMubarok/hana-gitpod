@@ -28,5 +28,7 @@ export class ApplicationProductTakeOver implements IApplicationProductTakeOver {
     this.maturityBank = 0;
     this.initialLimitBank = 0;
     this.outstandingBank = 0;
+    this.currency = '';
+    this.currency2 = '';
   }
 }

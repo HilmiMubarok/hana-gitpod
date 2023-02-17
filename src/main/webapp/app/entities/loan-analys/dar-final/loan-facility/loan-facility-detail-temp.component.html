@@ -197,7 +197,13 @@
         </div>
       </section>
       <section
-        *ngIf="parentPath === 'dar-checker' || parentPath === 'dar-notif' || parentPath === 'cc-inquiry' || parentPath === 'cc-review'"
+        *ngIf="
+          parentPath === 'cc-checking' ||
+          parentPath === 'dar-checker' ||
+          parentPath === 'dar-notif' ||
+          parentPath === 'cc-inquiry' ||
+          parentPath === 'cc-review'
+        "
       >
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
