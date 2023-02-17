@@ -404,4 +404,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       return false;
     }
   }
+
+  getRequeredSpread(element) {
+    if (element === null || element === undefined) {
+      return 0;
+    } else {
+      return element.replace('%', '');
+    }
+  }
 }
