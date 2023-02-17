@@ -1371,7 +1371,7 @@ export class LoanAnalysMainComponent implements OnInit {
     }
     if (this.parentPath === 'cc-inquiry') {
       const fileCompliance = await firstValueFrom(
-        this.http.get('/services/report/api/report/compliance/word/' + this.id, { responseType: 'text', observe: 'response' })
+        this.http.get('/services/report/api/report/compliance/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
     }
   }

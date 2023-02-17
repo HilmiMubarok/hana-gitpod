@@ -296,6 +296,9 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
 
   public changeIntRateType(event: any): void {
     this.rateType = event;
+    if (event === 'TERM SOFR') {
+      this.rateType = event.substring(5, 8);
+    }
     this.indexRateServiceFun();
     if (event === 'OTHER' || event === 'FIXED' || event === 'FED FUND') {
       this.statIntRate = true;

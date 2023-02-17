@@ -106,6 +106,38 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     this.loadAll();
   }
 
+  public cifNumber: any;
+
+  public updateFromHobis(data: any): void {
+	this.cifNumber = data.customerId;
+    if (this.cifNumber !== undefined) {
+      this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
+		if (res.status === 200) {
+          for (let i = 0; i < this.partyCifs.length; i++) {
+			this.partyCifs[i] = res.body;
+          }
+		  this.messageService.add({
+			severity: 'success',
+			summary: 'Success',
+			detail: 'SYNC Update From Hobis Successful!',
+          });
+		} else if (res.status === 500) {
+          this.messageService.add({
+			severity: 'error',
+			summary: 'Error',
+			detail: 'Update Data From HOBIS Failed!',
+          });
+		} else if (res.status === 404) {
+		  this.messageService.add({
+			severity: 'error',
+			summary: 'Error',
+			detail: 'Data From HOBIS Not Found!',
+          });
+		}
+      });
+    }
+  }
+
   public findDetail(element: ICustomer): void {
     if (element) {
       this.personalCustomer = new Person();
@@ -186,53 +218,6 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
-  public cifNumber: any;
+  
   public data: [];
-  updateFromHobis() {
-    this.cifNumber = this.expandedElement?.customerId;
-    if (this.cifNumber === undefined) {
-      return;
-    }
-    this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
-      if (res.status === 200) {
-        for (let i = 0; i < this.partyCifs.length; i++) {
-          this.partyCifs[i] = res.body;
-        }
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'SYNC Update From Hobis Successful!',
-        });
-      } else if (res.status === 500) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Update Data From HOBIS Failed!',
-        });
-      } else if (res.status === 404) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Data From HOBIS Not Found!',
-        });
-      }
-    });
-    // this.updateFacilityFromHobis();
-  }
-
-  // updateFacilityFromHobis() {
-  //   this.cifNumber = this.expandedElement?.customerId;
-  //   this.partyCifService.find('cif/retrieve-cp-facility/' + this.cifNumber).subscribe(res => {
-  //     if (res.status === 200) {
-  //       this.data = JSON.parse(res.body.debtorData.attributes['cpFacility']);
-  //       this.debtorData = res.body.debtorData;
-  //     } else {
-  //       this.messageService.add({
-  //         severity: 'error',
-  //         summary: 'Error',
-  //         detail: 'Error',
-  //       });
-  //     }
-  //   });
-  // }
 }

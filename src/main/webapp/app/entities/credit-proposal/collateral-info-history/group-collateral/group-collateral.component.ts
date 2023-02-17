@@ -310,23 +310,26 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral) {
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
+          return '';
+        }
+        return data.marketValueOriginalCcy;
+      }
+    } else {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
-          if (
-            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-          ) {
-            if (data.attributes.marketValueOriginalCcy === undefined) {
-              return 'IDR';
-            } else {
-              return data.attributes.marketValueOriginalCcy;
-            }
-          }
           return '';
         }
         return data.attributes.marketValueCcy;
@@ -409,10 +412,10 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.marketValue === null) {
+        if (data.marketValueOriginalAmt === null) {
           return 0;
         } else {
-          return data.marketValue;
+          return data.marketValueOriginalAmt;
         }
       }
     }
@@ -445,7 +448,7 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.groupCollaterals;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -464,7 +467,7 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.groupCollaterals;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -503,7 +506,7 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.groupCollaterals;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -522,7 +525,7 @@ export class GroupCollateralHistoryComponent implements OnChanges, OnInit {
     let result: number;
     result = 0;
     const collaterals: ICollateral[] = this.groupCollaterals;
-    if (collaterals.length > 0) {
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
