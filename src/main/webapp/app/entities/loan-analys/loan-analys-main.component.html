@@ -437,7 +437,12 @@
     </div>
 
     <div *ngIf="selectedMenu === 'loan-facility-view'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-loan-analys-facility-detali-main [creditProposal]="creditProposal"></jhi-loan-analys-facility-detali-main>
+      <jhi-loan-facility-detail-temp
+        [isDisableMode]="disabledData"
+        [creditProposal]="creditProposal"
+        #loanFacilityDetailTempComponent
+        [isViewMode]="true"
+      ></jhi-loan-facility-detail-temp>
     </div>
 
     <div *ngIf="selectedMenu === 'covenant'" class="e-sample-resize-container e-card-resize-container">

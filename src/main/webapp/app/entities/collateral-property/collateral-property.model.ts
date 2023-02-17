@@ -220,6 +220,8 @@ export interface ICollateralProperty {
   externalName?: string;
   liquidationValue?: number;
   marketability?: string;
+  marketValueOriginalAmt?: number;
+  marketValueOriginalCcy?: string;
 }
 
 export class CollateralProperty implements ICollateralProperty {
@@ -314,6 +316,8 @@ export class CollateralProperty implements ICollateralProperty {
     public external?: boolean,
     public externalName?: string,
     public liquidationValue?: number,
-    public marketability?: string
+    public marketability?: string,
+    public marketValueOriginalAmt?: number,
+    public marketValueOriginalCcy?: string
   ) {}
 }
