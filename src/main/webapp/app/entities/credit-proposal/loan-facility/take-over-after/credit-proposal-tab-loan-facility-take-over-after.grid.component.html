@@ -92,7 +92,13 @@
           <mat-icon>remove_red_eye</mat-icon>
         </button>
         <section
-          [hidden]="parentPath === 'dar-notif' || parentPath === 'cc-review' || parentPath === 'cc-inquiry' || parentPath === 'dar-checker'"
+          [hidden]="
+            parentPath === 'dar-notif' ||
+            parentPath === 'cc-review' ||
+            parentPath === 'cc-inquiry' ||
+            parentPath === 'dar-checker' ||
+            parentPath === 'cc-checking'
+          "
         >
           <button mat-icon-button (click)="onDelete(element)">
             <mat-icon>delete</mat-icon>
