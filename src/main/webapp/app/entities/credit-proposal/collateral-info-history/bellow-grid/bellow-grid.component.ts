@@ -119,7 +119,13 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       return this.parsedData.previousReturn;
     } else if (this.isOnCompareData && this.isCompareDar) {
       // return dataDar
-      return this.creditProposal;
+      return {
+        collaterals: this.creditProposal.collaterals,
+        insurance: this.creditProposal.attributes.insurance,
+        binding: this.creditProposal.attributes.binding,
+        creditProposalCollateralData: this.creditProposal.attributes.creditProposalCollateralData,
+        products: this.creditProposal.products,
+      };
     } else {
       return this.parsedData.previousHistory;
     }
@@ -209,7 +215,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         insurance: this.getInsurance(element),
         certDueDate: this.getExpiry(element),
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
-        applicationProduct: this.parsedData.previousHistory ? this.historyData().products : this.creditProposal.products,
+        applicationProduct: this.historyData().products,
         matrikBindingType: this.getBindingType(element.collBindingType),
       },
     };
@@ -229,26 +235,23 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       }
 
       // replace / add binding
-      const bindingIdx: number = lodash.findIndex(this.historyData().attributes['binding'], function (o: ICreditProposalCollateralBinding) {
+      const bindingIdx: number = lodash.findIndex(this.historyData().binding, function (o: ICreditProposalCollateralBinding) {
         return o.collateralId === res['collateral'].id;
       });
       if (bindingIdx > -1) {
-        this.historyData().attributes['binding'][bindingIdx] = res['binding'];
+        this.historyData().binding[bindingIdx] = res['binding'];
       } else {
-        this.historyData().attributes['binding'] = [...this.historyData().attributes['binding'], res['binding']];
+        this.historyData().binding = [...this.historyData().binding, res['binding']];
       }
 
       // replace / add insurance
-      const insuranceIdx: number = lodash.findIndex(
-        this.historyData().attributes['insurance'],
-        function (o: ICreditProposalCollateralInsurance) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
+      const insuranceIdx: number = lodash.findIndex(this.historyData().insurance, function (o: ICreditProposalCollateralInsurance) {
+        return o.collateralId === res['collateral'].id;
+      });
       if (insuranceIdx > -1) {
-        this.historyData().attributes['insurance'][insuranceIdx] = res['insurance'];
+        this.historyData().insurance[insuranceIdx] = res['insurance'];
       } else {
-        this.historyData().attributes['insurance'] = [...this.historyData().attributes['insurance'], res['insurance']];
+        this.historyData().insurance = [...this.historyData().insurance, res['insurance']];
       }
     });
   }
@@ -314,9 +317,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {
-    if (this.historyData().attributes['insurance'].length > 0) {
-      for (let i = 0; i < this.historyData().attributes['insurance'].length; i++) {
-        const item: ICreditProposalCollateralInsurance = this.historyData().attributes['insurance'][i];
+    if (this.historyData().insurance.length > 0) {
+      for (let i = 0; i < this.historyData().insurance.length; i++) {
+        const item: ICreditProposalCollateralInsurance = this.historyData().insurance[i];
         if (item.collateralId === element.id) {
           return item;
         }
@@ -326,9 +329,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
-    if (this.historyData().attributes['binding'].length > 0) {
-      for (let i = 0; i < this.historyData().attributes['binding'].length; i++) {
-        const item: ICreditProposalCollateralBinding = this.historyData().attributes['binding'][i];
+    if (this.historyData().binding.length > 0) {
+      for (let i = 0; i < this.historyData().binding.length; i++) {
+        const item: ICreditProposalCollateralBinding = this.historyData().binding[i];
         if (item.collateralId === element.id) {
           return item;
         }
@@ -341,8 +344,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-        console.log('ini collateral id ', collateral.id);
-        console.log('collateral properties', this.collateralProperties);
       });
     }
   }
@@ -386,8 +387,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -405,8 +406,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -424,7 +425,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -442,23 +442,26 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral) {
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
+          return '';
+        }
+        return data.marketValueOriginalCcy;
+      }
+    } else {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
-          if (
-            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-          ) {
-            if (data.attributes.marketValueOriginalCcy === undefined) {
-              return 'IDR';
-            } else {
-              return data.attributes.marketValueOriginalCcy;
-            }
-          }
           return '';
         }
         return data.attributes.marketValueCcy;
@@ -503,7 +506,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -573,10 +575,10 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.marketValue === null) {
+        if (data.marketValueOriginalAmt === null) {
           return 0;
         } else {
-          return data.marketValue;
+          return data.marketValueOriginalAmt;
         }
       }
     }
@@ -587,8 +589,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -606,8 +608,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusId !== 'CANCEL');
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -629,7 +631,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -650,7 +651,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -722,7 +722,6 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false

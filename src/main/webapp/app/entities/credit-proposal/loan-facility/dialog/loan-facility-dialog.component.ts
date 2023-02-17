@@ -213,7 +213,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       'FED FUND',
       'OTHER',
       'BSBY',
-      'SOFR',
+      'TERM SOFR',
       'FLOAT',
       'BACK TO BACK',
       'SDBI',
@@ -297,6 +297,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public changeIntRateType(event: any): void {
     this.rateType = event;
+    if (event === 'TERM SOFR') {
+      this.rateType = event.substring(5, 8);
+    }
     this.indexRateServiceFun();
     if (event === 'OTHER' || event === 'FIXED' || event === 'FED FUND') {
       this.statIntRate = true;

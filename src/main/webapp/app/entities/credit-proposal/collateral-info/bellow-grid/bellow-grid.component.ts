@@ -55,6 +55,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
 
   public certificateType: any;
   public dataItem: any;
+  public dataCollateral: ICollateral[];
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
@@ -62,7 +63,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
-
+  public totalPlafond: number;
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -98,17 +99,19 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   ngOnInit(): void {
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-    }
+    this.fungsiSumcredit().then(() => {
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+        this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      }
 
-    // this.isViewMode && this.displayedColumns.pop();
+      // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-      this.isChecked = true;
-    }
-    this.setCertyficateType();
-    this.totalCoverage();
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+        this.isChecked = true;
+      }
+      this.setCertyficateType();
+      this.totalCoverage();
+    });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -122,6 +125,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       })
       .subscribe(res => {
         this.dataItem = new MatTableDataSource(res.body);
+        this.dataCollateral = res.body;
         this.dataItem.paginator = this.paginator;
       });
   }
@@ -142,9 +146,12 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public presentage(value: string) {
+    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%';
+      return '0.00' + '%';
+    } else if (num === 'NaN') {
+      return '0.00' + '%';
     } else {
       return num + '%';
     }
@@ -244,39 +251,42 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     });
   }
 
-  fungsiSumcredit() {
-    let result: number;
-    let dolar: number;
-    result = 0;
-    dolar = 0;
+  private fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let result: number;
+      let dolar: number;
+      result = 0;
+      dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+      const dataFilter = this.creditProposal.products.filter(
+        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+      );
 
-    if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.totalPlafond !== undefined) {
-            result = result + Number(filterIdr[i].attributes.totalPlafond);
+      if (dataFilter.length > 0) {
+        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].attributes.totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].attributes.totalPlafond);
+            }
+          }
+        }
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].attributes.totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
-          }
-        }
-      }
-    }
-    const creditLimit = result + dolar;
-    this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
-    return result + dolar;
+      const creditLimit = result + dolar;
+      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+
+      this.totalPlafond = result + dolar;
+      resolve();
+    });
   }
-
   countKJJPLV(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
@@ -409,8 +419,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -429,8 +439,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -467,23 +477,26 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (collateral) {
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
+          return '';
+        }
+        return data.marketValueOriginalCcy;
+      }
+    } else {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data) {
         if (data.attributes.marketValueCcy === undefined) {
-          if (
-            collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-            collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-          ) {
-            if (data.attributes.marketValueOriginalCcy === undefined) {
-              return 'IDR';
-            } else {
-              return data.attributes.marketValueOriginalCcy;
-            }
-          }
           return '';
         }
         return data.attributes.marketValueCcy;
@@ -566,10 +579,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.marketValue === null) {
+        if (data.marketValueOriginalAmt === null) {
           return 0;
         } else {
-          return data.marketValue;
+          return data.marketValueOriginalAmt;
         }
       }
     }
@@ -580,8 +593,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
@@ -600,8 +613,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {

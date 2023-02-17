@@ -501,7 +501,8 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
       this.tempRouter === 'distribution' ||
       this.tempRouter === 'finalize' ||
       this.tempRouter === 'review' ||
-      this.tempRouter === 'confirmation'
+      this.tempRouter === 'confirmation' ||
+      this.tempRouter === 'cc-inquiry'
     ) {
       this.disabledCompliance = true;
     }

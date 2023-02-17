@@ -279,7 +279,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
         this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
         this.optionsMVOri = res.body;
         this.filteredMVOri();
-        this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.attributes.marketValueOriginalCcy);
+        this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
       });
   }
 
@@ -376,7 +376,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
   }
 
   public getMVOriCcy() {
-    this.collateralProperty.attributes.marketValueOriginalCcy = this.MVOriCcy.id;
+    this.collateralProperty.marketValueOriginalCcy = this.MVOriCcy.id;
   }
 
   public getQty() {

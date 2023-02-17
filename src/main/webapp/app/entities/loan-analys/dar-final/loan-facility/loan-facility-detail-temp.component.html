@@ -196,7 +196,9 @@
           </mat-form-field>
         </div>
       </section>
-      <section *ngIf="parentPath === 'dar-checker' || parentPath === 'dar-notif'">
+      <section
+        *ngIf="parentPath === 'dar-checker' || parentPath === 'dar-notif' || parentPath === 'cc-inquiry' || parentPath === 'cc-review'"
+      >
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
