@@ -385,8 +385,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   private updateCollateral(res: ICollateral) {
     const index = this.partyCif.collaterals.findIndex(obj => obj.id === res.id);
     this.partyCif.collaterals[index] = res;
-
-	this.dataSource = this.partyCif.collaterals;
   }
 
   private pushCollateral(data: ICollateral) {
@@ -401,8 +399,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       .subscribe(resi => {
         this.dataPush = resi.body.find(obj => (obj.id = data.id));
         this.partyCif.collaterals.push(this.dataPush);
-
-		this.dataSource = this.partyCif.collaterals;
 
         this.collateralPropertyService
           .queryFilterBy({
@@ -437,20 +433,10 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
       if (res.status === 200) {
-		// this.loadByPartyId(this.partyId);
-
-		const resHobis = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
-
-		resHobis.forEach((resHobisData: ICollateral) => {
-		  this.pushCollateral(resHobisData);
-		});
-
-		/* if (this.dataSource) {
-		  const dataSourceTemp = this.dataSource;
-		  this.dataSource = [...dataSourceTemp, ...resHobis];
-		} else {
-		  this.dataSource = resHobis;
-		} */
+		this.dataSource = res.body.collaterals;
+		
+		this.partyCif.collaterals = res.body.collaterals;
+		this.partyCif.collateralProperties = res.body.collateralProperties;
 
 		this.loading = false;
 
