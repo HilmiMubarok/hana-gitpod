@@ -443,7 +443,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 
 		if (this.dataSource) {
 		  const dataSourceTemp = this.dataSource;
-		  this.dataSource = [...this.dataSourceTemp, ...resHobis];
+		  this.dataSource = [...dataSourceTemp, ...resHobis];
 		} else {
 		  this.dataSource = resHobis;
 		}
