@@ -49,12 +49,11 @@ import { MessageService } from 'primeng/api';
   ],
 })
 export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit {
-  @Input() public partyId: string;
+  private _collateralAppraisal: ICollateralAppraisal;
   public selectedCollateral: ICollateral;
   public document: boolean;
   public _partyCif: IPartyCif;
   public collateral: ICollateral | null;
-  private _collateralAppraisal: ICollateralAppraisal;
   public segments: IInternal[];
   public regionals: IInternal[];
   public branchs: IInternal[];
@@ -67,7 +66,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public rmPosition: IPosition;
   public positionRms1 = 0;
   public dataPush: ICollateral;
-  // protected messageService: MessageService;
+
+  @Input() public partyId: string;
 
   @Input()
   get partyCif() {
@@ -96,6 +96,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 
   public displayedColumns: string[] = ['no', 'collateralInfo', 'collateralType', 'address', 'status', 'actions'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
+
   constructor(
     protected positionService: PositionService,
     private internalService: InternalService,
@@ -127,10 +128,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     if (changes['partyId']) {
       this.loadByPartyId(this.partyId);
     }
-
-    if (changes['partyCif']) {
-      // console.log('party cif di grid', this.partyCif);
-    }
   }
 
   ngOnInit() {
@@ -150,7 +147,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 
       if (this.positionRMS?.partyId !== undefined || this.positionRMS?.partyId !== null) {
         this.positionRms1 = this.positionRMS?.id;
-        console.log('rm1 ', this.positionRms1);
         this.loadInternalInformationRM(this.positionRMS?.partyId);
       }
     });
@@ -181,7 +177,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
         this.loadInternalById(res.internalId).then((res2: IInternal) => {
           if (res2.parentId) {
             this.rmBranch = res2;
-            console.log('branch nya nih', this.rmBranch);
             this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
               this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
                 if (res4.parentId) {
@@ -247,6 +242,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
       });
     });
   }
+
   public selectRM(event: any): void {
     const value: string = event['value'];
     if (value) {
@@ -336,8 +332,6 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   private findCollateralProperty(collateralProperty: ICollateralProperty) {
     const index = this.partyCif.collateralProperties.findIndex(obj => obj.id === collateralProperty.id);
     this.partyCif.collateralProperties[index] = collateralProperty;
-    console.log('data save yang akan di masukan', collateralProperty);
-    console.log('save lama', this.partyCif.collateralProperties[index]);
   }
 
   public openDialogMarketValue(element: ICollateral): void {
@@ -432,15 +426,27 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     });
   }
 
-  cifNumber: string;
-  // sync hobis
-  syncHobis() {
+  private cifNumber: string;
+
+  public syncHobis(): void {
     this.loading = true;
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
       if (res.status === 200) {
-        this.loading = false;
-        this.dataSource = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
+		// this.loadByPartyId(this.partyId);
+
+		const resHobis = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
+
+		this.pushCollateral(resHobis);
+
+		if (this.dataSource) {
+		  this.dataSource = [...this.dataSource, ..resHobis];
+		} else {
+		  this.dataSource = resHobis;
+		}
+
+		this.loading = false;
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
