@@ -437,10 +437,12 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 
 		const resHobis = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
 
-		this.pushCollateral(resHobis);
+		resHobis.forEach((resHobisData: ICollateral) => {
+		  this.pushCollateral(resHobisData);
+		});
 
 		if (this.dataSource) {
-		  this.dataSource = [...this.dataSource, ..resHobis];
+		  this.dataSource = [...this.dataSource, ...resHobis];
 		} else {
 		  this.dataSource = resHobis;
 		}
