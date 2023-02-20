@@ -442,7 +442,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 		});
 
 		if (this.dataSource) {
-		  this.dataSource = [...this.dataSource, ...resHobis];
+		  const dataSourceTemp = this.dataSource;
+		  this.dataSource = [...this.dataSourceTemp, ...resHobis];
 		} else {
 		  this.dataSource = resHobis;
 		}
