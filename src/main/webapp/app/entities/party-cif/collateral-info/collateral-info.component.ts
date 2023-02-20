@@ -375,7 +375,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
         } else {
           this.collateralService.create(this.collateralService.preSaveConvert(res)).subscribe(res2 => {
             this.loadByPartyId(this.partyId);
-            this.pushCollateral(res2.body, 'default');
+            this.pushCollateral(res2.body);
           });
         }
       }
@@ -385,6 +385,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   private updateCollateral(res: ICollateral) {
     const index = this.partyCif.collaterals.findIndex(obj => obj.id === res.id);
     this.partyCif.collaterals[index] = res;
+
+	this.dataSource = this.partyCif.collaterals;
   }
 
   private pushCollateral(data: ICollateral) {
@@ -440,7 +442,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 		const resHobis = res.body.collaterals.filter(o => o.statusCode !== 'CANCEL');
 
 		resHobis.forEach((resHobisData: ICollateral) => {
-		  this.pushCollateral(resHobisData, 'hobis');
+		  this.pushCollateral(resHobisData);
 		});
 
 		/* if (this.dataSource) {
