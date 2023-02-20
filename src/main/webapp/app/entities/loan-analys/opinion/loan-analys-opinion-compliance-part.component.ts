@@ -205,9 +205,7 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
 
 	  if (this.notes) {
 		if (this.notes.length > 0) {
-		  this.notes = this.notes.filter(note => {
-			return (note.type === 'compliance');
-		  });
+		  this.notes = this.notes.filter((note) => note.type === 'compliance');
 		}
 	  }
     });
