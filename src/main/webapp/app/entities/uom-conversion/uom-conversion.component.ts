@@ -54,7 +54,7 @@ export class UomConversionComponent extends AbstractEntityComponent<IUomConversi
     this.routeData = this.activatedRoute.data.subscribe(data => {
       this.page = data.pagingParams.page;
       this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
+      this.reverse = data.pagingParams.descending;
       this.predicate = data.pagingParams.predicate;
       activatedRoute.queryParams.subscribe(params => {
         this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
