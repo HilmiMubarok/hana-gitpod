@@ -376,8 +376,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-		this.dataParty = new MatTableDataSource(this.dataParty);
-		// this.dataParty = [...this.dataParty];
+		// this.dataParty = new MatTableDataSource(this.dataParty);
+		this.dataParty = [...this.dataParty];
 		console.log('this.dataParty : ', this.dataParty);
       }
     } else {
@@ -389,8 +389,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       });
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
       this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-	  this.dataParty = new MatTableDataSource(this.dataParty);
-	  // this.dataParty = [...this.dataParty];
+	  // this.dataParty = new MatTableDataSource(this.dataParty);
+	  this.dataParty = [...this.dataParty];
 	  console.log('this.dataParty : ', this.dataParty);
     }
   }
