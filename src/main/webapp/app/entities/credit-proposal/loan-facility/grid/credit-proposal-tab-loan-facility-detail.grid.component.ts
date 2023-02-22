@@ -345,7 +345,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		}
 		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
 		this.onSave();
-      }
+      } else {
+		console.log('off res');
+		this.applicationProduct = this.applicationProductStartState;
+		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+		this.onSave();
+	  }
     });
   }
 
