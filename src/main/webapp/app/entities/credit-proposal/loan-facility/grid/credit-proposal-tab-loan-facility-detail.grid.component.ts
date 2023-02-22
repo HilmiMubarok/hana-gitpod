@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -91,7 +91,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     public partyCifService: PartyCifService,
     public dialog: MatDialog,
     public _router: Router,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+	private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -368,6 +369,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         copyApplicationProduct.applicationId = this.creditProposal.id;
         this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+		this.changeDetectorRefs.detectChanges();
       } else {
 		console.log('edit onSave');
 		console.log('appProduct : ', appProduct);
@@ -376,6 +378,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		this.dataParty[idx] = {};
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
 		console.log('this.dataParty : ', this.dataParty);
+		this.changeDetectorRefs.detectChanges();
       }
     } else {
 	  console.log('edit onSave0');
@@ -388,7 +391,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 	  this.dataParty[idx] = {};
       this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
 	  console.log('this.dataParty : ', this.dataParty);
+	  this.changeDetectorRefs.detectChanges();
     }
+	this.changeDetectorRefs.detectChanges();
   }
 
   public onDelete(element: IApplicationProduct) {
