@@ -84,6 +84,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public cloneData: any;
   public view: boolean;
   public kurs: any;
+
+  private applicationProductStartState: IApplicationProduct;
+
   constructor(
     public partyCifService: PartyCifService,
     public dialog: MatDialog,
@@ -318,6 +321,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.applicationProduct.attributes = attr;
     }
 
+	this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
+
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
 
@@ -331,7 +336,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
 		console.log('in res');
-		this.applicationProduct = res.applicationProduct;
+		if (res.isSave) {
+		  console.log('in res save');
+		  this.applicationProduct = res.applicationProduct;
+		} else {
+		  console.log('in res other');
+		  this.applicationProduct = this.applicationProductStartState;
+		}
 		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
 		this.onSave();
       }
