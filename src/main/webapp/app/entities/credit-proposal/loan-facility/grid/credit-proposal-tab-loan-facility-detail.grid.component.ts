@@ -84,6 +84,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   public cloneData: any;
   public view: boolean;
   public kurs: any;
+
+  private applicationProductStartState: IApplicationProduct;
+
   constructor(
     public partyCifService: PartyCifService,
     public dialog: MatDialog,
@@ -318,6 +321,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.applicationProduct.attributes = attr;
     }
 
+	this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
+	console.log('this.applicationProductStartState : ', this.applicationProductStartState);
+
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
 
@@ -330,11 +336,23 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.applicationProduct = res.applicationProduct;
-        this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-
-        this.onSave();
-      }
+		console.log('in res');
+		if (res.isSave) {
+		  console.log('in res save');
+		  this.applicationProduct = res.applicationProduct;
+		} else {
+		  console.log('in res other');
+		  this.applicationProduct = this.applicationProductStartState;
+		}
+		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+		this.onSave();
+      } else {
+		console.log('off res');
+		console.log('this.applicationProduct : ', this.applicationProduct);
+		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
+		this.applicationProduct = this.applicationProductStartState;
+		this.onSave();
+	  }
     });
   }
 
@@ -364,6 +382,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         this.dataParty[idx] = appProduct;
       }
     } else {
+	  console.log('in edit');
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
