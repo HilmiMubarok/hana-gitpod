@@ -369,16 +369,15 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         copyApplicationProduct.applicationId = this.creditProposal.id;
         this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-		this.changeDetectorRefs.detectChanges();
       } else {
 		console.log('edit onSave');
 		console.log('appProduct : ', appProduct);
 		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-		this.dataParty[idx] = {};
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+		this.dataParty = new MatTableDataSource(this.dataParty);
+		// this.dataParty = [...this.dataParty];
 		console.log('this.dataParty : ', this.dataParty);
-		this.changeDetectorRefs.detectChanges();
       }
     } else {
 	  console.log('edit onSave0');
@@ -388,12 +387,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         return o.id === appProduct.id;
       });
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-	  this.dataParty[idx] = {};
       this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+	  this.dataParty = new MatTableDataSource(this.dataParty);
+	  // this.dataParty = [...this.dataParty];
 	  console.log('this.dataParty : ', this.dataParty);
-	  this.changeDetectorRefs.detectChanges();
     }
-	this.changeDetectorRefs.detectChanges();
   }
 
   public onDelete(element: IApplicationProduct) {
