@@ -373,6 +373,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		console.log('appProduct : ', appProduct);
 		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+		this.dataParty[idx] = {};
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
 		console.log('this.dataParty : ', this.dataParty);
       }
@@ -384,6 +385,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         return o.id === appProduct.id;
       });
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+	  this.dataParty[idx] = {};
       this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
 	  console.log('this.dataParty : ', this.dataParty);
     }
