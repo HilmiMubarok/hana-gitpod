@@ -62,6 +62,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   private listFacicility: any;
   private listLoanType: any;
 
+  private isSave = false;
+
   @Input()
   get collateral() {
     return this._collateral;
@@ -289,10 +291,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public save(): void {
+	this.isSave = true;
     this._dialog.close({
       applicationProduct: this.applicationProduct,
       creditProposal: this.creditProposalData,
-	  isSave: true
+	  isSave: this.isSave
     });
   }
 
