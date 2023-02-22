@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -45,7 +45,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
+export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit, OnDestroy {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
@@ -61,8 +61,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   date = new FormControl(moment());
   private listFacicility: any;
   private listLoanType: any;
-
-  private isSave = false;
 
   @Input()
   get collateral() {
@@ -250,6 +248,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public setDate: string;
   public currencyName: number;
 
+  private isSave = false;
+  private applicationProductStartState: IApplicationProduct;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -268,6 +269,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     super(creditProposalService);
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
+	this.applicationProductStartState = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
     this.ccy = this.data.applicationProduct.attributes['currency'];
     this.rateType = this.data.applicationProduct.attributes['interestRateType'];
@@ -295,7 +297,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this._dialog.close({
       applicationProduct: this.applicationProduct,
       creditProposal: this.creditProposalData,
-	  isSave: this.isSave
     });
   }
 
@@ -667,5 +668,14 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       .subscribe((res: any) => {
         this.applicationProduct.attributes.indexRate = res.body['rate' + this.dateIndex + 'M'] + '%';
       });
+  }
+
+  ngOnDestroy() {
+	if (!this.isSave) {
+	  this._dialog.close({
+		applicationProduct: this.applicationProductStartState,
+		creditProposal: this.creditProposalData,
+      });
+	}
   }
 }
