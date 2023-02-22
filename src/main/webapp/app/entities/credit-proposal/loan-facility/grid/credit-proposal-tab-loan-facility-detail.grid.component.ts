@@ -336,27 +336,16 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-		console.log('in res');
-		if (res.isSave) {
-		  console.log('in res save');
-		  this.applicationProduct = res.applicationProduct;
-		} else {
-		  console.log('in res other');
-		  this.applicationProduct = this.applicationProductStartState;
-		}
+		this.applicationProduct = res.applicationProduct;
 		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-		this.onSave();
+		this.onSave(true);
       } else {
-		console.log('off res');
-		console.log('this.applicationProduct : ', this.applicationProduct);
-		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
-		this.applicationProduct = this.applicationProductStartState;
-		this.onSave();
+		this.onSave(false);
 	  }
     });
   }
 
-  public onSave(): void {
+  public onSave(mark: boolean): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx = -1;
     if (!this.applicationProduct.id) {
@@ -378,16 +367,15 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
-        this.creditProposal.products[idx] = appProduct;
-        this.dataParty[idx] = appProduct;
+        this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+        this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
       }
     } else {
-	  console.log('in edit');
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
-      this.creditProposal.products[idx] = appProduct;
-      this.dataParty[idx] = appProduct;
+      this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+      this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
     }
   }
 

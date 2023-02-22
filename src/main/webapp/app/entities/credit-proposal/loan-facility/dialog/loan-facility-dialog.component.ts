@@ -292,7 +292,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this._dialog.close({
       applicationProduct: this.applicationProduct,
       creditProposal: this.creditProposalData,
-	  isSave: true
     });
   }
 
