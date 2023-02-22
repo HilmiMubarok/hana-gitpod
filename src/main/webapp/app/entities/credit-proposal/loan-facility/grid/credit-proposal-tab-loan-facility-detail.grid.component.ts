@@ -21,6 +21,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IProduct } from 'app/entities/product/product.model';
 import { PageEvent } from '@angular/material/paginator';
 import { CreditProposalService } from '../../credit-proposal.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
