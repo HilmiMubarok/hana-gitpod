@@ -192,11 +192,11 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
 			size: 9999,
 			idInternal: this.wilayahKotaInternalValue,
 		  })
-		  .subscribe(res => {
+		  .subscribe(resA => {
 			const surveyor = [];
-			for (let i = 0; i < res.body.length; i++) {
-			  if (res.body[i].positionTypeId === 'SURVEYOR' && res.body[i].partyId && res.body[i].partyId !== null) {
-				surveyor.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].partyId });
+			for (let i = 0; i < resA.body.length; i++) {
+			  if (resA.body[i].positionTypeId === 'SURVEYOR' && resA.body[i].partyId && resA.body[i].partyId !== null) {
+				surveyor.push({ employeeFirstName: resA.body[i].employeeFirstName + ' ' + resA.body[i].employeeLastName, id: resA.body[i].partyId });
 			  }
 			}
 
