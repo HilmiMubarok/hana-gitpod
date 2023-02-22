@@ -322,6 +322,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     }
 
 	this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
+	console.log('this.applicationProductStartState : ', this.applicationProductStartState);
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
@@ -347,8 +348,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		this.onSave();
       } else {
 		console.log('off res');
+		console.log('this.applicationProduct : ', this.applicationProduct);
+		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
 		this.applicationProduct = this.applicationProductStartState;
-		// this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
 		this.onSave();
 	  }
     });
@@ -380,6 +382,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         this.dataParty[idx] = appProduct;
       }
     } else {
+	  console.log('in edit');
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
