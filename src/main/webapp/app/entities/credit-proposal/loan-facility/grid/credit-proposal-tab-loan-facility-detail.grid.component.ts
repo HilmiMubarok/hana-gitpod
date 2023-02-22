@@ -21,7 +21,6 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IProduct } from 'app/entities/product/product.model';
 import { PageEvent } from '@angular/material/paginator';
 import { CreditProposalService } from '../../credit-proposal.service';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -324,7 +323,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     }
 
 	this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
-	console.log('this.applicationProductStartState : ', this.applicationProductStartState);
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
@@ -342,14 +340,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
 		this.onSave(true);
       } else {
-		console.log('!res');
 		this.onSave(false);
 	  }
     });
   }
 
   public onSave(mark: boolean): void {
-	console.log('mark onSave : ', mark);
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx = -1;
     if (!this.applicationProduct.id) {
@@ -371,27 +367,17 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
-		console.log('edit onSave');
-		console.log('appProduct : ', appProduct);
-		console.log('this.applicationProductStartState : ', this.applicationProductStartState);
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-		// this.dataParty = new MatTableDataSource(this.dataParty);
 		this.dataParty = [...this.dataParty];
-		console.log('this.dataParty : ', this.dataParty);
       }
     } else {
-	  console.log('edit onSave0');
-	  console.log('appProduct : ', appProduct);
-	  console.log('this.applicationProductStartState : ', this.applicationProductStartState);
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
       this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-	  // this.dataParty = new MatTableDataSource(this.dataParty);
 	  this.dataParty = [...this.dataParty];
-	  console.log('this.dataParty : ', this.dataParty);
     }
   }
 
