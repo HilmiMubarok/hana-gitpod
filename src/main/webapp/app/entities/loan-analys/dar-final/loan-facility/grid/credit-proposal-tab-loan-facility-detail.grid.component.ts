@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import lodash from 'lodash';
@@ -41,13 +41,11 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     this._creditProposal = item;
   }
 
-  public viewMode = false;
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
   public collaterallInfo: any;
   public collateralProductRelations: any;
   public creditProposaldata: any;
-  public field = false;
 
   length: number;
   pageSize = 10;
@@ -86,11 +84,15 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
   public cloneData: any;
   public view: boolean;
   public kurs: any;
+
+  private applicationProductStartState: IApplicationProduct;
+
   constructor(
     public partyCifService: PartyCifService,
     public dialog: MatDialog,
     public _router: Router,
-    private creditProposalService: CreditProposalService
+    private creditProposalService: CreditProposalService,
+    private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -119,14 +121,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
-    this.sableFeild();
   }
-  public sableFeild() {
-    if (this.creditProposaldata.statusId === 'LA_DAR_NOTIF') {
-      this.field = true;
-    }
-  }
-
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
@@ -320,10 +315,14 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
               }
             }
           }
+        } else if (this.creditProposal.products.length === 0) {
+          attr.nomorUrutFasilitas = 1;
         }
       }
       this.applicationProduct.attributes = attr;
     }
+
+    this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
 
     const dialogRef = this.dialog.open(LoanFacilityDialogTempComponent, {
       width: '80vw',
@@ -339,13 +338,14 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
       if (res) {
         this.applicationProduct = res.applicationProduct;
         this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-
-        this.onSave();
+        this.onSave(true);
+      } else {
+        this.onSave(false);
       }
     });
   }
 
-  public onSave(): void {
+  public onSave(mark: boolean): void {
     const appProduct: IApplicationProduct = this.applicationProduct;
     let idx = -1;
     if (!this.applicationProduct.id) {
@@ -367,15 +367,17 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
         this.dataParty = [...this.dataParty, this.applicationProduct];
         this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
       } else {
-        this.creditProposal.products[idx] = appProduct;
-        this.dataParty[idx] = appProduct;
+        this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+        this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+        this.dataParty = [...this.dataParty];
       }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
-      this.creditProposal.products[idx] = appProduct;
-      this.dataParty[idx] = appProduct;
+      this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+      this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+      this.dataParty = [...this.dataParty];
     }
   }
 
@@ -409,6 +411,14 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  getRequeredSpread(element) {
+    if (element === null || element === undefined) {
+      return 0;
+    } else {
+      return element.replace('%', '');
     }
   }
 }
