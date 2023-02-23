@@ -362,10 +362,12 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
       }
 
       if (idx === -1) {
-        const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-        copyApplicationProduct.applicationId = this.creditProposal.id;
-        this.dataParty = [...this.dataParty, this.applicationProduct];
-        this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+        if (mark) {
+          const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+          copyApplicationProduct.applicationId = this.creditProposal.id;
+          this.dataParty = [...this.dataParty, this.applicationProduct];
+          this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+        }
       } else {
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
