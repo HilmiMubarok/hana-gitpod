@@ -268,13 +268,8 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
 
   // ==============table partner=================
   initTable(data: any, headers: HttpHeaders): void {
-    this.arrayName = [];
-    for (let i = 0; i < data.body.length; i++) {
-      if (data.body[i].surveyProvider === true) {
-        this.arrayName.push(data.body[i]);
-      }
-    }
-    this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName));
+
+    this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }
