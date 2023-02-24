@@ -942,6 +942,10 @@ export class SurveyBatchEditComponent implements OnInit {
         this._showNotification('error', 'Silahkan Add Batch KJPP terlebih dahulu terlebih dahulu');
         mustValidateOnAssignment.kjpp = false;
       }
+      if (!this.surveyAppraisal.totalMarketValue) {
+        this._showNotification('error', 'Nominal Appraisal Value Physic tidak boleh kosong, Silahkan upload file terlebih dahulu !');
+        mustValidateOnAssignment.totalMarketValue = false;
+      }
     }
     // else {
 
