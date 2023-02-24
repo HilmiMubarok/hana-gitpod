@@ -40,9 +40,6 @@
           >
             <mat-icon>edit</mat-icon>
           </button>
-          <!-- <button mat-icon-button [disabled]="!showDetail(element)" (click)="$event.stopPropagation(); openDialogMarketValue(element)">
-            <mat-icon>attach_money</mat-icon>
-          </button> -->
           <button mat-icon-button (click)="$event.stopPropagation(); openDialogPropertyGeneral(element)">
             <mat-icon>attach_money</mat-icon>
           </button>
@@ -108,7 +105,7 @@
   </mat-card-content>
   <mat-card-actions align="right">
     <button mat-raised-button class="text-uppercase" (click)="syncHobis()">SYNC from HOBIS</button>
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new collateral</button>
+    <button mat-raised-button class="text-uppercase" (click)="openDialog()">Add New Collateral</button>
   </mat-card-actions>
 </mat-card>
 
