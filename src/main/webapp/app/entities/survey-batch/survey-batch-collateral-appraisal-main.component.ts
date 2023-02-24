@@ -975,6 +975,12 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
             }
           }
         }
+      } else if (node.id === 'report-independent') {
+        if (this.surveyAppraisal.totalMarketValue !== null || this.surveyAppraisal.totalLiquidationValue !== null) {
+          return true;
+        } else {
+          return false;
+        }
       }
     }
     return false;
@@ -1126,6 +1132,10 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
       }
       if (!this.surveyAppraisal.totalMarketValue) {
         this._showNotification('error', 'Nominal Appraisal Value Physic tidak boleh kosong, Silahkan upload file terlebih dahulu !');
+        mustValidateOnAssignment.totalMarketValue = false;
+      }
+      if (!this.surveyAppraisal.totalLiquidationValue) {
+        this._showNotification('error', 'Nominal Liquidation Value tidak boleh kosong, Silahkan upload file terlebih dahulu !');
         mustValidateOnAssignment.totalMarketValue = false;
       }
     }
