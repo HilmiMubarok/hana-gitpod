@@ -1124,6 +1124,10 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
         this._showNotification('error', 'Masukkan KJPP Independent Appraisal terlebih dahulu');
         mustValidateOnAssignment.kjpp = false;
       }
+      if (!this.surveyAppraisal.totalMarketValue) {
+        this._showNotification('error', 'Nominal Appraisal Value Physic tidak boleh kosong, Silahkan upload file terlebih dahulu !');
+        mustValidateOnAssignment.totalMarketValue = false;
+      }
     }
 
     return this._validateProcess(mustValidateOnAssignment);
