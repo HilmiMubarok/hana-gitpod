@@ -53,6 +53,10 @@ export const MY_FORMATS = {
   ],
 })
 export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnInit {
+  private bindingStart: ICreditProposalCollateralBinding;
+  private emptyStart: IEmptyField;
+  public collateralStartState: ICollateral;
+
   private branceManagement: any;
   public branchesNames: any;
   public collateralCode: any;
@@ -115,8 +119,10 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
     this.binding = this.data.binding;
+    this.bindingStart = lodash.cloneDeep(this.binding);
     this.properties = this.data.properties;
     this.empty = this.data.emptyField;
+    this.emptyStart = lodash.cloneDeep(this.empty);
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
@@ -164,7 +170,13 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public cancel() {
-    this._dialog.close();
+    this._dialog.close({
+      collateral: this.collateral,
+      binding: this.bindingStart,
+      emptyField: this.emptyStart,
+      creditProposal: this.creditProposal,
+      action: 'cancel',
+    });
   }
 
   public getCreditProposalMappingData(creditProposalMappingData: any): void {

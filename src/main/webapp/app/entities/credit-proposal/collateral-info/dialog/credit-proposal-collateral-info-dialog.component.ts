@@ -50,6 +50,10 @@ export const MY_FORMATS = {
   ],
 })
 export class CreditProposalCollateralInfoDialogComponent implements OnInit, AfterViewInit {
+  private insuranceStart: ICreditProposalCollateralInsurance;
+  private collateralStart: ICollateral;
+  private bindingStart: ICreditProposalCollateralBinding;
+
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
   public collateralGrading: OptionNode[];
@@ -122,6 +126,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
+    this.collateralStart = lodash.cloneDeep(this.collateral);
     this.marketability = this.data.marketability;
     this.internalMV = this.data.internalMV;
     this.internalLV = this.data.internalLV;
@@ -129,7 +134,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.kjjpLV = this.data.externalLV;
     this.properties = this.data.properties;
     this.binding = this.data.binding;
+    this.bindingStart = lodash.cloneDeep(this.binding);
     this.insurance = this.data.insurance;
+    this.insuranceStart = lodash.cloneDeep(this.insurance);
     this.matrikBindingType = this.data.matrikBindingType;
     for (let i = 1; i < 101; i++) {
       this.lovRank.push(i.toString());
@@ -213,12 +220,13 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
 
   public cancel() {
     this._dialog.close({
-      binding: this.binding,
-      collateral: this.collateral,
-      insurance: this.insurance,
+      binding: this.bindingStart,
+      collateral: this.collateralStart,
+      insurance: this.insuranceStart,
       creditProposal: this.creditProposalOpenState,
       action: 'cancel',
     });
+    console.log(this.collateralStart);
   }
 
   public getCertificateDueDate(): string {

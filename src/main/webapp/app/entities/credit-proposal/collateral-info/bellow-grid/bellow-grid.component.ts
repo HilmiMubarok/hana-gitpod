@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild, AfterVie
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
-import { COLLATERAL_BINDING_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
+import { COLLATERAL_BINDING_TYPE, COLLATERAL_FACILITY_TYPE, COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import { ICreditProposal } from '../../credit-proposal.model';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
@@ -53,9 +53,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     'action',
   ];
 
+  public collateralStartState: ICollateral;
+  public dataCollateral: ICollateral[];
   public certificateType: any;
   public dataItem: any;
-  public dataCollateral: ICollateral[];
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
@@ -64,6 +65,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public totalPlafond: number;
+
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -77,6 +79,32 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  public presentage(value: string) {
+    // console.log('cekd', value);
+    const num = parseFloat(value).toFixed(2);
+    if (num === 'Infinity') {
+      return '0.00' + '%';
+    } else if (num === 'NaN') {
+      return '0.00' + '%';
+    } else {
+      return num + '%';
+    }
+  }
+
+  private totalCoverage() {
+    const mvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
+    const lvCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
+    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
+    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
+    const lvKjjpCoverage =
+      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
+    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
 
   @Input() isViewMode;
@@ -93,6 +121,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     this.itemsPerPage = 10;
     this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
+    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
@@ -124,8 +153,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = new MatTableDataSource(res.body);
         this.dataCollateral = res.body;
+        this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
       });
   }
@@ -145,32 +174,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
   }
 
-  public presentage(value: string) {
-    // console.log('cekd', value);
-    const num = parseFloat(value).toFixed(2);
-    if (num === 'Infinity') {
-      return '0.00' + '%';
-    } else if (num === 'NaN') {
-      return '0.00' + '%';
-    } else {
-      return num + '%';
-    }
-  }
-
-  private totalCoverage() {
-    const mvCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalMV / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].mvInternalCoverage = mvCoverage.toFixed(2);
-    const lvCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalLV / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].lvInternalCoverage = lvCoverage.toFixed(2);
-    const mvKjjpCoverage = this._creditProposal.attributes['coverageTotal'].countTotalMVKJJP / 0;
-    this._creditProposal.attributes['coverageTotal'].mvKjjpCoverage = mvKjjpCoverage.toFixed(2);
-    const lvKjjpCoverage =
-      this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
-    this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
-  }
-
   public collateral: any;
   ngAfterViewInit(): void {
     let a = [];
@@ -182,6 +185,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public openDialog(element: ICollateral): void {
+    this.collateralStartState = lodash.cloneDeep(element);
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
       if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
@@ -210,19 +214,30 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (res.action === 'cancel') {
-          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-        }
-      }
-
+      console.log('ini hasil edit ', res.collateral, ' ini start state ', this.collateralStartState);
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
-      if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+          if (collateralIdx > -1) {
+            this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+            this.dataItem = new MatTableDataSource(this.creditProposal.collaterals);
+            this.dataItem.paginator = this.paginator;
+          }
+        }
+        if (res.action === 'save') {
+          if (collateralIdx > -1) {
+            this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+          }
+        }
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+          this.dataItem = new MatTableDataSource(this.creditProposal.collaterals);
+          this.dataItem.paginator = this.paginator;
+        }
       }
-
       // replace / add binding
       const bindingIdx: number = lodash.findIndex(
         this.creditProposal.attributes['binding'],
@@ -248,43 +263,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       } else {
         this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
       }
-    });
-  }
-
-  private fungsiSumcredit(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      let result: number;
-      let dolar: number;
-      result = 0;
-      dolar = 0;
-
-      const dataFilter = this.creditProposal.products.filter(
-        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-      );
-
-      if (dataFilter.length > 0) {
-        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
-        if (filterIdr.length > 0) {
-          for (let i = 0; i < filterIdr.length; i++) {
-            if (filterIdr[i].attributes.totalPlafond !== undefined) {
-              result = result + Number(filterIdr[i].attributes.totalPlafond);
-            }
-          }
-        }
-        if (filterUsd.length > 0) {
-          for (let i = 0; i < filterUsd.length; i++) {
-            if (filterUsd[i].attributes.totalPlafond !== undefined) {
-              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
-            }
-          }
-        }
-      }
-      const creditLimit = result + dolar;
-      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
-
-      this.totalPlafond = result + dolar;
-      resolve();
     });
   }
   countKJJPLV(collateral: ICollateral) {
@@ -432,6 +410,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
     }
     this._creditProposal.attributes['coverageTotal'].countTotalLV = result;
+
     return result;
   }
 
@@ -503,6 +482,42 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
     }
     return 'IDR';
+  }
+  private fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let result: number;
+      let dolar: number;
+      result = 0;
+      dolar = 0;
+
+      const dataFilter = this.creditProposal.products.filter(
+        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+      );
+
+      if (dataFilter.length > 0) {
+        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].attributes.totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].attributes.totalPlafond);
+            }
+          }
+        }
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].attributes.totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+            }
+          }
+        }
+      }
+      const creditLimit = result + dolar;
+      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+
+      this.totalPlafond = result + dolar;
+      resolve();
+    });
   }
 
   public countMVOriginal(collateral: ICollateral): number {
@@ -695,6 +710,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       data: { collateral: element },
     });
   }
+
   public slideChange($event) {
     if (this.isChecked === true) {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
@@ -730,11 +746,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public getBindingType(element: string) {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
-  }
-
-  public getFacilityTypeMatrik() {
-    const keyy = Object.keys(this.facilityTypes).find(item => item === this.collateral.facilityType);
-    return this.facilityTypes[keyy];
   }
 
   public getCrossStatus(status: string) {
