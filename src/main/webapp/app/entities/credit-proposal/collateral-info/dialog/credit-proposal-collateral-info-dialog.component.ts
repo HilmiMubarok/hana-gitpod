@@ -214,19 +214,11 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       collateral: this.collateral,
       insurance: this.insurance,
       creditProposal: this.creditProposal,
-      action: 'save',
     });
   }
 
   public cancel() {
-    this._dialog.close({
-      binding: this.bindingStart,
-      collateral: this.collateralStart,
-      insurance: this.insuranceStart,
-      creditProposal: this.creditProposalOpenState,
-      action: 'cancel',
-    });
-    console.log(this.collateralStart);
+    this._dialog.close();
   }
 
   public getCertificateDueDate(): string {
