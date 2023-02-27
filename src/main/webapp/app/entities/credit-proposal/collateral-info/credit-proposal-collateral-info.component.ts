@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CreditProposalCollateralInfoRemarksInformationComponent } from './remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks/credit-proposal-collateral-info-remarks-checklist.component';
+import { CreditProposalCollateralInfoChecklistComponent } from './checklist/credit-proposal-collateral-info-checklist.component';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
@@ -39,6 +40,10 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   })
   creditProposalCollateralInfoRemarksCheckComponent: CreditProposalCollateralInfoRemarksChecklistComponent;
 
+  @ViewChild('creditProposalCollateralInfoChecklistComponent', {
+    static: false,
+  })
+  creditProposalCollateralInfoChecklistComponent: CreditProposalCollateralInfoChecklistComponent;
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
@@ -89,9 +94,11 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
     if (this.source === '') {
       if (this.selectedMenu === 'CHECKLIST') {
         this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
+        this.creditProposalCollateralInfoChecklistComponent.refresh();
       } else {
         if (proposalType === 'Total Exposure > IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
+          this.creditProposalCollateralInfoChecklistComponent.refresh();
         } else if (proposalType === 'Total Exposure <= IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
         } else if (proposalType === 'Total Exposure Back to Back') {

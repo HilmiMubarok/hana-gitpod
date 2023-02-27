@@ -374,7 +374,13 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   ];
 
   ngOnInit(): void {
-    if (this.item.attributes['cpRacBelow'].cpValueBot.length !== 0) {
+    this.refreshRacBelow();
+  }
+
+  public refreshRacBelow() {
+    if (this.item.attributes['cpRacBelow'].cpValueBot.length === 0) {
+      this.item.attributes['cpRacBelow'].cpValueBot = this.dataBelowChecklist;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValueBot.length; i++) {
         // console.log('ini remaks 1', (this.remarks[i] = this.item.attributes['cpRacBelow'].cpValueBot[i].remarks));
         this.dataBelowChecklist = this.item.attributes['cpRacBelow'].cpValueBot;
@@ -382,7 +388,9 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
       }
     }
 
-    if (this.item.attributes['cpRacBelow'].cpValeuTwo.length !== 0) {
+    if (this.item.attributes['cpRacBelow'].cpValeuTwo.length === 0) {
+      this.item.attributes['cpRacBelow'].cpValeuTwo = this.dataBelowChecklistBot;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuTwo.length; i++) {
         // console.log('this', (this.remarksAm[i] = this.item.attributes['cpRacBelow'].cpValeuTwo[i].remarksAm));
 
@@ -397,21 +405,27 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     //   }
     // }
 
-    if (this.item.attributes['cpRacBelow'].cpValeuThere.length !== 0) {
+    if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
+      this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistBF;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
         this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
         this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
       }
     }
 
-    if (this.item.attributes['cpRacBelow'].cpValeuFour.length !== 0) {
+    if (this.item.attributes['cpRacBelow'].cpValeuFour.length === 0) {
+      this.item.attributes['cpRacBelow'].cpValeuFour = this.dataBelowChecklistCollateral;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFour.length; i++) {
         this.dataBelowChecklistCollateral = this.item.attributes['cpRacBelow'].cpValeuFour;
         this.remarksColl[i] = this.item.attributes['cpRacBelow'].cpValeuFour[i].remarksColl;
       }
     }
 
-    if (this.item.attributes['cpRacBelow'].cpValeuFive.length !== 0) {
+    if (this.item.attributes['cpRacBelow'].cpValeuFive.length === 0) {
+      this.item.attributes['cpRacBelow'].cpValeuFive = this.dataBelowChecklistExclusively;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFive.length; i++) {
         this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuFive;
         this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksCsc;

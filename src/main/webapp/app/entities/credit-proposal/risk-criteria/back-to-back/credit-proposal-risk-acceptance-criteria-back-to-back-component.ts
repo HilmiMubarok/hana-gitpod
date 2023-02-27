@@ -41,7 +41,7 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
     return this._item;
   }
 
-  set item(item: any) {
+  set item(item: ICreditProposal) {
     this._item = item;
   }
 
@@ -224,37 +224,49 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
   }
 
   ngOnInit(): void {
-    if (this.item.attributes['cpRacBack'].topGrid.length !== 0) {
+    this.refreshRacBackToBack();
+  }
+
+  public refreshRacBackToBack() {
+    if (this.item.attributes['cpRacBack'].topGrid.length === 0) {
+      this.item.attributes['cpRacBack'].topGrid = this.dataGridOne;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBack'].topGrid.length; i++) {
         this.dataGridOne = this.item.attributes['cpRacBack'].topGrid;
         this.remarks[i] = this.item.attributes['cpRacBack'].topGrid[i].remarks;
       }
     }
 
-    if (this.item.attributes['cpRacBack'].topGridTwo.length !== 0) {
+    if (this.item.attributes['cpRacBack'].topGridTwo.length === 0) {
+      this.item.attributes['cpRacBack'].topGridTwo = this.dataGridTwo;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBack'].topGridTwo.length; i++) {
-        console.log('disin', (this.remarksTwo[i] = this.item.attributes['cpRacBack'].topGridTwo[i].remarksTwo));
-
         this.dataGridTwo = this.item.attributes['cpRacBack'].topGridTwo;
         this.remarksTwo[i] = this.item.attributes['cpRacBack'].topGridTwo[i].remarksTwo;
       }
     }
 
-    if (this.item.attributes['cpRacBack'].topGridThere.length !== 0) {
+    if (this.item.attributes['cpRacBack'].topGridThere.length === 0) {
+      this.item.attributes['cpRacBack'].topGridThere = this.dataGridThre;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBack'].topGridThere.length; i++) {
         this.dataGridThre = this.item.attributes['cpRacBack'].topGridThere;
         this.remarksThere[i] = this.item.attributes['cpRacBack'].topGridThere[i].remarksThere;
       }
     }
 
-    if (this.item.attributes['cpRacBack'].topGridFour.length !== 0) {
+    if (this.item.attributes['cpRacBack'].topGridFour.length === 0) {
+      this.item.attributes['cpRacBack'].topGridFour = this.dataGridFour;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBack'].topGridFour.length; i++) {
         this.dataGridFour = this.item.attributes['cpRacBack'].topGridFour;
         this.remarksFour[i] = this.item.attributes['cpRacBack'].topGridFour[i].remarksFour;
       }
     }
 
-    if (this.item.attributes['cpRacBack'].topGridFive.length !== 0) {
+    if (this.item.attributes['cpRacBack'].topGridFive.length === 0) {
+      this.item.attributes['cpRacBack'].topGridFive = this.dataGridFive;
+    } else {
       for (let i = 0; i < this.item.attributes['cpRacBack'].topGridFive.length; i++) {
         this.dataGridFive = this.item.attributes['cpRacBack'].topGridFive;
         this.remarksFive[i] = this.item.attributes['cpRacBack'].topGridFive[i].remarksFive;
