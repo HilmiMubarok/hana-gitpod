@@ -38,6 +38,7 @@ import {
   SIDEBAR_MENU_APR_DH,
   APPRAISAL_APR_DEPT_HEAD,
   APPRAISAL_MENU_SIDEBAR_ALL,
+  MENU_MASTER,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 
@@ -76,6 +77,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         if (lodash.indexOf(account.authorities, Authority.SURVEYOR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_SURVEYOR;
           // roll
+        } else if (lodash.indexOf(account.authorities, Authority.MASTER_ADMIN) >= 0) {
+          this.dataSource.data = MENU_MASTER;
         } else if (lodash.indexOf(account.authorities, Authority.RM) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_RM;
         } else if (lodash.indexOf(account.authorities, Authority.BM) >= 0) {
