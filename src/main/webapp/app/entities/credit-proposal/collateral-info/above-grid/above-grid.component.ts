@@ -53,6 +53,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     'action',
   ];
 
+  public collateralStartState: ICollateral;
   public dataCollateral: ICollateral[];
   public certificateType: any;
   public dataItem: any;
@@ -184,6 +185,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   public openDialog(element: ICollateral): void {
+    this.collateralStartState = lodash.cloneDeep(element);
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
       if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
@@ -212,19 +214,30 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (res.action === 'cancel') {
-          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-        }
-      }
-
+      console.log('ini hasil edit ', res.collateral, ' ini start state ', this.collateralStartState);
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
-      if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+          if (collateralIdx > -1) {
+            this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+            this.dataItem = new MatTableDataSource(this.creditProposal.collaterals);
+            this.dataItem.paginator = this.paginator;
+          }
+        }
+        if (res.action === 'save') {
+          if (collateralIdx > -1) {
+            this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+          }
+        }
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+          this.dataItem = new MatTableDataSource(this.creditProposal.collaterals);
+          this.dataItem.paginator = this.paginator;
+        }
       }
-
       // replace / add binding
       const bindingIdx: number = lodash.findIndex(
         this.creditProposal.attributes['binding'],

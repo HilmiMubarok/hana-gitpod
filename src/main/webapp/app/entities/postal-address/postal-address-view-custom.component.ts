@@ -77,10 +77,12 @@ export class PostalAddressViewCustomComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeCountry();
+    this.initializeProvince();
     this.initializeCity();
     this.initializeDistrict();
     this.initializeVillage();
     this.cekDataSource();
+    console.log('postal adress');
   }
 
   filteredCountry() {
@@ -193,7 +195,7 @@ export class PostalAddressViewCustomComponent implements OnInit {
     }
   }
 
-  public initializeCity(): void {
+  public initializeCity(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
@@ -205,14 +207,17 @@ export class PostalAddressViewCustomComponent implements OnInit {
         this.optionsCity = res.body;
         this.filteredCity();
         this.cities = this.optionsCity.find(obj => obj.id === this.postalAddress.cityId);
+        if (value === true) {
+          this.myControlCity.enable();
+        }
       });
   }
 
-  public initializeDistrict(): void {
+  public initializeDistrict(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
-        size: 9999,
+        size: 999,
         idBoundaryType: GEO_BOUNDARY_TYPE['district'],
         idParent: this.postalAddress.cityId,
       })
@@ -220,20 +225,26 @@ export class PostalAddressViewCustomComponent implements OnInit {
         this.optionsDistrict = res.body;
         this.filteredDistrict();
         this.districts = this.optionsDistrict.find(obj => obj.id === this.postalAddress.districtId);
+        if (value === true) {
+          this.myControlDistrict.enable();
+        }
       });
   }
 
-  public initializeVillage(): void {
+  public initializeVillage(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({ page: 0, size: 50, idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.postalAddress.districtId })
       .subscribe(res => {
         this.optionsVillage = res.body;
         this.filteredVillage();
         this.villages = this.optionsVillage.find(obj => obj.id === this.postalAddress.villageId);
+        if (value === true) {
+          this.myControlVillage.enable();
+        }
       });
   }
 
-  public initializeProvince(): void {
+  public initializeProvince(value = false): void {
     console.log('province ', this.postalAddress.provinceId);
     this.stateBoundaryService
       .queryFilterBy({
@@ -249,6 +260,9 @@ export class PostalAddressViewCustomComponent implements OnInit {
           this.province = this.optionsProvince.find(obj => obj.id === this.postalAddress.provinceId);
         } else {
           this.myControlProvince.setValue({ description: 'DI LUAR INDONESIA' });
+        }
+        if (value === true) {
+          this.myControlCity.enable();
         }
       });
   }
@@ -311,12 +325,11 @@ export class PostalAddressViewCustomComponent implements OnInit {
 
   public getValueProvinceChange() {
     this.postalAddress.provinceId = this.province.id;
-    this.initializeCity();
+    this.initializeCity(true);
     this.postalAddress.cityId = null;
     this.postalAddress.districtId = null;
     this.postalAddress.villageId = null;
     if (this.postalAddress.provinceId) {
-      this.myControlCity.enable();
       this.myControlDistrict.disable();
       this.myControlVillage.disable();
       this.initializeDistrict();
@@ -326,19 +339,17 @@ export class PostalAddressViewCustomComponent implements OnInit {
 
   public getValueCityChange() {
     this.postalAddress.cityId = this.cities.id;
-    this.initializeDistrict();
+    this.initializeDistrict(true);
     if (this.postalAddress.cityId) {
       this.myControlCity.disable();
-      this.myControlDistrict.enable();
     }
   }
 
   public getValueDistrictChange() {
     this.postalAddress.districtId = this.districts.id;
-    this.initializeVillage();
+    this.initializeVillage(true);
     if (this.postalAddress.districtId) {
       this.myControlDistrict.disable();
-      this.myControlVillage.enable();
     }
   }
 
@@ -367,6 +378,9 @@ export class PostalAddressViewCustomComponent implements OnInit {
       this.myControlDistrict.disable();
       this.myControlVillage.disable();
     } else {
+      if (this.postalAddress.countryId === null) {
+        this.myControlProvince.disable();
+      }
       this.myControlCity.disable();
       this.myControlDistrict.disable();
       this.myControlVillage.disable();

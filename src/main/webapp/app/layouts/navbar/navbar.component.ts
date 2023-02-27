@@ -65,12 +65,12 @@ export class NavbarComponent implements OnInit {
   }
 
   private setUpAcc(res: any, account: any): void {
-	if (res.body.length === 1) {
-	  this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
-      this.lastLogin = account.lastModifiedDate.substring(0, 19);
-	} else {
+	if (res.body.length < 1) {
 	  this.loginName = 'First Name Last Name';
       this.lastLogin = 'Not Registered Employee';
+	} else {
+	  this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
+      this.lastLogin = account.lastModifiedDate.substring(0, 19);
 	}
     if (this.account.login === 'admin') {
 	  this.isAdministrator = true;
