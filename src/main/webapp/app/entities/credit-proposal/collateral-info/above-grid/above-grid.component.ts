@@ -82,14 +82,41 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this._creditProposal = cp;
   }
 
-  public presentage(value: string) {
+  public presentage(value: string, status: string) {
     // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage  = '0.00' + '%'
+      }else if(status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage  = '0.00' + '%'
+      }else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage  = '0.00' + '%'
+      }else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage  = '0.00' + '%'
+      }
       return '0.00' + '%';
     } else if (num === 'NaN') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage  = '0.00' + '%'
+      }else if(status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage  = '0.00' + '%'
+      }else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage  = '0.00' + '%'
+      }else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage  = '0.00' + '%'
+      }
       return '0.00' + '%';
     } else {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage  = num + '%'
+      }else if(status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage  = num + '%'
+      }else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage  = num + '%'
+      }else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage  = num + '%'
+      }
       return num + '%';
     }
   }
