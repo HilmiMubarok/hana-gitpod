@@ -38,6 +38,9 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     'action',
   ];
 
+  public collateralStartState: ICollateral;
+  private dataFilter: ICollateral[];
+
   public certificateType: any;
   public dataCertyficate: any;
 
@@ -128,6 +131,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     }
   }
   public openDialogBTB(value: ICollateral): void {
+    this.collateralStartState = lodash.cloneDeep(value);
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
       if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
@@ -148,18 +152,31 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (res.action === 'cancel') {
-          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-        }
-        console.log('after closed ', this.creditProposal.attributes);
-      }
-
       const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
         return o.id === res['collateral'].id;
       });
-      if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+      if (res) {
+        if (res.action === 'cancel') {
+          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+          if (collateralIdx > -1) {
+            this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+            const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+              return (
+                o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+                o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+                o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+              );
+            });
+            this.dataItem = new MatTableDataSource(filter);
+            this.dataItem.paginator = this.paginator;
+          }
+        }
+        if (res.action === 'save') {
+          if (collateralIdx > -1) {
+            this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+          }
+        }
+        console.log('after closed ', this.creditProposal.attributes);
       }
 
       const emptyIdx: number = lodash.findIndex(
