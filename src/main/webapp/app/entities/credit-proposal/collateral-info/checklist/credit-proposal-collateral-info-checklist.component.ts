@@ -51,11 +51,27 @@ export class CreditProposalCollateralInfoChecklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // if (this.creditProposal.attributes['collateralChecklist'].checklistValue.length === 0) {
+    //   this.creditProposal.attributes['collateralChecklist'].checklistValue = this.dataChecklist;
+    // } else {
+    //   this.dataChecklist = this.creditProposal.attributes['collateralChecklist'].checklistValue;
+    // }
+    this.refresh();
+    // if (this.creditProposal.attributes['collateralChecklist'].checklistValue.length === 0) {
+    //   this.creditProposal.attributes['collateralChecklist'].checklistValue = this.dataChecklist;
+    // } else {
+    //   for (let i = 0; i < this.creditProposal.attributes['collateralChecklist'].checklistValue.length; i++) {
+    //     this.dataChecklist = this.creditProposal.attributes['collateralChecklist'].checklistValue;
+    //   }
+    // }
     this.removefield();
-    if (this.creditProposal.attributes['collateralChecklist'].checklistValue.length !== 0) {
-      for (let i = 0; i < this.creditProposal.attributes['collateralChecklist'].checklistValue.length; i++) {
-        this.dataChecklist = this.creditProposal.attributes['collateralChecklist'].checklistValue;
-      }
+  }
+
+  public refresh() {
+    if (this.creditProposal.attributes['collateralChecklist'].checklistValue.length === 0) {
+      this.creditProposal.attributes['collateralChecklist'].checklistValue = this.dataChecklist;
+    } else {
+      this.dataChecklist = this.creditProposal.attributes['collateralChecklist'].checklistValue;
     }
   }
 

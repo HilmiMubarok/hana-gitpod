@@ -11,16 +11,27 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { MessageService } from 'primeng/api';
 
 import { Router } from '@angular/router';
+import { CreditProposalRiskAcceptanceCriteriaBelowComponent } from './below/credit-proposal-risk-acceptance-criteria-below-component';
+import { CreditProposalAceptanceCriteriaBackToBackComponent } from './back-to-back/credit-proposal-risk-acceptance-criteria-back-to-back-component';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria',
   templateUrl: './credit-proposal-risk-acceptance-criteria-component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
+  @ViewChild('creditProposalRiskAcceptanceCriteriaBelowComponent', {
+    static: false,
+  })
+  creditProposalRiskAcceptanceCriteriaBelowComponent: CreditProposalRiskAcceptanceCriteriaBelowComponent;
+  @ViewChild('creditProposalAceptanceCriteriaBackToBackComponent', {
+    static: false,
+  })
+  creditProposalAceptanceCriteriaBackToBackComponent: CreditProposalAceptanceCriteriaBackToBackComponent;
   dataAttr: Object[];
   dataSave: any[];
   messageService: any;
   constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
+
   private _creditProposal: ICreditProposal;
   get creditProposal() {
     return this._creditProposal;
@@ -120,7 +131,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
     return this._item;
   }
 
-  set item(item: any) {
+  set item(item: ICreditProposal) {
     this._item = item;
   }
 
@@ -152,15 +163,39 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('this.item', this.item);
+    // if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
+    //   this.data = this.dataAttrPass;
+    // } else {
+    //   this.data = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+    //   this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+    // }
+
+    this.refreshRac();
+
+    this.width = '50%';
+    this.height = '80%';
+  }
+
+  public refreshRac() {
+    if (this.item.id) {
+      if (this.creditProposalRiskAcceptanceCriteriaBelowComponent) {
+        this.creditProposalRiskAcceptanceCriteriaBelowComponent.refreshRacBelow();
+      } else if (this.creditProposalAceptanceCriteriaBackToBackComponent) {
+        this.creditProposalAceptanceCriteriaBackToBackComponent.refreshRacBackToBack();
+      } else {
+        this.refreshGeneralRiskAcceptanceCriteria();
+      }
+    }
+  }
+
+  public refreshGeneralRiskAcceptanceCriteria() {
     if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
       this.data = this.dataAttrPass;
+      this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.data;
     } else {
       this.data = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
       this.dataAttr = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
     }
-
-    this.width = '50%';
-    this.height = '80%';
   }
 }
 

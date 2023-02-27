@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit {
           .queryFilterBy({
             page: 0,
             query: 999,
-            login: account.login,
+            eqLogin: account.login,
             sort: ['id,desc'],
           })
           .subscribe({
