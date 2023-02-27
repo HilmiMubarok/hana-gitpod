@@ -85,7 +85,11 @@
     <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
       <div *ngIf="selectedMenu === 'CHECKLIST'">
         <div class="card-content">
-          <jhi-credit-proposal-collateral-info-checklist [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+          <jhi-credit-proposal-collateral-info-checklist
+            #creditProposalCollateralInfoChecklistComponent
+            [isViewMode]="isViewMode"
+            [creditProposal]="creditProposal"
+          >
           </jhi-credit-proposal-collateral-info-checklist>
         </div>
       </div>

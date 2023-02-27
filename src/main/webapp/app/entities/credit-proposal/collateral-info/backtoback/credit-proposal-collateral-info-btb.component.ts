@@ -39,6 +39,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   ];
 
   public collateralStartState: ICollateral;
+  public creditProposalStartState: ICreditProposal;
   private dataFilter: ICollateral[];
 
   public certificateType: any;
@@ -132,6 +133,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   }
   public openDialogBTB(value: ICollateral): void {
     this.collateralStartState = lodash.cloneDeep(value);
+    this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
     let cp = {};
     for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
       if (this.creditProposal.collaterals[index].collateralId === value.collateralId) {
@@ -209,6 +211,22 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
           const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
           this.dataItem = new MatTableDataSource(filter2);
           this.dataItem.paginator = this.paginator;
+        }
+        const emptyIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['emptyField'],
+          (o: ICreditProposalCollateralBinding) => o.collateralId === this.collateralStartState.id
+        );
+        if (emptyIdx > -1) {
+          this.creditProposal.attributes['emptyField'][emptyIdx] = this.creditProposalStartState.attributes['emptyField'][emptyIdx];
+        }
+
+        // replace / add binding
+        const bindingIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['binding'],
+          (o: ICreditProposalCollateralBinding) => o.collateralId === this.collateralStartState.id
+        );
+        if (bindingIdx > -1) {
+          this.creditProposal.attributes['binding'][bindingIdx] = this.creditProposalStartState.attributes['binding'][bindingIdx];
         }
       }
     });

@@ -91,7 +91,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   private loadDataPartner(): void {
     this.partnerService
       .query({
-        page: this.pageP - 1,
+        page: this.pageP,
         size: this.itemsPerPage,
         sort: this.sortData(),
       })
@@ -185,7 +185,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       }
     }
     this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
-    this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
+    this.itemsPartner = new MatTableDataSource(data.body);
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }
