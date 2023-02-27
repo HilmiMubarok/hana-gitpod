@@ -577,6 +577,66 @@ export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
   },
 ];
 
+export const MENU_MASTER: ISidebarMenuModel[] = [
+  {
+    name: 'Master',
+    iconname: 'house',
+    children: [
+      {
+        name: 'Internal',
+        iconname: 'minus',
+        route: 'internal',
+      },
+      {
+        name: 'Position Type',
+        iconname: 'minus',
+        route: 'position-type',
+      },
+      {
+        name: 'Approval Structure',
+        iconname: 'minus',
+        route: 'position-reporting-structure',
+      },
+      {
+        name: 'Employee',
+        iconname: 'minus',
+        route: 'employee',
+      },
+      {
+        name: 'Partner KJPP',
+        iconname: 'minus',
+        route: 'partner-kjpp',
+      },
+
+      {
+        name: 'Uom Conversion',
+        iconname: 'minus',
+        route: 'uom-conversion',
+      },
+      {
+        name: 'Geo Boundary',
+        iconname: 'minus',
+        route: 'geo-boundary',
+      },
+      {
+        name: 'Industry Limit Exposure Parameter',
+        iconname: 'minus',
+        route: 'industry-limit-exposure-parameter',
+      },
+      {
+        name: 'Legal Lending Limit Type',
+        iconname: 'minus',
+        route: 'legal-lending-limit-parameter',
+      },
+    ],
+  },
+  {
+    name: 'Configuration',
+    iconname: 'wrench',
+    route: 'application-option',
+  },
+];
+
 export const SIDEBAR_MENU_ROLE_SME_HEAD: ISidebarMenuModel[] = [
   {
     name: 'Credit Proposal',
