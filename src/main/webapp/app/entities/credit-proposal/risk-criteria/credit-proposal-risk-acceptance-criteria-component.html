@@ -51,7 +51,8 @@
                                           [checked]="data.value == 'Yes'"
                                           name="{{ data.No }}"
                                           disabled
-                                        ></ejs-radiobutton>
+                                        >
+                                        </ejs-radiobutton>
                                       </section>
                                     </div>
                                     <div class="mx-2">
@@ -72,7 +73,8 @@
                                           [checked]="data.value == 'No'"
                                           name="{{ data.No }}"
                                           disabled
-                                        ></ejs-radiobutton>
+                                        >
+                                        </ejs-radiobutton>
                                       </section>
                                     </div>
                                   </div>
@@ -88,9 +90,8 @@
 
                 <div class="e-card-actions"></div>
                 <div class="mt-3">
-                  <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian
-                    [item]="item"
-                  ></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
+                  <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian [item]="item">
+                  </jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
                 </div>
               </div>
             </div>
@@ -102,13 +103,17 @@
 
   <div *ngIf="item.attributes['proposalType']  === 'Total Exposure <= IDR 15 Bio'||''" [item]="creditProposal">
     <div class="mx-3 py-3">
-      <jhi-credit-proposal-risk-acceptance-criteria-below [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-below>
+      <jhi-credit-proposal-risk-acceptance-criteria-below #creditProposalRiskAcceptanceCriteriaBelowComponent [item]="item">
+      </jhi-credit-proposal-risk-acceptance-criteria-below>
     </div>
   </div>
 
   <div *ngIf="item.attributes[ 'proposalType']==='Total Exposure Back to Back' " [creditProposal]="creditProposal ">
     <div class="mx-3 py-3">
-      <jhi-credit-proposal-risk-acceptance-criteria-back-to-back [item]="item"></jhi-credit-proposal-risk-acceptance-criteria-back-to-back>
+      <jhi-credit-proposal-risk-acceptance-criteria-back-to-back
+        #creditProposalAceptanceCriteriaBackToBackComponent
+        [item]="item"
+      ></jhi-credit-proposal-risk-acceptance-criteria-back-to-back>
     </div>
   </div>
 </div>

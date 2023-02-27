@@ -9,7 +9,7 @@ import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { map } from 'rxjs';
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info-dialog.component';
-import lodash from 'lodash';
+import lodash, { update } from 'lodash';
 import { IPartyCif } from '../party-cif.model';
 import { ICollateralAppraisal } from 'app/entities/collateral-appraisal/collateral-appraisal.model';
 import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from './collateral-info-property-general-dialog.component';
@@ -378,6 +378,8 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
             this.pushCollateral(res2.body);
           });
         }
+      } else {
+        this.loadByPartyId(this.partyId);
       }
     });
   }
@@ -433,12 +435,12 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
     this.cifNumber = this.partyCif?.customerNumber;
     this.partyCifService.syncCollateralHobis(this.cifNumber).subscribe(res => {
       if (res.status === 200) {
-		this.dataSource = res.body.collaterals;
-		
-		this.partyCif.collaterals = res.body.collaterals;
-		this.partyCif.collateralProperties = res.body.collateralProperties;
+        this.dataSource = res.body.collaterals;
 
-		this.loading = false;
+        this.partyCif.collaterals = res.body.collaterals;
+        this.partyCif.collateralProperties = res.body.collateralProperties;
+
+        this.loading = false;
 
         this.messageService.add({
           severity: 'success',
