@@ -152,56 +152,64 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
-        return o.id === res['collateral'].id;
-      });
       if (res) {
-        if (res.action === 'cancel') {
-          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-          if (collateralIdx > -1) {
-            this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-            const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
-              return (
-                o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
-                o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
-                o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
-              );
-            });
-            this.dataItem = new MatTableDataSource(filter);
-            this.dataItem.paginator = this.paginator;
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+          return o.id === res['collateral'].id;
+        });
+        this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+          const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+            return (
+              o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+            );
+          });
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem = new MatTableDataSource(filter2);
+          this.dataItem.paginator = this.paginator;
+        }
+        const emptyIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['emptyField'],
+          function (o: ICreditProposalCollateralBinding) {
+            return o.collateralId === res['collateral'].id;
           }
+        );
+        if (emptyIdx > -1) {
+          this.creditProposal.attributes['emptyField'][emptyIdx] = res['emptyField'];
+        } else {
+          this.creditProposal.attributes['emptyField'] = [...this.creditProposal.attributes['emptyField'], res['emptyField']];
         }
-        if (res.action === 'save') {
-          if (collateralIdx > -1) {
-            this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+
+        // replace / add binding
+        const bindingIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['binding'],
+          function (o: ICreditProposalCollateralBinding) {
+            return o.collateralId === res['collateral'].id;
           }
+        );
+        if (bindingIdx > -1) {
+          this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
+        } else {
+          this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
-        console.log('after closed ', this.creditProposal.attributes);
-      }
-
-      const emptyIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['emptyField'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
-        }
-      );
-      if (emptyIdx > -1) {
-        this.creditProposal.attributes['emptyField'][emptyIdx] = res['emptyField'];
       } else {
-        this.creditProposal.attributes['emptyField'] = [...this.creditProposal.attributes['emptyField'], res['emptyField']];
-      }
-
-      // replace / add binding
-      const bindingIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['binding'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
+        console.log('cancel jalan');
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+          const filter: ICollateral[] = this.creditProposal.collaterals.filter(function (o) {
+            return (
+              o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
+              o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+            );
+          });
+          const filter2 = filter.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem = new MatTableDataSource(filter2);
+          this.dataItem.paginator = this.paginator;
         }
-      );
-      if (bindingIdx > -1) {
-        this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
-      } else {
-        this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
       }
     });
   }

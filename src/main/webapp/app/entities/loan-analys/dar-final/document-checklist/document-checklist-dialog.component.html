@@ -11,21 +11,35 @@
           <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
         </ngx-dropzone>
         <div class="row">
-          <ngx-dropzone-preview class="col-6"  style="background-color: white !important; background-image: none !important;" *ngFor="let f of file" [removable]="f.name.indexOf('los_logo.png') > -1 ? false : true" (removed)="onRemove(f)">
+          <ngx-dropzone-preview
+            class="col-6"
+            style="background-color: white !important; background-image: none !important"
+            *ngFor="let f of file"
+            [removable]="f.name.indexOf('los_logo.png') > -1 ? false : true"
+            (removed)="onRemove(f)"
+          >
             <ngx-dropzone-label [hidden]="f.name.indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
               <ngx-dropzone-image-preview
-             
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
                 *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
               >
               </ngx-dropzone-image-preview>
             </ngx-dropzone-label>
-            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.name.split('.').indexOf('xls') > -1">
+            <ngx-dropzone-label
+              *ngIf="
+                f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || f.name.split('.').indexOf('xls') > -1
+              "
+            >
               <img src="../../../../../../content/images/excel.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || f.name.split('.').indexOf('doc') > -1">
+            <ngx-dropzone-label
+              *ngIf="
+                f.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                f.name.split('.').indexOf('doc') > -1
+              "
+            >
               <img src="../../../../../../content/images/word.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
@@ -101,12 +115,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select
-                  (selectionChange)="deleteTBO($event)"
-                  [(ngModel)]="documentChecklist.status"
-                  name="status"
-                  
-                >
+                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="documentChecklist.status" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of ['Available', 'TBO', 'Waived']" [value]="item">
                     {{ item }}
@@ -154,7 +163,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-<button mat-button *ngIf="file.length > 0 || documentChecklist.status === 'Available'" (click)="save()">Save</button> 
+    <button mat-button *ngIf="file.length > 0 || documentChecklist.status === 'Available'" (click)="save()">Save</button>
     <button mat-button mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </div>
@@ -172,7 +181,7 @@
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
             *ngFor="let item of documentChecklist.files"
-            style="background-color: white !important; background-image: none !important;"
+            style="background-color: white !important; background-image: none !important"
             [removable]="true"
             (removed)="onRemove(f)"
           >
@@ -196,7 +205,8 @@
                 *ngIf="
                   item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
                   item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-                  item['metaData']['Value'] === 'application/vnd.ms-excel' || f.name.split('.').indexOf('xls') > -1
+                  item['metaData']['Value'] === 'application/vnd.ms-excel' ||
+                  item.name.split('.').indexOf('xls') > -1
                 "
               />
 
@@ -227,7 +237,8 @@
                 src="../../../../../content/images/word.png"
                 *ngIf="
                   item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || item.key.split('.').indexOf('doc') > -1
+                  item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                  item.key.split('.').indexOf('doc') > -1
                 "
               />
 
@@ -396,7 +407,8 @@
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
               item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-              item['metaData']['Value'] === 'application/vnd.ms-excel' || item.key.split('.').indexOf('xls') > -1
+              item['metaData']['Value'] === 'application/vnd.ms-excel' ||
+              item.key.split('.').indexOf('xls') > -1
             "
             style="width: 300px"
           >
@@ -409,7 +421,8 @@
           <div
             *ngIf="
               item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || item.key.split('.').indexOf('doc') > -1
+              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+              item.key.split('.').indexOf('doc') > -1
             "
           >
             <img width="300px" src="../../../content/images/word.png" />
@@ -426,9 +439,7 @@
             </div>
           </div>
 
-          <div
-            *ngIf="item.key.split('.').indexOf('mp4') > -1"
-          >
+          <div *ngIf="item.key.split('.').indexOf('mp4') > -1">
             <img width="300px" src="../../../content/images/mp4.png" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -436,10 +447,7 @@
             </div>
           </div>
 
-
-          <div
-            *ngIf="item.key.split('.').indexOf('txt') > -1"
-          >
+          <div *ngIf="item.key.split('.').indexOf('txt') > -1">
             <img width="300px" src="../../../content/images/Txt.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -447,9 +455,7 @@
             </div>
           </div>
 
-          <div
-            *ngIf="item.key.split('.').indexOf('aac') > -1"
-          >
+          <div *ngIf="item.key.split('.').indexOf('aac') > -1">
             <img width="300px" src="../../../content/images/acc.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">

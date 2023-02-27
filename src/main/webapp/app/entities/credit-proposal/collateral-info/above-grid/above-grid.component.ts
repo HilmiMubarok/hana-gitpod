@@ -214,54 +214,51 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      console.log('ini hasil edit ', res.collateral, ' ini start state ', this.collateralStartState);
-      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
-        return o.id === res['collateral'].id;
-      });
       if (res) {
-        if (res.action === 'cancel') {
-          this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-          if (collateralIdx > -1) {
-            this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-            this.dataItem = new MatTableDataSource(this.creditProposal.collaterals);
-            this.dataItem.paginator = this.paginator;
-          }
-        }
-        if (res.action === 'save') {
-          if (collateralIdx > -1) {
-            this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          }
-        }
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+          return o.id === res['collateral'].id;
+        });
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          this.dataItem = new MatTableDataSource(this.creditProposal.collaterals);
+          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
-      }
-      // replace / add binding
-      const bindingIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['binding'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
+        // replace / add binding
+        const bindingIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['binding'],
+          function (o: ICreditProposalCollateralBinding) {
+            return o.collateralId === res['collateral'].id;
+          }
+        );
+        if (bindingIdx > -1) {
+          this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
+        } else {
+          this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
-      );
-      if (bindingIdx > -1) {
-        this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
-      } else {
-        this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
-      }
 
-      // replace / add insurance
-      const insuranceIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['insurance'],
-        function (o: ICreditProposalCollateralInsurance) {
-          return o.collateralId === res['collateral'].id;
+        // replace / add insurance
+        const insuranceIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['insurance'],
+          function (o: ICreditProposalCollateralInsurance) {
+            return o.collateralId === res['collateral'].id;
+          }
+        );
+        if (insuranceIdx > -1) {
+          this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
+        } else {
+          this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
-      );
-      if (insuranceIdx > -1) {
-        this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
       } else {
-        this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
+        console.log('cancel jalan');
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
+        console.log('collateral IDX ', this.creditProposal.collaterals);
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
+          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem = new MatTableDataSource(filter);
+          this.dataItem.paginator = this.paginator;
+        }
       }
     });
   }
