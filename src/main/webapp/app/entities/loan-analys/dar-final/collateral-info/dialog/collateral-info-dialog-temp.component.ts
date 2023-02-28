@@ -202,18 +202,11 @@ export class CollateralInfoDialogTempComponent implements OnInit {
       collateral: this.collateral,
       insurance: this.insurance,
       creditProposal: this.creditProposal,
-      action: 'save',
     });
   }
 
   public cancel() {
-    this._dialog.close({
-      binding: this.binding,
-      collateral: this.collateral,
-      insurance: this.insurance,
-      creditProposal: this.creditProposalOpenState,
-      action: 'cancel',
-    });
+    this._dialog.close();
   }
 
   public getCertificateDueDate(): string {

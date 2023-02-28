@@ -155,7 +155,6 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       binding: this.binding,
       emptyField: this.empty,
       creditProposal: this.creditProposal,
-      action: 'save',
     });
   }
 
