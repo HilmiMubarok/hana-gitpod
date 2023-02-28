@@ -25,7 +25,6 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public checked: boolean;
   public disableField: any;
   public field: boolean;
-
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
   public bindingValueHelper: any = [];
@@ -61,6 +60,20 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       this.field = true;
     }
     this.sableFeild();
+    this.disableFeild();
+  }
+
+  public disableFeild() {
+    if (
+      this.creditProposalData.statusId === 'CP_APPROVAL_BM' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_SME_HEAD' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_SDH' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_DH' ||
+      this.creditProposalData.statusId === 'CP_APPROVAL_DEPTHEAD' ||
+      this.creditProposalData.statusId === 'CP_ASSIGNMENT'
+    ) {
+      this.field = true;
+    }
   }
   public sableFeild() {
     this.disableField = this.router.url.split('/')[1];
