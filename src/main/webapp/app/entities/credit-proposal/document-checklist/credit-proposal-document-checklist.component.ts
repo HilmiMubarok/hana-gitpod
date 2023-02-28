@@ -20,6 +20,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
   public files: Object[];
   private bucket: string;
   public _isViewMode: boolean;
+  public field = false;
 
   @Input()
   get creditProposal() {
@@ -60,6 +61,7 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
       this.getFiles(this.creditProposal.id);
     });
     this.hiddenButton();
+    this.sableFeild();
   }
 
   private getBucket(): Promise<void> {
@@ -80,8 +82,6 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
       this.groupByFolder(res.body);
     });
   }
-
-  
 
   public openDialog(element: IDocumentChecklist = null, view: string): void {
     const predicate = { width: '80vw', data: {} };
@@ -128,13 +128,22 @@ export class CreditProposalDocumentChecklistComponent implements OnChanges, OnIn
     }
   }
 
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public sableFeild() {
+    if (
+      this.creditProposal.statusId === 'CP_APPROVAL_BM' ||
+      this.creditProposal.statusId === 'CP_APPROVAL_SME_HEAD' ||
+      this.creditProposal.statusId === 'CP_APPROVAL_SDH'
+    ) {
+      this.field = true;
     }
-    
+  }
+
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
+    }
   }
 
   private groupByFolder(param: any[]): void {
