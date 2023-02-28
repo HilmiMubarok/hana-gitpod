@@ -12,7 +12,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { IndexRateService } from '../../index-rate.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -261,6 +261,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
     private router: Router,
+    protected activatedRoute: ActivatedRoute,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
@@ -281,7 +282,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
 
-    this.hiddenFieldInOffering();
+    this.conditionFieldInOfferingLetter();
     this.getApplicationOption();
     this.getObligation();
     this.setFacilityType();
@@ -490,41 +491,80 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   textBoxHidden: boolean;
   paymentIDR: boolean;
   public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
 
-  public hiddenFieldInOffering() {
-    if (this.parentPath !== 'finalize') {
-      this.textBoxHidden = false;
-      this.paymentIDR = true;
-    }
-    if (this.parentPath === 'distribution') {
-      if (this.dataItem.statusId !== 'OL_ASSIGNED') {
-        this.status = true;
+  // Condition Field in Offering Letter
+  public conditionFieldInOfferingLetter() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
       }
-    }
-    if (this.parentPath === 'review') {
-      this.status = true;
-    }
-    if (this.parentPath === 'confirmation') {
-      this.status = true;
-    }
-    if (
-      this.parentPath === 'credit-proposal-status' ||
-      this.parentPath === 'cp-status-approval' ||
-      this.parentPath === 'la-distribution' ||
-      this.parentPath === 'la-analyst' ||
-      this.parentPath === 'la-SME-CRC' ||
-      this.parentPath === 'la-approval' ||
-      this.parentPath === 'la-approval-inquiry' ||
-      this.parentPath === 'dar-final' ||
-      this.parentPath === 'dar-checker' ||
-      this.parentPath === 'loan-committee-approval' ||
-      this.parentPath === 'dar-notif' ||
-      this.parentPath === 'cc-distribution' ||
-      this.parentPath === 'cc-checking' ||
-      this.parentPath === 'cc-review' ||
-      this.parentPath === 'cc-inquiry' ||
-      this.parentPath === 'loan-analys-and-approval-monitoring'
-    ) {
+    });
+    console.log('in the menu : ', this.selectedMenu);
+    // Condition Offering Letter in Route Finalize
+    if (this.parentPath === 'finalize') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        this.textBoxHidden = false;
+        this.status = false;
+        this.paymentIDR = true;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+
+      // Condition Offering Letter in Route Distribution
+    } else if (this.parentPath === 'distribution') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        if (this.dataItem.statusId === 'OL_ASSIGNED') {
+          this.textBoxHidden = false;
+          this.status = false;
+        } else {
+          this.textBoxHidden = false;
+          this.status = true;
+        }
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+
+      // Condition Offering Letter in Route Review
+    } else if (this.parentPath === 'review') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        this.textBoxHidden = false;
+        this.status = true;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+
+      // Condition Offering Letter in Route Confirmation
+    } else if (this.parentPath === 'confirmation') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        this.textBoxHidden = false;
+        this.status = true;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+    } else {
+      // other than in the offering letter field cannot be displayed and changed
       this.textBoxHidden = true;
     }
   }
