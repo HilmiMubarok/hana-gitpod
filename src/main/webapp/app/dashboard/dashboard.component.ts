@@ -5,7 +5,7 @@ import { Browser } from '@syncfusion/ej2-base';
 @Component({
   selector: 'jhi-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
