@@ -506,6 +506,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./position-reporting-structure/position-reporting-structure.module').then(m => m.LosgwPositionReportingStructureModule),
       },
+      {
+        path: 'document-type',
+        loadChildren: () => import('./document-type/document-type.module').then(m => m.LosgwDocumentTypeModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],
