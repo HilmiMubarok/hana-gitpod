@@ -214,14 +214,30 @@
       </div>
 
       <!-- Loan Facility -->
-      <div
-        *ngIf="selectedMenu === 'loan-facility-detail' || selectedMenu === 'loan-facility'"
-        class="e-sample-resize-container e-card-resize-container"
-      >
+      <div *ngIf="selectedMenu === 'loan-facility-detail'" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
             </jhi-credit-proposal-tab-loan-facility-detail>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div *ngIf="selectedMenu === 'loan-facility'" class="e-sample-resize-container e-card-resize-container">
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <jhi-credit-proposal-tab-loan-facility-detail
+              *ngIf="!isHistoryExist"
+              [isViewMode]="true"
+              [parentSource]="'loan-analys'"
+              [creditProposal]="creditProposal"
+            >
+            </jhi-credit-proposal-tab-loan-facility-detail>
+            <jhi-loan-facility-detail-history
+              *ngIf="isHistoryExist"
+              [parentSource]="'loan-analys'"
+              [creditProposal]="creditProposal"
+              [isViewMode]="true"
+            ></jhi-loan-facility-detail-history>
           </mat-card-content>
         </mat-card>
       </div>
