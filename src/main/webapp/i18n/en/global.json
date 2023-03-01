@@ -139,6 +139,7 @@
         "baseApplication": "Base Application",
         "leedsLoanApplication": "Loan Application",
         "positionReportingStructure": "Position Reporting Structure",
+        "lendingProgramParameter": "Lending Program Parameter",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
