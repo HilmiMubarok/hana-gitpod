@@ -7,7 +7,7 @@ export const DASHBOARD_ROUTE: Route = {
   path: 'dashboard',
   component: DashboardComponent,
   data: {
-    pageTitle: 'dashboard.title',
+    pageTitle: 'Credit Approval System of Hana Bank',
   },
   canActivate: [UserRouteAccessService],
 };
