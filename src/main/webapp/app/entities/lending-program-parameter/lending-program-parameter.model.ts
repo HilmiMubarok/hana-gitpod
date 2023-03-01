@@ -4,7 +4,6 @@ export interface ILendingProgramParameter {
   description?: string;
   statusCode?: string;
   statusId?: string;
-  statusCode?: string;
   createdBy?: string;
   createdDate?: Date;
   lastModifiedBy?: string;
@@ -18,7 +17,6 @@ export class LendingProgramParameter implements ILendingProgramParameter {
     public description?: string,
     public statusCode?: string,
     public statusId?: string,
-    public statusCode?: string,
     public createdBy?: string,
     public createdDate?: Date,
     public lastModifiedBy?: string,
