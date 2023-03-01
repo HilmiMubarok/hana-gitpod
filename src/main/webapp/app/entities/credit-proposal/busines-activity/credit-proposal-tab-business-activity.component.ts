@@ -40,7 +40,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
   set creditProposalItem(item: ICreditProposal) {
     this._item = item;
-    
+
     this._item.attributes['businessActivity'].visitDate = this._item.attributes['businessActivity'].visitDate.split('T')[0];
   }
 
@@ -119,11 +119,17 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   ];
 
   public tes() {
-    if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
-        this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
-      }
+    if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
+      this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
+    } else {
+      this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
     }
+
+    // if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
+    //   for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
+    //     this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
+    //   }
+    // }
   }
 
   public onSelect(value: string, data: any): void {
@@ -242,7 +248,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   onCreate(): void {
     this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-	// this.container.serviceUrl = '/services/los/api/wordeditor/';
+    // this.container.serviceUrl = '/services/los/api/wordeditor/';
     // this.containers.serviceUrl = '/services/los/api/wordeditor/';
   }
 

@@ -185,12 +185,16 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
     //   this.getContainer();
     // });
-
-    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
-      for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
-        this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
-      }
+    if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
+      this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
+    } else {
+      this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
     }
+    // if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
+    //   for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
+    //     this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
+    //   }
+    // }
     this.getWord();
 
     this.matrixRemoveTag();
