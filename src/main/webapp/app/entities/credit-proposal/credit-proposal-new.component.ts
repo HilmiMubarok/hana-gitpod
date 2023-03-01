@@ -11,6 +11,7 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-credit-proposal-new',
@@ -45,7 +46,8 @@ export class CreditProposalNewComponent {
     private creditProposalService: CreditProposalService,
     private partyCifService: PartyCifService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.partyCifs = [];
   }
@@ -70,31 +72,35 @@ export class CreditProposalNewComponent {
     });
 
     dialogRef.afterClosed().subscribe((res: IPartyCif) => {
-      if (res.customerType === 'PERSONAL') {
-        this.creditProposalService.findPersonTemplate(res.customerNumber).subscribe(res2 => {
-          const creditProposal: ICreditProposal = res2.body;
-          creditProposal.collaterals = res.collaterals;
-          creditProposal.debtorData = res.debtorData;
-          creditProposal.setCompliance = null;
+      if (res && res.customerNumber) {
+        if (res.customerType === 'PERSONAL') {
+          this.creditProposalService.findPersonTemplate(res.customerNumber).subscribe(res2 => {
+            const creditProposal: ICreditProposal = res2.body;
+            creditProposal.collaterals = res.collaterals;
+            creditProposal.debtorData = res.debtorData;
+            creditProposal.setCompliance = null;
 
-          this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
-            if (res3.body) {
-              this.router.navigate([this.router.url.split('/')[1]]);
-            }
+            this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+              if (res3.body) {
+                this.router.navigate([this.router.url.split('/')[1]]);
+              }
+            });
           });
-        });
+        } else {
+          this.creditProposalService.findPartyGroupTemplate(res.customerNumber).subscribe(res2 => {
+            const creditProposal: ICreditProposal = res2.body;
+            creditProposal.collaterals = res.collaterals;
+            creditProposal.debtorData = res.debtorData;
+
+            this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+              if (res3.body) {
+                this.router.navigate([this.router.url.split('/')[1]]);
+              }
+            });
+          });
+        }
       } else {
-        this.creditProposalService.findPartyGroupTemplate(res.customerNumber).subscribe(res2 => {
-          const creditProposal: ICreditProposal = res2.body;
-          creditProposal.collaterals = res.collaterals;
-          creditProposal.debtorData = res.debtorData;
-
-          this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
-            if (res3.body) {
-              this.router.navigate([this.router.url.split('/')[1]]);
-            }
-          });
-        });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Terjadi kesalahan pada sistem, silahkan ulangi proses' });
       }
     });
   }

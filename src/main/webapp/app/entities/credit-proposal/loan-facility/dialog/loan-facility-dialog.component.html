@@ -538,13 +538,29 @@
           </div>
         </div>
       </section>
-      <section *ngIf="parentPath === 'finalize'">
+      <section *ngIf="parentPath === 'finalize' && selectedMenu === 'loan-facility-detail'">
         <div class="fontsebled row py-1">
           <div class="col-3">Disbursement Condition</div>
           <div class="col-md-auto">:</div>
           <div class="col">
             <mat-form-field class="w-100" appearance="outline">
               <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="parentPath === 'finalize' && selectedMenu === 'loan-facility'">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <textarea
+                matInput
+                style="height: 200px"
+                [(ngModel)]="applicationProduct.attributes['disbursementCondition']"
+                disabled
+              ></textarea>
             </mat-form-field>
           </div>
         </div>

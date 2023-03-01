@@ -40,11 +40,11 @@
           <button mat-icon-button (click)="openDialog(element, 'view')">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button *ngIf="isViewMode === false" mat-icon-button (click)="openDialog(element, 'edit')" [hidden]="_isViewMode">
+          <button *ngIf="isViewMode === false" mat-icon-button (click)="openDialog(element, 'edit')" [hidden]="field">
             <mat-icon>create</mat-icon>
           </button>
 
-          <button *ngIf="isViewMode === false" mat-icon-button (click)="deleteFile(element)" [hidden]="_isViewMode">
+          <button *ngIf="isViewMode === false" mat-icon-button (click)="deleteFile(element)" [hidden]="field">
             <mat-icon>delete_forever</mat-icon>
           </button>
         </td>

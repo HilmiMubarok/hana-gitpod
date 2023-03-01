@@ -121,10 +121,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   ];
 
   public tes() {
-    if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
-        this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
-      }
+    if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
+      this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
+    } else {
+      this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
     }
   }
 
@@ -169,16 +169,16 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   private getToken(cookieName: string) {
-    const result = null;
-    // let cookies: string[] = document.cookie.split(";");
+    let result = null;
+    let cookies: string[] = document.cookie.split(';');
 
-    // cookies.forEach((o) => {
-    //   let cookie: string[] = o.split("=");
-    //   let name: string = cookie[0].trim();
-    //   if (name === cookieName) {
-    //     result = cookie[1];
-    //   }
-    // })
+    cookies.forEach(o => {
+      let cookie: string[] = o.split('=');
+      let name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
 
     return result;
   }
