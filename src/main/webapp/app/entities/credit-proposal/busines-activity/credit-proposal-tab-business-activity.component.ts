@@ -121,11 +121,17 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   ];
 
   public tes() {
-    if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length !== 0) {
-      for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
-        this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
-      }
+    if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
+      this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
+    } else {
+      this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
     }
+
+    // if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
+    //   for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
+    //     this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
+    //   }
+    // }
   }
 
   public onSelect(value: string, data: any): void {
