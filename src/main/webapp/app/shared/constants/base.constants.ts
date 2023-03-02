@@ -2444,10 +2444,7 @@ export const SUBMENU_OFFERING_LETTER: object[] = [
         id: 'basic-information',
         text: 'basic information',
       },
-      {
-        id: 'document-checklist',
-        text: 'document checklist',
-      },
+
       {
         id: 'business-activity',
         text: 'business activity',
