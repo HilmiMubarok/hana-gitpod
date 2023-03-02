@@ -1017,7 +1017,7 @@ export class LoanAnalysMainComponent implements OnInit {
           }
         }
 
-        if (tempRouterA === 'dar-final/id/single-assign?subroute=loan-facility') {
+        if (this.selectedMenu === 'loan-facility') {
           if (this.loanFacilityDetailTempComponent) {
             this.loanFacilityDetailTempComponent.triggeredSave();
             this.loanFacilityDetailTempComponent.onCreate();
@@ -1104,7 +1104,7 @@ export class LoanAnalysMainComponent implements OnInit {
             this.loanAnalysOpinionCompliancePartComponent.onCreate();
           }
         }
-        if (tempRouterB === 'dar-final/id/single-assign?subroute=loan-facility') {
+        if (this.selectedMenu === 'loan-facility') {
           if (this.loanFacilityDetailTempComponent) {
             this.loanFacilityDetailTempComponent.triggeredSave();
             this.loanFacilityDetailTempComponent.onCreate();
