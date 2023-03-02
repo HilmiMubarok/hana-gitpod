@@ -510,6 +510,11 @@ import { RouterModule } from '@angular/router';
         path: 'document-type',
         loadChildren: () => import('./document-type/document-type.module').then(m => m.LosgwDocumentTypeModule),
       },
+      {
+        path: 'lending-program-parameter',
+        loadChildren: () =>
+          import('./lending-program-parameter/lending-program-parameter.module').then(m => m.LosgwLendingProgramParameterModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],
