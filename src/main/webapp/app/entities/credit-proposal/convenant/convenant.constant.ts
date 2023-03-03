@@ -38,7 +38,7 @@ export const dataCovenantBelow = [
   {
     id: 0,
     covenant:
-      'DEBITOR wajib secara berkala menyampaikan laporan keuangan usaha intern selambat-lambatnya 90 (sembilanpuluh) hari setelah berakhirnya periode laporan keuangan serta Laporan Keuangan 1 usaha audited selambat-lambatnya 180 (seratus delapanpuluh) hari sejak tanggal penutupan tahun buku dan sewaktu-waktu bila dianggap perlu oleh BANK, DEBITOR bersedia memberikan data/ informasi usaha terkini termasuk data-data mutasi rekening koran pada BANK atau bank lain.',
+      'DEBITOR wajib secara berkala menyampaikan laporan keuangan usaha intern selambat-lambatnya 90 (sembilanpuluh) hari setelah berakhirnya periode laporan keuangan serta Laporan Keuangan 1 usaha audited selambat-lambatnya 270 (duaratus tujuhpuluh) hari sejak tanggal penutupan tahun buku dan sewaktu-waktu bila dianggap perlu oleh BANK, DEBITOR bersedia memberikan data/ informasi usaha terkini termasuk data-data mutasi rekening koran pada BANK atau bank lain.',
     status: '',
     deviation: '',
     justification: '',
