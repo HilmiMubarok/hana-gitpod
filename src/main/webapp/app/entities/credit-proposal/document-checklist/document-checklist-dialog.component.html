@@ -377,7 +377,7 @@
           <td>{{ convertDan(documentChecklist.document) }}</td>
           <td>{{ documentChecklist.category }}</td>
           <td>
-            <span *ngIf="documentChecklist.dueDate !== 'null'">{{ documentChecklist.dueDate | date: 'medium' }}</span>
+            <span *ngIf="documentChecklist.dueDate !== 'null'">{{ documentChecklist.dueDate | date: 'yyyy/MM/dd' }}</span>
           </td>
           <td>{{ convertDan(documentChecklist.remarks) }}</td>
           <td>{{ convertDan(documentChecklist.status) }}</td>
