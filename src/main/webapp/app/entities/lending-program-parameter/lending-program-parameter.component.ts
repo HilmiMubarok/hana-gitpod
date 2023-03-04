@@ -11,12 +11,15 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { LendingProgramParameterDialogComponent } from './lending-program-parameter-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'jhi-lending-program-parameter',
   templateUrl: './lending-program-parameter.component.html',
 })
 export class LendingProgramParameterComponent extends AbstractEntityComponent<ILendingProgramParameter> {
+  displayedColumns: string[] = ['no', 'lending-program', 'start-date', 'end-date', 'status', 'action'];
   constructor(
     protected lendingProgramParameterService: LendingProgramParameterService,
     protected parseLinks: ParseLinks,
@@ -28,7 +31,8 @@ export class LendingProgramParameterComponent extends AbstractEntityComponent<IL
     protected eventManager: EventManager,
     protected messageService: MessageService,
     protected modalService: NgbModal,
-    protected confirmationService: ConfirmationService
+    protected confirmationService: ConfirmationService,
+    protected dialog: MatDialog
   ) {
     super(
       lendingProgramParameterService,
@@ -70,5 +74,11 @@ export class LendingProgramParameterComponent extends AbstractEntityComponent<IL
 
   set lendingProgramParameters(lendingProgramParameter: ILendingProgramParameter[]) {
     this.items = lendingProgramParameter;
+  }
+
+  public openDialog(): void {
+    const dialogRef = this.dialog.open(LendingProgramParameterDialogComponent, {
+      width: '60%',
+    });
   }
 }
