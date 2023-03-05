@@ -161,9 +161,6 @@ export const surveyBatchRoute: Routes = [
   {
     path: ':id/viewOffering',
     component: OfferingLetterSurveyBatchViewComponent,
-    resolve: {
-      content: SurveyBatchResolve,
-    },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.surveyBatch.home.title',
