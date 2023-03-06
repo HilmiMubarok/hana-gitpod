@@ -65,7 +65,6 @@
                   (ngModelChange)="
                     creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] = numberInputChanged($event)
                   "
-                  disabled
                 />
               </mat-form-field>
             </td>
@@ -200,15 +199,13 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
                     (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] = numberInputChanged($event)
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)
                     "
-                    [formControl]="validExistingCR"
-                    required
+                    disabled
                   />
-                  <mat-error *ngIf="validExistingCR.hasError('required')">Existing is Required</mat-error>
                 </mat-form-field>
               </td>
             </section>
@@ -218,10 +215,10 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] | number: '1.0-0'"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] | number: '1.0-0'"
                     (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] = numberInputChanged($event)
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] = numberInputChanged($event)
                     "
                     disabled
                   />
@@ -283,15 +280,13 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
                     (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] = numberInputChanged($event)
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
                     "
-                    [formControl]="validCurrentProposalCR"
-                    required
+                    disabled
                   />
-                  <mat-error *ngIf="validCurrentProposalCR.hasError('required')">Current Proposal Credit Mutation is Required</mat-error>
                 </mat-form-field>
               </td>
             </section>
@@ -301,10 +296,10 @@
                   <input
                     matInput
                     type="text"
-                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
-                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'"
+                    [ngModel]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
+                    [value]="creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'"
                     (ngModelChange)="
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] = numberInputChanged($event)
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] = numberInputChanged($event)
                     "
                     disabled
                   />
