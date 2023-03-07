@@ -15,7 +15,7 @@
             </e-column>
             <e-column headerText="Status" width="150" textAlign="center">
               <ng-template #template let-data>
-                <ejs-dropdownlist
+                <!-- <ejs-dropdownlist
                   *ngIf="data.formGroub === 'true' || data.formGroub === true"
                   (change)="onKeyUpEvent('status', $event, data)"
                   [value]="'Waived'"
@@ -24,10 +24,9 @@
                   cssClass="e-outline"
                   [disabled]="readonly"
                 >
-                </ejs-dropdownlist>
+                </ejs-dropdownlist> -->
 
                 <ejs-dropdownlist
-                  *ngIf="data.formGroub === false || data.formGroub === 'false'"
                   (change)="onKeyUpEvent('status', $event, data)"
                   [(ngModel)]="statusValue[data.id]"
                   [dataSource]="status"
@@ -40,7 +39,7 @@
             </e-column>
             <e-column field="deviation" headerText="Deviation" width="200" textAlign="justify" headerTextAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox
+                <!-- <ejs-textbox
                   *ngIf="data.formGroub === true || data.formGroub === 'true'"
                   class="txtHeight"
                   [multiline]="true"
@@ -48,10 +47,9 @@
                   cssClass="e-outline"
                   disabled
                 >
-                </ejs-textbox>
+                </ejs-textbox> -->
 
                 <ejs-textbox
-                  *ngIf="data.formGroub === false || data.formGroub === 'false'"
                   class="txtHeight"
                   [multiline]="true"
                   (keyup)="onKeyUpEvent('deviation', $event, data)"
@@ -65,7 +63,7 @@
             </e-column>
             <e-column field="justification" headerText="Justification" width="200" textAlign="justify" headerTextAlign="center">
               <ng-template #template let-data>
-                <ejs-textbox
+                <!-- <ejs-textbox
                   *ngIf="data.formGroub === true || data.formGroub === 'true'"
                   class="txtHeight"
                   [multiline]="true"
@@ -73,10 +71,9 @@
                   cssClass="e-outline"
                   disabled
                 >
-                </ejs-textbox>
+                </ejs-textbox> -->
 
                 <ejs-textbox
-                  *ngIf="data.formGroub === false || data.formGroub === 'false'"
                   class="txtHeight"
                   [multiline]="true"
                   (keyup)="onKeyUpEvent('justification', $event, data)"
