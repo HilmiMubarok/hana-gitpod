@@ -322,7 +322,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
 		  const blob = new Blob([res.body], { type: 'application/pdf' });
-		  window.open(blobURL);
+		  window.open(blob);
 
           /* const reader = new FileReader();
           reader.readAsDataURL(res.body!);
