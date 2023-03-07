@@ -333,9 +333,23 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
-      this.creditProposal = res.body[0];
+      // this.creditProposal = res.body[0];
+      const result: ICreditProposal = res.body[0];
+      if (result) {
+        this.creditProposal = result;
+      }
     });
   }
+
+  // public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
+  //   this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
+  //     // this.creditProposal = res.body[0];
+  //     const result: ICreditProposal = res.body[0];
+  //     if (result) {
+  //       this.creditProposal = result;
+  //     }
+  //   });
+  // }
 
   private checkLogin() {
     this.accountService.identity().subscribe(account => {
