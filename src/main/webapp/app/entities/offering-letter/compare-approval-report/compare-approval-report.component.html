@@ -5,10 +5,15 @@
   </div>
   <div>
     <!-- <jhi-loan-facility-detail-previous [isOffering]="true" [creditProposal]="creditProposal"> </jhi-loan-facility-detail-previous> -->
-    <jhi-loan-facility-detail-history
+    <!-- <jhi-loan-facility-detail-history
       *ngIf="creditProposal.attributes['previousHistory']"
       [isViewMode]="true"
       [takeOutCompare]="true"
+      [creditProposal]="creditProposal"
+    ></jhi-loan-facility-detail-history> -->
+    <jhi-loan-facility-detail-history
+      *ngIf="creditProposal.attributes['previousHistory']"
+      [isViewMode]="true"
       [creditProposal]="creditProposal"
     ></jhi-loan-facility-detail-history>
     <div class="e-card" *ngIf="!creditProposal.attributes['previousHistory']">
@@ -40,7 +45,6 @@
     </jhi-credit-proposal-collateral-info-previous> -->
     <jhi-collateral-info-history
       *ngIf="creditProposal.attributes['previousHistory']"
-      [isOnCompareData]="true"
       [isCompareDar]="false"
       [source]="'summaryAll'"
       [parentSource]="'loan-analys'"
@@ -80,7 +84,6 @@
       *ngIf="creditProposal.attributes['previousHistory']"
       [source]="'summaryAll'"
       [parentSource]="'loan-analys'"
-      [isOnCompareData]="false"
       [isCompareDar]="false"
       [isOnOffering]="true"
       [takeOutCompare]="true"
@@ -130,6 +133,7 @@
     <jhi-credit-proposal-tab-covenant-history
       *ngIf="creditProposal.attributes['previousHistory']"
       [source]="'summaryAll'"
+      [isOnCompareData]="true"
       [parentSource]="'loan-analys'"
       [isOnOffering]="true"
       [takeOutCompare]="true"

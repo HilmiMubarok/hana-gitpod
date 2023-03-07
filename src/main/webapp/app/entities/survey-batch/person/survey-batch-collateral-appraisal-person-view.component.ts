@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { IPerson, Person } from 'app/entities/person/person.model';
@@ -17,7 +18,7 @@ export class SurveyBatchCollateralAppraisalPersonViewComponent implements OnChan
   public item: IPerson;
   public itemCP: ICreditProposal;
 
-  constructor(private personService: PersonService, private creditProposalService: CreditProposalService) {
+  constructor(private personService: PersonService, private creditProposalService: CreditProposalService, protected router: Router) {
     this.tipeNasabah = 'individu';
     this.item = new Person();
     this.itemCP = new CreditProposal();
@@ -36,7 +37,10 @@ export class SurveyBatchCollateralAppraisalPersonViewComponent implements OnChan
 
     this.creditProposalService.findByCif(this.id).subscribe(res => {
       console.log('ini body', res.body);
-      this.itemCP = res.body;
+      const result: ICreditProposal = res.body;
+      if (result) {
+        this.itemCP = result;
+      }
     });
   }
 }

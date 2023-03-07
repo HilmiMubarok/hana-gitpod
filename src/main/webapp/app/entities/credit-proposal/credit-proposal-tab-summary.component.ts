@@ -321,11 +321,14 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
         .fileBlob(data.url)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-          const reader = new FileReader();
+		  const blob = window.URL.createObjectURL(new Blob([res.body], { type: 'application/pdf' }));
+		  window.open(blob);
+
+          /* const reader = new FileReader();
           reader.readAsDataURL(res.body!);
           reader.onloadend = e => {
             this.viewBlob('Report', reader.result);
-          };
+          }; */
         });
     }
   }
@@ -355,6 +358,13 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   private viewBlob(title: string, data: any) {
     const win = window.open();
+	/* win!.document.write(
+      '<html><head><title>' +
+        title +
+        '</title></head><body> <iframe src="https://docs.google.com/gview?url=' +
+        data +
+        '&embedded=true" frameborder="0" title="xxxxx" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+    ); */
     win!.document.write(
       '<html><head><title>' +
         title +
