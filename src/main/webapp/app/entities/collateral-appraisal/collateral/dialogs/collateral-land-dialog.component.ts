@@ -52,16 +52,13 @@ export class CollateralLandDialogComponent implements OnInit {
       }
 
       const newD = new Date(tempDate);
-      console.log('d', newD);
 
       const utcDate = new Date(Date.UTC(newD.getFullYear(), newD.getMonth(), newD.getDate(), newD.getHours(), newD.getMinutes()));
       return utcDate;
     } else {
       const dateN = new Date(date);
-      console.log('n', dateN);
 
       const utcDate = new Date(Date.UTC(dateN.getFullYear(), dateN.getMonth(), dateN.getDate()));
-      console.log('utc', utcDate);
 
       return utcDate;
     }
