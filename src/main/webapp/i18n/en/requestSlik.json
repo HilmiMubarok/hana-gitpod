@@ -1,0 +1,22 @@
+{
+  "losgwApp": {
+    "requestSlik": {
+      "home": {
+        "title": "Request Sliks",
+        "createLabel": "Create a new Request Slik",
+        "createOrEditLabel": "Create or edit a Request Slik",
+        "viewLabel": "View Request Slik",
+        "notFound": "No Request Sliks found"
+      },
+      "created": "A new Request Slik is created with identifier {{ param }}",
+      "updated": "A Request Slik is updated with identifier {{ param }}",
+      "deleted": "A Request Slik is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Request Slik {{ id }}?"
+      },
+      "detail": {
+        "title": "Request Slik"
+      }
+    }
+  }
+}
