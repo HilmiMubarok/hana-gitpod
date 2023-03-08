@@ -22,8 +22,8 @@ import { Router } from '@angular/router';
   styleUrls: ['../../loan-facility/grid/loan.scss'],
 })
 export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges, AfterViewInit {
-  public parsedAttr;
-  public dataSource;
+  public parsedAttr = [];
+  public dataSource = [];
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
