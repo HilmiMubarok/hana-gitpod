@@ -31,6 +31,7 @@ import { MessageService } from 'primeng/api';
 import { AccountService } from 'app/core/auth/account.service';
 import { IPartyGroup } from 'app/entities/party-group/party-group.model';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -78,7 +79,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected activatedRoute: ActivatedRoute,
     protected _snackBar: MatSnackBar,
     protected messageService: MessageService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    protected cashCollateralService: CashCollateralService
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -119,17 +121,22 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public selectCif(ev: IPartyCif): void {
     this.selectedPartyCif = ev;
     this.showCollateral = true;
-    this.setAvailableCollateralForAppraise(ev.collaterals);
-    if (this.collateralsData.length > 0) {
-      for (let i = 0; i < this.collateralsData.length; i++) {
-        this.collateralsData[i]['indexNum'] = i + 1;
-      }
-    }
+    this.setAvailableCollateralForAppraise(ev.partyId);
+    // if (this.collateralsData.length > 0) {
+    //   for (let i = 0; i < this.collateralsData.length; i++) {
+    //     this.collateralsData[i]['indexNum'] = i + 1;
+    //   }
+    // }
   }
 
-  private setAvailableCollateralForAppraise(collaterals: ICollateral[]): void {
-    this.collateralsData = lodash.filter(collaterals, function (e) {
-      return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL;
+  private setAvailableCollateralForAppraise(partyId: string): void {
+    this.cashCollateralService.loadCollateralReadyForAppraise(partyId).subscribe(res => {
+      this.collateralsData = res.body;
+      if (this.collateralsData.length > 0) {
+        for (let i = 0; i < this.collateralsData.length; i++) {
+          this.collateralsData[i]['indexNum'] = i + 1;
+        }
+      }
     });
   }
 

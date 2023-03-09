@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit, OnChanges, AfterViewInit {
   public parsedAttr;
-  public dataSource;
+  public dataSource = [];
   public selectedMenu: string;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -116,13 +116,11 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
       this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
       this.getCurrency();
-  });
+    });
   }
 
- 
-
   ngAfterViewInit(): void {
-    this.debtorData()
+    this.debtorData();
   }
 
   private getMyBusinessGroup(): void {
@@ -166,7 +164,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
               parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
               parsed.Tenor = source[y].FXFIG_TRX_DT;
               parsed.LoanType = this.fakeFacilityService.getFacilityType(source[y].FILN11_COM_ID);
-              parsed.CCY = source[y].LNB_BASE_LON_CCY;;
+              parsed.CCY = source[y].LNB_BASE_LON_CCY;
               parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
 
               this.totalplafondgroup = this.totalplafondgroup + parsed.TotalPlafond;
@@ -316,57 +314,55 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyMaster = res.body[0]?.factor;
-    
-    this.debtorData()
-    this.debtorData()
-    this.fungsiSuminit();
-    this.fungsiSumchange();
-    this.fungsiSumOS();
-    this.fungsiSumcredit();
-    this.fungsiSumavailable();
-    this.fungsiSumTotalDebiturCashLoan();
-    this.totalNonCashLoan();
-    this.totalCashLoan();
-    this.getMyBusinessGroup();
-    this.grandTotalDebitur();
 
-    this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
-    this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
-    this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
-    this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
-  })
+      this.debtorData();
+      this.debtorData();
+      this.fungsiSuminit();
+      this.fungsiSumchange();
+      this.fungsiSumOS();
+      this.fungsiSumcredit();
+      this.fungsiSumavailable();
+      this.fungsiSumTotalDebiturCashLoan();
+      this.totalNonCashLoan();
+      this.totalCashLoan();
+      this.getMyBusinessGroup();
+      this.grandTotalDebitur();
+
+      this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
+      this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
+      this.creditProposal.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
+      this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
+    });
   }
 
-  public debtorData(){
+  public minusChange(value: number) {
+    return value;
+  }
+
+  public debtorData() {
     let a = [];
-  
-      if (this.router.url.split('=').indexOf('exposure') > -1) {
-      
-        this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
-        if (this.parsedAttr.previousHistory) {
 
-          this.dataSource = this.parsedAttr.previousHistory.products;
-          
-          for (let i = 0; i < this.parsedAttr.previousHistory.products.length; i++) {
-            a = lodash.concat(a, this.parsedAttr.previousHistory.products[i]);
-          }
-          
+    if (this.router.url.split('=').indexOf('exposure') > -1) {
+      this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+      if (this.parsedAttr.previousHistory) {
+        this.dataSource = this.parsedAttr.previousHistory.products;
 
-        } else {
-       
-          this.dataSource = this.creditProposal.products;
-       
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            a = lodash.concat(a, this.creditProposal.products[i]);
-          }
+        for (let i = 0; i < this.parsedAttr.previousHistory.products.length; i++) {
+          a = lodash.concat(a, this.parsedAttr.previousHistory.products[i]);
+        }
+      } else {
+        this.dataSource = this.creditProposal.products;
 
+        for (let i = 0; i < this.creditProposal.products.length; i++) {
+          a = lodash.concat(a, this.creditProposal.products[i]);
+        }
       }
-    }else{
+    } else {
       this.dataSource = this.creditProposal.products;
-         
-          for (let i = 0; i < this.creditProposal.products.length; i++) {
-            a = lodash.concat(a, this.creditProposal.products[i]);
-          }
+
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        a = lodash.concat(a, this.creditProposal.products[i]);
+      }
     }
 
     this.debtor = new MatTableDataSource(a);
@@ -387,7 +383,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   totalNonCashLoan() {
     if (this.nonCashLoanDebitur.length > 0) {
       this.totalDebiturNonCashLoan = this.nonCashLoanDebitur.reduce((acc, cur) => acc + cur);
-  
+
       this.creditProposal.attributes['calculationExposure'].totalDebiturNonCashLoan = this.totalDebiturNonCashLoan;
     } else {
       this.totalDebiturNonCashLoan = 0;
@@ -426,9 +422,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
@@ -457,9 +451,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
@@ -491,9 +483,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
@@ -536,9 +526,7 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');

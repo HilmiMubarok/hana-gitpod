@@ -1,0 +1,31 @@
+{
+  "losgwApp": {
+    "lendingProgramParameter": {
+      "home": {
+        "title": "Lending Program Parameters",
+        "createLabel": "Create a new Lending Program Parameter",
+        "createOrEditLabel": "Create or edit a Lending Program Parameter",
+        "viewLabel": "View Lending Program Parameter",
+        "notFound": "No Lending Program Parameters found"
+      },
+      "created": "A new Lending Program Parameter is created with identifier {{ param }}",
+      "updated": "A Lending Program Parameter is updated with identifier {{ param }}",
+      "deleted": "A Lending Program Parameter is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lending Program Parameter {{ id }}?"
+      },
+      "detail": {
+        "title": "Lending Program Parameter"
+      },
+      "code": "Code",
+      "description": "Description",
+      "statusCode": "Status Code",
+      "statusId": "Status Id",
+      "statusCode": "Status Code",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
+    }
+  }
+}

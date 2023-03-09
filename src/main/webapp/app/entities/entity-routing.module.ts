@@ -507,9 +507,17 @@ import { RouterModule } from '@angular/router';
           import('./position-reporting-structure/position-reporting-structure.module').then(m => m.LosgwPositionReportingStructureModule),
       },
       {
-        path: 'list-of-value-parameter',
+        path: 'document-type',
+        loadChildren: () => import('./document-type/document-type.module').then(m => m.LosgwDocumentTypeModule),
+      },
+      {
+        path: 'lending-program-parameter',
         loadChildren: () =>
-          import('./master-parameter/master-lov-parameter/master-lov-parameter.module').then(m => m.LosgwMasterLovParameterModule),
+          import('./lending-program-parameter/lending-program-parameter.module').then(m => m.LosgwLendingProgramParameterModule),
+      },
+      {
+        path: 'request-slik',
+        loadChildren: () => import('./request-slik/request-slik.module').then(m => m.LosgwRequestSlikModule),
       },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
