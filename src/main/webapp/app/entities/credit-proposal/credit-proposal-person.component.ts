@@ -30,7 +30,6 @@ import moment from 'moment';
 import { ICreditProposal } from './credit-proposal.model';
 import { CATEGORY_DEBTOR, COLLECTABILITY_STATUS, RELATION_WITH_HANA, UMKM_CLASSIFICATION } from 'app/shared/constants/base.constants';
 import { PartyCifService } from '../party-cif/party-cif.service';
-import { GeneralParameter } from '../master-parameter/general-parameter/general-parameter.model';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 
 moment.locale('id');
@@ -94,7 +93,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public gendersss = ['Laki - Laki', 'Perempuan'];
   public collectabilityStatusData = ['1', '2', '3', '4', '5'];
   // public CollecStatus: string = 'Canada';
-  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public ifcRiskCategoryData = [];
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
   public callReportCategoryData = [];
@@ -128,6 +127,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
 
   ngOnInit(): void {
     this.lovCallreport();
+    this.getLov();
+
     this.masterInitialDebtorDataService.getMaritalStatus().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.maritalStatuses = res.body;
     });
@@ -218,6 +219,17 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     if (changes['_deptorData']) {
       console.log('Deptor data Changes', this._deptorData);
     }
+  }
+  public getLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'IFC_AND_RISK_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ifcRiskCategoryData = res.body;
+      });
   }
 
   public collectabilityStatus: any;

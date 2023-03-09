@@ -898,14 +898,25 @@
                 </div>
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-combobox
+                    <!-- <ejs-combobox
                       [dataSource]="ifcRiskCategoryData"
                       [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
                       placeholder="IFC & Risk Category"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                     >
-                    </ejs-combobox>
+                    </ejs-combobox> -->
+                    <section class="mt-2">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>IFC & Risk Category</mat-label>
+                        <mat-select name="riskCategory" [(ngModel)]="deptorData.debtorData.ifcRiskCategory">
+                          <mat-option value="">Please Select</mat-option>
+                          <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                            {{ item.value }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </section>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
