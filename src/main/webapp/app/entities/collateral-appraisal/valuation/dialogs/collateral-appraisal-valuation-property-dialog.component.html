@@ -52,11 +52,12 @@
                 <input matInput type="number" [(ngModel)]="collateralProp.propertyMarketValuePerMeter" />
               </mat-form-field> -->
             </section>
+            <!-- [value]="collateralProp.landSizePerCertificate*collateralProp.propertyMarketValuePerMeter" -->
             <section class="mt-3">
               <div *ngIf="collateralProp.propertyType === 'LAND'">
                 <ejs-numerictextbox
                   cssClass="e-outline"
-                  [value]="collateralProp.landSizePerCertificate * collateralProp.propertyMarketValuePerMeter"
+                  [value]="calTotalmarketValueLand()"
                   [(ngModel)]="collateralProp.propertyMarketValue"
                   placeholder="Market Value"
                   floatLabelType="auto"
@@ -67,9 +68,10 @@
                 </ejs-numerictextbox>
               </div>
               <div *ngIf="collateralProp.propertyType === 'BUILDING'">
+                <!-- [value]="countTotalArea() * collateralProp.propertyMarketValuePerMeter" -->
                 <ejs-numerictextbox
                   cssClass="e-outline"
-                  [value]="countTotalArea() * collateralProp.propertyMarketValuePerMeter"
+                  [value]="calTotalmarketValueBilding()"
                   [(ngModel)]="collateralProp.propertyMarketValue"
                   placeholder="Market Value"
                   floatLabelType="auto"
