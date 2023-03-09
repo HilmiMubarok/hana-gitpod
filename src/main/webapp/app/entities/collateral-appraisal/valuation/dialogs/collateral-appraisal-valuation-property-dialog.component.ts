@@ -26,10 +26,12 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     if (this.collateralProp.propertyType === CollateralPropertyType.LAND) {
       this.calTotalmarket();
       this.calTotalmarketTataKotaLand();
+      this.calTotalmarketValueLand();
     }
     if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
       this.calTotalmarketIMBBuilding();
       this.calTotalmarketTataKotaBuilding();
+      this.calTotalmarketValueBilding();
     }
   }
 
@@ -108,5 +110,15 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
   public calTotalmarketTataKotaBuilding(): Number {
     this.collateralProp.propertyMarketValueTataKota = this.collateralProp.propertyMarketValueTataKotaPerMeter * this.countTotalArea();
     return this.collateralProp.propertyMarketValueTataKota;
+  }
+
+  public calTotalmarketValueLand(): Number {
+    this.collateralProp.propertyMarketValue = this.collateralProp.landSizePerCertificate * this.collateralProp.propertyMarketValuePerMeter;
+    return this.collateralProp.propertyMarketValue;
+  }
+
+  public calTotalmarketValueBilding(): Number {
+    this.collateralProp.propertyMarketValue = this.countTotalArea() * this.collateralProp.propertyMarketValuePerMeter;
+    return this.collateralProp.propertyMarketValue;
   }
 }
