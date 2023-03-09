@@ -1,83 +1,68 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
-import { AlertService } from 'app/core/util/alert.service';
-import { EventManager } from 'app/core/util/event-manager.service';
-
-import { IDocumentType, DocumentType } from './document-type.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DocumentType, IDocumentType } from './document-type.model';
 import { DocumentTypeService } from './document-type.service';
 import { MessageService } from 'primeng/api';
-import { AccountService } from 'app/core/auth/account.service';
-import { CODE } from 'app/shared/constants/base.constants';
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
-import { TranslateService } from '@ngx-translate/core';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder } from '@angular/forms';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-document-type-view',
   templateUrl: './document-type-view.component.html',
+  styleUrls: ['./document-type.css'],
 })
-export class DocumentTypeViewComponent extends AbstractEntityBaseViewComponent<IDocumentType> implements OnChanges {
-  @Input() id: number;
-  readonly CODE: typeof CODE = CODE;
+export class DocumentTypeViewComponent extends AbstractEntityMaterialComponent<IDocumentType> implements OnInit {
+  public documentType: IDocumentType;
+  public parentIdValue: IDocumentType[];
+  public idDocumentType: any = [];
+
+  id: any;
+  public docTypeValue = ['DOC_IDD', 'DOC_CP'];
+  public statusValue = ['Active', 'Non Active'];
+  public categoryValue = ['A', 'B', 'C'];
 
   constructor(
-    protected dataUtils: BaseDataUtils,
-    protected documentTypeService: DocumentTypeService,
-    protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute,
+    private documentTypeService: DocumentTypeService,
+    private formBuilder: FormBuilder,
+    protected _snackBar: MatSnackBar,
+    protected router: Router,
     protected messageService: MessageService,
-    protected translateService: TranslateService,
-    protected eventManager: EventManager,
-    public account: AccountService
+    private applicationStateLogService: ApplicationStateLogService,
+    protected activatedRoute: ActivatedRoute
   ) {
-    super(documentTypeService, messageService, elementRef, dataUtils, account, eventManager);
-    this.item = new DocumentType();
+    super(_snackBar, documentTypeService);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['id']) {
-      if (changes['id'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.id) {
-        this.item = new DocumentType();
-        this.documentTypeService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
-    }
+  ngOnInit(): void {
+    this.documentType = new DocumentType();
 
-    if (changes['item']) {
-      if (changes['item'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.item) {
-        this.prepareView();
-      }
-    }
-
-    if (changes['isSaving'] && this.item.id) {
-      if (this.isSaving) {
-        this.save();
-      }
-    }
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.loadDataAll(this.id);
+    this.selectParentIdValue();
   }
 
-  initialize() {}
-
-  prepareView() {}
-
-  get documentType() {
-    return this.item;
+  loadDataAll(id) {
+    this.documentTypeService.find(id).subscribe(response => {
+      this.documentType = response.body;
+    });
   }
 
-  set documentType(documentType: IDocumentType) {
-    this.item = documentType;
+  public selectParentIdValue() {
+    this.documentTypeService
+      .query({
+        page: this.page,
+        size: 9999,
+        sort: ['id', 'asc'],
+      })
+      .subscribe(res => {
+        this.parentIdValue = res.body;
+      });
   }
 
-  itemKey() {
-    return this.item.id;
+  previousState(): void {
+    window.history.back();
   }
 }
