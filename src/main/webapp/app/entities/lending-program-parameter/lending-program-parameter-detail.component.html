@@ -1,0 +1,24 @@
+<div class="page-view">
+  <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.lendingProgramParameter.home.viewLabel">Lending Program Parameters</span>
+  </h5>
+  <p-panel>
+    <p-header>
+      <span jhiTranslate="losgwApp.lendingProgramParameter.detail.title">Lending Program Parameter</span> {{ lendingProgramParameter.id }}
+    </p-header>
+    <jhi-lending-program-parameter-view [item]="lendingProgramParameter" mode="item"> </jhi-lending-program-parameter-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button
+        type="button"
+        [routerLink]="['/lending-program-parameter', lendingProgramParameter.id, 'edit']"
+        class="btn-info flat-style-button"
+      >
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel>
+</div>

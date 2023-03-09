@@ -1,17 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
-
-import { Subject } from 'rxjs';
-import { ICollateralProperty, CollateralProperty } from '../collateral-property/collateral-property.model';
-
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { OptionNode } from 'app/shared/model/option-node.model';
+import { ICollateral } from '../collateral/collateral.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +21,9 @@ export class CashCollateralService {
 
   public loadCollateralGradingType(): Observable<HttpResponse<OptionNode[]>> {
     return this.http.get<OptionNode[]>(`${this.resourceUrl}/grading-type`, { observe: 'response' });
+  }
+
+  public loadCollateralReadyForAppraise(idParty: String): Observable<HttpResponse<ICollateral[]>> {
+    return this.http.get<ICollateral[]>(`${this.resourceUrl}/ready-to-appraise/${idParty}`, { observe: 'response' });
   }
 }

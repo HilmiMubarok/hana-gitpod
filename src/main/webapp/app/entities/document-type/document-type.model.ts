@@ -15,16 +15,19 @@ interface ILevel {
   dueDate?: string;
 }
 
-export interface IDocumentType extends ILevel {
+export interface IDocumentType {
   id?: string;
   category?: string;
   description?: string;
   orderNo?: number;
   parentId?: string;
+  parentDescription?: string;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
   customerType?: string;
+  rootId?: string;
+  rootDescription?: string;
   level?: ILevel[];
 }
 
@@ -35,18 +38,12 @@ export class DocumentType implements IDocumentType {
     public description?: string,
     public orderNo?: number,
     public parentId?: string,
+    public parentDescription?: string,
     public statusId?: string,
     public statusCode?: string,
     public statusDescription?: string,
-    public customerType?: string
-  ) {
-    this.id = '';
-    this.category = '';
-    this.description = '';
-    (this.orderNo = 0), (this.parentId = '');
-    this.statusId = '';
-    this.statusCode = '';
-    this.statusDescription = '';
-    this.customerType = '';
-  }
+    public customerType?: string,
+    public rootId?: string,
+    public rootDescription?: string
+  ) {}
 }
