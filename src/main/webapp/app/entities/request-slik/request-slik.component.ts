@@ -58,6 +58,26 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+    this.requestSliks = [
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+    ];
   }
 
   trackId(index: number, item: IRequestSlik) {
