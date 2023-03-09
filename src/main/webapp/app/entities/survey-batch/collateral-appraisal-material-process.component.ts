@@ -169,7 +169,10 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   }
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
-      this.creditProposal = res.body[0];
+      const result: ICreditProposal = res.body[0];
+      if (result) {
+        this.creditProposal = result;
+      }
     });
   }
 

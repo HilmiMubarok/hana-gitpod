@@ -39,25 +39,68 @@ export class CollateralLandDialogComponent implements OnInit {
   public cancel(): void {
     this._dialog.close(this.collateral);
   }
-  public save(): void {
-    const landAttr: ICollateralLandAttribute = this.collateralLandAttribute;
-    const idx = lodash.findIndex(this.collateral.attributes.landCertificates, function (o: ICollateralLandAttribute) {
-      return o.id === landAttr.id;
-    });
 
-    // update or create
-    if (idx > -1) {
-      this.collateral.attributes['landCertificates'][idx] = lodash.cloneDeep(landAttr);
+  private convertDate(date: any): any {
+    console.log('date', date);
+
+    if (typeof date === 'string') {
+      let tempDate = '';
+      const pointerDate = date.substring(11, 1);
+
+      if (pointerDate === 'T') {
+        tempDate = date.split('T')[0];
+      }
+
+      const newD = new Date(tempDate);
+
+      const utcDate = new Date(Date.UTC(newD.getFullYear(), newD.getMonth(), newD.getDate(), newD.getHours(), newD.getMinutes()));
+      return utcDate;
     } else {
-      this.collateral.attributes['landCertificates'].push(landAttr);
-    }
-    const copyCollateral = lodash.cloneDeep(this.collateral);
-    copyCollateral.attributes['landCertificates'] = JSON.stringify(copyCollateral.attributes['landCertificates']);
+      const dateN = new Date(date);
 
-    this.collateralService.update(copyCollateral).subscribe(res => {
-      this._dialog.close(this.collateral);
-    });
+      const utcDate = new Date(Date.UTC(dateN.getFullYear(), dateN.getMonth(), dateN.getDate()));
+
+      return utcDate;
+    }
   }
+
+  public save(): void {
+    if (typeof this.collateralLandAttribute.certIssueDate === 'object') {
+      if (typeof this.collateralLandAttribute.certIssueDate === 'object') {
+      this.collateralLandAttribute.certIssueDate = this.convertDate(
+        this.collateralLandAttribute.certIssueDate
+      );
+      }
+    }
+  
+    if (this.collateralLandAttribute.certDueDate) {
+      if (typeof this.collateralLandAttribute.certDueDate === 'object') {
+      this.collateralLandAttribute.certDueDate = this.convertDate(
+        this.collateralLandAttribute.certDueDate
+      );
+      }
+    }
+  
+      const landAttr: ICollateralLandAttribute = this.collateralLandAttribute;
+      const idx = lodash.findIndex(this.collateral.attributes.landCertificates, function (o: ICollateralLandAttribute) {
+        return o.id === landAttr.id;
+      });
+  
+      // update or create
+      if (idx > -1) {
+        this.collateral.attributes['landCertificates'][idx] = lodash.cloneDeep(landAttr);
+      } else {
+        this.collateral.attributes['landCertificates'].push(landAttr);
+      }
+  
+      const copyCollateral = lodash.cloneDeep(this.collateral);
+  
+      copyCollateral.attributes['landCertificates'] = JSON.stringify(copyCollateral.attributes['landCertificates']);	
+  
+      this.collateralService.update(copyCollateral).subscribe(res => {
+        this._dialog.close(this.collateral);
+      });
+    }
 
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
