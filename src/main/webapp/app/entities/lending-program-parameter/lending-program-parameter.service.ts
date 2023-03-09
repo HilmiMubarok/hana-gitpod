@@ -5,12 +5,13 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ILendingProgramParameter } from './lending-program-parameter.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class LendingProgramParameterService extends AbstractEntityService<ILendingProgramParameter> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/lending-program-parameters');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/lending-programs');
   }
 
   protected isNew(entity: ILendingProgramParameter): boolean {
