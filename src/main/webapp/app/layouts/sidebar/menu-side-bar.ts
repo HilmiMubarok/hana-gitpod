@@ -50,16 +50,6 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'legal-lending-limit-parameter',
       },
-      {
-        name: 'Document Checklist',
-        iconname: 'minus',
-        route: 'document-type',
-      },
-      {
-        name: 'List Of Value',
-        iconname: 'minus',
-        route: 'list-of-value-parameter',
-      },
     ],
   },
   {
@@ -378,16 +368,6 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'legal-lending-limit-parameter',
       },
-      {
-        name: 'Document Checklist',
-        iconname: 'minus',
-        route: 'document-type',
-      },
-      {
-        name: 'List Of Value',
-        iconname: 'minus',
-        route: 'list-of-value-parameter',
-      },
     ],
   },
   {
@@ -647,16 +627,6 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         name: 'Legal Lending Limit Type',
         iconname: 'minus',
         route: 'legal-lending-limit-parameter',
-      },
-      {
-        name: 'Document Checklist',
-        iconname: 'minus',
-        route: 'document-type',
-      },
-      {
-        name: 'List Of Value',
-        iconname: 'minus',
-        route: 'list-of-value-parameter',
       },
     ],
   },

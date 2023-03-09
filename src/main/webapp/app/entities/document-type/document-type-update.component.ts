@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ElementRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -13,85 +13,57 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
-import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
-import { FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
-import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-document-type-update',
   templateUrl: './document-type-update.component.html',
-  styleUrls: ['./document-type.css'],
 })
-export class DocumentTypeUpdateComponent extends AbstractEntityBaseViewComponent<IDocumentType> implements OnInit {
-  public documentType: IDocumentType;
-  public parentIdValue: IDocumentType[];
-  public idDocumentType = [];
-  public statusValue = ['Active', 'Non Active'];
-  public categoryValue = ['A', 'B', 'C'];
-  public documentName: IDocumentType[];
-
-  private id: string;
-
-  post: any = '';
-  organizationData: any = '';
-
+export class DocumentTypeUpdateComponent extends AbstractEntityUpdateComponent<IDocumentType> {
   constructor(
-    private documentTypeService: DocumentTypeService,
-    private formBuilder: FormBuilder,
-    protected _snackBar: MatSnackBar,
-    protected router: Router,
-    protected messageService: MessageService,
-    private applicationStateLogService: ApplicationStateLogService,
-    protected activatedRoute: ActivatedRoute
+    protected dataUtils: BaseDataUtils,
+    protected alertService: AlertService,
+    protected documentTypeService: DocumentTypeService,
+    protected elementRef: ElementRef,
+    protected activatedRoute: ActivatedRoute,
+    protected confirmationService: ConfirmationService,
+    protected eventManager: EventManager,
+    protected toastService: MessageService,
+    protected accountService: AccountService
   ) {
-    super(documentTypeService);
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    super(dataUtils, documentTypeService, elementRef, confirmationService, toastService, activatedRoute);
+    this.listChangeEventName = 'documentTypeListModification';
   }
 
-  ngOnInit(): void {
-    this.loadData();
-    this.selectParentIdValue();
+  protected initialState(): any {
+    return { item: new DocumentType(), tasks: [], id: undefined };
   }
 
-  loadData(): void {
-    this.documentType = new DocumentType();
-    this.documentTypeService.find(this.id).subscribe(result => {
-      this.documentType = result.body;
+  initialize() {
+    combineLatest([this.accountService.identity(), this.activatedRoute.queryParams]).subscribe(([account_, params]) => {
+      this.currentAccount = account_;
+
+      // Read Route Parameter
     });
   }
 
-  public selectParentIdValue() {
-    this.documentTypeService
-      .filterTableData({
-        lvl2: true,
-        sort: ['asc'],
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.parentIdValue = res.body;
-      });
+  protected loadRelatedEntityEffect(state: any): Observable<any> {
+    const result = of(state);
+    return result;
   }
 
-  public submit() {
-    if (this.documentType.id) {
-      this.documentTypeService.update(this.documentType).subscribe(res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-
-        if (res.body) {
-          this.router.navigate(['/document-type']);
-        }
-      });
-    }
+  protected buildDependencyEffect(state: any): Observable<any> {
+    return of(state);
   }
 
-  previousState(): void {
-    window.history.back();
+  protected prepareSaveEffect(state: any): Observable<any> {
+    return of(state);
+  }
+
+  itemKey() {
+    return this.stateSubject.getValue().item.id;
+  }
+
+  get documentType() {
+    return this.item;
   }
 }

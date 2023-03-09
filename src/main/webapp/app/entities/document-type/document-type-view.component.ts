@@ -1,92 +1,83 @@
-import { Component, OnChanges, SimpleChanges, ElementRef, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 
-import { DocumentType, IDocumentType } from './document-type.model';
+import { IDocumentType, DocumentType } from './document-type.model';
 import { DocumentTypeService } from './document-type.service';
 import { MessageService } from 'primeng/api';
+import { AccountService } from 'app/core/auth/account.service';
+import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder } from '@angular/forms';
-import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
-import { DOCUMENT_TYPE_PARAM } from 'app/shared/constants/base.constants';
-import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-document-type-view',
   templateUrl: './document-type-view.component.html',
-  styleUrls: ['./document-type.css'],
 })
-export class DocumentTypeViewComponent extends AbstractEntityMaterialComponent<IDocumentType> implements OnInit {
-  public documentType: IDocumentType;
-  public parentIdValue: IDocumentType[];
-  public idDocumentType: any = [];
-
-  id: any;
-  public docTypeValue = ['DOC_IDD', 'DOC_CP'];
-  public statusValue = ['Active', 'Non Active'];
-  public categoryValue = ['A', 'B', 'C'];
+export class DocumentTypeViewComponent extends AbstractEntityBaseViewComponent<IDocumentType> implements OnChanges {
+  @Input() id: number;
+  readonly CODE: typeof CODE = CODE;
 
   constructor(
-    private documentTypeService: DocumentTypeService,
-    private formBuilder: FormBuilder,
-    protected _snackBar: MatSnackBar,
-    protected router: Router,
+    protected dataUtils: BaseDataUtils,
+    protected documentTypeService: DocumentTypeService,
+    protected elementRef: ElementRef,
+    protected activatedRoute: ActivatedRoute,
     protected messageService: MessageService,
-    private applicationStateLogService: ApplicationStateLogService,
-    protected activatedRoute: ActivatedRoute
+    protected translateService: TranslateService,
+    protected eventManager: EventManager,
+    public account: AccountService
   ) {
-    super(_snackBar, documentTypeService);
+    super(documentTypeService, messageService, elementRef, dataUtils, account, eventManager);
+    this.item = new DocumentType();
   }
 
-  ngOnInit(): void {
-    this.documentType = new DocumentType();
-
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.loadDataAll(this.id);
-    this.selectParentIdValue();
-  }
-
-  loadDataAll(id) {
-    this.documentTypeService.find(id).subscribe(response => {
-      this.documentType = response.body;
-    });
-  }
-
-  public selectParentIdValue() {
-    this.documentTypeService
-      .query({
-        page: this.page,
-        size: 9999,
-        sort: ['id', 'asc'],
-      })
-      .subscribe(res => {
-        this.parentIdValue = res.body;
-      });
-  }
-
-  public data: any;
-  public test() {
-    this.documentTypeService
-      .query({
-        page: this.page,
-        size: 9999,
-        sort: ['id', 'asc'],
-      })
-      .subscribe(res => {
-        this.data = lodash.filter(res.body, function (o) {
-          return o.parentId === DOCUMENT_TYPE_PARAM.DOCUMENTTYPEIDD;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['id']) {
+      if (changes['id'].isFirstChange()) {
+        this.initialize();
+      }
+      if (this.id) {
+        this.item = new DocumentType();
+        this.documentTypeService.find(this.id).subscribe(result => {
+          this.item = result.body;
+          this.prepareView();
         });
-        console.log('tes resss', this.data);
-      });
+      }
+    }
+
+    if (changes['item']) {
+      if (changes['item'].isFirstChange()) {
+        this.initialize();
+      }
+      if (this.item) {
+        this.prepareView();
+      }
+    }
+
+    if (changes['isSaving'] && this.item.id) {
+      if (this.isSaving) {
+        this.save();
+      }
+    }
   }
 
-  previousState(): void {
-    window.history.back();
+  initialize() {}
+
+  prepareView() {}
+
+  get documentType() {
+    return this.item;
+  }
+
+  set documentType(documentType: IDocumentType) {
+    this.item = documentType;
+  }
+
+  itemKey() {
+    return this.item.id;
   }
 }
