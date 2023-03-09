@@ -31,6 +31,7 @@ export class CollateralAppraisalValuationPropertyDialogComponent implements OnIn
     if (this.collateralProp.propertyType === CollateralPropertyType.BUILDING) {
       this.calTotalmarketIMBBuilding();
       this.calTotalmarketTataKotaBuilding();
+      this.calTotalmarketValueBilding();
     }
   }
 
