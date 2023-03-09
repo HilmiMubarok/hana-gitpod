@@ -6,11 +6,19 @@ import { DocumentTypeComponent } from './document-type.component';
 import { DocumentTypeDetailComponent } from './document-type-detail.component';
 import { DocumentTypeUpdateComponent } from './document-type-update.component';
 import { documentTypeRoute } from './document-type.route';
+import { DocumentTypeCreateComponent } from './document-type-create.component';
+// import { DocumentTypeViewComponent } from './document-type-view.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(documentTypeRoute)],
-  declarations: [DocumentTypeComponent, DocumentTypeDetailComponent, DocumentTypeUpdateComponent],
-  entryComponents: [DocumentTypeComponent, DocumentTypeUpdateComponent],
+  declarations: [
+    DocumentTypeComponent,
+    DocumentTypeDetailComponent,
+    DocumentTypeUpdateComponent,
+    DocumentTypeCreateComponent,
+    // DocumentTypeViewComponent,
+  ],
+  entryComponents: [DocumentTypeComponent, DocumentTypeUpdateComponent, DocumentTypeCreateComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwDocumentTypeModule {}
