@@ -24,6 +24,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -82,16 +83,18 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   set partyCif(data: IPartyCif) {
     this._cif = data;
   }
-  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
+  // public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
   public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
   public relationWithClient: any;
   public collectabilityStatus: any;
   public lineOfBussines: any;
+  public callReportCategoryData = [];
   constructor(
     private internalService: InternalService,
     protected activatedRoute: ActivatedRoute,
     protected partyCifService: PartyCifService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    protected generalParameterService: GeneralParameterService
   ) {
     super();
     this.relationWithClient = RELATION_WITH_HANA;
@@ -108,6 +111,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.getDate();
     this.CollectabilityStatus();
     this.showHideElement();
+    this.lovCallreport();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -128,7 +132,17 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       this.separate = '';
     }
   }
-
+  public lovCallreport() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CALL_REPORT_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.callReportCategoryData = res.body;
+      });
+  }
   public CollectabilityStatus() {
     if (this.partyCif.debtorData.collectabilityStatus === ' ') {
       this.collectabilityStatus = '1';
