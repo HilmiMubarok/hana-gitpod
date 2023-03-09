@@ -57,7 +57,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
-  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public ifcRiskCategoryData = [];
   public pacth: any;
   public view: boolean;
   public partyCif: IPartyCif = new PartyCif();
@@ -215,6 +215,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
     this.lovCallreport();
+    this.getLov();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -257,6 +258,18 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
         this.callReportCategoryData = res.body;
       });
   }
+  public getLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'IFC_AND_RISK_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ifcRiskCategoryData = res.body;
+      });
+  }
+
   initialize() {
     this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
 

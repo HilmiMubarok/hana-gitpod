@@ -148,14 +148,17 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <ejs-combobox
-        [dataSource]="ifcRiskCategoryData"
-        [(ngModel)]="partyCif.debtorData.ifcRiskCategory"
-        placeholder="IFC & Risk Category"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-      >
-      </ejs-combobox>
+      <section class="mt-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>IFC & Risk Category</mat-label>
+          <mat-select name="riskCategory" [(ngModel)]="partyCif.debtorData.ifcRiskCategory">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
     </div>
 
     <div class="form-group">
