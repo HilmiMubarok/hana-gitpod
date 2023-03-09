@@ -1,3 +1,20 @@
+interface ILevel {
+  id?: string;
+  category?: string;
+  description?: string;
+  orderNo?: number;
+  parentId?: string;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
+  customerType?: string;
+  idFile?: string;
+  name?: string;
+  remarks?: string;
+  status?: string;
+  dueDate?: string;
+}
+
 export interface IDocumentType {
   id?: string;
   category?: string;
@@ -11,6 +28,7 @@ export interface IDocumentType {
   customerType?: string;
   rootId?: string;
   rootDescription?: string;
+  level?: ILevel[];
 }
 
 export class DocumentType implements IDocumentType {
