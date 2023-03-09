@@ -11,8 +11,10 @@ import { map, mergeMap } from 'rxjs/operators';
 import { IDocumentType, DocumentType } from './document-type.model';
 import { DocumentTypeService } from './document-type.service';
 import { DocumentTypeComponent } from './document-type.component';
-import { DocumentTypeDetailComponent } from './document-type-detail.component';
+// import { DocumentTypeDetailComponent } from './document-type-detail.component';
 import { DocumentTypeUpdateComponent } from './document-type-update.component';
+import { DocumentTypeViewComponent } from './document-type-view.component';
+import { DocumentTypeCreateComponent } from './document-type-create.component';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentTypeResolve implements Resolve<IDocumentType> {
@@ -67,7 +69,7 @@ export const documentTypeRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: DocumentTypeDetailComponent,
+    component: DocumentTypeViewComponent,
     resolve: {
       documentType: DocumentTypeResolve,
     },
@@ -78,8 +80,8 @@ export const documentTypeRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
-    component: DocumentTypeUpdateComponent,
+    path: ':id/create',
+    component: DocumentTypeCreateComponent,
     resolve: {
       content: DocumentTypeResolve,
     },

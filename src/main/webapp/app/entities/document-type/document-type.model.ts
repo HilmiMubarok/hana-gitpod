@@ -1,27 +1,31 @@
 export interface IDocumentType {
   id?: string;
-  code?: string;
   category?: string;
   description?: string;
   orderNo?: number;
   parentId?: string;
-  parentCode?: string;
+  parentDescription?: string;
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
+  customerType?: string;
+  rootId?: string;
+  rootDescription?: string;
 }
 
 export class DocumentType implements IDocumentType {
   constructor(
     public id?: string,
-    public code?: string,
     public category?: string,
     public description?: string,
     public orderNo?: number,
     public parentId?: string,
-    public parentCode?: string,
+    public parentDescription?: string,
     public statusId?: string,
     public statusCode?: string,
-    public statusDescription?: string
+    public statusDescription?: string,
+    public customerType?: string,
+    public rootId?: string,
+    public rootDescription?: string
   ) {}
 }
