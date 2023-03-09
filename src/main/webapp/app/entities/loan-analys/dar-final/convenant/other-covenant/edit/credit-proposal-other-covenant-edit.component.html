@@ -2,45 +2,25 @@
   <button class="button-close" mat-button mat-dialog-close>X</button>
 </div>
 <h2 mat-dialog-title class="header-title"></h2>
-<mat-dialog-content>
-  <div class="row justify-content-between">
-    <div class="col-6">
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Covenant</mat-label>
-          <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.covenant"></textarea>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-between">
-    <div class="col-6">
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Status</mat-label>
-          <input matInput type="text" [(ngModel)]="otherCovenant.status" />
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-between">
-    <div class="col-6">
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Deviation</mat-label>
-          <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.deviation"></textarea>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-between">
-    <div class="col-6">
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Justification</mat-label>
-          <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.justification"></textarea>
-        </mat-form-field>
-      </div>
+<mat-dialog-content style="overflow-y: auto">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Covenant</mat-label>
+        <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.covenant"></textarea>
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Status</mat-label>
+        <input matInput type="text" [(ngModel)]="otherCovenant.status" />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Deviation</mat-label>
+        <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.deviation"></textarea>
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Justification</mat-label>
+        <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.justification"></textarea>
+      </mat-form-field>
     </div>
   </div>
 </mat-dialog-content>

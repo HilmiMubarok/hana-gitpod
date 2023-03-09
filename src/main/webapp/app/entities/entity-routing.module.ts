@@ -515,6 +515,15 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./lending-program-parameter/lending-program-parameter.module').then(m => m.LosgwLendingProgramParameterModule),
       },
+      {
+        path: 'request-slik',
+        loadChildren: () => import('./request-slik/request-slik.module').then(m => m.LosgwRequestSlikModule),
+      },
+      {
+        path: 'list-of-value-parameter',
+        loadChildren: () =>
+          import('./master-parameter/master-lov-parameter/master-lov-parameter.module').then(m => m.LosgwMasterLovParameterModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],
