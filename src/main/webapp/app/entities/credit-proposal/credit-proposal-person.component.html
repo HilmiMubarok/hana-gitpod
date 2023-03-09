@@ -717,14 +717,15 @@
                 </div>
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-combobox
-                      [dataSource]="callReportCategoryData"
-                      [(ngModel)]="deptorData.debtorData.callReportCategory"
-                      placeholder="Call Report Category"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-combobox>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Call Report Category</mat-label>
+                      <mat-select name="callReportCategoryData" [(ngModel)]="deptorData.debtorData.callReportCategory">
+                        <mat-option value="">- Please Select -</mat-option>
+                        <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
+                          {{ item.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
