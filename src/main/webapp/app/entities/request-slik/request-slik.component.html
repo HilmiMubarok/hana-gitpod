@@ -1,4 +1,120 @@
-<div class="page-view">
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Request Slik" url="/request-slik"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Request Slik</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>Status Options</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-chip-list cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+            <mat-chip
+              class="example-box text-capitalize"
+              id="statusOption"
+              (click)="chipClick(item)"
+              cdkDrag
+              *ngFor="let item of requestSlikStatusCodes"
+            >
+              {{ item.label }}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="mt-3" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+        <button mat-raised-button color="primary" class="btn-lg w-100">REBUILD INDEX</button>
+      </div>
+
+      <div class="text-end w-100 mt-3" *ngIf="clickedChip !== ''">
+        You search data with status <span class="text-capitalize fw-bold">{{ clickedChip | lowercase }}</span>
+      </div>
+
+      <!-- Table -->
+
+      <div class="table-responsive">
+        <p-table
+          [value]="requestSliks"
+          dataKey="id"
+          [paginator]="true"
+          [rows]="20"
+          [rowsPerPageOptions]="rowsPerPage"
+          [first]="first"
+          [totalRecords]="totalItems"
+          [loading]="loading"
+          [rowHover]="true"
+          [lazy]="true"
+          [rowTrackBy]="trackId"
+          [responsive]="true"
+          [stateKey]="'requestSliks_grid_state'"
+          (onLazyLoad)="loadDataLazy($event)"
+          (onPage)="pageSizeChanged($event)"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="text-align: center"><span jhiTranslate="global.field.sequence">No</span></th>
+              <th style="text-align: center">Request Number</th>
+              <th style="text-align: center">CIF</th>
+              <th style="text-align: center">Debtor Name</th>
+              <th style="text-align: center">Customer Type</th>
+              <th style="text-align: center">Segment</th>
+              <th style="text-align: center">Request Date</th>
+              <th style="text-align: center">Status</th>
+              <th style="text-align: center"><span jhiTranslate="global.field.action">Action</span></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+              <td style="text-align: center">{{ rowIndex + 1 }}</td>
+              <td style="text-align: center">{{ rowData.requestNumber }}</td>
+              <td style="text-align: center">{{ rowData.cif }}</td>
+              <td style="text-align: center">{{ rowData.debtorName }}</td>
+              <td style="text-align: center">{{ rowData.customerType }}</td>
+              <td style="text-align: center">{{ rowData.segment }}</td>
+              <td style="text-align: center">{{ rowData.requestDate }}</td>
+              <td style="text-align: center">{{ rowData.status }}</td>
+              <td style="text-align: center">
+                <button pButton type="submit" [routerLink]="['/request-slik', rowData.id, 'view']" class="flat-button">
+                  <fa-icon icon="eye"></fa-icon>
+                </button>
+                <button pButton type="submit" [routerLink]="['/request-slik', rowData.id, 'edit']" class="flat-button">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                </button>
+                <button pButton type="button" (click)="deleteItem(rowData.id)" class="flat-button">
+                  <fa-icon icon="trash-alt"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button color="primary" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
+          Add New Data
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="page-view">
   <h5 class="page-heading">
     <span jhiTranslate="losgwApp.requestSlik.home.title">Request Sliks</span>
   </h5>
@@ -68,4 +184,4 @@
       </ng-template>
     </p-table>
   </div>
-</div>
+</div> -->

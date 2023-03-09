@@ -11,10 +11,13 @@ import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
 import { ParseLinks } from 'app/core/util/parse-links.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
+import { IOptionNode } from 'app/shared/model/option-node.model';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'jhi-request-slik',
   templateUrl: './request-slik.component.html',
+  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
 })
 export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> {
   constructor(
@@ -77,6 +80,168 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
         requestDate: '2023-000434',
         status: 'Draft',
       },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
+      {
+        requestNumber: '2023-000434',
+        cif: '0000001233',
+        debtorName: 'John Doe',
+        customerType: 'Personal',
+        segment: 'SME',
+        requestDate: '2023-000434',
+        status: 'Draft',
+      },
     ];
   }
 
@@ -90,5 +255,48 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
 
   set requestSliks(requestSlik: IRequestSlik[]) {
     this.items = requestSlik;
+  }
+
+  public previousState(): void {
+    window.history.back();
+  }
+
+  public requestSlikStatusCodes: IOptionNode[] = [
+    {
+      id: 'DRAFT',
+      label: 'Draft',
+    },
+    {
+      id: 'APPROVAL_SLIK',
+      label: 'Approval Slik',
+    },
+    {
+      id: 'CHECKING_IN_PROGRESS',
+      label: 'Checking In Progress',
+    },
+    {
+      id: 'REJECT',
+      label: 'Reject',
+    },
+    {
+      id: 'COMPLETE',
+      label: 'Complete',
+    },
+  ];
+
+  public drop(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.requestSlikStatusCodes, event.previousIndex, event.currentIndex);
+  }
+
+  public clickedChip: string;
+  public chipClick(option: IOptionNode): void {
+    this.page = 0;
+    if (this.clickedChip === option.id) {
+      document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
+      this.clickedChip = '';
+    } else {
+      this.clickedChip = option.id;
+    }
+    this.loadAll();
   }
 }

@@ -10,7 +10,7 @@ import { requestSlikRoute } from './request-slik.route';
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
   declarations: [RequestSlikComponent, RequestSlikDetailComponent, RequestSlikUpdateComponent],
-  entryComponents: [RequestSlikComponent, RequestSlikUpdateComponent],
+  entryComponents: [RequestSlikComponent, RequestSlikUpdateComponent, RequestSlikDetailComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwRequestSlikModule {}
