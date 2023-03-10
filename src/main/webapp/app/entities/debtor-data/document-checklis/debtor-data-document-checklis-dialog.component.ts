@@ -34,7 +34,6 @@ class PickDateAdapter extends NativeDateAdapter {
   selector: 'jhi-document-checklist-dialog-party-cif',
   templateUrl: './debtor-data-document-checklis-dialog.component.html',
   styleUrls: ['./document.scss'],
-  //   styleUrls: ['../css/credit-proposal-basic-information.css'],
   providers: [
     { provide: DateAdapter, useClass: PickDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
@@ -92,7 +91,9 @@ export class DebtorDataDocumentChecklistDialogComponent {
       });
     });
   }
+
   public lengthMinIO = [];
+
   private getFiles(id: number): void {
     const predicate: Object = {
       key: `/idd/${id}/document/${this.files.id}/`,
@@ -187,12 +188,8 @@ export class DebtorDataDocumentChecklistDialogComponent {
       }
     }
   }
-  // this.files.remarks = res.body[0].tags.remarks
-  // this.files.status = res.body[0].tags.status
-  // this.files.dueDate = res.body[0].tags.dueDate
 
   public save(): void {
-    console.log('ooo', this.files.status);
     if (this.files.category === 'A' || this.files.category === 'B') {
       if (this.files.status === 'Available') {
         if (this.file.length > 0) {
@@ -338,8 +335,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
         const file = new File([blob], 'los_logo.png', { type: 'image/png' });
         this.file.push(file);
       }, 'image/png');
-
-      console.log('file', this.file);
     };
   }
 

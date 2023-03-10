@@ -75,6 +75,7 @@ export class DocumentChecklistDialogComponent implements OnInit {
   }
   public copyDeviation = [];
   public save(): void {
+    const promises = []
       for (let i = 0; i < this.file.length; i++) {
         const metaData = {
           objectName: null,
@@ -111,14 +112,22 @@ export class DocumentChecklistDialogComponent implements OnInit {
             this.storageService.getBucketName().subscribe((a: any) => {
               if (a.body.bucket !== null) {
                 this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
-                  this._dialog.close(this.copyDeviation);
+                  promises.push(res)
+                  if (promises.length === this.file.length) {
+                    this._dialog.close(this.copyDeviation);
+                  }
+                 
                 });
               }
             });
           } else {
             this.storageService.getBucketName().subscribe((a: any) => {
               this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+                promises.push(res)
+              if (promises.length === this.file.length) {
                 this._dialog.close(null);
+              }
+                
               });
             });
           }
