@@ -244,19 +244,21 @@
       required
     >
     </ejs-textbox> -->
-        <ejs-dropdownlist
-          #ddPropoertyUsage
-          floatLabelType="Auto"
-          [dataSource]="listOfValues.direction"
-          [(ngModel)]="collateral.facingDirection"
-          cssClass="e-outline"
-          placeholder="Cardinal Direction"
-          popupHeight="220px"
-          required
-          [disabled]="hideordisable()"
-          [disabled]="hiddenRmAdmin"
-        >
-        </ejs-dropdownlist>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Cardinal Direction</mat-label>
+          <mat-select
+            name="cardinalDirection"
+            [(ngModel)]="collateral.facingDirection"
+            required
+            [disabled]="hideordisable()"
+            [disabled]="hiddenRmAdmin"
+          >
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of direction" [value]="item.code">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="form-group">
         <ejs-dropdownlist

@@ -28,6 +28,7 @@ import { Subject, firstValueFrom, takeUntil } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -67,7 +68,7 @@ export class OfferingLetterMainComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   public dataOfferingSPPK = [];
   public isHistoryExist: boolean;
-
+  public proposType = [];
   @Input('item')
   get item() {
     return this.creditProposal;
@@ -89,7 +90,8 @@ export class OfferingLetterMainComponent implements OnInit {
     public applicationRoleService: ApplicationRoleService,
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private generalParameterService: GeneralParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -185,6 +187,7 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lovProposalType();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -213,7 +216,17 @@ export class OfferingLetterMainComponent implements OnInit {
       this.tasks = res.body;
     });
   }
-
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = res.body;
+      });
+  }
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
