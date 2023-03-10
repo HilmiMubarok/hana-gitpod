@@ -232,12 +232,21 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
     this.item.attributes['tabCustomer'].totalDepositInsurancePremium = this.totalLoanDeposit();
     this.item.attributes['tabCustomer'].profit = this.totalProfit();
     this.item.attributes['tabCustomer'].roa = this.totalRoa();
-    if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length !== 0) {
+
+    if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length === 0) {
+      this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability = this.dataAttrPass;
+    } else {
       for (let i = 0; i < this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length; i++) {
         this.dataAttrPass = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
         this.remarks1[i] = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability[i].remarks1;
       }
     }
+    // if (this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length !== 0) {
+    //   for (let i = 0; i < this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability.length; i++) {
+    //     this.dataAttrPass = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability;
+    //     this.remarks1[i] = this.item.attributes['tabCustomer'].GeneralTabCustomerProfitability[i].remarks1;
+    //   }
+    // }
     this.getContainer();
     this.width = '50%';
     this.height = '80%';
