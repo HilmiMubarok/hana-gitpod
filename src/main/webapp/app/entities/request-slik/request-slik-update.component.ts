@@ -13,10 +13,12 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-request-slik-update',
   templateUrl: './request-slik-update.component.html',
+  styleUrls: ['../credit-proposal/credit-proposal-list.css', './request-slik.css'],
 })
 export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IRequestSlik> {
   constructor(
@@ -28,10 +30,28 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
     protected confirmationService: ConfirmationService,
     protected eventManager: EventManager,
     protected toastService: MessageService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    private partyCifService: PartyCifService
   ) {
     super(dataUtils, requestSlikService, elementRef, confirmationService, toastService, activatedRoute);
     this.listChangeEventName = 'requestSlikListModification';
+    this.partyCifs = [];
+  }
+  public displayedColumns: string[] = ['select', 'no', 'cif', 'customerName', 'customerType', 'createdDate'];
+  public currentSearch;
+  public partyCifs;
+  getValue(event) {
+    this.currentSearch = event.target.value;
+  }
+  search() {
+    this.partyCifService
+      .findLikeCif(this.currentSearch, {
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.partyCifs = res.body;
+      });
   }
 
   protected initialState(): any {

@@ -92,9 +92,9 @@ export const requestSlikRoute: Routes = [
   {
     path: ':id/edit',
     component: RequestSlikUpdateComponent,
-    resolve: {
-      content: RequestSlikResolve,
-    },
+    // resolve: {
+    //   content: RequestSlikResolve,
+    // },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.requestSlik.home.title',
