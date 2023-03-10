@@ -140,8 +140,8 @@
     <mat-label>Collateral Grading</mat-label>
     <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="dataSource()">
       <mat-option value="">- Please Select -</mat-option>
-      <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
-        {{ item.label }}
+      <mat-option *ngFor="let item of collateralGrading" [value]="item.code">
+        {{ item.value }}
       </mat-option>
     </mat-select>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
