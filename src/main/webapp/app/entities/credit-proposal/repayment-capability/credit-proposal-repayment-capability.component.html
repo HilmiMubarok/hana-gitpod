@@ -131,13 +131,15 @@
             </td>
             <td style="vertical-align: middle; text-align: center">Interest/Installment Bulanan</td>
             <td>
+              <!-- creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] +
+               creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0' -->
               <mat-form-field class="w-100" appearance="outline">
                 <input
                   matInput
                   type="text"
                   [value]="
-                    creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] +
-                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit'] | number: '1.0-0'
+                    creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] +
+                      creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs'] | number: '1.0-0'
                   "
                   disabled
                 />
