@@ -97,6 +97,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
   public callReportCategoryData = [];
+  public pep = [];
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -128,6 +129,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   ngOnInit(): void {
     this.lovCallreport();
     this.getLov();
+    this.lovPep();
 
     this.masterInitialDebtorDataService.getMaritalStatus().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.maritalStatuses = res.body;
@@ -229,6 +231,18 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       })
       .subscribe(res => {
         this.ifcRiskCategoryData = res.body;
+      });
+  }
+
+  public lovPep() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PEP_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.pep = res.body;
       });
   }
 

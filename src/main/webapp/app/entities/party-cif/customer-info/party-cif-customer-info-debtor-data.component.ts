@@ -88,6 +88,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   public collectabilityStatus: any;
   public lineOfBussines: any;
   public callReportCategoryData = [];
+  public pep = [];
   constructor(
     private internalService: InternalService,
     protected activatedRoute: ActivatedRoute,
@@ -112,6 +113,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.showHideElement();
     this.lovCallreport();
     this.getLov();
+    this.lovPep();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -152,6 +154,18 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       })
       .subscribe(res => {
         this.callReportCategoryData = res.body;
+      });
+  }
+
+  public lovPep() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PEP_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.pep = res.body;
       });
   }
   public CollectabilityStatus() {
