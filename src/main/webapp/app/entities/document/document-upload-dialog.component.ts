@@ -11,6 +11,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { IDocumentNode } from '../document-node/document-node.model';
+import lodash from 'lodash';
+import { DocumentTypeService } from '../document-type/document-type.service';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -22,13 +24,13 @@ export class DocumentUploadDialogComponent implements OnInit {
   public files: File[] = [];
   public file: File;
   public document: IDocument;
-  public documentTypes: any;
+  public documentTypes = [];
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
   public indeks = 0;
 
   private bucket: string;
-  public certiFicateTypeName: any;
+  public certiFicateTypeName = [];
   public collateralView: boolean;
 
   public documents: string;
@@ -50,7 +52,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private accountService: AccountService,
     public reportUtilService: ReportUtilService,
-    protected partyCifService: PartyCifService
+    protected partyCifService: PartyCifService,
+    protected documentTypeService: DocumentTypeService
   ) {
     this.document = new Document();
     this.file = null;
@@ -58,22 +61,22 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.documents = this.data.documents;
     this.view = this.data.view;
     this.folder = this.data.obj;
-  
   }
   public collateralOrAppraisal: string;
 
   ngOnInit(): void {
+    this.getLovDocumentCollateralIDD();
     if (this.data.collateral) {
       this.collateralOrAppraisal = 'collateral';
       this.object = this.data.collateral;
-      this.setCertificateType();
+      // this.setCertificateType();
     }
 
     if (this.data.appraisal) {
       this.collateralOrAppraisal = 'appraisal';
-
       this.object = this.data.appraisal;
-      this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
+      console.log('document type', this.documentTypes);
+      // this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
     }
   }
 
@@ -86,13 +89,12 @@ export class DocumentUploadDialogComponent implements OnInit {
     });
   }
 
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
     }
-    
   }
 
   public save(): void {
@@ -135,7 +137,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       const promises: Array<any> = new Array<any>();
       for (let i = 0; i < this.files.length; i++) {
         const metaData = new DocumentMetaData();
-        const files = new Date()+'-'+this.files[i].name.replace('&', '');
+        const files = new Date() + '-' + this.files[i].name.replace('&', '');
 
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
         metaData.folder = this.document.documentNumber.replace('&', 'codeSpecialDan');
@@ -148,7 +150,10 @@ export class DocumentUploadDialogComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', this.files[i]);
         if (this.data.collateral) {
-          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber.replace('&', 'codeSpecialDan')}/${currentDate}-${files}`;
+          metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber.replace(
+            '&',
+            'codeSpecialDan'
+          )}/${currentDate}-${files}`;
           metaData.entityId = this.data.collateral.id;
         }
 
@@ -176,8 +181,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     });
   }
 
-  public setModel(event: any){
-    this.folder['files'][0]['tags']['docNo'] = event.target.value
+  public setModel(event: any) {
+    this.folder['files'][0]['tags']['docNo'] = event.target.value;
   }
 
   public edit(): void {
@@ -217,10 +222,10 @@ export class DocumentUploadDialogComponent implements OnInit {
           const file: IDocumentNode = files[i];
           file.tags['docDate'] = this.folder['files'][0]['tags']['docDate'];
           file.tags['docType'] = this.folder['files'][0]['tags']['docType'];
-          file.tags['docNo'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan')
-          file.tags['folder'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan')
+          file.tags['docNo'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan');
+          file.tags['folder'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan');
           file.tags['createdBy'] = resAccount.login;
-          console.log('ompuyy',file)
+          console.log('ompuyy', file);
           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
             this._dialog.close(res);
           });
@@ -229,22 +234,43 @@ export class DocumentUploadDialogComponent implements OnInit {
     });
   }
 
- 
-
   public onSelect(event: any) {
     this.files.push(...event.addedFiles);
-
   }
 
   public onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  public setCertificateType() {
-    this.partyCifService.getCertificate().subscribe(res => {
-      this.certiFicateTypeName = res.body;
-    });
+  // public setCertificateType() {
+  //   this.partyCifService.getCertificate().subscribe(res => {
+  //     this.certiFicateTypeName = res.body;
+  //   });
+  // }
+  public getLovDocumentCollateralIDD() {
+    this.documentTypeService
+      .filterTableData({
+        lvl2: true,
+
+        page: 0,
+        size: 9999,
+        sort: ['id', 'asc'],
+      })
+      .subscribe(res => {
+        if (this.collateralOrAppraisal === 'collateral') {
+          this.certiFicateTypeName = lodash.filter(res.body, function (o) {
+            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMET_COLLATERAL_IDD;
+          });
+          console.log('idd', this.certiFicateTypeName);
+        }
+        if (this.collateralOrAppraisal === 'appraisal') {
+          this.documentTypes = lodash.filter(res.body, function (o) {
+            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMENT_APPRAISAL;
+          });
+        }
+      });
   }
+
   // hideordisable() {
   //   if (this.object.statusId === STATUS.APPROVE) {
   //     return true;
