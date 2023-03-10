@@ -855,14 +855,23 @@
                 </div>
                 <div class="col-6">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-textbox
+                    <!-- <ejs-textbox
                       [(ngModel)]="deptorData.debtorData.pep"
                       placeholder="PEP"
                       cssClass="e-outline"
                       floatLabelType="Auto"
                       disabled
                     >
-                    </ejs-textbox>
+                    </ejs-textbox> -->
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>PEP</mat-label>
+                      <mat-select name="pep" [(ngModel)]="deptorData.debtorData.pep" disabled>
+                        <mat-option value="">Please Select</mat-option>
+                        <mat-option *ngFor="let item of pep" [value]="item.code">
+                          {{ item.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
