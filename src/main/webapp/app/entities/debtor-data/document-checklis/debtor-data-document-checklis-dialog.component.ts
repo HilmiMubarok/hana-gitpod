@@ -66,15 +66,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.files = this.data.files;
   }
 
-  public doUpload(formData: FormData, metaData: object): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe({
-        next: res => resolve(),
-        error: err => reject(),
-      });
-    });
-  }
-
   public onChange(el) {
     el === 'TBO' && this.isTBO();
     this.deleteTBO(el)
@@ -99,10 +90,9 @@ export class DebtorDataDocumentChecklistDialogComponent {
     //   this.file = []
     // }
   }
-
+  
 
   public save(): void {
-    
       const promises = [];
         const currentDate = moment().format('YYYYMMDDHHMMSSMS');
         for (let i = 0; i < this.file.length; i++) {
@@ -134,20 +124,20 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
           this.accountService.identity().subscribe(resAccount => {
             metaData.createdBy = resAccount.login;
-            promises.push(this.doUpload(formData, metaData));
-          });
 
-          if (promises.length > 0) {
-            Promise.all(promises).then(res => {
-              this._dialog.close(res);
+            this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe((res: any) => {
+              promises.push(res)
+              if (promises.length === this.file.length) {
+                 this._dialog.close(res);
+              }
+             
             });
-          } else {
-            this._dialog.close();
-          }
-        }
-    
+         
+
+        })
     
   }
+}
 
   public convertDan(value: string): any{
     if(value !== null && value !== undefined){
