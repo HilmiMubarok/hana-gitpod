@@ -128,7 +128,7 @@
     <mat-label>Facility Type</mat-label>
     <mat-select name="facilityType" [(ngModel)]="collateral.facilityType" [disabled]="dataSource()">
       <mat-option value="">- Please Select -</mat-option>
-      <mat-option *ngFor="let item of facilityTypes | keyvalue" [value]="item.key">
+      <mat-option *ngFor="let item of facilityTypes" [value]="item.code">
         {{ item.value }}
       </mat-option>
     </mat-select>
