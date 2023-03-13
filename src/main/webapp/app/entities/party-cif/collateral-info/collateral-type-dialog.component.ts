@@ -71,17 +71,18 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   }
 
   public facilityTypes: any;
-  public bindingTypes: any;
   public collateralGrading = [];
+  public bindingTypes = [];
   public collateralDetails: object[];
   public collateralTypes: ICollateralType[];
   public collateralCode: object[];
   constructor(
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
-    private generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService
   ) {
-    this.bindingTypes = COLLATERAL_BINDING_TYPE;
+    // this.bindingTypes = COLLATERAL_BINDING_TYPE;
+
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
@@ -100,6 +101,18 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this.loadCollateralType();
     this.loadCollateralGrading();
     this.cekData();
+    this.lovBindingType();
+  }
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypes = res.body;
+      });
   }
 
   public disabledOccupansy() {
