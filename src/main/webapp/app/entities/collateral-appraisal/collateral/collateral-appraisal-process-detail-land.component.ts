@@ -18,6 +18,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
   templateUrl: './collateral-appraisal-process-detail-land.component.html',
@@ -61,7 +62,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     ],
     land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
     madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
-    direction: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
+    // directcion: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
     position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
   private _collateral: ICollateral;
@@ -79,6 +80,7 @@ export class CollateralAppraisalDetailProcessLandComponent
   set collateralProperties(param: ICollateralProperty[]) {
     this.items = param;
   }
+  public direction = [];
   @Input() collateralAppraisal: ICollateralAppraisal;
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
   public displayedColumnsExpand = [...this.displayedColumnsLand, 'expand'];
@@ -88,7 +90,8 @@ export class CollateralAppraisalDetailProcessLandComponent
     protected _snackbar: MatSnackBar,
     protected collateralPropertyService: CollateralPropertyService,
     private collateralAppraisalService: CollateralAppraisalService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralPropertyService);
     this.page = 0;
@@ -105,6 +108,7 @@ export class CollateralAppraisalDetailProcessLandComponent
 
     this.checkLogin();
     this.hiddenTombol();
+    this.lovCardinal();
   }
 
   public account: Account;
@@ -276,5 +280,16 @@ export class CollateralAppraisalDetailProcessLandComponent
   }
   public isAdminAppraisal(): any {
     return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
+  }
+  public lovCardinal() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CARDINAL_DIRECTION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.direction = res.body;
+      });
   }
 }

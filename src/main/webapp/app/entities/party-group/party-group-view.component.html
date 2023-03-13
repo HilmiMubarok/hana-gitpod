@@ -430,25 +430,38 @@
                   </div>
                   <div class="col-6">
                     <section *ngIf="item.statusId === 'DRAFT'">
-                      <ejs-combobox
-                        [dataSource]="ifcRiskCategoryData"
-                        [(ngModel)]="item.debtorData.ifcRiskCategory"
-                        placeholder="IFC & Risk Category"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                      >
-                      </ejs-combobox>
+                      <section class="mt-2">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>IFC & Risk Category</mat-label>
+                          <mat-select
+                            (selectionChange)="onSelectConstruction($event)"
+                            [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
+                            required
+                          >
+                            <mat-option value="">Please Select</mat-option>
+                            <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                              {{ item.value }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </section>
                     </section>
                     <section *ngIf="item.statusId !== 'DRAFT'">
-                      <ejs-dropdownlist
-                        [dataSource]="ifcRiskCategoryData"
-                        [(ngModel)]="item.debtorData.ifcRiskCategory"
-                        placeholder="IFC & Risk Category"
-                        cssClass="e-outline"
-                        floatLabelType="Auto"
-                        disabled
-                      >
-                      </ejs-dropdownlist>
+                      <section class="mt-2">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>IFC & Risk Category</mat-label>
+                          <mat-select
+                            (selectionChange)="onSelectConstruction($event)"
+                            [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
+                            required
+                          >
+                            <mat-option value="">Please Select</mat-option>
+                            <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                              {{ item.value }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </section>
                     </section>
                   </div>
                 </div>
@@ -804,15 +817,17 @@
                   </ejs-dropdownlist>
                 </div>
                 <div class="col-6">
-                  <ejs-dropdownlist
-                    [dataSource]="ifcRiskCategoryData"
-                    [(ngModel)]="item.debtorData.ifcRiskCategory"
-                    placeholder="IFC & Risk Category"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                    disabled
-                  >
-                  </ejs-dropdownlist>
+                  <section class="mt-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>IFC & Risk Category</mat-label>
+                      <mat-select name="riskCategory" [(ngModel)]="item.debtorData.ifcRiskCategory" disabled>
+                        <mat-option value="">Please Select</mat-option>
+                        <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                          {{ item.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </section>
                 </div>
               </div>
               <div class="row my-3">
@@ -905,13 +920,25 @@
               </div>
               <div class="row my-3">
                 <div class="col-6">
-                  <ejs-textbox
+                  <section class="mt-2">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>IFC & Risk Category</mat-label>
+                      <mat-select name="riskCategory" [(ngModel)]="item.debtorData.ifcRiskCategory">
+                        <mat-option value="">Please Select</mat-option>
+                        <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                          {{ item.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </section>
+
+                  <!-- <ejs-textbox
                     [(ngModel)]="item.debtorData.ifcRiskCategory"
-                    placeholder="IFC & Risk Category"
+                    placeholder=""
                     floatLabelType="Auto"
                     cssClass="e-outline"
                   >
-                  </ejs-textbox>
+                  </ejs-textbox> -->
                 </div>
               </div>
 

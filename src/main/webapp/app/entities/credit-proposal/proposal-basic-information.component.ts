@@ -38,6 +38,7 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -111,6 +112,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public saveWord: Boolean = false;
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
+  public proposType = [];
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -121,7 +123,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
     public accountService: AccountService,
-    public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService,
+    public generalParameterService: GeneralParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -157,7 +160,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   ngOnInit() {
     this.getTitle();
-
+    this.lovProposalType();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -463,6 +466,17 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
+  }
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = res.body;
+      });
   }
 
   public save(source: string): void {

@@ -83,12 +83,12 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   set partyCif(data: IPartyCif) {
     this._cif = data;
   }
-  // public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
-  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public ifcRiskCategoryData = [];
   public relationWithClient: any;
   public collectabilityStatus: any;
   public lineOfBussines: any;
   public callReportCategoryData = [];
+  public pep = [];
   constructor(
     private internalService: InternalService,
     protected activatedRoute: ActivatedRoute,
@@ -112,6 +112,8 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     this.CollectabilityStatus();
     this.showHideElement();
     this.lovCallreport();
+    this.getLov();
+    this.lovPep();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -121,6 +123,17 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+  public getLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'IFC_AND_RISK_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ifcRiskCategoryData = res.body;
+      });
   }
 
   public test() {
@@ -141,6 +154,18 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
       })
       .subscribe(res => {
         this.callReportCategoryData = res.body;
+      });
+  }
+
+  public lovPep() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PEP_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.pep = res.body;
       });
   }
   public CollectabilityStatus() {

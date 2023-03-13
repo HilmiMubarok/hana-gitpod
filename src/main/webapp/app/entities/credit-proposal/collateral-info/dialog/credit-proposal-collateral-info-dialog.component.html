@@ -421,8 +421,8 @@
                 <mat-label>Collateral Grading</mat-label>
                 <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
-                    {{ item.label }}
+                  <mat-option *ngFor="let item of collateralGrading" [value]="item.code">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -610,7 +610,7 @@
                   <mat-label>Binding Type</mat-label>
                   <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType">
                     <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of bindingTypesHobies | keyvalue" [value]="item.key">
+                    <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code">
                       {{ item.value }}
                     </mat-option>
                   </mat-select>
