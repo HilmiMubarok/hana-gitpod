@@ -19,6 +19,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -91,6 +92,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public disButtonSub = true;
   public labelSublimit = [];
   public lovIndex = [];
+
   public preCurent = '';
   public lovLoanType = [];
   public listOfValue = {
@@ -248,6 +250,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public setDate: string;
   public currencyName: number;
 
+  // Code Lov get General Parameter  List Of Value Improvement Phase 1
+  public interestTypeList = [];
+  public installmentMethodList = [];
+  public restructList = [];
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -260,6 +267,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     protected applicationOptionService: ApplicationOptionService,
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
+
+    // Code Lov get General Parameter  List Of Value Improvement Phase 1
+    public generalParameterService: GeneralParameterService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
@@ -287,6 +297,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.getObligation();
     this.setFacilityType();
     this.loaddata();
+
+    // Code Lov get General Parameter  List Of Value Improvement Phase 1
+    this.lovInstallmentMethod();
+    this.lovInterestRateTypeList();
+    this.lovRestructMethod();
   }
 
   public save(): void {
@@ -702,6 +717,47 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
       .subscribe((res: any) => {
         this.applicationProduct.attributes.indexRate = res.body['rate' + this.dateIndex + 'M'] + '%';
+      });
+  }
+
+  // Code Lov get General Parameter  List Of Value Improvement Phase 1
+
+  public lovInterestRateTypeList() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTEREST_RATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.interestTypeList = res.body;
+        console.log('interest type', this.interestTypeList);
+      });
+  }
+
+  public lovInstallmentMethod() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSTALLMENT_METHOD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.installmentMethodList = res.body;
+        console.log('installment ', this.installmentMethodList);
+      });
+  }
+
+  public lovRestructMethod() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RESTRUCT_METHOD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.restructList = res.body;
+        console.log('restruct', this.restructList);
       });
   }
 }
