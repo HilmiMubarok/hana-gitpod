@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { IndexRateService } from '../../index-rate.service';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-loan-facility-dialog-history',
@@ -187,6 +188,10 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   // dataProductId: any;
   public setDate: string;
   public currencyName: number;
+  // Code Lov get General Parameter  List Of Value Improvement Phase 1
+  public interestTypeList = [];
+  public installmentMethodList = [];
+  public restructList = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -199,6 +204,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     },
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
+
+    // Code Lov get General Parameter  List Of Value Improvement Phase 1
+    public generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogHistoryComponent>
   ) {
     super(creditProposalService);
@@ -223,6 +231,10 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
     this.chnageCurrency(this.applicationProduct.attributes['currency']);
 
+    // Code Lov get General Parameter  List Of Value Improvement Phase 1
+    this.lovInstallmentMethod();
+    this.lovInterestRateTypeList();
+    this.lovRestructMethod();
     // this.typeListControl;
   }
 
@@ -497,5 +509,45 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     let ccy = node.innerHTML;
     ccy = ccy.replace(/\$ /g, '');
     node.innerHTML = this.fee;
+  }
+
+  // Code Lov get General Parameter  List Of Value Improvement Phase 1
+  public lovInterestRateTypeList() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTEREST_RATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.interestTypeList = res.body;
+        console.log('interest type', this.interestTypeList);
+      });
+  }
+
+  public lovInstallmentMethod() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSTALLMENT_METHOD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.installmentMethodList = res.body;
+        console.log('installment ', this.installmentMethodList);
+      });
+  }
+
+  public lovRestructMethod() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RESTRUCT_METHOD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.restructList = res.body;
+        console.log('restruct', this.restructList);
+      });
   }
 }
