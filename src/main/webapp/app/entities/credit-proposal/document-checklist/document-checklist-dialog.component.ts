@@ -66,64 +66,69 @@ export class DocumentChecklistDialogComponent implements OnInit {
     this.view ? (this.file = []) : (this.file = []);
     this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
     this.files = this.data.files;
-  
   }
-
 
   ngOnInit() {
     this.object = this.data.creditProposal;
   }
   public copyDeviation = [];
   public save(): void {
-      for (let i = 0; i < this.file.length; i++) {
-        const metaData = {
-          objectName: null,
-          entityId: null,
-          documentType: null,
-          document: null,
-          category: null,
-          dueDate: null,
-          status: null,
-          remarks: null,
-          createdDate: null,
-          createdBy: null,
-        };
-        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-        const files = new Date() +'-'+this.file[i].name.replace('&', '');
-  
-        metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
-        metaData.entityId = this.data.creditProposal.id;
-        metaData.documentType = this.documentChecklist.documentType;
-        metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
-        metaData.category = this.documentChecklist.category;
-        metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
-        metaData.status = this.documentChecklist.status;
-        metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
-        metaData.createdDate = new Date();
-  
-        const formData = new FormData();
-        formData.append('file', this.file[i]);
-  
-        this.accountService.identity().subscribe(resAccount => {
-          metaData.createdBy = resAccount.login;
-          if (metaData.status === 'Waived') {
-            this.setConvenant(metaData);
-            this.storageService.getBucketName().subscribe((a: any) => {
-              if (a.body.bucket !== null) {
-                this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+    const promises = [];
+    for (let i = 0; i < this.file.length; i++) {
+      const metaData = {
+        objectName: null,
+        entityId: null,
+        documentType: null,
+        document: null,
+        category: null,
+        dueDate: null,
+        status: null,
+        remarks: null,
+        createdDate: null,
+        createdBy: null,
+      };
+      const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+      const files = new Date() + '-' + this.file[i].name.replace('&', '');
+
+      metaData.objectName = `/credit_proposal/${this.data.creditProposal.id}/document/${files}`;
+      metaData.entityId = this.data.creditProposal.id;
+      metaData.documentType = this.documentChecklist.documentType;
+      metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
+      metaData.category = this.documentChecklist.category;
+      metaData.dueDate = this.documentChecklist.dueDate === null ? null : new Date(this.documentChecklist.dueDate).toISOString();
+      metaData.status = this.documentChecklist.status;
+      metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
+      metaData.createdDate = new Date();
+
+      const formData = new FormData();
+      formData.append('file', this.file[i]);
+
+      this.accountService.identity().subscribe(resAccount => {
+        metaData.createdBy = resAccount.login;
+        if (metaData.status === 'Waived') {
+          this.setConvenant(metaData);
+          this.storageService.getBucketName().subscribe((a: any) => {
+            if (a.body.bucket !== null) {
+              this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
+                promises.push(res);
+                if (promises.length === this.file.length) {
                   this._dialog.close(this.copyDeviation);
-                });
+                }
+              });
+            }
+          });
+        } else {
+          this.storageService.getBucketName().subscribe((a: any) => {
+            this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
+              promises.push(res);
+              if (promises.length === this.file.length) {
+                this._dialog.close(null);
               }
             });
-          } else {
-            this.storageService.getBucketName().subscribe((a: any) => {
-              this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
-                this._dialog.close(null);
-              });
-            });
-          }
-        });
-      }
+          });
+        }
+      });
+    }
   }
   public setConvenant(data: any) {
     const convenantObject = {
@@ -139,92 +144,81 @@ export class DocumentChecklistDialogComponent implements OnInit {
 
   public edit(): void {
     const files: IDocumentNode[] = this.documentChecklist['files'];
-   
+
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         const file: IDocumentNode = files[i];
         this.accountService.identity().subscribe(resAccount => {
-          file.tags['dueDate'] =  this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? 'null' : new Date(this.documentChecklist.dueDate).toISOString();
+          file.tags['dueDate'] =
+            this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null'
+              ? 'null'
+              : new Date(this.documentChecklist.dueDate).toISOString();
           file.tags['status'] = this.documentChecklist.status;
           file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
-        
+
           file.tags['createdBy'] = resAccount.login;
         });
-        
-   
+
         this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
           this._dialog.close(res);
         });
       }
     }
-    
   }
 
-  public setModel(event: any){
-    this.documentChecklist.remarks = event.target.value
+  public setModel(event: any) {
+    this.documentChecklist.remarks = event.target.value;
   }
 
- 
-
-
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
     }
-    
   }
 
-  public onSelect(event: any) { 
+  public onSelect(event: any) {
     this.file.push(...event.addedFiles);
     if (this.file.length > 1) {
-      this.handleImage().then()
+      this.handleImage().then();
     }
   }
 
   private isTBO() {
-
-      const img = new Image();
-      img.src = 'content/images/los_logo.png';
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob(blob => {
-          const file = new File([blob], 'los_logo.png', { type: 'image/png' });
-          this.file.push(file);
-        }, 'image/png');
-      };
-    
-    
-  
+    const img = new Image();
+    img.src = 'content/images/los_logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(blob => {
+        const file = new File([blob], 'los_logo.png', { type: 'image/png' });
+        this.file.push(file);
+      }, 'image/png');
+    };
   }
 
   public onRemove(event: any) {
     this.file.splice(this.files.indexOf(event), 1);
     if (this.file.length < 1 && this.documentChecklist.status !== 'Available') {
-      this.isTBO()
+      this.isTBO();
     }
-    
   }
 
-
-  public deleteTBO(status: any){
+  public deleteTBO(status: any) {
     if (status.value === 'Available') {
-      this.handleImage().then()
-    }else{
-      this.handleImage().then(()=> {
+      this.handleImage().then();
+    } else {
+      this.handleImage().then(() => {
         if (this.file.length < 1) {
-          this.isTBO()
+          this.isTBO();
         }
-        
-      })
-      
+      });
     }
-    
+
     // if (status.value !== 'TBO') {
     //   this.file = []
     // }
@@ -237,16 +231,11 @@ export class DocumentChecklistDialogComponent implements OnInit {
           if (this.file[i].name.indexOf('los_logo.png') > -1) {
             this.file.splice(this.file.indexOf(this.file[i]), 1);
           }
-          
         }
       }
-    resolve()
-   
+      resolve();
     });
   }
-
-
-
 
   public donwload(event: any, name: any) {
     this.reportUtilService.downloadFileBYName(event, name.name);

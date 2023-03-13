@@ -51,6 +51,7 @@ import { StorageService } from '../storage/storage.service';
 import { HttpClient } from '@angular/common/http';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -130,7 +131,7 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private saveState: string;
   public isAllowSave: boolean;
-
+  public proposType = [];
   constructor(
     private creditProposalService: CreditProposalService,
     private creditProposalProcessService: CreditProposalProcessService,
@@ -142,7 +143,8 @@ export class LoanAnalysMainComponent implements OnInit {
     public applicationRoleService: ApplicationRoleService,
     public loanAnalystService: LoanAnalysService,
     private storageService: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private generalParameterService: GeneralParameterService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -154,7 +156,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
     this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1;
-
     this.url = this.parentPath;
 
     switch (this.parentPath) {
@@ -439,6 +440,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lovProposalType();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -552,7 +554,17 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     });
   }
-
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = res.body;
+      });
+  }
   public previousState(): void {
     window.history.back();
   }

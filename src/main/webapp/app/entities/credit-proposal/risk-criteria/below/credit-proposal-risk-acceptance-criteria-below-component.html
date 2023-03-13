@@ -576,14 +576,13 @@
               <div class="col-6">
                 <div class="form-group">
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-combobox
-                      [dataSource]=" collateralInsurance"
-                      placeholder="Collateral Insurance"
-                      [(ngModel)]="item.attributes['cpRacBelow'].Ci"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-combobox>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Collateral Insurance</mat-label>
+                      <mat-select name="collateralInsurance" [(ngModel)]="item.attributes['cpRacBelow'].Ci">
+                        <mat-option value="">- Please select -</mat-option>
+                        <mat-option *ngFor="let item of collateralInsurance" [value]="item.code"> {{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">

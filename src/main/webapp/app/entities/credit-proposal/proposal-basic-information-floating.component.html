@@ -119,18 +119,20 @@
             <div class="col-md-6">
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-combobox
-                    cssClass="e-outline"
-                    placeholder="Proposal Type"
-                    (change)="setSubmenu($event.itemData)"
-                    [(ngModel)]="creditProposal.attributes.proposalType"
-                    placeholder="Please select proposal type"
-                    [dataSource]="proposalType"
-                    fields="{text:'text', value:'id'}"
-                    required
-                    [disabled]="disabledProptype()"
-                  >
-                  </ejs-combobox>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Proposal Type</mat-label>
+                    <mat-select
+                      name="proposalType"
+                      [(ngModel)]="creditProposal.attributes.proposalType"
+                      required
+                      [disabled]="disabledProptype()"
+                    >
+                      <mat-option value="">- Please select proposal type -</mat-option>
+                      <mat-option *ngFor="let item of proposType" [value]="item.code">
+                        {{ item.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">

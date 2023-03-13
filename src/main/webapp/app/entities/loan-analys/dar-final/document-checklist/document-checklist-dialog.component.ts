@@ -93,6 +93,7 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   }
   public copyDeviation = [];
   public save(): void {
+    const promises = [];
     for (let i = 0; i < this.file.length; i++) {
       const metaData = {
         objectName: null,
@@ -129,14 +130,20 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
           this.storageService.getBucketName().subscribe((a: any) => {
             if (a.body.bucket !== null) {
               this.storageService.uploadMeta(String(a.body.bucket), formData, metaData).subscribe(res => {
-                this._dialog.close(this.copyDeviation);
+                promises.push(res);
+                if (promises.length === this.file.length) {
+                  this._dialog.close(this.copyDeviation);
+                }
               });
             }
           });
         } else {
           this.storageService.getBucketName().subscribe((a: any) => {
             this.storageService.uploadMeta(a.body.bucket, formData, metaData).subscribe(res => {
-              this._dialog.close(null);
+              promises.push(res);
+              if (promises.length === this.file.length) {
+                this._dialog.close(null);
+              }
             });
           });
         }
@@ -160,25 +167,21 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     this.documentChecklist.remarks = event.target.value;
   }
 
-   public deleteTBO(status: any){
+  public deleteTBO(status: any) {
     if (status.value === 'Available') {
-      this.handleImage().then()
-    }else{
-      this.handleImage().then(()=> {
+      this.handleImage().then();
+    } else {
+      this.handleImage().then(() => {
         if (this.file.length < 1) {
-          this.isTBO()
+          this.isTBO();
         }
-        
-      })
-      
+      });
     }
-    
+
     // if (status.value !== 'TBO') {
     //   this.file = []
     // }
   }
-
- 
 
   public edit(): void {
     const files: IDocumentNode[] = this.documentChecklist['files'];
@@ -204,10 +207,10 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
     }
   }
 
-  public onSelect(event: any) { 
+  public onSelect(event: any) {
     this.file.push(...event.addedFiles);
     if (this.file.length > 1) {
-      this.handleImage().then()
+      this.handleImage().then();
     }
   }
 
@@ -230,9 +233,8 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
   public onRemove(event: any) {
     this.file.splice(this.file.indexOf(event), 1);
     if (this.file.length < 1 && this.documentChecklist.status !== 'Available') {
-      this.isTBO()
+      this.isTBO();
     }
-    
   }
 
   public handleImage(): Promise<void> {
@@ -242,11 +244,9 @@ export class DocumentChecklistDialogTempComponent implements OnInit {
           if (this.file[i].name.indexOf('los_logo.png') > -1) {
             this.file.splice(this.file.indexOf(this.file[i]), 1);
           }
-          
         }
       }
-    resolve()
-   
+      resolve();
     });
   }
 
