@@ -60,10 +60,11 @@ export class CollateralAppraisalDetailProcessLandComponent
       'Alat Berat',
       'Lainnya',
     ],
-    land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
-    madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
+    // land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
+    // madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
+
     // directcion: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
-    position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
+    // position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
   private _collateral: ICollateral;
   @Input()
@@ -80,18 +81,21 @@ export class CollateralAppraisalDetailProcessLandComponent
   set collateralProperties(param: ICollateralProperty[]) {
     this.items = param;
   }
+  public madeWith = [];
+  public position = [];
   public direction = [];
   @Input() collateralAppraisal: ICollateralAppraisal;
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
   public displayedColumnsExpand = [...this.displayedColumnsLand, 'expand'];
   public certificates: ICollateralLandAttribute[];
+  public landShape = [];
   constructor(
     private dialog: MatDialog,
     protected _snackbar: MatSnackBar,
+    protected generalParameterService: GeneralParameterService,
     protected collateralPropertyService: CollateralPropertyService,
     private collateralAppraisalService: CollateralAppraisalService,
-    private accountService: AccountService,
-    private generalParameterService: GeneralParameterService
+    private accountService: AccountService
   ) {
     super(_snackbar, collateralPropertyService);
     this.page = 0;
@@ -109,6 +113,9 @@ export class CollateralAppraisalDetailProcessLandComponent
     this.checkLogin();
     this.hiddenTombol();
     this.lovCardinal();
+    this.lovMadeWith();
+    this.lovPosition();
+    this.lovLandShape();
   }
 
   public account: Account;
@@ -290,6 +297,40 @@ export class CollateralAppraisalDetailProcessLandComponent
       })
       .subscribe(res => {
         this.direction = res.body;
+      });
+  }
+
+  public lovLandShape() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'LAND_SHAPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.landShape = res.body;
+      });
+  }
+  public lovPosition() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'LAND_POSITION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.position = res.body;
+      });
+  }
+  public lovMadeWith() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'MADE_WITH',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.madeWith = res.body;
       });
   }
 }
