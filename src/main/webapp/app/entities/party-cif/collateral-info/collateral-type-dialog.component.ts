@@ -15,6 +15,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -75,9 +76,13 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public collateralDetails: object[];
   public collateralTypes: ICollateralType[];
   public collateralCode: object[];
-  constructor(private collateralTypeService: CollateralTypeService, private cashCollateralService: CashCollateralService) {
+  s;
+  constructor(
+    private collateralTypeService: CollateralTypeService,
+    private cashCollateralService: CashCollateralService,
+    private generalParameterService: GeneralParameterService
+  ) {
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
-    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
   }
@@ -95,6 +100,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this.loadCollateralType();
     this.loadCollateralGrading();
     this.cekData();
+    this.collateralFacilityTypeLov();
   }
 
   public disabledOccupansy() {
@@ -169,5 +175,17 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       return true;
     }
     return false;
+  }
+
+  public collateralFacilityTypeLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_FACILITY_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.facilityTypes = res.body;
+      });
   }
 }
