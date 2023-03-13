@@ -33,6 +33,7 @@ export class RequestSlikViewComponent extends AbstractEntityBaseViewComponent<IR
   ) {
     super(requestSlikService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new RequestSlik();
+    console.log('Activated URL', this.activatedRoute.url);
   }
 
   ngOnChanges(changes: SimpleChanges) {

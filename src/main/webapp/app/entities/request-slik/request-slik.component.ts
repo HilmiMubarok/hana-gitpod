@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
-import { IRequestSlik } from './request-slik.model';
+import { IRequestSlik, requestSlikData } from './request-slik.model';
 import { RequestSlikService } from './request-slik.service';
 import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
@@ -61,35 +61,7 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-    this.requestSliks = [
-      {
-        requestNumber: '2023-000434',
-        cif: '0000001233',
-        debtorName: 'John Doe',
-        customerType: 'Personal',
-        segment: 'SME',
-        requestDate: '2023-000434',
-        status: 'Draft',
-      },
-      {
-        requestNumber: '2023-000434',
-        cif: '0000001233',
-        debtorName: 'John Doe',
-        customerType: 'Personal',
-        segment: 'SME',
-        requestDate: '2023-000434',
-        status: 'Draft',
-      },
-      {
-        requestNumber: '2023-000434',
-        cif: '0000001233',
-        debtorName: 'John Doe',
-        customerType: 'Personal',
-        segment: 'SME',
-        requestDate: '2023-000434',
-        status: 'Draft',
-      },
-    ];
+    this.requestSliks = requestSlikData;
   }
 
   trackId(index: number, item: IRequestSlik) {
