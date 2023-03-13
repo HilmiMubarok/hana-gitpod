@@ -116,8 +116,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     this.getBucketNameSummary();
     this.triggeredSave();
     const setDate = new Date().toISOString().split('T')[0];
-    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyMaster = res.body[0]?.factor;
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res1 => {
+      this.currencyMaster = res1.body[0]?.factor;
       this.partyCifService.getBusinessGroup(this.item.customerNumber).subscribe(res => {
         const param = res.body
         if (param.length > 0) {
