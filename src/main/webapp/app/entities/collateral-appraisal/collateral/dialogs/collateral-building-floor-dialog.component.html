@@ -5,13 +5,13 @@
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Floor</mat-label>
-          <input [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" matInput type="number" [(ngModel)]="floor.floor" />
+          <input [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" matInput type="text" [(ngModel)]="floor.floor" />
         </mat-form-field>
       </div>
       <div class="col-4">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Area</mat-label>
-          <input matInput type="number" [(ngModel)]="floor.area" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" />
+          <input matInput type="text" [(ngModel)]="floor.area" [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" />
         </mat-form-field>
       </div>
       <div class="col-4">
