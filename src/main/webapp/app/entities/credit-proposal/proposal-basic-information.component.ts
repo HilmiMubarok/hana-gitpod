@@ -38,6 +38,7 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
+import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -98,6 +99,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoleId: number;
   public routeHelper: string;
   public resAttr: IProcessTask;
+  public lendingProgram = [];
 
   appName: any;
   appNameMenu: any;
@@ -121,7 +123,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     public dialog: MatDialog,
     protected reportUtils: ReportUtilService,
     public accountService: AccountService,
-    public applicationRoleService: ApplicationRoleService
+    public applicationRoleService: ApplicationRoleService,
+    public lendingProgramParameterService: LendingProgramParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -156,6 +159,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lendingProgramParameter();
     this.getTitle();
 
     this.accountService.identity().subscribe(account => {
@@ -588,6 +592,17 @@ export class ProposalBasicInformationComponent implements OnInit {
       const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
       return utcDate;
     }
+  }
+
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = res.body;
+      });
   }
 
   private preSave(): ICreditProposal {
