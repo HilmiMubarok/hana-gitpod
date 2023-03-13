@@ -61,9 +61,10 @@ export class CollateralAppraisalDetailProcessLandComponent
       'Lainnya',
     ],
     // land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
-    madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
+    // madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
+
     // directcion: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
-    position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
+    // position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
   private _collateral: ICollateral;
   @Input()
@@ -80,6 +81,8 @@ export class CollateralAppraisalDetailProcessLandComponent
   set collateralProperties(param: ICollateralProperty[]) {
     this.items = param;
   }
+  public madeWith = [];
+  public position = [];
   public direction = [];
   @Input() collateralAppraisal: ICollateralAppraisal;
   public displayedColumnsLand: string[] = ['no', 'objectName', 'area', 'action'];
@@ -110,6 +113,8 @@ export class CollateralAppraisalDetailProcessLandComponent
     this.checkLogin();
     this.hiddenTombol();
     this.lovCardinal();
+    this.lovMadeWith();
+    this.lovPosition();
     this.lovLandShape();
   }
 
@@ -304,6 +309,28 @@ export class CollateralAppraisalDetailProcessLandComponent
       })
       .subscribe(res => {
         this.landShape = res.body;
+      });
+  }
+  public lovPosition() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'LAND_POSITION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.position = res.body;
+      });
+  }
+  public lovMadeWith() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'MADE_WITH',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.madeWith = res.body;
       });
   }
 }
