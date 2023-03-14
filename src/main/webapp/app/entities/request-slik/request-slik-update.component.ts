@@ -14,6 +14,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'jhi-request-slik-update',
@@ -43,15 +44,33 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
   getValue(event) {
     this.currentSearch = event.target.value;
   }
+  createReqSlik() {
+    const data = {
+      cif: this.selection.selected[0].customerNumber,
+      requestor: 'Admin',
+      requestDate: new Date(),
+      status: 'Draft',
+      requestNumber: null,
+    };
+    this.requestSlikService.create(data).subscribe(res => console.log(res));
+  }
+  partyCifs$: Observable<any>;
+  public selection = new SelectionModel<any>(true, []);
   search() {
-    this.partyCifService
+    this.partyCifs$ = this.partyCifService
       .findLikeCif(this.currentSearch, {
         page: 0,
         size: 9999,
       })
-      .subscribe(res => {
-        this.partyCifs = res.body;
-      });
+      .pipe(map(res => res.body));
+    // this.partyCifService
+    //   .findLikeCif(this.currentSearch, {
+    //     page: 0,
+    //     size: 9999,
+    //   })
+    //   .subscribe(res => {
+    //     this.partyCifs = res.body;
+    //   });
   }
 
   protected initialState(): any {

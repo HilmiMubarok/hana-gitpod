@@ -86,7 +86,7 @@
               <td style="text-align: center">{{ rowData.debtorName }}</td>
               <td style="text-align: center">{{ rowData.customerType }}</td>
               <td style="text-align: center">{{ rowData.segment }}</td>
-              <td style="text-align: center">{{ rowData.requestDate }}</td>
+              <td style="text-align: center">{{ rowData.requestDate | date: 'long' }}</td>
               <td style="text-align: center">{{ rowData.status }}</td>
               <td style="text-align: center">
                 <button pButton type="submit" [routerLink]="['/request-slik', rowData.id, 'view']" class="flat-button">
