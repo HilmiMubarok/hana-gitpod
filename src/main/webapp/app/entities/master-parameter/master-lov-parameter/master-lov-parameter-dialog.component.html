@@ -5,24 +5,19 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Type LOV</mat-label>
-          <mat-select name="status" (selectionChange)="onSelect($event.value)">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
-              {{ item.description }}
-            </mat-option>
-          </mat-select>
+          <input matInput type="text" [(ngModel)]="generalParameter.parameterTypeDescription" disabled />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CODE</mat-label>
-          <input matInput type="text" [(ngModel)]="generalParameter.parameterTypeId" />
+          <input matInput type="text" [(ngModel)]="generalParameter.code" />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Description</mat-label>
-          <input matInput type="text" [(ngModel)]="generalParameter.parameterTypeDescription" />
+          <input matInput type="text" [(ngModel)]="generalParameter.value" />
         </mat-form-field>
       </section>
       <section class="mt-2">
