@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik, requestSlikData } from './request-slik.model';
 import { Observable } from 'rxjs';
 import { IPartyCif } from '../party-cif/party-cif.model';
 import { PARTY_CIF_EXAMPLE } from './party-cif-dummy';
+import { DocumentEditorContainerComponent, DocumentEditorKeyDownEventArgs } from '@syncfusion/ej2-angular-documenteditor';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -15,26 +16,20 @@ export class RequestSlikDetailComponent {
   requestSlik: IRequestSlik | null = null;
   partyCif;
 
-  public tools: object = {
-    items: [
-      'FontName',
-      'FontSize',
-      'Bold',
-      'Italic',
-      'Underline',
-      'StrikeThrough',
-      'FontColor',
-      'BackgroundColor',
-      'OrderedList',
-      'UnorderedList',
-      'Indent',
-      'Outdent',
-      'SuperScript',
-      'SubScript',
-      'Alignments',
-      'CreateLink',
-    ],
-  };
+  @ViewChild('document_editor_container')
+  public container: DocumentEditorContainerComponent;
+  onCreate(): void {
+    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+  }
+  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
+    const keyCode: string = args.event.key;
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
+    // 67 is the character code for 'C'
+    if (isCtrlKey && keyCode === '86') {
+      // To prevent copy operation set isHandled to true
+      args.isHandled = true;
+    }
+  }
 
   constructor(protected activatedRoute: ActivatedRoute, private router: Router) {
     // this.requestSlik$ = this.activatedRoute.data;
