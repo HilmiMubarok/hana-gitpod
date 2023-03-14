@@ -4,7 +4,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { IRequestSlik, requestSlikData } from './request-slik.model';
 import { RequestSlikService } from './request-slik.service';
-import { LazyLoadEvent, ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityComponent } from 'app/shared/base/abstract-entity.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -13,6 +13,7 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'jhi-request-slik',
@@ -20,6 +21,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['../credit-proposal/credit-proposal-list.css'],
 })
 export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> {
+  requestSliks$: Observable<any>;
   constructor(
     protected requestSlikService: RequestSlikService,
     protected parseLinks: ParseLinks,
@@ -61,7 +63,7 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-    this.requestSliks = requestSlikData;
+    this.requestSliks$ = this.requestSlikService.getAll().pipe(map(res => res.body.data));
   }
 
   trackId(index: number, item: IRequestSlik) {

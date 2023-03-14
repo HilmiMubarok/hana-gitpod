@@ -49,7 +49,7 @@
 
       <div class="table-responsive">
         <p-table
-          [value]="requestSliks"
+          [value]="requestSliks$ | async"
           dataKey="id"
           [paginator]="true"
           [rows]="20"
