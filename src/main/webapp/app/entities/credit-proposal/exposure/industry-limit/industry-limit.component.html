@@ -27,14 +27,14 @@
 
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-              <ejs-numerictextbox
+              <ejs-textbox
                 placeholder="Limit in % from total O/S loan"
                 cssClass="e-outline"
                 floatLabelType="Auto"
-                [(ngModel)]="limitPercentage"
+                [value]="limitPercentage"
                 disabled
               >
-              </ejs-numerictextbox>
+              </ejs-textbox>
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <div class="fontsebled row py-3">
