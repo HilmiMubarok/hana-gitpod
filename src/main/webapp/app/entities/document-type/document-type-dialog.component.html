@@ -1,0 +1,59 @@
+<div class="style-close">
+  <div class="example-button-container">
+    <button mat-mini-fab color="warn" mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
+</div>
+<h1 mat-dialog-title>CREATE DOCUMENT TYPE</h1>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Document </mat-label>
+          <input matInput type="text" [(ngModel)]="documentType.rootDescription" [disabled]="true" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Document Type</mat-label>
+          <input matInput type="text" [(ngModel)]="documentType.parentDescription" [disabled]="true" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Document Name </mat-label>
+          <input matInput type="text" [(ngModel)]="documentType.description" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="documentType.category">
+            <mat-option *ngFor="let item of categoryValue" [value]="item">
+              {{ item }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="documentType.statusId">
+            <mat-option *ngFor="let item of statusValue" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-raised-button color="primary" (click)="save()">SAVE</button>
+  <!-- <button mat-button mat-dialog-close mat-raised-button class="btn-close">CLOSE</button> -->
+</mat-dialog-actions>

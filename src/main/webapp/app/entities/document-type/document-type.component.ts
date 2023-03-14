@@ -8,6 +8,7 @@ import { faTimeline } from '@fortawesome/free-solid-svg-icons';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { IDocumentType, DocumentType } from './document-type.model';
 import { DocumentTypeService } from './document-type.service';
+import { DocumentTypeDialogComponent } from './document-type-dialog.component';
 
 @Component({
   selector: 'jhi-document-type',
@@ -66,9 +67,6 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
       this.items = [];
       this.isView = true;
     }
-    console.log('cccc', this.documentType.parentId);
-
-    console.log('valuess', value);
   }
 
   private loadAll(): void {
@@ -79,7 +77,7 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
         parentId: this.documentType.parentId,
         page: this.page,
         size: this.itemsPerPage,
-        sort: ['id', 'asc'],
+        sort: ['id', 'desc'],
       })
       .subscribe({
         next: (res: HttpResponse<IDocumentType[]>) => {
@@ -92,10 +90,9 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
   public selectParentIdValue() {
     this.documentTypeService
       .query({
-        // lvl2: true,
-        sort: ['asc'],
         page: 0,
         size: 9999,
+        sort: ['desc'],
       })
       .subscribe(res => {
         this.docTypeValue = res.body.filter(obj => obj.parentId === null);
@@ -121,11 +118,8 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
         this.parentIdValue = [];
         this.items = [];
         this.isView = true;
-
-        console.log('zxzxzxz', this.parentIdValue);
       }
     }
-    console.log('zz', this.documentType.rootId);
   }
 
   public findDocumentType(): void {
@@ -140,6 +134,28 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
         console.log('parent dsc', this.documentType.parentDescription);
       }
     }
+  }
+
+  public openDialog(documentType: IDocumentType = null): void {
+    const predicate = { width: '80vw', data: { documentType: this.documentType } };
+
+    if (documentType) {
+      predicate.data.documentType = documentType;
+    }
+
+    const dialogRef = this.dialog.open(DocumentTypeDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.documentTypeService.create(this.documentType).subscribe(_res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+          this.loadAll();
+        });
+      }
+    });
   }
 
   previousState(): void {
