@@ -113,6 +113,7 @@
         <input
           matInput
           type="text"
+          (focusout)="myFunction()"
           [ngModel]="partyCif.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
           (ngModelChange)="partyCif.debtorData.depositCapital = currencyInputChanged($event)"
         />
@@ -124,6 +125,7 @@
         <input
           matInput
           type="text"
+          (focusout)="myFunction()"
           [ngModel]="partyCif.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
           (ngModelChange)="partyCif.debtorData.annualSales = currencyInputChanged($event)"
         />

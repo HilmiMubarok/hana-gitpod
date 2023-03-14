@@ -5,6 +5,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-below',
@@ -24,7 +25,11 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public status: any = [];
   public dataInput: any = [];
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {}
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    private generalParameterService: GeneralParameterService
+  ) {}
   public _item: ICreditProposal;
   public data: Object[];
 
@@ -367,14 +372,15 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   // public creditApplication: object = ['Yes', 'No'];
 
   public Ci: string;
-  public collateralInsurance: object = [
-    'Covered by partner insurance company',
-    'Covered by non-partner insurance companies',
-    'Not covered with insurance',
+  public collateralInsurance = [
+    // 'Covered by partner insurance company',
+    // 'Covered by non-partner insurance companies',
+    // 'Not covered with insurance',
   ];
 
   ngOnInit(): void {
     this.refreshRacBelow();
+    this.collateralInsuranceLov();
   }
 
   public refreshRacBelow() {
@@ -431,5 +437,17 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksCsc;
       }
     }
+  }
+
+  public collateralInsuranceLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_INSURANCE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralInsurance = res.body;
+      });
   }
 }

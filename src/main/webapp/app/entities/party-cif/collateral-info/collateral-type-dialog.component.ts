@@ -83,7 +83,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   ) {
     // this.bindingTypes = COLLATERAL_BINDING_TYPE;
 
-    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
   }
@@ -102,6 +101,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this.loadCollateralGrading();
     this.cekData();
     this.lovBindingType();
+    this.collateralFacilityTypeLov();
   }
   public lovBindingType() {
     this.generalParameterService
@@ -193,5 +193,17 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       return true;
     }
     return false;
+  }
+
+  public collateralFacilityTypeLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_FACILITY_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.facilityTypes = res.body;
+      });
   }
 }
