@@ -212,6 +212,17 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
                   this.rmRegional = res4;
                 }
               });
+              this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                if (res4.parentId) {
+                  this.rmRegional = res4;
+                  this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                    this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                      this.rmSegment = res6;
+                      this.loadSegment();
+                    });
+                  });
+                }
+              });
             });
           }
         });
@@ -267,5 +278,59 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
     if (this.customerType !== 'PERSONAL') {
       this.individu = 'none';
     }
+  }
+
+  // umkm
+  public myFunction() {
+    if (this.rmSegment) {
+      if (this.rmSegment.organizationName === 'Small Medium Enterprise') {
+        if (this.partyCif.debtorData.depositCapital <= 1000000000) {
+          if (this.partyCif.debtorData.annualSales <= 2000000000) {
+            this.partyCif.debtorData.umkmClassification = 'MICRO';
+          } else if (this.partyCif.debtorData.annualSales > 2000000000 && this.partyCif.debtorData.annualSales <= 15000000000) {
+            this.partyCif.debtorData.umkmClassification = 'SMALL';
+          } else if (this.partyCif.debtorData.annualSales > 15000000000 && this.partyCif.debtorData.annualSales <= 50000000000) {
+            this.partyCif.debtorData.umkmClassification = 'MIDDLE';
+          }
+        } else if (this.partyCif.debtorData.depositCapital > 1000000000 && this.partyCif.debtorData.depositCapital <= 5000000000) {
+          if (this.partyCif.debtorData.annualSales <= 15000000000) {
+            this.partyCif.debtorData.umkmClassification = 'SMALL';
+          } else if (this.partyCif.debtorData.annualSales > 15000000000 && this.partyCif.debtorData.annualSales <= 50000000000) {
+            this.partyCif.debtorData.umkmClassification = 'MIDDLE';
+          }
+        } else if (this.partyCif.debtorData.depositCapital > 5000000000 && this.partyCif.debtorData.depositCapital <= 10000000000) {
+          this.partyCif.debtorData.umkmClassification = 'MIDDLE';
+        }
+
+        /* if(this.partyCif.debtorData.depositCapital <= 1000000000 || this.partyCif.debtorData.annualSales <= 2000000000){
+            this.partyCif.debtorData.umkmClassification = 'MICRO';
+      }else if(this.partyCif.debtorData.depositCapital <= 5000000000 || this.partyCif.debtorData.annualSales <= 15000000000){
+            this.umkmClassification = 'SMALL';
+      }else if(this.partyCif.debtorData.depositCapital <= 10000000000 || this.partyCif.debtorData.annualSales <= 50000000000){
+            this.umkmClassification = 'MIDDLE';
+      } */
+      } else {
+        this.partyCif.debtorData.umkmClassification = 'OTHER';
+      }
+    } else {
+      this.partyCif.debtorData.umkmClassification = 'OTHER';
+    }
+  }
+
+  private loadSegment(): void {
+    this.internalService.queryFilterBy({ idInternalType: APPLICATION_TYPE.BUSINESS_UNIT, size: 9999, page: 0 }).subscribe(res => {
+      this.segments = res.body;
+      console.log('this.se', this.segments);
+      this.myFunction();
+    });
+  }
+
+  private loadRegional(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.regionals = res.body;
+        resolve();
+      });
+    });
   }
 }
