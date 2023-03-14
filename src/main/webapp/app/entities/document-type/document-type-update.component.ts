@@ -17,7 +17,16 @@ export class DocumentTypeUpdateComponent extends AbstractEntityBaseViewComponent
   public documentType: IDocumentType;
   public parentIdValue: IDocumentType[];
   public idDocumentType = [];
-  public statusValue = ['Active', 'Non Active'];
+  public statusValue = [
+    {
+      id: 'ACTIVE',
+      description: 'Active',
+    },
+    {
+      id: 'NON_ACTIVE',
+      description: 'Non Active',
+    },
+  ];
   public categoryValue = ['A', 'B', 'C'];
   public documentName: IDocumentType[];
 
@@ -82,5 +91,63 @@ export class DocumentTypeUpdateComponent extends AbstractEntityBaseViewComponent
 
   previousState(): void {
     window.history.back();
+  }
+
+  public saveData() {
+    this.validate().then(() => this.submit());
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  public checkMustValidated() {
+    const mustValidateDocument = {
+      description: true,
+      category: true,
+      status: true,
+    };
+
+    if (!this.documentType.description) {
+      this._showNotification('error', 'Masukkan Document Name terlebih dahulu');
+      mustValidateDocument.description = false;
+    }
+    if (!this.documentType.category) {
+      this._showNotification('error', 'Masukkan Category Document terlebih dahulu');
+      mustValidateDocument.category = false;
+    }
+    if (!this.documentType.statusId) {
+      this._showNotification('error', 'Masukkan Status Document terlebih dahulu');
+      mustValidateDocument.status = false;
+    }
+
+    return this._validateProcess(mustValidateDocument);
+  }
+
+  public validateDocument(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Document Type Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateDocument().then(() => resolve(true));
+    });
   }
 }

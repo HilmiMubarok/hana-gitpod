@@ -259,13 +259,13 @@ export class DocumentUploadDialogComponent implements OnInit {
       .subscribe(res => {
         if (this.collateralOrAppraisal === 'collateral') {
           this.certiFicateTypeName = lodash.filter(res.body, function (o) {
-            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMET_COLLATERAL_IDD;
+            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMET_COLLATERAL_IDD && o.statusId === 'ACTIVE';
           });
           console.log('idd', this.certiFicateTypeName);
         }
         if (this.collateralOrAppraisal === 'appraisal') {
           this.documentTypes = lodash.filter(res.body, function (o) {
-            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMENT_APPRAISAL;
+            return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMENT_APPRAISAL && o.statusId === 'ACTIVE';
           });
         }
       });
