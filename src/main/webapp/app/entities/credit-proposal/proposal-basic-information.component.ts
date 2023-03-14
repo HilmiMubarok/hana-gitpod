@@ -263,10 +263,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public menuCreditProposal() {
     if (this.parentPath === 'cp-status-approval') {
-      if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' &&
-        this.creditProposal.attributes.proposalType !== undefined
-      ) {
+      if (this.creditProposal.attributes.proposalType === ID_GREATER_15_BN && this.creditProposal.attributes.proposalType !== undefined) {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
@@ -280,7 +277,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
         this.dataChil = 'child';
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' &&
+        this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = [
@@ -296,7 +293,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
         this.dataChil = 'child';
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
+        this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = [
@@ -315,18 +312,15 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = PROPOSAL_TYPE;
       }
     } else if (this.parentPath === 'credit-proposal-status') {
-      if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' &&
-        this.creditProposal.attributes.proposalType !== undefined
-      ) {
+      if (this.creditProposal.attributes.proposalType === ID_GREATER_15_BN && this.creditProposal.attributes.proposalType !== undefined) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' &&
+        this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
+        this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
@@ -342,7 +336,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public routeSubMenu(menu: object): void {
     if (menu['id'] === ID_GREATER_15_BN) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bio';
+      this.creditProposal.attributes.proposalType = ID_GREATER_15_BN;
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else {
@@ -360,7 +354,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bio';
+      this.creditProposal.attributes.proposalType = ID_LOWER_EQUAL_15_BN;
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else {
@@ -378,7 +372,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     if (menu['id'] === ID_BACK_TO_BACK) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
+      this.creditProposal.attributes.proposalType = ID_BACK_TO_BACK;
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
       } else {
@@ -471,6 +465,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
   }
+  public a = [];
   public lovProposalType() {
     this.generalParameterService
       .queryFilterBy({
@@ -480,6 +475,11 @@ export class ProposalBasicInformationComponent implements OnInit {
       })
       .subscribe(res => {
         this.proposType = res.body;
+        for (let i = 0; i < this.proposType.length; i++) {
+          if (this.proposType[i].code === this.creditProposal.attributes['proposalType']) {
+            this.a = this.proposType[i].value;
+          }
+        }
       });
   }
 
