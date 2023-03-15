@@ -68,7 +68,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   ngOnInit(): void {
     // View Sub Menu Collateral Info in Loan And Offering Letter
     if (
-      // this.router.url.split('/')[1] === 'la-distribution' ||
+      this.router.url.split('/')[1] === 'la-distribution' ||
       this.router.url.split('/')[1] === 'la-analyst' ||
       this.router.url.split('/')[1] === 'la-SME-CRC' ||
       this.router.url.split('/')[1] === 'la-approval' ||
