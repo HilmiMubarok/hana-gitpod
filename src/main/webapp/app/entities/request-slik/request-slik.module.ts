@@ -7,11 +7,24 @@ import { RequestSlikDetailComponent } from './request-slik-detail.component';
 import { RequestSlikUpdateComponent } from './request-slik-update.component';
 import { requestSlikRoute } from './request-slik.route';
 import { DocumentRequestSlikComponent } from './document/document-request-slik.component';
+import { DocumentRequestSlikDialogComponent } from './document/dialog/document-request-slik-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
-  declarations: [RequestSlikComponent, RequestSlikDetailComponent, RequestSlikUpdateComponent, DocumentRequestSlikComponent],
-  entryComponents: [RequestSlikComponent, RequestSlikUpdateComponent, RequestSlikDetailComponent, DocumentRequestSlikComponent],
+  declarations: [
+    RequestSlikComponent,
+    RequestSlikDetailComponent,
+    RequestSlikUpdateComponent,
+    DocumentRequestSlikComponent,
+    DocumentRequestSlikDialogComponent,
+  ],
+  entryComponents: [
+    RequestSlikComponent,
+    RequestSlikUpdateComponent,
+    RequestSlikDetailComponent,
+    DocumentRequestSlikComponent,
+    DocumentRequestSlikDialogComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwRequestSlikModule {}

@@ -5,6 +5,7 @@ import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { map, Observable, Subscription } from 'rxjs';
+import { DocumentRequestSlikDialogComponent } from './dialog/document-request-slik-dialog.component';
 
 @Component({
   selector: 'jhi-document-request-slik',
@@ -45,6 +46,21 @@ export class DocumentRequestSlikComponent implements OnDestroy {
         this.bucket = res.body['bucket'];
         resolve(res.body['bucket']);
       });
+    });
+  }
+
+  openDialog(mode: string, element = null) {
+    const predicate: object = {
+      width: '90vw',
+      data: {
+        bucket: this.bucket,
+        mode,
+      },
+    };
+
+    const dialogRef = this.dialog.open(DocumentRequestSlikDialogComponent, predicate);
+    dialogRef.afterClosed().subscribe(res => {
+      console.log('After Closed', { res, mode });
     });
   }
 
