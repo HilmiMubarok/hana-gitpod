@@ -11,7 +11,8 @@ import lodash from 'lodash';
 import {
   APPRAISAL_MENU_ADMIN,
   APPRAISAL_MENU_SURVEYOR,
-  APPRAISAL_MENU_APPROVAL,
+  APPRAISAL_MENU_CHECKER1,
+  APPRAISAL_MENU_CHECKER2,
   APPRAISAL_MENU_ADMIN_APPRAISAL,
   APPRAISAL_MENU_RM,
   SIDEBAR_MENU_BM,
@@ -20,7 +21,7 @@ import {
   SIDEBAR_MENU_DH,
   APPRAISAL_MENU_TL,
   APPRAISAL_MENU_CRA,
-  APPRAISAL_MENU_CRC,
+  // APPRAISAL_MENU_CRC,
   APPRAISAL_MENU_HCR,
   APPRAISAL_MENU_BUSINESS_DIR,
   APPRAISAL_MENU_CREDIT_DIR,
@@ -95,8 +96,12 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_TL;
         } else if (lodash.indexOf(account.authorities, Authority.CRA) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_CRA;
-        } else if (lodash.indexOf(account.authorities, Authority.CRC) >= 0) {
-          this.dataSource.data = APPRAISAL_MENU_CRC;
+        } else if (lodash.indexOf(account.authorities, Authority.CRC1) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CHECKER1;
+        } else if (lodash.indexOf(account.authorities, Authority.CRC2) >= 0) {
+          this.dataSource.data = APPRAISAL_MENU_CHECKER2;
+          // } else if (lodash.indexOf(account.authorities, Authority.CRC) >= 0) {
+          //   this.dataSource.data = APPRAISAL_MENU_CRC;
         } else if (lodash.indexOf(account.authorities, Authority.HCR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_HCR;
         } else if (lodash.indexOf(account.authorities, Authority.ROLE_HCR2) >= 0) {
