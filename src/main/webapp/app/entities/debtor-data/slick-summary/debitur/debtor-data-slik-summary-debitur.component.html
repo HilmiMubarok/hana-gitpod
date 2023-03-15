@@ -42,7 +42,7 @@
         <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}</td>
       </ng-container>
       <ng-container matColumnDef="tenor">
-        <th mat-header-cell *matHeaderCellDef>Tenor (Mounth)</th>
+        <th mat-header-cell *matHeaderCellDef>Tenor (Month)</th>
         <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
       </ng-container>
       <ng-container matColumnDef="lastKol">
