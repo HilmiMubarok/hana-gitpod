@@ -375,21 +375,13 @@
                     </section>
                   </div>
                   <div class="col-2">
-                    <section *ngIf="item.statusId === 'DRAFT'">
+                    <section>
                       <ejs-radiobutton
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'"
                         [(ngModel)]="item.attributes['basicInformation'].customerStatus"
                         [value]="'Existing'"
                         name="customer"
                         label="Existing"
-                      ></ejs-radiobutton>
-                    </section>
-                    <section *ngIf="item.statusId !== 'DRAFT'">
-                      <ejs-radiobutton
-                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                        [value]="'Existing'"
-                        name="customer"
-                        label="Existing"
-                        disabled
                       ></ejs-radiobutton>
                     </section>
                   </div>
