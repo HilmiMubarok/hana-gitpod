@@ -56,6 +56,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'document-type',
       },
       {
+        name: 'Lending Program Parameter',
+        iconname: 'minus',
+        route: 'lending-program-parameter',
+      },
+      {
         name: 'List Of Value',
         iconname: 'minus',
         route: 'list-of-value-parameter',
@@ -384,6 +389,11 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         route: 'document-type',
       },
       {
+        name: 'Lending Program Parameter',
+        iconname: 'minus',
+        route: 'lending-program-parameter',
+      },
+      {
         name: 'List Of Value',
         iconname: 'minus',
         route: 'list-of-value-parameter',
@@ -652,6 +662,11 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         name: 'Document Checklist',
         iconname: 'minus',
         route: 'document-type',
+      },
+      {
+        name: 'Lending Program Parameter',
+        iconname: 'minus',
+        route: 'lending-program-parameter',
       },
       {
         name: 'List Of Value',
