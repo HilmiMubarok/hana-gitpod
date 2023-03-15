@@ -513,10 +513,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data) {
-        if (data.attributes.marketValueCcy === undefined) {
+        if (data.attributes.marketValueOriginalCcy === undefined) {
           return '';
         }
-        return data.attributes.marketValueCcy;
+        return data.attributes.marketValueOriginalCcy;
       }
     }
     return 'IDR';
