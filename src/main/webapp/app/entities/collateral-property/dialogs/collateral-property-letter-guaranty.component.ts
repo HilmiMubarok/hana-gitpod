@@ -291,7 +291,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
         this.Ccy = this.options.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
         this.optionsCurrency = res.body;
         this.filteredCurrency();
-        this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.attributes.marketValueOriginalCcy);
+        this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.attributes.amountUomId);
         this.optionsApr = res.body;
         this.filteredApr();
         this.CcyApr = this.optionsApr.find(obj => obj.id === this.collateralProperty.attributes.approvedCreditLineCcy);
@@ -351,7 +351,6 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
 
   public cekDataSource() {
     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
-      this.collateralProperty.liquidationValue = this.collateralProperty.marketValue;
       this.myControl.disable();
       this.myControlApr.disable();
       this.myControlCurrency.disable();
@@ -396,7 +395,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
 
   public currency = 0;
   public getAmountCcy() {
-    this.collateralProperty.attributes.marketValueOriginalCcy = this.amountCcy.id;
+    this.collateralProperty.attributes.amountUomId = this.amountCcy.id;
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency(this.amountCcy.id, 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
       if (res.body[0]?.factor !== undefined) {
