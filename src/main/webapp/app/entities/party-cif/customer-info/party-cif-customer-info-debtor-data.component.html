@@ -97,14 +97,15 @@
     </div>
 
     <div class="form-group">
-      <ejs-combobox
-        class="mb-2 mt-2"
-        [dataSource]="callReportCategoryData"
-        [(ngModel)]="partyCif.debtorData.callReportCategory"
-        placeholder="Call Report Category"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-      ></ejs-combobox>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Call Report Category</mat-label>
+        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory">
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
+            {{ item.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
@@ -112,6 +113,7 @@
         <input
           matInput
           type="text"
+          (focusout)="myFunction()"
           [ngModel]="partyCif.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
           (ngModelChange)="partyCif.debtorData.depositCapital = currencyInputChanged($event)"
         />
@@ -123,6 +125,7 @@
         <input
           matInput
           type="text"
+          (focusout)="myFunction()"
           [ngModel]="partyCif.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
           (ngModelChange)="partyCif.debtorData.annualSales = currencyInputChanged($event)"
         />
@@ -147,22 +150,39 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <ejs-combobox
-        [dataSource]="ifcRiskCategoryData"
-        [(ngModel)]="partyCif.debtorData.ifcRiskCategory"
-        placeholder="IFC & Risk Category"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-      >
-      </ejs-combobox>
+      <section class="mt-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>IFC & Risk Category</mat-label>
+          <mat-select name="riskCategory" [(ngModel)]="partyCif.debtorData.ifcRiskCategory">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
     </div>
 
     <div class="form-group">
+      <section class="mt-2">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>PEP</mat-label>
+          <mat-select name="pep" [(ngModel)]="partyCif.debtorData.pep">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of pep" [value]="item.code">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+    </div>
+
+    <!-- <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>PEP</mat-label>
         <input matInput type="text" [(ngModel)]="partyCif.debtorData.pep" [disabled]="true" />
       </mat-form-field>
-    </div>
+    </div> -->
 
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">

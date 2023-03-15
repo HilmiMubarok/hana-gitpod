@@ -119,25 +119,27 @@
             <div class="col-md-6">
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                  <ejs-combobox
-                    cssClass="e-outline"
-                    placeholder="Proposal Type"
-                    (change)="setSubmenu($event.itemData)"
-                    [(ngModel)]="creditProposal.attributes.proposalType"
-                    placeholder="Please select proposal type"
-                    [dataSource]="proposalType"
-                    fields="{text:'text', value:'id'}"
-                    required
-                    [disabled]="disabledProptype()"
-                  >
-                  </ejs-combobox>
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Proposal Type</mat-label>
+                    <mat-select
+                      name="proposalType"
+                      [(ngModel)]="creditProposal.attributes.proposalType"
+                      required
+                      [disabled]="disabledProptype()"
+                    >
+                      <mat-option value="">- Please select proposal type -</mat-option>
+                      <mat-option *ngFor="let item of proposType" [value]="item.code">
+                        {{ item.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </section>
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                   <div class="fontsebled row">
                     <div class="col-4">Proposal Type</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-4">
-                      {{ creditProposal.attributes.proposalType }}
+                      {{ a }}
                     </div>
                   </div>
                 </section>
@@ -187,8 +189,22 @@
                   </div>
                 </section>
               </div>
-
-              <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
+              <div class="form-group">
+                <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
+              </div>
+              <div class="form-group">
+                <!-- <section class="mt-2"> -->
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Lending Program</mat-label>
+                  <mat-select name="lendingProgram">
+                    <mat-option value="">Please Select</mat-option>
+                    <mat-option *ngFor="let item of lendingProgram" [value]="item.description">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <!-- </section> -->
+              </div>
             </div>
           </div>
         </div>

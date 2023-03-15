@@ -42,7 +42,6 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   private loadAll(): void {
     const data = this.generalParameterService.paramTypeId.subscribe((message: any) => {
       this.typeID = message;
-      console.log('cek data', message);
       this.generalParameterService
         .queryFilterBy({
           idParameterType: this.typeID,

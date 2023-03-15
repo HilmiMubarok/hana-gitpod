@@ -6,11 +6,17 @@ import { LendingProgramParameterComponent } from './lending-program-parameter.co
 import { LendingProgramParameterDetailComponent } from './lending-program-parameter-detail.component';
 import { LendingProgramParameterUpdateComponent } from './lending-program-parameter-update.component';
 import { lendingProgramParameterRoute } from './lending-program-parameter.route';
+import { LendingProgramParameterDialogComponent } from './lending-program-parameter-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(lendingProgramParameterRoute)],
-  declarations: [LendingProgramParameterComponent, LendingProgramParameterDetailComponent, LendingProgramParameterUpdateComponent],
-  entryComponents: [LendingProgramParameterComponent, LendingProgramParameterUpdateComponent],
+  declarations: [
+    LendingProgramParameterComponent,
+    LendingProgramParameterDetailComponent,
+    LendingProgramParameterUpdateComponent,
+    LendingProgramParameterDialogComponent,
+  ],
+  entryComponents: [LendingProgramParameterComponent, LendingProgramParameterUpdateComponent, LendingProgramParameterDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwLendingProgramParameterModule {}

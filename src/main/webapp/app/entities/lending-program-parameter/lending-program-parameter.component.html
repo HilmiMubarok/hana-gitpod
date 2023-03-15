@@ -1,79 +1,60 @@
-<div class="page-view">
-  <h5 class="page-heading">
-    <span jhiTranslate="losgwApp.lendingProgramParameter.home.title">Lending Program Parameters</span>
-  </h5>
-  <p-table
-    [value]="lendingProgramParameters"
-    dataKey="id"
-    [paginator]="true"
-    [rows]="20"
-    [rowsPerPageOptions]="rowsPerPage"
-    [first]="first"
-    [totalRecords]="totalItems"
-    [loading]="loading"
-    [rowHover]="true"
-    [lazy]="true"
-    [rowTrackBy]="trackId"
-    [responsive]="true"
-    [stateKey]="'lendingProgramParameters_grid_state'"
-    (onLazyLoad)="loadDataLazy($event)"
-    (onPage)="pageSizeChanged($event)"
-  >
-    <ng-template pTemplate="caption">
-      <ul class="nav justify-content-end">
-        <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-          <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-            <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-          </a>
-        </li>
-      </ul>
-    </ng-template>
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Lending Program Parameters</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table class="w-100" [dataSource]="items">
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
 
-    <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 60px; text-align: center"><span jhiTranslate="global.field.sequence">No</span></th>
-        <th style="width: 130px; text-align: center"><span jhiTranslate="global.field.id">ID</span></th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.code">Code</span></th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.description">Description</span></th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.statusCode">Status Code</span></th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.statusId">Status Id</span></th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.statusCode">Status Code</span></th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.createdBy">Created By</span></th>
-        <th style="text-align: center; width: 150px">
-          <span jhiTranslate="losgwApp.lendingProgramParameter.createdDate">Created Date</span>
-        </th>
-        <th><span jhiTranslate="losgwApp.lendingProgramParameter.lastModifiedBy">Last Modified By</span></th>
-        <th style="text-align: center; width: 150px">
-          <span jhiTranslate="losgwApp.lendingProgramParameter.lastModifiedDate">Last Modified Date</span>
-        </th>
-        <th style="width: 140px; text-align: center"><span jhiTranslate="global.field.action">Action</span></th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-      <tr>
-        <td style="text-align: right">{{ rowIndex + 1 }}</td>
-        <td style="text-align: left; width: 120px">{{ rowData.id }}</td>
-        <td>{{ rowData.code }}</td>
-        <td>{{ rowData.description }}</td>
-        <td>{{ rowData.statusCode }}</td>
-        <td>{{ rowData.statusId }}</td>
-        <td>{{ rowData.statusCode }}</td>
-        <td>{{ rowData.createdBy }}</td>
-        <td style="text-align: center">{{ rowData.createdDate | date: 'dd-MM-yyyy HH:mm' }}</td>
-        <td>{{ rowData.lastModifiedBy }}</td>
-        <td style="text-align: center">{{ rowData.lastModifiedDate | date: 'dd-MM-yyyy HH:mm' }}</td>
-        <td style="text-align: center">
-          <button pButton type="submit" [routerLink]="['/lending-program-parameter', rowData.id, 'view']" class="flat-button">
-            <fa-icon icon="eye"></fa-icon>
-          </button>
-          <button pButton type="submit" [routerLink]="['/lending-program-parameter', rowData.id, 'edit']" class="flat-button">
-            <fa-icon icon="pencil-alt"></fa-icon>
-          </button>
-          <button pButton type="button" (click)="deleteItem(rowData.id)" class="flat-button">
-            <fa-icon icon="trash-alt"></fa-icon>
+      <ng-container matColumnDef="lending-program">
+        <th mat-header-cell *matHeaderCellDef>Lending Program</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="start-date">
+        <th mat-header-cell *matHeaderCellDef>Start Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.createdDate | formatMediumDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="end-date">
+        <th mat-header-cell *matHeaderCellDef>End Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.lastModifiedDate | formatMediumDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">{{ element.statusId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element" class="text-left text-capitalize">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
           </button>
         </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
       </tr>
-    </ng-template>
-  </p-table>
-</div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
+  </mat-card-content>
+
+  <mat-card-actions align="right">
+    <button mat-raised-button (click)="openDialog()">ADD</button>
+  </mat-card-actions>
+</mat-card>

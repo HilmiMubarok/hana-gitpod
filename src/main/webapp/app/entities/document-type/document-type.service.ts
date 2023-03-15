@@ -32,5 +32,9 @@ export class DocumentTypeService extends AbstractEntityService<IDocumentType> {
     return entity.id === undefined || entity.id === null;
   }
 
+  public documentTypeList(perentId: string) {
+    return this.http.get<IDocumentType[]>(`${this.resourceUrl}/list-active/${perentId}`, { observe: 'response' });
+  }
+
   protected preSave(entity: IDocumentType) {}
 }

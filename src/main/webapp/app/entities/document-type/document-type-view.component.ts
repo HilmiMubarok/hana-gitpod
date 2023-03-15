@@ -21,7 +21,16 @@ export class DocumentTypeViewComponent extends AbstractEntityMaterialComponent<I
 
   id: any;
   public docTypeValue = ['DOC_IDD', 'DOC_CP'];
-  public statusValue = ['Active', 'Non Active'];
+  public statusValue = [
+    {
+      id: 'ACTIVE',
+      description: 'Active',
+    },
+    {
+      id: 'NON_ACTIVE',
+      description: 'Non Active',
+    },
+  ];
   public categoryValue = ['A', 'B', 'C'];
 
   constructor(

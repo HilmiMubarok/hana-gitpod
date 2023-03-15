@@ -23,6 +23,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -56,7 +57,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
-  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public ifcRiskCategoryData = [];
   public pacth: any;
   public view: boolean;
   public partyCif: IPartyCif = new PartyCif();
@@ -209,9 +210,12 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public account: AccountService,
+    protected generalParameterService: GeneralParameterService
   ) {
     super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
+    this.lovCallreport();
+    this.getLov();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -243,6 +247,28 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
       }
     }
   }
+  public lovCallreport() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CALL_REPORT_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.callReportCategoryData = res.body;
+      });
+  }
+  public getLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'IFC_AND_RISK_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ifcRiskCategoryData = res.body;
+      });
+  }
 
   initialize() {
     this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
@@ -272,7 +298,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
 
   public collectabilityStatusData = ['1', '2', '3', '4', '5'];
-  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
+  public callReportCategoryData = [];
   itemKey() {
     return this.item.id;
   }
