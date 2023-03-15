@@ -19,19 +19,11 @@ import { EmployeeService } from '../../entities/employee/employee.service';
 })
 export class NavbarComponent implements OnInit {
   public menuListItems: CustomMatMenu[] = [];
-  public positionListItems: CustomMatMenu[] = [];
   public isLogin: Boolean = false;
   public account: Account | null = null;
 
   public loginName: string;
   public lastLogin: string;
-  public positionTypeIdPub: string;
-  public internalIdPub: string;
-  public positionName: string;
-  public internalName: string;
-  public isPositionMoreThan1 = false;
-  private cNamePos = 'POS';
-  private cNameInt = 'INT';
   private durationInSecond: Number = 2;
   protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   protected verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -72,78 +64,15 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public setCookie(cname: string, cvalue: any, cdesc: any): void {
-	this.positionTypeIdPub = cvalue;
-	if (cname === 'POS') {
-	  this.positionName = cdesc;
-	} else if (cname === 'INT') {
-	  this.internalName = cdesc;
-	}
-	document.cookie = cname + "=" + cvalue + ";";
-  }
-
-  public deleteCookie(cname: string, cvalue: any): void {
-	const d = new Date();
-	d.setTime(d.getTime() + (-1*24*60*60*1000));
-	const expires = "expires=" + d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";";
-  }
-
   private setUpAcc(res: any, account: any): void {
-	this.positionTypeIdPub = '';
-	this.internalIdPub = '';
-
 	if (res.body.length < 1) {
 	  this.loginName = 'First Name Last Name';
       this.lastLogin = 'Not Registered Employee';
-
-	  this.positionName = 'Not Registered Position';
-	  this.setCookie(this.cNamePos, '', this.positionName);
-
-	  this.internalName = 'Not Registered Internal';
-	  this.setCookie(this.cNameInt, '', this.internalName);
 	} else {
 	  this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
       this.lastLogin = account.lastModifiedDate.substring(0, 19);
-
-	  if (res.body[0].positions.length > 0) {
-		let i = 0;
-		let isFirstPosActive = false;
-		let positionTypeId = '';
-		let positionTypeDescription = '';
-		let internalId = '';
-		let internalName = '';
-		
-		while (!isFirstPosActive && i < res.body[0].positions.length) {
-		  if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
-			this.positionTypeIdPub = res.body[0].positions[i].positionTypeId;
-			positionTypeId = res.body[0].positions[i].positionTypeId;
-			positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
-
-			this.internalIdPub = res.body[0].positions[i].internalId;
-			internalId = res.body[0].positions[i].internalId;
-			internalName = res.body[0].positions[i].internalName;
-
-			isFirstPosActive = true;
-			i = res.body[0].positions.length - 1;
-		  }
-		  i++;
-		}
-
-		this.positionName = positionTypeDescription === '' ? 'Not Have Active Position': positionTypeDescription;
-		this.internalName = internalName === '' ? 'Not Have Active Position': internalName;
-
-		this.setCookie(this.cNamePos, positionTypeId, positionTypeDescription);
-		this.setCookie(this.cNameInt, internalId, internalName);
-
-		if (res.body[0].positions.length > 1) {
-		  this.isPositionMoreThan1 =  true;
-		  this.definePositionMenu(res.body[0].positions);
-		}
-	  }
 	}
-
-    if (account.login === 'admin') {
+    if (this.account.login === 'admin') {
 	  this.isAdministrator = true;
 	}
   }
@@ -166,20 +95,6 @@ export class NavbarComponent implements OnInit {
     this.templateService.toggle();
   }
 
-  private definePositionMenu(positions: any): void {
-	positions.forEach(position => {
-	  if (position.statusCode === 'ACTIVE' && position.statusId === 'ACTIVE') {
-		const item: CustomMatMenu = new CustomMatMenu();
-		item.text = position.positionTypeDescription + " - " + position.internalName;
-		item.fn = () => {
-		  this.setCookie(this.cNamePos, position.positionTypeId, position.positionTypeDescription);
-		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
-		}
-		this.positionListItems.push(item);
-	  }
-	});
-  }
-
   private defineAccountMenu(): void {
     const item: CustomMatMenu = new CustomMatMenu();
     this.accountService.identity().subscribe(acc => {
@@ -199,8 +114,6 @@ export class NavbarComponent implements OnInit {
   }
 
   public logout(): void {
-	this.deleteCookie(this.cNamePos, this.positionTypeIdPub);
-	this.deleteCookie(this.cNameInt, this.internalIdPub);
     this.loginService.logout();
     this.router.navigate(['']);
   }
