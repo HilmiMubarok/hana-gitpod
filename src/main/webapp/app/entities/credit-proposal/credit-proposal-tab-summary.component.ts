@@ -11,7 +11,7 @@ import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { MessageService } from 'primeng/api';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-
+import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import {
   DocumentEditorComponent,
   DocumentEditorContainerComponent,
@@ -21,7 +21,11 @@ import {
   SfdtExportService,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { CreditProposalService } from './credit-proposal.service';
-
+import { IDebtorData } from '../debtor-data/debtor-data.model';
+import lodash from 'lodash';
+import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-facility-table-model';
+import { Router } from '@angular/router';
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
@@ -30,11 +34,14 @@ import { CreditProposalService } from './credit-proposal.service';
 })
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
-
+  public currencyMaster: number
   private ngUnsubscribe = new Subject();
   public state: string;
   public dialogVisible: false;
   public data: object[];
+  public myBusinessGroupCPFacility: ICPFacilityTable[];
+  public dataSource = [];
+  public parsedAttr;
 
   public _item?: ICreditProposal = new CreditProposal();
   public paramId: string;
@@ -83,7 +90,9 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     protected applicationConfigService: ApplicationConfigService,
     private actRoute: ActivatedRoute,
     protected messageService: MessageService,
-    private http: HttpClient
+    private http: HttpClient,
+    public partyCifService: PartyCifService,
+    private router: Router
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -106,7 +115,300 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
     this.getBucketNameSummary();
     this.triggeredSave();
+    const setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res1 => {
+      this.currencyMaster = res1.body[0]?.factor;
+      this.partyCifService.getBusinessGroup(this.item.customerNumber).subscribe(res => {
+        const param = res.body
+        if (param.length > 0) {
+          let no = 0;
+          for (let i = 0; i < param.length; i++) {
+            const item: IDebtorData = param[i];
+            if (lodash.has(item.attributes, 'cpFacility')) {
+              const source = JSON.parse(item.attributes['cpFacility']);
+    
+              if (source) {
+                for (let y = 0; y < source.length; y++) {
+                  const parsed = new CPFacilityTable();
+                  const parsedAny = parsed;
+                  no = no + 1;
+                  parsed.no = no;
+                  parsed.GroupName = param[i].customerName;
+                  parsed.LoanAccount = source[y].LNB_BASE_AGR_REF_NO;
+                  parsed.FacilityType = source[y].FACILITY_TYPE;
+                  parsed.InitialLimit = Number(source[y].FILN10_CONTRACT_AMT ? source[y].FILN10_CONTRACT_AMT : 0);
+                  parsed.Changes = 0;
+                  parsed.OS = source[y].LNB_BASE_LON_JAN;
+                  parsed.TotalPlafond = parsed.InitialLimit + parsed.Changes;
+                  parsed.Provision = source[y].FILN22_FEE_AMT;
+                  parsed.AdminFee = source[y].FILN22_FEE_AMT;
+                  parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
+                  parsed.Tenor = source[y].FXFIG_TRX_DT;
+          
+                  parsed.CCY = source[y].LNB_BASE_LON_CCY;
+                  parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
+    
+                  this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
+                    this.item.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
+                    this.item.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
+                    this.item.attributes['calculationExposure'].subTotalLimitGroubOs = this.fungsiSumOSGroub();
+                    this.item.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
+       
+                  const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
+                    return n === undefined;
+                  });
+                }
+              }
+            }
+          }
+        }
+        
+      });
+      
+      if (this.router.url.split('=').indexOf('summary') > -1) {
+        this.parsedAttr = parsePreviousAtrribute(this.item);
+        if (this.parsedAttr.previousHistory) {
+          this.dataSource = this.parsedAttr.previousHistory.products;
+        } else {
+          this.dataSource = this.item.products;
+
+        }
+      } else {
+        this.dataSource = this.item.products;
+      }
+
+      this.item.attributes['calculationExposure'].initialLimitDebtor = this.fungsiSuminit();
+      this.item.attributes['calculationExposure'].totalChangeDebtor = this.fungsiSumchange();
+      this.item.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
+      this.item.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
+    });
   }
+
+
+
+  fungsiSuminitGroub() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].InitialLimit !== undefined) {
+          result = result + Number(filterIdr[i].InitialLimit);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].InitialLimit !== undefined) {
+          dolar = Number(filterUsd[i].InitialLimit) * Number(this.currencyMaster) + dolar;
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  fungsiSumchangeGroub() {
+    let result: number;
+    let dolar: number;
+    // limit = 0;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].Changes !== undefined) {
+          result = result + Number(filterIdr[i].Changes);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].Changes !== undefined) {
+          dolar = Number(filterUsd[i].Changes) * Number(this.currencyMaster) + dolar;
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  public fungsiSumOSGroub() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].OS !== undefined) {
+          result = result + Number(filterIdr[i].OS);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].OS !== undefined) {
+          dolar = Number(filterUsd[i].OS) * Number(this.currencyMaster) + dolar;
+        }
+      }
+    }
+  
+    return result + dolar;
+  }
+
+  fungsiSumcreditGroub() {
+    let result = 0;
+    let dolar = 0;
+
+    const filterUsd = this.myBusinessGroupCPFacility.filter(obj => obj.CCY === 'USD');
+    const filterIdr = this.myBusinessGroupCPFacility.filter(obj => obj.CCY !== 'USD');
+    if (filterIdr.length > 0) {
+      for (let i = 0; i < filterIdr.length; i++) {
+        if (filterIdr[i].TotalPlafond !== undefined) {
+          result = result + Number(filterIdr[i].TotalPlafond);
+        }
+      }
+    }
+    if (filterUsd.length > 0) {
+      for (let i = 0; i < filterUsd.length; i++) {
+        if (filterUsd[i].TotalPlafond !== undefined) {
+          dolar = Number(filterUsd[i].TotalPlafond) * Number(this.currencyMaster) + dolar;
+        }
+      }
+    }
+
+
+    return result + dolar;
+  }
+
+
+  fungsiSuminit() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  public fungsiSumOS() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+
+  fungsiSumcredit() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    return result + dolar;
+  }
+
+  fungsiSumchange() {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+
+    return result + dolar;
+  }
+
+
 
   public getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
