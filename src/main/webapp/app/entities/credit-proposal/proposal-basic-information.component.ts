@@ -476,7 +476,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.proposType = res.body;
+        this.proposType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
         for (let i = 0; i < this.proposType.length; i++) {
           if (this.proposType[i].code === this.creditProposal.attributes['proposalType']) {
             this.a = this.proposType[i].value;
@@ -617,7 +619,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.lendingProgram = res.body;
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 

@@ -132,7 +132,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         size: 9999,
       })
       .subscribe(res => {
-        this.ifcRiskCategoryData = res.body;
+        this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
@@ -153,7 +155,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         size: 9999,
       })
       .subscribe(res => {
-        this.callReportCategoryData = res.body;
+        this.callReportCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
@@ -300,6 +304,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
           }
         } else if (this.partyCif.debtorData.depositCapital > 5000000000 && this.partyCif.debtorData.depositCapital <= 10000000000) {
           this.partyCif.debtorData.umkmClassification = 'MIDDLE';
+        }
+        else if (this.partyCif.debtorData.depositCapital > 10000000000 && this.partyCif.debtorData.depositCapital < 50000000000) {
+          this.partyCif.debtorData.umkmClassification = 'OTHER';
         }
 
         /* if(this.partyCif.debtorData.depositCapital <= 1000000000 || this.partyCif.debtorData.annualSales <= 2000000000){
