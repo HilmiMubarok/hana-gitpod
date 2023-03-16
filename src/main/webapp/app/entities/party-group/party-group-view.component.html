@@ -44,12 +44,14 @@
                     </ejs-textbox>
                   </div>
                   <div class="my-3">
-                    <section *ngIf="item.statusId === 'DRAFT'">
-                      <ejs-textbox [(ngModel)]="item.debtorData.pic" placeholder="PIC" floatLabelType="Auto" cssClass="e-outline">
-                      </ejs-textbox>
-                    </section>
-                    <section *ngIf="item.statusId !== 'DRAFT'">
-                      <ejs-textbox [(ngModel)]="item.debtorData.pic" placeholder="PIC" floatLabelType="Auto" cssClass="e-outline" disabled>
+                    <section>
+                      <ejs-textbox
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
+                        [(ngModel)]="item.debtorData.pic"
+                        placeholder="PIC"
+                        floatLabelType="Auto"
+                        cssClass="e-outline"
+                      >
                       </ejs-textbox>
                     </section>
                   </div>
@@ -362,44 +364,26 @@
                     <div color="#A3A3A3" class="e-headertext">Customer Status</div>
                   </div>
                   <div class="col-2">
-                    <section *ngIf="item.statusId === 'DRAFT'">
+                    <section>
                       <ejs-radiobutton
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                         [(ngModel)]="item.attributes['basicInformation'].customerStatus"
                         [value]="'New'"
                         name="customer"
                         label="New"
                       ></ejs-radiobutton>
                     </section>
-                    <section *ngIf="item.statusId !== 'DRAFT'">
-                      <ejs-radiobutton
-                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                        [value]="'New'"
-                        name="customer"
-                        label="New"
-                        disabled
-                      ></ejs-radiobutton>
-                    </section>
-                    <!-- </div> -->
                   </div>
                   <div class="col-2">
-                    <section *ngIf="item.statusId === 'DRAFT'">
+                    <section>
                       <ejs-radiobutton
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                         [(ngModel)]="item.attributes['basicInformation'].customerStatus"
                         [value]="'Existing'"
                         name="customer"
                         label="Existing"
                       ></ejs-radiobutton>
                     </section>
-                    <section *ngIf="item.statusId !== 'DRAFT'">
-                      <ejs-radiobutton
-                        [(ngModel)]="item.attributes['basicInformation'].customerStatus"
-                        [value]="'Existing'"
-                        name="customer"
-                        label="Existing"
-                        disabled
-                      ></ejs-radiobutton>
-                    </section>
-                    <!-- </div> -->
                   </div>
                 </div>
                 <div class="row my-3">
@@ -408,7 +392,7 @@
                     <section *ngIf="item.statusId === 'DRAFT'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Call Report Category</mat-label>
-                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory">
+                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'">
                           <mat-option value="">- Please Select -</mat-option>
                           <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
                             {{ item.value }}
@@ -419,7 +403,7 @@
                     <section *ngIf="item.statusId !== 'DRAFT'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Call Report Category</mat-label>
-                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="true">
+                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'">
                           <mat-option value="">- Please Select -</mat-option>
                           <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
                             {{ item.value }}
@@ -436,6 +420,7 @@
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
                             [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
+							disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                             required
                           >
                             <mat-option value="">Please Select</mat-option>
@@ -453,6 +438,7 @@
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
                             [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
+							disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                             required
                           >
                             <mat-option value="">Please Select</mat-option>

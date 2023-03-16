@@ -11,6 +11,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { DatePipe } from '@angular/common';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -45,7 +46,8 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     private collateralAppraisalService: CollateralAppraisalService,
     private accountService: AccountService,
     private datePipe: DatePipe,
-    public reportUtilService: ReportUtilService
+    public reportUtilService: ReportUtilService,
+    public generalParameterService: GeneralParameterService
   ) {
     this.categoryFilter = '';
     this.uploadFiles = [];
@@ -78,11 +80,21 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
   private getPhotoCategory(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.collateralAppraisalService.customGet('photo-category').subscribe((res: HttpResponse<any>) => {
-        this.photoCategory = res.body;
+      // this.collateralAppraisalService.customGet('photo-category').subscribe((res: HttpResponse<any>) => {
+      //   this.photoCategory = res.body;
 
-        resolve();
-      });
+      //   resolve();
+      // });
+      this.generalParameterService
+        .queryFilterBy({
+          idParameterType: 'FOTO_OBJECT_JAMINAN_CATEGORY',
+          page: 0,
+          size: 9999,
+        })
+        .subscribe(res => {
+          this.photoCategory = res.body;
+          resolve();
+        });
     });
   }
 

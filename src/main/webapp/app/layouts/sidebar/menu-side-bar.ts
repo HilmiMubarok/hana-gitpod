@@ -56,6 +56,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'document-type',
       },
       {
+        name: 'Lending Program Parameter',
+        iconname: 'minus',
+        route: 'lending-program-parameter',
+      },
+      {
         name: 'List Of Value',
         iconname: 'minus',
         route: 'list-of-value-parameter',
@@ -384,6 +389,11 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         route: 'document-type',
       },
       {
+        name: 'Lending Program Parameter',
+        iconname: 'minus',
+        route: 'lending-program-parameter',
+      },
+      {
         name: 'List Of Value',
         iconname: 'minus',
         route: 'list-of-value-parameter',
@@ -654,6 +664,11 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         route: 'document-type',
       },
       {
+        name: 'Lending Program Parameter',
+        iconname: 'minus',
+        route: 'lending-program-parameter',
+      },
+      {
         name: 'List Of Value',
         iconname: 'minus',
         route: 'list-of-value-parameter',
@@ -756,8 +771,7 @@ export const APPRAISAL_MENU_CRA: ISidebarMenuModel[] = [
     ],
   },
 ];
-
-export const APPRAISAL_MENU_CRC: ISidebarMenuModel[] = [
+export const APPRAISAL_MENU_CHECKER1: ISidebarMenuModel[] = [
   {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
@@ -810,6 +824,113 @@ export const APPRAISAL_MENU_CRC: ISidebarMenuModel[] = [
     ],
   },
 ];
+export const APPRAISAL_MENU_CHECKER2: ISidebarMenuModel[] = [
+  {
+    name: 'Loan Analysis & Approval',
+    iconname: 'paperclip',
+    children: [
+      {
+        name: 'Loan Analysis Distribution',
+        iconname: 'minus',
+        route: 'la-distribution',
+      },
+      {
+        name: 'Loan Analysis',
+        iconname: 'minus',
+        route: 'la-analyst',
+      },
+      {
+        name: 'Loan Analysis SME Credit Review Checker',
+        iconname: 'minus',
+        route: 'la-SME-CRC',
+      },
+      {
+        name: 'Loan Approval',
+        iconname: 'minus',
+        route: 'la-approval',
+      },
+      {
+        name: 'Loan Approval Inquiry',
+        iconname: 'minus',
+        route: 'la-approval-inquiry',
+      },
+      {
+        name: 'DAR Finalization',
+        iconname: 'minus',
+        route: 'dar-final',
+      },
+      {
+        name: 'Final DAR - Checker',
+        iconname: 'minus',
+        route: 'dar-checker',
+      },
+      {
+        name: 'Loan Komite Approval',
+        iconname: 'minus',
+        route: 'loan-committee-approval',
+      },
+      {
+        name: 'DAR Notification',
+        iconname: 'minus',
+        route: 'dar-notif',
+      },
+    ],
+  },
+];
+
+// export const APPRAISAL_MENU_CRC: ISidebarMenuModel[] = [
+//   {
+//     name: 'Loan Analysis & Approval',
+//     iconname: 'paperclip',
+//     children: [
+//       {
+//         name: 'Loan Analysis Distribution',
+//         iconname: 'minus',
+//         route: 'la-distribution',
+//       },
+//       {
+//         name: 'Loan Analysis',
+//         iconname: 'minus',
+//         route: 'la-analyst',
+//       },
+//       {
+//         name: 'Loan Analysis SME Credit Review Checker',
+//         iconname: 'minus',
+//         route: 'la-SME-CRC',
+//       },
+//       {
+//         name: 'Loan Approval',
+//         iconname: 'minus',
+//         route: 'la-approval',
+//       },
+//       {
+//         name: 'Loan Approval Inquiry',
+//         iconname: 'minus',
+//         route: 'la-approval-inquiry',
+//       },
+//       {
+//         name: 'DAR Finalization',
+//         iconname: 'minus',
+//         route: 'dar-final',
+//       },
+//       {
+//         name: 'Final DAR - Checker',
+//         iconname: 'minus',
+//         route: 'dar-checker',
+//       },
+//       {
+//         name: 'Loan Komite Approval',
+//         iconname: 'minus',
+//         route: 'loan-committee-approval',
+//       },
+//       {
+//         name: 'DAR Notification',
+//         iconname: 'minus',
+//         route: 'dar-notif',
+//       },
+//     ],
+//   },
+// ];
 
 export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
   {
