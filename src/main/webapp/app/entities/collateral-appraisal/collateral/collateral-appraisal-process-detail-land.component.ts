@@ -308,7 +308,9 @@ export class CollateralAppraisalDetailProcessLandComponent
         size: 9999,
       })
       .subscribe(res => {
-        this.landShape = res.body;
+        this.landShape = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
   public lovPosition() {
