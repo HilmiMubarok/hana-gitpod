@@ -51,6 +51,11 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public status: string[] = [];
   public bucket: string;
   public setStatusCurrenValue = [];
+<<<<<<< HEAD
+  public memoryFiles = []
+  public fileDeleted = []
+=======
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -68,9 +73,14 @@ export class DebtorDataDocumentChecklistDialogComponent {
     public reportUtilService: ReportUtilService
   ) {
     this.view = this.data.view;
+<<<<<<< HEAD
+    
+    this.files = this.data.files;
+=======
 
     this.files = this.data.files;
 
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
     this.itemData = this.data.item;
     this.category();
     this.setStatus();
@@ -96,7 +106,11 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
   private getFiles(id: number): void {
     const predicate: Object = {
+<<<<<<< HEAD
+      key: `/idd/${id}/document/file-idd/${this.files.id}/`,
+=======
       key: `/idd/${id}/document/${this.files.id}/`,
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
       if (res.body.length > 0) {
@@ -125,6 +139,18 @@ export class DebtorDataDocumentChecklistDialogComponent {
       this.status = ['Available', 'TBO', 'Waived'];
     } else {
       this.status = ['Available', 'TBO', 'Waived', 'Not Available'];
+<<<<<<< HEAD
+    }
+  }
+
+  public category() {
+    for (let index = 0; index < this.data.typeData.length; index++) {
+      this.categoryType = [...this.categoryType, this.data.typeData[index].description];
+    }
+  }
+
+
+=======
     }
   }
 
@@ -253,6 +279,120 @@ export class DebtorDataDocumentChecklistDialogComponent {
             this.files.dueDate === 'null' || this.files.dueDate === null ? 'null' : new Date(this.files.dueDate).toISOString();
           file.tags['status'] = this.files.status;
           file.tags['remarks'] = this.files.remarks.replace('&', 'codeSpecialDan');
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
+
+  public deleteTBO(status) {
+    this.setStatusCurrenValue.push(status.value);
+    if (this.setStatusCurrenValue.length > 2) {
+      this.setStatusCurrenValue.shift();
+    }
+   if (this.setStatusCurrenValue[0] === 'Available' && this.setStatusCurrenValue[1] === 'TBO') {
+      this.handleImage()
+    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Available') {
+      this.handleImage();
+    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === 'Available') {
+      this.handleImage();
+    } else if (this.setStatusCurrenValue[0] === 'Available' && this.setStatusCurrenValue[1] === 'Waived') {
+      this.handleImage()
+    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === undefined) {
+      this.handleImage()
+    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === undefined) {
+      this.handleImage();
+    } else if (this.files.status === 'Available') {
+      this.handleImage();
+    } else if (this.files.status === 'Not Available') {
+      this.handleImage();
+    }else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Waived') {
+      this.handleImage()
+    }else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === 'TBO') {
+      this.handleImage()
+    }
+
+<<<<<<< HEAD
+
+
+    if (status.value === 'TBO' || status.value === 'Waived') {
+      if (this.file.length === 0) {
+        this.isTBO()
+=======
+        this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
+          const predicate: Object = {
+            key: `/idd/${this.data.partyId}/document/${this.files.id}/`,
+          };
+          this.storageService.getObjects(this.bucket, predicate).subscribe((rep: any) => {
+            this.lengthMinIO = rep.body;
+            this._dialog.close(res);
+          });
+        });
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
+      }
+    }
+  }
+
+<<<<<<< HEAD
+
+  public save(): void {
+    const deleteData = this.file.length - this.fileDeleted.length
+    this.approvedDeleted().then(()=>{
+      
+      if (deleteData > 0) {
+        this.preSave().then((res: any) => {
+          if (this.fileDeleted.length > 0) {
+            if (this.file.length === this.fileDeleted.length) {
+              this._dialog.close()
+            }
+          }else{
+            this._dialog.close()
+          }
+  
+        })
+      }else{
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Info',
+          detail: 'File kosong tidak di perbolehkan jika available',
+        });
+      }
+    })
+    if (deleteData > 0) {
+    this.preUpdate().then(() => {
+      this._dialog.close()
+    })
+  }
+}
+
+
+
+
+
+
+
+  public approvedDeleted(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const fileDeleted = []
+      for (let i = 0; i < this.memoryFiles.length; i++) {
+        if (this.memoryFiles[i].url !== undefined) {
+          this.storageService.deleteFile(this.bucket, this.memoryFiles[i].name).subscribe(data => {
+            fileDeleted.push(data)
+          });
+        }
+      }
+        resolve()
+      
+    })
+  }
+
+  public preUpdate(): Promise<void> {
+    return new Promise((resolve, reject) => { 
+    const files: any[] = this.lengthMinIO;
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file: any = files[i];
+        this.accountService.identity().subscribe(resAccount => {
+          file.tags['dueDate'] =
+            this.files.dueDate === 'null' || this.files.dueDate === null ? 'null' : new Date(this.files.dueDate).toISOString();
+          file.tags['status'] = this.files.status;
+          file.tags['remarks'] = this.files.remarks.replace('&', 'codeSpecialDan');
 
           file.tags['createdBy'] = resAccount.login;
         });
@@ -263,13 +403,18 @@ export class DebtorDataDocumentChecklistDialogComponent {
           };
           this.storageService.getObjects(this.bucket, predicate).subscribe((rep: any) => {
             this.lengthMinIO = rep.body;
-            this._dialog.close(res);
+           
           });
         });
       }
     }
+
+    resolve()
+  })
   }
 
+=======
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
   public convertDan(value: string): any {
     if (value !== null && value !== undefined) {
       return value.replace('codeSpecialDan', '&');
@@ -285,6 +430,31 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public onSelect(event: any) {
     this.file.push(...event.addedFiles);
     if (this.file.length > 1) {
+<<<<<<< HEAD
+      this.handleImage();
+    }
+  }
+  
+  public onRemove(element: any) {
+    this.memoryFiles.push(element)
+    if (element.url === undefined) {
+      this.file.splice(this.file.indexOf(event), 1);
+    } else {
+      this.file = this.file.filter(item => item.name !== element.name);
+    }
+    if (this.files.status === 'TBO' || this.files.status === 'Waived') {
+      if (this.file.length === 0) {
+        this.isTBO()
+      }
+    }
+
+  }
+
+
+  
+  
+
+=======
       this.handleImage().then();
     }
   }
@@ -299,12 +469,12 @@ export class DebtorDataDocumentChecklistDialogComponent {
     }
   }
 
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
   public donwload(event: any, name: any) {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
 
-  public handleImage(): Promise<void> {
-    return new Promise((resolve, reject) => {
+  public handleImage() {
       if (this.file.length > 0) {
         for (let i = 0; i < this.file.length; i++) {
           if (this.file[i].name.indexOf('los_logo.png') > -1) {
@@ -317,12 +487,23 @@ export class DebtorDataDocumentChecklistDialogComponent {
             }
           }
         }
+       
       }
+      if (this.files.status === 'TBO' || this.files.status === 'Waived') {
+          this.isTBO()
+      }
+<<<<<<< HEAD
+  }
+
+  private isTBO(): Promise<void> {
+    return new Promise((resolve, reject) => {
+=======
       resolve();
     });
   }
 
   private isTBO() {
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
     const img = new Image();
     img.src = 'content/images/los_logo.png';
     img.onload = () => {
@@ -335,9 +516,24 @@ export class DebtorDataDocumentChecklistDialogComponent {
         const file = new File([blob], 'los_logo.png', { type: 'image/png' });
         this.file.push(file);
       }, 'image/png');
+      if (this.file.length > 0) {
+        resolve()
+      }
     };
+<<<<<<< HEAD
+  
+  })
+
+}
+
+  public cancel(): void{
+    this._dialog.close();
   }
 
+=======
+  }
+
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
   public preSave(): Promise<void> {
     return new Promise((resolve, reject) => {
       const promises = [];
@@ -353,16 +549,32 @@ export class DebtorDataDocumentChecklistDialogComponent {
             createdBy: null,
           };
           const files = new Date() + '-' + this.file[i].name.replace('&', '');
+<<<<<<< HEAD
+          metaData.objectName = `/idd/${this.data.partyId}/document/file-idd/${this.files.id}/${files}`;
+=======
           metaData.objectName = `/idd/${this.data.partyId}/document/${this.files.id}/${files}`;
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
           metaData.entityId = this.data.partyId;
           metaData.id = this.files.id;
           metaData.status = this.files.status;
           metaData.dueDate =
+<<<<<<< HEAD
+            this.files.dueDate === undefined ? null : new Date(this.files.dueDate).toISOString()
+=======
             this.files.dueDate === null || this.files.dueDate === 'null' ? null : new Date(this.files.dueDate).toISOString();
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
           metaData.remarks = this.files.remarks.replace('&', 'codeSpecialDan');
 
           const formData = new FormData();
           formData.append('file', this.file[i]);
+<<<<<<< HEAD
+          this.accountService.identity().subscribe(resAccount => {
+            metaData.createdBy = resAccount.login;
+            this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe({
+             
+            });
+          });
+=======
 
           this.accountService.identity().subscribe(resAccount => {
             metaData.createdBy = resAccount.login;
@@ -373,6 +585,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
             this.getFiles(this.data.partyId);
             this._dialog.close();
           }
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
         }
       }
       resolve();
