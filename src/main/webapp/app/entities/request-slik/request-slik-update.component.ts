@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { AlertService } from 'app/core/util/alert.service';
 import { BaseDataUtils } from 'app/shared/base/base-data-utils.service';
@@ -32,11 +32,16 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
     protected eventManager: EventManager,
     protected toastService: MessageService,
     protected accountService: AccountService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private router: Router
   ) {
     super(dataUtils, requestSlikService, elementRef, confirmationService, toastService, activatedRoute);
     this.listChangeEventName = 'requestSlikListModification';
     this.partyCifs = [];
+    this.accountService
+      .identity()
+      .pipe(map(user => user.login))
+      .subscribe(user => (this.userLogin = user));
   }
   public displayedColumns: string[] = ['select', 'no', 'cif', 'customerName', 'customerType', 'createdDate'];
   public currentSearch;
@@ -44,15 +49,18 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
   getValue(event) {
     this.currentSearch = event.target.value;
   }
+
+  userLogin: string;
   createReqSlik() {
     const data = {
       cif: this.selection.selected[0].customerNumber,
-      requestor: 'Admin',
+      requestor: this.userLogin,
       requestDate: new Date(),
       status: 'Draft',
       requestNumber: null,
     };
-    this.requestSlikService.create(data).subscribe(res => console.log(res));
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    this.requestSlikService.create(data).subscribe(() => this.router.navigate(['request-slik']));
   }
   partyCifs$: Observable<any>;
   public selection = new SelectionModel<any>(true, []);
