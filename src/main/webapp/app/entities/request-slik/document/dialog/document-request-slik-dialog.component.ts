@@ -9,22 +9,49 @@ import { map, Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'jhi-document-request-slik-dialog',
   templateUrl: './document-request-slik-dialog.component.html',
-  // template: '<h1>Dialog</h1>',
 })
 export class DocumentRequestSlikDialogComponent implements OnDestroy {
+  document: any;
+  docName: string;
+  docDate: string;
   bucket: string;
   mode: string;
+  element;
+  files: File[] = [];
+  file = [];
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
       bucket: string;
       mode: string;
+      element;
     },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentRequestSlikDialogComponent>
   ) {
     this.bucket = this.data.bucket;
     this.mode = this.data.mode;
+    this.element = this.data.element;
+    this.document = this.element && this.element;
+  }
+
+  onSelect(event) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  save() {
+    console.log({
+      doc: this.document,
+      files: this.files,
+      docName: this.docName,
+      docDate: new Date(this.docDate),
+    });
   }
 
   ngOnDestroy(): void {

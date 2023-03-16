@@ -23,6 +23,7 @@ export class DocumentRequestSlikComponent implements OnDestroy {
   ) {
     this.id = Number(this.router.url.split('/')[2]);
     this.getFiles(this.id);
+    console.log('Date', new Date());
   }
 
   data$: Observable<Object[]>;
@@ -49,12 +50,13 @@ export class DocumentRequestSlikComponent implements OnDestroy {
     });
   }
 
-  openDialog(mode: string, element = null) {
+  openDialog(mode: string, element) {
     const predicate: object = {
       width: '90vw',
       data: {
         bucket: this.bucket,
         mode,
+        element,
       },
     };
 
@@ -275,10 +277,4 @@ export class DocumentRequestSlikComponent implements OnDestroy {
   //     }
   //   }
   // }
-}
-
-export interface IDocumentRequestSlik {
-  id: number;
-  docName: string;
-  docDate: string;
 }
