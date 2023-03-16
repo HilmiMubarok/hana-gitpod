@@ -23,6 +23,7 @@ import { ApplicationOptionService } from '../application-option/application-opti
 import { ListOfValueIndustryService } from '../credit-proposal/list-of-value-industry.service';
 import { IListOfValueIndustry } from '../../../../../../src/main/webapp/app/entities/credit-proposal/list-of-value-industry.model';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-rating-view',
@@ -201,7 +202,9 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         size: 9999,
       })
       .subscribe(res => {
-        this.sectorIndustry = res.body;
+        this.sectorIndustry = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 }

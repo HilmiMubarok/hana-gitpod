@@ -617,7 +617,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.lendingProgram = res.body;
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
