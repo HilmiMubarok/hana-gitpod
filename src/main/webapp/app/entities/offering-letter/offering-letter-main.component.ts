@@ -499,6 +499,9 @@ export class OfferingLetterMainComponent implements OnInit {
     const fileSPPK = await firstValueFrom(
       this.http.get('/services/report/api/report/spkk/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
     );
+    const genrateSPPK = await firstValueFrom(
+      this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
+    );
   }
 }
 interface IObj {
