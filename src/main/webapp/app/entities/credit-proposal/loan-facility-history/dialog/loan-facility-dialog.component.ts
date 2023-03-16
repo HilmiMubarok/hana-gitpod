@@ -520,7 +520,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
         size: 9999,
       })
       .subscribe(res => {
-        this.interestTypeList = res.body;
+        this.interestTypeList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
         console.log('interest type', this.interestTypeList);
       });
   }
@@ -533,7 +535,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
         size: 9999,
       })
       .subscribe(res => {
-        this.installmentMethodList = res.body;
+        this.installmentMethodList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
         console.log('installment ', this.installmentMethodList);
       });
   }
@@ -546,7 +550,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
         size: 9999,
       })
       .subscribe(res => {
-        this.restructList = res.body;
+        this.restructList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
         console.log('restruct', this.restructList);
       });
   }
