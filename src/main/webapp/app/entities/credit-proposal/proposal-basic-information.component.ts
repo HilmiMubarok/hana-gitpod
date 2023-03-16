@@ -80,6 +80,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
   public creditProposal: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
 
   public proposalType: object[];
 
@@ -124,6 +125,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     public applicationRoleService: ApplicationRoleService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
+	this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -690,6 +692,10 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+
+	if (copyCreditProposal.prospectPerson) {
+	  copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+	}
 
     return copyCreditProposal;
   }

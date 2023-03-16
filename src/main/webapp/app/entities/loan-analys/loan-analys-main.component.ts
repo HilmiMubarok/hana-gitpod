@@ -90,6 +90,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public saveWordOpinionCondition: Boolean = false;
 
   public creditProposal: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
   public applicationRoles: IApplicationRole[];
@@ -146,6 +147,7 @@ export class LoanAnalysMainComponent implements OnInit {
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
+	this.creditProposalStartState = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -872,6 +874,10 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+
+	if (copyCreditProposal.prospectPerson) {
+	  copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+	}
 
     return copyCreditProposal;
   }

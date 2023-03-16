@@ -158,6 +158,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   }
 
   public filterPositionLogin() {
+	if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
+	  this.refresh();
+	}
+
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
@@ -170,7 +174,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
         positionUserDescription: this.positionUserDescription,
       };
       this.positionLoginEmit.emit(this.positionUserId);
-      this.refresh();
+      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+		this.refresh();
+	  }
     });
   }
 
