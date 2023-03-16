@@ -13,7 +13,7 @@ import { AlertService } from 'app/core/util/alert.service';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
@@ -65,8 +65,7 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
-    this.requestSliks$ = this.requestSlikService.getAll().pipe(map(res => res.body.data));
-    this.partyCifService.findCif('0000000102').subscribe(res => console.log('find CIF', res));
+    this.requestSliks$ = this.requestSlikService.getData();
   }
 
   trackId(index: number, item: IRequestSlik) {

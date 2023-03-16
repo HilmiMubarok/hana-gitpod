@@ -5,12 +5,17 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { Observable } from 'rxjs';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
-  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
+  constructor(
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService,
+    protected partyCifService: PartyCifService
+  ) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
   }
@@ -21,6 +26,23 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
   public getAll(): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.resourceUrl, { observe: 'response' });
+  }
+
+  public getData(): Observable<any> {
+    return this.http.get<any>(this.resourceUrl, { observe: 'response' }).pipe(
+      switchMap(data => {
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        return forkJoin([...requests]).pipe(
+          map(details =>
+            data.body.data.map((user, i) => ({
+              ...user,
+              customerName: details[i].body.customer.name,
+              customerType: details[i].body.customer.customerType,
+            }))
+          )
+        );
+      })
+    );
   }
 
   // public createReqSlik(req): Observable<HttpResponse<any>> {
