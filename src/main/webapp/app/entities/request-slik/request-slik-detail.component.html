@@ -62,7 +62,12 @@
       <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="SHAREHOLDER">
       </jhi-debtor-data-organization-management-list>
       <div class="my-5"></div>
-      <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="CONTROL_PERSON">
+      <jhi-debtor-data-organization-management-list
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="CONTROL_PERSON"
+        onRequestSlik="true"
+      >
       </jhi-debtor-data-organization-management-list>
     </div>
   </div>

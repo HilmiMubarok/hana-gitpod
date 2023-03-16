@@ -42,11 +42,12 @@ export class DebtorDataOrganizationManagementListComponent
   extends AbstractEntityMaterialComponent<IOrganizationManagement>
   implements OnChanges
 {
+  @Input() onRequestSlik: Boolean = false;
   @Input() public cif: string;
   @Input() public managementType: string;
   public expandedElement: IOrganizationManagement | null;
   public organizationManagementRes: IOrganizationManagement[];
-  public _loanStatus: string
+  public _loanStatus: string;
   @Input()
   get organizationManagement() {
     return this.items;
@@ -68,7 +69,6 @@ export class DebtorDataOrganizationManagementListComponent
     this._partyCif = object;
     this.loadDataBy();
   }
-
 
   @Input()
   get loanStatus() {
