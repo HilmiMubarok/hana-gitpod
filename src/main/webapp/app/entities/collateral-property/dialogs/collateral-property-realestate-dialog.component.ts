@@ -179,7 +179,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
         size: 9999,
       })
       .subscribe(res => {
-        this.certificateType = res.body;
+        this.certificateType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 

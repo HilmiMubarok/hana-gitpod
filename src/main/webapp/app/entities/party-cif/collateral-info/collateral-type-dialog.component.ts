@@ -111,7 +111,9 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         size: 9999,
       })
       .subscribe(res => {
-        this.bindingTypes = res.body;
+        this.bindingTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 

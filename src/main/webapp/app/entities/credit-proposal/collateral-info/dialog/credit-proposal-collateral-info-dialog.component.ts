@@ -172,7 +172,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
         size: 9999,
       })
       .subscribe(res => {
-        this.bindingTypesHobies = res.body;
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
