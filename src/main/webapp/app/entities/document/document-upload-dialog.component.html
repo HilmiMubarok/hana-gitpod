@@ -15,15 +15,14 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
-          <ngx-dropzone-label>
-            <ngx-dropzone-image-preview
-              ngProjectAs="ngx-dropzone-image-preview"
-              [file]="f"
-              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
-            >
-            </ngx-dropzone-image-preview>
-     
-          </ngx-dropzone-label>
+            <ngx-dropzone-label>
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-image-preview"
+                [file]="f"
+                *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+              >
+              </ngx-dropzone-image-preview>
+            </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
               <img src="../../../content/images/excel.png" width="100%" height="100%" />
             </ngx-dropzone-label>
@@ -75,7 +74,7 @@
             <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="document.documentType">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
+              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.description }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -83,10 +82,10 @@
         <!-- <div *ngIf="!collateralView"> -->
         <div class="form-group" *ngIf="collateralOrAppraisal === 'appraisal'">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Dokumen Collateral</mat-label>
+            <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="document.documentType">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+              <mat-option *ngFor="let item of documentTypes" [value]="item.id">{{ item.description }} </mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
             </mat-select>
           </mat-form-field>
@@ -206,7 +205,7 @@
             <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
+              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.description }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -217,7 +216,7 @@
             <mat-label>Dokumen Collateral</mat-label>
             <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+              <mat-option *ngFor="let item of documentTypes" [value]="item.id">{{ item.description }} </mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
             </mat-select>
           </mat-form-field>
@@ -226,7 +225,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Name</mat-label>
-            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(folder['files'][0]['tags']['docNo'])"  />
+            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(folder['files'][0]['tags']['docNo'])" />
           </mat-form-field>
         </div>
       </div>

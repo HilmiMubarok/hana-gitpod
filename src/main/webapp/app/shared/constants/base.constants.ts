@@ -154,12 +154,14 @@ export enum DOCUMENT_TYPE_COLLATERAL_MACHINE {
 }
 
 export enum DOCUMENT_TYPE_APPRAISAL {
-  BUKTI_BAYAR_APPRAISAL = 'Bukti Bayar Appraisal',
-  MEMO_PENDING_BAYAR = 'Memo Pending Bayar',
-  PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
-  FOTO_OBJEK = 'Foto Objek',
-  LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
-  HASIL_APP_EXTERNAL = 'Hasil appraisal External',
+  // BUKTI_BAYAR_APPRAISAL = 'Bukti Bayar Appraisal',
+  // MEMO_PENDING_BAYAR = 'Memo Pending Bayar',
+  // PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
+  // FOTO_OBJEK = 'Foto Objek',
+  // LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
+  // HASIL_APP_EXTERNAL = 'Hasil appraisal External',
+  DOCUMET_COLLATERAL_IDD = 'DOC_COLL',
+  DOCUMENT_APPRAISAL = 'DOC_APPR',
 }
 
 export enum COLLATERAL_BINDING_TYPE {
@@ -437,9 +439,9 @@ export const ANIMATION: Object = {
   },
 };
 
-export const ID_GREATER_15_BN = 'greater-15-bn';
-export const ID_LOWER_EQUAL_15_BN = 'lower-equal-15-bn';
-export const ID_BACK_TO_BACK = 'back-to-back';
+export const ID_GREATER_15_BN = 'ID_GREATER_15_BN';
+export const ID_LOWER_EQUAL_15_BN = 'ID_LOWER_EQUAL_15_BN';
+export const ID_BACK_TO_BACK = 'ID_BACK_TO_BACK';
 export const PROPOSAL_TYPE: IEJOptionNode[] = [
   {
     id: ID_GREATER_15_BN,

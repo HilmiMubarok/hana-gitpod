@@ -20,6 +20,7 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { IndexRateService } from 'app/entities/credit-proposal/index-rate.service';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { CreditProposalLoanFacilityDialogComponent } from 'app/entities/credit-proposal/loan-facility/dialog/loan-facility-dialog.component';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -241,6 +242,10 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   // dataProductId: any;
   public setDate: string;
   public currencyName: number;
+  // Code Lov get General Parameter  List Of Value Improvement Phase 1
+  public interestTypeList = [];
+  public installmentMethodList = [];
+  public restructList = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -255,6 +260,8 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
     private router: Router,
+    // Code Lov get General Parameter  List Of Value Improvement Phase 1
+    public generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
@@ -759,5 +766,45 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       ).map(([label, id]) => ({ label, id }));
       this.listFacicility = dataData;
     });
+  }
+
+  // Code Lov get General Parameter  List Of Value Improvement Phase 1
+  public lovInterestRateTypeList() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTEREST_RATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.interestTypeList = res.body;
+        console.log('interest type', this.interestTypeList);
+      });
+  }
+
+  public lovInstallmentMethod() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSTALLMENT_METHOD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.installmentMethodList = res.body;
+        console.log('installment ', this.installmentMethodList);
+      });
+  }
+
+  public lovRestructMethod() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RESTRUCT_METHOD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.restructList = res.body;
+        console.log('restruct', this.restructList);
+      });
   }
 }

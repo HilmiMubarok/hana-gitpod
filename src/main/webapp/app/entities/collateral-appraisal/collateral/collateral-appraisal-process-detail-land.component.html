@@ -139,19 +139,36 @@
         </ejs-dropdownlist>
       </div>
       <div class="form-group">
-        <ejs-dropdownlist
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>land_shape</mat-label>
+            <mat-select
+              name="riskCategory"
+              [(ngModel)]="collateral.landShape"
+              [disabled]="hideordisable()"
+              [disabled]="hiddenRmAdmin"
+              required
+            >
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of landShape" [value]="item.code">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <!-- <ejs-dropdownlist
           #ddPropoertyUsage
           floatLabelType="Auto"
           [dataSource]="listOfValues.land_shape"
           [(ngModel)]="collateral.landShape"
           cssClass="e-outline"
-          placeholder="Land Shape"
+          placeholder="Land Shape345"
           popupHeight="220px"
           required
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
         >
-        </ejs-dropdownlist>
+        </ejs-dropdownlist> -->
       </div>
       <div class="form-group">
         <ejs-numerictextbox
@@ -210,8 +227,23 @@
         >
         </ejs-textbox>
       </div>
-      <div class="form-group">
-        <ejs-dropdownlist
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Land Position</mat-label>
+        <mat-select
+          name="landPosition"
+          [(ngModel)]="collateral.landPosition"
+          required
+          [disabled]="hideordisable()"
+          [disabled]="hiddenRmAdmin"
+        >
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of position" [value]="item.code">
+            {{ item.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <ejs-dropdownlist
           #ddPropoertyUsage
           floatLabelType="Auto"
           [dataSource]="listOfValues.position"
@@ -223,8 +255,8 @@
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
         >
-        </ejs-dropdownlist>
-        <!--<ejs-textbox
+        </ejs-dropdownlist> -->
+      <!--<ejs-textbox
           [(ngModel)]="collateral.landPosition"
           name="landPosition"
           placeholder=""
@@ -244,22 +276,33 @@
       required
     >
     </ejs-textbox> -->
-        <ejs-dropdownlist
-          #ddPropoertyUsage
-          floatLabelType="Auto"
-          [dataSource]="listOfValues.direction"
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Cardinal Direction</mat-label>
+        <mat-select
+          name="cardinalDirection"
           [(ngModel)]="collateral.facingDirection"
-          cssClass="e-outline"
-          placeholder="Cardinal Direction"
-          popupHeight="220px"
           required
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
         >
-        </ejs-dropdownlist>
-      </div>
-      <div class="form-group">
-        <ejs-dropdownlist
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of direction" [value]="item.code">
+            {{ item.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Made With</mat-label>
+        <mat-select name="madeWith" [(ngModel)]="collateral.madeWith" required [disabled]="hideordisable()" [disabled]="hiddenRmAdmin">
+          <mat-option value="">- Please Select -</mat-option>
+          <mat-option *ngFor="let item of madeWith" [value]="item.code">
+            {{ item.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <ejs-dropdownlist
           #ddPropoertyUsage
           floatLabelType="Auto"
           [dataSource]="listOfValues.madeWith"
@@ -271,8 +314,7 @@
           [disabled]="hideordisable()"
           [disabled]="hiddenRmAdmin"
         >
-        </ejs-dropdownlist>
-      </div>
+        </ejs-dropdownlist> -->
     </div>
   </div>
   <label>OBJECT ENVIRONMENT</label>

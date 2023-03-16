@@ -201,15 +201,26 @@
       </thead>
       <tbody>
         <tr>
+<<<<<<< HEAD
           <td>{{ convertDan(files.category) }}</td>
           <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate}}</td>
+=======
+          <td>{{ convertDan(files.documentType) }}</td>
+          <td>{{ convertDan(files.document) }}</td>
+          <td>{{ convertDan(files.category) }}</td>
+          <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate | date: 'yyyy/MM/dd' }}</td>
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
           <td>{{ convertDan(files.remarks) }}</td>
           <td>{{ convertDan(files.status) }}</td>
         </tr>
       </tbody>
     </table>
     <ul class="list-image">
+<<<<<<< HEAD
       <li *ngFor="let item of file">
+=======
+      <li *ngFor="let item of files.files">
+>>>>>>> 83b40429c144508920fa194672dedd94979e41a8
         <div
           [hidden]="item.name.indexOf('los_logo.png') > -1"
           style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px"

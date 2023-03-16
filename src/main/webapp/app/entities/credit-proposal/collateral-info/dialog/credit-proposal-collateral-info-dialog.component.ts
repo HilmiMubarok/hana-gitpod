@@ -20,6 +20,7 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -56,9 +57,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
 
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
-  public collateralGrading: OptionNode[];
+  public collateralGrading = [];
   public collateralDetails: object[];
-  public bindingTypesHobies: any;
+  public bindingTypesHobies = [];
   public facilityTypes: any;
   public creditProposal: ICreditProposal;
   public creditProposalOpenState: ICreditProposal;
@@ -101,6 +102,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
+    protected generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
 
     @Inject(MAT_DIALOG_DATA)
@@ -121,7 +123,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       isViewMode: boolean;
     }
   ) {
-    this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
+    // this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
@@ -159,6 +161,19 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.trashUndefined();
     this.checkStatusCOllateral();
     this.getFacilityType();
+    this.lovBindingType();
+  }
+
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = res.body;
+      });
   }
 
   public getFacilityType() {
@@ -172,9 +187,15 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   }
 
   private loadCollateralGrading(): void {
-    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
-      this.collateralGrading = res.body;
-    });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_GRADING',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralGrading = res.body;
+      });
   }
 
   private loadCollateralDetailOption(): Promise<void> {
