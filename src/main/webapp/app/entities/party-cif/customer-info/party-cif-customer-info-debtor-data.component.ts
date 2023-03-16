@@ -132,7 +132,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         size: 9999,
       })
       .subscribe(res => {
-        this.ifcRiskCategoryData = res.body;
+        this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
@@ -153,7 +155,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         size: 9999,
       })
       .subscribe(res => {
-        this.callReportCategoryData = res.body;
+        this.callReportCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
