@@ -9,6 +9,9 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { MessageService } from 'primeng/api';
 import { IDocumentNode } from 'app/entities/document-node/document-node.model';
+import { IDocumentType } from 'app/entities/document-type/document-type.model';
+import { MatSelectChange } from '@angular/material/select';
+
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -32,7 +35,6 @@ class PickDateAdapter extends NativeDateAdapter {
   selector: 'jhi-document-checklist-dialog-party-cif',
   templateUrl: './debtor-data-document-checklis-dialog.component.html',
   styleUrls: ['./document.scss'],
-  //   styleUrls: ['../css/credit-proposal-basic-information.css'],
   providers: [
     { provide: DateAdapter, useClass: PickDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
@@ -44,14 +46,23 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public files: any;
   public key: string;
   public view: string;
+  public typeData: IDocumentType;
+  public categoryType = [];
+  public itemData: string;
+  public status: string[] = [];
+  public bucket: string;
+  public setStatusCurrenValue = [];
+  public memoryFiles = []
+  public fileDeleted = []
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      documentChecklist: any;
       view: string;
       files: any;
       bucket: string;
       partyId: number;
+      typeData: IDocumentType[];
+      item: string;
     },
     private _dialog: MatDialogRef<DebtorDataDocumentChecklistDialogComponent>,
     private storageService: StorageService,
@@ -60,158 +71,256 @@ export class DebtorDataDocumentChecklistDialogComponent {
     public reportUtilService: ReportUtilService
   ) {
     this.view = this.data.view;
-    this.view ? (this.documentChecklist = this.data.documentChecklist) : (this.documentChecklist = new DocumentChecklistDebtorData());
-    this.view ? (this.file = []) : (this.file = []);
-    this.view ? (this.key = this.data.documentChecklist.key) : (this.key = null);
+    
     this.files = this.data.files;
+    this.itemData = this.data.item;
+    this.category();
+    this.setStatus();
+    this.getMinIOData();
   }
 
-  public onChange(el) {
-    el === 'TBO' && this.isTBO();
-    this.deleteTBO(el)
+  public getMinIOData() {
+    this.getBucket().then(res => {
+      this.getFiles(this.data.partyId);
+    });
   }
 
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
+  }
 
+  public lengthMinIO = [];
 
-  public deleteTBO(status: any){
-    if (status.value === 'Available') {
-      this.handleImage().then()
-    }else{
-      this.handleImage().then(()=> {
-        if (this.file.length < 1) {
-          this.isTBO()
-        }
-        
-      })
-      
+  private getFiles(id: number): void {
+    const predicate: Object = {
+      key: `/idd/${id}/document/file-idd/${this.files.id}/`,
+    };
+    this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
+      if (res.body.length > 0) {
+        this.files.remarks = res.body[0].tags.remarks;
+        this.files.status = res.body[0].tags.status;
+        this.files.dueDate = res.body[0].tags.dueDate;
+      }
+      this.lengthMinIO = res.body;
+      for (let index = 0; index < res.body.length; index++) {
+        this.file = [
+          ...this.file,
+          {
+            url: res.body[index].url,
+            name: res.body[index].key,
+            remarks: res.body[index].tags.remarks,
+            status: res.body[0].tags.status,
+            dueDate: res.body[0].tags.dueDate,
+          },
+        ];
+      }
+    });
+  }
+
+  public setStatus() {
+    if (this.data.files.category === 'A' || this.data.files.category === 'B') {
+      this.status = ['Available', 'TBO', 'Waived'];
+    } else {
+      this.status = ['Available', 'TBO', 'Waived', 'Not Available'];
     }
-    
-    // if (status.value !== 'TBO') {
-    //   this.file = []
-    // }
   }
-  
 
-  public save(): void {
-      const promises = [];
-        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
-        for (let i = 0; i < this.file.length; i++) {
-          const metaData = {
-            objectName: null,
-            entityId: null,
-            documentType: null,
-            document: null,
-            category: null,
-            dueDate: null,
-            status: null,
-            remarks: null,
-            createdDate: null,
-            createdBy: null,
-          };
-          const files = new Date +'-'+this.file[i].name.replace('&', '');
-          metaData.objectName = `/cif/${this.data.partyId}/document/${files}`;
-          metaData.entityId = this.data.partyId;
-          metaData.documentType = this.documentChecklist.documentType
-          metaData.document = this.documentChecklist.document.replace('&', 'codeSpecialDan');
-          metaData.category = this.documentChecklist.category
-          metaData.dueDate = this.documentChecklist.dueDate === null || this.documentChecklist.dueDate === 'null' ? null : new Date(this.documentChecklist.dueDate).toISOString();
-          metaData.status = this.documentChecklist.status
-          metaData.remarks = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
-          metaData.createdDate = new Date();
-
-          const formData = new FormData();
-          formData.append('file', this.file[i]);
-
-          this.accountService.identity().subscribe(resAccount => {
-            metaData.createdBy = resAccount.login;
-
-            this.storageService.uploadMeta(this.data.bucket, formData, metaData).subscribe((res: any) => {
-              promises.push(res)
-              if (promises.length === this.file.length) {
-                 this._dialog.close(res);
-              }
-             
-            });
-         
-
-        })
-    
-  }
-}
-
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public category() {
+    for (let index = 0; index < this.data.typeData.length; index++) {
+      this.categoryType = [...this.categoryType, this.data.typeData[index].description];
     }
-   
   }
 
-  public setModel(event: any){
-    this.documentChecklist.remarks = event.target.value
-  }
 
-  public edit(): void {
-    const files: IDocumentNode[] = this.documentChecklist['files'];
-    if (files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const file: IDocumentNode = files[i];
-        this.accountService.identity().subscribe(resAccount => {
-          file.tags['dueDate'] = this.documentChecklist.dueDate === 'null' || this.documentChecklist.dueDate=== null ?  'null' : new Date(this.documentChecklist.dueDate).toISOString();
-          file.tags['status'] = this.documentChecklist.status
-          file.tags['remarks'] = this.documentChecklist.remarks.replace('&', 'codeSpecialDan');
 
-          file.tags['createdBy'] = resAccount.login;
-        });
+  public deleteTBO(status) {
+    this.setStatusCurrenValue.push(status.value);
+    if (this.setStatusCurrenValue.length > 2) {
+      this.setStatusCurrenValue.shift();
+    }
+   if (this.setStatusCurrenValue[0] === 'Available' && this.setStatusCurrenValue[1] === 'TBO') {
+      this.handleImage()
+    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Available') {
+      this.handleImage();
+    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === 'Available') {
+      this.handleImage();
+    } else if (this.setStatusCurrenValue[0] === 'Available' && this.setStatusCurrenValue[1] === 'Waived') {
+      this.handleImage()
+    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === undefined) {
+      this.handleImage()
+    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === undefined) {
+      this.handleImage();
+    } else if (this.files.status === 'Available') {
+      this.handleImage();
+    } else if (this.files.status === 'Not Available') {
+      this.handleImage();
+    }else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Waived') {
+      this.handleImage()
+    }else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === 'TBO') {
+      this.handleImage()
+    }
 
-       
 
-        this.storageService.update(this.data.bucket, file.tags, { key: file.key }).subscribe(res => {
-          this._dialog.close(res);
-        });
+
+    if (status.value === 'TBO' || status.value === 'Waived') {
+      if (this.file.length === 0) {
+        this.isTBO()
       }
     }
   }
 
-  public onSelect(event: any) { 
+
+  public save(): void {
+    const deleteData = this.file.length - this.fileDeleted.length
+    this.approvedDeleted().then(()=>{
+      
+      if (deleteData > 0) {
+        this.preSave().then((res: any) => {
+          if (this.fileDeleted.length > 0) {
+            if (this.file.length === this.fileDeleted.length) {
+              this._dialog.close()
+            }
+          }else{
+            this._dialog.close()
+          }
+  
+        })
+      }else{
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Info',
+          detail: 'File kosong tidak di perbolehkan jika available',
+        });
+      }
+    })
+    if (deleteData > 0) {
+    this.preUpdate().then(() => {
+      this._dialog.close()
+    })
+  }
+}
+
+
+
+
+
+
+
+  public approvedDeleted(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const fileDeleted = []
+      for (let i = 0; i < this.memoryFiles.length; i++) {
+        if (this.memoryFiles[i].url !== undefined) {
+          this.storageService.deleteFile(this.bucket, this.memoryFiles[i].name).subscribe(data => {
+            fileDeleted.push(data)
+          });
+        }
+      }
+        resolve()
+      
+    })
+  }
+
+  public preUpdate(): Promise<void> {
+    return new Promise((resolve, reject) => { 
+    const files: any[] = this.lengthMinIO;
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const file: any = files[i];
+        this.accountService.identity().subscribe(resAccount => {
+          file.tags['dueDate'] =
+            this.files.dueDate === 'null' || this.files.dueDate === null ? 'null' : new Date(this.files.dueDate).toISOString();
+          file.tags['status'] = this.files.status;
+          file.tags['remarks'] = this.files.remarks.replace('&', 'codeSpecialDan');
+
+          file.tags['createdBy'] = resAccount.login;
+        });
+
+        this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
+          const predicate: Object = {
+            key: `/idd/${this.data.partyId}/document/${this.files.id}/`,
+          };
+          this.storageService.getObjects(this.bucket, predicate).subscribe((rep: any) => {
+            this.lengthMinIO = rep.body;
+           
+          });
+        });
+      }
+    }
+
+    resolve()
+  })
+  }
+
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
+    }
+  }
+
+  public setModel(event: any) {
+    this.documentChecklist.remarks = event.target.value;
+  }
+
+  public onSelect(event: any) {
     this.file.push(...event.addedFiles);
     if (this.file.length > 1) {
-      this.handleImage().then()
+      this.handleImage();
     }
   }
-
-  public onRemove(event: any) {
-    this.file.splice(this.file.indexOf(event), 1);
-    if (this.file.length < 1 && this.documentChecklist.status !== 'Available') {
-      this.isTBO()
+  
+  public onRemove(element: any) {
+    this.memoryFiles.push(element)
+    if (element.url === undefined) {
+      this.file.splice(this.file.indexOf(event), 1);
+    } else {
+      this.file = this.file.filter(item => item.name !== element.name);
     }
-    
+    if (this.files.status === 'TBO' || this.files.status === 'Waived') {
+      if (this.file.length === 0) {
+        this.isTBO()
+      }
+    }
+
   }
 
+
+  
+  
 
   public donwload(event: any, name: any) {
     this.reportUtilService.downloadFileBYName(event, name.name);
   }
 
-  public handleImage(): Promise<void> {
-    return new Promise((resolve, reject) => {
+  public handleImage() {
       if (this.file.length > 0) {
         for (let i = 0; i < this.file.length; i++) {
           if (this.file[i].name.indexOf('los_logo.png') > -1) {
-            this.file.splice(this.file.indexOf(this.file[i]), 1);
+            if (this.file[i].url === undefined) {
+              this.file.splice(this.file.indexOf(this.file[i]), 1);
+            } else {
+              this.storageService.deleteFile(this.bucket, this.file[i].name).subscribe(data => {
+                this.file = this.file.filter(item => item.name !== this.file[i].name);
+              });
+            }
           }
-          
         }
+       
       }
-    resolve()
-   
-    });
+      if (this.files.status === 'TBO' || this.files.status === 'Waived') {
+          this.isTBO()
+      }
   }
 
-
-  private isTBO() {
-   
+  private isTBO(): Promise<void> {
+    return new Promise((resolve, reject) => {
     const img = new Image();
     img.src = 'content/images/los_logo.png';
     img.onload = () => {
@@ -224,9 +333,53 @@ export class DebtorDataDocumentChecklistDialogComponent {
         const file = new File([blob], 'los_logo.png', { type: 'image/png' });
         this.file.push(file);
       }, 'image/png');
+      if (this.file.length > 0) {
+        resolve()
+      }
     };
   
-   
+  })
 
 }
+
+  public cancel(): void{
+    this._dialog.close();
+  }
+
+  public preSave(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const promises = [];
+      for (let i = 0; i < this.file.length; i++) {
+        if (this.file[i].url === undefined) {
+          const metaData = {
+            objectName: null,
+            entityId: null,
+            id: null,
+            status: null,
+            dueDate: null,
+            remarks: null,
+            createdBy: null,
+          };
+          const files = new Date() + '-' + this.file[i].name.replace('&', '');
+          metaData.objectName = `/idd/${this.data.partyId}/document/file-idd/${this.files.id}/${files}`;
+          metaData.entityId = this.data.partyId;
+          metaData.id = this.files.id;
+          metaData.status = this.files.status;
+          metaData.dueDate =
+            this.files.dueDate === undefined ? null : new Date(this.files.dueDate).toISOString()
+          metaData.remarks = this.files.remarks.replace('&', 'codeSpecialDan');
+
+          const formData = new FormData();
+          formData.append('file', this.file[i]);
+          this.accountService.identity().subscribe(resAccount => {
+            metaData.createdBy = resAccount.login;
+            this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe({
+             
+            });
+          });
+        }
+      }
+      resolve();
+    });
+  }
 }
