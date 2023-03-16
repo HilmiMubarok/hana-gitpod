@@ -47,22 +47,21 @@ export class CollateralAppraisalDetailProcessLandComponent
   implements OnChanges
 {
   public listOfValues = {
-    property_usage: [
-      'Rumah Tinggal',
-      'Ruko/Rukan',
-      'Apartment',
-      'Office Space',
-      'Kios',
-      'Pabrik',
-      'Gudang',
-      'Tanah/Kavling',
-      'Kendaraan',
-      'Alat Berat',
-      'Lainnya',
-    ],
+    // property_usage: [
+    //   'Rumah Tinggal',
+    //   'Ruko/Rukan',
+    //   'Apartment',
+    //   'Office Space',
+    //   'Kios',
+    //   'Pabrik',
+    //   'Gudang',
+    //   'Tanah/Kavling',
+    //   'Kendaraan',
+    //   'Alat Berat',
+    //   'Lainnya',
+    // ],
     // land_shape: ['Beraturan', 'Tidak beraturan', 'Trapesium', 'Segitiga', 'Lainnya'],
     // madeWith: ['Aspal', 'Beton', 'Paving', 'Tanah', 'Sirtu (Pasir batu)', 'Lainnya'],
-
     // directcion: ['Utara', 'Selatan', 'Barat', 'Timur', 'Timur Laut', 'Barat Daya', 'Tenggara', 'Barat Laut'],
     // position: ['Corner Lot', 'Key Lot', 'Cul De Sac Lot', 'T-intersection Lot', 'Flag Lot', 'Lainnya'],
   };
@@ -81,6 +80,7 @@ export class CollateralAppraisalDetailProcessLandComponent
   set collateralProperties(param: ICollateralProperty[]) {
     this.items = param;
   }
+  public propertyUsage = [];
   public madeWith = [];
   public position = [];
   public direction = [];
@@ -116,6 +116,7 @@ export class CollateralAppraisalDetailProcessLandComponent
     this.lovMadeWith();
     this.lovPosition();
     this.lovLandShape();
+    this.propertyUsageLov();
   }
 
   public account: Account;
@@ -296,7 +297,9 @@ export class CollateralAppraisalDetailProcessLandComponent
         size: 9999,
       })
       .subscribe(res => {
-        this.direction = res.body;
+        this.direction = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
@@ -321,7 +324,22 @@ export class CollateralAppraisalDetailProcessLandComponent
         size: 9999,
       })
       .subscribe(res => {
-        this.position = res.body;
+        this.position = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+  public propertyUsageLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPERTY_USAGE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.madeWith = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
   public lovMadeWith() {
@@ -332,7 +350,9 @@ export class CollateralAppraisalDetailProcessLandComponent
         size: 9999,
       })
       .subscribe(res => {
-        this.madeWith = res.body;
+        this.madeWith = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 }
