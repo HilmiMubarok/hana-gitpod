@@ -24,6 +24,7 @@ import * as _moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 export const MY_FORMATS = {
   parse: {
@@ -255,7 +256,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
         size: 9999,
       })
       .subscribe(res => {
-        this.callReportCategoryData = res.body;
+        this.callReportCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
   public getLov() {
@@ -266,7 +269,9 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
         size: 9999,
       })
       .subscribe(res => {
-        this.ifcRiskCategoryData = res.body;
+        this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
