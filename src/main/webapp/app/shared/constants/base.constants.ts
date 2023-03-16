@@ -75,9 +75,9 @@ export enum CATEGORY_DEBTOR {
 }
 
 export enum UMKM_CLASSIFICATION {
-  MICRO = 'Total Penjualan <= 1M Or Modal Disetor <= 2M',
-  SMALL = 'Total penjualan <= 5M OR Modal disetor <= 15M',
-  MIDDLE = 'Total penjualan <= 10M OR Modal disetor <= 50M',
+  MICRO = 'Micro',
+  SMALL = 'Kecil',
+  MIDDLE = 'Menengah',
   OTHER = 'Non-UMKM',
 }
 
