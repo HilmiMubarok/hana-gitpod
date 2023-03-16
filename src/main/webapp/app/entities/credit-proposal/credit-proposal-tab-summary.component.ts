@@ -34,7 +34,7 @@ import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 })
 export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   public displayColumns: string[] = ['no', 'fileName', 'date', 'createBy', 'sizeFile', 'action'];
-  public currencyMaster: number
+  public currencyMaster: number;
   private ngUnsubscribe = new Subject();
   public state: string;
   public dialogVisible: false;
@@ -119,14 +119,14 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res1 => {
       this.currencyMaster = res1.body[0]?.factor;
       this.partyCifService.getBusinessGroup(this.item.customerNumber).subscribe(res => {
-        const param = res.body
+        const param = res.body;
         if (param.length > 0) {
           let no = 0;
           for (let i = 0; i < param.length; i++) {
             const item: IDebtorData = param[i];
             if (lodash.has(item.attributes, 'cpFacility')) {
               const source = JSON.parse(item.attributes['cpFacility']);
-    
+
               if (source) {
                 for (let y = 0; y < source.length; y++) {
                   const parsed = new CPFacilityTable();
@@ -144,16 +144,16 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
                   parsed.AdminFee = source[y].FILN22_FEE_AMT;
                   parsed.FirstDisbursementDate = source[y].FXFIG_TRX_DT;
                   parsed.Tenor = source[y].FXFIG_TRX_DT;
-          
+
                   parsed.CCY = source[y].LNB_BASE_LON_CCY;
                   parsed.MaturityDate = source[y].FILN10_TOT_EXP_IL;
-    
+
                   this.myBusinessGroupCPFacility = lodash.concat(this.myBusinessGroupCPFacility, parsed);
-                    this.item.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
-                    this.item.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
-                    this.item.attributes['calculationExposure'].subTotalLimitGroubOs = this.fungsiSumOSGroub();
-                    this.item.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
-       
+                  this.item.attributes['calculationExposure'].initialLimitGroub = this.fungsiSuminitGroub();
+                  this.item.attributes['calculationExposure'].totalChangeGroub = this.fungsiSumchangeGroub();
+                  this.item.attributes['calculationExposure'].subTotalLimitGroubOs = this.fungsiSumOSGroub();
+                  this.item.attributes['calculationExposure'].totalPLafondGroub = this.fungsiSumcreditGroub();
+
                   const removeundefined = lodash.remove(this.myBusinessGroupCPFacility, function (n) {
                     return n === undefined;
                   });
@@ -162,16 +162,14 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
             }
           }
         }
-        
       });
-      
+
       if (this.router.url.split('=').indexOf('summary') > -1) {
         this.parsedAttr = parsePreviousAtrribute(this.item);
         if (this.parsedAttr.previousHistory) {
           this.dataSource = this.parsedAttr.previousHistory.products;
         } else {
           this.dataSource = this.item.products;
-
         }
       } else {
         this.dataSource = this.item.products;
@@ -183,8 +181,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       this.item.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
     });
   }
-
-
 
   fungsiSuminitGroub() {
     let result: number;
@@ -260,7 +256,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
         }
       }
     }
-  
+
     return result + dolar;
   }
 
@@ -285,10 +281,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       }
     }
 
-
     return result + dolar;
   }
-
 
   fungsiSuminit() {
     let result: number;
@@ -347,7 +341,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     }
     return result + dolar;
   }
-
 
   fungsiSumcredit() {
     let result: number;
@@ -408,8 +401,6 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     return result + dolar;
   }
 
-
-
   public getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
@@ -420,7 +411,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       });
 
       if (this.paramId) {
-        this.KEYG += `/${this.paramId}`;
+        this.KEYG += `/${this.paramId}/`;
       } else {
         console.warn('Param id not found');
       }
@@ -623,8 +614,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
         .fileBlob(data.url)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(res => {
-		  const blob = window.URL.createObjectURL(new Blob([res.body], { type: 'application/pdf' }));
-		  window.open(blob);
+          const blob = window.URL.createObjectURL(new Blob([res.body], { type: 'application/pdf' }));
+          window.open(blob);
 
           /* const reader = new FileReader();
           reader.readAsDataURL(res.body!);
@@ -660,7 +651,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   private viewBlob(title: string, data: any) {
     const win = window.open();
-	/* win!.document.write(
+    /* win!.document.write(
       '<html><head><title>' +
         title +
         '</title></head><body> <iframe src="https://docs.google.com/gview?url=' +
