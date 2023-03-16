@@ -231,6 +231,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       })
       .subscribe(res => {
         this.ifcRiskCategoryData = res.body;
+        console.log('xrtr', this.ifcRiskCategoryData);
       });
   }
 
@@ -242,7 +243,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         size: 9999,
       })
       .subscribe(res => {
-        this.pep = res.body;
+        this.pep = _.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
