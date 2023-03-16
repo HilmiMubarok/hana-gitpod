@@ -411,7 +411,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       });
 
       if (this.paramId) {
-        this.KEYG += `/${this.paramId}`;
+        this.KEYG += `/${this.paramId}/`;
       } else {
         console.warn('Param id not found');
       }
