@@ -28,6 +28,14 @@
                 "
               ></ngx-dropzone-image-preview>
             </ngx-dropzone-label>
+
+            <ngx-dropzone-label>
+              <div
+              *ngIf="f.url !== undefined && f.name.indexOf('png') > -1 || f.name.indexOf('jpg') > -1 || f.name.indexOf('jpeg') > -1 || f.name.indexOf('gif') > -1"
+              >
+                <img [hidden]="f.name.indexOf('los_logo.png') > -1" [src]="f.url" width="100%" height="100%" />
+              </div>
+            </ngx-dropzone-label>
             <ngx-dropzone-label>
               <div
                 *ngIf="
@@ -184,8 +192,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Type Document</th>
-          <th>Document</th>
+
           <th>Category</th>
           <th>Date</th>
           <th>Remarks</th>
@@ -194,25 +201,22 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ convertDan(files.documentType) }}</td>
-          <td>{{ convertDan(files.document) }}</td>
           <td>{{ convertDan(files.category) }}</td>
-          <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate | date: 'yyyy/MM/dd' }}</td>
+          <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate}}</td>
           <td>{{ convertDan(files.remarks) }}</td>
           <td>{{ convertDan(files.status) }}</td>
         </tr>
       </tbody>
     </table>
     <ul class="list-image">
-      <li *ngFor="let item of files.files">
+      <li *ngFor="let item of file">
         <div
           [hidden]="item.name.indexOf('los_logo.png') > -1"
           style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px"
         >
+
           <div
-            *ngIf="
-              item.key.indexOf('png') > -1 || item.key.indexOf('jpg') > -1 || item.key.indexOf('jpeg') > -1 || item.key.indexOf('gif') > -1
-            "
+            *ngIf="item.name.split('.').indexOf('png') > -1 || item.name.split('.').indexOf('jpg') > -1 || item.name.split('.').indexOf('jpeg') > -1 || item.name.split('.').indexOf('gif') > -1"
           >
             <img style="width: 300px; border-radius: 20px" [src]="item.url" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -222,10 +226,8 @@
 
           <div
             *ngIf="
-              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-              item['metaData']['Value'] === 'application/vnd.ms-excel' ||
-              item.key.split('.').indexOf('xls') > -1
+            item.name.split('.').indexOf('xlsx') > -1 ||
+              item.name.split('.').indexOf('xls') > -1
             "
             style="width: 300px"
           >
@@ -234,12 +236,10 @@
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
-
+        
           <div
             *ngIf="
-              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-              item.key.split('.').indexOf('doc') > -1
+              item.name.split('.').indexOf('doc') > -1 || item.name.split('.').indexOf('docx') > -1
             "
           >
             <img width="300px" src="../../../../content/images/word.png" />
@@ -248,7 +248,7 @@
             </div>
           </div>
 
-          <div *ngIf="item.key.split('.').indexOf('mp4') > -1">
+          <div *ngIf="item.name.split('.').indexOf('mp4') > -1">
             <img width="300px" src="../../../../content/images/mp4.png" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -256,7 +256,7 @@
             </div>
           </div>
 
-          <div *ngIf="item.key.split('.').indexOf('txt') > -1">
+          <div *ngIf="item.name.split('.').indexOf('txt') > -1">
             <img width="300px" src="../../../../content/images/Txt.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -264,7 +264,7 @@
             </div>
           </div>
 
-          <div *ngIf="item.key.split('.').indexOf('aac') > -1">
+          <div *ngIf="item.name.split('.').indexOf('aac') > -1">
             <img width="300px" src="../../../../content/images/acc.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -272,7 +272,7 @@
             </div>
           </div>
 
-          <div *ngIf="item['metaData']['content-type'] === 'application/pdf' || item['metaData']['Value'] === 'application/pdf'">
+          <div *ngIf="item.name.split('.').indexOf('pdf') > -1">
             <img width="300px" src="../../../../content/images/pdf.png" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -280,28 +280,28 @@
             </div>
           </div>
 
-          <div *ngIf="item.key.indexOf('mp3') > -1" style="width: 300px">
+          <div *ngIf="item.name.split('.').indexOf('mp3') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/mp3.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
-          <div *ngIf="item.key.indexOf('csv') > -1" style="width: 300px">
+          <div *ngIf="item.name.split('.').indexOf('csv') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/csv.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
-          <div *ngIf="item.key.indexOf('svg') > -1" style="width: 300px">
+          <div *ngIf="item.name.split('.').indexOf('svg') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/svg.jpg" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
 
-          <div *ngIf="item.key.indexOf('tiff') > -1" style="width: 300px">
+          <div *ngIf="item.name.split('.').indexOf('tiff') > -1" style="width: 300px">
             <img width="300px" src="../../../content/images/tiff.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
@@ -310,8 +310,7 @@
 
           <div
             *ngIf="
-              item['metaData']['content-type'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
-              item['metaData']['Value'] === 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+              item.name.split('.').indexOf('pptx') > -1
             "
           >
             <img width="300px" src="../../../content/images/power-point.jpg" />
@@ -326,14 +325,16 @@
             style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center"
           >
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
-              Nama File: {{ item.name }}
+              {{item.nameFIle}}
             </p>
-          </div>
+        </div>
+
+     
         </div>
       </li>
     </ul>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button mat-dialog-close>Close</button>
+    <button (click)="cancel()">Close</button>
   </mat-dialog-actions>
 </div>

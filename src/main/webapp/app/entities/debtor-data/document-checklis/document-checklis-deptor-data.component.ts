@@ -67,7 +67,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   private getFiles(id: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const predicate: Object = {
-        key: `/idd/${id}/document/`,
+        key: `/idd/${id}/document/file-idd/`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
         for (let index = 0; index < res.body.length; index++) {
@@ -78,8 +78,8 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               url: res.body[index].url,
               name: res.body[index].key,
               remarks: res.body[index].tags.remarks,
-              status: res.body[0].tags.status,
-              dueDate: res.body[0].tags.dueDate,
+              status: res.body[index].tags.status,
+              dueDate: res.body[index].tags.dueDate,
             },
           ];
         }
@@ -106,6 +106,8 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     predicate.data['item'] = item;
 
     const dialogRef = this.dialog.open(DebtorDataDocumentChecklistDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe((res: any) => {});
+    dialogRef.afterClosed().subscribe((r: any) => {
+    
+    });
   }
 }
