@@ -447,7 +447,9 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         size: 9999,
       })
       .subscribe(res => {
-        this.collateralInsurance = res.body;
+        this.collateralInsurance = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 }

@@ -46,7 +46,7 @@
                   <div class="my-3">
                     <section>
                       <ejs-textbox
-                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'"
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                         [(ngModel)]="item.debtorData.pic"
                         placeholder="PIC"
                         floatLabelType="Auto"
@@ -366,7 +366,7 @@
                   <div class="col-2">
                     <section>
                       <ejs-radiobutton
-                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'"
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                         [(ngModel)]="item.attributes['basicInformation'].customerStatus"
                         [value]="'New'"
                         name="customer"
@@ -377,7 +377,7 @@
                   <div class="col-2">
                     <section>
                       <ejs-radiobutton
-                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'"
+                        [disabled]="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                         [(ngModel)]="item.attributes['basicInformation'].customerStatus"
                         [value]="'Existing'"
                         name="customer"
@@ -392,7 +392,7 @@
                     <section *ngIf="item.statusId === 'DRAFT'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Call Report Category</mat-label>
-                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'">
+                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'">
                           <mat-option value="">- Please Select -</mat-option>
                           <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
                             {{ item.value }}
@@ -403,7 +403,7 @@
                     <section *ngIf="item.statusId !== 'DRAFT'">
                       <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Call Report Category</mat-label>
-                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'">
+                        <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory" disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'">
                           <mat-option value="">- Please Select -</mat-option>
                           <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
                             {{ item.value }}
@@ -420,7 +420,7 @@
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
                             [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
-							disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'"
+							disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                             required
                           >
                             <mat-option value="">Please Select</mat-option>
@@ -438,7 +438,7 @@
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
                             [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
-							disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM'"
+							disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
                             required
                           >
                             <mat-option value="">Please Select</mat-option>

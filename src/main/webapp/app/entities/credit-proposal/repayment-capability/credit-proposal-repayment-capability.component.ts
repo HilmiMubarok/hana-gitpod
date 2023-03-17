@@ -106,8 +106,8 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   public bufferCredit() {
     this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = Number(
       this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
     );
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'];
   }

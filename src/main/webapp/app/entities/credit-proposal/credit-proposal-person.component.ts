@@ -31,6 +31,7 @@ import { ICreditProposal } from './credit-proposal.model';
 import { CATEGORY_DEBTOR, COLLECTABILITY_STATUS, RELATION_WITH_HANA, UMKM_CLASSIFICATION } from 'app/shared/constants/base.constants';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 moment.locale('id');
 
@@ -176,7 +177,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         size: 9999,
       })
       .subscribe(res => {
-        this.callReportCategoryData = res.body;
+        this.callReportCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -230,7 +233,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         size: 9999,
       })
       .subscribe(res => {
-        this.ifcRiskCategoryData = res.body;
+        this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
@@ -242,7 +247,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         size: 9999,
       })
       .subscribe(res => {
-        this.pep = res.body;
+        this.pep = _.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
