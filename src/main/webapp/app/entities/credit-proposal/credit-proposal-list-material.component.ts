@@ -185,7 +185,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
-	this.items.forEach(item => {
+	
+	[...this.items].forEach(item => {
 	  if (item.prospectPerson) {
 		if (item.prospectPerson.dob) {
 		  item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
