@@ -54,12 +54,12 @@
       </div>
       <div class="col-6">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Initial Limit</mat-label>
+          <mat-label>Changes</mat-label>
           <input
             currencyMask
             matInput
             type="text"
-            [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.maturityBankOver | number: '1.0-0')"
+            [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number: '1.0-0')"
             [disabled]="view"
             [disabled]="true"
           />

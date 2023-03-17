@@ -151,7 +151,6 @@ export class ApplicationProductAttribute implements IApplicationProductAttribute
     this.installmentMethod = 'Maturity Repayment';
     this.maturity = 0;
     this.maturityPeriodType = '';
-    this.maturityDate = new Date();
     this.subLimit = false;
     this.sublimitFromExistingFacility = '';
     this.commitedLine = false;

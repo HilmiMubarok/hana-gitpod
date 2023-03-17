@@ -827,4 +827,9 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
     return '';
   }
+
+  public getBindingCalculate(){
+    const biddingValue = this.creditProposal.attributes['binding']
+    return biddingValue.reduce((a:any,b: any) => a + Number(b.bindingValue),0)
+  }
 }

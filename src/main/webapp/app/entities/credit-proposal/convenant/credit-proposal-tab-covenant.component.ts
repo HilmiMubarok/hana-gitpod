@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
-import { dataCovenantBelow, dataCovenantAbove } from './convenant.constant';
+import { dataCovenantBelow, dataCovenantAbove, dataCovenantBackToBackGeneral, dataCovenantBackToBackDeposit } from './convenant.constant';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import lodash from 'lodash';
 import { Router } from '@angular/router';
@@ -21,6 +21,9 @@ export class CreditProposalTabCovenantComponent implements OnInit {
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
   public standardDataGrid: any = dataCovenantBelow;
+  public standardDataGridBackToBackGeneral: any = dataCovenantBackToBackGeneral;
+  public standardDataGridBackToBackDeposit: any = dataCovenantBackToBackDeposit;
+  public standardDataGridAbove: any = dataCovenantAbove;
 
   public otherDataGrid: any = [];
 

@@ -47,6 +47,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   private _organization: IOrganizationManagement;
   private _spouse: string;
   private _debtorData: IDebtorData;
+  private staticDob: any;
   moment = _rollupMoment || _moment;
 
   date = new FormControl(moment());
@@ -124,6 +125,13 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   public convrtDate() {
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];
+
+	this.staticDob = new Date(this.getStaticDate(this.person.dob));
+  }
+
+  private getStaticDate(date: any) {
+	const dateString = date.toString();
+	return dateString.substring(0, 4) + "/" + dateString.substring(5, 7) + "/" + dateString.substring(8, 10);
   }
 
   public dataSource() {

@@ -19,6 +19,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -56,6 +57,56 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public title: string;
   public value: string;
   public parentPath = this.router.url.split('/')[1];
+  private monthArray = [
+	{
+	  desc: 'Jan',
+	  numString: '1'
+	},
+	{
+	  desc: 'Feb',
+	  numString: '2'
+	},
+	{
+	  desc: 'Mar',
+	  numString: '3'
+	},
+	{
+	  desc: 'Apr',
+	  numString: '4'
+	},
+	{
+	  desc: 'May',
+	  numString: '5'
+	},
+	{
+	  desc: 'Jun',
+	  numString: '6'
+	},
+	{
+	  desc: 'Jul',
+	  numString: '7'
+	},
+	{
+	  desc: 'Aug',
+	  numString: '8'
+	},
+	{
+	  desc: 'Sep',
+	  numString: '9'
+	},
+	{
+	  desc: 'Oct',
+	  numString: '10'
+	},
+	{
+	  desc: 'Nov',
+	  numString: '11'
+	},
+	{
+	  desc: 'Dec',
+	  numString: '12'
+	}
+  ];
   constructor(
     private accountService: AccountService,
     private creditProposalService: CreditProposalService,
@@ -82,7 +133,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
-    // this.conditionButtonAddCP();
   }
 
   private loadStatusChip(): void {
@@ -176,12 +226,38 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     return data;
   }
 
+  private convertStringMonthToNumber(monthString: string) {
+	return lodash.find(this.monthArray, function(month) {
+	  return month.desc === monthString;
+	});
+  }
+
+  private getStaticDate(date: any) {
+	const dateString = date.toString();
+	const monthObject = this.convertStringMonthToNumber(dateString.substring(4, 7));
+	return dateString.substring(8, 10) + "-" + monthObject.numString + "-" + dateString.substring(11, 15);
+  }
+  
+  private addStaticDob(data: any) {
+	data.forEach(item => {
+	  if (item.prospectPerson) {
+		if (item.prospectPerson.dob) {
+		  item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+		}
+	  }
+	});
+	return data;
+  }
+
   initDataForMatTable(data: any, headers: HttpHeaders) {
     let forCheckedItems = [];
+	
+	forCheckedItems = this.addStaticDob(data.body);
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
+
     if (!this.items) {
       this.items.paginator = this.paginator;
     }

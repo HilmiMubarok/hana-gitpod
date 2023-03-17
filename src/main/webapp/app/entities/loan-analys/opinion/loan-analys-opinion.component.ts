@@ -344,12 +344,14 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
             if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
               ++this.countValidate;
             }
-            if (this.countValidate === 3) {
+            /* if (this.countValidate === 3) {
               this.isAllowSave.emit(true);
               this.saveValidate();
             } else {
               this.isAllowSave.emit(false);
-            }
+            } */
+			this.isAllowSave.emit(true);
+			this.saveValidate();
           };
           fileReader.readAsText(testFile);
         }
