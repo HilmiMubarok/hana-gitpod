@@ -5,6 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ICustomer } from '../customer/customer.model';
 import { Observable } from 'rxjs';
 import { IPosition } from '../position/position.model';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class CashCustomerService {
@@ -15,7 +16,8 @@ export class CashCustomerService {
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor('services/los/api/_search/cash-customers');
   }
 
-  public loadCollateralReadyForAppraise(position: IPosition): Observable<HttpResponse<ICustomer[]>> {
-    return this.http.post<ICustomer[]>(`${this.resourceUrl}/get-all-by-internal`, position, { observe: 'response' });
+  public loadCollateralReadyForAppraise(position: IPosition, params?: any): Observable<HttpResponse<ICustomer[]>> {
+    const options = createRequestOption(params);
+    return this.http.post<ICustomer[]>(`${this.resourceUrl}/get-all-by-internal`, position, { observe: 'response', params: options });
   }
 }
