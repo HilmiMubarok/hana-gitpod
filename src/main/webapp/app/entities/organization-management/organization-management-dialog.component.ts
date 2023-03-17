@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { IOrganizationManagement } from './organization-management.model';
-
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-organization-management-dialog',
   templateUrl: './organization-management-dialog.component.html',
@@ -106,7 +106,9 @@ export class OrganizationManagementDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.posManagement = res.body;
+        this.posManagement = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 }

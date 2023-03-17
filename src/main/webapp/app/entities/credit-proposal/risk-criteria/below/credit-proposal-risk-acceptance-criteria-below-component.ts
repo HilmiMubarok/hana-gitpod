@@ -43,7 +43,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   }
 
   public displayColumns: string[] = ['no', 'NilaiPembelian ', 'FacilityType', 'JenisJaminan', 'KeteranganJaminan', 'action'];
-
+  public collateralInsurances: string;
   public onSelect(value: string, data: any): void {
     // console.log('bot', data, value);
 
@@ -450,6 +450,11 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         this.collateralInsurance = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        for (let i = 0; i < this.collateralInsurance.length; i++) {
+          if (this.collateralInsurance[i].code === this.item.attributes['cpRacBelow'].Ci) {
+            this.collateralInsurances = this.collateralInsurance[i].value;
+          }
+        }
       });
   }
 }
