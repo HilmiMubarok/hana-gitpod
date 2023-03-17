@@ -131,7 +131,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     public generalParameterService: GeneralParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
-	this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -612,6 +612,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 
+  public valueCpLendingProgram: [];
   public lendingProgramParameter() {
     this.lendingProgramParameterService
       .query({
@@ -622,6 +623,11 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.lendingProgram = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
       });
   }
 
@@ -725,10 +731,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
-	if (copyCreditProposal.prospectPerson) {
-	  copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
-	}
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
 
     return copyCreditProposal;
   }
