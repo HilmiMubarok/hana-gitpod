@@ -63,7 +63,10 @@ export class CovenantBackToBackDepositComponent implements OnInit {
     } else {
       for (let i = 0; i <= this.standardDataGridBackToBackDeposit.length; i++) {
         this.statusValue[i] = 'Applied';
+        this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.status = this.statusValue[i];
       }
+
+      this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
     }
 
     // console.log('proposal-type', this.creditProposalItem[])

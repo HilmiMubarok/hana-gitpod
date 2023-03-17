@@ -59,7 +59,9 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
     } else {
       for (let i = 0; i <= this.standardDataGridAbove.length; i++) {
         this.statusValue[i] = 'Applied';
+        this.creditProposalItem.attributes['convenant'].standardDataGridAbove.status = this.statusValue[i];
       }
+      this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
     }
 
     // console.log('proposal-type', this.creditProposalItem[])

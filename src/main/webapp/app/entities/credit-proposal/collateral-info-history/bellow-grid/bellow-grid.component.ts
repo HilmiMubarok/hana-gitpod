@@ -64,6 +64,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public dataString1: string;
+  public totalPlafond: number
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -80,10 +81,13 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     this._creditProposal = cp;
   }
 
-  public presentage(value: string) {
+  public presentage(value: string, status: string) {
+    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%';
+      return '0.00' + '%';
+    } else if (num === 'NaN') {
+      return '0.00' + '%';
     } else {
       return num + '%';
     }
@@ -132,6 +136,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
+    this.fungsiSumcredit().then(()=>{
+
+    
     this.loadData();
 
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
@@ -147,6 +154,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       this.isChecked = true;
     }
     this.setCertyficateType();
+  })
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -470,13 +478,16 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     return 'IDR';
   }
 
-  fungsiSumcredit() {
+ 
+
+  public fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
     let result: number;
     let dolar: number;
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(
+    const dataFilter = this.historyData().products.filter(
       obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
     );
 
@@ -498,8 +509,9 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         }
       }
     }
-
-    return result + dolar;
+     this.totalPlafond = result + dolar
+     resolve()
+  })
   }
 
   public countMVOriginal(collateral: ICollateral): number {
@@ -739,5 +751,11 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
       }
     }
     return '';
+  }
+
+
+  public getBindingCalculate(){
+    const biddingValue = this.historyData().binding
+    return biddingValue.reduce((a:any,b: any) => a + Number(b.bindingValue),0)
   }
 }

@@ -651,7 +651,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     const tempRouter = this.router.url.split('/')[1];
 
     if (tempRouter === 'cp-status-approval') {
-      if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
+      // if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
+	  if (copyCreditProposal.attributes['positionLogin']) {
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
             if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {

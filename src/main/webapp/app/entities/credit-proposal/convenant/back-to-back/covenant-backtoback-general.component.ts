@@ -63,7 +63,10 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
     } else {
       for (let i = 0; i <= this.standardDataGridBackToBackGeneral.length; i++) {
         this.statusValue[i] = 'Applied';
+        this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.status = this.statusValue[i];
       }
+
+      this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = this.standardDataGridBackToBackGeneral;
     }
 
     // console.log('proposal-type', this.creditProposalItem[])
