@@ -65,7 +65,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public dataString1: string;
-
+  public totalPlafond: number
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -81,10 +81,13 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     this._creditProposal = cp;
   }
 
-  public presentage(value: string) {
+  public presentage(value: string, status: string) {
+    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%';
+      return '0.00' + '%';
+    } else if (num === 'NaN') {
+      return '0.00' + '%';
     } else {
       return num + '%';
     }
@@ -132,14 +135,17 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     }
   }
   ngOnInit(): void {
-    this.loadData();
+    this.fungsiSumcredit().then(() => {
+      this.loadData();
 
-    // this.isViewMode && this.displayedColumns.pop();
-
-    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
-      this.isChecked = true;
-    }
-    this.setCertyficateType();
+      // this.isViewMode && this.displayedColumns.pop();
+  
+      if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
+        this.isChecked = true;
+      }
+      this.setCertyficateType();
+    })
+  
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -463,7 +469,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     return 'IDR';
   }
 
-  fungsiSumcredit() {
+  public fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
     let result: number;
     let dolar: number;
     result = 0;
@@ -491,8 +498,9 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         }
       }
     }
-
-    return result + dolar;
+     this.totalPlafond = result + dolar
+     resolve()
+  })
   }
 
   public countMVOriginal(collateral: ICollateral): number {
@@ -764,5 +772,10 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
       }
     }
     return '';
+  }
+
+  public getBindingCalculate(){
+    const biddingValue = this.historyData().binding
+    return biddingValue.reduce((a:any,b: any) => a + Number(b.bindingValue),0)
   }
 }
