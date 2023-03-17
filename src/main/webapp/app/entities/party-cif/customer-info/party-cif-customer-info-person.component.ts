@@ -12,7 +12,6 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
-import lodash from 'lodash';
 
 export const MY_FORMATS = {
   parse: {
@@ -48,57 +47,7 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
   private _organization: IOrganizationManagement;
   private _spouse: string;
   private _debtorData: IDebtorData;
-  private staticDob: string;
-  private monthArray = [
-	{
-	  desc: 'Jan',
-	  numString: '1'
-	},
-	{
-	  desc: 'Feb',
-	  numString: '2'
-	},
-	{
-	  desc: 'Mar',
-	  numString: '3'
-	},
-	{
-	  desc: 'Apr',
-	  numString: '4'
-	},
-	{
-	  desc: 'May',
-	  numString: '5'
-	},
-	{
-	  desc: 'Jun',
-	  numString: '6'
-	},
-	{
-	  desc: 'Jul',
-	  numString: '7'
-	},
-	{
-	  desc: 'Aug',
-	  numString: '8'
-	},
-	{
-	  desc: 'Sep',
-	  numString: '9'
-	},
-	{
-	  desc: 'Oct',
-	  numString: '10'
-	},
-	{
-	  desc: 'Nov',
-	  numString: '11'
-	},
-	{
-	  desc: 'Dec',
-	  numString: '12'
-	}
-  ];
+  private staticDob: any;
   moment = _rollupMoment || _moment;
 
   date = new FormControl(moment());
@@ -177,19 +126,12 @@ export class PartyCifCustomerInfoPersonComponent extends AbstractEntityViewPageC
     const fullYear = new Date(this.person.dob);
     const year = fullYear.toISOString().split('T')[0];
 
-	this.staticDob = this.getStaticDate(this.person.dob);
-  }
-  
-  private convertStringMonthToNumber(monthString: string) {
-	return lodash.find(this.monthArray, function(month) {
-	  return month.desc === monthString;
-	});
+	this.staticDob = new Date(this.getStaticDate(this.person.dob));
   }
 
   private getStaticDate(date: any) {
 	const dateString = date.toString();
-	const monthObject = this.convertStringMonthToNumber(dateString.substring(4, 7));
-	return dateString.substring(8, 10) + "-" + monthObject.numString + "-" + dateString.substring(11, 15);
+	return dateString.substring(0, 4) + "/" + dateString.substring(5, 7) + "/" + dateString.substring(8, 10);
   }
 
   public dataSource() {
