@@ -89,12 +89,12 @@
         <div class="col-6">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Initial Limit</mat-label>
+              <mat-label>changes</mat-label>
               <input
                 currencyMask
                 matInput
                 type="text"
-                [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
+                [(ngModel)]="facilityTakeOverAfterBank.changes"
                 [disabled]="view"
                 [options]="logoCcy"
                 [disabled]="true"
@@ -103,10 +103,10 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">Initial Limit</div>
+              <div class="col-2">Changes</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.maturityBankOver | number) }}
+                {{ facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number) }}
               </div>
             </div>
           </section>
