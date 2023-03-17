@@ -110,6 +110,9 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         });
     } else {
       this.creditRatings = this.partyCif.creditRatings[0];
+      if (this.creditRatings.creditRating === '') {
+        this.creditRatings.creditRating = 'B4'
+      }
       this.industrys = this.partyCif.creditRatings[0].attributes['industry'];
     }
 
@@ -132,7 +135,12 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   syncCreditReting() {
     this.creditRatingService.creditRetingSync(this.partyCif.customerNumber).subscribe(res => {
       this.cifNumber = res.body.creditRatings[0].creditRating;
-      this.creditRatings.creditRating = this.cifNumber;
+      if (this.cifNumber === '') {
+        this.creditRatings.creditRating = 'B4';
+      }else{
+        this.creditRatings.creditRating = this.cifNumber;
+      }
+      
       if (res.status === 200) {
         this.messageService.add({
           severity: 'success',
