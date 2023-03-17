@@ -58,7 +58,9 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
     } else {
       for (let i = 0; i <= this.standardCovenant.length; i++) {
         this.statusValue[i] = 'Applied';
+        this.creditProposalItem.attributes['convenant'].standardCovenant.status = this.statusValue[i];
       }
+      this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
     }
 
     // console.log('proposal-type', this.creditProposalItem[])
