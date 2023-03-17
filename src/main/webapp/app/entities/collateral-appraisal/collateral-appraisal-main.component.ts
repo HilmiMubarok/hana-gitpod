@@ -113,7 +113,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this._collateralAppraisal = item;
 
     this.collateralAppraisalProcessComponent.getFilesByKey(`/appraisals/${item.id}/jaminan`);
-    // this.getContainer();
     this.getWord();
 
     if (item.collateral.propertyUsage !== '') {
@@ -304,7 +303,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this.loadPartyPostalAddress(this.surveyAppraisal.cif.partyId);
 
       this.creditProposalService.find(this.surveyAppraisal.applicationId).subscribe(resCreditProposal => {
-        console.log('resCreditProposal.body', resCreditProposal.body);
         this.creditProposal = resCreditProposal.body;
         if (this.creditProposal.attributes['correspondence']) {
           if (this.creditProposal.attributes['correspondence'].length > 0) {
@@ -334,28 +332,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
-  // private ngUnsubscribe = new Subject();
-  // public totalKeteranganObjectJaminan;
-  // // get keterangan objek jaminan
-  // private getContainer(): void {
-  //   let paramsId = '';
-  //   this.activatedRoute.params.subscribe(params => {
-  //     paramsId = params['id'];
-  //   });
-  //   const obj = {
-  //     key: 'appraisals/remark/keterangan-objek-jaminan/' + paramsId + '/sfdt',
-  //   };
-  //   this.getBucket().then(() => {
-  //     this.storageService
-  //       .getObjects(this.bucket, obj)
-  //       .pipe(takeUntil(this.ngUnsubscribe))
-  //       .subscribe(response => {
-  //         if (response.body.length > 0) {
-  //           this.totalKeteranganObjectJaminan = true;
-  //         }
-  //       });
-  //   });
-  // }
   private ngUnsubscribe = new Subject();
   public totalKeteranganObjectJaminan;
   // get keterangan objek jaminan
@@ -373,11 +349,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
         this.totalKeteranganObjectJaminan = response.body;
-
-        // if (response.body.length > 0) {
-        //   this.totalKeteranganObjectJaminan = true;
-        console.log('vvvvv', this.totalKeteranganObjectJaminan);
-        // }
       });
   }
 
@@ -462,9 +433,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   }
 
   public getConditionSubMenu(data): void {
-    console.log('data detail', data);
     if (data.apprOfficer === 'External') {
-      console.log('datanya external');
       if (this.collateralAppraisal.statusId === 'DRAFT' || this.collateralAppraisal.statusId === 'RETURN_TO_RM') {
         this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
       } else {
@@ -943,20 +912,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
         mustValidateOnAssignment.officerAppraisal = false;
       }
     }
-    // else {
-    //   if (!this.kjppIndependentAppraisalValue) {
-    //     this._showNotification('error', 'Masukkan KJPP / Independent Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.kjpp = false;
-    //   }
-    //   if (!this.teamReviewerValue) {
-    //     this._showNotification('error', 'Masukkan Officer Appraisal terlebih dahulu');
-    //     mustValidateOnAssignment.officerAppraisal = false;
-    //   }
-    //   if (!this.wilayahKotaExternalValue) {
-    //     this._showNotification('error', 'Masukkan Wilayah/kota terlebih dahulu');
-    //     mustValidateOnAssignment.wilayah = false;
-    //   }
-    // }
 
     return this._validateProcess(mustValidateOnAssignment);
   }
@@ -1045,11 +1000,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       machineMarketValue: true,
       precentage: true,
       keterangan: true,
-      marketability: true,
-      // deptHeadName: true,
-      // teamLeadName: true,
-      // unitHeadName: true,
-      // divHeadName: true,
+      marketability: true
     };
 
     const landCertificate =
@@ -1070,14 +1021,17 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Masukkan Document Collateral Dahulu');
       mustValidatedOnVisited.documentCollateral = false;
     }
+
     if (this.collateralAppraisalService.totalDataDocumentLainya.length < MINIMUM_DOCUMENT_LAINYA) {
       this._showNotification('error', 'Masukkan Document Lainnya Dahulu');
       mustValidatedOnVisited.documentLainnya = false;
     }
+
     if (landCertificate && landCertificate.length < MINIMUM_CERTIFICATE) {
       this._showNotification('error', 'Masukkan Certificate Dahulu');
       mustValidatedOnVisited.certificate = false;
     }
+
     if (
       this.collateralAppraisal.collateral.collateralTypeId === 'PROPERTY' ||
       this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
@@ -1095,6 +1049,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         mustValidatedOnVisited.building = false;
       }
     }
+
     if (this.collateralAppraisal.collateral.collateralTypeId === 'MACHINE') {
       if (!this.checkMachineMarketValue()) {
         this._showNotification('error', 'Masukkan Market Value di Valuation Dahulu');
@@ -1118,31 +1073,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
       this._showNotification('error', 'Foto object jaminan data less than 6');
       mustValidatedOnVisited.fotoObjectJaminan = false;
     }
-    // if (this.keteranganObjectJaminan.length < 1) {
-    //   this._showNotification('error', 'Masukkan Keterangan Objek Jaminan Dahulu');
-    //   mustValidatedOnVisited.keterangan = false;
-    // }
+
     if (this.collateralAppraisal.attributes['marketbility'] === '') {
       this._showNotification('error', 'Masukkan Marketability Dahulu');
       mustValidatedOnVisited.marketability = false;
     }
-
-    // if (!this.surveyAppraisal.deptHeadName) {
-    //   this._showNotification('error', 'Masukkan Departemen Head Dahulu');
-    //   mustValidatedOnVisited.deptHeadName = false;
-    // }
-    // if (!this.surveyAppraisal.teamLeadName) {
-    //   this._showNotification('error', 'Masukkan Team Leader Dahulu');
-    //   mustValidatedOnVisited.teamLeadName = false;
-    // }
-    // if (!this.surveyAppraisal.unitHeadName) {
-    //   this._showNotification('error', 'Masukkan Unit Head Dahulu');
-    //   mustValidatedOnVisited.unitHeadName = false;
-    // }
-    // if (!this.surveyAppraisal.divHeadName) {
-    //   this._showNotification('error', 'Masukkan Division Head Dahulu');
-    //   mustValidatedOnVisited.divHeadName = false;
-    // }
 
     return this._validateProcess(mustValidatedOnVisited);
   }

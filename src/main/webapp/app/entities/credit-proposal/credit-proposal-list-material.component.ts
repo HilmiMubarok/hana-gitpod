@@ -82,7 +82,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
-    // this.conditionButtonAddCP();
   }
 
   private loadStatusChip(): void {
@@ -176,12 +175,25 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     return data;
   }
 
+  private getStaticDate(date: any) {
+	return date.substring(8, 10) + "-" + date.substring(5, 7) + "-" + date.substring(0, 4);
+  }
+
   initDataForMatTable(data: any, headers: HttpHeaders) {
     let forCheckedItems = [];
     forCheckedItems = this.addIdx(data.body);
     forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
 
     this.items = new MatTableDataSource(forCheckedItems);
+
+	for (const item of this.items) {
+	  if (item.prospectPerson) {
+		if (item.prospectPerson.dob) {
+		  item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
+		}
+	  }
+	}
+
     if (!this.items) {
       this.items.paginator = this.paginator;
     }

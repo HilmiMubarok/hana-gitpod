@@ -51,7 +51,7 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges, OnIn
   public collateralProductRelations: any;
   public creditProposaldata: any;
 
-  public displayColumns: string[] = ['no', 'facilityType1', 'initialLimit', 'outstanding', 'tenor', 'action'];
+  public displayColumns: string[] = ['no', 'facilityType1', 'changes', 'outstanding', 'tenor', 'action'];
 
   public stateOfAction?: string;
   public format = { format: 'R$ #. ## 0,00' };
