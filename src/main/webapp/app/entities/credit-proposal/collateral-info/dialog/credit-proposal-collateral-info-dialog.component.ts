@@ -97,7 +97,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
-
+  public collateralGradings: string;
   constructor(
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
@@ -196,7 +196,14 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
         size: 9999,
       })
       .subscribe(res => {
-        this.collateralGrading = res.body;
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralGrading.length; i++) {
+          if (this.collateralGrading[i].code === this.collateral.collateralGrading) {
+            this.collateralGradings = this.collateralGrading[i].value;
+          }
+        }
       });
   }
 

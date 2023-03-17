@@ -195,15 +195,26 @@
               </div>
               <div class="form-group">
                 <!-- <section class="mt-2"> -->
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Lending Program</mat-label>
-                  <mat-select name="lendingProgram">
-                    <mat-option value="">Please Select</mat-option>
-                    <mat-option *ngFor="let item of lendingProgram" [value]="item.description">
-                      {{ item.description }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Lending Program</mat-label>
+                    <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']">
+                      <mat-option value="">Please Select</mat-option>
+                      <mat-option *ngFor="let item of lendingProgram" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </section>
+                <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                  <div class="fontsebled row">
+                    <div class="col-4">Lending Program</div>
+                    <div class="col-md-auto">:</div>
+                    <div class="col col-lg-4">
+                      {{ valueCpLendingProgram }}
+                    </div>
+                  </div>
+                </section>
                 <!-- </section> -->
               </div>
             </div>
