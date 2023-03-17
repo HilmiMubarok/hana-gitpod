@@ -176,23 +176,28 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   private getStaticDate(date: any) {
-	return date.substring(8, 10) + "-" + date.substring(5, 7) + "-" + date.substring(0, 4);
+	const dateISOString = date.toISOString();
+	return dateISOString.substring(8, 10) + "-" + dateISOString.substring(5, 7) + "-" + dateISOString.substring(0, 4);
   }
 
-  initDataForMatTable(data: any, headers: HttpHeaders) {
-    let forCheckedItems = [];
-    forCheckedItems = this.addIdx(data.body);
-    forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
-
-    this.items = new MatTableDataSource(forCheckedItems);
-
-	for (const item of this.items) {
+  private addStaticDob(data: any) {
+	data.forEach(item => {
 	  if (item.prospectPerson) {
 		if (item.prospectPerson.dob) {
 		  item.prospectPerson.staticDob = this.getStaticDate(item.prospectPerson.dob);
 		}
 	  }
-	}
+	});
+	return data;
+  }
+
+  initDataForMatTable(data: any, headers: HttpHeaders) {
+    let forCheckedItems = [];
+	forCheckedItems = this.addStaticDob(data.body);
+    forCheckedItems = this.addIdx(data.body);
+    forCheckedItems = this.checkReturnStatusDescription(forCheckedItems);
+
+    this.items = new MatTableDataSource(forCheckedItems);
 
     if (!this.items) {
       this.items.paginator = this.paginator;
