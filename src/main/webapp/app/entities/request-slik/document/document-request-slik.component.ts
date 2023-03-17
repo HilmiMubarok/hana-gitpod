@@ -11,7 +11,7 @@ import { DocumentRequestSlikDialogComponent } from './dialog/document-request-sl
   selector: 'jhi-document-request-slik',
   templateUrl: './document-request-slik.component.html',
 })
-export class DocumentRequestSlikComponent implements OnDestroy {
+export class DocumentRequestSlikComponent {
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   private bucket: string;
   private id: number;
@@ -23,7 +23,6 @@ export class DocumentRequestSlikComponent implements OnDestroy {
   ) {
     this.id = Number(this.router.url.split('/')[2]);
     this.getFiles(this.id);
-    console.log('Date', new Date());
   }
 
   data$: Observable<Object[]>;
@@ -36,14 +35,14 @@ export class DocumentRequestSlikComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.storageSubs.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.storageSubs.unsubscribe();
+  // }
 
   storageSubs: Subscription;
   private getBucket(): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      this.storageSubs = this.storageService.getBucketName().subscribe(res => {
+      this.storageService.getBucketName().subscribe(res => {
         this.bucket = res.body['bucket'];
         resolve(res.body['bucket']);
       });
@@ -55,15 +54,14 @@ export class DocumentRequestSlikComponent implements OnDestroy {
       width: '90vw',
       data: {
         bucket: this.bucket,
+        slikRequestId: this.id,
         mode,
         element,
       },
     };
 
     const dialogRef = this.dialog.open(DocumentRequestSlikDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      console.log('After Closed', { res, mode });
-    });
+    dialogRef.afterClosed().subscribe(res => res && this.getFiles(this.id));
   }
 
   // data$: Observable<any>;

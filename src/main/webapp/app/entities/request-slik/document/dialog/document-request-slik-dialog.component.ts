@@ -11,12 +11,14 @@ import { map, Observable, Subscription } from 'rxjs';
   templateUrl: './document-request-slik-dialog.component.html',
 })
 export class DocumentRequestSlikDialogComponent implements OnDestroy {
+  slikRequestId: number;
   document: any;
   docName: string;
   docDate: string;
   bucket: string;
   mode: string;
   element;
+  userLogin: string;
   files: File[] = [];
   file = [];
   constructor(
@@ -25,14 +27,23 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
       bucket: string;
       mode: string;
       element;
+      slikRequestId: number;
     },
     private storageService: StorageService,
-    private _dialog: MatDialogRef<DocumentRequestSlikDialogComponent>
+    private _dialog: MatDialogRef<DocumentRequestSlikDialogComponent>,
+    private accountService: AccountService
   ) {
     this.bucket = this.data.bucket;
     this.mode = this.data.mode;
+    this.docName = this.data.element && this.data.element.tags.docName;
+    this.docDate = this.data.element && this.data.element.tags.docDate;
     this.element = this.data.element;
     this.document = this.element && this.element;
+    this.slikRequestId = this.data.slikRequestId;
+    this.accountService
+      .identity()
+      .pipe(map(user => user.login))
+      .subscribe(user => (this.userLogin = user));
   }
 
   onSelect(event) {
@@ -45,13 +56,42 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  save() {
-    console.log({
-      doc: this.document,
-      files: this.files,
-      docName: this.docName,
-      docDate: new Date(this.docDate),
+  preSave() {
+    this.files.forEach(file => {
+      const tags = {
+        docName: this.docName,
+        objectName: `/request-slik/${this.slikRequestId}/document/${file.name}`,
+        entityId: this.slikRequestId,
+        docDate: new Date(this.docDate).toISOString(),
+        createdBy: this.userLogin,
+      };
+
+      const formData = new FormData();
+      formData.append('file', file);
+      // console.log({
+      //   file,
+      //   formData,
+      //   tags,
+      // });
+      this.storageService.uploadMeta(this.bucket, formData, tags).subscribe(res => this._dialog.close(res));
     });
+    // return new Promise((resolve, reject) => {
+    // resolve({
+    //   tags,
+    //   data: this.data,
+    //   files: this.files,
+    // });
+    // });
+  }
+
+  save() {
+    this.preSave();
+    // console.log({
+    //   doc: this.document,
+    //   files: this.files,
+    //   docName: this.docName,
+    //   docDate: new Date(this.docDate),
+    // });
   }
 
   ngOnDestroy(): void {

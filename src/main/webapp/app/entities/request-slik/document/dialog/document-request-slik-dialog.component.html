@@ -63,11 +63,24 @@
     <div class="col-6">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Document Name</mat-label>
-        <input matInput type="text" [disabled]="mode === 'view'" [(ngModel)]="docName" />
+        <input
+          matInput
+          type="text"
+          [disabled]="mode === 'view'"
+          [(ngModel)]="docName"
+          [value]="mode === 'view' && element.tags['docName']"
+        />
       </mat-form-field>
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Document Issued Date</mat-label>
-        <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="docDate" [disabled]="mode === 'view'" />
+        <input
+          [matDatepicker]="documentDate"
+          matInput
+          type="text"
+          [value]="mode === 'view' && element.tags['docDate']"
+          [(ngModel)]="docDate"
+          [disabled]="mode === 'view'"
+        />
         <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
         <mat-datepicker #documentDate [disabled]="mode === 'view'"></mat-datepicker>
       </mat-form-field>
@@ -129,5 +142,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-button (click)="save()" *ngIf="mode !== 'view'">Save</button>
 </mat-dialog-actions>
