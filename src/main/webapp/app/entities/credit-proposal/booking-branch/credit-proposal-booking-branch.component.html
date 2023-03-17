@@ -4,7 +4,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Booking Branchs</mat-label>
         <mat-select [value]="creditProposal.internalId" (selectionChange)="select($event)">
-          <mat-option value="">Please Selectsss</mat-option>
+          <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of branchs" [value]="item.id">
             {{ item.organizationName }}
           </mat-option>

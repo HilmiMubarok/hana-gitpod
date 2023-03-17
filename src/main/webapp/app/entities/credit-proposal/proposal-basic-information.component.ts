@@ -164,7 +164,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('dskjfs', this.creditProposal.attributes);
     this.lendingProgramParameter();
     this.getTitle();
     this.lovProposalType();
