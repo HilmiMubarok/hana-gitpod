@@ -126,7 +126,7 @@
                       [(ngModel)]="creditProposal.attributes.proposalType"
                       required
                       [disabled]="disabledProptype()"
-                      (change)="setSubmenu($event.itemData)"
+                      (selectionChange)="setSubmenu($event.value)"
                     >
                       <mat-option value="">- Please select proposal type -</mat-option>
                       <mat-option *ngFor="let item of proposType" [value]="item.code">
@@ -263,7 +263,7 @@
                   <jhi-collateral-info-history [source]="'summaryAll'" *ngIf="isHistoryExist" [creditProposal]="creditProposal">
                   </jhi-collateral-info-history>
 
-                  <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"></jhi-credit-proposal-tab-summary>
+                  <jhi-credit-proposal-tab-summary [source]="'summaryAll'" [item]="creditProposal"> </jhi-credit-proposal-tab-summary>
                 </div>
               </div>
 
@@ -355,7 +355,8 @@
                   #creditProposalOpinionHistoryComponent
                   [recomendation]="recomendation"
                   [creditProposalItem]="creditProposal"
-                ></jhi-credit-proposal-opinion-history>
+                >
+                </jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
 
@@ -388,7 +389,8 @@
                   [proposalType]="creditProposal.attributes.proposalType"
                   #creditProposalCollateralInfoComponent
                   [creditProposal]="creditProposal"
-                ></jhi-credit-proposal-collateral-info>
+                >
+                </jhi-credit-proposal-collateral-info>
               </div>
 
               <jhi-collateral-info-history
