@@ -72,7 +72,7 @@ export class CollateralPropertyResultListComponent implements OnInit {
     if (type === 'word') {
       this.reportUtils.downloadFile2('/services/report/api/report/survey-appraisal/word-stream/' + id, '', 'Report_' + id);
     } else if (type === 'pdf') {
-      this.reportUtils.viewFile('/services/report/api/report/survey-appraisal/pdf-word-stream/' + id);
+      this.reportUtils.downloadFile3('/services/report/api/report/survey-appraisal/pdf-word-stream/' + id, '', 'Report_' + id);
     }
   }
 
