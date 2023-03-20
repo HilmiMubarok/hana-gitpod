@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik, requestSlikData } from './request-slik.model';
-import { Observable } from 'rxjs';
+import { finalize, map, Observable } from 'rxjs';
 import { IPartyCif } from '../party-cif/party-cif.model';
 import { PARTY_CIF_EXAMPLE } from './party-cif-dummy';
 import { DocumentEditorContainerComponent, DocumentEditorKeyDownEventArgs } from '@syncfusion/ej2-angular-documenteditor';
+import { RequestSlikService } from './request-slik.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -15,6 +16,7 @@ export class RequestSlikDetailComponent {
   // requestSlik$: Observable<IRequestSlik> | null = null;
   requestSlik: IRequestSlik | null = null;
   partyCif;
+  isLoading: Boolean = true;
 
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
@@ -31,10 +33,35 @@ export class RequestSlikDetailComponent {
     }
   }
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router) {
+  requestSlikId: number;
+  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private requestSlikService: RequestSlikService) {
     // this.requestSlik$ = this.activatedRoute.data;
-    this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
-    this.partyCif = PARTY_CIF_EXAMPLE;
+    // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
+    this.requestSlikId = Number(this.router.url.split('/')[2]);
+    // this.partyCif = PARTY_CIF_EXAMPLE;
+    this.test();
+  }
+
+  test() {
+    this.requestSlikService.getDetail(this.requestSlikId).subscribe({
+      next: res => {
+        console.log({
+          requestSLik: res.slik,
+          partyCif: res.partyCif.customer,
+        });
+        this.requestSlik = res.slik;
+        this.partyCif = res.partyCif.customer;
+      },
+      complete: () => (this.isLoading = false),
+    });
+  }
+
+  submit() {
+    const data = {
+      status: 'Checking',
+    };
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    this.requestSlikService.onSubmit(this.requestSlikId, data).subscribe(() => this.router.navigate(['request-slik']));
   }
 
   // ngOnInit(): void {

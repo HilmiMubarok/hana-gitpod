@@ -8,9 +8,10 @@ import { RequestSlikUpdateComponent } from './request-slik-update.component';
 import { requestSlikRoute } from './request-slik.route';
 import { DocumentRequestSlikComponent } from './document/document-request-slik.component';
 import { DocumentRequestSlikDialogComponent } from './document/dialog/document-request-slik-dialog.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
+  imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute), MatInputModule],
   declarations: [
     RequestSlikComponent,
     RequestSlikDetailComponent,

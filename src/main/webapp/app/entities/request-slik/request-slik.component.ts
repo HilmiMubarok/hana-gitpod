@@ -88,23 +88,23 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
 
   public requestSlikStatusCodes: IOptionNode[] = [
     {
-      id: 'DRAFT',
+      id: 'Draft',
       label: 'Draft',
     },
     {
-      id: 'APPROVAL_SLIK',
+      id: 'ApprovalSlik',
       label: 'Approval Slik',
     },
     {
-      id: 'CHECKING_IN_PROGRESS',
-      label: 'Checking In Progress',
+      id: 'Checking',
+      label: 'Checking',
     },
     {
-      id: 'REJECT',
-      label: 'Reject',
+      id: 'Verify',
+      label: 'Verify',
     },
     {
-      id: 'COMPLETE',
+      id: 'Complete',
       label: 'Complete',
     },
   ];
@@ -113,15 +113,36 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     moveItemInArray(this.requestSlikStatusCodes, event.previousIndex, event.currentIndex);
   }
 
+  searchCif: number;
+  searchByCif(cif) {
+    this.isLoading = true;
+    this.requestSliks$ = !cif
+      ? this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)))
+      : this.requestSlikService.searchByCif(cif).pipe(finalize(() => (this.isLoading = false)));
+  }
+
   public clickedChip: string;
+  trackByFn(index, item) {
+    console.log({
+      index,
+      item,
+    });
+    return item.id; // or any other unique identifier
+  }
+
   public chipClick(option: IOptionNode): void {
     this.page = 0;
     if (this.clickedChip === option.id) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
+      // this.loadAll();
+      this.isLoading = true;
+      this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     } else {
       this.clickedChip = option.id;
+      this.isLoading = true;
+      this.requestSliks$ = this.requestSlikService.searchByStatus(option.id).pipe(finalize(() => (this.isLoading = false)));
+      // this.requestSlikService.searchByStatus(option.id).subscribe(res => console.log(res));
     }
-    this.loadAll();
   }
 }
