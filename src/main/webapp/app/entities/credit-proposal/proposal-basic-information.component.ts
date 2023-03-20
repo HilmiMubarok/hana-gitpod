@@ -196,9 +196,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTitleMenu();
   }
 
-  public setSubmenu(event: IEJOptionNode): void {
+  public setSubmenu(event: Object): void {
     if (event) {
-      if (event.id === ID_GREATER_15_BN) {
+      if (event === ID_GREATER_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -214,7 +214,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
         }
-      } else if (event.id === ID_LOWER_EQUAL_15_BN) {
+      } else if (event === ID_LOWER_EQUAL_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -230,7 +230,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
         }
-      } else if (event.id === ID_BACK_TO_BACK) {
+      } else if (event === ID_BACK_TO_BACK) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -652,7 +652,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     if (tempRouter === 'cp-status-approval') {
       // if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
-	  if (copyCreditProposal.attributes['positionLogin']) {
+      if (copyCreditProposal.attributes['positionLogin']) {
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
             if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
