@@ -62,6 +62,10 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
         this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
         this.first = (this.page - 1) * this.itemsPerPage || 0;
       });
+      console.log('data', {
+        data,
+        first: this.first,
+      });
     });
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
@@ -112,7 +116,7 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
 
   public chipClick(option): void {
     console.log(option);
-    this.page = 0;
+    // this.page = 0;
     if (this.clickedChip === option) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';

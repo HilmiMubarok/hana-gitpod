@@ -96,13 +96,13 @@
           </ng-template>
           <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
             <tr>
-              <td style="text-align: center">{{ rowIndex + 1 }}</td>
-              <td style="text-align: center">{{ rowData.requestNumber }}</td>
-              <td style="text-align: center">{{ rowData.cif }}</td>
-              <td style="text-align: center">{{ rowData.customerName }}</td>
-              <td style="text-align: center">{{ rowData.customerType }}</td>
-              <td style="text-align: center">{{ rowData.segment }}</td>
-              <td style="text-align: center">{{ rowData.requestDate | date: 'long' }}</td>
+              <td>{{ rowIndex + 1 }}</td>
+              <td>{{ rowData.requestNumber }}</td>
+              <td>{{ rowData.cif }}</td>
+              <td>{{ rowData.customerName }}</td>
+              <td>{{ rowData.customerType }}</td>
+              <td>{{ rowData.segment }}</td>
+              <td>{{ rowData.requestDate | date: 'long' }}</td>
               <td style="text-align: center">
                 <mat-chip class="example-box text-capitalize">
                   {{ rowData.status }}

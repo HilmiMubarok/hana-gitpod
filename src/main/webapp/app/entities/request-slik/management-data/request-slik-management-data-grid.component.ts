@@ -78,7 +78,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   private defineDisplayedColumns(param: string) {
-    this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address'];
+    this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'select'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
@@ -98,6 +98,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
     }
+  }
+
+  updateChecklist(ev) {
+    console.log(ev);
   }
 
   protected postLoadDataLazy(): void {
