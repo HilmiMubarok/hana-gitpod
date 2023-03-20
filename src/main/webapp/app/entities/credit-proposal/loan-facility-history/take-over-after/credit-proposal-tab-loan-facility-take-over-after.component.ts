@@ -86,6 +86,7 @@ export class LoanFacilityTakeOverAfterHistoryComponent implements OnInit {
         this.facilityTakeOverAfterBank.initialLimitBankOver = result.attributes['maturity'];
         this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
         this.facilityTakeOverAfterBank.maturityPeriodType = result.attributes['maturityPeriodType'];
+        this.facilityTakeOverAfterBank.changes = result.attributes['changes'];
         this.facilityTakeOverAfterBank.currency = result.attributes['currency'];
         // this.changeLogo(result.attributes.currency);
       } else {

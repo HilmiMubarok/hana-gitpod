@@ -49,11 +49,7 @@
               <div class="col-4">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Tenor</mat-label>
-                  <input
-                    matInput
-                    [value]="facilityTakeOverAfterBank.initialLimitBankOver + ' ' + facilityTakeOverAfterBank?.maturityPeriodType"
-                    [disabled]="true"
-                  />
+                  <input matInput [value]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
                 </mat-form-field>
               </div>
               <div class="col-4">
@@ -94,9 +90,8 @@
                 currencyMask
                 matInput
                 type="text"
-                [(ngModel)]="facilityTakeOverAfterBank.changes"
+                [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number)"
                 [disabled]="view"
-                [options]="logoCcy"
                 [disabled]="true"
               />
             </mat-form-field>
@@ -117,9 +112,8 @@
                 currencyMask
                 matInput
                 type="text"
-                [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+                [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.outstandingBankOver | number)"
                 [disabled]="view"
-                [options]="logoCcy"
                 [disabled]="true"
               />
             </mat-form-field>
@@ -190,11 +184,7 @@
               <div class="col-4">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Tenor</mat-label>
-                  <input
-                    matInput
-                    [value]="facilityTakeOverAfterBank.initialLimitBankOver + ' ' + facilityTakeOverAfterBank?.maturityPeriodType"
-                    [disabled]="true"
-                  />
+                  <input matInput [value]="facilityTakeOverAfterBank.initialLimitBankOver" [disabled]="true" />
                 </mat-form-field>
               </div>
               <div class="col-4">
@@ -230,24 +220,23 @@
         <div class="col-6">
           <section *ngIf="!view">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Initial Limit</mat-label>
+              <mat-label>changes</mat-label>
               <input
                 currencyMask
                 matInput
                 type="text"
-                [(ngModel)]="facilityTakeOverAfterBank.maturityBankOver"
+                [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number: '1.0-0')"
                 [disabled]="view"
-                [options]="logoCcy"
                 [disabled]="true"
               />
             </mat-form-field>
           </section>
           <section *ngIf="view">
             <div class="fontsebled row">
-              <div class="col-2">Initial Limit</div>
+              <div class="col-2">Changes</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.maturityBankOver | number) }}
+                {{ facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.changes | number) }}
               </div>
             </div>
           </section>
@@ -258,9 +247,8 @@
                 currencyMask
                 matInput
                 type="text"
-                [(ngModel)]="facilityTakeOverAfterBank.outstandingBankOver"
+                [value]="facilityTakeOverAfterBank.currency + ' ' + (facilityTakeOverAfterBank.outstandingBankOver | number: '1.0-0')"
                 [disabled]="view"
-                [options]="logoCcy"
                 [disabled]="true"
               />
             </mat-form-field>

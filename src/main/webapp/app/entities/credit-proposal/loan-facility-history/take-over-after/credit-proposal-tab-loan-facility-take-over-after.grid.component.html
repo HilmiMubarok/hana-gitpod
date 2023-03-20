@@ -11,7 +11,7 @@
     <ng-container matColumnDef="changes">
       <th mat-header-cell *matHeaderCellDef>Changes</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.currency + ' ' + (element.maturityBankOver | number) }}
+        {{ element.currency + ' ' + (element.changes | number) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="outstanding">
