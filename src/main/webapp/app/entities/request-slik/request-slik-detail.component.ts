@@ -39,10 +39,10 @@ export class RequestSlikDetailComponent {
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     // this.partyCif = PARTY_CIF_EXAMPLE;
-    this.test();
+    this.requestSlikDetail();
   }
 
-  test() {
+  requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
         console.log({
@@ -56,12 +56,32 @@ export class RequestSlikDetailComponent {
     });
   }
 
+  checkStatus(currentStatus: string) {
+    if (currentStatus === 'Draft') {
+      return {
+        status: 'ApprovalSlik',
+      };
+    } else if (currentStatus === 'ApprovalSlik') {
+      return {
+        status: 'Checking',
+      };
+    } else if (currentStatus === 'Checking') {
+      return {
+        status: 'Verify',
+      };
+    } else {
+      return {
+        status: 'Complete',
+      };
+    }
+  }
+
   submit() {
-    const data = {
-      status: 'Checking',
-    };
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.requestSlikService.onSubmit(this.requestSlikId, data).subscribe(() => this.router.navigate(['request-slik']));
+    this.requestSlikService
+      .onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status))
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      .subscribe(() => this.router.navigate(['request-slik']));
   }
 
   // ngOnInit(): void {
