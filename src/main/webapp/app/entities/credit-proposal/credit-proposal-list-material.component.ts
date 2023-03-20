@@ -211,8 +211,15 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === null || this.currentSearch === undefined || this.currentSearch === '') {
+      this.loadAll();
+      
+    }else{
+      this.doSearch()
+    }
+    
   }
+
 
   private checkReturnStatusDescription(data: ICreditProposal[]) {
     if (data.length > 0) {
@@ -265,6 +272,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
     this.paginatorPageSize = this.paginator.pageSize;
     this.loading = false;
+    console.log('rdddd', this.paginatorLength)
   }
 
   private loadAll(): void {
@@ -288,31 +296,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       return;
     }
 
-    if (this.currentSearch && this.currentSearch !== '') {
-      const predicate: object = {
-        page: this.page,
-        query: this.currentSearch,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      };
 
-      if (this.activeRoute === 'credit-proposal-status') {
-        predicate['target'] = 'credit_proposal';
-      } else if (this.activeRoute === 'cp-status-approval') {
-        predicate['target'] = 'credit_proposal_approval';
-      }
-
-      this.creditProposalService
-        .search(predicate)
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => {
-            this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
 
     this.creditProposalService
       .queryDynamicURL(
