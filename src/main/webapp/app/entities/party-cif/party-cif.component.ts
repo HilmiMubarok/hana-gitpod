@@ -104,11 +104,12 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
       this.loadAll();
     }else{
-      this.search
+      this.search()
     }
   }
 
   public search() {
+    this.statusSearch = true
       this.cashCustomerService
         .cashCustomers({
           page: this.page,
@@ -171,6 +172,16 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
         });
       }
     }
+  }
+
+public statusSearch = false
+ public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
   }
 
   private loadAll(): void {

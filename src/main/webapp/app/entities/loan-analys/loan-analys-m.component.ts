@@ -67,7 +67,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
-
+  public statusSearch = false
   constructor(
     private loanAnalysService: LoanAnalysService,
     protected _snackBar: MatSnackBar,
@@ -108,8 +108,18 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.loadStatusChip();
     this.loadAll();
   }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
+  }
 
   public doSearch(): void {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -117,6 +127,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         sort: this.sortData(),
       };
 
+      
       if (this.activeRoute === 'la-distribution') {
         predicate['target'] = 'loan-analyst-distribution';
       } else if (this.activeRoute === 'la-analyst') {

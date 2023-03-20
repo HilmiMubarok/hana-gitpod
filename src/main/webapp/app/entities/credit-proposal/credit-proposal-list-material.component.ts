@@ -57,6 +57,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public title: string;
   public value: string;
   public parentPath = this.router.url.split('/')[1];
+  public statusSearch = false
   private monthArray = [
 	{
 	  desc: 'Jan',
@@ -147,9 +148,9 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       }
     });
   }
-
+ 
   public doSearch(): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+      this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -173,7 +174,16 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+    
+  }
+
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
   }
 
   private convertStatus(status: string) {
