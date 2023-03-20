@@ -55,6 +55,10 @@ export class RequestSlikService extends AbstractEntityService<any> {
     return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
+  public getStatuses() {
+    return this.http.get<any>(this.resourceUrl + '/status', { observe: 'response' }).pipe(map(res => res.body.data));
+  }
+
   public getDetail(id: number): Observable<any> {
     const options = new HttpParams().set('id', id);
     return this.http.get<any>(this.resourceUrl + '/byid', { observe: 'response', params: options }).pipe(

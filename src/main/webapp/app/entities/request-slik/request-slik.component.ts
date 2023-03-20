@@ -66,6 +66,7 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     this.currentSearch =
       this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
     this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
+    this.getStatus();
   }
 
   isLoading: Boolean = true;
@@ -86,28 +87,11 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     window.history.back();
   }
 
-  public requestSlikStatusCodes: IOptionNode[] = [
-    {
-      id: 'Draft',
-      label: 'Draft',
-    },
-    {
-      id: 'ApprovalSlik',
-      label: 'Approval Slik',
-    },
-    {
-      id: 'Checking',
-      label: 'Checking',
-    },
-    {
-      id: 'Verify',
-      label: 'Verify',
-    },
-    {
-      id: 'Complete',
-      label: 'Complete',
-    },
-  ];
+  public requestSlikStatusCodes: IOptionNode[] = [];
+
+  getStatus() {
+    this.requestSlikService.getStatuses().subscribe(res => (this.requestSlikStatusCodes = res));
+  }
 
   public drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.requestSlikStatusCodes, event.previousIndex, event.currentIndex);
@@ -121,27 +105,24 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
       : this.requestSlikService.searchByCif(cif).pipe(finalize(() => (this.isLoading = false)));
   }
 
-  public clickedChip: string;
+  public clickedChip;
   trackByFn(index, item) {
-    console.log({
-      index,
-      item,
-    });
     return item.id; // or any other unique identifier
   }
 
-  public chipClick(option: IOptionNode): void {
+  public chipClick(option): void {
+    console.log(option);
     this.page = 0;
-    if (this.clickedChip === option.id) {
+    if (this.clickedChip === option) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
       // this.loadAll();
       this.isLoading = true;
       this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     } else {
-      this.clickedChip = option.id;
+      this.clickedChip = option;
       this.isLoading = true;
-      this.requestSliks$ = this.requestSlikService.searchByStatus(option.id).pipe(finalize(() => (this.isLoading = false)));
+      this.requestSliks$ = this.requestSlikService.searchByStatus(option).pipe(finalize(() => (this.isLoading = false)));
       // this.requestSlikService.searchByStatus(option.id).subscribe(res => console.log(res));
     }
   }

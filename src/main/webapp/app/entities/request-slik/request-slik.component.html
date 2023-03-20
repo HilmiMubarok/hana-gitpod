@@ -31,7 +31,7 @@
               cdkDrag
               *ngFor="let item of requestSlikStatusCodes"
             >
-              {{ item.label }}
+              {{ item }}
             </mat-chip>
           </mat-chip-list>
         </mat-card-content>
@@ -103,7 +103,11 @@
               <td style="text-align: center">{{ rowData.customerType }}</td>
               <td style="text-align: center">{{ rowData.segment }}</td>
               <td style="text-align: center">{{ rowData.requestDate | date: 'long' }}</td>
-              <td style="text-align: center">{{ rowData.status }}</td>
+              <td style="text-align: center">
+                <mat-chip class="example-box text-capitalize">
+                  {{ rowData.status }}
+                </mat-chip>
+              </td>
               <td style="text-align: center">
                 <button pButton type="submit" [routerLink]="['/request-slik', rowData.id, 'view']" class="flat-button">
                   <fa-icon icon="eye"></fa-icon>
