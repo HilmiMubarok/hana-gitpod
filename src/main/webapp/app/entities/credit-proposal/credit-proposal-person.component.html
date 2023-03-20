@@ -920,7 +920,7 @@
                         <mat-label>IFC & Risk Category</mat-label>
                         <mat-select name="riskCategory" [(ngModel)]="deptorData.debtorData.ifcRiskCategory">
                           <mat-option value="">Please Select</mat-option>
-                          <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                          <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.value">
                             {{ item.value }}
                           </mat-option>
                         </mat-select>
