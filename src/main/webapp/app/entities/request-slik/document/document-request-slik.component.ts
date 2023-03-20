@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
@@ -12,6 +12,14 @@ import { DocumentRequestSlikDialogComponent } from './dialog/document-request-sl
   templateUrl: './document-request-slik.component.html',
 })
 export class DocumentRequestSlikComponent {
+  _requestSlik;
+  @Input()
+  get requestSlik() {
+    return this._requestSlik;
+  }
+  set requestSlik(param) {
+    this._requestSlik = param;
+  }
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   private bucket: string;
   private id: number;

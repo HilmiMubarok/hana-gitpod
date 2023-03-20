@@ -97,4 +97,8 @@ export class RequestSlikDetailComponent {
   previousState(): void {
     window.history.back();
   }
+
+  save() {
+    console.log(this.requestSlik);
+  }
 }

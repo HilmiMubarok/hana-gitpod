@@ -123,12 +123,12 @@
     </mat-card>
   </div>
   <div class="row px-3 pt-5" *ngIf="!isLoading">
-    <jhi-document-request-slik></jhi-document-request-slik>
+    <jhi-document-request-slik [requestSlik]="requestSlik"></jhi-document-request-slik>
   </div>
   <div class="d-flex justify-content-center" style="margin-top: 30px">
     <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
-    <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button>
-    <button mat-raised-button color="primary">Save</button>
+    <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
+    <button mat-raised-button color="primary" *ngIf="requestSlik?.status === 'Draft'" (click)="save()">Save</button>
   </div>
   <!-- <p-panel>
     <p-header>

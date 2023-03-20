@@ -60,7 +60,7 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
     this.files.forEach(file => {
       const tags = {
         docName: this.docName,
-        objectName: `/request-slik/${this.slikRequestId}/document/${file.name}`,
+        objectName: `/request-slik/${this.slikRequestId}/document/${new Date().getTime().toString(36) + file.name}`,
         entityId: this.slikRequestId,
         docDate: new Date(this.docDate).toISOString(),
         createdBy: this.userLogin,
