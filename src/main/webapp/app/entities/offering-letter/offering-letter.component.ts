@@ -67,6 +67,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public isShow: boolean;
   public title: string;
   public value: string;
+  public statusSearch = false
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -103,8 +104,17 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.loadStatusChip();
     this.loadAll();
   }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
+  }
   public doSearch(): void {
-  
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,

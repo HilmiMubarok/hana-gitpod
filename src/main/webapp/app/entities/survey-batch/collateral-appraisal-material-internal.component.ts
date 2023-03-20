@@ -72,6 +72,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   public filterData: {
     [key: string]: Object;
   }[] = [];
+  public statusSearch = false
   public subMenu: object[];
   public globalSearchValModel: string;
   public collateralAppraisalStatusCodes: IOptionNode[] = [
@@ -295,7 +296,11 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    }else{
+      this.doSearch()
+    }
   }
 
   private convertToTimelineModel(data: IApplicationStateLog[]) {
@@ -374,7 +379,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   }
 
   public doSearch(args: any = null): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -396,7 +401,16 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+    
+  }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
   }
 
   public goToEdit(): void {

@@ -288,7 +288,12 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === null || this.currentSearch === undefined || this.currentSearch === '') {
+      this.loadAll();
+    }else{
+      this.doSearch()
+    }
+    
   }
 
   private convertToTimelineModel(data: IApplicationStateLog[]) {
@@ -350,6 +355,15 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   public previousState(): void {
     window.history.back();
   }
+  public statusSearch = false
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
+  }
 
   public drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.collateralAppraisalStatusCodes, event.previousIndex, event.currentIndex);
@@ -367,7 +381,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   }
 
   public doSearch(args: any = null): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -389,7 +403,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+  
   }
 
   public goToEdit(): void {

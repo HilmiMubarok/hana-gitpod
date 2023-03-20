@@ -58,6 +58,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public globalSearchVal: string;
   public clickedChip: string;
   public iconTimeline: any;
+  public statusSearch = false
   public filterData: {
     [key: string]: Object;
   }[] = [];
@@ -622,9 +623,18 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     }
     this.loadAll();
   }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
+  }
 
   public doSearch(args: any = null): void {
-   
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,

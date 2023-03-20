@@ -172,6 +172,15 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
       }
     });
   }
+  public statusSearch = false
+  public closeSearch(){
+     this.statusSearch = false
+     this.currentSearch = ''
+     this.page = 0
+ 
+     this.itemsPerPage = 0
+     this.loadAll()
+   }
 
   public loadAll(): void {
     this.checkLogin();
@@ -271,7 +280,12 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === null || this.currentSearch === '' || this.currentSearch === undefined) {
+      this.loadAll();
+    }else{
+      this.doSearch()
+    }
+    
   }
 
   private convertToTimelineModel(data: IApplicationStateLog[]) {
@@ -350,7 +364,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
   }
 
   public doSearch(args: any = null): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -372,7 +386,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+    
   }
 
   public goToEdit(): void {
