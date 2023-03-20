@@ -86,8 +86,13 @@
 
   <div class="row px-3 pt-5" *ngIf="!isLoading">
     <div class="col">
-      <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="MANAGEMENT_DATA">
-      </jhi-debtor-data-organization-management-list>
+      <jhi-request-slik-management-data-grid
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="MANAGEMENT_DATA"
+      ></jhi-request-slik-management-data-grid>
+      <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="MANAGEMENT_DATA">
+      </jhi-debtor-data-organization-management-list> -->
       <div class="my-5"></div>
       <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="SHAREHOLDER">
       </jhi-debtor-data-organization-management-list>
