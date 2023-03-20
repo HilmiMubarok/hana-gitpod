@@ -42,7 +42,6 @@ export class DebtorDataOrganizationManagementListComponent
   extends AbstractEntityMaterialComponent<IOrganizationManagement>
   implements OnChanges
 {
-  @Input() onRequestSlik: Boolean = false;
   @Input() public cif: string;
   @Input() public managementType: string;
   public expandedElement: IOrganizationManagement | null;
