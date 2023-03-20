@@ -363,7 +363,7 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
             }
 
             if (!lodash.has(creditProposal.body.attributes, 'lendingProgramParameter')) {
-              creditProposal.body.attributes['lendingProgramParameter'] = new LendingProgramParameter();
+              creditProposal.body.attributes['lendingProgramParameter'] = [];
             } else {
               creditProposal.body.attributes['lendingProgramParameter'] = JSON.parse(
                 creditProposal.body.attributes['lendingProgramParameter']
