@@ -98,6 +98,19 @@
                 </div>
                 <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
                 </jhi-credit-proposal-booking-branch>
+                <div class="form-group">
+                  <!-- <section class="mt-2"> -->
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Lending Program</mat-label>
+                    <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']" disabled>
+                      <mat-option value="">Please Select</mat-option>
+                      <mat-option *ngFor="let item of lendingProgram" [value]="item.id">
+                        {{ item.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!-- </section> -->
+                </div>
               </div>
             </div>
           </mat-card-content>
