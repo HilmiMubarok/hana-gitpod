@@ -110,7 +110,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.currentSearch = ''
     this.page = 0
 
-    this.itemsPerPage = 0
+    this.itemsPerPage = 10
     this.loadAll()
   }
   public doSearch(): void {

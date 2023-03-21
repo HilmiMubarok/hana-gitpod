@@ -114,7 +114,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.currentSearch = ''
     this.page = 0
 
-    this.itemsPerPage = 0
+    this.itemsPerPage = 10
     this.loadAll()
   }
 

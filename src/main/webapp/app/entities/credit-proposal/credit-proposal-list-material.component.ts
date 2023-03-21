@@ -182,7 +182,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.currentSearch = ''
     this.page = 0
 
-    this.itemsPerPage = 0
+    this.itemsPerPage = 10
     this.loadAll()
   }
 
