@@ -1,73 +1,69 @@
-import { Component, Input, SimpleChanges, OnChanges, OnInit } from '@angular/core';
-import { ICreditProposal } from '../../../credit-proposal/credit-proposal.model';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DocumentChecklist, IDocumentChecklist } from './document-checklist.model';
-import { DocumentChecklistDialogTempComponent } from './document-checklist-dialog.component';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { IDocumentChecklistDebtorData,DocumentChecklistDebtorData  } from 'app/entities/debtor-data/document-checklis/debtor-data-document-checklist'; 
+import { DocumentChecklistDialogTempComponent } from './document-checklist-dialog.component'; 
+import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model'; 
+import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import lodash from 'lodash';
+import { IDocumentType } from 'app/entities/document-type/document-type.model';
+import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 @Component({
   selector: 'jhi-document-checklist-temp',
   templateUrl: './credit-proposal-document-checklist.component.html',
 })
-export class DocumentChecklistTempComponent implements OnChanges, OnInit {
-  private _creditProposal: ICreditProposal;
+export class DocumentChecklistTempComponent implements OnInit {
+  public files: any[];
+  public bucket: string;
+  public searchCifInput: string;
+  private _creditProposal: IDebtorData;
+  private dataKey: any;
   public folders = [];
-  public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
-  public files: Object[];
-  private bucket: string;
-  public _isViewMode: boolean;
-
-  public isDarChecker: Boolean =
-    this.router.url.split('/')[1] === 'dar-checker' || this.router.url.split('/')[1] === 'dar-notif' ? true : false;
-  public isDarFinalorLACommittee: Boolean =
-    this.router.url.split('/')[1] === 'dar-final' ||
-    this.router.url.split('/')[1] === 'loan-committee-approval' ||
-    this.router.url.split('/')[1] === 'finalize'
-      ? false
-      : true;
-
+  public typeData: IDocumentType[];
+  public type2: IDocumentType[];
+  public file = [];
+  public file1 = []
+  public file2 = []
+  constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get creditProposal() {
     return this._creditProposal;
   }
 
-  set creditProposal(data: ICreditProposal) {
-    this._creditProposal = data;
-  }
-
-  @Input()
-  get isViewMode() {
-    return this._isViewMode;
-  }
-
-  set isViewMode(data: boolean) {
-    this._isViewMode = data;
-  }
-
-  constructor(
-    public dialog: MatDialog,
-    private storageService: StorageService,
-    private messageService: MessageService,
-    private router: Router
-  ) {
-    this.files = [];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['creditProposal']) {
-      this.getBucket().then(res => {
-        this.getFiles(this.creditProposal.id);
-      });
-    }
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
   }
 
   ngOnInit(): void {
-    this.getBucket().then(res => {
-      this.getFiles(this.creditProposal.id);
+    this.getBucket().then(() => {
+      this.getFiles(String(this.creditProposal.id)).then(() => {
+        this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
+          this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
+          const arrayGroub = [...res.body, ...res1.body];
+
+          const personalCorporate = arrayGroub.filter(obj => obj.customerType === this.creditProposal.customerType);
+          const nullData = arrayGroub.filter(obj => obj.customerType === null)
+          this.typeData = [...personalCorporate, ...nullData]
+          for (let i = 0; i < this.typeData.length; i++) {
+              this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {
+                this.typeData[i].level = re.body;
+      
+                const mergeArray = this.typeData[i].level.map(item1 => {
+                  const file = this.file.find(item2 => item2.idFile === item1.id);
+                  return { ...item1, ...file };
+                });
+      
+                this.typeData[i].level = mergeArray;
+              });
+          }
+        });
+        });
+      });
     });
   }
+
+  
 
   private getBucket(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -78,175 +74,128 @@ export class DocumentChecklistTempComponent implements OnChanges, OnInit {
     });
   }
 
-  private getFiles(id: any): void {
-    const predicate: Object = {
-      key: `/credit_proposal/${id}/document`,
-    };
-    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.groupByFolder(res.body);
-    });
-  }
 
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
-    }
-    
-  }
 
- 
 
-  public openDialog(element: IDocumentChecklist = null, view: string): void {
-    const predicate = { width: '80vw', data: {} };
-    predicate.data['view'] = false;
-    predicate.data['creditProposal'] = this.creditProposal;
-    predicate.data['bucket'] = this.bucket;
-    predicate.data['files'] = this.files;
-    if (element) {
-      predicate.data['documentChecklist'] = element;
-      predicate.data['view'] = view;
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
     } else {
-      predicate.data['documentChecklist'] = new DocumentChecklist();
-      predicate.data['view'] = view;
+      return '';
     }
+  }
+
+
+
+  public openDialog(element: IDocumentType = null, view: string, item: string): void {
+    const predicate = { width: '80vw', data: {} };
+    predicate.data['cpId'] = this.creditProposal.id;
+    predicate.data['partyId'] = this.creditProposal.cif.partyId;
+    predicate.data['bucket'] = this.bucket;
+    predicate.data['files'] = element;
+    predicate.data['typeData'] = this.typeData;
+    predicate.data['view'] = view;
+    predicate.data['item'] = item;
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
-    dialogRef.afterClosed().subscribe((res: any) => {
-      if (res !== null) {
-        this.getBucket().then(() => {
-          this.getFiles(this.creditProposal.id);
-        });
-      } else {
-        this.getBucket().then(() => {
-          this.getFiles(this.creditProposal.id);
-        });
-      }
+    dialogRef.afterClosed().subscribe((r: any) => {
+
+
+     
     });
   }
 
-  dataKey: any;
-  public deleteFile(element: any): void {
-    this.dataKey = element;
 
-    for (let i = 0; i < element.files.length; i++) {
-      this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-        this.getFiles(this.creditProposal.id);
+
+    private getFiles(id: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const retrieveDataCpDuplicateIdd: Object = {
+        key: `/cp/${id}/document/file-idd/`,
+      };
+      const dataCpOnly: Object = {
+        key: `/cp/${id}/document/file-cp/`,
+      };
+      const retrieveIDDNotDuplicated: Object = {
+        key: `/idd/${this.creditProposal.cif.partyId}/document/file-idd/`,
+      };
+      this.storageService.getObjects(this.bucket, retrieveDataCpDuplicateIdd).subscribe((res: any) => {
+        if (res.body.length > 0) {
+            for (let index = 0; index < res.body.length; index++) {
+            this.file1 = [
+              ...this.file1,
+              {
+                idFile: res.body[index].tags.id,
+                url: res.body[index].url,
+                name: res.body[index].key,
+                remarks: res.body[index].tags.remarks,
+                status: res.body[index].tags.status,
+                dueDate: res.body[index].tags.dueDate,
+              },
+            ];
+          }
+
+          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => { 
+            for (let index = 0; index < res1.body.length; index++) {
+            this.file2 = [
+              ...this.file2,
+              {
+                idFile: res1.body[index].tags.id,
+                url: res1.body[index].url,
+                name: res1.body[index].key,
+                remarks: res1.body[index].tags.remarks,
+                status: res1.body[index].tags.status,
+                dueDate: res1.body[index].tags.dueDate,
+              },
+            ];
+          }
+
+          this.file = [...this.file1, ...this.file2]
+          resolve();
+          })
+         
+        }else{
+          this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => { 
+            for (let index = 0; index < res1.body.length; index++) {
+            this.file1 = [
+              ...this.file1,
+              {
+                idFile: res1.body[index].tags.id,
+                url: res1.body[index].url,
+                name: res1.body[index].key,
+                remarks: res1.body[index].tags.remarks,
+                status: res1.body[index].tags.status,
+                dueDate: res1.body[index].tags.dueDate,
+              },
+            ];
+          }
+
+          this.storageService.getObjects(this.bucket, retrieveIDDNotDuplicated).subscribe((res2: any) => { 
+            for (let index = 0; index < res2.body.length; index++) {
+            this.file2 = [
+              ...this.file2,
+              {
+                idFile: res2.body[index].tags.id,
+                url: res2.body[index].url,
+                name: res2.body[index].key,
+                remarks: res2.body[index].tags.remarks,
+                status: res2.body[index].tags.status,
+                dueDate: res2.body[index].tags.dueDate,
+              },
+            ];
+            }
+            this.file = [...this.file1, ...this.file2]
+            resolve();
+       
+          })
+
+          
+        
+          })
+          
+        }
+        
+       
       });
-    }
+    });
   }
-
-
-  private groupByFolder(param: any[]): void {
-    this.folders = [];
-    if (param.length > 0) {
-      this.folders = lodash
-        .chain(param)
-        .groupBy('tags.document')
-        .map((val, key) => ({
-          folder: key,
-          key: val[0].key,
-          data: val,
-          documentType: val[0]['tags']['documentType'],
-          document: val[0]['tags']['document'],
-          category: val[0]['tags']['category'],
-          dueDate: val[0]['tags']['dueDate'],
-          status: val[0]['tags']['status'],
-          remarks: val[0]['tags']['remarks'],
-          nameFile: val[0].name,
-
-          files: val,
-        }))
-        .value();
-    } else {
-      this.folders = [];
-    }
-  }
-  // private _creditProposal: ICreditProposal;
-  // public displayedColumns: string[] = ['no', 'document', 'category', 'dueDate', 'status', 'remarks', 'action'];
-  // public files: Object[];
-  // private bucket: string;
-
-  // public isDarChecker: Boolean = this.router.url.split('/')[1] === 'dar-checker' ? true : false;
-
-  // @Input()
-  // get creditProposal() {
-  //   return this._creditProposal;
-  // }
-
-  // set creditProposal(data: ICreditProposal) {
-  //   this._creditProposal = data;
-  // }
-
-  // constructor(
-  //   public dialog: MatDialog,
-  //   private storageService: StorageService,
-  //   private messageService: MessageService,
-  //   private router: Router
-  // ) {
-  //   this.files = [];
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['creditProposal']) {
-  //     this.getBucket().then(res => {
-  //       this.getFiles(this.creditProposal.id);
-  //     });
-  //   }
-  // }
-
-  // private getBucket(): Promise<void> {
-  //   return new Promise<void>((resolve, reject) => {
-  //     this.storageService.getBucketName().subscribe(res => {
-  //       console.log('bucket', res.body['bucket']);
-  //       resolve();
-  //     });
-  //   });
-  // }
-
-  // private getFiles(id: number): void {
-  //   const predicate: Object = {
-  //     key: `/credit_proposal/${id}/document`,
-  //   };
-  //   this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-  //     this.files = res.body;
-  //   });
-  // }
-
-  // public openDialog(element: IDocumentChecklist = null): void {
-  //   const predicate = { width: '80vw', data: {} };
-  //   predicate.data['view'] = false;
-  //   predicate.data['creditProposal'] = this.creditProposal;
-  //   predicate.data['bucket'] = this.bucket;
-  //   predicate.data['files'] = this.files;
-  //   if (element) {
-  //     predicate.data['documentChecklist'] = element;
-  //     predicate.data['view'] = true;
-  //   } else {
-  //     predicate.data['documentChecklist'] = new DocumentChecklist();
-  //   }
-
-  //   const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
-  //   dialogRef.afterClosed().subscribe(() => {
-  //     this.getBucket().then(() => {
-  //       this.getFiles(this.creditProposal.id);
-  //     });
-  //   });
-  // }
-
-  // dataKey: any;
-  // public deleteFile(element: IDocumentChecklist = null): void {
-  //   this.dataKey = element;
-  //   this.storageService.deleteFile(this.bucket, this.dataKey.key).subscribe(data => {
-  //     this.getBucket().then(() => {
-  //       this.messageService.add({
-  //         severity: 'success',
-  //         summary: 'Success',
-  //         detail: 'Delete Success',
-  //       });
-  //       this.getFiles(this.creditProposal.id);
-  //     });
-  //   });
-  // }
 }

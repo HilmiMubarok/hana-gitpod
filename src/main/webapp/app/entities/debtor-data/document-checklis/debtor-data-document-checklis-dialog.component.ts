@@ -106,6 +106,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
         this.files.dueDate = res.body[0].tags.dueDate;
       }
       this.lengthMinIO = res.body;
+      console.log('reddd', res.body.name)
       for (let index = 0; index < res.body.length; index++) {
         this.file = [
           ...this.file,
@@ -115,6 +116,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
             remarks: res.body[index].tags.remarks,
             status: res.body[0].tags.status,
             dueDate: res.body[0].tags.dueDate,
+            nameFIle: res.body[index].name,
           },
         ];
       }
