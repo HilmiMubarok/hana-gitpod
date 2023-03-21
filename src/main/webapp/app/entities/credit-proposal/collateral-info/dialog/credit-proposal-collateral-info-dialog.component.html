@@ -517,8 +517,8 @@
                   <mat-label>Rank</mat-label>
                   <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank">
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of lovRank" [value]="item">
-                      {{ item }}
+                    <mat-option *ngFor="let item of lovRank" [value]="item.code">
+                      {{ item.value }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>

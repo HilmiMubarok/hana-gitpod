@@ -140,9 +140,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.insurance = this.data.insurance;
     this.insuranceStart = lodash.cloneDeep(this.insurance);
     this.matrikBindingType = this.data.matrikBindingType;
-    for (let i = 1; i < 101; i++) {
-      this.lovRank.push(i.toString());
-    }
+    // for (let i = 1; i < 101; i++) {
+    //   this.lovRank.push(i.toString());
+    // }
     this.lovCollateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.dataCertDueDate = data.certDueDate;
@@ -162,6 +162,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.checkStatusCOllateral();
     this.getFacilityType();
     this.lovBindingType();
+    this.addLovRank();
   }
 
   public lovBindingType() {
@@ -173,6 +174,20 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       })
       .subscribe(res => {
         this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public addLovRank() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RANK',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lovRank = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
