@@ -17,10 +17,10 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'jhi-request-slik-management-data-grid',
-  templateUrl: './request-slik-management-data-grid.component.html',
+  selector: 'jhi-request-slik-other-grid',
+  templateUrl: './request-slik-other-grid.component.html',
 })
-export class RequestSlikManagementDataGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+export class RequestSlikOtherGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
   @Output() checklistData = new EventEmitter<any>();
 
   @Input() public cif: string;
@@ -85,7 +85,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   private defineDisplayedColumns(param: string) {
-    this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
+    this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
@@ -128,7 +128,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
       });
     } else {
       // ketika uncek
-
       this.checklistData.emit({
         data,
         mode: 'remove',
@@ -140,9 +139,9 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.loadDataBy(this.partyCif.customerNumber, this.managementType);
   }
 
-  private setAttribute(param: IOrganizationManagement): void {
-    param.attributes = new OrganizationManagementAttributeManagementData();
-  }
+  // private setAttribute(param: IOrganizationManagement): void {
+  //   param.attributes = new OrganizationManagementAttributeShareholder();
+  // }
 
   public openDialog(param: IOrganizationManagement = null): void {
     let orgMgm: IOrganizationManagement;
@@ -150,7 +149,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     orgMgm.cifNumber = this.cif;
     orgMgm.organizationManagementTypeId = this.managementType;
     orgMgm.attributes = {};
-    this.setAttribute(orgMgm);
+    // this.setAttribute(orgMgm);
     if (param) {
       orgMgm = param;
     }

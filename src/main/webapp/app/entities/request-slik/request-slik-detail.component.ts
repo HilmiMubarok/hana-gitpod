@@ -7,6 +7,7 @@ import { IPartyCif } from '../party-cif/party-cif.model';
 import { PARTY_CIF_EXAMPLE } from './party-cif-dummy';
 import { DocumentEditorContainerComponent, DocumentEditorKeyDownEventArgs } from '@syncfusion/ej2-angular-documenteditor';
 import { RequestSlikService } from './request-slik.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -17,15 +18,48 @@ export class RequestSlikDetailComponent {
   requestSlik: IRequestSlik | null = null;
   partyCif;
   isLoading: Boolean = true;
-  checklists;
+  checklists = [];
 
   // Checklist
+  saveDetails(data: object[]) {
+    this.requestSlikService.saveDetails(data).subscribe(res => console.log(res));
+  }
+
+  protected containsObject(obj, list) {
+    const res = _.find(list, function (val) {
+      return _.isEqual(obj, val);
+    });
+    return _.isObject(res) ? true : false;
+  }
+
   getChecklistManagementData(ev) {
-    console.log('management data', ev);
+    if (ev.mode === 'add') {
+      !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
+    } else {
+      this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
+    }
+
+    console.log(this.checklists);
   }
 
   getChecklistShareholder(ev) {
-    console.log('shareholder', ev);
+    if (ev.mode === 'add') {
+      !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
+    } else {
+      this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
+    }
+
+    console.log(this.checklists);
+  }
+
+  getChecklistOther(ev) {
+    if (ev.mode === 'add') {
+      !this.containsObject(ev.data, this.checklists) && this.checklists.push(ev.data);
+    } else {
+      this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
+    }
+
+    console.log(this.checklists);
   }
 
   @ViewChild('document_editor_container')
@@ -109,6 +143,7 @@ export class RequestSlikDetailComponent {
   }
 
   save() {
-    console.log(this.requestSlik);
+    this.saveDetails(this.checklists);
+    // console.log(this.checklists);
   }
 }

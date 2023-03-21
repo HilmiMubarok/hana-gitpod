@@ -99,18 +99,25 @@
         managementType="SHAREHOLDER"
         (checklistData)="getChecklistShareholder($event)"
       ></jhi-request-slik-shareholder-grid>
+      <div class="my-5"></div>
+      <jhi-request-slik-other-grid
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="CONTROL_PERSON"
+        (checklistData)="getChecklistOther($event)"
+      ></jhi-request-slik-other-grid>
       <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="MANAGEMENT_DATA">
       </jhi-debtor-data-organization-management-list> -->
       <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="SHAREHOLDER">
       </jhi-debtor-data-organization-management-list> -->
-      <div class="my-5"></div>
+      <!-- <div class="my-5"></div>
       <jhi-debtor-data-organization-management-list
         [cif]="partyCif.customerNumber"
         [partyCif]="partyCif"
         managementType="CONTROL_PERSON"
         onRequestSlik="true"
       >
-      </jhi-debtor-data-organization-management-list>
+      </jhi-debtor-data-organization-management-list> -->
     </div>
   </div>
 

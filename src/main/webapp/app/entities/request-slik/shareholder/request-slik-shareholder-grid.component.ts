@@ -21,7 +21,7 @@ import * as _ from 'lodash';
   templateUrl: './request-slik-shareholder-grid.component.html',
 })
 export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
-  @Output() checklistData = new EventEmitter<Array<Object>>();
+  @Output() checklistData = new EventEmitter<any>();
 
   @Input() public cif: string;
   @Input() public managementType: string;
@@ -85,7 +85,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   private defineDisplayedColumns(param: string) {
-    this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'noOfShare', 'select'];
+    this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'select'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
@@ -112,31 +112,27 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     return _.isObject(res) ? true : false;
   }
 
-  shareholderDataChecklist = [];
   updateChecklist(ev, check) {
-    console.log(ev);
-    // const data = {
-    //   idParty: null,
-    //   idRequestSlik: null,
-    // };
-    // if (check.checked) {
-    //   // ketika cek
-    //   data.idParty = ev.person.id;
-    //   data.idRequestSlik = this.requestSlikId;
+    const data = {
+      idParty: null,
+      idRequestSlik: null,
+    };
+    data.idParty = ev.person !== null ? ev.person.id : ev.shareHolderOrg.id;
+    data.idRequestSlik = this.requestSlikId;
+    if (check.checked) {
+      // ketika cek
 
-    //   if (!this.containsObject(data, this.shareholderDataChecklist)) {
-    //     this.shareholderDataChecklist.push(data);
-    //   }
-    // } else {
-    //   // ketika uncek
-    //   data.idParty = ev.person.id;
-    //   data.idRequestSlik = this.requestSlikId;
-    //   if (this.containsObject(data, this.shareholderDataChecklist)) {
-    //     _.remove(this.shareholderDataChecklist, data);
-    //   }
-    // }
-    // console.log({ ev, cif: ev.person.id, check: check.checked, test: check.checked ? true : false, data: this.shareholderDataChecklist });
-    this.checklistData.emit(this.shareholderDataChecklist);
+      this.checklistData.emit({
+        data,
+        mode: 'add',
+      });
+    } else {
+      // ketika uncek
+      this.checklistData.emit({
+        data,
+        mode: 'remove',
+      });
+    }
   }
 
   protected postLoadDataLazy(): void {

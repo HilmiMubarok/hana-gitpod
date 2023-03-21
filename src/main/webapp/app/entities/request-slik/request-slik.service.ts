@@ -73,6 +73,11 @@ export class RequestSlikService extends AbstractEntityService<any> {
     );
   }
 
+  public saveDetails(data: object[]) {
+    // /details/all
+    return this.http.post<object[]>(this.resourceUrl + '/details/all', data, { observe: 'response' }).pipe(map(res => res.body));
+  }
+
   public onSubmit(id: number, body: any): Observable<any> {
     return this.http.put<any>(this.resourceUrl + '/status/' + id, body);
   }
