@@ -126,8 +126,7 @@
                       [(ngModel)]="creditProposal.attributes.proposalType"
                       required
                       [disabled]="disabledProptype()"
-                      (selectionChange)="setSubmenu($event.value)"
-                    >
+                      (selectionChange)="setSubmenu($event.value)">
                       <mat-option value="">- Please select proposal type -</mat-option>
                       <mat-option *ngFor="let item of proposType" [value]="item.code">
                         {{ item.value }}
