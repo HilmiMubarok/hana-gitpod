@@ -51,9 +51,9 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
       this.generalParameterService
         .queryFilterBy({
           idParameterType: this.typeID,
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
+          page: 0,
+          size: 9999,
+          sort: ['code', 'asc'],
         })
         .subscribe({
           next: res => this.initDataForMatTable(res, res.headers),
