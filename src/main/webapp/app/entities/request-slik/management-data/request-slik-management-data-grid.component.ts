@@ -85,23 +85,21 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   private defineDisplayedColumns(param: string) {
-    this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'select'];
+    this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
       this.organizationManagementService
         .queryFilterBy({
-          cifNumber: cif,
-          organizationManagementType: managementType,
+          cifNumber: this.cif,
+          organizationManagementType: this.managementType,
           page: this.page,
           size: this.itemsPerPage,
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<IOrganizationManagement[]>) => (
-            (this.organizationManagementRes = res.body), this.initDataForMatTable(res, res.headers)
-          ),
+          next: (res: HttpResponse<IOrganizationManagement[]>) => this.initDataForMatTable(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
     }
