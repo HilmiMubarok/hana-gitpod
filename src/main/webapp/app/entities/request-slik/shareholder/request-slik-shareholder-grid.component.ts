@@ -15,6 +15,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import * as _ from 'lodash';
+import { RequestSlikService } from '../request-slik.service';
 
 @Component({
   selector: 'jhi-request-slik-shareholder-grid',
@@ -66,7 +67,8 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    public requestSlikService: RequestSlikService
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 10;
@@ -110,6 +112,11 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
       return _.isEqual(obj, val);
     });
     return _.isObject(res) ? true : false;
+  }
+
+  @Input() checklists;
+  isDetailChecked(row) {
+    return this.requestSlikService.isDetailChecked(row, this.checklists, 'shareholder');
   }
 
   updateChecklist(ev, check) {

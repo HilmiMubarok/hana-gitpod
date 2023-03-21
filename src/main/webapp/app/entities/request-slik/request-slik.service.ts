@@ -8,6 +8,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
@@ -59,19 +60,72 @@ export class RequestSlikService extends AbstractEntityService<any> {
     return this.http.get<any>(this.resourceUrl + '/status', { observe: 'response' }).pipe(map(res => res.body.data));
   }
 
+  public getDetailsByRequestSlikId(id: number): Observable<any> {
+    const options = new HttpParams().set('id', id);
+    return this.http
+      .get<any>(this.resourceUrl + '/details/byrequestslikid', { observe: 'response', params: options })
+      .pipe(map(res => res.body.data));
+  }
+
   public getDetail(id: number): Observable<any> {
     const options = new HttpParams().set('id', id);
     return this.http.get<any>(this.resourceUrl + '/byid', { observe: 'response', params: options }).pipe(
       switchMap(data =>
-        forkJoin(this.partyCifService.findCif(data.body.data.cif)).pipe(
+        forkJoin(this.partyCifService.findCif(data.body.data.cif), this.getDetailsByRequestSlikId(id)).pipe(
           map(detail => ({
             slik: data.body.data,
             partyCif: detail[0].body,
+            details: detail[1],
           }))
         )
       )
     );
   }
+
+  public isDetailChecked(row, details, type) {
+    if (type === 'shareholder') {
+      if (row.person !== null) {
+        const find = _.find(details, { idParty: row.person.id });
+        if (find) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        const find = _.find(details, { idParty: row.shareHolderOrg.id });
+        if (find) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    } else {
+      const find = _.find(details, { idParty: row.person.id });
+      if (find) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    // console.log('Service is checked', {
+    //   row,
+    //   details,
+    // });
+    // return true;
+  }
+  // public getDetail(id: number): Observable<any> {
+  //   const options = new HttpParams().set('id', id);
+  //   return this.http.get<any>(this.resourceUrl + '/byid', { observe: 'response', params: options }).pipe(
+  //     switchMap(data =>
+  //       forkJoin(this.partyCifService.findCif(data.body.data.cif)).pipe(
+  //         map(detail => ({
+  //           slik: data.body.data,
+  //           partyCif: detail[0].body,
+  //         }))
+  //       )
+  //     )
+  //   );
+  // }
 
   public saveDetails(data: object[]) {
     // /details/all

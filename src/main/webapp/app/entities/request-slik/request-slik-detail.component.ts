@@ -90,9 +90,11 @@ export class RequestSlikDetailComponent {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
         console.log({
+          res,
           requestSLik: res.slik,
           partyCif: res.partyCif.customer,
         });
+        this.checklists = res.details;
         this.requestSlik = res.slik;
         this.partyCif = res.partyCif.customer;
       },

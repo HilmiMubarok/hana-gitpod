@@ -89,6 +89,7 @@
       <jhi-request-slik-management-data-grid
         [cif]="partyCif.customerNumber"
         [partyCif]="partyCif"
+        [checklists]="checklists"
         managementType="MANAGEMENT_DATA"
         (checklistData)="getChecklistManagementData($event)"
       ></jhi-request-slik-management-data-grid>
@@ -96,6 +97,7 @@
       <jhi-request-slik-shareholder-grid
         [cif]="partyCif.customerNumber"
         [partyCif]="partyCif"
+        [checklists]="checklists"
         managementType="SHAREHOLDER"
         (checklistData)="getChecklistShareholder($event)"
       ></jhi-request-slik-shareholder-grid>
@@ -103,6 +105,7 @@
       <jhi-request-slik-other-grid
         [cif]="partyCif.customerNumber"
         [partyCif]="partyCif"
+        [checklists]="checklists"
         managementType="CONTROL_PERSON"
         (checklistData)="getChecklistOther($event)"
       ></jhi-request-slik-other-grid>

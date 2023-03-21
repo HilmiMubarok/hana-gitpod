@@ -15,6 +15,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import * as _ from 'lodash';
+import { RequestSlikService } from '../request-slik.service';
 
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
@@ -22,7 +23,7 @@ import * as _ from 'lodash';
 })
 export class RequestSlikManagementDataGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
   @Output() checklistData = new EventEmitter<any>();
-
+  @Input() checklists;
   @Input() public cif: string;
   @Input() public managementType: string;
   public organizationManagementRes: IOrganizationManagement[];
@@ -58,6 +59,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this._loanStatus = item;
   }
 
+  isDetailChecked(row) {
+    return this.requestSlikService.isDetailChecked(row, this.checklists, 'management');
+  }
+
   public displayedColumns: string[];
 
   requestSlikId: number;
@@ -66,7 +71,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    public requestSlikService: RequestSlikService
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 10;
