@@ -45,7 +45,7 @@ export class PartyCifDetailComponent implements OnInit {
     private TransferService: DebtorDataSlikTransferService
   ) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
-	this.partyCifStartState = this.activatedRoute.snapshot.data['content'];
+    this.partyCifStartState = this.activatedRoute.snapshot.data['content'];
     this.clickedMenu = 'customer-info';
     this.collateralInfo = [];
     this.subMenu = SUBMENU_PARTY_CIF;
@@ -93,9 +93,9 @@ export class PartyCifDetailComponent implements OnInit {
       copyPartyCif.attributes['shere-holder'] = JSON.stringify(copyPartyCif.attributes['shere-holder']);
     }
 
-	if (copyPartyCif.customerPerson.dob) {
-	  copyPartyCif.customerPerson.dob = this.partyCifStartState.customerPerson.dob;
-	}
+    if (copyPartyCif.customerPerson?.dob) {
+      copyPartyCif.customerPerson.dob = this.partyCifStartState.customerPerson.dob;
+    }
 
     return copyPartyCif;
   }

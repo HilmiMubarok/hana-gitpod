@@ -58,6 +58,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public globalSearchVal: string;
   public clickedChip: string;
   public iconTimeline: any;
+  public statusSearch = false
   public filterData: {
     [key: string]: Object;
   }[] = [];
@@ -173,6 +174,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     }
 
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
+
   }
 
   ngOnInit(): void {
@@ -408,54 +410,6 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       }
     }
 
-    if (this.currentSearch && this.currentSearch !== '') {
-      if (this.urlReportInqury) {
-        this.surveyAppraisalService
-          .searchInquiry(
-            {
-              page: this.page,
-              // query: this.currentSearch,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-            },
-            this.currentSearch
-          )
-          .subscribe({
-            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
-      } else if (this.urlAppraisalProcess) {
-        this.surveyAppraisalService
-          .searchNew(
-            {
-              page: this.page,
-              query: this.currentSearch,
-              size: this.itemsPerPage,
-              sort: ['id,desc'],
-            },
-            'Internal'
-          )
-          .subscribe({
-            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
-      } else {
-        this.surveyAppraisalService
-          .search({
-            page: this.page,
-            query: this.currentSearch,
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          })
-          .subscribe({
-            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
-      }
-    }
 
     if (this.globalSearchVal) {
       this.surveyAppraisalService
@@ -586,7 +540,13 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === null || this.currentSearch === undefined || this.currentSearch === '') {
+      this.loadAll();
+      
+    }else{
+      this.doSearch()
+    }
+    
   }
 
   private convertToTimelineModel(data: IApplicationStateLog[]) {
@@ -663,9 +623,18 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     }
     this.loadAll();
   }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 10
+    this.loadAll()
+  }
 
   public doSearch(args: any = null): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -689,7 +658,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+    
   }
 
   public goToEdit(): void {

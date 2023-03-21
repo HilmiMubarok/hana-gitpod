@@ -67,6 +67,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public isShow: boolean;
   public title: string;
   public value: string;
+  public statusSearch = false
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -103,8 +104,17 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.loadStatusChip();
     this.loadAll();
   }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 10
+    this.loadAll()
+  }
   public doSearch(): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -132,7 +142,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+    
   }
 
   public chipClick(option: Object): void {
@@ -152,7 +162,12 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    }else{
+      this.doSearch()
+    }
+   
   }
 
   private convertStatusActivateRoute(activeRoute: string): string {
@@ -204,23 +219,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
       return;
     }
 
-    if (this.currentSearch && this.currentSearch !== '') {
-      this.offeringLetterService
-        .search({
-          page: this.page - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => {
-            this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
+  
 
     this.offeringLetterService
       .queryDynamicURL(
