@@ -126,8 +126,7 @@
                       [(ngModel)]="creditProposal.attributes.proposalType"
                       required
                       [disabled]="disabledProptype()"
-                      (selectionChange)="setSubmenu($event.value)"
-                    >
+                      (selectionChange)="setSubmenu($event.value)">
                       <mat-option value="">- Please select proposal type -</mat-option>
                       <mat-option *ngFor="let item of proposType" [value]="item.code">
                         {{ item.value }}
@@ -231,7 +230,11 @@
               <div *ngIf="parentPath === 'credit-proposal-status'">
                 <jhi-credit-proposal-basic-information
                   [creditProposal]="creditProposal"
-                  *ngIf="clickedMenu === 'ID_GREATER_15_BN' || clickedMenu === 'ID_LOWER_EQUAL_15_BN' || clickedMenu === 'ID_BACK_TO_BACK'"
+                  *ngIf="
+                    clickedMenu === 'Total Exposure > IDR 15 Bio' ||
+                    clickedMenu === 'Total Exposure <= IDR 15 Bio' ||
+                    clickedMenu === 'Total Exposure Back to Back'
+                  "
                 >
                 </jhi-credit-proposal-basic-information>
               </div>
@@ -244,9 +247,9 @@
                 <div
                   *ngIf="
                     clickedMenu === 'credit-proposal-approval' ||
-                    clickedMenu === 'ID_GREATER_15_BN' ||
-                    clickedMenu === 'ID_LOWER_EQUAL_15_BN' ||
-                    clickedMenu === 'ID_BACK_TO_BACK'
+                    clickedMenu === 'Total Exposure > IDR 15 Bio' ||
+                    clickedMenu === 'Total Exposure <= IDR 15 Bio' ||
+                    clickedMenu === 'Total Exposure Back to Back'
                   "
                 >
                   <jhi-credit-proposal-basic-information [creditProposal]="creditProposal"> </jhi-credit-proposal-basic-information>
