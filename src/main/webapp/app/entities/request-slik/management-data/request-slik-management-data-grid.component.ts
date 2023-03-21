@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,12 +14,15 @@ import { OrganizationManagementService } from 'app/entities/organization-managem
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
   templateUrl: './request-slik-management-data-grid.component.html',
 })
 export class RequestSlikManagementDataGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+  @Output() checklistData = new EventEmitter<Array<Object>>();
+
   @Input() public cif: string;
   @Input() public managementType: string;
   public organizationManagementRes: IOrganizationManagement[];
@@ -57,10 +60,13 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
 
   public displayedColumns: string[];
 
+  requestSlikId: number;
+
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 10;
@@ -69,6 +75,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
+    this.requestSlikId = Number(this.router.url.split('/')[2]);
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif'] && changes['managementType']) {
@@ -100,8 +107,37 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     }
   }
 
-  updateChecklist(ev) {
-    console.log(ev);
+  protected containsObject(obj, list) {
+    const res = _.find(list, function (val) {
+      return _.isEqual(obj, val);
+    });
+    return _.isObject(res) ? true : false;
+  }
+
+  managementDataChecklist = [];
+  updateChecklist(ev, check) {
+    const data = {
+      idParty: null,
+      idRequestSlik: null,
+    };
+    if (check.checked) {
+      // ketika cek
+      data.idParty = ev.person.id;
+      data.idRequestSlik = this.requestSlikId;
+
+      if (!this.containsObject(data, this.managementDataChecklist)) {
+        this.managementDataChecklist.push(data);
+      }
+    } else {
+      // ketika uncek
+      data.idParty = ev.person.id;
+      data.idRequestSlik = this.requestSlikId;
+      if (this.containsObject(data, this.managementDataChecklist)) {
+        _.remove(this.managementDataChecklist, data);
+      }
+    }
+    // console.log({ ev, cif: ev.person.id, check: check.checked, test: check.checked ? true : false, data: this.managementDataChecklist });
+    this.checklistData.emit(this.managementDataChecklist);
   }
 
   protected postLoadDataLazy(): void {
@@ -145,48 +181,4 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
       }
     });
   }
-
-  // ======
-
-  // _partyCif;
-  // @Input()
-  // get partyCif() {
-  //   return this._partyCif;
-  // }
-  // set partyCif(items) {
-  //   this._partyCif = items;
-  // }
-
-  // constructor(protected organizationManagementService: OrganizationManagementService, protected _snackBar: MatSnackBar) {
-  //   super(_snackBar, organizationManagementService);
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log('changes');
-  // }
-
-  // @Input() public cif: string;
-  // @Input() public managementType: string;
-  // public expandedElement: IOrganizationManagement | null;
-  // public organizationManagementRes: IOrganizationManagement[];
-  // public _loanStatus: string;
-  // @Input()
-  // get organizationManagement() {
-  //   return this.items;
-  // }
-  // set organizationManagement(param: IOrganizationManagement[]) {
-  //   this.items = param;
-  // }
-
-  // @Input()
-  // get loanStatus() {
-  //   return this._loanStatus;
-  // }
-
-  // set loanStatus(item: any) {
-  //   this._loanStatus = item;
-  // }
-
-  // public displayedColumns: string[];
-  // public columnsToDisplayWithExpand = [];
 }

@@ -10,6 +10,7 @@ import { DocumentRequestSlikComponent } from './document/document-request-slik.c
 import { DocumentRequestSlikDialogComponent } from './document/dialog/document-request-slik-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { RequestSlikManagementDataGridComponent } from './management-data/request-slik-management-data-grid.component';
+import { RequestSlikShareholderGridComponent } from './shareholder/request-slik-shareholder-grid.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
@@ -20,6 +21,7 @@ import { RequestSlikManagementDataGridComponent } from './management-data/reques
     DocumentRequestSlikComponent,
     DocumentRequestSlikDialogComponent,
     RequestSlikManagementDataGridComponent,
+    RequestSlikShareholderGridComponent,
   ],
   entryComponents: [
     RequestSlikComponent,
@@ -28,6 +30,7 @@ import { RequestSlikManagementDataGridComponent } from './management-data/reques
     DocumentRequestSlikComponent,
     DocumentRequestSlikDialogComponent,
     RequestSlikManagementDataGridComponent,
+    RequestSlikShareholderGridComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

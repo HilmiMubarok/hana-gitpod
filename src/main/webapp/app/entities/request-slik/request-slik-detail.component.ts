@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik, requestSlikData } from './request-slik.model';
@@ -17,6 +17,16 @@ export class RequestSlikDetailComponent {
   requestSlik: IRequestSlik | null = null;
   partyCif;
   isLoading: Boolean = true;
+  checklists;
+
+  // Checklist
+  getChecklistManagementData(ev) {
+    console.log('management data', ev);
+  }
+
+  getChecklistShareholder(ev) {
+    console.log('shareholder', ev);
+  }
 
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;

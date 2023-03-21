@@ -68,9 +68,9 @@ export const requestSlikRoute: Routes = [
   {
     path: ':id/view',
     component: RequestSlikDetailComponent,
-    resolve: {
-      requestSlik: RequestSlikResolve,
-    },
+    // resolve: {
+    //   requestSlik: RequestSlikResolve,
+    // },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.requestSlik.home.title',
