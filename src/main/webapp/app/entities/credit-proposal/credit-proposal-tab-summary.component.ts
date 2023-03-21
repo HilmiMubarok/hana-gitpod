@@ -616,6 +616,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
         .subscribe(res => {
           const blob = window.URL.createObjectURL(new Blob([res.body], { type: 'application/pdf' }));
           window.open(blob);
+          // window.open(blob);
 
           /* const reader = new FileReader();
           reader.readAsDataURL(res.body!);

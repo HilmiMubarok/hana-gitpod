@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef  } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -92,7 +92,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     public dialog: MatDialog,
     public _router: Router,
     private creditProposalService: CreditProposalService,
-	private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -191,7 +191,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
           commitedLine: 'false',
           currency: cpFacility[i].LNB_BASE_LON_CCY,
           currentInterestRate: cpFacility[i].FILN11_SPREAD_RT,
-          dateOS: '2022-11-24T10:57:14.435Z',
+          // dateOS: '2022-11-24T10:57:14.435Z',
+          dateOS: this.creditProposal.debtorData.lastSynchDate,
           disbursementCondition: '',
           facilityType: cpFacility[i].FACILITY_TYPE,
           gracePeriod: '0',
@@ -235,7 +236,6 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
         dataParty.push(data);
       }
-
       const appProduct: IApplicationProduct = this.applicationProduct;
       let idx: number;
       if (!this.applicationProduct.id) {
@@ -322,7 +322,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.applicationProduct.attributes = attr;
     }
 
-	this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
+    this.applicationProductStartState = lodash.cloneDeep(this.applicationProduct);
 
     const dialogRef = this.dialog.open(CreditProposalLoanFacilityDialogComponent, {
       width: '80vw',
@@ -336,12 +336,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-		this.applicationProduct = res.applicationProduct;
-		this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
-		this.onSave(true);
+        this.applicationProduct = res.applicationProduct;
+        this.creditProposal.collateralProductRelations = [...res.creditProposal.collateralProductRelations];
+        this.onSave(true);
       } else {
-		this.onSave(false);
-	  }
+        this.onSave(false);
+      }
     });
   }
 
@@ -362,16 +362,16 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       }
 
       if (idx === -1) {
-		if (mark) {
-		  const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+        if (mark) {
+          const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
           copyApplicationProduct.applicationId = this.creditProposal.id;
           this.dataParty = [...this.dataParty, this.applicationProduct];
           this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-		}
+        }
       } else {
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
         this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-		this.dataParty = [...this.dataParty];
+        this.dataParty = [...this.dataParty];
       }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
@@ -379,7 +379,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       });
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
       this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-	  this.dataParty = [...this.dataParty];
+      this.dataParty = [...this.dataParty];
     }
   }
 

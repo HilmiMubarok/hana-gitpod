@@ -20,6 +20,7 @@ import { PersonService } from '../person/person.service';
 import { PartyGroupService } from '../party-group/party-group.service';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
 import { MessageService } from 'primeng/api';
+import { CashCustomerService } from './cash-cusomer.service';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -70,7 +71,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected customerService: CustomerService,
     protected personService: PersonService,
     protected corporateService: PartyGroupService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    private cashCustomerService: CashCustomerService
   ) {
     super(_snackBar, customerService, messageService);
 
@@ -99,11 +101,29 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    }else{
+      this.search()
+    }
   }
 
   public search() {
-    this.loadAll();
+    this.statusSearch = true
+      this.cashCustomerService
+        .cashCustomers({
+          page: this.page,
+          query: this.currentSearch,
+          size: this.itemsPerPage,
+          sort: this.sortData(),
+        })
+        .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoad(res)))
+        .subscribe({
+          next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+          error: (res: HttpErrorResponse) => this.onError(res.message),
+        });
+      return;
+    
   }
 
   public cifNumber: any;
@@ -154,25 +174,18 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     }
   }
 
+public statusSearch = false
+ public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 0
+    this.loadAll()
+  }
+
   private loadAll(): void {
     this.loading = true;
-
-    if (this.currentSearch && this.currentSearch !== '') {
-      this.customerService
-        .search({
-          page: this.page - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
     this.customerService
       .query({
         page: this.page,

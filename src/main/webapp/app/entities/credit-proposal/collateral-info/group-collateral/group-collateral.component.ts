@@ -312,11 +312,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -325,16 +321,6 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
           return '';
         }
         return data.marketValueOriginalCcy;
-      }
-    } else {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data) {
-        if (data.attributes.marketValueCcy === undefined || data.attributes.marketValueCcy === null) {
-          return '';
-        }
-        return data.attributes.marketValueCcy;
       }
     }
     return 'IDR';
