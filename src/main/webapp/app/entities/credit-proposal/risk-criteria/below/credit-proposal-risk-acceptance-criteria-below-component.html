@@ -467,20 +467,19 @@
               <div class="col-6">
                 <div class="form-group">
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-combobox
-                      [dataSource]="collateralStatus"
-                      placeholder="Collateral status"
-                      [(ngModel)]="item.attributes['cpRacBelow'].Cs"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-combobox>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Collateral Status</mat-label>
+                      <mat-select name="collateralStatus" [(ngModel)]="item.attributes['cpRacBelow'].Cs">
+                        <mat-option value="">- Please Select -</mat-option>
+                        <mat-option *ngFor="let item of collateralStatus" [value]="item.code"> {{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">
                       <div class="col-4">Collateral status</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cs}}</div>
+                      <div class="col col-lg-2">{{ collateralStatuss}}</div>
                     </div>
                   </section>
                 </div>
@@ -522,20 +521,19 @@
               <div class="col-6">
                 <div class="form-group">
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-                    <ejs-combobox
-                      [dataSource]="collateralCoverage"
-                      placeholder="Collateral Coverage based on LV:"
-                      [(ngModel)]="item.attributes['cpRacBelow'].Cv"
-                      cssClass="e-outline"
-                      floatLabelType="Auto"
-                    >
-                    </ejs-combobox>
+                    <mat-form-field class="w-100" appearance="outline">
+                      <mat-label>Collateral Coverage based on LV</mat-label>
+                      <mat-select name="collateralCoverage" [(ngModel)]="item.attributes['cpRacBelow'].Cv">
+                        <mat-option value="">- Please Select -</mat-option>
+                        <mat-option *ngFor="let item of collateralCoverage" [value]="item.code"> {{ item.value }} </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row py-3">
                       <div class="col-4">Collateral Coverage based on LV</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">{{ item.attributes['cpRacBelow'].Cv}}</div>
+                      <div class="col col-lg-2">{{ collateralCoverages}}</div>
                     </div>
                   </section>
                 </div>

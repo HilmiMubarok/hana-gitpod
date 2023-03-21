@@ -52,6 +52,7 @@ export interface IDebtorData {
   strAccountNumberIDR?: string;
   strAccountNumberUSD?: string;
   pic?: string;
+  customerType?: string;
   lastSynchDate?: Date;
   lastSynchBy?: string;
 }
@@ -110,6 +111,7 @@ export class DebtorData implements IDebtorData {
     public strAccountNumberIDR?: string,
     public strAccountNumberUSD?: string,
     public pic?: string,
+    public customerType?: string,
     public lastSynchDate?: Date,
     public lastSynchBy?: string
   ) {
