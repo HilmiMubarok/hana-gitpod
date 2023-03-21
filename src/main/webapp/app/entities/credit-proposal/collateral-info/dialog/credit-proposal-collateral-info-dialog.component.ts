@@ -21,6 +21,7 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { Page } from '@syncfusion/ej2-angular-grids';
 
 export const MY_FORMATS = {
   parse: {
@@ -94,7 +95,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     'LAINNYA',
   ];
   public lovCollateralStatus: any;
-  public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
+  public insuranceTypes = [];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   public collateralGradings: string;
@@ -162,7 +163,21 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.checkStatusCOllateral();
     this.getFacilityType();
     this.lovBindingType();
-    this.addLovRank();
+    this.lovInsuranceTypes();
+  }
+
+  public lovInsuranceTypes() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public lovBindingType() {
