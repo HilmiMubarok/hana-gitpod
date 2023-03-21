@@ -36,7 +36,10 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     this.getBucket().then(() => {
       this.getFiles(this.partyCif.partyId).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
-          this.typeData = res.body;
+
+          const personalCorporate = res.body.filter(obj => obj.customerType === this.partyCif.customerType);
+          const nullData = res.body.filter(obj => obj.customerType === null)
+          this.typeData = [...personalCorporate,...nullData];
 
           for (let i = 0; i < this.typeData.length; i++) {
             this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {

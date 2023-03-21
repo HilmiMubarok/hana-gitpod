@@ -52,6 +52,7 @@ export interface IDebtorData {
   strAccountNumberIDR?: string;
   strAccountNumberUSD?: string;
   pic?: string;
+  customerType?: string
 }
 
 export class DebtorData implements IDebtorData {
@@ -107,7 +108,8 @@ export class DebtorData implements IDebtorData {
     public separateAssetAggrementDesc?: string,
     public strAccountNumberIDR?: string,
     public strAccountNumberUSD?: string,
-    public pic?: string
+    public pic?: string,
+    public customerType?: string
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;

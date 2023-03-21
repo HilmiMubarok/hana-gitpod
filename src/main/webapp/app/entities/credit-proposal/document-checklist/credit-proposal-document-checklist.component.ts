@@ -41,19 +41,23 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
       this.getFiles(String(this.creditProposal.id)).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
           this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
-          this.typeData = [...res.body, ...res1.body];
-    
+          const arrayGroub = [...res.body, ...res1.body];
+
+          const personalCorporate = arrayGroub.filter(obj => obj.customerType === this.creditProposal.customerType);
+          const nullData = arrayGroub.filter(obj => obj.customerType === null)
+          
+          this.typeData = [...personalCorporate, ...nullData]
           for (let i = 0; i < this.typeData.length; i++) {
-            this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {
-              this.typeData[i].level = re.body;
-    
-              const mergeArray = this.typeData[i].level.map(item1 => {
-                const file = this.file.find(item2 => item2.idFile === item1.id);
-                return { ...item1, ...file };
+              this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {
+                this.typeData[i].level = re.body;
+      
+                const mergeArray = this.typeData[i].level.map(item1 => {
+                  const file = this.file.find(item2 => item2.idFile === item1.id);
+                  return { ...item1, ...file };
+                });
+      
+                this.typeData[i].level = mergeArray;
               });
-    
-              this.typeData[i].level = mergeArray;
-            });
           }
         });
         });
