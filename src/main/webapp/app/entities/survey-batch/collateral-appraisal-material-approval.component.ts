@@ -178,7 +178,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
      this.currentSearch = ''
      this.page = 0
  
-     this.itemsPerPage = 0
+     this.itemsPerPage = 10
      this.loadAll()
    }
 
