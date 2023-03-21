@@ -94,7 +94,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
     if (this.source === '') {
       if (this.selectedMenu === 'CHECKLIST') {
         this.creditProposalCollateralInfoRemarksCheckComponent.triggeredSave();
-        this.creditProposalCollateralInfoChecklistComponent?.refresh();
+        this.creditProposalCollateralInfoChecklistComponent.refresh();
       } else {
         if (proposalType === 'Total Exposure > IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
