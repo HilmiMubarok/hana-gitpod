@@ -439,9 +439,9 @@ export const ANIMATION: Object = {
   },
 };
 
-export const ID_GREATER_15_BN = 'ID_GREATER_15_BN';
-export const ID_LOWER_EQUAL_15_BN = 'ID_LOWER_EQUAL_15_BN';
-export const ID_BACK_TO_BACK = 'ID_BACK_TO_BACK';
+export const ID_GREATER_15_BN = 'Total Exposure > IDR 15 Bio';
+export const ID_LOWER_EQUAL_15_BN = 'Total Exposure <= IDR 15 Bio';
+export const ID_BACK_TO_BACK = 'Total Exposure Back to Back';
 export const PROPOSAL_TYPE: IEJOptionNode[] = [
   {
     id: ID_GREATER_15_BN,

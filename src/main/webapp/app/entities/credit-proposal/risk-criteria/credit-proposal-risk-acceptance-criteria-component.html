@@ -1,5 +1,5 @@
 <div class="row">
-  <div *ngIf="item.attributes['proposalType'] === 'ID_LOWER_EQUAL_15_BN'">
+  <div *ngIf="item.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
     <ejs-menu
       [enableScrolling]="true"
       cssClass="e-rounded-menu e-custom-scroll"
@@ -8,7 +8,7 @@
     ></ejs-menu>
   </div>
 
-  <div *ngIf="item.attributes['proposalType']  ==='ID_GREATER_15_BN'" [item]="creditProposal">
+  <div *ngIf="item.attributes['proposalType']  ==='Total Exposure > IDR 15 Bio'" [item]="creditProposal">
     <div class="mx-3 py-3">
       <div class="row justify-content-between mb-5">
         <div class="e-sample-resize-container e-card-resize-container mb-5">
@@ -101,14 +101,14 @@
     </div>
   </div>
 
-  <div *ngIf="item.attributes['proposalType']  === 'ID_LOWER_EQUAL_15_BN'||''" [item]="creditProposal">
+  <div *ngIf="item.attributes['proposalType']  === 'Total Exposure <= IDR 15 Bio'||''" [item]="creditProposal">
     <div class="mx-3 py-3">
       <jhi-credit-proposal-risk-acceptance-criteria-below #creditProposalRiskAcceptanceCriteriaBelowComponent [item]="item">
       </jhi-credit-proposal-risk-acceptance-criteria-below>
     </div>
   </div>
 
-  <div *ngIf="item.attributes[ 'proposalType']==='ID_BACK_TO_BACK' " [creditProposal]="creditProposal ">
+  <div *ngIf="item.attributes[ 'proposalType']==='Total Exposure Back to Back' " [creditProposal]="creditProposal ">
     <div class="mx-3 py-3">
       <jhi-credit-proposal-risk-acceptance-criteria-back-to-back
         #creditProposalAceptanceCriteriaBackToBackComponent
