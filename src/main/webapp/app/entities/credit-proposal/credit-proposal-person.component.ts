@@ -69,7 +69,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public maritalStatuses: IOptionNode[];
   public genders: IOptionNode[];
   private _deptorData: ICreditProposal;
-
+  public ifcRiskCategory: string;
+  public callReportCategory: string;
   @Input()
   get deptorData() {
     return this._deptorData;
@@ -169,6 +170,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       this.item.lastName = '';
     }
   }
+
   public lovCallreport() {
     this.generalParameterService
       .queryFilterBy({
@@ -180,6 +182,11 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         this.callReportCategoryData = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        for (let i = 0; i < this.callReportCategoryData.length; i++) {
+          if (this.callReportCategoryData[i].code === this.deptorData.debtorData.callReportCategory) {
+            this.callReportCategory = this.callReportCategoryData[i].value;
+          }
+        }
       });
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -225,6 +232,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
       console.log('Deptor data Changes', this._deptorData);
     }
   }
+
   public getLov() {
     this.generalParameterService
       .queryFilterBy({
@@ -236,6 +244,11 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        for (let i = 0; i < this.ifcRiskCategoryData.length; i++) {
+          if (this.ifcRiskCategoryData[i].code === this.deptorData.debtorData.ifcRiskCategory) {
+            this.ifcRiskCategory = this.ifcRiskCategoryData[i].value;
+          }
+        }
       });
   }
 
@@ -247,7 +260,9 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
         size: 9999,
       })
       .subscribe(res => {
-        this.pep = res.body;
+        this.pep = _.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 

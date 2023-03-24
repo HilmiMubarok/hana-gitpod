@@ -286,7 +286,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
         this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
         this.optionsMVImbPs = res.body;
         this.filteredMVImbPs();
-        this.MVImbPsCcy = this.optionsMVImbPs.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
+        this.MVImbPsCcy = this.optionsMVImbPs.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
       });
   }
 
@@ -365,11 +365,11 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   }
 
   public getMVImbPsCcy() {
-    this.collateralProperty.attributes.marketValueCcy = this.MVImbPsCcy.id;
+    this.collateralProperty.marketValueOriginalCcy = this.MVImbPsCcy.id;
 
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService
-      .getCurrency(this.collateralProperty.attributes.marketValueCcy, 'IDR', setDate.replace(/-/g, ''))
+      .getCurrency(this.collateralProperty.marketValueOriginalCcy, 'IDR', setDate.replace(/-/g, ''))
       .subscribe(res => {
         if (res.body[0]?.factor !== undefined) {
           this.currency = Number(res.body[0]?.factor);

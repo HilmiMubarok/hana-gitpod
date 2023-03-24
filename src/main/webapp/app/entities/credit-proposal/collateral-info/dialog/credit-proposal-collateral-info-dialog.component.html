@@ -433,7 +433,7 @@
               <div class="col-4">Collateral Grading</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.collateralGrading }}
+                {{ collateralGradings }}
               </div>
             </div>
           </section>
@@ -471,8 +471,8 @@
                   <mat-label>Insurance Type</mat-label>
                   <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType">
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of insuranceTypes" [value]="item">
-                      {{ item }}
+                    <mat-option *ngFor="let item of insuranceTypes" [value]="code">
+                      {{ item.value }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -517,8 +517,8 @@
                   <mat-label>Rank</mat-label>
                   <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank">
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of lovRank" [value]="item">
-                      {{ item }}
+                    <mat-option *ngFor="let item of lovRank" [value]="item.code">
+                      {{ item.value }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>

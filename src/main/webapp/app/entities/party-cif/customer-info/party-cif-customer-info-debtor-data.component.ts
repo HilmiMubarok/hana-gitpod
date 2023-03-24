@@ -305,6 +305,9 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
         } else if (this.partyCif.debtorData.depositCapital > 5000000000 && this.partyCif.debtorData.depositCapital <= 10000000000) {
           this.partyCif.debtorData.umkmClassification = 'MIDDLE';
         }
+        else if (this.partyCif.debtorData.depositCapital > 10000000000 && this.partyCif.debtorData.depositCapital < 50000000000) {
+          this.partyCif.debtorData.umkmClassification = 'OTHER';
+        }
 
         /* if(this.partyCif.debtorData.depositCapital <= 1000000000 || this.partyCif.debtorData.annualSales <= 2000000000){
             this.partyCif.debtorData.umkmClassification = 'MICRO';

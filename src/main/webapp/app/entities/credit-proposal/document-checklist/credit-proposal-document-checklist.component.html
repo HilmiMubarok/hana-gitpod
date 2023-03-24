@@ -1,5 +1,5 @@
 <div *ngFor="let item of typeData">
-  <mat-card *ngIf="item.id !== 'DOC_IDD_IND' && item.statusId === 'ACTIVE'" style="margin-top: 12px">
+  <mat-card *ngIf="item.statusId === 'ACTIVE'" style="margin-top: 12px">
     <mat-card-header>
       <mat-card-subtitle>{{ item.description }}</mat-card-subtitle>
     </mat-card-header>
@@ -19,7 +19,7 @@
         </ng-container>
         <ng-container matColumnDef="dueDate">
           <th mat-header-cell *matHeaderCellDef>Due Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.dueDate | date: 'medium' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.dueDate | date: 'YYYY-MM-dd' }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>Status</th>

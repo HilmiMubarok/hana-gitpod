@@ -24,7 +24,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public remarksColl?: any = [];
   public status: any = [];
   public dataInput: any = [];
-
+  public collateralCoverages: string;
   constructor(
     protected creditProposalService: CreditProposalService,
     protected positionService: PositionService,
@@ -32,7 +32,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   ) {}
   public _item: ICreditProposal;
   public data: Object[];
-
+  public collateralStatuss: string;
   @Input()
   get item() {
     return this._item;
@@ -43,7 +43,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   }
 
   public displayColumns: string[] = ['no', 'NilaiPembelian ', 'FacilityType', 'JenisJaminan', 'KeteranganJaminan', 'action'];
-
+  public collateralInsurances: string;
   public onSelect(value: string, data: any): void {
     // console.log('bot', data, value);
 
@@ -355,18 +355,10 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   ];
 
   public Cs: string;
-  public collateralStatus: object = [
-    'Vacant',
-
-    'Occupied by debtor/debtors',
-
-    'Leased to other parties (with lease 2 years)',
-
-    'Leased to other parties (with lease > 2 years)',
-  ];
+  public collateralStatus = [];
 
   public Cv: string;
-  public collateralCoverage: object = ['Increase', 'Stable (±10% Change)', 'Decrease'];
+  public collateralCoverage = [];
 
   // public Ca: string;
   // public creditApplication: object = ['Yes', 'No'];
@@ -380,7 +372,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
 
   ngOnInit(): void {
     this.refreshRacBelow();
-    this.collateralInsuranceLov();
+    this.loadLov();
   }
 
   public refreshRacBelow() {
@@ -439,7 +431,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
     }
   }
 
-  public collateralInsuranceLov() {
+  public loadLov() {
     this.generalParameterService
       .queryFilterBy({
         idParameterType: 'COLLATERAL_INSURANCE',
@@ -450,6 +442,44 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         this.collateralInsurance = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        for (let i = 0; i < this.collateralInsurance.length; i++) {
+          if (this.collateralInsurance[i].code === this.item.attributes['cpRacBelow'].Ci) {
+            this.collateralInsurances = this.collateralInsurance[i].value;
+          }
+        }
+      });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_COVERAGE_BASED_ON_LV',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralCoverage = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralCoverage.length; i++) {
+          if (this.collateralCoverage[i].code === this.item.attributes['cpRacBelow'].Cv) {
+            this.collateralCoverages = this.collateralInsurance[i].value;
+          }
+        }
+      });
+
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_COLLATERAL_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralStatus = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralStatus.length; i++) {
+          if (this.collateralStatus[i].code === this.item.attributes['cpRacBelow'].Cs) {
+            this.collateralStatuss = this.collateralStatus[i].value;
+          }
+        }
       });
   }
 }

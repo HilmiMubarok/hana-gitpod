@@ -69,6 +69,7 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public totalPlafond: number;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -101,16 +102,18 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
   }
 
   ngOnInit(): void {
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-    }
+    this.fungsiSumcredit().then(() => {
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+        this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      }
 
-    // this.isViewMode && this.displayedColumns.pop();
+      // this.isViewMode && this.displayedColumns.pop();
 
-    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-      this.isChecked = true;
-    }
-    this.setCertyficateType();
+      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+        this.isChecked = true;
+      }
+      this.setCertyficateType();
+    });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -144,11 +147,41 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     }
   }
 
-  public presentage(value: string) {
+  public presentage(value: string, status: string) {
+    // console.log('cekd', value);
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
-      return 0 + '%';
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + '%';
+    } else if (num === 'NaN') {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
+      }
+      return '0.00' + '%';
     } else {
+      if (status === 'mv') {
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = num;
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = num;
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = num;
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = num;
+      }
       return num + '%';
     }
   }
@@ -254,33 +287,39 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     });
   }
 
-  fungsiSumcredit() {
-    let result: number;
-    let dolar: number;
-    result = 0;
-    dolar = 0;
-    const dataFilter = this.creditProposal.products.filter(
-      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-    );
-    if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.totalPlafond !== undefined) {
-            result = result + Number(filterIdr[i].attributes.totalPlafond);
+  private fungsiSumcredit(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let result: number;
+      let dolar: number;
+      result = 0;
+      dolar = 0;
+
+      const dataFilter = this.creditProposal.products.filter(
+        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+      );
+
+      if (dataFilter.length > 0) {
+        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].attributes.totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].attributes.totalPlafond);
+            }
+          }
+        }
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].attributes.totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
-          }
-        }
-      }
-    }
-    return result + dolar;
+
+      this.totalPlafond = result + dolar;
+      resolve();
+    });
   }
 
   countKJJPLV(collateral: ICollateral) {
@@ -471,29 +510,15 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data) {
-        if (data.marketValueOriginalCcy === undefined) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
           return '';
         }
         return data.marketValueOriginalCcy;
-      }
-    } else {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data) {
-        if (data.attributes.marketValueCcy === undefined || data.marketValueOriginalCcy === null) {
-          return '';
-        }
-        return data.attributes.marketValueCcy;
       }
     }
     return 'IDR';
@@ -769,5 +794,9 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
       }
     }
     return '';
+  }
+  public getBindingCalculate() {
+    const biddingValue = this.creditProposal.attributes['binding'];
+    return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
   }
 }

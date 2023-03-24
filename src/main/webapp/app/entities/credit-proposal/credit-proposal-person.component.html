@@ -732,7 +732,7 @@
                       <div class="col-4">Call Report Category</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.debtorData.callReportCategory }}
+                        {{ callReportCategory }}
                       </div>
                     </div>
                   </section>
@@ -920,7 +920,7 @@
                         <mat-label>IFC & Risk Category</mat-label>
                         <mat-select name="riskCategory" [(ngModel)]="deptorData.debtorData.ifcRiskCategory">
                           <mat-option value="">Please Select</mat-option>
-                          <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+                          <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.value">
                             {{ item.value }}
                           </mat-option>
                         </mat-select>
@@ -932,7 +932,7 @@
                       <div class="col-4">IFC & Risk Category</div>
                       <div class="col-md-auto">:</div>
                       <div class="col col-lg-4">
-                        {{ deptorData.debtorData.ifcRiskCategory }}
+                        {{ ifcRiskCategory }}
                       </div>
                     </div>
                   </section>

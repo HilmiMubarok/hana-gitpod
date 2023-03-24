@@ -21,6 +21,7 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { Page } from '@syncfusion/ej2-angular-grids';
 
 export const MY_FORMATS = {
   parse: {
@@ -94,10 +95,10 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     'LAINNYA',
   ];
   public lovCollateralStatus: any;
-  public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
+  public insuranceTypes = [];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
-
+  public collateralGradings: string;
   constructor(
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
@@ -140,9 +141,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.insurance = this.data.insurance;
     this.insuranceStart = lodash.cloneDeep(this.insurance);
     this.matrikBindingType = this.data.matrikBindingType;
-    for (let i = 1; i < 101; i++) {
-      this.lovRank.push(i.toString());
-    }
+    // for (let i = 1; i < 101; i++) {
+    //   this.lovRank.push(i.toString());
+    // }
     this.lovCollateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.dataCertDueDate = data.certDueDate;
@@ -162,6 +163,21 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.checkStatusCOllateral();
     this.getFacilityType();
     this.lovBindingType();
+    this.lovInsuranceTypes();
+  }
+
+  public lovInsuranceTypes() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public lovBindingType() {
@@ -173,6 +189,20 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       })
       .subscribe(res => {
         this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public addLovRank() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RANK',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lovRank = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
@@ -196,7 +226,14 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
         size: 9999,
       })
       .subscribe(res => {
-        this.collateralGrading = res.body;
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralGrading.length; i++) {
+          if (this.collateralGrading[i].code === this.collateral.collateralGrading) {
+            this.collateralGradings = this.collateralGrading[i].value;
+          }
+        }
       });
   }
 

@@ -77,6 +77,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public matrikBindingType;
   public facilityTypeMatrik: any;
   public collateralCodeMatrik: any;
+  public collateralGradings: string;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -170,7 +171,14 @@ export class CollateralInfoDialogTempComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.collateralGrading = res.body;
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralGrading.length; i++) {
+          if (this.collateralGrading[i].code === this.collateral.collateralGrading) {
+            this.collateralGradings = this.collateralGrading[i].value;
+          }
+        }
       });
   }
 

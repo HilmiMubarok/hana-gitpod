@@ -87,35 +87,35 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     const num = parseFloat(value).toFixed(2);
     if (num === 'Infinity') {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage  = '0.00'
-      }else if(status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage  = '0.00'
-      }else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage  = '0.00'
-      }else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage  = '0.00'
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
       }
       return '0.00' + '%';
     } else if (num === 'NaN') {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage  = '0.00'
-      }else if(status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage  = '0.00'
-      }else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage  = '0.00'
-      }else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage  = '0.00'
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = '0.00';
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = '0.00';
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = '0.00';
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = '0.00';
       }
       return '0.00' + '%';
     } else {
       if (status === 'mv') {
-        this.creditProposal.attributes.coverageTotal.mvInternalCoverage  = num
-      }else if(status === 'lv') {
-        this.creditProposal.attributes.coverageTotal.lvInternalCoverage  = num
-      }else if (status === 'mvKjjp') {
-        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage  = num
-      }else if (status === 'lvKjjp') {
-        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage  = num
+        this.creditProposal.attributes.coverageTotal.mvInternalCoverage = num;
+      } else if (status === 'lv') {
+        this.creditProposal.attributes.coverageTotal.lvInternalCoverage = num;
+      } else if (status === 'mvKjjp') {
+        this.creditProposal.attributes.coverageTotal.mvKjjpCoverage = num;
+      } else if (status === 'lvKjjp') {
+        this.creditProposal.attributes.coverageTotal.lvKjjpCoverage = num;
       }
       return num + '%';
     }
@@ -494,11 +494,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
 
   public getCurrency(collateral: ICollateral) {
     let data: ICollateralProperty;
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
-    ) {
+    if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -508,19 +504,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         }
         return data.marketValueOriginalCcy;
       }
-    } else {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data) {
-        if (data.attributes.marketValueCcy === undefined) {
-          return '';
-        }
-        return data.attributes.marketValueCcy;
-      }
     }
     return 'IDR';
   }
+
   private fungsiSumcredit(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       let result: number;
@@ -826,5 +813,10 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
     }
     return '';
+  }
+
+  public getBindingCalculate() {
+    const biddingValue = this.creditProposal.attributes['binding'];
+    return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
   }
 }

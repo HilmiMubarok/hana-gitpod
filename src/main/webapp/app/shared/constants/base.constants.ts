@@ -75,9 +75,9 @@ export enum CATEGORY_DEBTOR {
 }
 
 export enum UMKM_CLASSIFICATION {
-  MICRO = 'Total Penjualan <= 1M Or Modal Disetor <= 2M',
-  SMALL = 'Total penjualan <= 5M OR Modal disetor <= 15M',
-  MIDDLE = 'Total penjualan <= 10M OR Modal disetor <= 50M',
+  MICRO = 'Micro',
+  SMALL = 'Kecil',
+  MIDDLE = 'Menengah',
   OTHER = 'Non-UMKM',
 }
 
@@ -439,9 +439,9 @@ export const ANIMATION: Object = {
   },
 };
 
-export const ID_GREATER_15_BN = 'ID_GREATER_15_BN';
-export const ID_LOWER_EQUAL_15_BN = 'ID_LOWER_EQUAL_15_BN';
-export const ID_BACK_TO_BACK = 'ID_BACK_TO_BACK';
+export const ID_GREATER_15_BN = 'Total Exposure > IDR 15 Bio';
+export const ID_LOWER_EQUAL_15_BN = 'Total Exposure <= IDR 15 Bio';
+export const ID_BACK_TO_BACK = 'Total Exposure Back to Back';
 export const PROPOSAL_TYPE: IEJOptionNode[] = [
   {
     id: ID_GREATER_15_BN,

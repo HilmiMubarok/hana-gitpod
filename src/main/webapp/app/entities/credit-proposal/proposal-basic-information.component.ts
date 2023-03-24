@@ -82,6 +82,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public tasks: IProcessTask[] = new Array<IProcessTask>();
 
   public creditProposal: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
 
   public proposalType: object[];
 
@@ -130,6 +131,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     public generalParameterService: GeneralParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -194,9 +196,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTitleMenu();
   }
 
-  public setSubmenu(event: IEJOptionNode): void {
+  public setSubmenu(event: Object): void {
     if (event) {
-      if (event.id === ID_GREATER_15_BN) {
+      if (event === ID_GREATER_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -212,7 +214,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
         }
-      } else if (event.id === ID_LOWER_EQUAL_15_BN) {
+      } else if (event === ID_LOWER_EQUAL_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -228,7 +230,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
         }
-      } else if (event.id === ID_BACK_TO_BACK) {
+      } else if (event === ID_BACK_TO_BACK) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -610,6 +612,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 
+  public valueCpLendingProgram: [];
   public lendingProgramParameter() {
     this.lendingProgramParameterService
       .query({
@@ -617,7 +620,14 @@ export class ProposalBasicInformationComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.lendingProgram = res.body;
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
       });
   }
 
@@ -641,7 +651,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     const tempRouter = this.router.url.split('/')[1];
 
     if (tempRouter === 'cp-status-approval') {
-      if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
+      // if (this.recomendation && copyCreditProposal.attributes['positionLogin']) {
+      if (copyCreditProposal.attributes['positionLogin']) {
         if (copyCreditProposal.notes.length > 0) {
           for (let i = 0; i < copyCreditProposal.notes.length; i++) {
             if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
@@ -721,6 +732,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
+
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
 
     return copyCreditProposal;
   }

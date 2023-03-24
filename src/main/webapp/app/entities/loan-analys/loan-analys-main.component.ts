@@ -5,6 +5,7 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
+import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
@@ -91,6 +92,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public saveWordOpinionCondition: Boolean = false;
 
   public creditProposal: ICreditProposal;
+  public creditProposalStartState: ICreditProposal;
   public position: IPosition[];
   public currentAccount: Account;
   public applicationRoles: IApplicationRole[];
@@ -144,10 +146,12 @@ export class LoanAnalysMainComponent implements OnInit {
     public loanAnalystService: LoanAnalysService,
     private storageService: StorageService,
     private http: HttpClient,
-    private generalParameterService: GeneralParameterService
+    private generalParameterService: GeneralParameterService,
+    private lendingProgramParameterService: LendingProgramParameterService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -440,6 +444,7 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lendingProgramParameter();
     this.lovProposalType();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
@@ -884,6 +889,11 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
+
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
 
     return copyCreditProposal;
   }
@@ -1392,6 +1402,26 @@ export class LoanAnalysMainComponent implements OnInit {
         this.http.get('/services/report/api/report/compliance/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
     }
+  }
+
+  public lendingProgram = [];
+  public valueCpLendingProgram: [];
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
+      });
   }
 }
 
