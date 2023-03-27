@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrganizationManagementDialogComponent } from 'app/entities/organization-management/organization-management-dialog.component';
 import {
   IOrganizationManagement,
@@ -10,41 +10,22 @@ import {
   OrganizationManagementAttributeManagementData,
   OrganizationManagementAttributeShareholder,
 } from 'app/entities/organization-management/organization-management.model';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { OrganizationManagementService } from 'app/entities/organization-management/organization-management.service';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
-import lodash from 'lodash';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
+import * as _ from 'lodash';
+import { RequestSlikService } from '../request-slik.service';
+
 @Component({
-  selector: 'jhi-debtor-data-organization-management-list',
-  templateUrl: './debtor-data-organization-management-list.component.html',
-  styleUrls: ['./management-data.css'],
-  animations: [
-    trigger('detailExpand', [
-      state(
-        'collapsed',
-        style({
-          height: '0px',
-          minHeight: '0',
-        })
-      ),
-      state(
-        'expanded',
-        style({
-          height: '*',
-        })
-      ),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  selector: 'jhi-request-slik-other-grid',
+  templateUrl: './request-slik-other-grid.component.html',
 })
-export class DebtorDataOrganizationManagementListComponent
-  extends AbstractEntityMaterialComponent<IOrganizationManagement>
-  implements OnChanges
-{
+export class RequestSlikOtherGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+  @Output() checklistData = new EventEmitter<any>();
+
   @Input() public cif: string;
   @Input() public managementType: string;
-  public expandedElement: IOrganizationManagement | null;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
   @Input()
@@ -79,12 +60,15 @@ export class DebtorDataOrganizationManagementListComponent
   }
 
   public displayedColumns: string[];
-  public columnsToDisplayWithExpand = [];
+
+  requestSlikId: number;
 
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router,
+    public requestSlikService: RequestSlikService
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 10;
@@ -93,6 +77,7 @@ export class DebtorDataOrganizationManagementListComponent
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
+    this.requestSlikId = Number(this.router.url.split('/')[2]);
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif'] && changes['managementType']) {
@@ -102,34 +87,58 @@ export class DebtorDataOrganizationManagementListComponent
   }
 
   private defineDisplayedColumns(param: string) {
-    if (param === 'MANAGEMENT_DATA') {
-      this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-    } else if (param === 'SHAREHOLDER') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-    } else if (param === 'CONTROL_PERSON') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-    }
+    this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
       this.organizationManagementService
         .queryFilterBy({
-          cifNumber: cif,
-          organizationManagementType: managementType,
+          cifNumber: this.cif,
+          organizationManagementType: this.managementType,
           page: this.page,
           size: this.itemsPerPage,
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<IOrganizationManagement[]>) => (
-            (this.organizationManagementRes = res.body), this.initDataForMatTable(res, res.headers)
-          ),
+          next: (res: HttpResponse<IOrganizationManagement[]>) => this.initDataForMatTable(res, res.headers),
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
+    }
+  }
+
+  protected containsObject(obj, list) {
+    const res = _.find(list, function (val) {
+      return _.isEqual(obj, val);
+    });
+    return _.isObject(res) ? true : false;
+  }
+
+  @Input() checklists;
+  isDetailChecked(row) {
+    return this.requestSlikService.isDetailChecked(row, this.checklists, 'other');
+  }
+
+  updateChecklist(ev, check) {
+    const data = {
+      idParty: null,
+      idRequestSlik: null,
+    };
+    data.idParty = ev.person.id;
+    data.idRequestSlik = this.requestSlikId;
+    if (check.checked) {
+      // ketika cek
+
+      this.checklistData.emit({
+        data,
+        mode: 'add',
+      });
+    } else {
+      // ketika uncek
+      this.checklistData.emit({
+        data,
+        mode: 'remove',
+      });
     }
   }
 
@@ -137,13 +146,9 @@ export class DebtorDataOrganizationManagementListComponent
     this.loadDataBy(this.partyCif.customerNumber, this.managementType);
   }
 
-  private setAttribute(param: IOrganizationManagement): void {
-    if (this.managementType === 'MANAGEMENT_DATA') {
-      param.attributes = new OrganizationManagementAttributeManagementData();
-    } else if (this.managementType === 'SHAREHOLDER') {
-      param.attributes = new OrganizationManagementAttributeShareholder();
-    }
-  }
+  // private setAttribute(param: IOrganizationManagement): void {
+  //   param.attributes = new OrganizationManagementAttributeShareholder();
+  // }
 
   public openDialog(param: IOrganizationManagement = null): void {
     let orgMgm: IOrganizationManagement;
@@ -151,7 +156,7 @@ export class DebtorDataOrganizationManagementListComponent
     orgMgm.cifNumber = this.cif;
     orgMgm.organizationManagementTypeId = this.managementType;
     orgMgm.attributes = {};
-    this.setAttribute(orgMgm);
+    // this.setAttribute(orgMgm);
     if (param) {
       orgMgm = param;
     }
