@@ -246,8 +246,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+    this.containers.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
     // this.container.serviceUrl = '/services/los/api/wordeditor/';
     // this.containers.serviceUrl = '/services/los/api/wordeditor/';
   }
