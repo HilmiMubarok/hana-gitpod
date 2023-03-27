@@ -304,10 +304,11 @@
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditRatings.creditRating"
-                [value]="cifNumber"
+          
                 placeholder="Credit Rating"
                 floatLabelType="Auto"
                 cssClass="e-outline"
+                disabled
               >
               </ejs-textbox>
             </div>
@@ -373,7 +374,7 @@
 
           <div class="row my-3">
             <div class="col">
-              <ejs-combobox
+              <!-- <ejs-combobox
                 cssClass="e-outline"
                 [dataSource]="industryList"
                 placeholder="Sector Industry"
@@ -382,7 +383,16 @@
                 floatLabelType="Auto"
                 [fields]="fields"
               >
-              </ejs-combobox>
+              </ejs-combobox> -->
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Sector Industry</mat-label>
+                <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industry']">
+                  <mat-option value="">Please Select</mat-option>
+                  <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
         </div>

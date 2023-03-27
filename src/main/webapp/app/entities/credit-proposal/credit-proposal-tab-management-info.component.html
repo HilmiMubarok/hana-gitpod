@@ -96,9 +96,9 @@
             </e-columns>
           </ejs-grid> -->
 
-          <div class="row my-3">
+          <!-- <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
+              <div class="form-space">
               <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [multiline]="true"
@@ -118,9 +118,9 @@
                   </div>
                 </div>
               </section>
-              <!-- </div> -->
+              </div>
             </div>
-          </div>
+          </div> -->
           <div
             *ngIf="
               creditProposalItem.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio' ||
@@ -178,8 +178,8 @@
                 <div class="grid-table mb-3 mt-3">
                   <ejs-grid [dataSource]="dataAttrMgn">
                     <e-columns>
-                      <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
-                      <e-column field="Management" headerText="Management" width="60"></e-column>
+                      <e-column field="indexNum" headerText="No" textAlign="left" width="10"></e-column>
+                      <e-column field="value" headerText="Management" width="60"></e-column>
                       <e-column headerText="Select" textAlign="Center" width="30">
                         <div class="select">
                           <ng-template #template let-data>

@@ -283,4 +283,104 @@ export class CollateralInfoDialogBTBDarFinalComponent implements OnInit {
       return '';
     }
   }
+
+  public getCurrency() {
+    let data: ICollateralProperty;
+    if (this.collateral) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data) {
+        if (data.marketValueOriginalCcy === undefined || data.marketValueOriginalCcy === null) {
+          return '';
+        }
+        return data.marketValueOriginalCcy;
+      }
+    }
+    return 'IDR';
+  }
+
+  public countMVOriginal() {
+    let result: string;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    // console.log("collateral in above grid",collateral);
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
+          return 0;
+        } else {
+          return data.attributes.amount;
+        }
+      }
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['personalProperty']) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.collateralValue === null || data.attributes.collateralValue === undefined) {
+          return 0;
+        } else {
+          return data.attributes.collateralValue;
+        }
+      }
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['securities']) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.totalFaceAmount === null || data.attributes.totalFaceAmount === undefined) {
+          return 0;
+        } else {
+          return data.attributes.totalFaceAmount;
+        }
+      }
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.collateralValueOther === undefined || data.attributes.collateralValueOther === null) {
+          return 0;
+        } else {
+          return data.attributes.collateralValueOther;
+        }
+      }
+    }
+    if (this.collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.amount === null || data.attributes.amount === undefined) {
+          return 0;
+        } else {
+          return data.attributes.amount;
+        }
+      }
+    }
+    if (
+      this.collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      this.collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      this.collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+    ) {
+      data = this.properties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === this.collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValueOriginalAmt === null) {
+          return 0;
+        } else {
+          return data.marketValueOriginalAmt;
+        }
+      }
+    }
+    return 0;
+  }
 }

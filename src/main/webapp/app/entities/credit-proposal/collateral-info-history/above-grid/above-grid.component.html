@@ -41,25 +41,37 @@
           <ng-container matColumnDef="marketValue">
             <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (internal) (Equivalen to IDR)</th>
             <td mat-cell *matCellDef="let element">{{ countMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+            <td mat-footer-cell *matFooterCellDef>
+              <p>{{ countTotalMV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              <p>{{ presentage(countTotalMV() / totalPlafond * 100 , 'mv') }}</p>
+            </td>
           </ng-container>
           <ng-container matColumnDef="liquidValue">
             <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (internal) (Equivalen to IDR)</th>
             <td mat-cell *matCellDef="let element">{{ countLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
             <td mat-footer-cell *matFooterCellDef>
-              {{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}
+              <p>{{ countTotalLV() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              <p>{{ presentage(countTotalLV() / totalPlafond * 100, 'lv' ) }}</p>
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
             <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJJP)</th>
             <td mat-cell *matCellDef="let element">{{ countKJJPMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+            <td mat-footer-cell *matFooterCellDef>
+              <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              <p>{{ presentage(countTotalMVKJJP() / totalPlafond * 100, 'mvKjjp') }}</p>
+            </td>
           </ng-container>
           <ng-container matColumnDef="lValueKjjp">
             <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJJP)</th>
             <td mat-cell *matCellDef="let element">{{ countKJJPLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
-            <td mat-footer-cell *matFooterCellDef>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</td>
+
+            <td mat-footer-cell *matFooterCellDef>
+              <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+              <p>{{ presentage(countTotalLVKJJP() / totalPlafond * 100, 'lvKjjp')}}</p>
+            </td>
           </ng-container>
+
           <ng-container matColumnDef="marketability">
             <th mat-header-cell *matHeaderCellDef>Marketability</th>
             <td mat-cell *matCellDef="let element">{{ getMarketability(element) }}</td>
@@ -103,7 +115,10 @@
             <td mat-cell *matCellDef="let element">
               {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
             </td>
-            <td mat-footer-cell *matFooterCellDef></td>
+            <td mat-footer-cell *matFooterCellDef>
+              {{getBindingCalculate() | currency: 'IDR ':'symbol':'1.0-0'}}
+              {{getBindingCalculate() / totalPlafond}}
+            </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">
             <th mat-header-cell *matHeaderCellDef>Collateral Status</th>

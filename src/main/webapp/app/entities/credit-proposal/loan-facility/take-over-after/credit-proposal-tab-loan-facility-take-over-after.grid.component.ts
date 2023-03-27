@@ -28,7 +28,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
     this._creditProposal = item;
   }
 
-  public displayColumns: string[] = ['no', 'facilityType1', 'initialLimit', 'outstanding', 'tenor', 'action'];
+  public displayColumns: string[] = ['no', 'facilityType1', 'changes', 'outstanding', 'tenor', 'action'];
 
   public numericFormatOptions: Object;
   public loading: boolean;

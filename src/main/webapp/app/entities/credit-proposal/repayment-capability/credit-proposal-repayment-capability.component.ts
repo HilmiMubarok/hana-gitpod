@@ -106,32 +106,35 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   public bufferCredit() {
     this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] = Number(
       this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingCreditMutation'] -
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalCredit']
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['existingFs'] -
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['currentProposalFs']
     );
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'];
   }
 
   public bufferIncomeFs() {
     this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'] = Number(
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit'] /
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs']
+      (this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] /
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['monthlySalesEbit']) *
+        100
     );
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeFs'];
   }
 
   public bufferIncomeAvg() {
     this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'] = Number(
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] /
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage']
+      (this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferAverage'] /
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance']) *
+        100
     );
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeAverage'];
   }
 
   public bufferIncomeCredit() {
     this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'] = Number(
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin'] /
-        this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit']
+      (this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferCredit'] /
+        this.creditProposal.attributes['repaymentCapability'][0]['detail']['creditMutationMargin']) *
+        100
     );
     return this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferIncomeCredit'];
   }

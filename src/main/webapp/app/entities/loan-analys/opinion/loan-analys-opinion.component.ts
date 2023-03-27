@@ -158,6 +158,10 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   }
 
   public filterPositionLogin() {
+	if (this.creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE') {
+	  this.refresh();
+	}
+
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
@@ -170,7 +174,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
         positionUserDescription: this.positionUserDescription,
       };
       this.positionLoginEmit.emit(this.positionUserId);
-      this.refresh();
+      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
+		this.refresh();
+	  }
     });
   }
 
@@ -338,12 +344,14 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
             if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
               ++this.countValidate;
             }
-            if (this.countValidate === 3) {
+            /* if (this.countValidate === 3) {
               this.isAllowSave.emit(true);
               this.saveValidate();
             } else {
               this.isAllowSave.emit(false);
-            }
+            } */
+			this.isAllowSave.emit(true);
+			this.saveValidate();
           };
           fileReader.readAsText(testFile);
         }
@@ -513,6 +521,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
       if (this.notes) {
         if (this.notes.length > 0) {
           this.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
+		  this.notes = lodash.uniqBy(this.notes, 'positionId');
         }
       }
 

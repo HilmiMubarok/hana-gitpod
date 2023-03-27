@@ -21,14 +21,15 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
 } from 'app/shared/constants/base.constants';
-import { firstValueFrom, map, Observable, startWith } from 'rxjs';
+import { firstValueFrom, map, Observable, startWith, Subscriber } from 'rxjs';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { default as _rollupMoment } from 'moment';
 import moment from 'moment';
-import lodash from 'lodash';
+import lodash, { size } from 'lodash';
 import { CollateralPropertyService } from '../collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -126,7 +127,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   public areaMeasure: IUom[];
   public displayColumns: string[] = ['no'];
   public collateralDetailType: any;
-  public certificateType: any;
+  public certificateType = [];
   public managementBranch: any;
   public provinces: IStateBoundary[];
   public cities: IStateBoundary[];
@@ -138,6 +139,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   constructor(
     private uomService: UomService,
     protected partyCifService: PartyCifService,
+    protected generalParameterService: GeneralParameterService,
     public collateralPropertyService: CollateralPropertyService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
@@ -161,11 +163,26 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     this.loadCurrencyMeasure();
     this.loadAreaMeasure();
     this.collateral.collateralTypeId;
-    this.setCertyficateType();
+    // this.setCertyficateType();
     this.setManagementBrance();
     this.setBranches();
     this.cekDataSource();
     this.cekData();
+    this.lovcertificateType();
+  }
+
+  public lovcertificateType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CERTIFICATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.certificateType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -420,11 +437,11 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     });
   }
 
-  public setCertyficateType() {
-    this.partyCifService.getCertificate().subscribe(res => {
-      this.certificateType = res.body;
-    });
-  }
+  // public setCertyficateType() {
+  //   this.partyCifService.getCertificate().subscribe(res => {
+  //     this.certificateType = res.body;
+  //   });
+  // }
 
   public getMVImbCcy() {
     this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;

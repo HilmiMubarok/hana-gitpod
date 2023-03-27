@@ -160,7 +160,7 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Issuer</mat-label>
-        <input matInput type="number" [(ngModel)]="collateralProperty.attributes.issuer" [disabled]="dataSource()" />
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuer" [disabled]="dataSource()" />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>

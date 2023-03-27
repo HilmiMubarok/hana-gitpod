@@ -4,8 +4,8 @@
     <div class="col-12">
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Type LOV</mat-label>
-          <mat-select name="status" (selectionChange)="onSelect($event.value)">
+          <mat-label>Category List Of Value</mat-label>
+          <mat-select name="type" [(ngModel)]="generalParameter.parameterTypeDescription">
             <mat-option value="">- Please Select -</mat-option>
             <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
               {{ item.description }}
@@ -16,13 +16,13 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CODE</mat-label>
-          <input matInput type="text" [(ngModel)]="generalParameter.parameterTypeId" />
+          <input matInput type="text" [(ngModel)]="generalParameter.code" />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Description</mat-label>
-          <input matInput type="text" [(ngModel)]="generalParameter.parameterTypeDescription" />
+          <input matInput type="text" [(ngModel)]="generalParameter.value" />
         </mat-form-field>
       </section>
       <section class="mt-2">
@@ -40,6 +40,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button>SAVE</button>
+  <button mat-button (click)="onSave()">SAVE</button>
   <button mat-button mat-dialog-close>CLOSE</button>
 </mat-dialog-actions>

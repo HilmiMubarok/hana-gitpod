@@ -75,9 +75,9 @@ export enum CATEGORY_DEBTOR {
 }
 
 export enum UMKM_CLASSIFICATION {
-  MICRO = 'Total Penjualan <= 1M Or Modal Disetor <= 2M',
-  SMALL = 'Total penjualan <= 5M OR Modal disetor <= 15M',
-  MIDDLE = 'Total penjualan <= 10M OR Modal disetor <= 50M',
+  MICRO = 'Micro',
+  SMALL = 'Kecil',
+  MIDDLE = 'Menengah',
   OTHER = 'Non-UMKM',
 }
 
@@ -154,12 +154,14 @@ export enum DOCUMENT_TYPE_COLLATERAL_MACHINE {
 }
 
 export enum DOCUMENT_TYPE_APPRAISAL {
-  BUKTI_BAYAR_APPRAISAL = 'Bukti Bayar Appraisal',
-  MEMO_PENDING_BAYAR = 'Memo Pending Bayar',
-  PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
-  FOTO_OBJEK = 'Foto Objek',
-  LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
-  HASIL_APP_EXTERNAL = 'Hasil appraisal External',
+  // BUKTI_BAYAR_APPRAISAL = 'Bukti Bayar Appraisal',
+  // MEMO_PENDING_BAYAR = 'Memo Pending Bayar',
+  // PENILAIAN_SEBELUMNYA = 'Penilaian Sebelumnya',
+  // FOTO_OBJEK = 'Foto Objek',
+  // LPA_KJPP_SEBELUMNYA = 'LPA KJPP Sebelumnya',
+  // HASIL_APP_EXTERNAL = 'Hasil appraisal External',
+  DOCUMET_COLLATERAL_IDD = 'DOC_COLL',
+  DOCUMENT_APPRAISAL = 'DOC_APPR',
 }
 
 export enum COLLATERAL_BINDING_TYPE {
@@ -437,9 +439,9 @@ export const ANIMATION: Object = {
   },
 };
 
-export const ID_GREATER_15_BN = 'greater-15-bn';
-export const ID_LOWER_EQUAL_15_BN = 'lower-equal-15-bn';
-export const ID_BACK_TO_BACK = 'back-to-back';
+export const ID_GREATER_15_BN = 'Total Exposure > IDR 15 Bio';
+export const ID_LOWER_EQUAL_15_BN = 'Total Exposure <= IDR 15 Bio';
+export const ID_BACK_TO_BACK = 'Total Exposure Back to Back';
 export const PROPOSAL_TYPE: IEJOptionNode[] = [
   {
     id: ID_GREATER_15_BN,

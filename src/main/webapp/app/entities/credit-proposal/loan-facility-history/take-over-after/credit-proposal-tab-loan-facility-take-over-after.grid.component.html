@@ -8,10 +8,10 @@
       <th mat-header-cell *matHeaderCellDef>Facility Type</th>
       <td mat-cell *matCellDef="let element">{{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}</td>
     </ng-container>
-    <ng-container matColumnDef="initialLimit">
-      <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
+    <ng-container matColumnDef="changes">
+      <th mat-header-cell *matHeaderCellDef>Changes</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.currency + ' ' + (element.maturityBankOver | number) }}
+        {{ element.currency + ' ' + (element.changes | number) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="outstanding">
@@ -58,10 +58,10 @@
       <th mat-header-cell *matHeaderCellDef>Facility Type</th>
       <td mat-cell *matCellDef="let element">{{ element.facilityTypeOverBank.id }}.{{ element.facilityTypeOverBank.label }}</td>
     </ng-container>
-    <ng-container matColumnDef="initialLimit">
-      <th mat-header-cell *matHeaderCellDef>Initial Limit</th>
+    <ng-container matColumnDef="changes">
+      <th mat-header-cell *matHeaderCellDef>Changes</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.currency + ' ' + (element.maturityBankOver | number) }}
+        {{ element.currency + ' ' + (element.changes | number) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="outstanding">

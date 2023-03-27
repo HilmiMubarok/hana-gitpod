@@ -18,6 +18,8 @@ import {
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
 import { doc } from 'prettier';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',
@@ -57,7 +59,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     protected positionService: PositionService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private generalParameterService: GeneralParameterService
   ) {
     this.bucket = '';
   }
@@ -83,41 +86,41 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   public customHeadersJWT: any;
 
   public dataAttrPass = [
-    {
-      No: 1,
-      Parameter: 'There was no delay in previous projects undertaken',
-      value: 'No',
-    },
-    {
-      No: 2,
-      Parameter: 'There was no cost over-run in previous project undertaken',
-      value: 'No',
-    },
-    {
-      No: 3,
-      Parameter: 'Previous projects achieved 100% sales',
-      value: 'No',
-    },
-    {
-      No: 4,
-      Parameter: 'There is standing instruction for payment form Bouwheer to Escrow Account in KEB Hana directly',
-      value: 'No',
-    },
-    {
-      No: 5,
-      Parameter: 'There was no delay in obtaining relevant project approvals from the relevant approving authorities',
-      value: 'No',
-    },
-    {
-      No: 6,
-      Parameter: 'Max financing 70% of activity progress that is explained in Contract',
-      value: 'No',
-    },
-    {
-      No: 7,
-      Parameter: 'There was no disputes or legal action taken against contractors, sub-contractors or suppliers',
-      value: 'No',
-    },
+    // {
+    //   No: 1,
+    //   Parameter: 'There was no delay in previous projects undertaken',
+    //   value: 'No',
+    // },
+    // {
+    //   No: 2,
+    //   Parameter: 'There was no cost over-run in previous project undertaken',
+    //   value: 'No',
+    // },
+    // {
+    //   No: 3,
+    //   Parameter: 'Previous projects achieved 100% sales',
+    //   value: 'No',
+    // },
+    // {
+    //   No: 4,
+    //   Parameter: 'There is standing instruction for payment form Bouwheer to Escrow Account in KEB Hana directly',
+    //   value: 'No',
+    // },
+    // {
+    //   No: 5,
+    //   Parameter: 'There was no delay in obtaining relevant project approvals from the relevant approving authorities',
+    //   value: 'No',
+    // },
+    // {
+    //   No: 6,
+    //   Parameter: 'Max financing 70% of activity progress that is explained in Contract',
+    //   value: 'No',
+    // },
+    // {
+    //   No: 7,
+    //   Parameter: 'There was no disputes or legal action taken against contractors, sub-contractors or suppliers',
+    //   value: 'No',
+    // },
   ];
 
   public tes() {
@@ -164,17 +167,17 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         this.getContainer();
       });
     });
-
+    this.lovProjectIndicator();
     this.tes();
   }
 
   private getToken(cookieName: string) {
     let result = null;
-    let cookies: string[] = document.cookie.split(';');
+    const cookies: string[] = document.cookie.split(';');
 
     cookies.forEach(o => {
-      let cookie: string[] = o.split('=');
-      let name: string = cookie[0].trim();
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
       if (name === cookieName) {
         result = cookie[1];
       }
@@ -182,7 +185,22 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
     return result;
   }
-
+  public lovProjectIndicator() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROJECT_FINANCING_INDICATOR',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataAttrPass = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataAttrPass.length; i++) {
+          this.dataAttrPass[i]['indexNum'] = i + 1;
+        }
+      });
+  }
   public onDocumentChange() {
     this.container.restrictEditing = true;
   }

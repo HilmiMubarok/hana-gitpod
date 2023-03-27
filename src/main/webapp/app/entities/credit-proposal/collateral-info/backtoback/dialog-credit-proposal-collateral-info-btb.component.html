@@ -55,7 +55,7 @@
               </div> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Value</mat-label>
-                <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
+                <input matInput type="text" [value]="getCurrency() + ' ' + (countMVOriginal() | number)" disabled />
               </mat-form-field>
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Liquidation Value</mat-label>
@@ -116,7 +116,7 @@
                   <mat-label>Binding Type</mat-label>
                   <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled>
                     <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
+                    <mat-option *ngFor="let item of bindingTypes" [value]="item.code">
                       {{ item.value }}
                     </mat-option>
                   </mat-select>
@@ -297,6 +297,12 @@
                       {{ item.value }}
                     </mat-option>
                   </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Collateral Owner</mat-label>
+                  <input disabled matInput type="text" [(ngModel)]="collateral.collateralOwner" />
                 </mat-form-field>
               </div>
             </div>

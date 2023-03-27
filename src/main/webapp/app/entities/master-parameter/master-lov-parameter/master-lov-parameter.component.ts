@@ -29,9 +29,15 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   }
 
   public getListType() {
-    this.generalParameterService.getListTypeGeneral().subscribe(res => {
-      this.listGeneralLov = res.body;
-    });
+    this.generalParameterService
+      .getListTypeGeneral({
+        page: 0,
+        size: 9999,
+        sort: ['desc'],
+      })
+      .subscribe(res => {
+        this.listGeneralLov = res.body;
+      });
   }
 
   public onSelect(element: any) {
@@ -42,13 +48,12 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   private loadAll(): void {
     const data = this.generalParameterService.paramTypeId.subscribe((message: any) => {
       this.typeID = message;
-      console.log('cek data', message);
       this.generalParameterService
         .queryFilterBy({
           idParameterType: this.typeID,
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
+          page: 0,
+          size: 9999,
+          sort: ['code', 'asc'],
         })
         .subscribe({
           next: res => this.initDataForMatTable(res, res.headers),

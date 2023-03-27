@@ -22,6 +22,8 @@ import { IPartyCif } from '../party-cif/party-cif.model';
 import { ApplicationOptionService } from '../application-option/application-option.service';
 import { ListOfValueIndustryService } from '../credit-proposal/list-of-value-industry.service';
 import { IListOfValueIndustry } from '../../../../../../src/main/webapp/app/entities/credit-proposal/list-of-value-industry.model';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-rating-view',
@@ -38,7 +40,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public industry: string;
   public loading = false;
   public listOfIndustry: IListOfValueIndustry[];
-  public industryList: string[] = [];
+  // public industryList: string[] = [];
+  public sectorIndustry = [];
 
   @Input()
   get creditProposalItem() {
@@ -71,7 +74,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected eventManager: EventManager,
     public account: AccountService,
     protected applicationOptionService: ApplicationOptionService,
-    public listOfIndustryService: ListOfValueIndustryService // private _ngxSpinner: NgxSpinnerService
+    public listOfIndustryService: ListOfValueIndustryService, // private _ngxSpinner: NgxSpinnerService
+    protected generalParameterService: GeneralParameterService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
@@ -110,6 +114,9 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         });
     } else {
       this.creditRatings = this.partyCif.creditRatings[0];
+      if (this.creditRatings.creditRating === '' || this.creditRatings.creditRating === undefined || this.creditRatings.creditRating === null) {
+        this.creditRatings.creditRating = 'B4'
+      }
       this.industrys = this.partyCif.creditRatings[0].attributes['industry'];
     }
 
@@ -132,7 +139,12 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   syncCreditReting() {
     this.creditRatingService.creditRetingSync(this.partyCif.customerNumber).subscribe(res => {
       this.cifNumber = res.body.creditRatings[0].creditRating;
-      this.creditRatings.creditRating = this.cifNumber;
+      if (this.cifNumber === '' || this.cifNumber === undefined) {
+        this.creditRatings.creditRating = 'B4';
+      }else{
+        this.creditRatings.creditRating = this.cifNumber;
+      }
+      
       if (res.status === 200) {
         this.messageService.add({
           severity: 'success',
@@ -141,6 +153,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         });
       }
       if (!this.cifNumber) {
+        this.creditRatings.creditRating = 'B4';
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -185,10 +198,22 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
 
   public getListIndustry() {
-    this.listOfIndustryService.query().subscribe((res: any) => {
-      for (let i = 0; i < res.body.length; i++) {
-        this.industryList = [...this.industryList, res.body[i].label];
-      }
-    });
+    // this.listOfIndustryService.query().subscribe((res: any) => {
+    //   for (let i = 0; i < res.body.length; i++) {
+    //     this.industryList = [...this.industryList, res.body[i].label];
+    //   }
+    // });
+
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'SECTOR_INDUSTRY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.sectorIndustry = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }

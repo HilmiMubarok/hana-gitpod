@@ -421,8 +421,8 @@
                 <mat-label>Collateral Grading</mat-label>
                 <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
-                    {{ item.label }}
+                  <mat-option *ngFor="let item of collateralGrading" [value]="item.code">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -433,7 +433,7 @@
               <div class="col-4">Collateral Grading</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.collateralGrading }}
+                {{ collateralGradings }}
               </div>
             </div>
           </section>

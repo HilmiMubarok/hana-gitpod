@@ -67,7 +67,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
-
+  public statusSearch = false
   constructor(
     private loanAnalysService: LoanAnalysService,
     protected _snackBar: MatSnackBar,
@@ -89,6 +89,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     };
     this.iconTimeline = faTimeline;
     this.activeRoute = this.router.url.replace(/\//g, '');
+  
   }
 
   private loadStatusChip(): void {
@@ -107,9 +108,18 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.loadStatusChip();
     this.loadAll();
   }
+ 
+  public closeSearch(){
+    this.statusSearch = false
+    this.currentSearch = ''
+    this.page = 0
+
+    this.itemsPerPage = 10
+    this.loadAll()
+  }
 
   public doSearch(): void {
-    if (this.currentSearch && this.currentSearch !== '') {
+    this.statusSearch = true
       const predicate: object = {
         page: this.page,
         query: this.currentSearch,
@@ -117,6 +127,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         sort: this.sortData(),
       };
 
+      
       if (this.activeRoute === 'la-distribution') {
         predicate['target'] = 'loan-analyst-distribution';
       } else if (this.activeRoute === 'la-analyst') {
@@ -157,7 +168,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
       return;
-    }
+    
   }
 
   private convertStatus(status: string) {
@@ -185,7 +196,13 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   }
 
   protected postLoadDataLazy(): void {
-    this.loadAll();
+    if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
+      this.loadAll();
+    }else{
+     
+      this.doSearch()
+    }
+    
   }
 
   private convertStatusActivateRoute(activeRoute: string): string {
@@ -224,23 +241,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       return;
     }
 
-    if (this.currentSearch && this.currentSearch !== '') {
-      this.loanAnalysService
-        .search({
-          page: this.page - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => {
-            this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
+
 
     this.loanAnalysService
       .queryByMenu(
