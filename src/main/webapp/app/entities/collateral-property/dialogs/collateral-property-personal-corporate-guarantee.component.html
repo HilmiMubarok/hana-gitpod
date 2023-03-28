@@ -1,0 +1,162 @@
+<h2 mat-dialog-title class="sub-header">Corporate/Personal Guarantee Detail</h2>
+<div class="row">
+  <!-- LEFT SIDE -->
+  <div class="col-6">
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Certificate Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.attributes.certificateType" [disabled]="dataSource()">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of certificateType" [value]="item.id"> {{ item.label }} </mat-option>
+        </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Certificate No</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.certificateNumber" [disabled]="dataSource()" />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Expiry Date</mat-label>
+        <input [matDatepicker]="expiry" matInput type="text" [(ngModel)]="collateralProperty.certificateExpiryDate" disabled />
+        <mat-datepicker-toggle matSuffix [for]="expiry"></mat-datepicker-toggle>
+        <mat-datepicker #expiry [disabled]="dataSource()"></mat-datepicker>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="row form-group">
+      <div class="col-8">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Guarantee Amount</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValueOriginalAmt" [options]="logoCcy" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ccy</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlMVOri"
+            [matAutocomplete]="autoOri"
+            [(ngModel)]="MVOriCcy"
+            (ngModelChange)="getMVOriCcy()"
+          />
+          <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnMVOri">
+            <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+              {{ option.abbreviation }} - {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Kurs</mat-label>
+      <input currencyMask matInput type="text" [(ngModel)]="currency" [options]="logoCcy" disabled />
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Market Value</mat-label>
+      <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Liquidation Value</mat-label>
+      <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    </mat-form-field>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Guarantee Identification Type</mat-label>
+        <mat-select [(ngModel)]="collateralProperty.guaranteeIdType">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of guaranteeIdentification" [value]="item.code"> {{ item.value }} </mat-option>
+        </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Guarantee Clasification</mat-label>
+        <!-- <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" [disabled]="dataSource()" /> -->
+        <mat-select [(ngModel)]="collateralProperty.guaranteeClass">
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of guaranteeClasification" [value]="item.code"> {{ item.value }} </mat-option>
+        </mat-select>
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- RIGHT SIDE -->
+  <div class="col-6">
+    <div class="row form-group">
+      <div class="col-6">
+        <div class="w-100">
+          <mat-form-field appearance="outline" class="w-100 pl-1" floatLabel="always">
+            <mat-label>Guarantor</mat-label>
+            <input matInput placeholder="Search cif here..." type="text" [(ngModel)]="collateralProperty.guarantorCif" />
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="findCif()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="w-100">
+          <mat-form-field appearance="outline" class="w-100 pl-1" floatLabel="always">
+            <input matInput type="text" [(ngModel)]="collateralProperty.guarantorName" disabled />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Guarantee CountryID</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.guaranteeCountry" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Management Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.managementBranch" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Branch</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.branch" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Relation With Loan Owner</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.relationLoanOwner" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Credit Rating</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.creditRating" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Credit Rating Date</mat-label>
+        <input matInput type="text" [(ngModel)]="collateralProperty.attributes.creditRatingDate" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

@@ -87,6 +87,15 @@
     [branchId]="branchId"
   >
   </jhi-collateral-property-general-dialog-template>
+  <jhi-collateral-property-personal-corporate-guarantee
+    *ngIf="collateral.collateralTypeId === 'GUARANTEE' && collateralPropertyExternal && collateralProperty"
+    [collateralProperty]="collateralProperty"
+    [collateralPropertyExternal]="collateralPropertyExternal"
+    [collateral]="collateral"
+    [officerName]="partyCifData.rm?.name"
+    [branchId]="branchId"
+  >
+  </jhi-collateral-property-personal-corporate-guarantee>
   <jhi-paripasu-collateral></jhi-paripasu-collateral>
   <mat-dialog-actions align="center">
     <button mat-button mat-dialog-close>Close</button>

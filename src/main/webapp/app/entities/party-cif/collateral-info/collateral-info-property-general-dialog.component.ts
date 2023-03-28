@@ -36,6 +36,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
 
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
+    console.log('collateral type ', this.collateral.collateralTypeId);
   }
 
   private loadByCollateral(collateralId: number): void {
