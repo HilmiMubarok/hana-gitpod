@@ -222,6 +222,14 @@ export interface ICollateralProperty {
   marketability?: string;
   marketValueOriginalAmt?: number;
   marketValueOriginalCcy?: string;
+  certificateExpiryDate?: Date;
+  guarantorCif?: string;
+  guarantorName?: string;
+  loanCustomerCif?: string;
+  loanCustomerName?: string;
+  guaranteeIdType?: string;
+  guaranteeClass?: string;
+  guaranteeCountry?: string;
 }
 
 export class CollateralProperty implements ICollateralProperty {
@@ -318,6 +326,14 @@ export class CollateralProperty implements ICollateralProperty {
     public liquidationValue?: number,
     public marketability?: string,
     public marketValueOriginalAmt?: number,
-    public marketValueOriginalCcy?: string
+    public marketValueOriginalCcy?: string,
+    public certificateExpiryDate?: Date,
+    public guarantorCif?: string,
+    public guarantorName?: string,
+    public loanCustomerCif?: string,
+    public loanCustomerName?: string,
+    public guaranteeIdType?: string,
+    public guaranteeClass?: string,
+    public guaranteeCountry?: string
   ) {}
 }
