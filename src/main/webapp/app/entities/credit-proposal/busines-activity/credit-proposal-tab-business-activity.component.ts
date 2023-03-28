@@ -85,6 +85,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public customHeadersJWT: any;
 
+  public dataAttrPass = [];
+
   public tes() {
     if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
       this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
