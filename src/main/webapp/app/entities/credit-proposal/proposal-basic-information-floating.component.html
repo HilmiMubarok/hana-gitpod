@@ -322,11 +322,16 @@
 
               <div *ngIf="clickedMenu === 'opinion'">
                 <jhi-credit-proposal-opinion-history
+				  #creditProposalOpinionHistoryComponent
                   (uuidPath)="setUuidPath($event)"
                   (newItemEvent)="setOpinionRecomendation($event)"
-                  #creditProposalOpinionHistoryComponent
-                  [recomendation]="recomendation"
+				  (isAllowSave)="setIsAllowSave($event)"
+				  (opinionFileSfdt)="setOpinionFileSfdt($event)"
+				  (opinionFileWord)="setOpinionFileWord($event)"
+				  (conditionFileSfdt)="setConditionFileSfdt($event)"
+				  (conditionFileWord)="setConditionFileWord($event)"
                   [creditProposalItem]="creditProposal"
+				  [notifyChild]="parentSubject"
                 ></jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>
@@ -423,7 +428,7 @@
   matTooltip="Click this for show sub menu of Credit Proposal"
   style="z-index: 1"
   class="btn-menu-floating"
-  (click)="drawer.toggle()"
+  (click)="drawer.toggle(); onClickRed()"
   mat-fab
   color="warn"
   matTooltipPosition="before"

@@ -387,13 +387,14 @@
           #loanAnalysOpinionComponent
           (uuidPath)="setUuidPath($event)"
           (positionLoginEmit)="setPositionLogin($event)"
+		  (newItemEvent)="setOpinionRecomendation($event)"
+		  (isAllowSave)="setIsAllowSave($event)"
           (opinionFileSfdt)="setOpinionFileSfdt($event)"
           (opinionFileWord)="setOpinionFileWord($event)"
-          (newItemEvent)="setOpinionRecomendation($event)"
           (conditionFileSfdt)="setConditionFileSfdt($event)"
           (conditionFileWord)="setConditionFileWord($event)"
-          (isAllowSave)="setIsAllowSave($event)"
           [creditProposalItem]="creditProposal"
+		  [notifyChild]="parentSubject"
         >
         </jhi-loan-analys-opinion>
       </div>
@@ -542,6 +543,7 @@
   mat-fab
   color="warn"
   matTooltipPosition="before"
+  (click)="onClickRed()"
 >
   <mat-icon>more_vert</mat-icon>
 </button>

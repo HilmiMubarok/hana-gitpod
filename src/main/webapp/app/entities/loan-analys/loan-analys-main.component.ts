@@ -130,7 +130,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public conditionFileWord: File;
 
   private saveState: string;
-  public isAllowSave: boolean;
+  public parentSubject:Subject<any> = new Subject();
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -619,41 +619,17 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposalCollateralInfoComponent) {
       this.creditProposalCollateralInfoComponent.triggeredSave(this.creditProposal.attributes.proposalType);
     }
-    if (
-      (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && this.parentPath === 'la-distribution') ||
-      (this.creditProposal.statusId === 'CP_CC_DISTRIBUTION' && this.parentPath === 'cc-distribution')
-    ) {
-      // this.saveAssignTo();
-    }
 
-    if (this.loanAnalysOpinionComponent) {
-      if (source === 'process-opinion') {
-        this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
-          this.router.navigate([this.router.url.split('/')[1]]);
-        });
-      } else if (source === 'default-opinion') {
-        this.loanAnalysOpinionComponent.refresh();
-        this.loanAnalysOpinionComponent.onCreate();
-        this.loanAnalysOpinionComponent.onCreateCondition();
-
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-      }
-    } else {
-      if (source === 'process') {
-        this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
-          this.router.navigate([this.router.url.split('/')[1]]);
-        });
-      } else if (source === 'default') {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Save Success',
-        });
-      }
+    if (source === 'process') {
+      this.creditProposalProcessService.processTask(this.resAttr).subscribe(res => {
+        this.router.navigate([this.router.url.split('/')[1]]);
+      });
+    } else if (source === 'default') {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
     }
 
     /* if (this.applicationRole.id) {
@@ -694,7 +670,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public userId: any;
   public InternalId: any;
   public positionApproval: any;
-  private preSave(): ICreditProposal {
+
+  private preSave(status: string): ICreditProposal {
     const copyCreditProposal: ICreditProposal = lodash.cloneDeep(this.creditProposal);
     const applicationRolePreSave = {
       id: 0,
@@ -748,15 +725,10 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     }
 
-    if (
-      tempRouter === 'la-analyst' ||
-      tempRouter === 'la-SME-CRC' ||
-      tempRouter === 'la-approval' ||
-      tempRouter === 'loan-committee-approval'
-    ) {
-      if (this.loanAnalysOpinionComponent) {
-        if (this.positionLoginFromEmit && this.recomendation && this.isAllowSave) {
-          let tempHelper = 0;
+	if (status === 'complete')  {
+	  if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+		if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
+		  let tempHelper = 0;
           let tempOpinionType = '';
 
           tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
@@ -783,46 +755,9 @@ export class LoanAnalysMainComponent implements OnInit {
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
           }
-        }
-      } else {
-        if (
-          this.positionLoginFromEmit &&
-          this.opinionFileSfdt &&
-          this.opinionFileWord &&
-          this.recomendation &&
-          this.conditionFileSfdt &&
-          this.conditionFileWord
-        ) {
-          let tempHelper = 0;
-          let tempOpinionType = '';
-
-          tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
-
-          if (copyCreditProposal.notes.length > 0) {
-            for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
-                copyCreditProposal.notes[i].applicationId = this.id;
-                copyCreditProposal.notes[i].message = '';
-                copyCreditProposal.notes[i].recomendation = this.recomendation;
-                copyCreditProposal.notes[i].path = this.uuidPath;
-                copyCreditProposal.notes[i].type = tempOpinionType;
-                tempHelper = tempHelper + 1;
-              }
-            }
-
-            if (tempHelper === 0) {
-              copyCreditProposal.notes.push(
-                this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
-              );
-            }
-          } else {
-            copyCreditProposal.notes.push(
-              this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
-            );
-          }
-        }
-      }
-    }
+		}
+	  }
+	}
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -882,6 +817,10 @@ export class LoanAnalysMainComponent implements OnInit {
     return copyCreditProposal;
   }
 
+  public onClickRed(): void {
+	this.parentSubject.next('red-clicked');
+  }
+
   setUuidPath(newItem: string) {
     this.uuidPath = newItem;
   }
@@ -923,23 +862,97 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   setIsAllowSave(status: boolean) {
-    this.isAllowSave = status;
-    this.saveState = this.saveState + '-opinion';
+	const statusPreSave = status ? 'complete' : 'not-complete';
+	
     if (this.creditProposal.id) {
-      this.creditProposalService.update(this.preSave()).subscribe(res => {
+      this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
         this.creditProposal.notes = res.body.notes;
-        this.saveApplicationRole(this.saveState);
-      });
-    } else {
-      this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.creditProposal.notes = res.body.notes;
+
+		if (this.loanAnalysOpinionComponent) {
+		  this.loanAnalysOpinionComponent.refresh();
+		}
+
         this.saveApplicationRole(this.saveState);
       });
     }
   }
 
+  private saveFile(): void {
+	const formDataOpinionSfdt = new FormData();
+	const formDataOpinionWord = new FormData();
+
+	const formDataConditionSfdt = new FormData();
+	const formDataConditionWord = new FormData();
+
+	const fileNameSfdt = this.uuidPath + '.sfdt';
+	const fileNameWord = this.uuidPath + '.docs';
+	const fileTypeSfdt = 'sfdt';
+	const fileTypeWord = 'word';
+
+	const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
+	const pathHelperOpinion = this.uuidPath + '-opinion';
+	const metaDataOpinionSfdt = {
+	  objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+	};
+	const metaDataOpinionWord = {
+	  objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+	};
+
+	const keyCondition = 'credit_proposal/remark/opinion-history/condition';
+	const pathHelperCondition = this.uuidPath + '-condition';
+	const metaDataConditionSfdt = {
+	  objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+	};
+	const metaDataConditionWord = {
+	  objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+	};
+
+	formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
+	formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
+
+	formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
+	formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
+
+	this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
+	this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
+
+	this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
+	this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
+  }
+
+  private saveUpdate(status: string, source: string): void {
+	this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+	  this.creditProposal.products = res.body.products;
+	  this.creditProposal.notes = res.body.notes;
+
+	  if (status === 'complete') {
+		this.saveFile();
+	  }
+
+	  const tempRouterA = this.router.url.split('/')[1];
+
+	  if (tempRouterA === 'cc-review') {
+		if (this.loanAnalysOpinionCompliancePartComponent) {
+		  this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+		  this.loanAnalysOpinionCompliancePartComponent.refresh();
+		  this.loanAnalysOpinionCompliancePartComponent.onCreate();
+		}
+	  }
+
+	  if (this.selectedMenu === 'loan-facility') {
+		if (this.loanFacilityDetailTempComponent) {
+		  this.loanFacilityDetailTempComponent.triggeredSave();
+		  this.loanFacilityDetailTempComponent.onCreate();
+		}
+	  }
+
+	  this.saveDoc = true;
+	  this.saveApplicationRole(source);
+	});
+  }
+
   public onSave(source: string): void {
-    this.saveState = source;
+	this.saveState = source;
 
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
@@ -948,183 +961,71 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.id) {
       const tempRouter = this.router.url.split('/')[1];
 
-      if (
-        tempRouter === 'la-analyst' ||
-        tempRouter === 'la-SME-CRC' ||
-        tempRouter === 'la-approval' ||
-        tempRouter === 'loan-committee-approval'
-      ) {
-        if (this.loanAnalysOpinionComponent) {
-          this.loanAnalysOpinionComponent.triggeredSaveValidate();
-        } else {
-          if (
-            this.positionLoginFromEmit &&
-            this.opinionFileSfdt &&
-            this.opinionFileWord &&
-            this.recomendation &&
-            this.conditionFileSfdt &&
-            this.conditionFileWord
-          ) {
-            const formDataOpinionSfdt = new FormData();
-            const formDataOpinionWord = new FormData();
+	  if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
+		if (this.loanAnalysOpinionComponent) {
+		  this.loanAnalysOpinionComponent.triggeredSaveValidate();
+		} else {
+		  let countValidate = 0;
+		  if (this.positionLoginFromEmit) {
+			if (this.opinionFileSfdt && this.opinionFileWord) {
+			  const fileReader: FileReader = new FileReader();
+			  fileReader.onload = (e: any) => {
+				const testSfdtFile = JSON.parse(fileReader.result as string);
+				if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+				  ++countValidate;
+				} else {
+				  // toast opinion empty
+				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+				}
 
-            const formDataConditionSfdt = new FormData();
-            const formDataConditionWord = new FormData();
-
-            const fileNameSfdt = this.uuidPath + '.sfdt';
-            const fileNameWord = this.uuidPath + '.docs';
-            const fileTypeSfdt = 'sfdt';
-            const fileTypeWord = 'word';
-
-            const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
-            const pathHelperOpinion = this.uuidPath + '-opinion';
-            const metaDataOpinionSfdt = {
-              objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
-            };
-            const metaDataOpinionWord = {
-              objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
-            };
-
-            const keyCondition = 'credit_proposal/remark/opinion-history/condition';
-            const pathHelperCondition = this.uuidPath + '-condition';
-            const metaDataConditionSfdt = {
-              objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
-            };
-            const metaDataConditionWord = {
-              objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
-            };
-
-            formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
-            formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
-
-            formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
-            formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
-
-            this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
-            this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
-
-            this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
-            this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
-          }
-        }
-      }
-
-      this.creditProposalService.update(this.preSave()).subscribe(res => {
-        this.creditProposal.products = res.body.products;
-        this.creditProposal.notes = res.body.notes;
-
-        const tempRouterA = this.router.url.split('/')[1];
-
-        if (tempRouterA === 'cc-review') {
-          if (this.loanAnalysOpinionCompliancePartComponent) {
-            this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-            this.loanAnalysOpinionCompliancePartComponent.refresh();
-            this.loanAnalysOpinionCompliancePartComponent.onCreate();
-          }
-        }
-
-        if (this.selectedMenu === 'loan-facility') {
-          if (this.loanFacilityDetailTempComponent) {
-            this.loanFacilityDetailTempComponent.triggeredSave();
-            this.loanFacilityDetailTempComponent.onCreate();
-          }
-        }
-
-        this.saveDoc = true;
-        this.saveApplicationRole(source);
-      });
-    } else {
-      const tempRouter = this.router.url.split('/')[1];
-
-      if (
-        tempRouter === 'la-analyst' ||
-        tempRouter === 'la-SME-CRC' ||
-        tempRouter === 'la-approval' ||
-        tempRouter === 'loan-committee-approval'
-      ) {
-        if (this.loanAnalysOpinionComponent) {
-          this.loanAnalysOpinionComponent.triggeredSaveValidate();
-        } else {
-          if (
-            this.positionLoginFromEmit &&
-            this.opinionFileSfdt &&
-            this.opinionFileWord &&
-            this.recomendation &&
-            this.conditionFileSfdt &&
-            this.conditionFileWord
-          ) {
-            const formDataOpinionSfdt = new FormData();
-            const formDataOpinionWord = new FormData();
-
-            const formDataConditionSfdt = new FormData();
-            const formDataConditionWord = new FormData();
-
-            const fileNameSfdt = this.uuidPath + '.sfdt';
-            const fileNameWord = this.uuidPath + '.docs';
-            const fileTypeSfdt = 'sfdt';
-            const fileTypeWord = 'word';
-
-            const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
-            const pathHelperOpinion = this.uuidPath + '-opinion';
-            const metaDataOpinionSfdt = {
-              objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
-            };
-            const metaDataOpinionWord = {
-              objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
-            };
-
-            const keyCondition = 'credit_proposal/remark/opinion-history/condition';
-            const pathHelperCondition = this.uuidPath + '-condition';
-            const metaDataConditionSfdt = {
-              objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
-            };
-            const metaDataConditionWord = {
-              objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
-            };
-
-            formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
-            formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
-
-            formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
-            formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
-
-            this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
-            this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
-
-            this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
-            this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
-          }
-        }
-      }
-
-      this.creditProposalService.create(this.preSave()).subscribe(res => {
-        this.creditProposal.products = res.body.products;
-        this.creditProposal.notes = res.body.notes;
-
-        const tempRouterB = this.router.url.split('/')[1];
-
-        if (tempRouterB === 'cc-review') {
-          if (this.loanAnalysOpinionCompliancePartComponent) {
-            this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-            this.loanAnalysOpinionCompliancePartComponent.refresh();
-            this.loanAnalysOpinionCompliancePartComponent.onCreate();
-          }
-        }
-        if (this.selectedMenu === 'loan-facility') {
-          if (this.loanFacilityDetailTempComponent) {
-            this.loanFacilityDetailTempComponent.triggeredSave();
-            this.loanFacilityDetailTempComponent.onCreate();
-          }
-        }
-
-        this.saveWord = true;
-        this.saveDoc = true;
-        this.saveApplicationRole(source);
-      });
+				if (this.recomendation) {
+				  ++countValidate;
+				  if (this.recomendation === 'Recommend With Condition' || this.recomendation === 'Approved With Condition') {
+					if (this.conditionFileSfdt && this.conditionFileWord) {
+					  const fileReaderCondition: FileReader = new FileReader();
+					  fileReaderCondition.onload = (eCondition: any) => {
+						const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+						if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						  ++countValidate;
+						} else {
+						  // toast condition empty
+						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						}
+						if (countValidate === 3) {
+						  this.saveUpdate('complete', source);
+						} else {
+						  this.saveUpdate('not-complete', source);
+						}
+					  };
+					  fileReaderCondition.readAsText(this.conditionFileSfdt);
+					}
+				  } else {
+					if (countValidate === 2) {
+					  this.saveUpdate('complete', source);
+					} else {
+					  this.saveUpdate('not-complete', source);
+					}
+				  }
+				} else {
+				  // toast recomendation empty
+				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
+				  this.saveUpdate('not-complete', source);
+				}
+			  };
+			  fileReader.readAsText(this.opinionFileSfdt);
+			} else {
+			  // toast opinion empty
+			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  this.saveUpdate('not-complete', source);
+			}
+			
+		  }
+		}
+	  }
+      
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
-    this.isAllowSave = false;
   }
 
   public getTitle(): void {

@@ -13,6 +13,7 @@ import { INotes } from 'app/entities/notes/notes.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal.service';
 import { CreditProposalDialogOpinionHistoryComponent } from './dialog-opinion-history/credit-proposal-dialog-opinion-history.component';
+import { MessageService } from 'primeng/api';
 
 import {
   DocumentEditorComponent,
@@ -42,8 +43,18 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  @Output() newItemEvent = new EventEmitter<string>();
+  @Input() notifyChild:Subject<any>;
+
   @Output() uuidPath = new EventEmitter<string>();
+  @Output() newItemEvent = new EventEmitter<string>();
+  
+  @Output() opinionFileSfdt = new EventEmitter<any>();
+  @Output() opinionFileWord = new EventEmitter<File>();
+
+  @Output() conditionFileSfdt = new EventEmitter<File>();
+  @Output() conditionFileWord = new EventEmitter<File>();
+
+  @Output() isAllowSave = new EventEmitter<boolean>();
 
   @ViewChild('document_editor_container')
   private container: DocumentEditorContainerComponent;
@@ -61,6 +72,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private positionLogin: any;
   private uuid: any;
 
+  private countValidate = 0;
+
   constructor(
     protected datePipe: DatePipe,
     protected dialog: MatDialog,
@@ -68,7 +81,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected storageService: StorageService,
     protected creditProposalService: CreditProposalService,
-    protected positionService: PositionService
+    protected positionService: PositionService,
+	protected messageService: MessageService,
   ) {
     this.uuid = uuid.v4();
   }
@@ -92,6 +106,42 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.uuidPath.emit(this.uuid);
 
+	this.notifyChild.subscribe(event => {
+      const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
+	  const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
+
+      const fileNameSfdt = this.uuid + '.sfdt';
+      const fileNameWord = this.uuid + '.word';
+
+      docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameSfdt);
+		if (testFile) {
+		  this.opinionFileSfdt.emit(testFile);
+		}
+      });
+
+      docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameWord);
+		if (testFile) {
+          this.opinionFileWord.emit(testFile);
+		}
+      });
+
+      docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameSfdt);
+		if (testFile) {
+		  this.conditionFileSfdt.emit(testFile);
+		}
+      });
+
+	  docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameWord);
+		if (testFile) {
+          this.conditionFileWord.emit(testFile);
+		}
+	  });
+    });
+
     this.getWord();
     this.filterPositionLogin();
   }
@@ -112,7 +162,149 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     const dialogRef = this.dialog.open(CreditProposalDialogOpinionHistoryComponent, predicate);
   }
 
-  public triggeredSave(): void {
+  private saveValidate(): void {
+    this.triggeredSave();
+    this.triggeredSaveCondition();
+  }
+
+  /* private async checkSfdtFile(part: string): Promise<void> {
+	if (part === 'opinion') {
+      const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+      await docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileName = this.uuid + '.sfdt';
+        const testFile = new File([exportedDocument], fileName);
+        if (testFile) {
+          const fileReader: FileReader = new FileReader();
+          fileReader.onload = (e: any) => {
+            const testSfdtFile = JSON.parse(fileReader.result as string);
+            if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+              ++this.countValidate;
+            } else {
+			  // toast opinion empty
+			  console.log('toast opinion empty');
+			}
+          };
+          fileReader.readAsText(testFile);
+        }
+      });
+    } else if (part === 'condition') {
+      const docEditor = this.container_condition?.documentEditor as DocumentEditorComponent;
+
+      await docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+        const fileName = this.uuid + '.sfdt';
+        const testFile = new File([exportedDocument], fileName);
+        if (testFile) {
+          const fileReader: FileReader = new FileReader();
+          fileReader.onload = (e: any) => {
+            const testSfdtFile = JSON.parse(fileReader.result as string);
+            if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+              ++this.countValidate;
+            }
+            if (this.countValidate === 3) {
+              this.isAllowSave.emit(true);
+              this.saveValidate();
+            } else {
+              this.isAllowSave.emit(false);
+			  // toast condition empty
+			  console.log('toast condition empty');
+            }
+          };
+          fileReader.readAsText(testFile);
+        }
+      });
+    }
+  } */
+
+  private checkSfdtFile(): void {
+	const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+	  const fileName = this.uuid + '.sfdt';
+	  const testFile = new File([exportedDocument], fileName);
+	  if (testFile) {
+		const fileReader: FileReader = new FileReader();
+		fileReader.onload = (e: any) => {
+		  const testSfdtFile = JSON.parse(fileReader.result as string);
+		  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+			++this.countValidate;
+		  } else {
+			// toast opinion empty
+			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+		  }
+		  if (this.recomendasi) {
+			++this.countValidate;
+			if (this.recomendasi === 'Recommend With Condition') {
+			  const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
+
+			  docEditorCondition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
+				const fileNameCondition = this.uuid + '.sfdt';
+				const testFileCondition = new File([exportedDocument], fileNameCondition);
+				if (testFileCondition) {
+				  const fileReaderCondition: FileReader = new FileReader();
+				  fileReaderCondition.onload = (eCondition: any) => {
+					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+					  ++this.countValidate;
+					}
+					if (this.countValidate === 3) {
+					  this.isAllowSave.emit(true);
+					  this.saveValidate();
+					} else {
+					  this.isAllowSave.emit(false);
+					  // toast condition empty
+					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+					}
+				  };
+				  fileReader.readAsText(testFileCondition);
+				}
+			  });
+			} else {
+			  if (this.countValidate === 2) {
+				this.isAllowSave.emit(true);
+				this.saveValidate();
+			  } else {
+				this.isAllowSave.emit(false);
+			  }
+			}
+		  } else {
+			this.isAllowSave.emit(false);
+			// toast recomendation empty
+			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
+		  }
+		};
+		fileReader.readAsText(testFile);
+	  }
+	});
+  }
+
+  public triggeredSaveValidate(): void {
+    this.countValidate = 0;
+
+	this.checkSfdtFile();
+
+	/* this.checkSfdtFile('opinion').then(() => {
+	  if (this.recomendasi) {
+		++this.countValidate;
+		if (this.recomendasi === 'Recommend With Condition') {
+		  this.checkSfdtFile('condition').then();
+		} else {
+		  if (this.countValidate === 2) {
+			this.isAllowSave.emit(true);
+			this.saveValidate();
+		  } else {
+			this.isAllowSave.emit(false);
+		  }
+		}
+	  } else {
+		this.isAllowSave.emit(false);
+		// toast recomendation empty
+		console.log('toast recomendation empty');
+	  }
+    }); */
+  }
+
+  private triggeredSave(): void {
     let paramsId = '';
 
     this.activatedRoute.params.subscribe(params => {
@@ -229,6 +421,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
       if (this.notes) {
         if (this.notes.length > 0) {
           this.notes.sort((a, b) => (a.id > b.id ? 1 : -1));
+		  this.notes = lodash.uniqBy(this.notes, 'positionId');
         }
       }
 
