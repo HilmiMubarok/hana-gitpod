@@ -98,7 +98,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
       } else {
         if (proposalType === 'Total Exposure > IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentAbove.triggeredSave();
-          this.creditProposalCollateralInfoChecklistComponent.refresh();
+          this.creditProposalCollateralInfoChecklistComponent?.refresh();
         } else if (proposalType === 'Total Exposure <= IDR 15 Bio') {
           this.creditProposalCollateralInfoRemarksInfoComponentBelow.triggeredSave();
         } else if (proposalType === 'Total Exposure Back to Back') {

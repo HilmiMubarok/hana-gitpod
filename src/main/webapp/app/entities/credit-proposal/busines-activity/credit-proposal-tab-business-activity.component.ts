@@ -85,44 +85,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public customHeadersJWT: any;
 
-  public dataAttrPass = [
-    // {
-    //   No: 1,
-    //   Parameter: 'There was no delay in previous projects undertaken',
-    //   value: 'No',
-    // },
-    // {
-    //   No: 2,
-    //   Parameter: 'There was no cost over-run in previous project undertaken',
-    //   value: 'No',
-    // },
-    // {
-    //   No: 3,
-    //   Parameter: 'Previous projects achieved 100% sales',
-    //   value: 'No',
-    // },
-    // {
-    //   No: 4,
-    //   Parameter: 'There is standing instruction for payment form Bouwheer to Escrow Account in KEB Hana directly',
-    //   value: 'No',
-    // },
-    // {
-    //   No: 5,
-    //   Parameter: 'There was no delay in obtaining relevant project approvals from the relevant approving authorities',
-    //   value: 'No',
-    // },
-    // {
-    //   No: 6,
-    //   Parameter: 'Max financing 70% of activity progress that is explained in Contract',
-    //   value: 'No',
-    // },
-    // {
-    //   No: 7,
-    //   Parameter: 'There was no disputes or legal action taken against contractors, sub-contractors or suppliers',
-    //   value: 'No',
-    // },
-  ];
-
   public tes() {
     if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
       this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
