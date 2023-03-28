@@ -18,6 +18,8 @@ import { PartyService } from 'app/entities/party/party.service';
 import { ApplicationService } from 'app/entities/application/application.service';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IDebtorCreditRating } from './credit-ratings.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-debtor-data-credit-rating',
@@ -29,7 +31,7 @@ export class DebtorDataCreditRatingViewComponent extends AbstractEntityBaseViewC
   readonly CODE: typeof CODE = CODE;
   public _partyCif: IPartyCif;
   public industry: string;
-
+  public internalMaxLLL = [];
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -53,15 +55,30 @@ export class DebtorDataCreditRatingViewComponent extends AbstractEntityBaseViewC
     protected messageService: MessageService,
     protected translateService: TranslateService,
     protected eventManager: EventManager,
-    public account: AccountService
+    public account: AccountService,
+    protected generalParameterService: GeneralParameterService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
+    this.getLovinternalMaxLLL();
   }
 
   parse() {
     this.partyCif.creditRatings[0].idrMioLLL =
       (Number(this.partyCif.creditRatings[0].equityPosition) * Number(this.partyCif.creditRatings[0].internalMaxLLL)) / 100;
     return (Number(this.partyCif.creditRatings[0].equityPosition) * Number(this.partyCif.creditRatings[0].internalMaxLLL)) / 100;
+  }
+  public getLovinternalMaxLLL() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTERNAL_MAXIMUM_LLL',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.internalMaxLLL = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }
