@@ -88,7 +88,7 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
             this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
             this.industryLimitExposure = res.body.industryLimitExposure;
-            this.limitNominal = res.body.limitPercentage * Number(res.body.industryLimitExposure);
+            this.limitNominal = res.body.limitNominal;
             // this.totalAmmountFunc(this.remainingBalance);
           });
         }
