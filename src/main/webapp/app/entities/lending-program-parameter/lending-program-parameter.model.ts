@@ -25,7 +25,5 @@ export class LendingProgramParameter implements ILendingProgramParameter {
     public lastModifiedDate?: Date,
     public lendingProgram?: string,
     public status?: string
-  ) {
-    this.id = 0;
-  }
+  ) {}
 }

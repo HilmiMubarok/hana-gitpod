@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBelow } from '../convenant.constant';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-below',
@@ -16,6 +17,7 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
   public standardCovenant: any = dataCovenantBelow;
+  // public standardCovenant: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -31,6 +33,10 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
 
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
+  }
+
+  constructor(private generalParameterService: GeneralParameterService) {
+    this.LovCovenantBelow();
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
@@ -64,5 +70,20 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
     }
 
     // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  public LovCovenantBelow() {
+    //   this.generalParameterService
+    //     .queryFilterBy({
+    //       idParameterType: 'COVENANT_BELOW_STANDARD',
+    //       page: 0,
+    //       size: 9999,
+    //     })
+    //     .subscribe(res => {
+    //       this.standardCovenant = lodash.filter(res.body, function (o) {
+    //         return o.statusId === 'ACTIVE';
+    //       });
+    //       console.log(this.standardCovenant)
+    //     });
   }
 }
