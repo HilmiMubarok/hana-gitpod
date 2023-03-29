@@ -8,7 +8,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { IRequestSlik, RequestSlik } from './request-slik.model';
+import { IRequestSlik, RequestSlik, requestSlikData } from './request-slik.model';
 import { RequestSlikService } from './request-slik.service';
 import { RequestSlikComponent } from './request-slik.component';
 import { RequestSlikDetailComponent } from './request-slik-detail.component';
@@ -68,21 +68,22 @@ export const requestSlikRoute: Routes = [
   {
     path: ':id/view',
     component: RequestSlikDetailComponent,
-    resolve: {
-      requestSlik: RequestSlikResolve,
-    },
+    // resolve: {
+    //   requestSlik: RequestSlikResolve,
+    // },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.requestSlik.home.title',
+      requestSlik: requestSlikData,
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
     component: RequestSlikUpdateComponent,
-    resolve: {
-      content: RequestSlikResolve,
-    },
+    // resolve: {
+    //   content: RequestSlikResolve,
+    // },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.requestSlik.home.title',
@@ -92,9 +93,9 @@ export const requestSlikRoute: Routes = [
   {
     path: ':id/edit',
     component: RequestSlikUpdateComponent,
-    resolve: {
-      content: RequestSlikResolve,
-    },
+    // resolve: {
+    //   content: RequestSlikResolve,
+    // },
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.requestSlik.home.title',

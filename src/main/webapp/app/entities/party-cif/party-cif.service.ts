@@ -33,6 +33,10 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
     return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/find/${cif}`, { observe: 'response' });
   }
 
+  public findCifCash(cif: string): Observable<HttpResponse<IPartyCif>> {
+    return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/${cif}`, { observe: 'response' });
+  }
+
   public findLikeCif(cif: string, req: any): Observable<HttpResponse<IPartyCif[]>> {
     const options = createRequestOption(req);
     return this.http.get<IPartyCif[]>(this.resourceUrl + '/cif/like/' + cif, { params: options, observe: 'response' });

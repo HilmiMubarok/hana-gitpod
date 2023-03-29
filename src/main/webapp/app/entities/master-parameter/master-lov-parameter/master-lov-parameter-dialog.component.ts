@@ -32,9 +32,15 @@ export class MasterLovParameterDialogComponent implements OnInit {
   }
 
   public getListType() {
-    this.generalParameterService.getListTypeGeneral().subscribe(res => {
-      this.listGeneralLov = res.body;
-    });
+    this.generalParameterService
+      .getListTypeGeneral({
+        page: 0,
+        size: 9999,
+        sort: ['desc'],
+      })
+      .subscribe(res => {
+        this.listGeneralLov = res.body;
+      });
   }
 
   public onSelect(element: any) {

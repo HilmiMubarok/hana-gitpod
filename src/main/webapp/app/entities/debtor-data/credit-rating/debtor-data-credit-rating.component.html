@@ -23,13 +23,15 @@
 
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="partyCif.creditRatings[0].internalMaxLLL"
-                placeholder="Internal Maksimum LLL (%)"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-              >
-              </ejs-textbox>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Internal Maksimum LLL (%) xxx</mat-label>
+                <mat-select name="internalMaxLLL" [(ngModel)]="partyCif.creditRatings[0].internalMaxLLL">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
 

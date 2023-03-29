@@ -18,6 +18,8 @@ import {
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
 import { doc } from 'prettier';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-busines-activity',
@@ -57,7 +59,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     protected positionService: PositionService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private generalParameterService: GeneralParameterService
   ) {
     this.bucket = '';
   }
@@ -72,8 +75,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
 
-  public customHeadersJWT: any;
-
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
@@ -84,43 +85,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
   public customHeadersJWT: any;
 
-  public dataAttrPass = [
-    {
-      No: 1,
-      Parameter: 'There was no delay in previous projects undertaken',
-      value: 'No',
-    },
-    {
-      No: 2,
-      Parameter: 'There was no cost over-run in previous project undertaken',
-      value: 'No',
-    },
-    {
-      No: 3,
-      Parameter: 'Previous projects achieved 100% sales',
-      value: 'No',
-    },
-    {
-      No: 4,
-      Parameter: 'There is standing instruction for payment form Bouwheer to Escrow Account in KEB Hana directly',
-      value: 'No',
-    },
-    {
-      No: 5,
-      Parameter: 'There was no delay in obtaining relevant project approvals from the relevant approving authorities',
-      value: 'No',
-    },
-    {
-      No: 6,
-      Parameter: 'Max financing 70% of activity progress that is explained in Contract',
-      value: 'No',
-    },
-    {
-      No: 7,
-      Parameter: 'There was no disputes or legal action taken against contractors, sub-contractors or suppliers',
-      value: 'No',
-    },
-  ];
+  public dataAttrPass = [];
 
   public tes() {
     if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
@@ -166,7 +131,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         this.getContainer();
       });
     });
-
+    this.lovProjectIndicator();
     this.tes();
   }
 
@@ -183,6 +148,23 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     });
 
     return result;
+  }
+
+  public lovProjectIndicator() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROJECT_FINANCING_INDICATOR',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataAttrPass = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataAttrPass.length; i++) {
+          this.dataAttrPass[i]['indexNum'] = i + 1;
+        }
+      });
   }
 
   public onDocumentChange() {

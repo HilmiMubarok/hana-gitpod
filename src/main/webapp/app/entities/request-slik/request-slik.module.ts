@@ -6,11 +6,35 @@ import { RequestSlikComponent } from './request-slik.component';
 import { RequestSlikDetailComponent } from './request-slik-detail.component';
 import { RequestSlikUpdateComponent } from './request-slik-update.component';
 import { requestSlikRoute } from './request-slik.route';
+import { DocumentRequestSlikComponent } from './document/document-request-slik.component';
+import { DocumentRequestSlikDialogComponent } from './document/dialog/document-request-slik-dialog.component';
+import { MatInputModule } from '@angular/material/input';
+import { RequestSlikManagementDataGridComponent } from './management-data/request-slik-management-data-grid.component';
+import { RequestSlikShareholderGridComponent } from './shareholder/request-slik-shareholder-grid.component';
+import { RequestSlikOtherGridComponent } from './others/request-slik-other-grid.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
-  declarations: [RequestSlikComponent, RequestSlikDetailComponent, RequestSlikUpdateComponent],
-  entryComponents: [RequestSlikComponent, RequestSlikUpdateComponent],
+  declarations: [
+    RequestSlikComponent,
+    RequestSlikDetailComponent,
+    RequestSlikUpdateComponent,
+    DocumentRequestSlikComponent,
+    DocumentRequestSlikDialogComponent,
+    RequestSlikManagementDataGridComponent,
+    RequestSlikShareholderGridComponent,
+    RequestSlikOtherGridComponent,
+  ],
+  entryComponents: [
+    RequestSlikComponent,
+    RequestSlikUpdateComponent,
+    RequestSlikDetailComponent,
+    DocumentRequestSlikComponent,
+    DocumentRequestSlikDialogComponent,
+    RequestSlikManagementDataGridComponent,
+    RequestSlikShareholderGridComponent,
+    RequestSlikOtherGridComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwRequestSlikModule {}
