@@ -72,6 +72,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
 
+  public customHeadersJWT: any;
+
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
@@ -156,6 +158,9 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   }
 
   ngOnInit() {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.selectedMenu = 'BUSINESS ACTIVITY';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
@@ -167,6 +172,21 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
     });
 
     this.tes();
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public onDocumentChange() {
@@ -248,10 +268,10 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     // this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
-    this.containers.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
-    // this.container.serviceUrl = '/services/los/api/wordeditor/';
-    // this.containers.serviceUrl = '/services/los/api/wordeditor/';
+    // this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+    // this.containers.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
+    this.containers.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
