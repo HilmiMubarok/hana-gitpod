@@ -207,8 +207,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     // this.container_view_false.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     // this.container_view_false_loan_analys.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container_view_false.serviceUrl = '/services/los/api/wordeditor';
-    this.container_view_false_loan_analys.serviceUrl = '/services/los/api/wordeditor';
+    this.container_view_false.serviceUrl = '/services/los/api/wordeditor/';
+    this.container_view_false_loan_analys.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
