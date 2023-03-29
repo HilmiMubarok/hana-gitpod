@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,7 +39,7 @@ import * as uuid from 'uuid';
   styleUrls: ['./loan-analys-opinion.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
+export class LoanAnalysOpinionComponent implements OnInit {
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -62,12 +62,13 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   }
 
   @Input() source = '';
+  @Input() notifyChild:Subject<any>;
 
   @Output() uuidPath = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
   @Output() positionLoginEmit = new EventEmitter<number>();
 
-  @Output() opinionFileSfdt = new EventEmitter<File>();
+  @Output() opinionFileSfdt = new EventEmitter<any>();
   @Output() opinionFileWord = new EventEmitter<File>();
 
   @Output() conditionFileSfdt = new EventEmitter<File>();
@@ -250,6 +251,42 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+	this.notifyChild.subscribe(event => {
+      const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
+	  const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
+
+      const fileNameSfdt = this.uuid + '.sfdt';
+      const fileNameWord = this.uuid + '.word';
+
+      docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameSfdt);
+		if (testFile) {
+		  this.opinionFileSfdt.emit(testFile);
+		}
+      });
+
+      docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameWord);
+		if (testFile) {
+          this.opinionFileWord.emit(testFile);
+		}
+      });
+
+      docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameSfdt);
+		if (testFile) {
+		  this.conditionFileSfdt.emit(testFile);
+		}
+      });
+
+	  docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		const testFile = new File([exportedDocument], fileNameWord);
+		if (testFile) {
+          this.conditionFileWord.emit(testFile);
+		}
+	  });
+    });
+
     this.uuidPath.emit(this.uuid);
 
     this.getWord();
@@ -258,7 +295,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
     this.getWhoAmI().then(res => {
       this.loadApprovalUser();
     });
-  }
+  }  
 
   public change(event: string) {
     this.newItemEvent.emit(event);
@@ -313,8 +350,9 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
     this.saveFileCon();
   }
 
-  private async checkSfdtFile(part: string): Promise<void> {
-    if (part === 'opinion') {
+  /* private async checkSfdtFile(part: string): Promise<void> {
+	console.log('checkSfdtFile in with part : ', part);
+	if (part === 'opinion') {
       const docEditor = this.container?.documentEditor as DocumentEditorComponent;
 
       await docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
@@ -325,8 +363,33 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
           fileReader.onload = (e: any) => {
             const testSfdtFile = JSON.parse(fileReader.result as string);
             if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+			  console.log('checkSfdtFile in and opinion detected');
               ++this.countValidate;
-            }
+            } else {
+			  // toast opinion empty
+			  console.log('toast opinion empty');
+			}
+
+			if (this.recomendasi) {
+			  console.log('validate in recomendation detected');
+			  ++this.countValidate;
+			  if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
+				this.checkSfdtFile('condition').then();
+			  } else {
+				console.log('validate in complete');
+				if (this.countValidate === 2) {
+				  console.log('validate in complete0');
+				  this.isAllowSave.emit(true);
+				  this.saveValidate();
+				} else {
+				  this.isAllowSave.emit(false);
+				}
+			  }
+			} else {
+			  this.isAllowSave.emit(false);
+			  // toast recomendation empty
+			  console.log('toast recomendation empty');
+			}
           };
           fileReader.readAsText(testFile);
         }
@@ -344,31 +407,112 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
             if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
               ++this.countValidate;
             }
-            /* if (this.countValidate === 3) {
+            if (this.countValidate === 3) {
               this.isAllowSave.emit(true);
               this.saveValidate();
             } else {
               this.isAllowSave.emit(false);
-            } */
-			this.isAllowSave.emit(true);
-			this.saveValidate();
+			  // toast condition empty
+			  console.log('toast condition empty');
+            }
           };
           fileReader.readAsText(testFile);
         }
       });
     }
+  } */
+
+  private checkSfdtFile(): void {
+	const docEditor = this.container?.documentEditor as DocumentEditorComponent;
+
+	docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+	  const fileName = this.uuid + '.sfdt';
+	  const testFile = new File([exportedDocument], fileName);
+	  if (testFile) {
+		const fileReader: FileReader = new FileReader();
+		fileReader.onload = (e: any) => {
+		  const testSfdtFile = JSON.parse(fileReader.result as string);
+		  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+			++this.countValidate;
+		  } else {
+			// toast opinion empty
+			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+		  }
+
+		  if (this.recomendasi) {
+			++this.countValidate;
+			if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
+			  const docEditor_condition = this.container_condition?.documentEditor as DocumentEditorComponent;
+
+			  docEditor_condition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
+				const fileNameCondition = this.uuid + '.sfdt';
+				const testFileCondition = new File([exportedDocumentCondition], fileNameCondition);
+				if (testFileCondition) {
+				  const fileReaderCondition: FileReader = new FileReader();
+				  fileReaderCondition.onload = (eCondition: any) => {
+					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+					  ++this.countValidate;
+					}
+					if (this.countValidate === 3) {
+					  this.isAllowSave.emit(true);
+					  this.saveValidate();
+					} else {
+					  this.isAllowSave.emit(false);
+					  // toast condition empty
+					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+					}
+				  };
+				  fileReaderCondition.readAsText(testFileCondition);
+				}
+			  });
+			} else {
+			  if (this.countValidate === 2) {
+				this.isAllowSave.emit(true);
+				this.saveValidate();
+			  } else {
+				this.isAllowSave.emit(false);
+			  }
+			}
+		  } else {
+			this.isAllowSave.emit(false);
+			// toast recomendation empty
+			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
+		  }
+		};
+		fileReader.readAsText(testFile);
+	  }
+	});
   }
 
   private validate(): void {
     this.countValidate = 0;
 
-    if (this.recomendasi) {
-      ++this.countValidate;
-    }
+	this.checkSfdtFile();
 
-    this.checkSfdtFile('opinion').then(() => {
-      this.checkSfdtFile('condition').then();
-    });
+	/* this.checkSfdtFile('opinion').then(() => {
+	  console.log('validate in after check opinion');
+	  if (this.recomendasi) {
+		console.log('validate in recomendation detected');
+		++this.countValidate;
+		if (this.recomendasi === 'Recommend With Condition' || this.recomendasi === 'Approved With Condition') {
+		  this.checkSfdtFile('condition').then();
+		} else {
+		  console.log('validate in complete');
+		  if (this.countValidate === 2) {
+			console.log('validate in complete0');
+			this.isAllowSave.emit(true);
+			this.saveValidate();
+		  } else {
+			this.isAllowSave.emit(false);
+		  }
+		}
+	  } else {
+		this.isAllowSave.emit(false);
+		// toast recomendation empty
+		console.log('toast recomendation empty');
+	  }
+    }); */
   }
 
   public triggeredSaveValidate(): void {
@@ -404,6 +548,7 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
       };
       const formData = new FormData();
       formData.append('file', new File([exportedDocument], fileName));
+
       this.storageService.uploadMeta(this.BUCKET, formData, metaData).subscribe();
     });
 
@@ -421,20 +566,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
     });
   }
 
-  public triggeredSave(): void {
-    if (this.source === '') {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.nameLoanComitee || this.recomendasi !== '') {
-          this.saveFile();
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
-        }
-      } else {
-        this.saveFile();
-      }
-    }
-  }
-
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -446,7 +577,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   }
 
   public onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+	this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
   }
 
   private saveFileCon(): void {
@@ -486,20 +618,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
     });
   }
 
-  public triggeredSaveCondition(): void {
-    if (this.source === '') {
-      if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE') {
-        if (this.nameLoanComitee || this.recomendasi !== '') {
-          this.saveFileCon();
-        } else {
-          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Please check Approval User / Recomendation' });
-        }
-      } else {
-        this.saveFileCon();
-      }
-    }
-  }
-
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -511,7 +629,8 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
   }
 
   public onCreateCondition(): void {
-    this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+	this.container_condition.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
   }
 
   public refresh() {
@@ -579,42 +698,6 @@ export class LoanAnalysOpinionComponent implements OnInit, OnDestroy {
             }
           }
         });
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
-    const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
-
-    const fileNameSfdt = this.uuid + '.sfdt';
-    const fileNameWord = this.uuid + '.word';
-
-    docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const testFile = new File([exportedDocument], fileNameSfdt);
-      if (testFile) {
-        this.opinionFileSfdt.emit(testFile);
-      }
-    });
-
-    docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const testFile = new File([exportedDocument], fileNameWord);
-      if (testFile) {
-        this.opinionFileWord.emit(testFile);
-      }
-    });
-
-    docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-      const testFile = new File([exportedDocument], fileNameSfdt);
-      if (testFile) {
-        this.conditionFileSfdt.emit(testFile);
-      }
-    });
-
-    docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-      const testFile = new File([exportedDocument], fileNameWord);
-      if (testFile) {
-        this.conditionFileWord.emit(testFile);
       }
     });
   }

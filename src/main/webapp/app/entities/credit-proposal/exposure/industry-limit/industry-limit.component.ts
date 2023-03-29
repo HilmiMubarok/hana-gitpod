@@ -85,10 +85,10 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
           response.body[i].label === this.creditProposal.attributes['purposePricing'].industry
         ) {
           this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
-            this.limitPercentage = res.body.limitPercentage + '%';
+            this.limitPercentage = res.body.limitPercentage;
             this.remainingBalance = res.body.remainingBalance;
             this.industryLimitExposure = res.body.industryLimitExposure;
-            this.limitNominal = this.limitPercentage * Number(res.body.industryLimitExposure);
+            this.limitNominal = res.body.limitNominal;
             // this.totalAmmountFunc(this.remainingBalance);
           });
         }

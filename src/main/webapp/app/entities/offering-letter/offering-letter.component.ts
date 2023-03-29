@@ -128,7 +128,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
         predicate['target'] = 'offering-letter-finalize';
       }else if(this.activeRoute === 'review'){
         predicate['target'] = 'offering-letter-review';
-      }else if(this.activeRoute === 'offering-letter-confirmation'){
+      }else if(this.activeRoute === 'confirmation'){
         predicate['target'] = 'offering-letter-confirmation';
       }
 
