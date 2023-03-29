@@ -507,7 +507,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
     return 'IDR';
   }
-
   private fungsiSumcredit(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       let result: number;
@@ -818,5 +817,13 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public getBindingCalculate() {
     const biddingValue = this.creditProposal.attributes['binding'];
     return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  }
+
+  public convertNan(value: any): any{
+    if (value === 'NaN') {
+      return 0
+    }else{
+      return value
+    }
   }
 }

@@ -136,8 +136,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
-    this.fungsiSumcredit().then(() => {
-      this.loadData();
+
+    this.loadData();
 
       for (let i = 0; i < this.historyData().collaterals.length; i++) {
         this.findCollateralProperty(this.historyData().collaterals[i]);
@@ -152,7 +152,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         this.isChecked = true;
       }
       this.setCertyficateType();
-    });
+    this.fungsiSumcredit();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -738,5 +738,12 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public getBindingCalculate() {
     const biddingValue = this.historyData().binding;
     return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  }
+  public convertNan(value:any): any{
+    if (value === 'NaN') {
+      return 0
+    }else{
+      return value
+    }
   }
 }

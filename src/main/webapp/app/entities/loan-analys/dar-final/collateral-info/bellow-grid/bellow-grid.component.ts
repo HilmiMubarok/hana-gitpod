@@ -799,4 +799,12 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     const biddingValue = this.creditProposal.attributes['binding'];
     return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
   }
+
+  public convertNan(value:any): any{
+    if (value === 'NaN') {
+      return 0
+    }else{
+      return value
+    }
+  }
 }
