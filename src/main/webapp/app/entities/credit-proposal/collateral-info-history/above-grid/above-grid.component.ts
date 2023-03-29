@@ -135,9 +135,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     }
   }
   ngOnInit(): void {
+    this.loadData();
     this.fungsiSumcredit().then(() => {
-      this.loadData();
-
       // this.isViewMode && this.displayedColumns.pop();
 
       if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
@@ -637,7 +636,14 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    // console.log("collateral in above grid",collateral);
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
+    ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -649,10 +655,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         }
       }
     }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
-    ) {
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -661,6 +664,18 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
           result = '';
         } else {
           result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities'] || collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.maturityDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.maturityDate;
         }
       }
     }

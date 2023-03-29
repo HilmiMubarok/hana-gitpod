@@ -368,7 +368,7 @@ export const GEO_BOUNDARY_TYPE: Object = {
 };
 
 export const COLLATERAL_TYPE: Object = {
-  property: 'PROPERTY',
+  property: 'PERSONAL_PROPERTY',
   machine: 'MACHINE',
   vehicle: 'VEHICLE',
   realestate: 'REALESTATE',
