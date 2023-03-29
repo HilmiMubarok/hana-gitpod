@@ -70,6 +70,14 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this._disabledOpt = item;
   }
 
+  public corporatePersonalGuaranteeType = {
+    appraise: false,
+    attributes: {},
+    description: 'Corporate/Personal Guarantee',
+    id: 'GUARANTEE',
+    parentDescription: null,
+    parentId: null,
+  };
   public facilityTypes: any;
   public collateralGrading = [];
   public bindingTypes = [];
@@ -162,8 +170,14 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
 
   private loadCollateralType(): void {
     this.collateralTypeService.query().subscribe(res => {
-      this.collateralTypes = res.body;
-      this.collateralTypes.pop();
+      this.collateralTypes = res.body.filter(obj => obj.id !== 'CASH');
+      if (this.collateralTypes) {
+        const guarantee = this.collateralTypes.find(obj => obj.id === 'GUARANTEE');
+        if (!guarantee) {
+          this.collateralTypes.push(this.corporatePersonalGuaranteeType);
+        }
+      }
+      console.log('collateral types ', this.collateralTypes);
     });
   }
 

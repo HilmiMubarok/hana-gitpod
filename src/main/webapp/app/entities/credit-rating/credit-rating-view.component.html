@@ -26,15 +26,15 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <ejs-textbox
-                [(ngModel)]="creditRatings.internalMaxLLL"
-                placeholder="Internal Maksimum LLL (%)"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-                disabled="true"
-                type="number"
-              >
-              </ejs-textbox>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Internal Maksimum LLL (%)</mat-label>
+                <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
 
@@ -304,7 +304,6 @@
             <div class="col">
               <ejs-textbox
                 [(ngModel)]="creditRatings.creditRating"
-          
                 placeholder="Credit Rating"
                 floatLabelType="Auto"
                 cssClass="e-outline"
@@ -316,14 +315,15 @@
 
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="creditRatings.internalMaxLLL"
-                placeholder="Internal Maksimum LLL (%)"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-                type="number"
-              >
-              </ejs-textbox>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Internal Maksimum LLL (%)</mat-label>
+                <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
 
