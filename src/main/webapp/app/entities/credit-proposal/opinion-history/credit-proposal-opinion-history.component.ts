@@ -239,7 +239,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
 			  docEditorCondition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
 				const fileNameCondition = this.uuid + '.sfdt';
-				const testFileCondition = new File([exportedDocument], fileNameCondition);
+				const testFileCondition = new File([exportedDocumentCondition], fileNameCondition);
 				if (testFileCondition) {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
