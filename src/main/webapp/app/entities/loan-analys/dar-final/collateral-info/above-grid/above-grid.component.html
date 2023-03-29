@@ -265,7 +265,7 @@
           </td>
           <td mat-footer-cell *matFooterCellDef>
             {{ getBindingCalculate() | currency: 'IDR ':'symbol':'1.0-0' }}
-            {{ getBindingCalculate() / totalPlafond }}
+            {{ convertNan(getBindingCalculate() / totalPlafond) }}
           </td>
         </ng-container>
         <ng-container matColumnDef="collateralStatus">
