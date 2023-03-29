@@ -645,7 +645,14 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    // console.log("collateral in above grid",collateral);
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
+    ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -657,10 +664,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         }
       }
     }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
-    ) {
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -669,6 +673,18 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
           result = '';
         } else {
           result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities'] || collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.maturityDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.maturityDate;
         }
       }
     }
