@@ -75,6 +75,8 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
 
+  public customHeadersJWT: any;
+
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
@@ -149,6 +151,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
 
     return result;
   }
+
   public lovProjectIndicator() {
     this.generalParameterService
       .queryFilterBy({
@@ -165,6 +168,7 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         }
       });
   }
+
   public onDocumentChange() {
     this.container.restrictEditing = true;
   }
@@ -244,6 +248,11 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     // this.containers.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+<<<<<<< HEAD
+=======
+    // this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+    // this.containers.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+>>>>>>> a749d6e9109b1b279f265294afd2b1962a168a45
     this.container.serviceUrl = '/services/los/api/wordeditor/';
     this.containers.serviceUrl = '/services/los/api/wordeditor/';
   }

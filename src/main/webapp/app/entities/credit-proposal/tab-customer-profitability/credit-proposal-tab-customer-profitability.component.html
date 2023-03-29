@@ -70,14 +70,7 @@
                 <td>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <td style="vertical-align: middle; text-align: center">
-                      <input
-                        [(ngModel)]="item.attributes['tabCustomer'].roa"
-                        [value]="totalRoa()"
-                        [disabled]="true"
-                        type="text"
-                        currencyMask
-                        [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
-                      />
+                      <input [(ngModel)]="item.attributes['tabCustomer'].roa" [value]="totalRoa()" [disabled]="true" type="number" />
                     </td>
                   </section>
                   <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -85,9 +78,7 @@
                     <div class="fontsebled row">
                       <div class="col-3">&nbsp;</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-2">
-                        {{ item.attributes['tabCustomer'].roa | currency: 'IDR ':'symbol':'1.0-0' }}
-                      </div>
+                      <div class="col col-lg-2">{{ item.attributes['tabCustomer'].roa }}%</div>
                     </div>
                   </section>
                 </td>
