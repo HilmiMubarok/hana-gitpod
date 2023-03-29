@@ -75,8 +75,6 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
   public creditProposaldata: ICreditProposal = new CreditProposal();
   public value: string;
 
-  public customHeadersJWT: any;
-
   private ngUnsubscribe = new Subject();
   private paramsIdGet: string;
   private getKey: string;
