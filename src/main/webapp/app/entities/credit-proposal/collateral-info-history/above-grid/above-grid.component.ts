@@ -136,14 +136,13 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   }
   ngOnInit(): void {
     this.loadData();
-    this.fungsiSumcredit().then(() => {
       // this.isViewMode && this.displayedColumns.pop();
 
       if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
         this.isChecked = true;
       }
       this.setCertyficateType();
-    });
+      this.fungsiSumcredit();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -777,5 +776,13 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   public getBindingCalculate() {
     const biddingValue = this.historyData().binding;
     return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  }
+
+  public convertNan(value:any): any{
+    if (value === 'NaN') {
+      return 0
+    }else{
+      return value
+    }
   }
 }
