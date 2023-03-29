@@ -136,9 +136,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
+    this.loadData();
     this.fungsiSumcredit().then(() => {
-      this.loadData();
-
       for (let i = 0; i < this.historyData().collaterals.length; i++) {
         this.findCollateralProperty(this.historyData().collaterals[i]);
       }

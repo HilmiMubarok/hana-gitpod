@@ -135,9 +135,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     }
   }
   ngOnInit(): void {
+    this.loadData();
     this.fungsiSumcredit().then(() => {
-      this.loadData();
-
       // this.isViewMode && this.displayedColumns.pop();
 
       if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
