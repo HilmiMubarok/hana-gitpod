@@ -256,7 +256,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 					}
 				  };
-				  fileReader.readAsText(testFileCondition);
+				  fileReaderCondition.readAsText(testFileCondition);
 				}
 			  });
 			} else {
