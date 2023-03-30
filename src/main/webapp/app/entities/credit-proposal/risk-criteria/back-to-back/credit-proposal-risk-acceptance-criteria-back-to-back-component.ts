@@ -10,13 +10,20 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { MessageService } from 'primeng/api';
 
 import { Router } from '@angular/router';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-back-to-back',
   templateUrl: './credit-proposal-risk-acceptance-criteria-back-to-back-component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnInit {
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService, private router: Router) {}
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    private generalParameterService: GeneralParameterService,
+    protected positionService: PositionService,
+    private router: Router
+  ) {}
 
   public creditProposaldata: ICreditProposal = new CreditProposal();
 
@@ -79,110 +86,115 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
     this.dataGridFive[data.No - 1].value = value;
     this.item.attributes['cpRacBack'].topGridFive = this.dataGridFive;
   }
+  public dataGridOne = [];
+  public dataGridTwo = [];
+  public dataGridThre = [];
+  public dataGridFour = [];
+  public dataGridFive = [];
 
-  public dataGridOne = [
-    {
-      No: 1,
-      documentType: 'Have met the Anti Money Laundring requirements',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 2,
-      documentType: 'It has been checked that the debtor and the owner of the collateral do not have problems in taxation',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 3,
-      documentType: 'It has been checked that the debtor and the owner of the collateral do not have negative information',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 4,
-      documentType: 'Prospective debtors are not included in the PEP (Politically Exposed Person)',
-      value: 'Yes',
-      remarks: '',
-    },
-  ];
+  // public dataGridOne = [
+  //   {
+  //     No: 1,
+  //     // documentType: 'Have met the Anti Money Laundring requirements',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     // documentType:'It has been checked that the debtor and the owner of the collateral do not have problems in taxation',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     // documentType: 'It has been checked that the debtor and the owner of the collateral do not have negative information',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 4,
+  //     // documentType: 'Prospective debtors are not included in the PEP (Politically Exposed Person)',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  // ];
 
-  public dataGridTwo = [
-    {
-      No: 1,
-      documentType:
-        'The minimum time deposit tenor is 12 (twelve) months and/or the minimum deposit tenor is the same as the credit facility period.',
+  // public dataGridTwo = [
+  //   {
+  //     No: 1,
+  //     documentType:
+  //       'The minimum time deposit tenor is 12 (twelve) months and/or the minimum deposit tenor is the same as the credit facility period.',
 
-      value: 'Yes',
-      remarksTwo: '',
-    },
-    {
-      No: 2,
-      documentType: 'Time deposits as a collateral and loans must be recorded at the same branch office',
+  //     value: 'Yes',
+  //     remarksTwo: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     documentType: 'Time deposits as a collateral and loans must be recorded at the same branch office',
 
-      value: 'Yes',
-      remarksTwo: '',
-    },
-    {
-      No: 3,
-      documentType: 'Time Deposit placement must be done all at once and should not be done in stages',
+  //     value: 'Yes',
+  //     remarksTwo: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     documentType: 'Time Deposit placement must be done all at once and should not be done in stages',
 
-      value: 'Yes',
-      remarksTwo: '',
-    },
-  ];
+  //     value: 'Yes',
+  //     remarksTwo: '',
+  //   },
+  // ];
 
-  public dataGridThre = [
-    {
-      No: 1,
-      documentType: 'Hana Bank SBLC Financial Format Standard',
+  // public dataGridThre = [
+  //   {
+  //     No: 1,
+  //     documentType: 'Hana Bank SBLC Financial Format Standard',
 
-      value: 'Yes',
-      remarksThere: '',
-    },
-    {
-      No: 2,
-      documentType: 'Issued by banks thats categorized as prime bank',
+  //     value: 'Yes',
+  //     remarksThere: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     documentType: 'Issued by banks thats categorized as prime bank',
 
-      value: 'Yes',
-      remarksThere: '',
-    },
-    {
-      No: 3,
-      documentType:
-        'The maturity date of the Standby L/C is at least 1 (one) month longer than the end date of the credit agreement or for SBLC from Hana Seoul, the SBLC period is 14 calendar days longer than the credit facility term.',
+  //     value: 'Yes',
+  //     remarksThere: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     documentType:
+  //       'The maturity date of the Standby L/C is at least 1 (one) month longer than the end date of the credit agreement or for SBLC from Hana Seoul, the SBLC period is 14 calendar days longer than the credit facility term.',
 
-      value: 'Yes',
-      remarksThere: '',
-    },
-  ];
+  //     value: 'Yes',
+  //     remarksThere: '',
+  //   },
+  // ];
 
-  public dataGridFour = [
-    {
-      No: 1,
-      documentType: 'Collateral and loan must be recorded at the same branch office.',
+  // public dataGridFour = [
+  //   {
+  //     No: 1,
+  //     documentType: 'Collateral and loan must be recorded at the same branch office.',
 
-      value: 'Yes',
-      remarksFour: '',
-    },
-    {
-      No: 2,
-      documentType: 'The placement of Savings/Giro funds must be all at once and may not be gradual.',
+  //     value: 'Yes',
+  //     remarksFour: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     documentType: 'The placement of Savings/Giro funds must be all at once and may not be gradual.',
 
-      value: 'Yes',
-      remarksFour: '',
-    },
-  ];
+  //     value: 'Yes',
+  //     remarksFour: '',
+  //   },
+  // ];
 
-  public dataGridFive = [
-    {
-      No: 1,
-      documentType: 'Debiting must be done all at once and should not be done in stages.',
+  // public dataGridFive = [
+  //   {
+  //     No: 1,
+  //     documentType: 'Debiting must be done all at once and should not be done in stages.',
 
-      value: 'Yes',
-      remarksFive: '',
-    },
-  ];
+  //     value: 'Yes',
+  //     remarksFive: '',
+  //   },
+  // ];
   onKeyUpEvent() {
     for (let h = 0; h < this.dataGridOne.length; h++) {
       this.dataGridOne[h].remarks = this.remarks[h];
@@ -225,6 +237,94 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
 
   ngOnInit(): void {
     this.refreshRacBackToBack();
+    this.lovGernerat();
+    this.lovTimeDeposit();
+    this.lovSblc();
+    this.savingCurrent();
+    this.cashMargin();
+  }
+  public lovGernerat() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BTB_GENERAL',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataGridOne = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataGridOne.length; i++) {
+          this.dataGridOne[i]['No'] = i + 1;
+        }
+      });
+  }
+  public lovTimeDeposit() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BTB_TIME_DEPOSIT',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataGridTwo = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataGridTwo.length; i++) {
+          this.dataGridTwo[i]['No'] = i + 1;
+        }
+      });
+  }
+
+  public lovSblc() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BTB_SLBC',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataGridThre = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataGridThre.length; i++) {
+          this.dataGridThre[i]['No'] = i + 1;
+        }
+      });
+  }
+
+  public savingCurrent() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BTB_SAVING_CURRENT_ACCOUNT',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataGridFour = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataGridFour.length; i++) {
+          this.dataGridFour[i]['No'] = i + 1;
+        }
+      });
+  }
+
+  public cashMargin() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BTB_CASH_MARGIN',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataGridFive = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataGridFive.length; i++) {
+          this.dataGridFive[i]['No'] = i + 1;
+        }
+      });
   }
 
   public refreshRacBackToBack() {
