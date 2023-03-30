@@ -16,7 +16,7 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { FieldSettingsModel } from '@syncfusion/ej2-angular-navigations';
 
 import { IProcessTask } from 'app/shared/model/process-task.model';
-import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, ScoreCard } from '../collateral-appraisal/negative/score-card.constant';
 
 import { ICif, Cif } from '../cif/cif.model';
 import { SurveyAppraisalsService } from '../survey-appraisals/survey-appraisals.service';
@@ -287,7 +287,7 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
       data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
-        data.attributes['scoreCard'] = scoreCard;
+        data.attributes['scoreCard'] = new ScoreCard();
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }
