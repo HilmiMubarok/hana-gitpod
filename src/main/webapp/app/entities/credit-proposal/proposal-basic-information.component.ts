@@ -651,7 +651,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.saveWord = true;
 
-      if (this.creditProposal.id) {atus
+      if (this.creditProposal.id) {
 		if (this.router.url.split('/')[1] === 'credit-proposal-status') {
 		  this.saveUpdate('not-complete', source);
 		} else if (this.router.url.split('/')[1] === 'cp-status-approval') {
