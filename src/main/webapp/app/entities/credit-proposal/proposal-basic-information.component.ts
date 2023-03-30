@@ -651,65 +651,67 @@ export class ProposalBasicInformationComponent implements OnInit {
     } else {
       this.saveWord = true;
 
-      if (this.creditProposal.id) {
-		if (this.creditProposalOpinionHistoryComponent) {
-		  this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
-		} else {
-		  let countValidate = 0;
-		  if (this.creditProposal.attributes['positionLogin']) {
-			if (this.opinionFileSfdt && this.opinionFileWord) {
-			  const fileReader: FileReader = new FileReader();
-			  fileReader.onload = (e: any) => {
-				const testSfdtFile = JSON.parse(fileReader.result as string);
-				if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-				  ++countValidate;
-				} else {
-				  // toast opinion empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				}
+      if (this.creditProposal.id) {atus
+		if (this.router.url.split('/')[1] === 'credit-proposal-status') {
+		  this.saveUpdate('not-complete', source);
+		} else if (this.router.url.split('/')[1] === 'cp-status-approval') {
+		  if (this.creditProposalOpinionHistoryComponent) {
+			this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
+		  } else {
+			let countValidate = 0;
+			if (this.creditProposal.attributes['positionLogin']) {
+			  if (this.opinionFileSfdt && this.opinionFileWord) {
+				const fileReader: FileReader = new FileReader();
+				fileReader.onload = (e: any) => {
+				  const testSfdtFile = JSON.parse(fileReader.result as string);
+				  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+					++countValidate;
+				  } else {
+					// toast opinion empty
+					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+				  }
 
-				if (this.recomendation) {
-				  ++countValidate;
-				  if (this.recomendation === 'Recommend With Condition') {
-					if (this.conditionFileSfdt && this.conditionFileWord) {
-					  const fileReaderCondition: FileReader = new FileReader();
-					  fileReaderCondition.onload = (eCondition: any) => {
-						const testSfdtFileConditon = JSON.parse(fileReaderCondition.result as string);
-						if (testSfdtFileConditon.sections[0].blocks[0].inlines.length > 0) {
-						  ++countValidate;
-						} else {
-						  // toast condition empty
-						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						}
-						if (countValidate === 3) {
-						  this.saveUpdate('complete', source);
-						} else {
-						  this.saveUpdate('not-complete', source);
-						}
-					  };
-					  fileReaderCondition.readAsText(this.conditionFileSfdt);
+				  if (this.recomendation) {
+					++countValidate;
+					if (this.recomendation === 'Recommend With Condition') {
+					  if (this.conditionFileSfdt && this.conditionFileWord) {
+						const fileReaderCondition: FileReader = new FileReader();
+						fileReaderCondition.onload = (eCondition: any) => {
+						  const testSfdtFileConditon = JSON.parse(fileReaderCondition.result as string);
+						  if (testSfdtFileConditon.sections[0].blocks[0].inlines.length > 0) {
+							++countValidate;
+						  } else {
+							// toast condition empty
+							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						  }
+						  if (countValidate === 3) {
+							this.saveUpdate('complete', source);
+						  } else {
+							this.saveUpdate('not-complete', source);
+						  }
+						};
+						fileReaderCondition.readAsText(this.conditionFileSfdt);
+					  }
+					} else {
+					  if (countValidate === 2) {
+						this.saveUpdate('complete', source);
+					  } else {
+						this.saveUpdate('not-complete', source);
+					  }
 					}
 				  } else {
-					if (countValidate === 2) {
-					  this.saveUpdate('complete', source);
-					} else {
-					  this.saveUpdate('not-complete', source);
-					}
+					// toast recomendation empty
+					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
+					this.saveUpdate('not-complete', source);
 				  }
-				} else {
-				  // toast recomendation empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
-				  this.saveUpdate('not-complete', source);
-				}
-			  };
-			  fileReader.readAsText(this.opinionFileSfdt);
-			} else {
-			  // toast opinion empty
-			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-			  this.saveUpdate('not-complete', source);
+				};
+				fileReader.readAsText(this.opinionFileSfdt);
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+				this.saveUpdate('not-complete', source);
+			  }
 			}
-		  } else {
-			this.saveUpdate('not-complete', source);
 		  }
 		}
       } else {
