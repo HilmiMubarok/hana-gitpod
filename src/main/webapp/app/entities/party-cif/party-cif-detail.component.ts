@@ -19,6 +19,7 @@ import { PartyCifService } from './party-cif.service';
 import { DebtorDataSlikTransferService } from '../debtor-data/slick-summary/debitur/debtor-data-silk-upload/debtor-data-slik-transfer.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
+import { LoginService } from 'app/login/login.service';
 
 @Component({
   selector: 'jhi-party-cif-detail',
@@ -34,6 +35,8 @@ export class PartyCifDetailComponent implements OnInit {
   public collateralInfo: ICollateral[];
   public subMenu: object[];
   public arrSliks: Object[];
+  private internalIdLocStor: string;
+  private positionIdLocStor: string;
 
   constructor(
     protected messageService: MessageService,
@@ -41,6 +44,7 @@ export class PartyCifDetailComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected partyCifService: PartyCifService,
+	protected loginService: LoginService,
     private partySlikService: PartySlikService,
     private TransferService: DebtorDataSlikTransferService
   ) {
@@ -59,7 +63,13 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
+	this.internalIdLocStor = this.getLocStor('INT');
+	this.positionIdLocStor = this.getLocStor('POS');
+	if (!this.internalIdLocStor || !this.positionIdLocStor) {
+	  this.logout();
+	} else {
+	  this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
+	}
   }
 
   previousState(): void {
@@ -96,8 +106,30 @@ export class PartyCifDetailComponent implements OnInit {
     if (copyPartyCif.customerPerson?.dob) {
       copyPartyCif.customerPerson.dob = this.partyCifStartState.customerPerson.dob;
     }
+	
+	copyPartyCif.internalId = this.internalIdLocStor;
 
     return copyPartyCif;
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  private logout(): void {
+    this.loginService.logout();
+    this.router.navigate(['']);
   }
 
   public save() {
@@ -108,20 +140,31 @@ export class PartyCifDetailComponent implements OnInit {
 
     this.partyCif.sliks = lodash.concat(this.partyCif.sliks, this.arrSliks);
 
-    this.partyCifService.update(this.preSave()).subscribe(res => {
-      if (this.collateralInfo.length > 0) {
-        for (let i = 0; i < this.collateralInfo.length; i++) {
-          this.collateralService.save(this.collateralInfo[i]);
-          if (this.collateralInfo.length === i) {
-            this.collateralInfo = [];
-          }
-        }
-      }
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Save Success',
-      });
-    });
+	this.internalIdLocStor = this.getLocStor('INT');
+	this.positionIdLocStor = this.getLocStor('POS');
+
+	if (!this.internalIdLocStor || !this.positionIdLocStor) {
+	  this.logout();
+	} else {
+	  if (!this.internalIdLocStor) {
+		this.logout();
+	  } else {
+		this.partyCifService.update(this.preSave()).subscribe(res => {
+		  if (this.collateralInfo.length > 0) {
+			for (let i = 0; i < this.collateralInfo.length; i++) {
+			  this.collateralService.save(this.collateralInfo[i]);
+			  if (this.collateralInfo.length === i) {
+				this.collateralInfo = [];
+			  }
+			}
+		  }
+		  this.messageService.add({
+			severity: 'success',
+			summary: 'Success',
+			detail: 'Save Success',
+		  });
+		});
+	  }
+	}    
   }
 }

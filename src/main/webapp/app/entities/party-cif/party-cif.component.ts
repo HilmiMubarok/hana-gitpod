@@ -20,6 +20,8 @@ import { PersonService } from '../person/person.service';
 import { PartyGroupService } from '../party-group/party-group.service';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
 import { MessageService } from 'primeng/api';
+import { LoginService } from 'app/login/login.service';
+import { CashCustomersService } from '../customer-cash/customer-cash.service';
 import { CashCustomerService } from './cash-cusomer.service';
 
 @Component({
@@ -61,6 +63,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public activeRoute: string;
   public statusCodesData: Object[] = [];
   public debtorData: IDebtorData;
+  private positionIdLocStor: string;
 
   constructor(
     protected partyCifService: PartyCifService,
@@ -72,6 +75,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected personService: PersonService,
     protected corporateService: PartyGroupService,
     protected messageService: MessageService,
+	protected loginService: LoginService,
+	protected cashCustomersService: CashCustomersService,
     private cashCustomerService: CashCustomerService
   ) {
     super(_snackBar, customerService, messageService);
@@ -86,7 +91,12 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
 
   ngOnInit(): void {
-    this.loadAll();
+    this.positionIdLocStor = this.getPositionByLocStor('POS');
+	if (!this.positionIdLocStor) {
+	  this.logout();
+	} else {
+	  this.loadAll();
+	}
   }
 
   public openDialogFindCif(): void {
@@ -174,9 +184,9 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     }
   }
 
-public statusSearch = false
- public closeSearch(){
-    this.statusSearch = false
+  public statusSearch = false
+  public closeSearch(){
+	this.statusSearch = false
     this.currentSearch = ''
     this.page = 0
 
@@ -184,13 +194,34 @@ public statusSearch = false
     this.loadAll()
   }
 
+  private logout(): void {
+    this.loginService.logout();
+    this.router.navigate(['']);
+  }
+
+  private getPositionByLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   private loadAll(): void {
     this.loading = true;
-    this.customerService
+    this.cashCustomersService
       .query({
+		idPosition: this.positionIdLocStor,
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.sortData(),
+        sort: this.sortData()		
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
