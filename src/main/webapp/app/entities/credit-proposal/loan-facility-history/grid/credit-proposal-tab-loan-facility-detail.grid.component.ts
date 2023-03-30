@@ -213,4 +213,12 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   print() {
     console.log(this._creditProposal);
   }
+
+  getRequeredSpread(element) {
+    if (element === null || element === undefined) {
+      return 0;
+    } else {
+      return element.replace('%', '');
+    }
+  }
 }

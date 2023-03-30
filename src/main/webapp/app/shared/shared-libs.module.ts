@@ -116,7 +116,7 @@ import {
   ToolbarService as ToolbarServiceDocumentEditor,
 } from '@syncfusion/ej2-angular-documenteditor';
 import { SearchService } from '@syncfusion/ej2-angular-grids';
-import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerModule } from '@syncfusion/ej2-angular-documenteditor';
+import { DocumentEditorAllModule, DocumentEditorModule, DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -302,7 +302,7 @@ import { MatTreeModule } from '@angular/material/tree';
     SpreadsheetAllModule,
     ChartAllModule,
     DocumentEditorAllModule,
-    DocumentEditorContainerModule,
+    DocumentEditorContainerAllModule,
   ],
 })
 export class SharedLibsModule {}
