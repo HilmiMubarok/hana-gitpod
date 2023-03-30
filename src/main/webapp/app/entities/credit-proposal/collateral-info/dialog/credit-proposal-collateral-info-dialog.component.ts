@@ -205,7 +205,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
         this.lovRank = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('lovRank', this.lovRank);
       });
   }
 
