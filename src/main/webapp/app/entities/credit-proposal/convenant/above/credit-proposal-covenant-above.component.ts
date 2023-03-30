@@ -16,8 +16,8 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGridAbove: any = dataCovenantAbove;
-  // public standardDataGridAbove: any = [];
+  // public standardDataGridAbove: any = dataCovenantAbove;
+  public standardDataGridAbove: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -74,17 +74,16 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
   }
 
   public LovCovenantAbove() {
-    // this.generalParameterService
-    //   .queryFilterBy({
-    //     idParameterType: 'COVENANT_ABOVE_STANDARD',
-    //     page: 0,
-    //     size: 9999,
-    //   })
-    //   .subscribe(res => {
-    //     this.standardDataGridAbove = lodash.filter(res.body, function (o) {
-    //       return o.statusId === 'ACTIVE';
-    //     });
-    //     console.log(this.standardDataGridAbove)
-    //   });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_ABOVE_STANDARD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.standardDataGridAbove = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }
