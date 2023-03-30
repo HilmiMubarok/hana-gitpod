@@ -12,7 +12,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CollateralAttribute, ICollateral } from '../collateral/collateral.model';
 import lodash from 'lodash';
-import { scoreCard } from './negative/score-card.constant';
+import { ScoreCard } from './negative/score-card.constant';
+// import { scoreCard } from './negative/score-card.constant';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralAppraisalService extends AbstractEntityService<ICollateralAppraisal> {
@@ -118,7 +119,7 @@ export class CollateralAppraisalService extends AbstractEntityService<ICollatera
       // };
     } else {
       if (!Object.prototype.hasOwnProperty.call(param.attributes, 'scoreCard')) {
-        param.attributes['scoreCard'] = scoreCard;
+        param.attributes['scoreCard'] = new ScoreCard();
       } else {
         param.attributes['scoreCard'] = JSON.parse(param.attributes['scoreCard']);
       }

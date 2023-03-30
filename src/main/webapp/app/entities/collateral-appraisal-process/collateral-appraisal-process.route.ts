@@ -12,8 +12,9 @@ import lodash from 'lodash';
 import { CollateralAppraisalService } from '../collateral-appraisal/collateral-appraisal.service';
 import { CollateralAppraisal, ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
 import { CollateralAttribute } from '../collateral/collateral.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+// import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalProcessMaterialComponent } from './collateral-appraisal-process-material.component';
+import { ScoreCard } from '../collateral-appraisal/negative/score-card.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class CollateralAppraisalProcessResolve implements Resolve<ICollateralApp
               collateralAppraisal.body.attributes['marketbility'] = '';
             }
             if (collateralAppraisal.body.attributes === undefined || collateralAppraisal.body.attributes === null) {
-              collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+              collateralAppraisal.body.attributes['scoreCard'] = new ScoreCard();
               // collateralAppraisal.body.attributes['summary'] = {
               //   keterangan: '',
               //   marketbility: '',
@@ -47,7 +48,7 @@ export class CollateralAppraisalProcessResolve implements Resolve<ICollateralApp
               // };
             } else {
               if (!Object.prototype.hasOwnProperty.call(collateralAppraisal.body.attributes, 'scoreCard')) {
-                collateralAppraisal.body.attributes['scoreCard'] = scoreCard;
+                collateralAppraisal.body.attributes['scoreCard'] = new ScoreCard();
               } else {
                 collateralAppraisal.body.attributes['scoreCard'] = JSON.parse(collateralAppraisal.body.attributes['scoreCard']);
               }
