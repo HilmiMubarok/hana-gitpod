@@ -193,6 +193,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.initializeCountry();
     this.getLovGuarantee();
     this.getLovGuaranteeIdentification();
+    console.log('collateral ', this.collateralProperty.marketValue);
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -489,42 +490,30 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.collateralProperty.marketValueOriginalCcy = this.MVOriCcy.id;
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService
-      .getCurrency(this.collateralProperty.attributes.marketValueCcy, 'IDR', setDate.replace(/-/g, ''))
+      .getCurrency(this.collateralProperty.marketValueOriginalCcy, 'IDR', setDate.replace(/-/g, ''))
       .subscribe(res => {
         if (res.body[0]?.factor !== undefined) {
           this.currency = Number(res.body[0]?.factor);
           console.log('currency ', this.currency);
-          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
-          this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+          this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
         } else {
           this.currency = 0;
-          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
-          this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+          this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
+          this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
         }
       });
+  }
+
+  public setData() {
+    this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt;
+    this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt;
   }
 
   public amountChange() {
-    this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
-    this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
-  }
-
-  public getAmountCcy() {
-    this.collateralProperty.attributes.marketValueCcy = this.MVOriCcy.id;
-    const setDate = new Date().toISOString().split('T')[0];
-    this.creditProposalService
-      .getCurrency(this.collateralProperty.attributes.marketValueCcy, 'IDR', setDate.replace(/-/g, ''))
-      .subscribe(res => {
-        if (res.body[0]?.factor !== undefined) {
-          this.currency = Number(res.body[0]?.factor);
-          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
-          this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
-        } else {
-          this.currency = 0;
-          this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
-          this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
-        }
-      });
+    console.log('change');
+    this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
+    this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
   }
 
   public findCif() {
@@ -592,5 +581,9 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
           return o.statusId === 'ACTIVE';
         });
       });
+  }
+
+  print() {
+    console.log('collateral property', this.collateralProperty);
   }
 }

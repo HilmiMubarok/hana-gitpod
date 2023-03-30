@@ -507,7 +507,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
     return 'IDR';
   }
-
   private fungsiSumcredit(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       let result: number;
@@ -699,7 +698,13 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let datas: ICollateralProperty[];
 
     // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
+    ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -711,10 +716,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         }
       }
     }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
-    ) {
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -723,6 +725,18 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           result = '';
         } else {
           result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities'] || collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.maturityDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.maturityDate;
         }
       }
     }
@@ -818,5 +832,13 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public getBindingCalculate() {
     const biddingValue = this.creditProposal.attributes['binding'];
     return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  }
+
+  public convertNan(value: any): any{
+    if (value === 'NaN') {
+      return 0
+    }else{
+      return value
+    }
   }
 }
