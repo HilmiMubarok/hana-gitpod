@@ -116,8 +116,8 @@ export class NavbarComponent implements OnInit {
 		
 		while (!isFirstPosActive && i < res.body[0].positions.length) {
 		  if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
-			this.positionTypeIdPub = res.body[0].positions[i].positionTypeId;
-			positionTypeId = res.body[0].positions[i].positionTypeId;
+			this.positionTypeIdPub = res.body[0].positions[i].id;
+			positionTypeId = res.body[0].positions[i].id;
 			positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
 
 			this.internalIdPub = res.body[0].positions[i].internalId;
