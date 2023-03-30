@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { ICustomer } from './customer.model';
+import { ICustomer } from '../customer/customer.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CashCustomerService extends AbstractEntityService<ICustomer> {
+export class CashCustomersService extends AbstractEntityService<ICustomer> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-customers');
