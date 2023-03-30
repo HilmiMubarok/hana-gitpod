@@ -591,7 +591,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 	  this.creditProposal.collaterals = res.body.collaterals;
 
 	  if (status === 'complete') {
-		this.saveFile
+		this.saveFile();
 	  }
 
 	  if (this.creditProposalTabBusinessActivityComponent) {
