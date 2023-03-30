@@ -38,10 +38,10 @@
         </td>
       </ng-container>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
     </table>
     <mat-paginator
       showFirstLastButtons

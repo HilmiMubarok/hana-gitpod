@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBackToBackDeposit } from '../convenant.constant';
 import lodash from 'lodash';
-
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-back-to-back-deposit',
   templateUrl: './covenant-backtoback-deposit.component.html',
@@ -15,7 +15,8 @@ export class CovenantBackToBackDepositComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGridBackToBackDeposit: any = dataCovenantBackToBackDeposit;
+  // public standardDataGridBackToBackDeposit: any = dataCovenantBackToBackDeposit;
+  public standardDataGridBackToBackDeposit: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -31,6 +32,10 @@ export class CovenantBackToBackDepositComponent implements OnInit {
 
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
+  }
+
+  constructor(private generalParameterService: GeneralParameterService) {
+    this.LovCovenantBtbDeposit();
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
@@ -70,5 +75,19 @@ export class CovenantBackToBackDepositComponent implements OnInit {
     }
 
     // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  public LovCovenantBtbDeposit() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_ABOVE_STANDARD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.standardDataGridBackToBackDeposit = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }

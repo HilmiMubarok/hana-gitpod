@@ -66,7 +66,6 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
         if (res.id) {
           this.lendingProgramParameterService.update(res).subscribe(_res => {
             this.loadAll();
-            console.log('xxx', res);
           });
         } else {
           this.lendingProgramParameterService.create(res).subscribe(_res => {
