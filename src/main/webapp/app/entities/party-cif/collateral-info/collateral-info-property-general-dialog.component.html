@@ -88,7 +88,7 @@
   >
   </jhi-collateral-property-general-dialog-template>
   <jhi-collateral-property-personal-corporate-guarantee
-    *ngIf="collateral.collateralTypeId === 'GUARANTEE' && collateralPropertyExternal && collateralProperty"
+    *ngIf="collateral.collateralTypeId === 'DEFAULT' && collateralPropertyExternal && collateralProperty"
     [collateralProperty]="collateralProperty"
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"

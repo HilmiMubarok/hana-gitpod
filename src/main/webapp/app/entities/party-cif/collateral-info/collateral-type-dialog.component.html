@@ -36,14 +36,15 @@
         {{ item.collateralTypeCodeDescription }}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" [hidden]="collateral.collateralTypeId">*) Please Select Collateral Code </mat-hint>
     <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
   <mat-form-field class="w-100" appearance="outline">
     <mat-label>Collateral Propose Pricing</mat-label>
-    <input matInput type="text" [(ngModel)]="collateral.attributes.collateralProposePricing" [disabled]="dataSource()" />
-    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    <input matInput type="text" [(ngModel)]="collateral.attributes.collateralProposePricing" disabled />
+    <mat-hint align="end">*) Disabled, Filled From Collateral Code</mat-hint>
   </mat-form-field>
 </div>
 <div class="form-group">
