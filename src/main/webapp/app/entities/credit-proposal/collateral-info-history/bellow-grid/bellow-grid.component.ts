@@ -136,8 +136,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
-    this.fungsiSumcredit().then(() => {
-      this.loadData();
+
+    this.loadData();
 
       for (let i = 0; i < this.historyData().collaterals.length; i++) {
         this.findCollateralProperty(this.historyData().collaterals[i]);
@@ -152,7 +152,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         this.isChecked = true;
       }
       this.setCertyficateType();
-    });
+    this.fungsiSumcredit();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -645,7 +645,14 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] || collateral.collateralTypeId === COLLATERAL_TYPE['machine']) {
+    // console.log("collateral in above grid",collateral);
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
+    ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -657,10 +664,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
         }
       }
     }
-    if (
-      collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['securities']
-    ) {
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['guaranteeLetter']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -669,6 +673,18 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
           result = '';
         } else {
           result = data.attributes.certificateExpiryDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['securities'] || collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.attributes.maturityDate === undefined) {
+          result = '';
+        } else {
+          result = data.attributes.maturityDate;
         }
       }
     }
@@ -738,5 +754,12 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   public getBindingCalculate() {
     const biddingValue = this.historyData().binding;
     return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  }
+  public convertNan(value:any): any{
+    if (value === 'NaN') {
+      return 0
+    }else{
+      return value
+    }
   }
 }

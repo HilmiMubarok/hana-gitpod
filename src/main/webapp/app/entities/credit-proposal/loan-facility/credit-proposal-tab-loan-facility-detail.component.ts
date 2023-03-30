@@ -88,6 +88,8 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   public newMessage: string;
   public ccy: string;
 
+  public customHeadersJWT: any;
+
   @Output() outCreditProposal = new EventEmitter<ICreditProposal>();
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
@@ -114,6 +116,9 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
   }
 
   ngOnInit(): void {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
     if (this.parentSourceSub === 'from-click-menu') {
       if (this.router.url.split('/')[1] === 'cp-status-approval') {
@@ -124,6 +129,21 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
     this.removeTagRemaks();
     this.setCurrency();
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -185,8 +205,10 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
 
   onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container_view_false.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-    this.container_view_false_loan_analys.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container_view_false.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container_view_false_loan_analys.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_view_false.serviceUrl = '/services/los/api/wordeditor/';
+    this.container_view_false_loan_analys.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {

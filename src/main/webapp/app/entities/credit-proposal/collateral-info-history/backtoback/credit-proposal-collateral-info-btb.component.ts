@@ -432,7 +432,13 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     let datas: ICollateralProperty[];
 
     // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['other']) {
+    if (
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['property'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['other']
+    ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );

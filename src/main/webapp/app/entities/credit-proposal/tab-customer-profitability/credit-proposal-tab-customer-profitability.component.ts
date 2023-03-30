@@ -178,9 +178,9 @@ export class CreditProposalTabCustomerProfitabilityComponent implements OnInit, 
   public totalRoa() {
     let result: number;
     result = 0;
-    result = Number(this.item.attributes['tabCustomer'].profit) / Number(this.item.attributes['tabCustomer'].avarage);
-    this.item.attributes['tabCustomer'].roa = result;
-    return result;
+    result = (Number(this.item.attributes['tabCustomer'].profit) / Number(this.item.attributes['tabCustomer'].avarage)) * 100;
+    this.item.attributes['tabCustomer'].roa = result.toFixed(2);
+    return result.toFixed(2);
   }
 
   public btnSave($event: any): void {
