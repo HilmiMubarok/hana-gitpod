@@ -35,7 +35,6 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
   @Input() saveWordMinio: any;
   @Input()
   get creditProposalItem() {
-    console.log('this._creditProposalItem', this._creditProposalItem);
     return this._creditProposalItem;
   }
 
@@ -71,25 +70,7 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
       this.triggeredSave();
     }
   }
-  // public tools: object = {
-  //   items: [
-  //     'FontName',
-  //     'FontSize',
-  //     'Bold',
-  //     'Italic',
-  //     'Underline',
-  //     'StrikeThrough',
-  //     'FontColor',
-  //     'BackgroundColor',
-  //     'OrderedList',
-  //     'UnorderedList',
-  //     'Outdent',
-  //     'Indent',
-  //     'SuperScript',
-  //     'SubScript',
-  //     'CreateLink',
-  //   ],
-  // };
+
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
     const keyCode: string = args.event.key;
     const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
@@ -97,12 +78,19 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
     console.log('isCtrlKey', isCtrlKey);
     if (isCtrlKey && keyCode === '86') {
       args.isHandled = true;
-      console.log('ini paste');
     }
   }
 
   onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+	this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+	this.documentEditor.selection.sectionFormat.pageWidth = 500;
+	this.documentEditor.selection.sectionFormat.pageHeight = 600;
+	this.documentEditor.selection.sectionFormat.leftMargin = 10;
+	this.documentEditor.selection.sectionFormat.rightMargin = 10;
+	this.documentEditor.selection.sectionFormat.bottomMargin = 10;
+	this.documentEditor.selection.sectionFormat.topMargin = 10;
+	this.documentEditor.selection.sectionFormat.headerDistance = 72;
+	this.documentEditor.selection.sectionFormat.footerDistance = 72;
   }
 
   public triggeredSave(): void {
@@ -152,7 +140,6 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
       .getObjects(this.bucket, obj)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(response => {
-        console.log('test', obj);
         if (response.body.length > 0) {
           this.storageService
             .fileBlob(response.body[response.body.length - 1]['url'])
