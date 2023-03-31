@@ -46,6 +46,7 @@
         <p class="e-card-sub-title">Opinion</p>
         <ejs-documenteditorcontainer
           #document_editor_container
+          [headers]="customHeadersJWT"
           [enableToolbar]="true"
           [enableLocalPaste]="false"
           height="100vh"
@@ -85,6 +86,7 @@
       <p class="e-card-sub-title">Condition</p>
       <ejs-documenteditorcontainer
         #document_editor_container_condition
+        [headers]="customHeadersJWT"
         [enableToolbar]="true"
         [enableLocalPaste]="false"
         height="100vh"

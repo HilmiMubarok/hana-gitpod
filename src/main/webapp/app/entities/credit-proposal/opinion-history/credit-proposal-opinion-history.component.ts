@@ -66,6 +66,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   public notes: INotes[];
   public recomendasi: string;
 
+  public customHeadersJWT: any;
+
   private _creditProposalItem: ICreditProposal;
   private BUCKET: string;
   private ngUnsubscribe = new Subject();
@@ -104,6 +106,9 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.uuidPath.emit(this.uuid);
 
 	this.notifyChild.subscribe(event => {
@@ -144,6 +149,21 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
     this.getWord();
     this.filterPositionLogin();
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public change(event: string) {
@@ -357,7 +377,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public triggeredSaveCondition(): void {
@@ -411,7 +432,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public onCreateCondition(): void {
-    this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_condition.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public refresh() {
