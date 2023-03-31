@@ -83,14 +83,6 @@ export class CreditProposalGroupGuarantorAnalysisComponent implements OnInit, On
 
   onCreate(): void {
 	this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-	this.container.documentEditor.selection.sectionFormat.pageWidth = 500;
-	this.container.documentEditor.selection.sectionFormat.pageHeight = 600;
-	this.container.documentEditor.selection.sectionFormat.leftMargin = 10;
-	this.container.documentEditor.selection.sectionFormat.rightMargin = 10;
-	this.container.documentEditor.selection.sectionFormat.bottomMargin = 10;
-	this.container.documentEditor.selection.sectionFormat.topMargin = 10;
-	this.container.documentEditor.selection.sectionFormat.headerDistance = 72;
-	this.container.documentEditor.selection.sectionFormat.footerDistance = 72;
   }
 
   public triggeredSave(): void {
