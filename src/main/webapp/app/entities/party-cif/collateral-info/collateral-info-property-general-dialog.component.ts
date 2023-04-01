@@ -78,11 +78,10 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
 
   private convertDate(date: any): any {
     const dateOfDate = new Date(date);
-    const yy = new Date(dateOfDate).getFullYear();
-    const mm = new Date(dateOfDate).getMonth() + 1;
-    const dd = new Date(dateOfDate).getDate();
-    const dataforExpiry = yy + '-' + String(mm).padStart(2, '0') + '-' + String(dd).padStart(2, '0') + 'T00:00:00+07:00';
-    return dataforExpiry;
+    const ustConvert = new Date(
+      Date.UTC(dateOfDate.getFullYear(), dateOfDate.getMonth(), dateOfDate.getDate(), dateOfDate.getHours(), dateOfDate.getMinutes())
+    );
+    return ustConvert;
   }
 
   public save(): void {
