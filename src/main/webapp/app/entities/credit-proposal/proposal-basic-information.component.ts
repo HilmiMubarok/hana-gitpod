@@ -664,8 +664,22 @@ export class ProposalBasicInformationComponent implements OnInit {
 				const fileReader: FileReader = new FileReader();
 				fileReader.onload = (e: any) => {
 				  const testSfdtFile = JSON.parse(fileReader.result as string);
-				  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-					++countValidate;
+				  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+					if (testSfdtFile.sections[0].blocks[0].columnCount) {
+					  if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  }
+					} else if (testSfdtFile.sections[0].blocks[0].inlines) {
+					  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  }
+					}
 				  } else {
 					// toast opinion empty
 					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
@@ -677,9 +691,23 @@ export class ProposalBasicInformationComponent implements OnInit {
 					  if (this.conditionFileSfdt && this.conditionFileWord) {
 						const fileReaderCondition: FileReader = new FileReader();
 						fileReaderCondition.onload = (eCondition: any) => {
-						  const testSfdtFileConditon = JSON.parse(fileReaderCondition.result as string);
-						  if (testSfdtFileConditon.sections[0].blocks[0].inlines.length > 0) {
-							++countValidate;
+						  const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+						  if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+							if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+							  if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  }
+							} else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+							  if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  }
+							}
 						  } else {
 							// toast condition empty
 							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });

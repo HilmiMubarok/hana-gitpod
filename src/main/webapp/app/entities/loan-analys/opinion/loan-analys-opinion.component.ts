@@ -432,8 +432,22 @@ export class LoanAnalysOpinionComponent implements OnInit {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
 		  const testSfdtFile = JSON.parse(fileReader.result as string);
-		  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-			++this.countValidate;
+		  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+			if (testSfdtFile.sections[0].blocks[0].columnCount) {
+			  if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+				++this.countValidate;
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  }
+			} else if (testSfdtFile.sections[0].blocks[0].inlines) {
+			  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+				++this.countValidate;
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  }
+			}
 		  } else {
 			// toast opinion empty
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
@@ -451,9 +465,18 @@ export class LoanAnalysOpinionComponent implements OnInit {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-					if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-					  ++this.countValidate;
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+					  if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+						if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+						  ++this.countValidate;
+						}
+					  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+						if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						  ++this.countValidate;
+						}
+					  }
 					}
+					
 					if (this.countValidate === 3) {
 					  this.isAllowSave.emit(true);
 					  this.saveValidate();
