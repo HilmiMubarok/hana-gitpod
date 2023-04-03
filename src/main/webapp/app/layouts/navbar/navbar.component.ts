@@ -176,6 +176,7 @@ export class NavbarComponent implements OnInit {
 		  const posN = lodash.clone(this.positionName);
 		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
 		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
+		  this.templateService.changePosInt(position.positionTypeDescription);
 		  if (posN !== position.positionTypeDescription) {
 			this.router.navigate(['']);
 		  }
