@@ -53,6 +53,11 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public setStatusCurrenValue = [];
   public memoryFiles = []
   public fileDeleted = []
+
+  public filesStatus: string
+  public filesdueDate: string
+  public filesRemarks: string
+  public filesDescription: string
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -76,6 +81,10 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.category();
     this.setStatus();
     this.getMinIOData();
+    this.filesStatus = this.files.status
+    this.filesdueDate = this.files.dueDate
+    this.filesRemarks = this.files.remarks
+    this.filesDescription = this.files.description
   }
 
   public getMinIOData() {
@@ -106,7 +115,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
         this.files.dueDate = res.body[0].tags.dueDate;
       }
       this.lengthMinIO = res.body;
-      console.log('reddd', res.body.name)
       for (let index = 0; index < res.body.length; index++) {
         this.file = [
           ...this.file,
@@ -156,9 +164,9 @@ export class DebtorDataDocumentChecklistDialogComponent {
       this.handleImage()
     } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === undefined) {
       this.handleImage();
-    } else if (this.files.status === 'Available') {
+    } else if (this.filesStatus === 'Available') {
       this.handleImage();
-    } else if (this.files.status === 'Not Available') {
+    } else if (this.filesStatus === 'Not Available') {
       this.handleImage();
     }else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Waived') {
       this.handleImage()
@@ -177,6 +185,10 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
 
   public save(): void {
+    this.files.status = this.filesStatus
+    this.files.dueDate = this.filesdueDate
+    this.files.remarks = this.filesRemarks
+    this.files.description = this.filesDescription
     const deleteData = this.file.length - this.fileDeleted.length
     this.approvedDeleted().then(()=>{
       
@@ -315,7 +327,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
         }
        
       }
-      if (this.files.status === 'TBO' || this.files.status === 'Waived') {
+      if (this.filesStatus === 'TBO' || this.filesStatus === 'Waived') {
           this.isTBO()
       }
   }

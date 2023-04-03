@@ -99,9 +99,9 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogComponent, predicate);
     dialogRef.afterClosed().subscribe((r: any) => {
+      // if (r !== 'save') {
 
-
-     
+      // }
     });
   }
 
