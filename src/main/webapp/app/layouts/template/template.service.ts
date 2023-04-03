@@ -11,7 +11,7 @@ export class TemplateService {
 
   private changgedPosInt?: string;
   private triggerChanggedPosInt = new BehaviorSubject<string>(this.changgedPosInt);
-  public triggerChanggedPosIntObservable = this.sidebarStateChanged$.asObservable();
+  public triggerChanggedPosIntObservable = this.triggerChanggedPosInt.asObservable();
 
   constructor() {
     this.sidebarStateChanged$.next('open');
