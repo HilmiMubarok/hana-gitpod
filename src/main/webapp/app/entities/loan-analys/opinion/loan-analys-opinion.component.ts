@@ -251,41 +251,43 @@ export class LoanAnalysOpinionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	this.notifyChild.subscribe(event => {
-      const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
-	  const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
+	if (this.tempRouter !== 'distribution' && this.tempRouter !== 'finalize' && this.tempRouter !== 'review' && this.tempRouter !== 'confirmation') {
+	  this.notifyChild.subscribe(event => {
+		const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
+		const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-      const fileNameSfdt = this.uuid + '.sfdt';
-      const fileNameWord = this.uuid + '.word';
+		const fileNameSfdt = this.uuid + '.sfdt';
+		const fileNameWord = this.uuid + '.word';
 
-      docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameSfdt);
-		if (testFile) {
-		  this.opinionFileSfdt.emit(testFile);
-		}
+		docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameSfdt);
+			if (testFile) {
+			  this.opinionFileSfdt.emit(testFile);
+			}
+		});
+
+		docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameWord);
+		  if (testFile) {
+			this.opinionFileWord.emit(testFile);
+		  }
+		});
+
+		docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameSfdt);
+		  if (testFile) {
+			this.conditionFileSfdt.emit(testFile);
+		  }
+		});
+
+		docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameWord);
+		  if (testFile) {
+			this.conditionFileWord.emit(testFile);
+		  }
+		});
       });
-
-      docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameWord);
-		if (testFile) {
-          this.opinionFileWord.emit(testFile);
-		}
-      });
-
-      docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameSfdt);
-		if (testFile) {
-		  this.conditionFileSfdt.emit(testFile);
-		}
-      });
-
-	  docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameWord);
-		if (testFile) {
-          this.conditionFileWord.emit(testFile);
-		}
-	  });
-    });
+	}
 
     this.uuidPath.emit(this.uuid);
 
