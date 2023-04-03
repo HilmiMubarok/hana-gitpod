@@ -47,7 +47,7 @@
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest Rate</th>
       <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.attributes.applicationType === 'Existing'">
+        <div>
           {{
             element.attributes.interestRatePeriod +
               ' ' +
@@ -56,17 +56,6 @@
               element.attributes.interestRateType +
               ' ' +
               element.attributes.currentInterestRate
-          }}
-        </div>
-        <div *ngIf="element.attributes.applicationType !== 'Existing'">
-          {{
-            element.attributes.interestRateType +
-              ' ' +
-              element.attributes.interestRatePeriod +
-              ' ' +
-              element.attributes.interestRatePeriodType +
-              ' ' +
-              getRequeredSpread(element.attributes.requiredSpread)
           }}
         </div>
       </td>
@@ -174,7 +163,7 @@
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest</th>
       <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.attributes.applicationType === 'Existing'">
+        <div>
           {{
             element.attributes.interestRatePeriod +
               ' ' +
@@ -183,17 +172,6 @@
               element.attributes.interestRateType +
               ' ' +
               element.attributes.currentInterestRate
-          }}
-        </div>
-        <div *ngIf="element.attributes.applicationType !== 'Existing'">
-          {{
-            element.attributes.interestRateType +
-              ' ' +
-              element.attributes.interestRatePeriod +
-              ' ' +
-              element.attributes.interestRatePeriodType +
-              ' ' +
-              getRequeredSpread(element.attributes.requiredSpread)
           }}
         </div>
       </td>
