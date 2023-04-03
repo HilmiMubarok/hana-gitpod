@@ -47,6 +47,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   @Output() uuidPath = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
+  @Output() posLog = new EventEmitter<string>();
   
   @Output() opinionFileSfdt = new EventEmitter<any>();
   @Output() opinionFileWord = new EventEmitter<File>();
@@ -99,7 +100,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
-        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].id;
+        // this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].id;
+		this.posLog.emit(this.positionLogin[i].id);
       }
       this.refresh();
     });

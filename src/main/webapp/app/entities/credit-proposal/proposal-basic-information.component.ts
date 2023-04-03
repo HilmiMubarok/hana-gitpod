@@ -91,8 +91,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   public currentAccount: Account;
 
   public subMenu: object[];
-  public recomendation: string;
   public uuidPath: any;
+  public recomendation: string;
+  public positionLogin: number;
 
   public url: string;
   public activeRoute: string;
@@ -174,6 +175,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   setOpinionRecomendation(newItem: string) {
     this.recomendation = newItem;
+  }
+
+  setPositionLogin(posLog: number) {
+    this.positionLogin = posLog;
   }
 
   setOpinionFileSfdt(file: File) {
@@ -659,7 +664,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 			this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
 		  } else {
 			let countValidate = 0;
-			if (this.creditProposal.attributes['positionLogin']) {
+			if (this.positionLogin) {
 			  if (this.opinionFileSfdt && this.opinionFileWord) {
 				const fileReader: FileReader = new FileReader();
 				fileReader.onload = (e: any) => {
@@ -834,10 +839,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     if (tempRouter === 'cp-status-approval') {
 	  if (status === 'complete')  {
-		if (this.id && copyCreditProposal.attributes['positionLogin'] && this.recomendation && this.uuidPath) {
+		if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
 		  if (copyCreditProposal.notes.length > 0) {
 			for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
+              if (copyCreditProposal.notes[i].positionId === this.positionLogin) {
 				copyCreditProposal.notes[i].applicationId = this.id;
 				copyCreditProposal.notes[i].message = '';
 				copyCreditProposal.notes[i].recomendation = this.recomendation;
@@ -848,16 +853,18 @@ export class ProposalBasicInformationComponent implements OnInit {
 
 			if (tempHelper === 0) {
               copyCreditProposal.notes.push(
-				this.addNewNotes(copyCreditProposal.attributes['positionLogin'], '', this.recomendation, this.uuidPath)
+				this.addNewNotes(this.positionLogin, '', this.recomendation, this.uuidPath)
               );
 			}
           } else {
 			copyCreditProposal.notes.push(
-              this.addNewNotes(copyCreditProposal.attributes['positionLogin'], '', this.recomendation, this.uuidPath)
+              this.addNewNotes(this.positionLogin, '', this.recomendation, this.uuidPath)
 			);
           }
 
-          delete copyCreditProposal.attributes['positionLogin'];
+		  if (copyCreditProposal.attributes['positionLogin']) {
+			delete copyCreditProposal.attributes['positionLogin'];
+		  }
 		}
 	  }
     }
