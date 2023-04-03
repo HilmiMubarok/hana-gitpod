@@ -220,6 +220,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.sidebarState = newState;
     });
 	this.templateService.triggerChanggedPosIntObservable.subscribe((newPos: string) => {
+	  console.log('triggerChanggedPosIntObservable @ngOnInit sidebar');
       this.setMenuFromPosInt(newPos);
     });
   }
