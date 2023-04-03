@@ -172,7 +172,7 @@ export class NavbarComponent implements OnInit {
 		const item: CustomMatMenu = new CustomMatMenu();
 		item.text = position.positionTypeDescription + " - " + position.internalName;
 		item.fn = () => {
-		  this.setCookie(this.cNamePos, position.positionTypeId, position.positionTypeDescription);
+		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
 		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
 		}
 		this.positionListItems.push(item);
