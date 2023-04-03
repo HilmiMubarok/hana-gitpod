@@ -11,6 +11,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { IEmployee } from '../../entities/employee/employee.model';
 import { EmployeeService } from '../../entities/employee/employee.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-navbar',
@@ -25,7 +26,7 @@ export class NavbarComponent implements OnInit {
 
   public loginName: string;
   public lastLogin: string;
-  public positionTypeIdPub: string;
+  public positionIdPub: string;
   public internalIdPub: string;
   public positionName: string;
   public internalName: string;
@@ -73,7 +74,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public setCookie(cname: string, cvalue: any, cdesc: any): void {
-	this.positionTypeIdPub = cvalue;
+	this.positionIdPub = cvalue;
 	if (cname === 'POS') {
 	  this.positionName = cdesc;
 	} else if (cname === 'INT') {
@@ -90,7 +91,7 @@ export class NavbarComponent implements OnInit {
   }
 
   private setUpAcc(res: any, account: any): void {
-	this.positionTypeIdPub = '';
+	this.positionIdPub = '';
 	this.internalIdPub = '';
 
 	if (res.body.length < 1) {
@@ -109,15 +110,15 @@ export class NavbarComponent implements OnInit {
 	  if (res.body[0].positions.length > 0) {
 		let i = 0;
 		let isFirstPosActive = false;
-		let positionTypeId = '';
+		let positionId = '';
 		let positionTypeDescription = '';
 		let internalId = '';
 		let internalName = '';
 		
 		while (!isFirstPosActive && i < res.body[0].positions.length) {
 		  if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
-			this.positionTypeIdPub = res.body[0].positions[i].id;
-			positionTypeId = res.body[0].positions[i].id;
+			this.positionIdPub = res.body[0].positions[i].id;
+			positionId = res.body[0].positions[i].id;
 			positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
 
 			this.internalIdPub = res.body[0].positions[i].internalId;
@@ -133,7 +134,7 @@ export class NavbarComponent implements OnInit {
 		this.positionName = positionTypeDescription === '' ? 'Not Have Active Position': positionTypeDescription;
 		this.internalName = internalName === '' ? 'Not Have Active Position': internalName;
 
-		this.setCookie(this.cNamePos, positionTypeId, positionTypeDescription);
+		this.setCookie(this.cNamePos, positionId, positionTypeDescription);
 		this.setCookie(this.cNameInt, internalId, internalName);
 
 		if (res.body[0].positions.length > 1) {
@@ -172,9 +173,12 @@ export class NavbarComponent implements OnInit {
 		const item: CustomMatMenu = new CustomMatMenu();
 		item.text = position.positionTypeDescription + " - " + position.internalName;
 		item.fn = () => {
+		  const posN = lodash.clone(this.positionName);
 		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
 		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
-		  this.router.navigate(['']);
+		  if (posN !== position.positionTypeDescription) {
+			this.router.navigate(['']);
+		  }
 		}
 		this.positionListItems.push(item);
 	  }
@@ -200,7 +204,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public logout(): void {
-	this.deleteCookie(this.cNamePos, this.positionTypeIdPub);
+	this.deleteCookie(this.cNamePos, this.positionIdPub);
 	this.deleteCookie(this.cNameInt, this.internalIdPub);
     this.loginService.logout();
     this.router.navigate(['']);
