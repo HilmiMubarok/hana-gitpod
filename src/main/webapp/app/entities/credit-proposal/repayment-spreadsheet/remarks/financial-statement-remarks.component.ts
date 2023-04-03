@@ -30,6 +30,8 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
   private getKey: string;
   private fileGet: File;
 
+  public customHeadersJWT: any;
+
   @Input() saveWordMinio: any;
   @Input()
   get creditProposalItem() {
@@ -63,6 +65,9 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
   }
 
   ngOnInit() {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.bucket = ' ';
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
@@ -73,6 +78,22 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
     });
     // this.getContainer();
   }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.saveWordMinio) {
       this.triggeredSave();
@@ -95,7 +116,8 @@ export class CreditProposalFinancialStatementRemarksComponent implements OnInit,
   }
 
   onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public triggeredSave(): void {
