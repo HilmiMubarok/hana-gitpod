@@ -1048,8 +1048,8 @@ export class LoanAnalysMainComponent implements OnInit {
 		  }
 		}
 	  } else {
-      this.saveUpdate('not-complete', source);
-    } 
+		this.saveUpdate('not-complete', source);
+      }
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
