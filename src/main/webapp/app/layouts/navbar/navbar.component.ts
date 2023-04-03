@@ -174,6 +174,7 @@ export class NavbarComponent implements OnInit {
 		item.fn = () => {
 		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
 		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
+		  this.router.navigate(['']);
 		}
 		this.positionListItems.push(item);
 	  }
