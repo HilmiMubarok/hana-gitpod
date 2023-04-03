@@ -288,6 +288,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         this.aplicationProducts[i].attributes['requiredSpread'] = '0.00%';
         this.aplicationProducts[i].attributes['cost'] = '0.00%';
         this.aplicationProducts[i].attributes['roaa'] = '0.00%';
+        console.log('application product 2', this.aplicationProduct);
       }
 
       for (let i = 0; i < this.aplicationProducts.length; i++) {
@@ -322,6 +323,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
       }
       this.spreadPerFacility.emit(this.aplicationProducts);
       this.calculateDiscount.emit();
+      this.creditProposal.products = this.aplicationProducts;
     });
   }
 
