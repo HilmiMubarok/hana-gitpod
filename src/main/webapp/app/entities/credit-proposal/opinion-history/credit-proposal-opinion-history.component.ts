@@ -246,8 +246,14 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
 		  const testSfdtFile = JSON.parse(fileReader.result as string);
-		  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-			++this.countValidate;
+		  console.log('testSfdtFile : ', testSfdtFile);
+		  if (testSfdtFile.sections[0].blocks[0].inlines) {
+			if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+			  ++this.countValidate;
+			} else {
+			  // toast opinion empty
+			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			}
 		  } else {
 			// toast opinion empty
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
@@ -260,12 +266,15 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 			  docEditorCondition.saveAsBlob('Sfdt').then((exportedDocumentCondition: Blob) => {
 				const fileNameCondition = this.uuid + '.sfdt';
 				const testFileCondition = new File([exportedDocumentCondition], fileNameCondition);
+				console.log('testFileCondition : ', testFileCondition);
 				if (testFileCondition) {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-					if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-					  ++this.countValidate;
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+					  if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						++this.countValidate;
+					  }
 					}
 					if (this.countValidate === 3) {
 					  this.isAllowSave.emit(true);
