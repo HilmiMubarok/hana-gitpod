@@ -117,7 +117,7 @@ export class DocumentChecklistDialogTempComponent {
         key: `/cp/${this.data.cpId}/document/file-cp/${this.files.id}`,
       };
       const retrieveIDDNotDuplicated: Object = {
-        key: `/idd/${this.data.partyId}/document/file-idd/${this.files.id}`,
+        key: `/idd/${this.data.partyId}/document/${this.files.id}`,
       };
 
       this.prosesGetDataByID(retrieveDataCpDuplicateIdd)

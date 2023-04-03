@@ -106,7 +106,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
 
   private getFiles(id: number): void {
     const predicate: Object = {
-      key: `/idd/${id}/document/file-idd/${this.files.id}/`,
+      key: `/idd/${id}/document/${this.files.id}/`,
     };
     this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
       if (res.body.length > 0) {
@@ -374,7 +374,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
             createdBy: null,
           };
           const files = new Date() + '-' + this.file[i].name.replace('&', '');
-          metaData.objectName = `/idd/${this.data.partyId}/document/file-idd/${this.files.id}/${files}`;
+          metaData.objectName = `/idd/${this.data.partyId}/document/${this.files.id}/${files}`;
           metaData.entityId = this.data.partyId;
           metaData.id = this.files.id;
           metaData.status = this.files.status;

@@ -26,6 +26,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
   public file = [];
   public file1 = []
   public file2 = []
+  public file3 = []
   constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get creditProposal() {
@@ -87,15 +88,17 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
 
 
 
-  public openDialog(element: IDocumentType = null, view: string, item: string): void {
+  public openDialog(element: IDocumentType = null, view: string, item: string, parentId: string): void {
     const predicate = { width: '80vw', data: {} };
     predicate.data['cpId'] = this.creditProposal.id;
-    predicate.data['partyId'] = this.creditProposal.cif.partyId;
+    predicate.data['partyId'] = this.creditProposal.id;
     predicate.data['bucket'] = this.bucket;
     predicate.data['files'] = element;
     predicate.data['typeData'] = this.typeData;
     predicate.data['view'] = view;
     predicate.data['item'] = item;
+    predicate.data['parentId'] = parentId;
+
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogHistoryComponent, predicate);
     dialogRef.afterClosed().subscribe((r: any) => {
@@ -106,11 +109,15 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
   }
 
 
-
+ 
     private getFiles(id: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const dataCpOnly: Object = {
-        key: `/cp/${id}/document/history/`,
+        key: `/cp/${id}/document/history/file-idd/`,
+      };
+
+      const dataIDDOnly: Object = {
+        key: `/cp/${id}/document/history/file-cp/`,
       };
           this.storageService.getObjects(this.bucket, dataCpOnly).subscribe((res1: any) => { 
             for (let index = 0; index < res1.body.length; index++) {
@@ -126,10 +133,28 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
               },
             ];
           }
+          })
 
-          this.file = this.file2
+
+          this.storageService.getObjects(this.bucket, dataIDDOnly).subscribe((res1: any) => { 
+            for (let index = 0; index < res1.body.length; index++) {
+            this.file3 = [
+              ...this.file3,
+              {
+                idFile: res1.body[index].tags.id,
+                url: res1.body[index].url,
+                name: res1.body[index].key,
+                remarks: res1.body[index].tags.remarks,
+                status: res1.body[index].tags.status,
+                dueDate: res1.body[index].tags.dueDate,
+              },
+            ];
+          }
+
+          this.file = [...this.file2, this.file3]
           resolve();
           })
+         
       });
 
   }
