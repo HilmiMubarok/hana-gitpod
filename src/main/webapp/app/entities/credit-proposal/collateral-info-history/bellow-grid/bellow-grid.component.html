@@ -117,8 +117,8 @@
               {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
-              {{getBindingCalculate() | currency: 'IDR ':'symbol':'1.0-0'}}
-              {{convertNan(getBindingCalculate() / totalPlafond)}}
+              {{biddingValueSum | currency: 'IDR ':'symbol':'1.0-0'}}
+              {{biddingValueCoverage}}
             </td>
           </ng-container>
           <ng-container matColumnDef="collateralStatus">
