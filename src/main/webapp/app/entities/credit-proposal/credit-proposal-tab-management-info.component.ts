@@ -31,9 +31,6 @@ import lodash from 'lodash';
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
-  // @ViewChild('grid') public grid: GridComponent;
-  // @ViewChild('findCifDialog')
-
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -46,7 +43,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   private fileGet: File;
   private BUCKET: string;
 
-  // @Input() saveWord: any;
   @Input()
   creditProposalItem: ICreditProposal = new CreditProposal();
   public dataItem: ICreditProposal = new CreditProposal();
@@ -64,7 +60,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public dataCoBorrower: any = [];
   public No: string;
   public indexNum: any;
-  // address: string;
+  public customHeadersJWT: any;
 
   get item() {
     return this.creditProposalItem;
@@ -73,10 +69,12 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   set item(item: ICreditProposal) {
     this.creditProposalItem = item;
   }
+
   @Input()
   get dataSource() {
     return this.organizationLegal;
   }
+
   set dataSource(param: IOrganizationLegal[]) {
     this.organizationLegal = param;
   }
@@ -88,8 +86,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     private creditProposalService: CreditProposalService,
     public dialog: MatDialog,
     private organizationLegalService: OrganizationLegalService,
-    // private actRoute: ActivatedRoute,
-    // private storageService: StorageService
     protected actRoute: ActivatedRoute,
     private router: Router,
     private storageService: StorageService,
@@ -102,31 +98,19 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnInit(): void {
-    console.log('this', this.organizationLegal);
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
-    // this.bucket = BUCKET;
-    // this.actRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
-    //   this.getContainer();
-    // });
 
     this.dataCoBorrower = this.creditProposalItem.attributes['basicInformation'].coborowed;
-    // this.actRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
-    //   this.getContainer();
-    // });
+
     if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
       this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
     } else {
       this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
     }
-    // if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
-    //   for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
-    //     this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
-    //   }
-    // }
+
     this.getWord();
 
     this.matrixRemoveTag();
@@ -150,6 +134,22 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         }
       });
   }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   public getPartyCif() {
     this.partyCifService
       .queryFilterBy({
@@ -162,6 +162,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         this.loadDataByNumber(this.partyCifService.findPartyId(res.body[0]));
       });
   }
+
   public getPartyCifDate() {
     this.partyCifService
       .queryFilterBy({
@@ -176,10 +177,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (this.saveWord === true) {
-    //   this.triggeredSave();
-    // }
-
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);
@@ -202,6 +199,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       this.setData();
     });
   }
+
   public loadDataByNumber(_idOrganization: string = null): void {
     this.organizationLegalService
       .queryFilterBy({
@@ -213,6 +211,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         this.deeedNumber = res.body[0].deedRecentChangeNumber;
       });
   }
+
   public loadDataByDate(_idOrganization: string = null): void {
     this.organizationLegalService
       .queryFilterBy({
@@ -246,6 +245,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   onDocumentChange() {
     this.container.restrictEditing = true;
   }
+
   // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
@@ -253,6 +253,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       this.getContainer();
     });
   }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
@@ -324,7 +325,8 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   onCreate(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
@@ -336,7 +338,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
-      // console.log('ini paste');
     }
   }
 
@@ -365,6 +366,5 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
     const dialogRef = this.dialog.open(DialogBorrowerComponent, predicate);
     dialogRef.afterClosed().subscribe(() => {});
-    console.log('element', element);
   }
 }

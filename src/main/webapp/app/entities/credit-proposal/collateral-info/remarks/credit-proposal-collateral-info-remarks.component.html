@@ -9,6 +9,7 @@
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <ejs-documenteditorcontainer
                 #document_editor_container
+                [headers]="customHeadersJWT"
                 [enableToolbar]="true"
                 [enableLocalPaste]="false"
                 height="100vh"
@@ -24,6 +25,7 @@
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <ejs-documenteditorcontainer
                 #document_editor_container
+                [headers]="customHeadersJWT"
                 [enableToolbar]="false"
                 [enableLocalPaste]="false"
                 height="100vh"

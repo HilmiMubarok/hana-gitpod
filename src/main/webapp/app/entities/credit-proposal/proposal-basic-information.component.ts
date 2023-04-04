@@ -93,8 +93,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   public currentAccount: Account;
 
   public subMenu: object[];
-  public recomendation: string;
   public uuidPath: any;
+  public recomendation: string;
+  public positionLogin: number;
 
   public url: string;
   public activeRoute: string;
@@ -180,6 +181,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   setOpinionRecomendation(newItem: string) {
     this.recomendation = newItem;
+  }
+
+  setPositionLogin(posLog: number) {
+    this.positionLogin = posLog;
   }
 
   setOpinionFileSfdt(file: File) {
@@ -612,7 +617,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 	  this.creditProposal.collaterals = res.body.collaterals;
 
 	  if (status === 'complete') {
-		this.saveFile
+		this.saveFile();
 	  }
 
 	  if (this.creditProposalTabBusinessActivityComponent) {
@@ -673,64 +678,96 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.saveWord = true;
 
       if (this.creditProposal.id) {
-		if (this.creditProposalOpinionHistoryComponent) {
-		  this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
-		} else {
-		  let countValidate = 0;
-		  if (this.creditProposal.attributes['positionLogin']) {
-			if (this.opinionFileSfdt && this.opinionFileWord) {
-			  const fileReader: FileReader = new FileReader();
-			  fileReader.onload = (e: any) => {
-				const testSfdtFile = JSON.parse(fileReader.result as string);
-				if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-				  ++countValidate;
-				} else {
-				  // toast opinion empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				}
-
-				if (this.recomendation) {
-				  ++countValidate;
-				  if (this.recomendation === 'Recommend With Condition') {
-					if (this.conditionFileSfdt && this.conditionFileWord) {
-					  const fileReaderCondition: FileReader = new FileReader();
-					  fileReaderCondition.onload = (eCondition: any) => {
-						const testSfdtFileConditon = JSON.parse(fileReaderCondition.result as string);
-						if (testSfdtFileConditon.sections[0].blocks[0].inlines.length > 0) {
-						  ++countValidate;
-						} else {
-						  // toast condition empty
-						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						}
-						if (countValidate === 3) {
-						  this.saveUpdate('complete', source);
-						} else {
-						  this.saveUpdate('not-complete', source);
-						}
-					  };
-					  fileReaderCondition.readAsText(this.conditionFileSfdt);
+		if (this.router.url.split('/')[1] === 'credit-proposal-status') {
+		  this.saveUpdate('not-complete', source);
+		} else if (this.router.url.split('/')[1] === 'cp-status-approval') {
+		  if (this.creditProposalOpinionHistoryComponent) {
+			this.creditProposalOpinionHistoryComponent.triggeredSaveValidate();
+		  } else {
+			let countValidate = 0;
+			if (this.positionLogin) {
+			  if (this.opinionFileSfdt && this.opinionFileWord) {
+				const fileReader: FileReader = new FileReader();
+				fileReader.onload = (e: any) => {
+				  const testSfdtFile = JSON.parse(fileReader.result as string);
+				  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+					if (testSfdtFile.sections[0].blocks[0].columnCount) {
+					  if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  }
+					} else if (testSfdtFile.sections[0].blocks[0].inlines) {
+					  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+						++countValidate;
+					  } else {
+						// toast opinion empty
+						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					  }
 					}
 				  } else {
-					if (countValidate === 2) {
-					  this.saveUpdate('complete', source);
-					} else {
-					  this.saveUpdate('not-complete', source);
-					}
+					// toast opinion empty
+					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 				  }
-				} else {
-				  // toast recomendation empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
-				  this.saveUpdate('not-complete', source);
-				}
-			  };
-			  fileReader.readAsText(this.opinionFileSfdt);
+
+				  if (this.recomendation) {
+					++countValidate;
+					if (this.recomendation === 'Recommend With Condition') {
+					  if (this.conditionFileSfdt && this.conditionFileWord) {
+						const fileReaderCondition: FileReader = new FileReader();
+						fileReaderCondition.onload = (eCondition: any) => {
+						  const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+						  if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+							if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+							  if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  }
+							} else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+							  if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+								++countValidate;
+							  } else {
+								// toast condition empty
+								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							  }
+							}
+						  } else {
+							// toast condition empty
+							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						  }
+						  if (countValidate === 3) {
+							this.saveUpdate('complete', source);
+						  } else {
+							this.saveUpdate('not-complete', source);
+						  }
+						};
+						fileReaderCondition.readAsText(this.conditionFileSfdt);
+					  }
+					} else {
+					  if (countValidate === 2) {
+						this.saveUpdate('complete', source);
+					  } else {
+						this.saveUpdate('not-complete', source);
+					  }
+					}
+				  } else {
+					// toast recomendation empty
+					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
+					this.saveUpdate('not-complete', source);
+				  }
+				};
+				fileReader.readAsText(this.opinionFileSfdt);
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+				this.saveUpdate('not-complete', source);
+			  }
 			} else {
-			  // toast opinion empty
-			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 			  this.saveUpdate('not-complete', source);
 			}
-		  } else {
-			this.saveUpdate('not-complete', source);
 		  }
 		}
       } else {
@@ -842,10 +879,10 @@ export class ProposalBasicInformationComponent implements OnInit {
 
     if (tempRouter === 'cp-status-approval') {
 	  if (status === 'complete')  {
-		if (this.id && copyCreditProposal.attributes['positionLogin'] && this.recomendation && this.uuidPath) {
+		if (this.id && this.positionLogin && this.recomendation && this.uuidPath) {
 		  if (copyCreditProposal.notes.length > 0) {
 			for (let i = 0; i < copyCreditProposal.notes.length; i++) {
-              if (copyCreditProposal.notes[i].positionId === copyCreditProposal.attributes['positionLogin']) {
+              if (copyCreditProposal.notes[i].positionId === this.positionLogin) {
 				copyCreditProposal.notes[i].applicationId = this.id;
 				copyCreditProposal.notes[i].message = '';
 				copyCreditProposal.notes[i].recomendation = this.recomendation;
@@ -856,16 +893,18 @@ export class ProposalBasicInformationComponent implements OnInit {
 
 			if (tempHelper === 0) {
               copyCreditProposal.notes.push(
-				this.addNewNotes(copyCreditProposal.attributes['positionLogin'], '', this.recomendation, this.uuidPath)
+				this.addNewNotes(this.positionLogin, '', this.recomendation, this.uuidPath)
               );
 			}
           } else {
 			copyCreditProposal.notes.push(
-              this.addNewNotes(copyCreditProposal.attributes['positionLogin'], '', this.recomendation, this.uuidPath)
+              this.addNewNotes(this.positionLogin, '', this.recomendation, this.uuidPath)
 			);
           }
 
-          delete copyCreditProposal.attributes['positionLogin'];
+		  if (copyCreditProposal.attributes['positionLogin']) {
+			delete copyCreditProposal.attributes['positionLogin'];
+		  }
 		}
 	  }
     }
