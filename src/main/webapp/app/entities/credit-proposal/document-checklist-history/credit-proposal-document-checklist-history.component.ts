@@ -133,20 +133,20 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
               },
             ];
           }
-          })
 
 
-          this.storageService.getObjects(this.bucket, dataIDDOnly).subscribe((res1: any) => { 
-            for (let index = 0; index < res1.body.length; index++) {
+
+          this.storageService.getObjects(this.bucket, dataIDDOnly).subscribe((res2: any) => { 
+            for (let index = 0; index < res2.body.length; index++) {
             this.file3 = [
               ...this.file3,
               {
-                idFile: res1.body[index].tags.id,
-                url: res1.body[index].url,
-                name: res1.body[index].key,
-                remarks: res1.body[index].tags.remarks,
-                status: res1.body[index].tags.status,
-                dueDate: res1.body[index].tags.dueDate,
+                idFile: res2.body[index].tags.id,
+                url: res2.body[index].url,
+                name: res2.body[index].key,
+                remarks: res2.body[index].tags.remarks,
+                status: res2.body[index].tags.status,
+                dueDate: res2.body[index].tags.dueDate,
               },
             ];
           }
@@ -154,6 +154,10 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
           this.file = [...this.file2, this.file3]
           resolve();
           })
+          })
+
+
+          
          
       });
 
