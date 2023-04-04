@@ -118,6 +118,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.getPartyCifDate();
     this.lovDebtorPerformance();
   }
+
   public lovDebtorPerformance() {
     this.generalParameterService
       .queryFilterBy({

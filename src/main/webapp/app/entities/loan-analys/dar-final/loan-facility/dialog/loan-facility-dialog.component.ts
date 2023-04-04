@@ -409,10 +409,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     return this.listOfValue.facilityTypeList.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  public print() {
-    console.log(this.applicationProduct.attributes['initialLimit']);
-  }
-
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposalData = creditProposalMappingData;
   }
@@ -693,7 +689,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('interest type', this.interestTypeList);
       });
   }
 
@@ -708,7 +703,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.installmentMethodList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('installment ', this.installmentMethodList);
       });
   }
 
@@ -723,7 +717,6 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
         this.restructList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('restruct', this.restructList);
       });
   }
 
