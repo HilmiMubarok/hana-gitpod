@@ -104,12 +104,8 @@ export class NavbarComponent implements OnInit {
 
 	  this.internalName = 'Not Registered Internal';
 	  this.setCookie(this.cNameInt, '', this.internalName);
-
-	  if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
-		this.templateService.changePosInt('ADMIN');
-	  } else {
-		this.templateService.changePosInt('EMPTY');
-	  }
+	  
+	  this.templateService.changePosInt('ADMIN_MAYBE');
 	} else {
 	  this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
       this.lastLogin = account.lastModifiedDate.substring(0, 19);
@@ -121,11 +117,13 @@ export class NavbarComponent implements OnInit {
 		let positionTypeDescription = '';
 		let internalId = '';
 		let internalName = '';
+		let positionTypeId = '';
 		
 		while (!isFirstPosActive && i < res.body[0].positions.length) {
 		  if (res.body[0].positions[i].statusCode === 'ACTIVE' || res.body[0].positions[i].statusId === 'ACTIVE') {
 			this.positionIdPub = res.body[0].positions[i].id;
 			positionId = res.body[0].positions[i].id;
+			positionTypeId = res.body[0].positions[i].positionTypeId;
 			positionTypeDescription = res.body[0].positions[i].positionTypeDescription;
 
 			this.internalIdPub = res.body[0].positions[i].internalId;
@@ -144,16 +142,12 @@ export class NavbarComponent implements OnInit {
 		this.setCookie(this.cNamePos, positionId, positionTypeDescription);
 		this.setCookie(this.cNameInt, internalId, internalName);
 
-		if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
-		  this.templateService.changePosInt('ADMIN');
-		} else {
-		  this.templateService.changePosInt(positionTypeDescription);
-		}
-
 		if (res.body[0].positions.length > 1) {
 		  this.isPositionMoreThan1 =  true;
 		  this.definePositionMenu(res.body[0].positions);
 		}
+
+		this.templateService.changePosInt(positionTypeId);
 	  }
 	}
 
@@ -189,8 +183,7 @@ export class NavbarComponent implements OnInit {
 		  const posN = lodash.clone(this.positionName);
 		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
 		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
-		  this.templateService.changePosInt(position.positionTypeDescription);
-		  this.router.navigate(['']);
+		  this.templateService.changePosInt(position.positionTypeId);
 		}
 		this.positionListItems.push(item);
 	  }
