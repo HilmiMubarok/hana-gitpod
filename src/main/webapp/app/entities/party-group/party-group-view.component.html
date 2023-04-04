@@ -395,7 +395,9 @@
                         <mat-select
                           name="callReportCategoryData"
                           [(ngModel)]="partyCif.debtorData.callReportCategory"
-                          disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
+                          [disabled]="
+                            item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
+                          "
                         >
                           <mat-option value="">- Please Select -</mat-option>
                           <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
@@ -410,7 +412,9 @@
                         <mat-select
                           name="callReportCategoryData"
                           [(ngModel)]="partyCif.debtorData.callReportCategory"
-                          disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
+                          [disabled]="
+                            item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
+                          "
                         >
                           <mat-option value="">- Please Select -</mat-option>
                           <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
@@ -428,7 +432,9 @@
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
                             [(ngModel)]="item.debtorData.ifcRiskCategory"
-                            disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
+                            [disabled]="
+                              item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
+                            "
                             required
                           >
                             <mat-option value="">Please Select</mat-option>
@@ -446,7 +452,9 @@
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
                             [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
-                            disabled="item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'"
+                            [disabled]="
+                              item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
+                            "
                             required
                           >
                             <mat-option value="">Please Select</mat-option>

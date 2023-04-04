@@ -49,7 +49,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { first, firstValueFrom, Subject, takeUntil } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, ScoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalComparisonComponent } from '../collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalForwardToComponent } from '../collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
@@ -704,25 +704,25 @@ export class SurveyBatchEditProcessComponent implements OnInit {
   }
 
   public processTask(task: IProcessTask): void {
-	this.collateralAppraisalProcessService.getTasks(this.id).subscribe(res => {
-	  const latestTask = lodash.find(res.body, function (o) {
-		return o.name === task.name;
-	  });
-	  const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
-		width: '80vw',
-		data: { processTask: latestTask },
-	  });
+    this.collateralAppraisalProcessService.getTasks(this.id).subscribe(res => {
+      const latestTask = lodash.find(res.body, function (o) {
+        return o.name === task.name;
+      });
+      const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
+        width: '80vw',
+        data: { processTask: latestTask },
+      });
 
-	  dialogRef.afterClosed().subscribe(_res => {
-		if (_res) {
+      dialogRef.afterClosed().subscribe(_res => {
+        if (_res) {
           this.resProcess = _res;
           this.taskProcess = task;
           if (_res.name === 'return' || _res.name === 'cancel') {
-			this.saveProcess();
+            this.saveProcess();
           } else {
-			this.onSave('process');
+            this.onSave('process');
           }
-		}
+        }
       });
     });
   }
@@ -877,7 +877,8 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     if (data.apprOfficer === 'External') {
       this.subMenu =
         this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
+          ? SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL
+          : SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL;
     }
   }
 
@@ -944,7 +945,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
-        data.attributes['scoreCard'] = scoreCard;
+        data.attributes['scoreCard'] = new ScoreCard();
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }

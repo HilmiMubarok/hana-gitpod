@@ -186,13 +186,16 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         this.collateralCode = res.body;
+        this.collateral.attributes.collateralProposePricing = '';
+        this.collateral.attributes.collateralCode = '';
       });
+    console.log('collateral code ', this.collateral.attributes.collateralCode);
   }
 
   public changeCollateralCode(event: MatSelectChange): void {
     this.collateral.attributes.collateralProposePricing = lodash.find(this.collateralCode, function (o) {
-      return o['id'] === event.value;
-    })['proposePricing'];
+      return o['collateralTypeCode'] === event.value;
+    })['collateralDetailTypeDescription'];
   }
 
   public dataSource() {

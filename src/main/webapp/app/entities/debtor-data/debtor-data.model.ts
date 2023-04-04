@@ -55,6 +55,7 @@ export interface IDebtorData {
   customerType?: string;
   lastSynchDate?: Date;
   lastSynchBy?: string;
+  customerNumber?: string
 }
 
 export class DebtorData implements IDebtorData {
@@ -113,7 +114,8 @@ export class DebtorData implements IDebtorData {
     public pic?: string,
     public customerType?: string,
     public lastSynchDate?: Date,
-    public lastSynchBy?: string
+    public lastSynchBy?: string,
+    public customerNumber?: string
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;

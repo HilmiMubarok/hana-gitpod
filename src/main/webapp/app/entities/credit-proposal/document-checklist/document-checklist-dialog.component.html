@@ -120,7 +120,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Document Name</mat-label>
-                <input matInput type="text" disabled [(ngModel)]="files.description" />
+                <input matInput type="text" disabled [(ngModel)]="filesDescription" />
               </mat-form-field>
             </div>
           </div>
@@ -130,7 +130,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="files.status" name="status">
+                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="filesStatus" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of status" [value]="item">
                     {{ item }}
@@ -143,7 +143,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Date</mat-label>
-                <input [matDatepicker]="date" matInput type="text" [(ngModel)]="files.dueDate" />
+                <input [matDatepicker]="date" matInput type="text" [(ngModel)]="filesdueDate" />
                 <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
                 <mat-datepicker #date disabled="false"></mat-datepicker>
               </mat-form-field>
@@ -169,7 +169,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <input matInput type="text" [(ngModel)]="files.remarks" />
+                <input matInput type="text" [(ngModel)]="filesRemarks" />
               </mat-form-field>
             </div>
           </div>

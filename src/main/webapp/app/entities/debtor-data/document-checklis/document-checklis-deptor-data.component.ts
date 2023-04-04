@@ -34,7 +34,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBucket().then(() => {
-      this.getFiles(this.partyCif.partyId).then(() => {
+      this.getFiles(this.partyCif.customerNumber).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
 
           const personalCorporate = res.body.filter(obj => obj.customerType === this.partyCif.customerType);
@@ -70,7 +70,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   private getFiles(id: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const predicate: Object = {
-        key: `/idd/${id}/document/file-idd/`,
+        key: `/idd/${id}/document/`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
         for (let index = 0; index < res.body.length; index++) {
@@ -101,7 +101,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
 
   public openDialog(element: IDocumentType = null, view: string, item: string): void {
     const predicate = { width: '80vw', data: {} };
-    predicate.data['partyId'] = this.partyCif.partyId;
+    predicate.data['partyId'] = this.partyCif.customerNumber;
     predicate.data['bucket'] = this.bucket;
     predicate.data['files'] = element;
     predicate.data['typeData'] = this.typeData;

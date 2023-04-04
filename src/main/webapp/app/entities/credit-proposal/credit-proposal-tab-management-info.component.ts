@@ -30,6 +30,7 @@ import lodash from 'lodash';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
+
 export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
@@ -104,6 +105,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
     this.dataCoBorrower = this.creditProposalItem.attributes['basicInformation'].coborowed;
+
     if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
       this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
     } else {
@@ -253,6 +255,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       this.getContainer();
     });
   }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
