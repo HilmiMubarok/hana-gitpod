@@ -760,4 +760,8 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
       this.listFacicility = dataData;
     });
   }
+
+  public getSpread() {
+    this.applicationProduct.attributes.requiredSpread = this.applicationProduct.attributes.currentInterestRate + '%';
+  }
 }
