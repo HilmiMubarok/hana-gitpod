@@ -136,7 +136,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
-    this.accountService.identity().subscribe(account => {
+    /* this.accountService.identity().subscribe(account => {
       if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
         this.dataSource.data = APPRAISAL_MENU_ADMIN;
       } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
@@ -205,7 +205,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
         }
       }
-    });
+    }); */
 
     this.templateService.sidebarStateObservable$.subscribe((newState: string) => {
       if (newState === 'close') {
@@ -220,7 +220,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.sidebarState = newState;
     });
 	this.templateService.triggerChanggedPosIntObservable.subscribe((newPos: string) => {
-	  console.log('triggerChanggedPosIntObservable @ngOnInit sidebar');
       this.setMenuFromPosInt(newPos);
     });
   }

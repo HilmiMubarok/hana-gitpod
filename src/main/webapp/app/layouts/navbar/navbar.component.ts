@@ -103,6 +103,12 @@ export class NavbarComponent implements OnInit {
 
 	  this.internalName = 'Not Registered Internal';
 	  this.setCookie(this.cNameInt, '', this.internalName);
+
+	  if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
+		this.templateService.changePosInt('ADMIN');
+	  } else {
+		this.templateService.changePosInt('EMPTY');
+	  }
 	} else {
 	  this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
       this.lastLogin = account.lastModifiedDate.substring(0, 19);
@@ -136,6 +142,12 @@ export class NavbarComponent implements OnInit {
 
 		this.setCookie(this.cNamePos, positionId, positionTypeDescription);
 		this.setCookie(this.cNameInt, internalId, internalName);
+
+		if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
+		  this.templateService.changePosInt('ADMIN');
+		} else {
+		  this.templateService.changePosInt(positionTypeDescription);
+		}
 
 		if (res.body[0].positions.length > 1) {
 		  this.isPositionMoreThan1 =  true;
