@@ -107,7 +107,7 @@ export class PartyCifDetailComponent implements OnInit {
       copyPartyCif.customerPerson.dob = this.partyCifStartState.customerPerson.dob;
     }
 	
-	copyPartyCif.internalId = this.internalIdLocStor;
+	// copyPartyCif.internalId = this.internalIdLocStor;
 
     return copyPartyCif;
   }
