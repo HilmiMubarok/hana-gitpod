@@ -65,6 +65,8 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
+  public biddingValueSum: number
+  public biddingValueCoverage: number
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -142,7 +144,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
-    this.fungsiSumcredit().then(() => {
+   
       if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
         this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
       }
@@ -153,7 +155,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
         this.isChecked = true;
       }
       this.setCertyficateType();
-    });
+    
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -166,6 +168,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
         isActive: true,
       })
       .subscribe(res => {
+        this.getBindingCalculate(res.body)
         this.dataCollateral = res.body;
         this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
@@ -806,13 +809,25 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
     return '';
   }
 
-  public getBindingCalculate() {
-    const biddingValue = this.creditProposal.attributes['binding'];
-    return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  public getBindingCalculate(res: any) {
+    const array1 = res
+    const array2 = this.creditProposal.attributes['binding'];
+    let getBindingCalculateValue
+    const data = []
+     array1.filter(({id: value1}) => {
+      data.push(array2.find(({collateralId: value2}) => value1 === value2))
+      getBindingCalculateValue = data.filter(item => item !== undefined)
+      this.fungsiSumcredit().then(() => {
+       this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+       this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond))
+      })
+    });
+
+    
   }
 
-  public convertNan(value:any): any{
-    if (value === 'NaN') {
+  public convertNan(value: any): any{
+    if (Number.isNaN(value)) {
       return 0
     }else{
       return value

@@ -66,6 +66,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public totalPlafond: number;
+  public biddingValueSum: number
+  public biddingValueCoverage: number
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -156,7 +158,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   ngOnInit(): void {
-    this.fungsiSumcredit().then(() => {
+ 
       if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
         this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
       }
@@ -168,7 +170,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
       this.setCertyficateType();
       this.totalCoverage();
-    });
+  
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -184,6 +186,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         this.dataCollateral = res.body;
         this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
+        this.getBindingCalculate(res.body)
       });
   }
 
@@ -541,6 +544,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
 
       this.totalPlafond = result + dolar;
+
       resolve();
     });
   }
@@ -829,14 +833,27 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     }
     return '';
   }
+  
 
-  public getBindingCalculate() {
-    const biddingValue = this.creditProposal.attributes['binding'];
-    return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+  public getBindingCalculate(res: any[]) {
+    const array1 = res
+    const array2 = this.creditProposal.attributes['binding'];
+    let getBindingCalculateValue
+    const data = []
+     array1.filter(({id: value1}) => {
+      data.push(array2.find(({collateralId: value2}) => value1 === value2))
+      getBindingCalculateValue = data.filter(item => item !== undefined)
+      this.fungsiSumcredit().then(() => {
+       this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+       this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond))
+      })
+    });
+
+    
   }
 
   public convertNan(value: any): any{
-    if (value === 'NaN') {
+    if (Number.isNaN(value)) {
       return 0
     }else{
       return value
