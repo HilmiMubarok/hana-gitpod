@@ -105,6 +105,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public approvalUser: boolean;
   public approvalUserData: any[];
+
+  public customHeadersJWT: any;
+
   private items: any;
   private whoAmI: IPerson;
   private relType: IOptionNode[];
@@ -251,41 +254,46 @@ export class LoanAnalysOpinionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	this.notifyChild.subscribe(event => {
-      const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
-	  const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
-      const fileNameSfdt = this.uuid + '.sfdt';
-      const fileNameWord = this.uuid + '.word';
+	if (this.tempRouter !== 'distribution' && this.tempRouter !== 'finalize' && this.tempRouter !== 'review' && this.tempRouter !== 'confirmation') {
+	  this.notifyChild.subscribe(event => {
+		const docEditorOpinion = this.container?.documentEditor as DocumentEditorComponent;
+		const docEditorCondition = this.container_condition?.documentEditor as DocumentEditorComponent;
 
-      docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameSfdt);
-		if (testFile) {
-		  this.opinionFileSfdt.emit(testFile);
-		}
+		const fileNameSfdt = this.uuid + '.sfdt';
+		const fileNameWord = this.uuid + '.word';
+
+		docEditorOpinion.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameSfdt);
+			if (testFile) {
+			  this.opinionFileSfdt.emit(testFile);
+			}
+		});
+
+		docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameWord);
+		  if (testFile) {
+			this.opinionFileWord.emit(testFile);
+		  }
+		});
+
+		docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameSfdt);
+		  if (testFile) {
+			this.conditionFileSfdt.emit(testFile);
+		  }
+		});
+
+		docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+		  const testFile = new File([exportedDocument], fileNameWord);
+		  if (testFile) {
+			this.conditionFileWord.emit(testFile);
+		  }
+		});
       });
-
-      docEditorOpinion.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameWord);
-		if (testFile) {
-          this.opinionFileWord.emit(testFile);
-		}
-      });
-
-      docEditorCondition.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameSfdt);
-		if (testFile) {
-		  this.conditionFileSfdt.emit(testFile);
-		}
-      });
-
-	  docEditorCondition.saveAsBlob('Docx').then((exportedDocument: Blob) => {
-		const testFile = new File([exportedDocument], fileNameWord);
-		if (testFile) {
-          this.conditionFileWord.emit(testFile);
-		}
-	  });
-    });
+	}
 
     this.uuidPath.emit(this.uuid);
 
@@ -296,6 +304,21 @@ export class LoanAnalysOpinionComponent implements OnInit {
       this.loadApprovalUser();
     });
   }  
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
 
   public change(event: string) {
     this.newItemEvent.emit(event);
@@ -432,8 +455,22 @@ export class LoanAnalysOpinionComponent implements OnInit {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
 		  const testSfdtFile = JSON.parse(fileReader.result as string);
-		  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-			++this.countValidate;
+		  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+			if (testSfdtFile.sections[0].blocks[0].columnCount) {
+			  if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+				++this.countValidate;
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  }
+			} else if (testSfdtFile.sections[0].blocks[0].inlines) {
+			  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+				++this.countValidate;
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  }
+			}
 		  } else {
 			// toast opinion empty
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
@@ -451,9 +488,18 @@ export class LoanAnalysOpinionComponent implements OnInit {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-					if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-					  ++this.countValidate;
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+					  if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+						if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+						  ++this.countValidate;
+						}
+					  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+						if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						  ++this.countValidate;
+						}
+					  }
 					}
+					
 					if (this.countValidate === 3) {
 					  this.isAllowSave.emit(true);
 					  this.saveValidate();
@@ -578,7 +624,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-	this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+	// this.container.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+  this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   private saveFileCon(): void {
@@ -630,7 +677,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public onCreateCondition(): void {
     // this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
-	this.container_condition.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+	// this.container_condition.serviceUrl = 'https://services.syncfusion.com/angular/production/api/documenteditor/';
+  this.container_condition.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public refresh() {

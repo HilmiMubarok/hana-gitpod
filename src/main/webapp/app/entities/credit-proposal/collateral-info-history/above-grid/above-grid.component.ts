@@ -68,6 +68,8 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   public totalPlafond: number;
   public selectedMenu: string;
   public isChecked: boolean;
+  public biddingValueSum: number
+  public biddingValueCoverage: number
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -142,7 +144,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
         this.isChecked = true;
       }
       this.setCertyficateType();
-      this.fungsiSumcredit();
+   
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -182,6 +184,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       a = lodash.concat(a, this.historyData().collaterals[i]);
     }
+    this.getBindingCalculate(this.historyData().collaterals)
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
     this.dataItem.paginator = this.paginator;
@@ -773,16 +776,28 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     return '';
   }
 
-  public getBindingCalculate() {
-    const biddingValue = this.historyData().binding;
-    return biddingValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-  }
+  public getBindingCalculate(res: any) {
+    const array1 = res
+    const array2 = this.creditProposal.attributes['binding'];
+    let getBindingCalculateValue
+    const data = []
+     array1.filter(({id: value1}) => {
+      data.push(array2.find(({collateralId: value2}) => value1 === value2))
+      getBindingCalculateValue = data.filter(item => item !== undefined)
+      this.fungsiSumcredit().then(() => {
+       this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+       this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond))
+      })
+    });
 
-  public convertNan(value:any): any{
-    if (value === 'NaN') {
+    
+  }
+  public convertNan(value: any): any{
+    if (Number.isNaN(value)) {
       return 0
     }else{
       return value
     }
   }
-}
+  }
+
