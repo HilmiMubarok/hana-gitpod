@@ -501,7 +501,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
 					if (testSfdtFileCondition.sections[0].blocks) {
-					  if (testSfdtFileCondition.sections[0].blocks > 0) {
+					  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
 						++this.countValidate;
 					  } else {
 						// toast condition empty
