@@ -605,6 +605,17 @@ export const SIDEBAR_MENU_BM: ISidebarMenuModel[] = [
 
 export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
     children: [
@@ -726,6 +737,17 @@ export const SIDEBAR_MENU_APR_DH: ISidebarMenuModel[] = [
 
 export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
     children: [
@@ -754,6 +776,16 @@ export const APPRAISAL_MENU_TL: ISidebarMenuModel[] = [
     name: 'Appraisal',
     iconname: 'file',
     children: [
+      {
+        name: 'Appraisal Distribution External',
+        iconname: 'minus',
+        route: 'batch-apprisal',
+      },
+      {
+        name: 'Appraisal Distribution Internal',
+        iconname: 'minus',
+        route: 'batch-apprisal/internal',
+      },
       {
         name: 'Appraisal Process',
         iconname: 'minus',
@@ -1080,6 +1112,17 @@ export const APPRAISAL_MENU_LEGAL_OFFICER: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
@@ -1129,6 +1172,17 @@ export const APPRAISAL_APR_DEPT_HEAD: ISidebarMenuModel[] = [
 ];
 
 export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
   {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
