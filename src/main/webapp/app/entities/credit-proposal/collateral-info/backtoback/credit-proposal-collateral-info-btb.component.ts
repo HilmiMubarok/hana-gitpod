@@ -504,6 +504,18 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         }
       }
     }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.certificateExpiryDate;
+        }
+      }
+    }
     return result;
   }
 
@@ -544,7 +556,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     let result: string;
 
     // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId) {
+    if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -553,6 +565,18 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.certificateNumber;
         }
       }
     }

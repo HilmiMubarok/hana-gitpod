@@ -66,8 +66,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public totalPlafond: number;
-  public biddingValueSum: number
-  public biddingValueCoverage: number
+  public biddingValueSum: number;
+  public biddingValueCoverage: number;
   public selectedMenu: string;
   public isChecked: boolean;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -157,19 +157,17 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   ngOnInit(): void {
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+    }
 
-      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === '') {
-        this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-      }
+    // this.isViewMode && this.displayedColumns.pop();
 
-      // this.isViewMode && this.displayedColumns.pop();
-
-      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-        this.isChecked = true;
-      }
-      this.setCertyficateType();
-      this.totalCoverage();
- 
+    if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+    this.setCertyficateType();
+    this.totalCoverage();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -182,11 +180,10 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         isActive: true,
       })
       .subscribe(res => {
-        this.getBindingCalculate(res.body)
+        this.getBindingCalculate(res.body);
         this.dataCollateral = res.body;
         this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
-        
       });
   }
 
@@ -615,7 +612,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -680,7 +678,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let result: string;
 
     // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId) {
+    if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -689,6 +687,18 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.certificateNumber;
         }
       }
     }
@@ -740,6 +750,18 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           result = '';
         } else {
           result = data.attributes.maturityDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.certificateExpiryDate;
         }
       }
     }
@@ -833,26 +855,24 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public getBindingCalculate(res: any) {
-    const array1 = res
+    const array1 = res;
     const array2 = this.creditProposal.attributes['binding'];
-    let getBindingCalculateValue
-    const data = []
-     array1.filter(({id: value1}) => {
-      data.push(array2.find(({collateralId: value2}) => value1 === value2))
-      getBindingCalculateValue = data.filter(item => item !== undefined)
+    let getBindingCalculateValue;
+    const data = [];
+    array1.filter(({ id: value1 }) => {
+      data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
+      getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit().then(() => {
-       this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-       this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond))
-      })
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+      });
     });
-
-    
   }
-  public convertNan(value: any): any{
+  public convertNan(value: any): any {
     if (Number.isNaN(value)) {
-      return 0
-    }else{
-      return value
+      return 0;
+    } else {
+      return value;
     }
   }
 }

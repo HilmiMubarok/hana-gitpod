@@ -67,7 +67,7 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   }
 
   public geBranches(): Observable<HttpResponse<IPartyCif>> {
-    return this.http.get<IPartyCif>(`${this.resourceUrlBrance}/filterBy?idInternalType=BRANCH`, { observe: 'response' });
+    return this.http.get<IPartyCif>(`${this.resourceUrlBrance}/filterBy?idInternalType=BRANCH&size=999`, { observe: 'response' });
   }
 
   public getGuarantee(): Observable<HttpResponse<IPartyCif>> {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -21,6 +21,8 @@ import {
   PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE,
   OTHER_COLLATERAL_DETAIL_TYPE,
   GEO_BOUNDARY_TYPE,
+  POSITION_TYPE,
+  APPLICATION_TYPE,
 } from 'app/shared/constants/base.constants';
 import { firstValueFrom, map, Observable, startWith } from 'rxjs';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -37,7 +39,18 @@ import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-import { IGeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
+import { PositionService } from 'app/entities/position/position.service';
+import { InternalService } from 'app/entities/internal/internal.service';
+import {
+  FileManagerSettingsModel,
+  HtmlEditorService,
+  ImageService,
+  LinkService,
+  QuickToolbarSettingsModel,
+  RichTextEditorComponent,
+  ToolbarService,
+} from '@syncfusion/ej2-angular-richtexteditor';
+import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 
 export const MY_FORMATS = {
   parse: {
@@ -61,9 +74,56 @@ export const MY_FORMATS = {
     },
 
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ToolbarService,
+    LinkService,
+    ImageService,
+    HtmlEditorService,
   ],
 })
 export class CollateralPropertyPersonalCorporateGuaranteeComponent implements OnChanges, OnInit {
+  public tools: object = {
+    items: [
+      'Undo',
+      'Redo',
+      '|',
+      'Bold',
+      'Italic',
+      'Underline',
+      'StrikeThrough',
+      '|',
+      'FontName',
+      'FontSize',
+      'FontColor',
+      'BackgroundColor',
+      '|',
+      'SubScript',
+      'SuperScript',
+      '|',
+      'LowerCase',
+      'UpperCase',
+      '|',
+      'Formats',
+      'Alignments',
+      '|',
+      'OrderedList',
+      'UnorderedList',
+      '|',
+      'Indent',
+      'Outdent',
+      '|',
+      'CreateLink',
+      'Image',
+      '|',
+      'ClearFormat',
+      'Print',
+      'SourceCode',
+      '|',
+      'FullScreen',
+    ],
+  };
+  public iframe: object = { enable: true };
+  public height = 500;
+
   public guaranteeClasification = [];
   public guaranteeIdentification = [];
   public optionsCountry: IStateBoundary[];
@@ -142,6 +202,9 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this._collateral = param;
   }
 
+  public textArea: HTMLElement;
+  public myCodeMirror: any;
+
   public currency: number;
   public currencies: IUom[];
   public areaMeasure: IUom[];
@@ -162,7 +225,9 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     public collateralPropertyService: CollateralPropertyService,
     public creditProposalService: CreditProposalService,
     public stateBoundaryService: StateBoundaryService,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    protected positionService: PositionService,
+    private internalService: InternalService
   ) {
     // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
@@ -183,14 +248,12 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   ngOnInit(): void {
     this.detailTypeChange(this.collateral.collateralTypeId);
     this.loadCurrencyMeasure();
-    this.loadAreaMeasure();
     this.collateral.collateralTypeId;
     this.setCertyficateType();
     this.setManagementBrance();
     this.setBranches();
     this.cekDataSource();
     this.cekData();
-    this.initializeCountry();
     this.getLovGuarantee();
     this.getLovGuaranteeIdentification();
     console.log('collateral ', this.collateralProperty.marketValue);
@@ -221,6 +284,9 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   public cekData() {
     if (this.collateralProperty.attributes.branch === undefined) {
       this.collateralProperty.attributes.branch = this.branchId;
+    }
+    if (this.collateralProperty.attributes.managementBranch === undefined) {
+      this.collateralProperty.attributes.managementBranch = '01';
     }
     if (this.collateralProperty.attributes.accountOfficer === undefined) {
       this.collateralProperty.attributes.accountOfficer = this.officerName;
@@ -371,18 +437,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         size: 9999,
       })
       .subscribe(res => {
-        this.optionsMVImb = res.body;
-        this.filteredMVImb();
-        this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
-        this.optionsMVPs = res.body;
-        this.filteredMVPs();
-        this.MVPsCcy = this.optionsMVPs.find(obj => obj.id === this.collateralProperty.attributes.marketValueCcy);
-        this.optionsMVEx = res.body;
-        this.filteredMVEx();
-        this.MVExCcy = this.optionsMVEx.find(obj => obj.id === this.collateralPropertyExternal.attributes.marketValueCcy);
-        this.optionsMVTk = res.body;
-        this.filteredMVTk();
-        this.MVTkCcy = this.optionsMVTk.find(obj => obj.id === this.collateralProperty.attributes.marketValueTkCcy);
         this.optionsMVOri = res.body;
         this.filteredMVOri();
         this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
@@ -460,6 +514,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   public setBranches() {
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
+      console.log('branch ', this.branchesNames);
     });
   }
 
@@ -523,6 +578,9 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       this.partyCif = res.body;
       if (this.partyCif) {
         this.collateralProperty.guarantorName = this.partyCif.name;
+        this.collateralProperty.attributes.creditRating = this.partyCif.creditRatings[0].creditRating;
+        this.collateralProperty.attributes.creditRatingDate = this.partyCif.creditRatings[0].ratingDate;
+        this.collateralProperty.attributes.branch = this.partyCif.debtorData.bookingBranch;
         this.adress = this.partyCif.addresses.find(obj => obj.purposeTypeId === 'PRIMARY_LOCATION');
         if (this.adress) {
           console.log('adress ', this.adress);
@@ -577,6 +635,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         size: 9999,
       })
       .subscribe(res => {
+        console.log('ini res ', res);
         this.guaranteeIdentification = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
