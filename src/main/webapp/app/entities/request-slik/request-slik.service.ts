@@ -80,12 +80,41 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
   public searchByStatus(status: string) {
     const options = new HttpParams().set('status', status);
-    return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(map(res => res.body.data));
+    return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(
+      switchMap(data => {
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        return forkJoin([...requests]).pipe(
+          map(details =>
+            data.body.data.map((user, i) => ({
+              ...user,
+              customerName: details[i].body.customer.name,
+              customerType: details[i].body.customer.customerType,
+            }))
+          )
+        );
+      })
+    );
+    // return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
   public searchByCif(cif: number) {
     const options = new HttpParams().set('cif', cif);
-    return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(map(res => res.body.data));
+
+    return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(
+      switchMap(data => {
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        return forkJoin([...requests]).pipe(
+          map(details =>
+            data.body.data.map((user, i) => ({
+              ...user,
+              customerName: details[i].body.customer.name,
+              customerType: details[i].body.customer.customerType,
+            }))
+          )
+        );
+      })
+    );
+    // return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
   public getStatuses() {
