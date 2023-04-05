@@ -524,6 +524,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./master-parameter/master-lov-parameter/master-lov-parameter.module').then(m => m.LosgwMasterLovParameterModule),
       },
+      {
+        path: 'master-product-parameter',
+        loadChildren: () =>
+          import('./master-parameter/master-product/master-product-parameter.module').then(m => m.LosgwMasterProductParameterModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],

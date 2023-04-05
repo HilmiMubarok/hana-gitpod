@@ -65,6 +65,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'list-of-value-parameter',
       },
+      {
+        name: 'Product',
+        iconname: 'minus',
+        route: 'master-product-parameter',
+      },
     ],
   },
   {
@@ -398,6 +403,11 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'list-of-value-parameter',
       },
+      {
+        name: 'Product',
+        iconname: 'minus',
+        route: 'master-product-parameter',
+      },
     ],
   },
   {
@@ -672,6 +682,11 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         name: 'List Of Value',
         iconname: 'minus',
         route: 'list-of-value-parameter',
+      },
+      {
+        name: 'Product',
+        iconname: 'minus',
+        route: 'master-product-parameter',
       },
     ],
   },
