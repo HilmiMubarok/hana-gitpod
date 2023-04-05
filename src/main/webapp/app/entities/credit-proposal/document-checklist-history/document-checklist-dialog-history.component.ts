@@ -63,6 +63,7 @@ export class DocumentChecklistDialogHistoryComponent {
       cpId: string;
       typeData: IDocumentType[];
       item: string;
+      parentId: string
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogHistoryComponent>,
     private storageService: StorageService,
@@ -98,11 +99,20 @@ export class DocumentChecklistDialogHistoryComponent {
   public lengthMinIO = [];
 
   private getFiles(id: number): void {
+    if (this.data.parentId !== 'DOC_IDD') {
       const retrieveIDDNotDuplicated: Object = {
-        key: `/idd/${this.data.partyId}/document/hisotry/${this.files.id}`,
+        key: `/cp/${this.data.partyId}/document/history/file-cp/${this.files.id}`,
       };
 
       this.prosesGetDataByID(retrieveIDDNotDuplicated)
+    }else{
+      const retrieveIDDNotDuplicated: Object = {
+        key: `/cp/${this.data.partyId}/document/history/file-idd/${this.files.id}`,
+      };
+
+      this.prosesGetDataByID(retrieveIDDNotDuplicated)
+    }
+     
       
     }
 

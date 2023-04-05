@@ -13,7 +13,7 @@ import { CollateralAppraisalService } from './collateral-appraisal.service';
 import { CollateralAppraisalComponent } from './collateral-appraisal.component';
 import { CollateralAppraisalNewComponent } from './collateral-appraisal-new.component';
 import { CollateralAppraisalMainComponent } from './collateral-appraisal-main.component';
-import { scoreCard } from './negative/score-card.constant';
+// import { scoreCard } from './negative/score-card.constant';
 import lodash from 'lodash';
 import { CollateralAppraisalMaterialComponent } from './collateral-appraisal-material.component';
 import { CollateralAttribute } from '../collateral/collateral.model';

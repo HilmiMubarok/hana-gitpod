@@ -47,12 +47,12 @@
       <div class="col-6">
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Changes</mat-label>
+            <mat-label>Initial Limit</mat-label>
             <input
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="facilityTakeOver.changes"
+              [(ngModel)]="facilityTakeOver.initialLimitBank"
               [disabled]="view"
               [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
             />

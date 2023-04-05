@@ -38,12 +38,12 @@
         <div class="row">
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>changes</mat-label>
+              <mat-label>Initial Limit</mat-label>
               <input
                 currencyMask
                 matInput
                 type="text"
-                [(ngModel)]="facilityTakeOver.changes"
+                [(ngModel)]="facilityTakeOver.initialLimitBank"
                 [disabled]="view"
                 [options]="{ prefix: '', thousands: ',', decimal: '.', precision: 0 }"
               />

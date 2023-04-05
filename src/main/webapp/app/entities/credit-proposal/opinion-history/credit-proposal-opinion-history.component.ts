@@ -47,6 +47,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   @Output() uuidPath = new EventEmitter<string>();
   @Output() newItemEvent = new EventEmitter<string>();
+  @Output() posLog = new EventEmitter<string>();
   
   @Output() opinionFileSfdt = new EventEmitter<any>();
   @Output() opinionFileWord = new EventEmitter<File>();
@@ -65,6 +66,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   public notes: INotes[];
   public recomendasi: string;
+
+  public customHeadersJWT: any;
 
   private _creditProposalItem: ICreditProposal;
   private BUCKET: string;
@@ -97,13 +100,17 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     this.positionService.findByLogin().subscribe(posisi => {
       this.positionLogin = posisi.body;
       for (let i = 0; i < this.positionLogin.length; i++) {
-        this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].id;
+        // this.creditProposalItem.attributes['positionLogin'] = this.positionLogin[i].id;
+		this.posLog.emit(this.positionLogin[i].id);
       }
       this.refresh();
     });
   }
 
   ngOnInit(): void {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.uuidPath.emit(this.uuid);
 
 	this.notifyChild.subscribe(event => {
@@ -144,6 +151,21 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
     this.getWord();
     this.filterPositionLogin();
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public change(event: string) {
@@ -226,8 +248,22 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
 		  const testSfdtFile = JSON.parse(fileReader.result as string);
-		  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-			++this.countValidate;
+		  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+			if (testSfdtFile.sections[0].blocks[0].columnCount) {
+			  if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+				++this.countValidate;
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  }
+			} else if (testSfdtFile.sections[0].blocks[0].inlines) {
+			  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+				++this.countValidate;
+			  } else {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  }
+			}
 		  } else {
 			// toast opinion empty
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
@@ -244,8 +280,16 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-					if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-					  ++this.countValidate;
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+					  if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+						if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+						  ++this.countValidate;
+						}
+					  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+						if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						  ++this.countValidate;
+						}
+					  }
 					}
 					if (this.countValidate === 3) {
 					  this.isAllowSave.emit(true);
@@ -357,7 +401,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public triggeredSaveCondition(): void {
@@ -411,7 +456,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   }
 
   public onCreateCondition(): void {
-    this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container_condition.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container_condition.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public refresh() {

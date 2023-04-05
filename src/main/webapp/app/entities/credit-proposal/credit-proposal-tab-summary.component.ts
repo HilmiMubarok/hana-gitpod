@@ -57,6 +57,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   public viewButton: string;
   public isDataExist = false;
 
+  public customHeadersJWT: any;
+
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -111,6 +113,9 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
     this.getBucketNameSummary();
@@ -180,6 +185,21 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       this.item.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
       this.item.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
     });
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   fungsiSuminitGroub() {
@@ -465,7 +485,8 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
 
   onCreate(): void {
     // this.container.serviceUrl = 'http://45.32.114.128:8190/services/los/api/wordeditor/';
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {

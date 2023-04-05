@@ -6,6 +6,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import lodash from 'lodash';
 import { IPartyCif } from '../party-cif.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info-property-general-dialog',
@@ -24,6 +25,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       partyCif: IPartyCif;
       rmBranchId: string;
     },
+    private router: Router,
     private _dialog: MatDialogRef<PartyCifCollateralInfoPropertyGeneralDialogComponent>,
     protected collateralPropertyService: CollateralPropertyService
   ) {
@@ -75,8 +77,40 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       });
   }
 
+  private convertDate(date: any): any {
+    const dateOfDate = new Date(date);
+    const ustConvert = new Date(
+      Date.UTC(dateOfDate.getFullYear(), dateOfDate.getMonth(), dateOfDate.getDate(), dateOfDate.getHours(), dateOfDate.getMinutes())
+    );
+    return ustConvert;
+  }
+
   public save(): void {
-    this._dialog.close([this.collateralProperty, this.collateralPropertyExternal]);
+    const copyCollateralProperty: ICollateralProperty = lodash.cloneDeep(this.collateralProperty);
+    if (this.router.url.split('/')[1] === 'party-cif') {
+      if (copyCollateralProperty.attributes.expiry) {
+        if (typeof copyCollateralProperty.attributes.expiry === 'object') {
+          copyCollateralProperty.attributes.expiry = this.convertDate(copyCollateralProperty.attributes.expiry);
+        }
+      }
+    }
+    if (this.router.url.split('/')[1] === 'party-cif') {
+      if (copyCollateralProperty.attributes.maturityDate) {
+        if (typeof copyCollateralProperty.attributes.maturityDate === 'object') {
+          copyCollateralProperty.attributes.maturityDate = this.convertDate(copyCollateralProperty.attributes.maturityDate);
+        }
+      }
+    }
+    if (this.router.url.split('/')[1] === 'party-cif') {
+      if (copyCollateralProperty.attributes.certificateExpiryDate) {
+        if (typeof copyCollateralProperty.attributes.certificateExpiryDate === 'object') {
+          copyCollateralProperty.attributes.certificateExpiryDate = this.convertDate(
+            copyCollateralProperty.attributes.certificateExpiryDate
+          );
+        }
+      }
+    }
+    this._dialog.close([copyCollateralProperty, this.collateralPropertyExternal]);
   }
 
   public print() {

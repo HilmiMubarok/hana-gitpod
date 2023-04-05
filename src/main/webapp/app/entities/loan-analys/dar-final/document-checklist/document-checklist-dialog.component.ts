@@ -53,6 +53,12 @@ export class DocumentChecklistDialogTempComponent {
   public setStatusCurrenValue = [];
   public memoryFiles = []
   public fileDeleted = []
+
+  public filesStatus: string
+  public filesdueDate: string
+  public filesRemarks: string
+  public filesDescription: string
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -78,6 +84,11 @@ export class DocumentChecklistDialogTempComponent {
     this.category();
     this.setStatus();
     this.getMinIOData();
+
+    this.filesStatus = this.files.status
+    this.filesdueDate = this.files.dueDate
+    this.filesRemarks = this.files.remarks
+    this.filesDescription = this.files.description
   }
 
   public getMinIOData() {
@@ -106,7 +117,7 @@ export class DocumentChecklistDialogTempComponent {
         key: `/cp/${this.data.cpId}/document/file-cp/${this.files.id}`,
       };
       const retrieveIDDNotDuplicated: Object = {
-        key: `/idd/${this.data.partyId}/document/file-idd/${this.files.id}`,
+        key: `/idd/${this.data.partyId}/document/${this.files.id}`,
       };
 
       this.prosesGetDataByID(retrieveDataCpDuplicateIdd)
@@ -174,9 +185,9 @@ export class DocumentChecklistDialogTempComponent {
       this.handleImage()
     } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === undefined) {
       this.handleImage();
-    } else if (this.files.status === 'Available') {
+    } else if (this.filesStatus === 'Available') {
       this.handleImage();
-    } else if (this.files.status === 'Not Available') {
+    } else if (this.filesStatus === 'Not Available') {
       this.handleImage();
     }else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Waived') {
       this.handleImage()
@@ -197,6 +208,10 @@ export class DocumentChecklistDialogTempComponent {
   public progressSave = false
   
   public save(): void {
+    this.files.status = this.filesStatus
+    this.files.dueDate = this.filesdueDate
+    this.files.remarks = this.filesRemarks
+    this.files.description = this.filesDescription
 
     if (this.files.category === 'C') {
       if (this.files.status === 'Not Available') {

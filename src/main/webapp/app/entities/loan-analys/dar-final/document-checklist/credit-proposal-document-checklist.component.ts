@@ -90,7 +90,7 @@ export class DocumentChecklistTempComponent implements OnInit {
   public openDialog(element: IDocumentType = null, view: string, item: string): void {
     const predicate = { width: '80vw', data: {} };
     predicate.data['cpId'] = this.creditProposal.id;
-    predicate.data['partyId'] = this.creditProposal.cif.partyId;
+    predicate.data['partyId'] = this.creditProposal.customerNumber;
     predicate.data['bucket'] = this.bucket;
     predicate.data['files'] = element;
     predicate.data['typeData'] = this.typeData;
@@ -116,7 +116,7 @@ export class DocumentChecklistTempComponent implements OnInit {
         key: `/cp/${id}/document/file-cp/`,
       };
       const retrieveIDDNotDuplicated: Object = {
-        key: `/idd/${this.creditProposal.cif.partyId}/document/file-idd/`,
+        key: `/idd/${this.creditProposal.cif.partyId}/document/`,
       };
       this.storageService.getObjects(this.bucket, retrieveDataCpDuplicateIdd).subscribe((res: any) => {
         if (res.body.length > 0) {

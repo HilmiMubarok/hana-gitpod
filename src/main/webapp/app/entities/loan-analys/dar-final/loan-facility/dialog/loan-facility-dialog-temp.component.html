@@ -43,12 +43,10 @@
             (ngModelChange)="berubah($event)"
           />
           <mat-autocomplete #auto="matAutocomplete">
-            <!-- <mat-select [(ngModel)]="applicationProduct.attributes['facilityType']" name="facilityType" (ngModelChange)="berubah($event)"> -->
             <mat-option value="">- Please Select -</mat-option>
             <mat-option *ngFor="let option of listFacicility" [value]="option.label">
               {{ option.label }}
             </mat-option>
-            <!-- </mat-select> -->
           </mat-autocomplete>
         </mat-form-field>
       </div>
@@ -146,15 +144,6 @@
       </div>
       <div class="mb-2">
         <div class="row">
-          <!-- <div class="col-4">
-              <ejs-radiobutton value="un-commited" name="commitedLine" label="Un-Comitted Line" [disabled]="detailStats"
-                [checked]="unComitted"></ejs-radiobutton>
-            </div>
-            <div class="col-4">
-              <ejs-radiobutton value="commited" [(ngModel)]="applicationProduct.attributes['commitedLine']"
-                name="commitedLine" label="Comitted" [disabled]="detailStats"
-                [checked]="applicationProduct.attributes['commitedLine']"></ejs-radiobutton>
-            </div> -->
           <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']">
             <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
             <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted </mat-radio-button>
@@ -307,7 +296,12 @@
             <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Interest Rate/Spread rate</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.attributes['currentInterestRate']" />
+                <input
+                  matInput
+                  type="number"
+                  [(ngModel)]="applicationProduct.attributes['currentInterestRate']"
+                  (ngModelChange)="getSpread()"
+                />
               </mat-form-field>
             </section>
             <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
@@ -348,18 +342,6 @@
         </div>
       </div>
 
-      <!-- <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['indexRate']" cssClass="e-outline"
-                placeholder="Index Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
-            </div>
-            <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['spreadOfMargin']" cssClass="e-outline"
-                placeholder="Spread Of Margin" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
-            </div>
-            <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['totalRate']" cssClass="e-outline"
-                placeholder="Total Rate" floatLabelType="auto" [disabled]="status" [readonly]="detailStats"></ejs-textbox>
-            </div> -->
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
@@ -460,10 +442,6 @@
         </div>
       </div>
 
-      <!-- <div class="mb-2">
-              <ejs-textbox [(ngModel)]="applicationProduct.attributes['availableLimit']" cssClass="e-outline"
-                placeholder="Available Limit" floatLabelType="auto" readonly></ejs-textbox>
-            </div> -->
       <div class="mb-2">
         <div class="row">
           <div class="col-8">
@@ -500,7 +478,6 @@
       </div>
     </div>
   </div>
-  <!-- <button mat-raised-button color="primary" (click)="print()">prim</button> -->
   <mat-label>Mapping to Collateral</mat-label>
   <jhi-mapping-collateral-temp (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral-temp>
 </mat-dialog-content>

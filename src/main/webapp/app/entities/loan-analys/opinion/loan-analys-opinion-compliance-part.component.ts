@@ -56,6 +56,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   public route: any;
   public parentPath = this.router.url.split('/')[1];
 
+  public customHeadersJWT: any;
+
   private fileGet: File;
   public currentAccount: any;
 
@@ -108,11 +110,29 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   }
 
   ngOnInit(): void {
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
     this.typeOpinion.emit('compliance');
     this.uuidPath.emit(this.uuid);
 
 	this.getWord();
     this.filterPositionLogin();
+  }
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public openDialog(element: INotes = null): void {
@@ -180,7 +200,8 @@ export class LoanAnalysOpinionCompliancePartComponent implements OnInit, OnDestr
   }
 
   public onCreate(): void {
-    this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.container.serviceUrl = '/services/los/api/wordeditor/';
   }
 
   public onKeyDownCondition(args: DocumentEditorKeyDownEventArgs): void {

@@ -1,6 +1,6 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { ICollateral } from '../collateral/collateral.model';
-import { scoreCard } from './negative/score-card.constant';
+// import { scoreCard } from './negative/score-card.constant';
 
 export interface ICollateralAppraisal {
   id?: number;
