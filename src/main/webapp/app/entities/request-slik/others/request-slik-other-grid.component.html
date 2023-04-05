@@ -40,6 +40,7 @@
             (click)="$event.stopPropagation()"
             (change)="updateChecklist(element, c)"
             [checked]="isDetailChecked(element)"
+            [disabled]="requestSlik.status !== 'Draft'"
           ></mat-checkbox>
         </td>
       </ng-container>

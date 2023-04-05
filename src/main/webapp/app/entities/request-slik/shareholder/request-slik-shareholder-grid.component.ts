@@ -15,6 +15,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import * as _ from 'lodash';
+import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
 
 @Component({
@@ -24,6 +25,7 @@ import { RequestSlikService } from '../request-slik.service';
 export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
   @Output() checklistData = new EventEmitter<any>();
 
+  @Input() requestSlik: IRequestSlik;
   @Input() public cif: string;
   @Input() public managementType: string;
   public organizationManagementRes: IOrganizationManagement[];
@@ -101,7 +103,13 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<IOrganizationManagement[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<IOrganizationManagement[]>) => {
+            this.requestSlik.status !== 'Draft'
+              ? this.requestSlikService
+                  .filterData(res, this.checklists, 'shareholder')
+                  .then(data => this.initDataForMatTable(data, res.headers))
+              : this.initDataForMatTable(res, res.headers);
+          },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
     }

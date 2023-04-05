@@ -8,6 +8,7 @@ import { PARTY_CIF_EXAMPLE } from './party-cif-dummy';
 import { DocumentEditorContainerComponent, DocumentEditorKeyDownEventArgs } from '@syncfusion/ej2-angular-documenteditor';
 import { RequestSlikService } from './request-slik.service';
 import * as _ from 'lodash';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -22,7 +23,9 @@ export class RequestSlikDetailComponent {
 
   // Checklist
   saveDetails(data: object[]) {
-    this.requestSlikService.saveDetails(data).subscribe(res => console.log(res));
+    this.requestSlikService.saveDetails(data).subscribe(res => {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+    });
   }
 
   protected containsObject(obj, list) {
@@ -78,12 +81,20 @@ export class RequestSlikDetailComponent {
   }
 
   requestSlikId: number;
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private requestSlikService: RequestSlikService) {
+  constructor(
+    protected activatedRoute: ActivatedRoute,
+    private router: Router,
+    private requestSlikService: RequestSlikService,
+    protected messageService: MessageService
+  ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     // this.partyCif = PARTY_CIF_EXAMPLE;
     this.requestSlikDetail();
+    this.requestSlikService.getCbasResult(202).subscribe(res => {
+      console.log('asdasdasdasd', JSON.parse(res[0].resultJson));
+    });
   }
 
   requestSlikDetail() {
@@ -123,11 +134,33 @@ export class RequestSlikDetailComponent {
   }
 
   submit() {
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.requestSlikService
-      .onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status))
+    // this.requestSlikService.onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status));
+    const data = {
+      id: this.requestSlikId,
+      status: this.checkStatus(this.requestSlik.status).status,
+      checklists: this.checklists,
+      partyId: this.partyCif.partyId,
+    };
+    this.requestSlikService.onSubmit(data).subscribe({
+      next: res => {
+        res[1].status === 200 && this.router.navigate(['/request-slik']);
+      },
+      error: err => {
+        err.status === 200 && this.router.navigate(['/request-slik']);
+      },
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      .subscribe(() => this.router.navigate(['request-slik']));
+      complete: () => this.router.navigate(['/request-slik']),
+    });
+    // this.requestSlikService.onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status)).subscribe({
+    //   next: res => {
+    //     res.status === 200 && this.router.navigate(['/request-slik']);
+    //   },
+    //   error: err => {
+    //     err.status === 200 && this.router.navigate(['/request-slik']);
+    //   },
+    //   // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    //   complete: () => this.router.navigate(['/request-slik']),
+    // });
   }
 
   // ngOnInit(): void {

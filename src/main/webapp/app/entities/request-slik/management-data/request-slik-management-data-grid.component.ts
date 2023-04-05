@@ -15,6 +15,7 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import * as _ from 'lodash';
+import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   @Input() checklists;
   @Input() public cif: string;
   @Input() public managementType: string;
+  @Input() requestSlik: IRequestSlik;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
   @Input()
@@ -105,7 +107,13 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
           sort: ['id,desc'],
         })
         .subscribe({
-          next: (res: HttpResponse<IOrganizationManagement[]>) => this.initDataForMatTable(res, res.headers),
+          next: (res: HttpResponse<IOrganizationManagement[]>) => {
+            this.requestSlik.status !== 'Draft'
+              ? this.requestSlikService
+                  .filterData(res, this.checklists, 'management')
+                  .then(data => this.initDataForMatTable(data, res.headers))
+              : this.initDataForMatTable(res, res.headers);
+          },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
     }

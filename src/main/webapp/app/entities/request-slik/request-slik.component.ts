@@ -53,22 +53,22 @@ export class RequestSlikComponent extends AbstractEntityComponent<IRequestSlik> 
     this.listChangeEventName = 'requestSlikListModification';
     this.entityKeyName = 'id';
 
-    this.routeData = this.activatedRoute.data.subscribe(data => {
-      this.page = data.pagingParams.page;
-      this.previousPage = data.pagingParams.page;
-      this.reverse = data.pagingParams.ascending;
-      this.predicate = data.pagingParams.predicate;
-      activatedRoute.queryParams.subscribe(params => {
-        this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
-        this.first = (this.page - 1) * this.itemsPerPage || 0;
-      });
-      console.log('data', {
-        data,
-        first: this.first,
-      });
-    });
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
+    // this.routeData = this.activatedRoute.data.subscribe(data => {
+    //   this.page = data.pagingParams.page;
+    //   this.previousPage = data.pagingParams.page;
+    //   this.reverse = data.pagingParams.ascending;
+    //   this.predicate = data.pagingParams.predicate;
+    //   activatedRoute.queryParams.subscribe(params => {
+    //     this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
+    //     this.first = (this.page - 1) * this.itemsPerPage || 0;
+    //   });
+    //   console.log('data', {
+    //     data,
+    //     first: this.first,
+    //   });
+    // });
+    // this.currentSearch =
+    //   this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
     this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     this.getStatus();
   }
