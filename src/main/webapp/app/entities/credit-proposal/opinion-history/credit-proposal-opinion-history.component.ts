@@ -271,8 +271,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 			} else if (testSfdtFile.sections[0].blocks[0].inlines) {
 			  let isEmpty = true;
 			  testSfdtFile.sections[0].blocks.forEach((block) => {
-				if (block.inlines.length > 0) {
-				  isEmpty = false;
+				if (block.inlines) {
+				  if (block.inlines.length > 0) {
+					isEmpty = false;
+				  }
 				}
 			  });
 			  
@@ -330,8 +332,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 					  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
 						let isEmpty = true;
 						testSfdtFileCondition.sections[0].blocks.forEach((block) => {
-						  if (block.inlines.length > 0) {
-							isEmpty = false;
+						  if (block.inlines) {
+							if (block.inlines.length > 0) {
+							  isEmpty = false;
+							}
 						  }
 						});
 
