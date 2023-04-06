@@ -247,8 +247,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 	  if (testFile) {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
-		  /* const testSfdtFile = JSON.parse(fileReader.result as string);
-		  if (testSfdtFile.sections[0].blocks) {
+		  const testSfdtFile = JSON.parse(fileReader.result as string);
+		  /* if (testSfdtFile.sections[0].blocks) {
 			if (testSfdtFile.sections[0].blocks.length > 0) {
 			  ++this.countValidate;
 			} else {
