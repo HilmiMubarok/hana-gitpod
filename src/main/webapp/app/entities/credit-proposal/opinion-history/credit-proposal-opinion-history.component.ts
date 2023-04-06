@@ -248,6 +248,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
 		  const testSfdtFile = JSON.parse(fileReader.result as string);
+		  console.log('testSfdtFile : ', testSfdtFile);
 		  if (testSfdtFile.sections[0].blocks) {
 			if (testSfdtFile.sections[0].blocks.length > 0) {
 			  ++this.countValidate;
@@ -293,6 +294,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+					console.log('testSfdtFileCondition : ', testSfdtFileCondition);
 					if (testSfdtFileCondition.sections[0].blocks) {
 					  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
 						++this.countValidate;
