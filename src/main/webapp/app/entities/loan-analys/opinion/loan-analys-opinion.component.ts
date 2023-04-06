@@ -115,7 +115,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   private cacheData: any;
 
-  private tempRouter: string;
+  public tempRouter: string;
 
   private countValidate = 0;
 
