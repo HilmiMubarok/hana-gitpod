@@ -247,8 +247,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 	  if (testFile) {
 		const fileReader: FileReader = new FileReader();
 		fileReader.onload = (e: any) => {
-		  const testSfdtFile = JSON.parse(fileReader.result as string);
-		  console.log('testSfdtFile : ', testSfdtFile);
+		  /* const testSfdtFile = JSON.parse(fileReader.result as string);
 		  if (testSfdtFile.sections[0].blocks) {
 			if (testSfdtFile.sections[0].blocks.length > 0) {
 			  ++this.countValidate;
@@ -259,9 +258,9 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 		  } else {
 			// toast opinion empty
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-		  }
+		  } */
 
-		  /* if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+		  if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
 			if (testSfdtFile.sections[0].blocks[0].columnCount) {
 			  if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
 				++this.countValidate;
@@ -270,17 +269,31 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 			  }
 			} else if (testSfdtFile.sections[0].blocks[0].inlines) {
-			  if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+			  let isEmpty = true;
+			  testSfdtFile.sections[0].blocks.forEach((block) => {
+				if (block.inlines.length > 0) {
+				  isEmpty = false;
+				}
+			  });
+			  
+			  if (isEmpty) {
+				// toast opinion empty
+				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+			  } else {
+				++this.countValidate;
+			  }
+
+			  /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
 				++this.countValidate;
 			  } else {
 				// toast opinion empty
 				this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-			  }
+			  } */
 			}
 		  } else {
 			// toast opinion empty
 			this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-		  } */
+		  }
 
 		  if (this.recomendasi) {
 			++this.countValidate;
@@ -294,8 +307,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 				  const fileReaderCondition: FileReader = new FileReader();
 				  fileReaderCondition.onload = (eCondition: any) => {
 					const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-					console.log('testSfdtFileCondition : ', testSfdtFileCondition);
-					if (testSfdtFileCondition.sections[0].blocks) {
+					/* if (testSfdtFileCondition.sections[0].blocks) {
 					  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
 						++this.countValidate;
 					  } else {
@@ -305,19 +317,39 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 					} else {
 					  // toast condition empty
 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-					}
+					} */
 
-					/* if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+					if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].paragraphFormat) {
 					  if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
 						if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
 						  ++this.countValidate;
+						} else {
+						  // toast condition empty
+						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 						}
 					  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-						if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						let isEmpty = true;
+						testSfdtFileCondition.sections[0].blocks.forEach((block) => {
+						  if (block.inlines.length > 0) {
+							isEmpty = false;
+						  }
+						});
+
+						if (isEmpty) {
+						  // toast condition empty
+						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						} else {
 						  ++this.countValidate;
 						}
+
+						/* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+						  ++this.countValidate;
+						} else {
+						  // toast condition empty
+						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						} */
 					  }
-					} */
+					}
 
 					if (this.countValidate === 3) {
 					  this.isAllowSave.emit(true);
