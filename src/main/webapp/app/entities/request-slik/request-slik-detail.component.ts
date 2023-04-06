@@ -92,9 +92,6 @@ export class RequestSlikDetailComponent {
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     // this.partyCif = PARTY_CIF_EXAMPLE;
     this.requestSlikDetail();
-    this.requestSlikService.getCbasResult(202).subscribe(res => {
-      console.log('asdasdasdasd', JSON.parse(res[0].resultJson));
-    });
   }
 
   requestSlikDetail() {
@@ -108,6 +105,10 @@ export class RequestSlikDetailComponent {
         this.checklists = res.details;
         this.requestSlik = res.slik;
         this.partyCif = res.partyCif.customer;
+
+        this.requestSlikService
+          .getCbasResult(this.requestSlikId, this.partyCif.partyId)
+          .subscribe(resss => console.log('CBAS RESULT', resss));
       },
       complete: () => (this.isLoading = false),
     });

@@ -208,9 +208,17 @@ export class RequestSlikService extends AbstractEntityService<any> {
     }
   }
 
-  getCbasResult(id) {
+  getCbasResult(id, partyId) {
+    const idParty = new HttpParams().set('idParty', partyId);
+    const page = new HttpParams().set('page', 1);
+    const size = new HttpParams().set('size', 10);
     return this.http
-      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik_result/') + id, { observe: 'response' })
+      .get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik_result/filterBy'), {
+        observe: 'response',
+        // params: idParty,
+
+        params: idParty.append('page', 1).append('size', 10),
+      })
       .pipe(map(res => res.body.data.content));
   }
   // public onSubmit(id: number, body: any) {
