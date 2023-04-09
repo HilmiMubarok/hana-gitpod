@@ -30,6 +30,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   @Input() public managementType: string;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
+  @Input() result: any;
   @Input()
   get organizationManagement() {
     return this.items;

@@ -124,15 +124,17 @@
             [partyCif]="partyCif"
             [checklists]="checklists"
             [requestSlik]="requestSlik"
+            [result]="result"
             managementType="MANAGEMENT_DATA"
             (checklistData)="getChecklistManagementData($event)"
           ></jhi-request-slik-management-data-grid>
           <div class="my-5"></div>
-          <jhi-request-slik-shareholder-grid
+          <!-- <jhi-request-slik-shareholder-grid
             [cif]="partyCif.customerNumber"
             [partyCif]="partyCif"
             [checklists]="checklists"
             [requestSlik]="requestSlik"
+            [result]="result"
             managementType="SHAREHOLDER"
             (checklistData)="getChecklistShareholder($event)"
           ></jhi-request-slik-shareholder-grid>
@@ -142,21 +144,14 @@
             [partyCif]="partyCif"
             [checklists]="checklists"
             [requestSlik]="requestSlik"
+            [result]="result"
             managementType="CONTROL_PERSON"
             (checklistData)="getChecklistOther($event)"
-          ></jhi-request-slik-other-grid>
-          <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="MANAGEMENT_DATA">
-      </jhi-debtor-data-organization-management-list> -->
-          <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="SHAREHOLDER">
-      </jhi-debtor-data-organization-management-list> -->
-          <!-- <div class="my-5"></div>
-      <jhi-debtor-data-organization-management-list
-        [cif]="partyCif.customerNumber"
-        [partyCif]="partyCif"
-        managementType="CONTROL_PERSON"
-        onRequestSlik="true"
-      >
-      </jhi-debtor-data-organization-management-list> -->
+          ></jhi-request-slik-other-grid> -->
+          <!-- =============== -->
+          <!-- =============== -->
+          <!-- =============== -->
+          <!-- =============== -->
         </div>
       </div>
 

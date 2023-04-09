@@ -94,29 +94,8 @@ export class RequestSlikDetailComponent {
     this.requestSlikDetail();
   }
 
-  parseResultJsonArray(inputArr) {
-    // Clone the input array to avoid modifying the original array
-    const outputArr = [...inputArr];
-
-    // Loop through each object in the input array
-    outputArr.forEach(obj => {
-      // Check if the object has a 'resultJson' property
-      // eslint-disable-next-line no-prototype-builtins
-      if (obj.hasOwnProperty('resultJson')) {
-        try {
-          // Parse the 'resultJson' property value into a JavaScript object
-          const parsedResultJson = JSON.parse(obj.resultJson);
-          // Update the 'resultJson' property with the parsed value
-          obj.resultJson = parsedResultJson;
-        } catch (error) {
-          console.error('Failed to parse resultJson:', error);
-        }
-      }
-    });
-
-    // Return the modified array with parsed 'resultJson' property values
-    return outputArr;
-  }
+  // Result
+  result: any = [];
 
   requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
@@ -130,10 +109,10 @@ export class RequestSlikDetailComponent {
         this.requestSlik = res.slik;
         this.partyCif = res.partyCif.customer;
 
-        this.requestSlikService.getCbasResult(this.requestSlikId, this.partyCif.partyId).subscribe(resss => {
-          // lodash filter on resss.resultJson
-          console.log(this.parseResultJsonArray(resss));
-        });
+        this.requestSlik.status === 'Verify' &&
+          this.requestSlikService.getCbasResult(this.requestSlikId, this.partyCif.partyId).subscribe(resss => {
+            this.result = this.requestSlikService.parseSlikResult(resss);
+          });
       },
       complete: () => (this.isLoading = false),
     });

@@ -2,13 +2,12 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { OrganizationManagementDialogComponent } from 'app/entities/organization-management/organization-management-dialog.component';
 import {
   IOrganizationManagement,
   OrganizationManagement,
   OrganizationManagementAttributeManagementData,
-  OrganizationManagementAttributeShareholder,
 } from 'app/entities/organization-management/organization-management.model';
 import { OrganizationManagementService } from 'app/entities/organization-management/organization-management.service';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
@@ -17,19 +16,46 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import * as _ from 'lodash';
 import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
   templateUrl: './request-slik-management-data-grid.component.html',
+  animations: [
+    trigger('detailExpand', [
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          minHeight: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+        })
+      ),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class RequestSlikManagementDataGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
   @Output() checklistData = new EventEmitter<any>();
   @Input() checklists;
-  @Input() public cif: string;
-  @Input() public managementType: string;
+  @Input() cif: string;
+  @Input() managementType: string;
   @Input() requestSlik: IRequestSlik;
+  @Input() result: any;
+
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
+  private _partyCif: IPartyCif;
+  public dataPartySlik: IPartySlik[];
+  public displayedColumns: string[];
+  public displayedColumnsExpand;
+  public requestSlikId: number;
+  public expandedElement;
   @Input()
   get organizationManagement() {
     return this.items;
@@ -37,9 +63,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   set organizationManagement(param: IOrganizationManagement[]) {
     this.items = param;
   }
-
-  private _partyCif: IPartyCif;
-  public dataPartySlik: IPartySlik[];
 
   @Input()
   get partyCif() {
@@ -65,10 +88,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     return this.requestSlikService.isDetailChecked(row, this.checklists, 'management');
   }
 
-  public displayedColumns: string[];
-
-  requestSlikId: number;
-
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
@@ -80,6 +99,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.itemsPerPage = 10;
     this.page = 0;
     this.displayedColumns = null;
+    this.displayedColumnsExpand = null;
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
@@ -92,8 +112,13 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     }
   }
 
+  findDetail() {
+    console.log('Detail');
+  }
+
   private defineDisplayedColumns(param: string) {
     this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
+    this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
@@ -108,11 +133,14 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
+            console.log(this.result);
+
             this.requestSlik.status !== 'Draft'
               ? this.requestSlikService
                   .filterData(res, this.checklists, 'management')
                   .then(data => this.initDataForMatTable(data, res.headers))
-              : this.initDataForMatTable(res, res.headers);
+              : // this.initDataForMatTable(data, res.headers)
+                this.initDataForMatTable(res, res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
@@ -135,14 +163,12 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     data.idRequestSlik = this.requestSlikId;
     if (check.checked) {
       // ketika cek
-
       this.checklistData.emit({
         data,
         mode: 'add',
       });
     } else {
       // ketika uncek
-
       this.checklistData.emit({
         data,
         mode: 'remove',

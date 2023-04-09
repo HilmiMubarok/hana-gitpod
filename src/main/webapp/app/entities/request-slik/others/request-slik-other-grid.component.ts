@@ -27,6 +27,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   @Input() requestSlik: IRequestSlik;
   @Input() public cif: string;
   @Input() public managementType: string;
+  @Input() result: any;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
   @Input()

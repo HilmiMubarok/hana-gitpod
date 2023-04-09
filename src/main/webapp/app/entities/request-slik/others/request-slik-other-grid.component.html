@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="requestSlik.status !== 'Verify'">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">Others (group, guarantor, etc)</mat-card-header-subtitle>
   </mat-card-header>
@@ -64,3 +64,5 @@
     </mat-paginator>
   </mat-card-content>
 </mat-card>
+
+<mat-card *ngIf="requestSlik.status === 'Verify'"> Verify </mat-card>
