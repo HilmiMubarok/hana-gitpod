@@ -11,8 +11,21 @@ import { ICollateralParameter } from './collateral-parameter.model';
   providedIn: 'root',
 })
 export class CollateralParameterService extends AbstractEntityService<ICollateralParameter> {
+  public paramTypeId: Subject<any> = new Subject();
+
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-parameters');
+  }
+
+  public filterTableData(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(this.resourceUrl + '/filterBy?', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any>) => this.preLoadItemArray(res)));
+  }
+  setPrameterType(message: any) {
+    this.paramTypeId.next(message);
   }
 }

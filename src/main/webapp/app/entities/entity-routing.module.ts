@@ -529,6 +529,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./master-parameter/master-product/master-product-parameter.module').then(m => m.LosgwMasterProductParameterModule),
       },
+      {
+        path: 'collateral-parameter',
+        loadChildren: () =>
+          import('./master-parameter/collateral-parameter/collateral-parameter.module').then(m => m.LosgwCollateralParameterModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],
