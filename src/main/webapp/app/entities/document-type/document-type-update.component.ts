@@ -27,6 +27,8 @@ export class DocumentTypeUpdateComponent extends AbstractEntityBaseViewComponent
       description: 'Non Active',
     },
   ];
+  public customerTypeValue = ['CORPORATE', 'PERSONAL', 'ALL'];
+
   public categoryValue = ['A', 'B', 'C'];
   public documentName: IDocumentType[];
 
