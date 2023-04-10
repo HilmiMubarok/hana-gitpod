@@ -22,6 +22,8 @@ export class DocumentTypeDialogComponent implements OnInit {
   ];
 
   public categoryValue = ['A', 'B', 'C'];
+  public customerTypeValue = ['CORPORATE', 'PERSONAL', 'ALL'];
+
   public documentType: IDocumentType;
   constructor(
     @Inject(MAT_DIALOG_DATA)

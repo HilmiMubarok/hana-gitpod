@@ -31,6 +31,7 @@ export class DocumentTypeViewComponent extends AbstractEntityMaterialComponent<I
       description: 'Non Active',
     },
   ];
+  public customerTypeValue = ['CORPORATE', 'PERSONAL', 'ALL'];
   public categoryValue = ['A', 'B', 'C'];
 
   constructor(
