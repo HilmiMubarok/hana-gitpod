@@ -123,6 +123,7 @@ export interface ISurveyAppraisals {
   teamLeadId?: number;
   teamLeadName?: string;
   teamLeadPersonId?: string;
+  internalId?: string;
 }
 
 export class SurveyAppraisals implements ISurveyAppraisals {
@@ -243,7 +244,8 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public unitHeadPersonId?: string,
     public teamLeadId?: number,
     public teamLeadName?: string,
-    public teamLeadPersonId?: string
+    public teamLeadPersonId?: string,
+    public internalId?: string
   ) {
     this.cif = new Cif();
     this.rm = new ApplicationRole();
