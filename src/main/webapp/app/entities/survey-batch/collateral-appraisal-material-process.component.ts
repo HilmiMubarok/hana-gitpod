@@ -27,6 +27,7 @@ import { Account } from 'app/core/auth/account.model';
 import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
+import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-appraisal.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material-process',
   templateUrl: './collateral-appraisal-material-process.component.html',
@@ -109,7 +110,8 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     protected applicationStateLogService: ApplicationStateLogService,
     public accountService: AccountService,
     protected dialog: MatDialog,
-    protected router: Router
+    protected router: Router,
+    public cashSurveyAppraisalsService: CashSurveyAppraisalsService
   ) {
     super(_snackBar, surveyAppraisalService);
     this.globalSearchValModel = '';
@@ -184,17 +186,32 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     });
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   public loadAll(): void {
     this.checkLogin();
     this.loading = true;
 
     if (this.clickedChip !== '') {
-      this.surveyAppraisalService
-        .queryFilterBy({
+      this.cashSurveyAppraisalsService
+        .cashSurveyAppraisalQueryFilterByProsses({
           page: this.page,
           idStatus: this.clickedChip,
           size: this.itemsPerPage,
-          apprOfficer: 'Internal',
+          idPosition: this.getLocStor('POS'),
           sort: this.sortData(),
         })
         .subscribe({
@@ -204,47 +221,12 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
       return;
     }
 
-    if (this.currentSearch && this.currentSearch !== '') {
-      this.surveyAppraisalService
-        .searchProcess(
-          {
-            page: this.page,
-            // query: this.currentSearch,
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          },
-          this.currentSearch
-        )
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (this.globalSearchVal) {
-      this.surveyAppraisalService
-        .searchNew(
-          {
-            page: this.page,
-            query: this.globalSearchVal,
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          },
-          'Internal'
-        )
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
     if (this.urlAppraisalProcess) {
-      this.surveyAppraisalService
-        .getBySurveyor({
+      this.cashSurveyAppraisalsService
+        .cashSurveyAppraisalQueryFilterByProsses({
           page: this.page,
           size: this.itemsPerPage,
+          idPosition: this.getLocStor('POS'),
           // apprOfficer: 'Internal',
           sort: ['id,desc'],
         })
@@ -290,10 +272,9 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   protected postLoadDataLazy(): void {
     if (this.currentSearch === null || this.currentSearch === undefined || this.currentSearch === '') {
       this.loadAll();
-    }else{
-      this.doSearch()
+    } else {
+      this.doSearch();
     }
-    
   }
 
   private convertToTimelineModel(data: IApplicationStateLog[]) {
@@ -355,14 +336,14 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   public previousState(): void {
     window.history.back();
   }
-  public statusSearch = false
-  public closeSearch(){
-    this.statusSearch = false
-    this.currentSearch = ''
-    this.page = 0
+  public statusSearch = false;
+  public closeSearch() {
+    this.statusSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
 
-    this.itemsPerPage = 10
-    this.loadAll()
+    this.itemsPerPage = 10;
+    this.loadAll();
   }
 
   public drop(event: CdkDragDrop<string[]>): void {
@@ -381,29 +362,28 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   }
 
   public doSearch(args: any = null): void {
-    this.statusSearch = true
-      const predicate: object = {
-        page: this.page,
-        query: this.currentSearch,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      };
+    this.statusSearch = true;
+    const predicate: object = {
+      page: this.page,
+      query: this.currentSearch,
+      size: this.itemsPerPage,
+      sort: this.sortData(),
+    };
 
-      if (this.activeRoute === 'batch-apprisalprocess') {
-        predicate['target'] = 'appraisal-process';
-      }
+    if (this.activeRoute === 'batch-apprisalprocess') {
+      predicate['target'] = 'appraisal-process';
+    }
 
-      this.surveyAppraisalService
-        .search(predicate)
-        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => {
-            this.initDataForMatTableCustom(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-  
+    this.cashSurveyAppraisalsService
+      .search(predicate)
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => {
+          this.initDataForMatTableCustom(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
   }
 
   public goToEdit(): void {
