@@ -338,6 +338,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
 	  } else if (event === 'Not Recommend') {
 		pick = 'Not Approved';
 	  }
+	} else {
+	  pick = event;
 	}
 
 	this.newItemEvent.emit(pick);
