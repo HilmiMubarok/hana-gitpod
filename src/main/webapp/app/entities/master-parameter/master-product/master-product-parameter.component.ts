@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MasterProductParameterService } from './master-product-parameter.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MasterProductParameterDialogComponent } from './master-product-parameter-dialog.component';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-master-product-parameter',
@@ -30,52 +31,54 @@ export class MasterProductParameterComponent extends AbstractEntityMaterialCompo
     this.itemsPerPage = 10;
     this.predicate = 'id';
     this.entityKeyName = 'id';
+    this.items = [];
+    this.listGeneralLov = [];
   }
 
   ngOnInit(): void {
-    this.loadAll();
     this.getFacilityType();
-  }
-
-  public getListType() {
-    this.productParameterService
-      .queryFilterBy({
-        page: 0,
-        size: 9999,
-        idParentProduct: 'LOAN_PRODUCT',
-        sort: ['desc'],
-      })
-      .subscribe(res => {
-        this.listGeneralLov = res.body;
-      });
   }
 
   public getFacilityType() {
     this.productParameterService.getLovFacilityType().subscribe(res => {
       this.listGeneralLov = res.body;
+      if (this.masterProduct.productTypeId !== '') {
+        for (let i = 0; i < this.listGeneralLov.length; i++) {
+          this.masterProduct.productTypeId = this.listGeneralLov[i].id;
+        }
+      }
     });
   }
 
   public onSelect(element: any) {
-    const paramType = element;
-    this.productParameterService.setPrameterType(paramType);
+    // const paramType = element;
+    // this.productParameterService.setPrameterType(paramType);
+
+    // this.loadAll();
+    this.items = [];
+    this.page = 0;
+    this.typeID = element;
+    this.loadAll();
+    this.paginator.firstPage();
   }
 
   private loadAll(): void {
-    const data = this.productParameterService.paramTypeId.subscribe((message: any) => {
-      this.typeID = message;
-      this.productParameterService
-        .queryFilterBy({
-          idProductType: this.typeID,
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: ['id', 'desc'],
-        })
-        .subscribe({
-          next: res => this.initDataForMatTable(res, res.headers),
-          error: res => this.onError(res.message),
-        });
-    });
+    // const data = this.productParameterService.paramTypeId.subscribe((message: any) => {
+    // this.typeID = message;
+    this.productParameterService
+      .filterTableData({
+        idProductType: this.typeID,
+        page: this.page,
+        sort: this.sortData(),
+        size: this.itemsPerPage,
+      })
+      .subscribe({
+        next: (res: HttpResponse<IMasterProductParameter[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    // });
   }
 
   protected postLoadDataLazy(): void {
