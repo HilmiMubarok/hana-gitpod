@@ -38,7 +38,7 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   totalItemCount;
-  getData(page = 1, size = 10, sort = 'id,desc') {
+  getData(page = 1, size = 10, sort = 'dateCreate,desc') {
     this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
       next: data => {
         console.log('data', data);

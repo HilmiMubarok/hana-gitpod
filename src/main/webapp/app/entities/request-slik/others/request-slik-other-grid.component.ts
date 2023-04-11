@@ -17,10 +17,29 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import * as _ from 'lodash';
 import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'jhi-request-slik-other-grid',
   templateUrl: './request-slik-other-grid.component.html',
+  animations: [
+    trigger('detailExpand', [
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          minHeight: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+        })
+      ),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class RequestSlikOtherGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
   @Output() checklistData = new EventEmitter<any>();
@@ -30,6 +49,8 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   @Input() result: any;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
+  public expandedElement;
+
   @Input()
   get organizationManagement() {
     return this.items;
@@ -62,6 +83,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   }
 
   public displayedColumns: string[];
+  public displayedColumnsExpand: string[];
 
   requestSlikId: number;
 
@@ -76,6 +98,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     this.itemsPerPage = 10;
     this.page = 0;
     this.displayedColumns = null;
+    this.displayedColumnsExpand = null;
     this.predicate = 'id';
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
@@ -90,6 +113,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
 
   private defineDisplayedColumns(param: string) {
     this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
+    this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {

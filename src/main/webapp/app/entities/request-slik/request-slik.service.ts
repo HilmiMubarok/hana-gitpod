@@ -51,8 +51,8 @@ export class RequestSlikService extends AbstractEntityService<any> {
       data.body.forEach(res => {
         if (!this.isDetailChecked(res, checklists, type)) {
           data.body = data.body.filter(item => item.id !== res.id);
-          resolve(data);
         }
+        resolve(data);
       });
     });
   }

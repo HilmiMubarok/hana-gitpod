@@ -12,6 +12,7 @@ import { RequestSlikManagementDataGridComponent } from './management-data/reques
 import { RequestSlikShareholderGridComponent } from './shareholder/request-slik-shareholder-grid.component';
 import { RequestSlikOtherGridComponent } from './others/request-slik-other-grid.component';
 import { RequestSlikBucketComponent } from './request-slik-bucket.component';
+import { RequestSlikManagementDataDialogComponent } from './management-data/dialog/request-slik-management-data-dialog.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
@@ -25,6 +26,7 @@ import { RequestSlikBucketComponent } from './request-slik-bucket.component';
     RequestSlikShareholderGridComponent,
     RequestSlikOtherGridComponent,
     RequestSlikBucketComponent,
+    RequestSlikManagementDataDialogComponent,
   ],
   entryComponents: [
     RequestSlikComponent,
@@ -36,6 +38,7 @@ import { RequestSlikBucketComponent } from './request-slik-bucket.component';
     RequestSlikShareholderGridComponent,
     RequestSlikOtherGridComponent,
     RequestSlikBucketComponent,
+    RequestSlikManagementDataDialogComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

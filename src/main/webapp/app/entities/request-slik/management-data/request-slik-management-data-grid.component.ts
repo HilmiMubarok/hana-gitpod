@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RequestSlikManagementDataDialogComponent } from './dialog/request-slik-management-data-dialog.component';
 
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
@@ -41,6 +42,24 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
 })
 export class RequestSlikManagementDataGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+  constructor(
+    protected organizationManagementService: OrganizationManagementService,
+    protected _snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private router: Router,
+    public requestSlikService: RequestSlikService
+  ) {
+    super(_snackBar, organizationManagementService);
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.displayedColumns = null;
+    this.displayedColumnsExpand = null;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
+    this.organizationManagementRes = [];
+    this.requestSlikId = Number(this.router.url.split('/')[2]);
+  }
+
   @Output() checklistData = new EventEmitter<any>();
   @Input() checklists;
   @Input() cif: string;
@@ -88,23 +107,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     return this.requestSlikService.isDetailChecked(row, this.checklists, 'management');
   }
 
-  constructor(
-    protected organizationManagementService: OrganizationManagementService,
-    protected _snackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private router: Router,
-    public requestSlikService: RequestSlikService
-  ) {
-    super(_snackBar, organizationManagementService);
-    this.itemsPerPage = 10;
-    this.page = 0;
-    this.displayedColumns = null;
-    this.displayedColumnsExpand = null;
-    this.predicate = 'id';
-    this.entityKeyName = 'id';
-    this.organizationManagementRes = [];
-    this.requestSlikId = Number(this.router.url.split('/')[2]);
-  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif'] && changes['managementType']) {
       this.loadDataBy(this.partyCif.customerNumber, this.managementType);
@@ -112,8 +114,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     }
   }
 
-  findDetail() {
-    console.log('Detail');
+  findDetail(expandedEl) {
+    console.log('Detail', expandedEl);
   }
 
   private defineDisplayedColumns(param: string) {
@@ -121,8 +123,11 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
+  displayedColumnsDetail: string[] = ['name', 'action'];
+  dataSourceExpand;
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
+      this.dataSourceExpand = ELEMENT_DATA;
       this.organizationManagementService
         .queryFilterBy({
           cifNumber: this.cif,
@@ -133,14 +138,18 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
+            console.log('res management data', {
+              res: res.body,
+              checklists: this.checklists,
+            });
             console.log(this.result);
 
             this.requestSlik.status !== 'Draft'
-              ? this.requestSlikService
-                  .filterData(res, this.checklists, 'management')
-                  .then(data => this.initDataForMatTable(data, res.headers))
-              : // this.initDataForMatTable(data, res.headers)
-                this.initDataForMatTable(res, res.headers);
+              ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+                  console.log('then', data);
+                  this.initDataForMatTable(data, res.headers);
+                })
+              : this.initDataForMatTable(res, res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
@@ -184,37 +193,61 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     param.attributes = new OrganizationManagementAttributeManagementData();
   }
 
-  public openDialog(param: IOrganizationManagement = null): void {
-    let orgMgm: IOrganizationManagement;
-    orgMgm = new OrganizationManagement();
-    orgMgm.cifNumber = this.cif;
-    orgMgm.organizationManagementTypeId = this.managementType;
-    orgMgm.attributes = {};
-    this.setAttribute(orgMgm);
-    if (param) {
-      orgMgm = param;
-    }
-    const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
-      width: '80vw',
+  public openDialog(param) {
+    const dialogRef = this.dialog.open(RequestSlikManagementDataDialogComponent, {
+      width: '90vw',
       data: {
-        organizationManagement: orgMgm,
-        managementType: this.managementType,
+        data: param,
       },
     });
     dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
-      if (res) {
-        if (res.id) {
-          // update
-          this.organizationManagementService.update(res).subscribe(rs => {
-            this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-          });
-        } else {
-          // create
-          this.organizationManagementService.create(res).subscribe(rs => {
-            this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-          });
-        }
-      }
+      console.log(res);
     });
   }
+  // public openDialog(param: IOrganizationManagement = null): void {
+  //   let orgMgm: IOrganizationManagement;
+  //   orgMgm = new OrganizationManagement();
+  //   orgMgm.cifNumber = this.cif;
+  //   orgMgm.organizationManagementTypeId = this.managementType;
+  //   orgMgm.attributes = {};
+  //   this.setAttribute(orgMgm);
+  //   if (param) {
+  //     orgMgm = param;
+  //   }
+  //   const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
+  //     width: '80vw',
+  //     data: {
+  //       organizationManagement: orgMgm,
+  //       managementType: this.managementType,
+  //     },
+  //   });
+  //   dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
+  //     if (res) {
+  //       if (res.id) {
+  //         // update
+  //         this.organizationManagementService.update(res).subscribe(rs => {
+  //           this.loadDataBy(this.partyCif.customerNumber, this.managementType);
+  //         });
+  //       } else {
+  //         // create
+  //         this.organizationManagementService.create(res).subscribe(rs => {
+  //           this.loadDataBy(this.partyCif.customerNumber, this.managementType);
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 }
+
+const ELEMENT_DATA = [
+  { name: '1 ' },
+  { name: '2 ' },
+  { name: '3 ' },
+  { name: '4 ' },
+  { name: '5 ' },
+  { name: '6 ' },
+  { name: '7 ' },
+  { name: '8 ' },
+  { name: '9 ' },
+  { name: '10' },
+];
