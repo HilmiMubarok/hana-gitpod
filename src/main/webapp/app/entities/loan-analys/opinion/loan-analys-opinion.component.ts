@@ -321,8 +321,30 @@ export class LoanAnalysOpinionComponent implements OnInit {
   }
 
   public change(event: string) {
-    this.newItemEvent.emit(event);
-    this.recomendasi = event;
+	let pick = '';
+	if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' && (this.tempRouter === 'la-analyst' || this.tempRouter === 'la-SME-CRC')) {
+	  if (event === 'Approved as Propose') {
+		pick = 'Recommend as Propose';
+	  } else if (event === 'Approved With Condition') {
+		pick = 'Recommend With Condition';
+	  } else if (event === 'Not Approved') {
+		pick = 'Not Recommend';
+	  }
+	} else if (this.creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' && (this.tempRouter === 'la-approval' || this.tempRouter === 'loan-committee-approval')) {
+	  if (event === 'Recommend as Propose') {
+		pick = 'Approved as Propose';
+	  } else if (event === 'Recommend With Condition') {
+		pick = 'Approved With Condition';
+	  } else if (event === 'Not Recommend') {
+		pick = 'Not Approved';
+	  }
+	}
+
+	this.newItemEvent.emit(pick);
+    this.recomendasi = pick;
+
+    // this.newItemEvent.emit(event);
+    // this.recomendasi = event;
   }
 
   public openDialog(element: INotes = null): void {
