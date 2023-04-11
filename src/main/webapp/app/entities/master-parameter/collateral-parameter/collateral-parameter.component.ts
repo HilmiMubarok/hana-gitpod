@@ -43,32 +43,38 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
   }
 
   public onSelect(element: any) {
-    const paramType = element;
-    this.collateralParameterService.setPrameterType(paramType);
+    // const paramType = element;
+    // this.collateralParameterService.setPrameterType(paramType);
+    this.items = [];
+    this.page = 0;
+    this.typeID = element;
+    this.loadAll();
+    this.paginator.firstPage();
   }
 
   private loadAll(): void {
-    const data = this.collateralParameterService.paramTypeId.subscribe((message: any) => {
-      this.typeID = message;
-      this.collateralParameterService
-        .queryFilterBy({
-          collateralType: this.typeID,
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: ['id', 'desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ICollateralParameter[]>) => {
-            this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    });
+    // const data = this.collateralParameterService.paramTypeId.subscribe((message: any) => {
+    // this.typeID = message;
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: this.typeID,
+        page: this.page,
+        size: this.itemsPerPage,
+        sort: ['id', 'desc'],
+      })
+      .subscribe({
+        next: (res: HttpResponse<ICollateralParameter[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    // });
   }
 
   protected postLoadDataLazy(): void {
     this.loadAll();
   }
+
   public openDialog(element: ICollateralParameter = null): void {
     let predicate: ICollateralParameter;
     predicate = new CollateralParameter();
