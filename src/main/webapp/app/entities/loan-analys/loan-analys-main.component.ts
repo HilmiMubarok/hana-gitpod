@@ -883,7 +883,9 @@ export class LoanAnalysMainComponent implements OnInit {
           this.saveApplicationRole(this.saveState);
 		});
 	  } else {
-		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+		if (this.recomendation) {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+		}
 	  }
     }
   }
@@ -985,7 +987,9 @@ export class LoanAnalysMainComponent implements OnInit {
 		this.saveApplicationRole(source);
 	  });
 	} else {
-	  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+	  if (this.recomendation) {
+		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+	  }
 	}
   }
 
