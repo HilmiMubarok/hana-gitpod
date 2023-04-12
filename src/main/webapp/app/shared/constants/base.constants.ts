@@ -379,6 +379,7 @@ export const COLLATERAL_TYPE: Object = {
   guaranteeLetter: 'LETTER_OF_GUARANTY',
   deposit: 'DEPOSIT',
   personalProperty: 'PERSONAL_PROPERTY',
+  personalCorporateGuarantee: 'CORPORATEPERSONALGUARANTEE',
 };
 
 export enum COLLATERAL_DEPOSIT_DEBIT_BLOCK {

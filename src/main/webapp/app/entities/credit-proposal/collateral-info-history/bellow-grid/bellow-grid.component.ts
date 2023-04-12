@@ -65,8 +65,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   private _creditProposal: ICreditProposal;
   public dataString1: string;
   public totalPlafond: number;
-  public biddingValueSum: number
-  public biddingValueCoverage: number
+  public biddingValueSum: number;
+  public biddingValueCoverage: number;
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -138,22 +138,21 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
   }
 
   ngOnInit(): void {
-
     this.loadData();
 
-      for (let i = 0; i < this.historyData().collaterals.length; i++) {
-        this.findCollateralProperty(this.historyData().collaterals[i]);
-      }
-      if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
-        this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
-      }
+    for (let i = 0; i < this.historyData().collaterals.length; i++) {
+      this.findCollateralProperty(this.historyData().collaterals[i]);
+    }
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === '') {
+      this.historyData().creditProposalCollateralData.crossCollateralStatus = 'No';
+    }
 
-      // this.isViewMode && this.displayedColumns.pop();
+    // this.isViewMode && this.displayedColumns.pop();
 
-      if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
-        this.isChecked = true;
-      }
-      this.setCertyficateType();
+    if (this.historyData().creditProposalCollateralData.crossCollateralStatus === 'Yes') {
+      this.isChecked = true;
+    }
+    this.setCertyficateType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -193,7 +192,7 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     for (let i = 0; i < this.historyData().collaterals.length; i++) {
       a = lodash.concat(a, this.historyData().collaterals[i]);
     }
-    this.getBindingCalculate(this.historyData().collaterals)
+    this.getBindingCalculate(this.historyData().collaterals);
     this.collateral = new MatTableDataSource(a);
     this.collateral.paginator = this.paginator2;
     this.dataItem.paginator = this.paginator;
@@ -565,7 +564,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
+      collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -627,7 +627,8 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     let string2: string;
     let result: string;
 
-    if (collateral.collateralTypeId) {
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -636,6 +637,18 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.certificateNumber;
         }
       }
     }
@@ -687,6 +700,18 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
           result = '';
         } else {
           result = data.attributes.maturityDate;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.certificateExpiryDate;
         }
       }
     }
@@ -753,30 +778,26 @@ export class BellowGridHistoryComponent extends AbstractEntityMaterialComponent<
     return '';
   }
 
-
-
   public getBindingCalculate(res: any) {
-    const array1 = res
+    const array1 = res;
     const array2 = this.historyData().binding;
-    let getBindingCalculateValue
-    const data = []
-     array1.filter(({id: value1}) => {
-      data.push(array2.find(({collateralId: value2}) => value1 === value2))
-      getBindingCalculateValue = data.filter(item => item !== undefined)
+    let getBindingCalculateValue;
+    const data = [];
+    array1.filter(({ id: value1 }) => {
+      data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
+      getBindingCalculateValue = data.filter(item => item !== undefined);
       this.fungsiSumcredit().then(() => {
-       this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-       this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond))
-      })
+        this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
+        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+      });
     });
+  }
 
-    
+  public convertNan(value: any): any {
+    if (Number.isNaN(value)) {
+      return 0;
+    } else {
+      return value;
+    }
   }
- 
-public convertNan(value: any): any{
-  if (Number.isNaN(value)) {
-    return 0
-  }else{
-    return value
-  }
-}
 }
