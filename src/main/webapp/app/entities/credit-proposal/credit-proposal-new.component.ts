@@ -63,6 +63,21 @@ export class CreditProposalNewComponent {
       });
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   public create(): void {
     const dialogRef = this.dialog.open(CreditProposalNewDialogComponent, {
       width: '80vw',
@@ -79,6 +94,7 @@ export class CreditProposalNewComponent {
             creditProposal.collaterals = res.collaterals;
             creditProposal.debtorData = res.debtorData;
             creditProposal.setCompliance = null;
+            creditProposal.internalId = this.getLocStor('INT');
 
             this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
               if (res3.body) {
