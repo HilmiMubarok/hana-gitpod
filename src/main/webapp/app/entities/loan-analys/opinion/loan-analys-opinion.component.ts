@@ -824,7 +824,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
         if (this.notes.length > 0) {
           for (let i = 0; i < this.notes.length; i++) {
             if (this.notes[i].positionId === this.cacheData.positionUserId) {
-              this.newItemEvent.emit(this.notes[i].recomendation);
+              // this.newItemEvent.emit(this.notes[i].recomendation);
             }
           }
         }
@@ -837,7 +837,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
                 this.notes[i].employeeFirstName + ' ' + this.notes[i].employeeLastName ===
                 this.currentAccount.firstName + ' ' + this.currentAccount.lastName
               ) {
-                this.newItemEvent.emit(this.notes[i].recomendation);
+                // this.newItemEvent.emit(this.notes[i].recomendation);
               }
             }
           }
