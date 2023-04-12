@@ -22,7 +22,10 @@
           <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef>No</th>
             <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-            <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
+            <td mat-footer-cell *matFooterCellDef>
+              <p>Total</p>
+              <p>Collateral Coverage</p>
+            </td>
           </ng-container>
           <ng-container matColumnDef="collateralType">
             <th mat-header-cell *matHeaderCellDef>Collateral Type</th>

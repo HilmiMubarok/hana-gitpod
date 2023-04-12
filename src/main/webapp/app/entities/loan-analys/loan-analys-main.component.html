@@ -400,14 +400,14 @@
           #loanAnalysOpinionComponent
           (uuidPath)="setUuidPath($event)"
           (positionLoginEmit)="setPositionLogin($event)"
-		  (newItemEvent)="setOpinionRecomendation($event)"
-		  (isAllowSave)="setIsAllowSave($event)"
+          (newItemEvent)="setOpinionRecomendation($event)"
+          (isAllowSave)="setIsAllowSave($event)"
           (opinionFileSfdt)="setOpinionFileSfdt($event)"
           (opinionFileWord)="setOpinionFileWord($event)"
           (conditionFileSfdt)="setConditionFileSfdt($event)"
           (conditionFileWord)="setConditionFileWord($event)"
           [creditProposalItem]="creditProposal"
-		  [notifyChild]="parentSubject"
+          [notifyChild]="parentSubject"
         >
         </jhi-loan-analys-opinion>
       </div>
@@ -451,12 +451,7 @@
     </div>
 
     <div *ngIf="selectedMenu === 'loan-facility-view'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-credit-proposal-tab-loan-facility-detail
-        *ngIf="!isHistoryExist"
-        [isViewMode]="true"
-        [parentSource]="'loan-analys'"
-        [creditProposal]="creditProposal"
-      >
+      <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="true" [parentSource]="'loan-analys'" [creditProposal]="creditProposal">
       </jhi-credit-proposal-tab-loan-facility-detail>
     </div>
 

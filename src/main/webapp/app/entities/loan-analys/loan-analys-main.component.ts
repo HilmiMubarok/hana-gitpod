@@ -882,15 +882,28 @@ export class LoanAnalysMainComponent implements OnInit {
 	const statusPreSave = status ? 'complete' : 'not-complete';
 	
     if (this.creditProposal.id) {
-      this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
-        this.creditProposal.notes = res.body.notes;
+	  let isAllowedSaveWith2StepVerification = false;
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC' || this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
+		isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
+	  } else {
+		isAllowedSaveWith2StepVerification = true;
+	  }
 
-		if (this.loanAnalysOpinionComponent) {
-		  this.loanAnalysOpinionComponent.refresh();
+	  if (isAllowedSaveWith2StepVerification) {
+		this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+		  this.creditProposal.notes = res.body.notes;
+
+		  if (this.loanAnalysOpinionComponent) {
+			this.loanAnalysOpinionComponent.refresh();
+		  }
+
+          this.saveApplicationRole(this.saveState);
+		});
+	  } else {
+		if (this.recomendation) {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
 		}
-
-        this.saveApplicationRole(this.saveState);
-      });
+	  }
     }
   }
 
@@ -936,36 +949,65 @@ export class LoanAnalysMainComponent implements OnInit {
 	this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
 	this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
   }
+  
+  private twoStepVerificationOpinionRadio() {
+	let returnStat = false;
+
+	if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC')) {
+	  if (this.recomendation === 'Recommend as Propose' || this.recomendation === 'Recommend With Condition' || this.recomendation === 'Not Recommend') {
+		returnStat = true;
+	  }
+	} else if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
+	  if (this.recomendation === 'Approved as Propose' || this.recomendation === 'Approved With Condition' || this.recomendation === 'Not Approved') {
+		returnStat = true;
+	  }
+	}
+
+	return returnStat;
+  }
 
   private saveUpdate(status: string, source: string): void {
-	this.creditProposalService.update(this.preSave(status)).subscribe(res => {
-	  this.creditProposal.products = res.body.products;
-	  this.creditProposal.notes = res.body.notes;
+	let isAllowedSaveWith2StepVerification = false;
+	if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC' || this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
+	  isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
+	} else {
+	  isAllowedSaveWith2StepVerification = true;
+	}
 
-	  if (status === 'complete') {
-		this.saveFile();
-	  }
+	if (isAllowedSaveWith2StepVerification) {
+	  this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+		this.creditProposal.products = res.body.products;
+		this.creditProposal.notes = res.body.notes;
 
-	  const tempRouterA = this.router.url.split('/')[1];
-
-	  if (tempRouterA === 'cc-review') {
-		if (this.loanAnalysOpinionCompliancePartComponent) {
-		  this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-		  this.loanAnalysOpinionCompliancePartComponent.refresh();
-		  this.loanAnalysOpinionCompliancePartComponent.onCreate();
+		if (status === 'complete') {
+		  this.saveFile();
 		}
-	  }
 
-	  if (this.selectedMenu === 'loan-facility') {
-		if (this.loanFacilityDetailTempComponent) {
-		  this.loanFacilityDetailTempComponent.triggeredSave();
-		  this.loanFacilityDetailTempComponent.onCreate();
+		const tempRouterA = this.router.url.split('/')[1];
+
+		if (tempRouterA === 'cc-review') {
+		  if (this.loanAnalysOpinionCompliancePartComponent) {
+			this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+			this.loanAnalysOpinionCompliancePartComponent.refresh();
+			this.loanAnalysOpinionCompliancePartComponent.onCreate();
+		  }
 		}
-	  }
 
-	  this.saveDoc = true;
-	  this.saveApplicationRole(source);
-	});
+		if (this.selectedMenu === 'loan-facility') {
+		  if (this.loanFacilityDetailTempComponent) {
+			this.loanFacilityDetailTempComponent.triggeredSave();
+			this.loanFacilityDetailTempComponent.onCreate();
+		  }
+		}
+
+		this.saveDoc = true;
+		this.saveApplicationRole(source);
+	  });
+	} else {
+	  if (this.recomendation) {
+		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+	  }
+	}
   }
 
   public onSave(source: string): void {
@@ -988,6 +1030,15 @@ export class LoanAnalysMainComponent implements OnInit {
 			  const fileReader: FileReader = new FileReader();
 			  fileReader.onload = (e: any) => {
 				const testSfdtFile = JSON.parse(fileReader.result as string);
+				/* if (testSfdtFile.sections[0].blocks) {
+				  if (testSfdtFile.sections[0].blocks.length > 0) {
+					++countValidate;
+				  }
+				} else {
+				  // toast opinion empty
+				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+				} */
+
 				if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
 				  if (testSfdtFile.sections[0].blocks[0].columnCount) {
 					if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
@@ -997,12 +1048,28 @@ export class LoanAnalysMainComponent implements OnInit {
 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 					}
 				  } else if (testSfdtFile.sections[0].blocks[0].inlines) {
-					if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+					let isEmpty = true;
+					testSfdtFile.sections[0].blocks.forEach((block) => {
+					  if (block.inlines) {
+						if (block.inlines.length > 0) {
+						  isEmpty = false;
+						}
+					  }
+					});
+
+					if (isEmpty) {
+					  // toast opinion empty
+					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+					} else {
+					  ++countValidate;
+					}
+
+					/* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
 					  ++countValidate;
 					} else {
 					  // toast opinion empty
 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					}
+					} */
 				  }
 				} else {
 				  // toast opinion empty
@@ -1016,6 +1083,18 @@ export class LoanAnalysMainComponent implements OnInit {
 					  const fileReaderCondition: FileReader = new FileReader();
 					  fileReaderCondition.onload = (eCondition: any) => {
 						const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+						/* if (testSfdtFileCondition.sections[0].blocks) {
+						  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+							++countValidate;
+						  } else {
+							// toast condition empty
+							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						  }
+						} else {
+						  // toast condition empty
+						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+						} */
+
 						if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
 						  if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
 							if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
@@ -1025,14 +1104,31 @@ export class LoanAnalysMainComponent implements OnInit {
 							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 							}
 						  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-							if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+							let isEmpty = true;
+							testSfdtFileCondition.sections[0].blocks.forEach((block) => {
+							  if (block.inlines) {
+								if (block.inlines.length > 0) {
+								  isEmpty = false;
+								}
+							  }
+							});
+
+							if (isEmpty) {
+							  // toast condition empty
+							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+							} else {
+							  ++countValidate;
+							}
+
+							/* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
 							  ++countValidate;
 							} else {
 							  // toast condition empty
 							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
+							} */
 						  }
 						}
+
 						if (countValidate === 3) {
 						  this.saveUpdate('complete', source);
 						} else {
