@@ -363,10 +363,30 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
       if (idx === -1) {
         if (mark) {
-          const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-          copyApplicationProduct.applicationId = this.creditProposal.id;
-          this.dataParty = [...this.dataParty, this.applicationProduct];
-          this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+          let isAlready2StepVerification = false;
+		  this.dataParty.forEach(dP => {
+			if (dP.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas) {
+			  isAlready2StepVerification = true;
+			}
+		  });
+		  
+		  if (isAlready2StepVerification) {
+			idx = lodash.findIndex(this.dataParty, function (o) {
+			  return o.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas;
+			});
+			this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+			this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+			this.dataParty = [...this.dataParty];
+		  } else {
+			const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+			copyApplicationProduct.applicationId = this.creditProposal.id;
+
+			this.dataParty = [...this.dataParty, copyApplicationProduct];
+			this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
+
+			// this.dataParty = [...this.dataParty, this.applicationProduct];
+			// this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+		  }
         }
       } else {
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;

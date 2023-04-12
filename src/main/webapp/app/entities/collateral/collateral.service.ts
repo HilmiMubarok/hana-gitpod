@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { ICollateral } from './collateral.model';
+import { CollateralLandAttribute, ICollateral } from './collateral.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { Observable } from 'rxjs';
 import lodash from 'lodash';
+import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralService extends AbstractEntityService<ICollateral> {
@@ -36,7 +37,11 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
 
   public preSaveConvert(param: ICollateral): ICollateral {
     const copy: ICollateral = lodash.cloneDeep(param);
-    copy.attributes['landCertificates'] = JSON.stringify(copy.attributes);
+    const landCertificate: any = copy.attributes['landCertificates'];
+    console.log(typeof landCertificate);
+    if (typeof landCertificate !== 'string') {
+      copy.attributes['landCertificates'] = '';
+    }
     return copy;
   }
 

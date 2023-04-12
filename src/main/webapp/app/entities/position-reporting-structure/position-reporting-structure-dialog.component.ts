@@ -5,6 +5,9 @@ import { InternalService } from '../internal/internal.service';
 import { IPosition } from '../position/position.model';
 import { PositionService } from '../position/position.service';
 import { IPositionReportingStructure } from './position-reporting-structure.model';
+import { RelationTypeService } from '../relation-type/relation-type.service';
+import { IRelationType } from '../relation-type/relation-type.model';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'jhi-position-reporting-structure-dialog',
@@ -18,6 +21,8 @@ export class PositionReportingStructureDialogComponent implements OnInit {
   public positionListFrom: IPosition[];
   public positionListTo: IPosition[];
   public positionListDelegation: IPosition[];
+  public relationTypes: IRelationType[];
+  private LOS_REL = 'LOS_REL';
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -25,7 +30,8 @@ export class PositionReportingStructureDialogComponent implements OnInit {
     },
     private _dialog: MatDialogRef<PositionReportingStructureDialogComponent>,
     protected internalService: InternalService,
-    protected positionService: PositionService
+    protected positionService: PositionService,
+    protected relationTypeService: RelationTypeService
   ) {
     this.positionReportingStructure = this.data.positionReportingStructure;
     this.internalFrom = [];
@@ -34,10 +40,12 @@ export class PositionReportingStructureDialogComponent implements OnInit {
     this.positionListFrom = [];
     this.positionListTo = [];
     this.positionListDelegation = [];
+    this.relationTypes = [];
   }
   ngOnInit(): void {
     this.loadInternal();
     this.checkInitialData();
+    this.loadRelationType();
   }
 
   private checkInitialData(): void {
@@ -87,5 +95,14 @@ export class PositionReportingStructureDialogComponent implements OnInit {
 
   public save(): void {
     this._dialog.close(this.positionReportingStructure);
+  }
+
+  private async loadRelationType(): Promise<void> {
+    const predicate: object = {
+      idParent: this.LOS_REL,
+      page: 0,
+      size: 9999,
+    };
+    this.relationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
   }
 }

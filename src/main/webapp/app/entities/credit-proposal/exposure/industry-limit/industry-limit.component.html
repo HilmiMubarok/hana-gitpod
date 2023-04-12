@@ -50,7 +50,7 @@
           <div class="form-group">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <ejs-numerictextbox
-                placeholder="Limit in IDR MIO"
+                placeholder="Limit in IDR"
                 cssClass="e-outline"
                 floatLabelType="Auto"
                 [(ngModel)]="limitNominal"
@@ -60,7 +60,7 @@
             </section>
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
               <div class="fontsebled row py-3">
-                <div class="col-5">Limit in IDR MIO</div>
+                <div class="col-5">Limit in IDR</div>
                 <div class="col-md-auto">:</div>
                 <div class="col col-lg-2">
                   {{ limitNominal | currency: 'IDR':'symbol' }}
