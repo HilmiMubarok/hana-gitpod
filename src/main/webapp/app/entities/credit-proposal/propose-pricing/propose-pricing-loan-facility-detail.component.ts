@@ -104,20 +104,20 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         this.aplicationProducts[i].attributes.industrySpread = '0%';
         this.aplicationProducts[i].attributes.targetMargin = '0%';
         this.aplicationProducts[i].attributes.normalRate = '0%';
-        this.aplicationProducts[i].attributes.discountProposal = item.products[i].attributes['discountProposal'];
         this.aplicationProducts[i].attributes.proposedRate = '0%';
-        this.aplicationProducts[i].attributes.referenceRate = item.products[i].attributes['indexRate'];
         this.aplicationProducts[i].attributes.requiredSpread = '0%';
         this.aplicationProducts[i].attributes.cost = '0%';
         this.aplicationProducts[i].attributes.roaa = '0%';
-        this.aplicationProducts[i].attributes.subLimit = item.products[i].attributes['subLimit'];
-        this.aplicationProducts[i].attributes.typeReferenceRateFun =
-          item.products[i].attributes['interestRateType'] +
-          ' ' +
-          item.products[i].attributes['interestRatePeriod'] +
-          ' ' +
-          item.products[i].attributes['interestRatePeriodType'];
       }
+      this.aplicationProducts[i].attributes.discountProposal = item.products[i].attributes['discountProposal'];
+      this.aplicationProducts[i].attributes.referenceRate = item.products[i].attributes['indexRate'];
+      this.aplicationProducts[i].attributes.subLimit = item.products[i].attributes['subLimit'];
+      this.aplicationProducts[i].attributes.typeReferenceRateFun =
+        item.products[i].attributes['interestRateType'] +
+        ' ' +
+        item.products[i].attributes['interestRatePeriod'] +
+        ' ' +
+        item.products[i].attributes['interestRatePeriodType'];
     }
     this.printElement();
   }
