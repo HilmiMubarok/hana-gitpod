@@ -37,7 +37,9 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
 
   public preSaveConvert(param: ICollateral): ICollateral {
     const copy: ICollateral = lodash.cloneDeep(param);
-    copy.attributes['landCertificates'] = '';
+    if (copy.attributes['landCertificates'] !== '') {
+      copy.attributes['landCertificates'] = '';
+    }
     return copy;
   }
 
