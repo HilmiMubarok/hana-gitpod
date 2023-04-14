@@ -663,6 +663,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       page: this.page,
       query: this.currentSearch,
       size: this.itemsPerPage,
+      idPosition: this.positionIdLocStor,
       sort: this.sortData(),
     };
 
@@ -673,7 +674,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     }
 
     this.cashSurveyAppraisalsService
-      .search(predicate)
+      .searchAppraisal(predicate)
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
       .subscribe({
         next: (res: HttpResponse<ISurveyAppraisals[]>) => {
