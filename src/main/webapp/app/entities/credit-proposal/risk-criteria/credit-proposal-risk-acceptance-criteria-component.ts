@@ -214,12 +214,34 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
         page: 0,
         size: 9999,
       })
+      // .subscribe(res => {
+      //   this.data = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      //   for (let i = 0; i < this.data.length; i++) {
+      //     this.data[i]['No'] = i + 1;
+      //   }
+      // });
       .subscribe(res => {
-        this.data = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
+          console.log('data', res);
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.data.length; i++) {
-          this.data[i]['No'] = i + 1;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameter: data[i].value, value: '' };
+        }
+        this.dataAttrPass = dataGrid;
+
+        if (this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length === 0) {
+          this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria = this.dataAttrPass;
+        } else {
+          for (let i = 0; i < this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria.length; i++) {
+            console.log('data3', this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria);
+            this.dataAttrPass = this.item.attributes['riksCriteria'].GeneralRiskAcceptanceCriteria;
+          }
         }
       });
   }

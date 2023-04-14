@@ -1,4 +1,4 @@
-interface ILevel {
+export interface ILevel {
   id?: string;
   category?: string;
   description?: string;
@@ -13,6 +13,7 @@ interface ILevel {
   remarks?: string;
   status?: string;
   dueDate?: string;
+  collateralTypeId?: string
 }
 
 export interface IDocumentType {

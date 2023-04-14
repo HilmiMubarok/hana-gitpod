@@ -497,13 +497,33 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         page: 0,
         size: 9999,
       })
+      // .subscribe(res => {
+      //   this.dataBelowChecklist = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklist.length; i++) {
+      //   if (this.dataBelowChecklist[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklist = this.dataBelowChecklist[i].value;
+      //   }
+      // }
       .subscribe(res => {
-        this.dataBelowChecklist = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataBelowChecklist.length; i++) {
-          if (this.dataBelowChecklist[i].code === this.item.attributes['code'].Ci) {
-            this.dataBelowChecklist = this.dataBelowChecklist[i].value;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklist = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValueBot.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValueBot = this.dataBelowChecklist;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValueBot.length; i++) {
+            this.dataBelowChecklist = this.item.attributes['cpRacBelow'].cpValueBot;
+            this.remarks[i] = this.item.attributes['cpRacBelow'].cpValueBot[i].remarks;
           }
         }
       });
@@ -513,13 +533,33 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         page: 0,
         size: 9999,
       })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistBot = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistBot.length; i++) {
+      //   if (this.dataBelowChecklistBot[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistBot = this.dataBelowChecklistBot[i].value;
+      //   }
+      // }
       .subscribe(res => {
-        this.dataBelowChecklistBot = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataBelowChecklistBot.length; i++) {
-          if (this.dataBelowChecklistBot[i].code === this.item.attributes['code'].Ci) {
-            this.dataBelowChecklistBot = this.dataBelowChecklistBot[i].value;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistBot = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuTwo.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuTwo = this.dataBelowChecklistBot;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuTwo.length; i++) {
+            this.dataBelowChecklistBot = this.item.attributes['cpRacBelow'].cpValeuTwo;
+            this.remarksAm[i] = this.item.attributes['cpRacBelow'].cpValeuTwo[i].remarksAm;
           }
         }
       });
@@ -529,13 +569,33 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         page: 0,
         size: 9999,
       })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistBF = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistBF.length; i++) {
+      //   if (this.dataBelowChecklistBF[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistBF = this.dataBelowChecklistBF[i].value;
+      //   }
+      // }
       .subscribe(res => {
-        this.dataBelowChecklistBF = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataBelowChecklistBF.length; i++) {
-          if (this.dataBelowChecklistBF[i].code === this.item.attributes['code'].Ci) {
-            this.dataBelowChecklistBF = this.dataBelowChecklistBF[i].value;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistBF = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistBF;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
+            this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
+            this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
           }
         }
       });
@@ -545,13 +605,33 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         page: 0,
         size: 9999,
       })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistCollateral = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistCollateral.length; i++) {
+      //   if (this.dataBelowChecklistCollateral[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistCollateral = this.dataBelowChecklistCollateral[i].value;
+      //   }
+      // }
       .subscribe(res => {
-        this.dataBelowChecklistCollateral = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataBelowChecklistCollateral.length; i++) {
-          if (this.dataBelowChecklistCollateral[i].code === this.item.attributes['code'].Ci) {
-            this.dataBelowChecklistCollateral = this.dataBelowChecklistCollateral[i].value;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistCollateral = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuFour.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuFour = this.dataBelowChecklistCollateral;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFour.length; i++) {
+            this.dataBelowChecklistCollateral = this.item.attributes['cpRacBelow'].cpValeuFour;
+            this.remarksColl[i] = this.item.attributes['cpRacBelow'].cpValeuFour[i].remarksColl;
           }
         }
       });
@@ -561,13 +641,33 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         page: 0,
         size: 9999,
       })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistExclusively = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistExclusively.length; i++) {
+      //   if (this.dataBelowChecklistExclusively[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistExclusively = this.dataBelowChecklistExclusively[i].value;
+      //   }
+      // }
       .subscribe(res => {
-        this.dataBelowChecklistExclusively = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataBelowChecklistExclusively.length; i++) {
-          if (this.dataBelowChecklistExclusively[i].code === this.item.attributes['code'].Ci) {
-            this.dataBelowChecklistExclusively = this.dataBelowChecklistExclusively[i].value;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistBF = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistBF;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
+            this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
+            this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
           }
         }
       });
