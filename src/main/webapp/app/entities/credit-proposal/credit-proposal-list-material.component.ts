@@ -285,7 +285,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
   private loadAll(): void {
     this.loading = true;
-    console.log('router', this.router.url);
     if (this.router.url !== '/cp-status-approval') {
       if (this.clickedChip['id'] !== '') {
         this.cashCreditProposalService

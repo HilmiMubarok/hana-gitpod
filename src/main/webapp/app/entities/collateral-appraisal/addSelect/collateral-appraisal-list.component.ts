@@ -161,6 +161,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     const predicate = {
       page: this.page,
       size: this.itemsPerPage,
+      idInternal: this.getLocStor('INT'),
       sort: ['id', 'desc'],
     };
 

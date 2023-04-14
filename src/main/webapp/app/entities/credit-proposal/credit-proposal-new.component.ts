@@ -57,6 +57,7 @@ export class CreditProposalNewComponent {
       .findLikeCif(this.currentSearch, {
         page: 0,
         size: 9999,
+        idInternal: this.getLocStor('INT'),
       })
       .subscribe(res => {
         this.partyCifs = res.body;
