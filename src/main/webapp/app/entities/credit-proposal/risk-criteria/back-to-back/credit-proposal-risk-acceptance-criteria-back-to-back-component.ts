@@ -12,25 +12,14 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { ICriteria } from './credit-proposal-risk-acceptance-back.model';
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-back-to-back',
   templateUrl: './credit-proposal-risk-acceptance-criteria-back-to-back-component.html',
   styleUrls: ['../../css/credit-proposal-basic-information.css'],
 })
 export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnInit {
-  constructor(
-    protected creditProposalService: CreditProposalService,
-    private generalParameterService: GeneralParameterService,
-    protected positionService: PositionService,
-    private router: Router
-  ) {}
-
   public creditProposaldata: ICreditProposal = new CreditProposal();
-
-  public onSelect(value: string, data: any): void {
-    this.dataGridOne[data.No - 1].value = value;
-    this.item.attributes['cpRacBack'].topGrid = this.dataGridOne;
-  }
 
   public documentType: string;
   public remarks?: any = [];
@@ -42,6 +31,11 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
 
   attributes: any;
   public _item: ICreditProposal;
+  public dataGridOne = [];
+  public dataGridTwo = [];
+  public dataGridThre = [];
+  public dataGridFour = [];
+  public dataGridFive = [];
 
   @Input()
   get item() {
@@ -50,6 +44,18 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
 
   set item(item: ICreditProposal) {
     this._item = item;
+  }
+
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    private generalParameterService: GeneralParameterService,
+    protected positionService: PositionService,
+    private router: Router
+  ) {}
+
+  public onSelect(value: string, data: any): void {
+    this.dataGridOne[data.No - 1].value = value;
+    this.item.attributes['cpRacBack'].topGrid = this.dataGridOne;
   }
 
   public OnSelect(value: string, data: any): void {
@@ -86,115 +92,7 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
     this.dataGridFive[data.No - 1].value = value;
     this.item.attributes['cpRacBack'].topGridFive = this.dataGridFive;
   }
-  public dataGridOne = [];
-  public dataGridTwo = [];
-  public dataGridThre = [];
-  public dataGridFour = [];
-  public dataGridFive = [];
 
-  // public dataGridOne = [
-  //   {
-  //     No: 1,
-  //     // documentType: 'Have met the Anti Money Laundring requirements',
-  //     value: 'Yes',
-  //     remarks: '',
-  //   },
-  //   {
-  //     No: 2,
-  //     // documentType:'It has been checked that the debtor and the owner of the collateral do not have problems in taxation',
-  //     value: 'Yes',
-  //     remarks: '',
-  //   },
-  //   {
-  //     No: 3,
-  //     // documentType: 'It has been checked that the debtor and the owner of the collateral do not have negative information',
-  //     value: 'Yes',
-  //     remarks: '',
-  //   },
-  //   {
-  //     No: 4,
-  //     // documentType: 'Prospective debtors are not included in the PEP (Politically Exposed Person)',
-  //     value: 'Yes',
-  //     remarks: '',
-  //   },
-  // ];
-
-  // public dataGridTwo = [
-  //   {
-  //     No: 1,
-  //     documentType:
-  //       'The minimum time deposit tenor is 12 (twelve) months and/or the minimum deposit tenor is the same as the credit facility period.',
-
-  //     value: 'Yes',
-  //     remarksTwo: '',
-  //   },
-  //   {
-  //     No: 2,
-  //     documentType: 'Time deposits as a collateral and loans must be recorded at the same branch office',
-
-  //     value: 'Yes',
-  //     remarksTwo: '',
-  //   },
-  //   {
-  //     No: 3,
-  //     documentType: 'Time Deposit placement must be done all at once and should not be done in stages',
-
-  //     value: 'Yes',
-  //     remarksTwo: '',
-  //   },
-  // ];
-
-  // public dataGridThre = [
-  //   {
-  //     No: 1,
-  //     documentType: 'Hana Bank SBLC Financial Format Standard',
-
-  //     value: 'Yes',
-  //     remarksThere: '',
-  //   },
-  //   {
-  //     No: 2,
-  //     documentType: 'Issued by banks thats categorized as prime bank',
-
-  //     value: 'Yes',
-  //     remarksThere: '',
-  //   },
-  //   {
-  //     No: 3,
-  //     documentType:
-  //       'The maturity date of the Standby L/C is at least 1 (one) month longer than the end date of the credit agreement or for SBLC from Hana Seoul, the SBLC period is 14 calendar days longer than the credit facility term.',
-
-  //     value: 'Yes',
-  //     remarksThere: '',
-  //   },
-  // ];
-
-  // public dataGridFour = [
-  //   {
-  //     No: 1,
-  //     documentType: 'Collateral and loan must be recorded at the same branch office.',
-
-  //     value: 'Yes',
-  //     remarksFour: '',
-  //   },
-  //   {
-  //     No: 2,
-  //     documentType: 'The placement of Savings/Giro funds must be all at once and may not be gradual.',
-
-  //     value: 'Yes',
-  //     remarksFour: '',
-  //   },
-  // ];
-
-  // public dataGridFive = [
-  //   {
-  //     No: 1,
-  //     documentType: 'Debiting must be done all at once and should not be done in stages.',
-
-  //     value: 'Yes',
-  //     remarksFive: '',
-  //   },
-  // ];
   onKeyUpEvent() {
     for (let h = 0; h < this.dataGridOne.length; h++) {
       this.dataGridOne[h].remarks = this.remarks[h];
@@ -236,12 +134,12 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.refreshRacBackToBack();
     this.lovGernerat();
     this.lovTimeDeposit();
     this.lovSblc();
     this.savingCurrent();
     this.cashMargin();
+    this.refreshRacBackToBack();
   }
   public lovGernerat() {
     this.generalParameterService
@@ -251,11 +149,23 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
         size: 9999,
       })
       .subscribe(res => {
-        this.dataGridOne = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataGridOne.length; i++) {
-          this.dataGridOne[i]['No'] = i + 1;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, documentType: data[i].value, value: '' };
+        }
+        this.dataGridOne = dataGrid;
+        if (this.item.attributes['cpRacBack'].topGrid.length === 0) {
+          this.item.attributes['cpRacBack'].topGrid = this.dataGridOne;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBack'].topGrid.length; i++) {
+            this.dataGridOne = this.item.attributes['cpRacBack'].topGrid;
+            this.remarks[i] = this.item.attributes['cpRacBack'].topGrid[i].remarks;
+          }
         }
       });
   }
@@ -267,11 +177,23 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
         size: 9999,
       })
       .subscribe(res => {
-        this.dataGridTwo = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataGridTwo.length; i++) {
-          this.dataGridTwo[i]['No'] = i + 1;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, documentType: data[i].value, value: '' };
+        }
+        this.dataGridTwo = dataGrid;
+        if (this.item.attributes['cpRacBack'].topGridTwo.length === 0) {
+          this.item.attributes['cpRacBack'].topGridTwo = this.dataGridTwo;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBack'].topGridTwo.length; i++) {
+            this.dataGridTwo = this.item.attributes['cpRacBack'].topGridTwo;
+            this.remarksTwo[i] = this.item.attributes['cpRacBack'].topGridTwo[i].remarksTwo;
+          }
         }
       });
   }
@@ -284,11 +206,23 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
         size: 9999,
       })
       .subscribe(res => {
-        this.dataGridThre = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataGridThre.length; i++) {
-          this.dataGridThre[i]['No'] = i + 1;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, documentType: data[i].value, value: '' };
+        }
+        this.dataGridThre = dataGrid;
+        if (this.item.attributes['cpRacBack'].topGridThere.length === 0) {
+          this.item.attributes['cpRacBack'].topGridThere = this.dataGridThre;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBack'].topGridThere.length; i++) {
+            this.dataGridThre = this.item.attributes['cpRacBack'].topGridThere;
+            this.remarksThere[i] = this.item.attributes['cpRacBack'].topGridThere[i].remarksThere;
+          }
         }
       });
   }
@@ -301,11 +235,24 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
         size: 9999,
       })
       .subscribe(res => {
-        this.dataGridFour = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataGridFour.length; i++) {
-          this.dataGridFour[i]['No'] = i + 1;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, documentType: data[i].value, value: '' };
+        }
+        this.dataGridFour = dataGrid;
+
+        if (this.item.attributes['cpRacBack'].topGridFour.length === 0) {
+          this.item.attributes['cpRacBack'].topGridFour = this.dataGridFour;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBack'].topGridFour.length; i++) {
+            this.dataGridFour = this.item.attributes['cpRacBack'].topGridFour;
+            this.remarksFour[i] = this.item.attributes['cpRacBack'].topGridFour[i].remarksFour;
+          }
         }
       });
   }
@@ -318,11 +265,24 @@ export class CreditProposalAceptanceCriteriaBackToBackComponent implements OnIni
         size: 9999,
       })
       .subscribe(res => {
-        this.dataGridFive = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        for (let i = 0; i < this.dataGridFive.length; i++) {
-          this.dataGridFive[i]['No'] = i + 1;
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, documentType: data[i].value, value: '' };
+        }
+        this.dataGridFive = dataGrid;
+
+        if (this.item.attributes['cpRacBack'].topGridFive.length === 0) {
+          this.item.attributes['cpRacBack'].topGridFive = this.dataGridFive;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBack'].topGridFive.length; i++) {
+            this.dataGridFive = this.item.attributes['cpRacBack'].topGridFive;
+            this.remarksFive[i] = this.item.attributes['cpRacBack'].topGridFive[i].remarksFive;
+          }
         }
       });
   }
