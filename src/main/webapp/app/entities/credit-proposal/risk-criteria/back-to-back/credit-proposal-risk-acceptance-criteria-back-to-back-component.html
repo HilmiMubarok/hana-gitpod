@@ -8,7 +8,7 @@
         <ejs-grid [dataSource]="dataGridOne" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
-            <e-column field="value" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
 
             <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
               <div class="select">
@@ -98,7 +98,7 @@
         <ejs-grid [dataSource]="dataGridTwo" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
-            <e-column field="value" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="200"> </e-column>
 
             <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
               <div class="select">
@@ -189,7 +189,7 @@
         <ejs-grid [dataSource]="dataGridThre" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
-            <e-column field="value" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
 
             <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
               <div class="select">
@@ -280,7 +280,7 @@
         <ejs-grid [dataSource]="dataGridFour" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
-            <e-column field="value" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
 
             <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
               <div class="select">
@@ -370,7 +370,7 @@
         <ejs-grid [dataSource]="dataGridFive" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="70"></e-column>
-            <e-column field="value" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
+            <e-column field="documentType" headerText="Parameter" textAlign="left" headerTextAlign="left" width="275"> </e-column>
 
             <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
               <div class="select">
@@ -453,9 +453,8 @@
       </div>
     </div>
     <div class="mt-3">
-      <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian
-        [item]="item"
-      ></jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
+      <jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian [item]="item">
+      </jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian>
     </div>
   </div>
 </div>
