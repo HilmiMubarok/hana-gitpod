@@ -663,6 +663,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       page: this.page,
       query: this.currentSearch,
       size: this.itemsPerPage,
+      idPosition: this.positionIdLocStor,
       sort: this.sortData(),
     };
 
