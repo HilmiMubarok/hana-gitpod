@@ -7,7 +7,7 @@ import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data-docume
 import { IDebtorData } from '../debtor-data.model';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import lodash from 'lodash';
-import { IDocumentType } from 'app/entities/document-type/document-type.model';
+import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 @Component({
   selector: 'jhi-deptor-data-document-checklist',
   templateUrl: './document-checklis-deptor-data.component.html',
@@ -22,6 +22,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public typeData: IDocumentType[];
   public type2: IDocumentType[];
   public file = [];
+  public dataArray: IDocumentType[]
   constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get partyCif() {
@@ -31,7 +32,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   set partyCif(item: IDebtorData) {
     this._partyCif = item;
   }
-
+  
   ngOnInit(): void {
     this.getBucket().then(() => {
       this.getFiles(this.partyCif.customerNumber).then(() => {
@@ -41,18 +42,51 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
           const nullData = res.body.filter(obj => obj.customerType === null)
           this.typeData = [...personalCorporate,...nullData];
 
+
           for (let i = 0; i < this.typeData.length; i++) {
             this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {
               this.typeData[i].level = re.body;
 
-              const mergeArray = this.typeData[i].level.map(item1 => {
+              const mergeArray: ILevel[] = this.typeData[i].level.map(item1 => {
                 const file = this.file.find(item2 => item2.idFile === item1.id);
                 return { ...item1, ...file };
               });
 
+            
+              for (let j = 0; j < mergeArray.length; j++) {
+                if (mergeArray[j].parentId.includes('DEPO')) {
+                  mergeArray[j].collateralTypeId = 'DEPOSIT'
+                }else if (mergeArray[j].parentId.includes('RE')) {
+                  mergeArray[j].collateralTypeId = 'REALESTATE'
+                }else if (mergeArray[j].parentId.includes('MC')) {
+                  mergeArray[j].collateralTypeId = 'MACHINE'
+                }else if (mergeArray[j].parentId.includes('SHIP')) {
+                  mergeArray[j].collateralTypeId = 'MACHINE'
+                }else if (mergeArray[j].parentId.includes('VH')) {
+                  mergeArray[j].collateralTypeId = 'VEHICLE'
+                }else if (mergeArray[j].parentId.includes('GRNT')) {
+                  mergeArray[j].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
+                }else if(mergeArray[j].parentId.includes('OTHER')){
+                  mergeArray[j].collateralTypeId = 'OTHER'
+                }else if (mergeArray[j].parentId.includes('STOCK')) {
+                  mergeArray[j].collateralTypeId = 'PERSONAL_PROPERTY'
+                }else if (mergeArray[j].parentId.includes('PIUTG')) {
+                  mergeArray[j].collateralTypeId = 'PERSONAL_PROPERTY'
+                }
+                
+              }
+
+      
               this.typeData[i].level = mergeArray;
-            });
+              const result = this.typeData.filter(obj => obj.level.some(subObj => this.partyCif.collaterals.some(arrObj => arrObj.collateralTypeId === subObj.collateralTypeId)));
+              this.dataArray = result
+              
+            })
+          
           }
+          
+          
+     
         });
       });
     });
