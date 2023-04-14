@@ -673,7 +673,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     }
 
     this.cashSurveyAppraisalsService
-      .search(predicate)
+      .searchAppraisal(predicate)
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
       .subscribe({
         next: (res: HttpResponse<ISurveyAppraisals[]>) => {
