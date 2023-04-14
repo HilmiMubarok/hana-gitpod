@@ -9,7 +9,7 @@ import { DocumentTypeService } from 'app/entities/document-type/document-type.se
 import lodash from 'lodash';
 import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { ICreditProposal } from '../credit-proposal.model';
-
+import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
   selector: 'jhi-document-checklist-history',
   templateUrl: './credit-proposal-document-checklist-history.component.html',
@@ -28,6 +28,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
   public file2 = []
   public file3 = []
   public dataArray: IDocumentType[]
+  public parsedData: any
   constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get creditProposal() {
@@ -38,7 +39,33 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
     this._creditProposal = item;
   }
 
+  @Input() isViewMode: Boolean = false;
+
+  @Input() isOnCompareData: Boolean = false;
+
+  @Input() isCompareDar: Boolean = false;
+
+
+  public historyData() {
+    // if isOnCompare and not isCompareDar, then set dynamic data to previousReturn
+    if (this.isOnCompareData && !this.isCompareDar) {
+      return this.parsedData.previousReturn;
+    } else if (this.isOnCompareData && this.isCompareDar) {
+      // return dataDar
+      return {
+        collaterals: this.creditProposal.collaterals,
+        insurance: this.creditProposal.attributes.insurance,
+        binding: this.creditProposal.attributes.binding,
+        creditProposalCollateralData: this.creditProposal.attributes.creditProposalCollateralData,
+        products: this.creditProposal.products,
+      };
+    } else {
+      return this.parsedData.previousHistory;
+    }
+  }
+
   ngOnInit(): void {
+    this.parsedData = parsePreviousAtrribute(this.creditProposal);
     this.getBucket().then(() => {
       this.getFiles(String(this.creditProposal.id)).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
@@ -84,7 +111,7 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
   
         
                 this.typeData[i].level = mergeArray;
-                const result = this.typeData.filter(obj => obj.level.some(subObj => this.creditProposal.collaterals.some(arrObj => arrObj.collateralTypeId === subObj.collateralTypeId)));
+                const result = this.typeData.filter(obj => obj.level.some(subObj => this.historyData().collaterals.some(arrObj => arrObj.collateralTypeId === subObj.collateralTypeId)));
                 this.dataArray = result
               });
           }
