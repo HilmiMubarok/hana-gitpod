@@ -56,7 +56,7 @@
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <mat-chip>{{ element.description }}</mat-chip>
+            {{ element.description }}
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
