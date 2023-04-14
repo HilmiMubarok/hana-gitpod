@@ -950,21 +950,10 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   private saveUpdate(status: string, source: string): void {
-	let isAllowedSaveWith2StepVerification = false;
-	if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC' || this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
-	  isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
-	} else {
-	  isAllowedSaveWith2StepVerification = true;
-	}
-
-	if (isAllowedSaveWith2StepVerification) {
+	if (status === 'not-complete-not-visit') {
 	  this.creditProposalService.update(this.preSave(status)).subscribe(res => {
 		this.creditProposal.products = res.body.products;
 		this.creditProposal.notes = res.body.notes;
-
-		if (status === 'complete') {
-		  this.saveFile();
-		}
 
 		const tempRouterA = this.router.url.split('/')[1];
 
@@ -987,8 +976,46 @@ export class LoanAnalysMainComponent implements OnInit {
 		this.saveApplicationRole(source);
 	  });
 	} else {
-	  if (this.recomendation) {
-		this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+	  let isAllowedSaveWith2StepVerification = false;
+	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC' || this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
+		isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
+	  } else {
+		isAllowedSaveWith2StepVerification = true;
+	  }
+
+	  if (isAllowedSaveWith2StepVerification) {
+		this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+		  this.creditProposal.products = res.body.products;
+		  this.creditProposal.notes = res.body.notes;
+
+		  if (status === 'complete') {
+			this.saveFile();
+		  }
+
+		  const tempRouterA = this.router.url.split('/')[1];
+
+		  if (tempRouterA === 'cc-review') {
+			if (this.loanAnalysOpinionCompliancePartComponent) {
+			  this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+			  this.loanAnalysOpinionCompliancePartComponent.refresh();
+			  this.loanAnalysOpinionCompliancePartComponent.onCreate();
+			}
+		  }
+
+		  if (this.selectedMenu === 'loan-facility') {
+			if (this.loanFacilityDetailTempComponent) {
+			  this.loanFacilityDetailTempComponent.triggeredSave();
+			  this.loanFacilityDetailTempComponent.onCreate();
+			}
+		  }
+
+		  this.saveDoc = true;
+		  this.saveApplicationRole(source);
+		});
+	  } else {
+		if (this.recomendation) {
+		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
+		}
 	  }
 	}
   }
@@ -1140,11 +1167,11 @@ export class LoanAnalysMainComponent implements OnInit {
 			  this.saveUpdate('not-complete', source);
 			}
 		  } else {
-			this.saveUpdate('not-complete', source);
+			this.saveUpdate('not-complete-not-visit', source);
 		  }
 		}
 	  } else {
-		this.saveUpdate('not-complete', source);
+		this.saveUpdate('not-complete-not-visit', source);
       }
     }
     this.saveWord = true;

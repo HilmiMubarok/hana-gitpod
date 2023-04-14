@@ -1063,11 +1063,11 @@ export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
       //   iconname: 'minus',
       //   route: 'finalize',
       // },
-      // {
-      //   name: 'Offering Letter Review',
-      //   iconname: 'minus',
-      //   route: 'review',
-      // },
+      {
+        name: 'Offering Letter Review',
+        iconname: 'minus',
+        route: 'review',
+      },
     ],
   },
 ];
