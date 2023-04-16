@@ -694,4 +694,12 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
     return '';
   }
+
+  getRequeredSpread(element) {
+    if (element === null || element === undefined) {
+      return 0;
+    } else {
+      return element.replace('%', '');
+    }
+  }
 }
