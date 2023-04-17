@@ -23,6 +23,7 @@ import { MessageService } from 'primeng/api';
 import { LoginService } from 'app/login/login.service';
 import { CashCustomersService } from '../customer-cash/customer-cash.service';
 import { CashCustomerService } from './cash-cusomer.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -77,7 +78,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected messageService: MessageService,
 	protected loginService: LoginService,
 	protected cashCustomersService: CashCustomersService,
-    private cashCustomerService: CashCustomerService
+    private cashCustomerService: CashCustomerService,
+	protected templateService: TemplateService
   ) {
     super(_snackBar, customerService, messageService);
 
