@@ -7,7 +7,7 @@ import { DocumentChecklistDialogHistoryComponent } from './document-checklist-di
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model'; 
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import lodash from 'lodash';
-import { IDocumentType } from 'app/entities/document-type/document-type.model';
+import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 @Component({
@@ -70,51 +70,51 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
       this.getFiles(String(this.creditProposal.id)).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
           this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
-          const arrayGroub = [...res.body, ...res1.body];
-
-          const personalCorporate = arrayGroub.filter(obj => obj.customerType === this.creditProposal.customerType);
-          const nullData = arrayGroub.filter(obj => obj.customerType === 'ALL')
-          
-          this.typeData = [...personalCorporate, ...nullData]
-          for (let i = 0; i < this.typeData.length; i++) {
-              this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {
-                this.typeData[i].level = re.body;
-      
-                const mergeArray = this.typeData[i].level.map(item1 => {
+            this.typeData = [...res.body, ...res1.body]
+            for (let i = 0; i < this.typeData.length; i++) {
+              if (this.typeData[i].id.includes('DEPO')) {
+                this.typeData[i].collateralTypeId = 'DEPOSIT'
+              }else if (this.typeData[i].id.includes('RE')) {
+                this.typeData[i].collateralTypeId = 'REALESTATE'
+              }else if (this.typeData[i].id.includes('MC')) {
+                this.typeData[i].collateralTypeId = 'MACHINE'
+              }else if (this.typeData[i].id.includes('SHIP')) {
+                this.typeData[i].collateralTypeId = 'MACHINE'
+              }else if (this.typeData[i].id.includes('VH')) {
+                this.typeData[i].collateralTypeId = 'VEHICLE'
+              }else if (this.typeData[i].id.includes('GRNT')) {
+                this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
+              }else if(this.typeData[i].id.includes('OTHER')){
+                this.typeData[i].collateralTypeId = 'OTHER'
+              }else if (this.typeData[i].id.includes('STOCK')) {
+                this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+              }else if (this.typeData[i].id.includes('PIUTG')) {
+                this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+              }
+              
+            }
+            const result: IDocumentType[] = this.typeData.filter(obj1 => this.historyData().collaterals.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
+  
+  
+            for (let i = 0; i < result.length; i++) {
+              this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+                result[i].level = re.body;
+  
+                const mergeArray: ILevel[] = result[i].level.map(item1 => {
                   const file = this.file.find(item2 => item2.idFile === item1.id);
                   return { ...item1, ...file };
                 });
-      
-                this.typeData[i].level = mergeArray;
-                for (let j = 0; j < mergeArray.length; j++) {
-                  if (mergeArray[j].parentId.includes('DEPO')) {
-                    mergeArray[j].collateralTypeId = 'DEPOSIT'
-                  }else if (mergeArray[j].parentId.includes('RE')) {
-                    mergeArray[j].collateralTypeId = 'REALESTATE'
-                  }else if (mergeArray[j].parentId.includes('MC')) {
-                    mergeArray[j].collateralTypeId = 'MACHINE'
-                  }else if (mergeArray[j].parentId.includes('SHIP')) {
-                    mergeArray[j].collateralTypeId = 'MACHINE'
-                  }else if (mergeArray[j].parentId.includes('VH')) {
-                    mergeArray[j].collateralTypeId = 'VEHICLE'
-                  }else if (mergeArray[j].parentId.includes('GRNT')) {
-                    mergeArray[j].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
-                  }else if(mergeArray[j].parentId.includes('OTHER')){
-                    mergeArray[j].collateralTypeId = 'OTHER'
-                  }else if (mergeArray[j].parentId.includes('STOCK')) {
-                    mergeArray[j].collateralTypeId = 'PERSONAL_PROPERTY'
-                  }else if (mergeArray[j].parentId.includes('PIUTG')) {
-                    mergeArray[j].collateralTypeId = 'PERSONAL_PROPERTY'
-                  }
-                  
-                }
+  
+              
+                const personalCorporate = mergeArray.filter(obj => obj.customerType === this.historyData().customerType);
+                const nullData = mergeArray.filter(obj => obj.customerType === 'ALL')
   
         
-                this.typeData[i].level = mergeArray;
-                const result = this.typeData.filter(obj => obj.level.some(subObj => this.historyData().collaterals.some(arrObj => arrObj.collateralTypeId === subObj.collateralTypeId)));
+                result[i].level = [...personalCorporate,...nullData];
+                
                 this.dataArray = result
-              });
-          }
+                });
+            }
         });
         });
       });
