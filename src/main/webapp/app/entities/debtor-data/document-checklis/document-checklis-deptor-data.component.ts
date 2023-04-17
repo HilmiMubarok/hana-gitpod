@@ -38,47 +38,49 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
       this.getFiles(this.partyCif.customerNumber).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
 
-          const personalCorporate = res.body.filter(obj => obj.customerType === this.partyCif.customerType);
-          const nullData = res.body.filter(obj => obj.customerType === 'ALL')
-          this.typeData = [...personalCorporate,...nullData];
-
-
+          
+          this.typeData = res.body
           for (let i = 0; i < this.typeData.length; i++) {
-            this.documentTypeService.documentTypeList(this.typeData[i].id).subscribe((re: any) => {
-              this.typeData[i].level = re.body;
+            if (this.typeData[i].id.includes('DEPO')) {
+              this.typeData[i].collateralTypeId = 'DEPOSIT'
+            }else if (this.typeData[i].id.includes('RE')) {
+              this.typeData[i].collateralTypeId = 'REALESTATE'
+            }else if (this.typeData[i].id.includes('MC')) {
+              this.typeData[i].collateralTypeId = 'MACHINE'
+            }else if (this.typeData[i].id.includes('SHIP')) {
+              this.typeData[i].collateralTypeId = 'MACHINE'
+            }else if (this.typeData[i].id.includes('VH')) {
+              this.typeData[i].collateralTypeId = 'VEHICLE'
+            }else if (this.typeData[i].id.includes('GRNT')) {
+              this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
+            }else if(this.typeData[i].id.includes('OTHER')){
+              this.typeData[i].collateralTypeId = 'OTHER'
+            }else if (this.typeData[i].id.includes('STOCK')) {
+              this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+            }else if (this.typeData[i].id.includes('PIUTG')) {
+              this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+            }
+            
+          }
+          const result: IDocumentType[] = this.typeData.filter(obj1 => this.partyCif.collaterals.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
 
-              const mergeArray: ILevel[] = this.typeData[i].level.map(item1 => {
+
+          for (let i = 0; i < result.length; i++) {
+            this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+              result[i].level = re.body;
+
+              const mergeArray: ILevel[] = result[i].level.map(item1 => {
                 const file = this.file.find(item2 => item2.idFile === item1.id);
                 return { ...item1, ...file };
               });
 
             
-              for (let j = 0; j < mergeArray.length; j++) {
-                if (mergeArray[j].parentId.includes('DEPO')) {
-                  mergeArray[j].collateralTypeId = 'DEPOSIT'
-                }else if (mergeArray[j].parentId.includes('RE')) {
-                  mergeArray[j].collateralTypeId = 'REALESTATE'
-                }else if (mergeArray[j].parentId.includes('MC')) {
-                  mergeArray[j].collateralTypeId = 'MACHINE'
-                }else if (mergeArray[j].parentId.includes('SHIP')) {
-                  mergeArray[j].collateralTypeId = 'MACHINE'
-                }else if (mergeArray[j].parentId.includes('VH')) {
-                  mergeArray[j].collateralTypeId = 'VEHICLE'
-                }else if (mergeArray[j].parentId.includes('GRNT')) {
-                  mergeArray[j].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
-                }else if(mergeArray[j].parentId.includes('OTHER')){
-                  mergeArray[j].collateralTypeId = 'OTHER'
-                }else if (mergeArray[j].parentId.includes('STOCK')) {
-                  mergeArray[j].collateralTypeId = 'PERSONAL_PROPERTY'
-                }else if (mergeArray[j].parentId.includes('PIUTG')) {
-                  mergeArray[j].collateralTypeId = 'PERSONAL_PROPERTY'
-                }
-                
-              }
+              const personalCorporate = mergeArray.filter(obj => obj.customerType === this.partyCif.customerType);
+              const nullData = mergeArray.filter(obj => obj.customerType === 'ALL')
 
       
-              this.typeData[i].level = mergeArray;
-              const result = this.typeData.filter(obj => obj.level.some(subObj => this.partyCif.collaterals.some(arrObj => arrObj.collateralTypeId === subObj.collateralTypeId)));
+              result[i].level = [...personalCorporate,...nullData];
+              
               this.dataArray = result
               
             })
