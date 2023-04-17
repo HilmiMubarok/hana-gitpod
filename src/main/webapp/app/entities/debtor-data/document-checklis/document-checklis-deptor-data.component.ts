@@ -39,7 +39,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
 
           const personalCorporate = res.body.filter(obj => obj.customerType === this.partyCif.customerType);
-          const nullData = res.body.filter(obj => obj.customerType.toLowerCase() === 'all')
+          const nullData = res.body.filter(obj => obj.customerType === 'ALL')
           this.typeData = [...personalCorporate,...nullData];
 
 
