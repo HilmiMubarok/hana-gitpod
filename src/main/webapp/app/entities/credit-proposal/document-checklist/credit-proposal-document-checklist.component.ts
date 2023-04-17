@@ -45,7 +45,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           const arrayGroub = [...res.body, ...res1.body];
 
           const personalCorporate = arrayGroub.filter(obj => obj.customerType === this.creditProposal.customerType);
-          const nullData = arrayGroub.filter(obj => obj.customerType === null)
+          const nullData = arrayGroub.filter(obj => obj.customerType.toLowerCase() === 'all')
           
           this.typeData = [...personalCorporate, ...nullData]
           for (let i = 0; i < this.typeData.length; i++) {
