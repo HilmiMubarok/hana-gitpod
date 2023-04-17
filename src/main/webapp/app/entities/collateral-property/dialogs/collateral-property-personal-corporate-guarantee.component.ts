@@ -126,6 +126,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
 
   public guaranteeClasification = [];
   public guaranteeIdentification = [];
+  public managementBranchLov = [];
   public optionsCountry: IStateBoundary[];
   public optionsCountrySelected: IStateBoundary;
   public adress: IPartyPostalAddress;
@@ -137,21 +138,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   debitBlock: any;
   public branchesNames: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
-
-  public myControlMVImb = new FormControl();
-  public optionsMVImb: IUom[];
-  public filteredOptionsMVImb: Observable<IUom[]>;
-  public MVImbCcy: IUom;
-
-  public myControlMVPs = new FormControl();
-  public optionsMVPs: IUom[];
-  public filteredOptionsMVPs: Observable<IUom[]>;
-  public MVPsCcy: IUom;
-
-  public myControlMVEx = new FormControl();
-  public optionsMVEx: IUom[];
-  public filteredOptionsMVEx: Observable<IUom[]>;
-  public MVExCcy: IUom;
 
   public myControlMVTk = new FormControl();
   public optionsMVTk: IUom[];
@@ -218,6 +204,12 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   public villages: IStateBoundary[];
   public detailType: any;
   public branceManagement: any;
+  public certypicateTypeLov: any;
+
+  public guarantorName: string;
+  public creditRating: string;
+  public creditRatingDate: Date;
+  public guarantorCountryId: string;
 
   constructor(
     private uomService: UomService,
@@ -256,6 +248,9 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.cekData();
     this.getLovGuarantee();
     this.getLovGuaranteeIdentification();
+    this.initializeCountry();
+    this.getLovManagementBranch();
+    this.getLovCertificateType();
     console.log('collateral ', this.collateralProperty.marketValue);
   }
 
@@ -291,82 +286,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     if (this.collateralProperty.attributes.accountOfficer === undefined) {
       this.collateralProperty.attributes.accountOfficer = this.officerName;
     }
-  }
-
-  filteredMVImb() {
-    this.filteredOptionsMVImb = this.myControlMVImb.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.description;
-        return name ? this._filterMVImb(name as string) : this.optionsMVImb.slice();
-      })
-    );
-  }
-
-  displayFnMVImb(curency: IUom): string {
-    return curency && curency.id ? curency.id : '';
-  }
-
-  private _filterMVImb(description: string): IUom[] {
-    const filterValue = description.toLowerCase();
-    return this.optionsMVImb.filter(option => option.description.toLowerCase().includes(filterValue));
-  }
-
-  filteredMVPs() {
-    this.filteredOptionsMVPs = this.myControlMVPs.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.description;
-        return name ? this._filterMVPs(name as string) : this.optionsMVPs.slice();
-      })
-    );
-  }
-
-  displayFnMVPs(curency: IUom): string {
-    return curency && curency.id ? curency.id : '';
-  }
-
-  private _filterMVPs(description: string): IUom[] {
-    const filterValue = description.toLowerCase();
-    return this.optionsMVPs.filter(option => option.description.toLowerCase().includes(filterValue));
-  }
-
-  filteredMVEx() {
-    this.filteredOptionsMVEx = this.myControlMVEx.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.description;
-        return name ? this._filterMVEx(name as string) : this.optionsMVEx.slice();
-      })
-    );
-  }
-
-  displayFnMVEx(curency: IUom): string {
-    return curency && curency.id ? curency.id : '';
-  }
-
-  private _filterMVEx(description: string): IUom[] {
-    const filterValue = description.toLowerCase();
-    return this.optionsMVEx.filter(option => option.description.toLowerCase().includes(filterValue));
-  }
-
-  filteredMVTk() {
-    this.filteredOptionsMVTk = this.myControlMVTk.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.description;
-        return name ? this._filterMVTk(name as string) : this.optionsMVTk.slice();
-      })
-    );
-  }
-
-  displayFnMVTk(curency: IUom): string {
-    return curency && curency.id ? curency.id : '';
-  }
-
-  private _filterMVTk(description: string): IUom[] {
-    const filterValue = description.toLowerCase();
-    return this.optionsMVTk.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
   filteredMVOri() {
@@ -494,16 +413,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     return false;
   }
 
-  public cekDataSource() {
-    this.myControlMVImb.disable();
-    this.myControlMVEx.disable();
-    this.myControlMVPs.disable();
-    this.myControlMVTk.disable();
-    this.collateralProperty.attributes.marketValueCcy = 'IDR';
-    this.collateralProperty.attributes.marketValueImbCcy = 'IDR';
-    this.collateralPropertyExternal.attributes.marketValueCcy = 'IDR';
-    this.collateralProperty.attributes.marketValueTkCcy = 'IDR';
-  }
+  public cekDataSource() {}
 
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
@@ -522,23 +432,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
     });
-  }
-
-  public getMVImbCcy() {
-    this.collateralProperty.attributes.marketValueImbCcy = this.MVImbCcy.id;
-  }
-
-  public getMVPsCcy() {
-    this.collateralProperty.attributes.marketValueCcy = this.MVPsCcy.id;
-  }
-
-  public getMVExCcy() {
-    this.collateralPropertyExternal.attributes.marketValueCcy = this.MVExCcy.id;
-  }
-
-  public getMVTkCcy() {
-    console.log('this.mk tk', this.MVTkCcy);
-    this.collateralProperty.attributes.marketValueTkCcy = this.MVTkCcy.id;
   }
 
   public getMVOriCcy() {
@@ -573,21 +466,22 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
 
   public findCif() {
     console.log('cif ', this.collateralProperty.guarantorCif);
-    this.partyCifService.findCifCash(this.collateralProperty.guarantorCif).subscribe(res => {
-      console.log('res body ', res.body);
-      this.partyCif = res.body;
-      if (this.partyCif) {
-        this.collateralProperty.guarantorName = this.partyCif.name;
-        this.collateralProperty.attributes.creditRating = this.partyCif.creditRatings[0].creditRating;
-        this.collateralProperty.attributes.creditRatingDate = this.partyCif.creditRatings[0].ratingDate;
-        this.collateralProperty.attributes.branch = this.partyCif.debtorData.bookingBranch;
-        this.adress = this.partyCif.addresses.find(obj => obj.purposeTypeId === 'PRIMARY_LOCATION');
-        if (this.adress) {
-          console.log('adress ', this.adress);
-          this.findCountryName(this.adress.address.countryId);
+    if (this.collateralProperty.guarantorCif !== null) {
+      this.partyCifService.findCifCash(this.collateralProperty.guarantorCif).subscribe(res => {
+        console.log('res body ', res.body);
+        this.partyCif = res.body;
+        if (this.partyCif) {
+          this.guarantorName = this.partyCif.name;
+          this.creditRating = this.partyCif.creditRatings[0].creditRating;
+          this.creditRatingDate = this.partyCif.creditRatings[0].ratingDate;
+          this.adress = this.partyCif.addresses.find(obj => obj.purposeTypeId === 'PRIMARY_LOCATION');
+          if (this.adress) {
+            console.log('adress ', this.adress);
+            this.findCountryName(this.adress.address.countryId);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   public initializeCountry(): void {
@@ -599,6 +493,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       })
       .subscribe(res => {
         this.optionsCountry = res.body;
+        this.findCif();
       });
   }
 
@@ -608,7 +503,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       console.log('option country ', this.optionsCountry);
       console.log('country ', id);
       if (this.optionsCountrySelected) {
-        this.collateralProperty.guaranteeCountry = this.optionsCountrySelected.description;
+        this.guarantorCountryId = this.optionsCountrySelected.description;
       }
     }
   }
@@ -637,6 +532,36 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       .subscribe(res => {
         console.log('ini res ', res);
         this.guaranteeIdentification = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getLovManagementBranch() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'MANAGEMENT_BRANCH',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        console.log('ini res ', res);
+        this.managementBranchLov = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getLovCertificateType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CERTIFICATE_TYPE_CGPG',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        console.log('ini res ', res);
+        this.certypicateTypeLov = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
