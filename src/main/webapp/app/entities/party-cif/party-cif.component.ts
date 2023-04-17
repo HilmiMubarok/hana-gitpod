@@ -195,7 +195,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
 
   private logout(): void {
-    this.loginService.logout();
+    // this.loginService.logout();
     this.router.navigate(['']);
   }
 
