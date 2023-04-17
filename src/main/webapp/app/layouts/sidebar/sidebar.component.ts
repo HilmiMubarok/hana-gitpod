@@ -74,7 +74,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   private positionIdLocStor: string;
 
   private setMenuFromPosInt(newPosSet: string): void {
-	if (this.positionIdLocStor) {
+	if (newPosSet !== 'Empty') {
 	  this.accountService.identity().subscribe(account => {
 		if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
 		  this.dataSource.data = APPRAISAL_MENU_ADMIN;
