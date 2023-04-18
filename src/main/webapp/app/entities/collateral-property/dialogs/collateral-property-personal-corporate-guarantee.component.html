@@ -7,7 +7,7 @@
         <mat-label>Certificate Type</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.certificateType" [disabled]="dataSource()">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of certypicateTypeLov" [value]="item.id"> {{ item.value }} </mat-option>
+          <mat-option *ngFor="let item of certypicateTypeLov" [value]="item.code"> {{ item.value }} </mat-option>
         </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
@@ -142,9 +142,9 @@
     <div class="form-group">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Credit Rating Date</mat-label>
-        <input [matDatepicker]="expiry" matInput type="text" [(ngModel)]="creditRatingDate" disabled />
-        <mat-datepicker-toggle matSuffix [for]="expiry" disabled></mat-datepicker-toggle>
-        <mat-datepicker #expiry disabled></mat-datepicker>
+        <input [matDatepicker]="dateRating" matInput type="text" [(ngModel)]="creditRatingDate" disabled />
+        <mat-datepicker-toggle matSuffix [for]="dateRating" disabled></mat-datepicker-toggle>
+        <mat-datepicker #dateRating disabled></mat-datepicker>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
     </div>
