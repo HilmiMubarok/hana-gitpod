@@ -21,6 +21,7 @@ import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { CashCreditProposalService } from './cash-credit-proposal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -118,7 +119,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private cashCreditProposalService: CashCreditProposalService
+    private cashCreditProposalService: CashCreditProposalService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, creditProposalService);
     this.page = 0;
@@ -134,10 +136,10 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
-    this.positionIdLocStor = this.getLocStor('POS');
   }
 
   private loadStatusChip(): void {
@@ -287,6 +289,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   private loadAll(): void {
     this.loading = true;
     if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
       if (this.router.url !== '/cp-status-approval') {

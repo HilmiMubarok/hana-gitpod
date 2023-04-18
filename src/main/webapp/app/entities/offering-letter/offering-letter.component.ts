@@ -26,6 +26,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { CashOfferingLetterService } from './cash-offering-letter.service';
 import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-offering-letter',
   templateUrl: './offering-letter.component.html',
@@ -82,7 +83,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     protected applicationConfigService: ApplicationConfigService,
     public creditProposalService: CreditProposalService,
     private cashOfferingLetterService: CashOfferingLetterService,
-    private cashCreditProposalService: CashCreditProposalService
+    private cashCreditProposalService: CashCreditProposalService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, offeringLetterService);
     this.page = 0;
@@ -204,6 +206,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.loading = true;
 
     if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
       if (this.activeRoute === 'distribution') {

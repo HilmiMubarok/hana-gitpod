@@ -26,6 +26,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-loan-analys-m',
   templateUrl: './loan-analys-m.component.html',
@@ -80,7 +81,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     protected applicationConfigService: ApplicationConfigService,
     public creditProposalService: CreditProposalService,
     private cashLoanAnalysService: CashLoanAnalysService,
-    private cashCreditProposalService: CashCreditProposalService
+    private cashCreditProposalService: CashCreditProposalService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, loanAnalysService);
     this.page = 0;
@@ -241,6 +243,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       menu = 'la-approval';
     }
     if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
       if (this.activeRoute === 'la-distribution') {

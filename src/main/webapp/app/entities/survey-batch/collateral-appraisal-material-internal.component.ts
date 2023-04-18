@@ -28,6 +28,7 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
 import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-appraisal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material-internal',
   templateUrl: './collateral-appraisal-material-internal.component.html',
@@ -111,7 +112,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     protected applicationStateLogService: ApplicationStateLogService,
     public accountService: AccountService,
     protected dialog: MatDialog,
-
+    private templateService: TemplateService,
     protected router: Router,
     public cashSurveyAppraisalsService: CashSurveyAppraisalsService
   ) {
@@ -218,6 +219,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     this.loading = true;
 
     if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
       if (this.clickedChip !== '') {
