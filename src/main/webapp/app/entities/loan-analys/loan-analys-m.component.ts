@@ -68,6 +68,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
+  public positionIdLocStor: string;
   public statusSearch = false;
   constructor(
     private loanAnalysService: LoanAnalysService,
@@ -107,6 +108,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
   }
@@ -238,383 +240,386 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     if (menu === 'loan-analys-and-approval-monitoring') {
       menu = 'la-approval';
     }
-
-    if (this.activeRoute === 'la-distribution') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysDistribution({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysDistribution({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'la-analyst') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisys({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisys({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'la-SME-CRC') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysSMECRC({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysSMECRC({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'la-approval') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysApproval({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysApproval({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'la-approval-inquiry') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysInquiry({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysInquiry({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'dar-final') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysDarfinal({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysDarfinal({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'loan-committee-approval') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysDarLoanKomiteApproval({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysDarLoanKomiteApproval({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'dar-notif') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysDarNotif({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysDarNotif({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'cc-distribution') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysCCDistribution({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysCCDistribution({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'cc-checking') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysCCChecking({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysCCChecking({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'cc-inquiry') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysCCInquiry({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysCCInquiry({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'cc-review') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysCCRevew({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysCCRevew({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'dar-checker') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashLoanAnalysService
-          .loanAnalisysDarChecker({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashLoanAnalysService
-          .loanAnalisysDarChecker({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
+    if (!this.positionIdLocStor) {
+      this.router.navigate(['']);
+    } else {
+      if (this.activeRoute === 'la-distribution') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysDistribution({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysDistribution({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'la-analyst') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisys({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisys({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'la-SME-CRC') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysSMECRC({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysSMECRC({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'la-approval') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysApproval({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysApproval({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'la-approval-inquiry') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysInquiry({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysInquiry({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'dar-final') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysDarfinal({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysDarfinal({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'loan-committee-approval') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysDarLoanKomiteApproval({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysDarLoanKomiteApproval({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'dar-notif') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysDarNotif({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysDarNotif({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'cc-distribution') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysCCDistribution({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysCCDistribution({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'cc-checking') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysCCChecking({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysCCChecking({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'cc-inquiry') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysCCInquiry({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysCCInquiry({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'cc-review') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysCCRevew({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysCCRevew({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'dar-checker') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashLoanAnalysService
+            .loanAnalisysDarChecker({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashLoanAnalysService
+            .loanAnalisysDarChecker({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
       }
     }
   }
