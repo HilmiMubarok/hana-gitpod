@@ -21,6 +21,7 @@ import { Account } from 'app/core/auth/account.model';
 import { MatTableDataSource } from '@angular/material/table';
 import lodash from 'lodash';
 import { CashCreditProposalService } from './cash-credit-proposal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-credit-proposal-list-material',
@@ -55,6 +56,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public account: Account;
   public viewButton: boolean;
   public activeRoute: string;
+  public positionIdLocStor: string;
   public title: string;
   public value: string;
   public parentPath = this.router.url.split('/')[1];
@@ -117,7 +119,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    private cashCreditProposalService: CashCreditProposalService
+    private cashCreditProposalService: CashCreditProposalService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, creditProposalService);
     this.page = 0;
@@ -133,6 +136,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
@@ -280,70 +284,74 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.paginatorLength = parseInt(headers.get('X-Total-Count'), 10);
     this.paginatorPageSize = this.paginator.pageSize;
     this.loading = false;
-    console.log('rdddd', this.paginatorLength);
   }
 
   private loadAll(): void {
     this.loading = true;
-    if (this.router.url !== '/cp-status-approval') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashCreditProposalService
-          .cashCreditProposalApprovalByStatus({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
-      } else {
-        this.cashCreditProposalService
-          .cashCreditProposalApprovalByStatus({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
     } else {
-      if (this.clickedChip['id'] !== '') {
-        this.cashCreditProposalService
-          .cashCreditProposalApproval({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
+      if (this.router.url !== '/cp-status-approval') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashCreditProposalService
+            .cashCreditProposalApprovalByStatus({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashCreditProposalService
+            .cashCreditProposalApprovalByStatus({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
       } else {
-        this.cashCreditProposalService
-          .cashCreditProposalApproval({
-            page: this.page,
-            idPosition: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: ['id,desc'],
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
+        if (this.clickedChip['id'] !== '') {
+          this.cashCreditProposalService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashCreditProposalService
+            .cashCreditProposalApproval({
+              page: this.page,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: ['id,desc'],
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
       }
     }
   }

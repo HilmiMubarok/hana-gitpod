@@ -28,6 +28,7 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
 import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-appraisal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material-approval',
   templateUrl: './collateral-appraisal-material-approval.component.html',
@@ -75,6 +76,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
     [key: string]: Object;
   }[] = [];
   public subMenu: object[];
+  public positionIdLocStor: string;
   public globalSearchValModel: string;
   public collateralAppraisalStatusCodes: IOptionNode[] = [
     {
@@ -111,7 +113,8 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
     public accountService: AccountService,
     protected dialog: MatDialog,
     protected router: Router,
-    public cashSurveyAppraisalsService: CashSurveyAppraisalsService
+    public cashSurveyAppraisalsService: CashSurveyAppraisalsService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, surveyAppraisalService);
     this.globalSearchValModel = '';
@@ -127,6 +130,7 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
     this.filterStatusCode();
     this.loadCity();
@@ -202,35 +206,39 @@ export class CollateralAppraisalMaterialApprovalComponent extends AbstractEntity
   public loadAll(): void {
     this.checkLogin();
     this.loading = true;
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
+    } else {
+      if (this.clickedChip !== '') {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByApproval({
+            page: this.page,
+            idStatus: this.clickedChip,
+            size: this.itemsPerPage,
+            idPosition: this.getLocStor('POS'),
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      }
 
-    if (this.clickedChip !== '') {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByApproval({
-          page: this.page,
-          idStatus: this.clickedChip,
-          size: this.itemsPerPage,
-          idPosition: this.getLocStor('POS'),
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (this.urlAppraisalApproval) {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByApproval({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.getLocStor('POS'),
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+      if (this.urlAppraisalApproval) {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByApproval({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.getLocStor('POS'),
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
     }
   }
 

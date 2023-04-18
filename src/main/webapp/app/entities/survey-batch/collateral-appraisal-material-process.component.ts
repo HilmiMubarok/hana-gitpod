@@ -28,6 +28,7 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
 import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-appraisal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material-process',
   templateUrl: './collateral-appraisal-material-process.component.html',
@@ -74,6 +75,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   public filterData: {
     [key: string]: Object;
   }[] = [];
+  public positionIdLocStor: string;
   public subMenu: object[];
   public globalSearchValModel: string;
   public collateralAppraisalStatusCodes: IOptionNode[] = [
@@ -111,7 +113,8 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     public accountService: AccountService,
     protected dialog: MatDialog,
     protected router: Router,
-    public cashSurveyAppraisalsService: CashSurveyAppraisalsService
+    public cashSurveyAppraisalsService: CashSurveyAppraisalsService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, surveyAppraisalService);
     this.globalSearchValModel = '';
@@ -127,6 +130,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
     this.filterStatusCode();
     this.loadCity();
@@ -204,36 +208,40 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   public loadAll(): void {
     this.checkLogin();
     this.loading = true;
+    if (!this.positionIdLocStor) {
+      this.router.navigate(['']);
+    } else {
+      if (this.clickedChip !== '') {
+        this.templateService.changePosInt('Empty');
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByProsses({
+            page: this.page,
+            idStatus: this.clickedChip,
+            size: this.itemsPerPage,
+            idPosition: this.getLocStor('POS'),
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      }
 
-    if (this.clickedChip !== '') {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByProsses({
-          page: this.page,
-          idStatus: this.clickedChip,
-          size: this.itemsPerPage,
-          idPosition: this.getLocStor('POS'),
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (this.urlAppraisalProcess) {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByProsses({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.getLocStor('POS'),
-          // apprOfficer: 'Internal',
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+      if (this.urlAppraisalProcess) {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByProsses({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.getLocStor('POS'),
+            // apprOfficer: 'Internal',
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
     }
   }
 

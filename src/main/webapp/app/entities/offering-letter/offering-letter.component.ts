@@ -26,6 +26,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { CashOfferingLetterService } from './cash-offering-letter.service';
 import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-offering-letter',
   templateUrl: './offering-letter.component.html',
@@ -70,6 +71,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public title: string;
   public value: string;
   public statusSearch = false;
+  public positionIdLocStor: string;
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -81,7 +83,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     protected applicationConfigService: ApplicationConfigService,
     public creditProposalService: CreditProposalService,
     private cashOfferingLetterService: CashOfferingLetterService,
-    private cashCreditProposalService: CashCreditProposalService
+    private cashCreditProposalService: CashCreditProposalService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, offeringLetterService);
     this.page = 0;
@@ -105,6 +108,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
   }
@@ -200,121 +204,127 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
 
   private loadAll(): void {
     this.loading = true;
-    if (this.activeRoute === 'distribution') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashOfferingLetterService
-          .distribution({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashOfferingLetterService
-          .distribution({
-            page: this.page,
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'finalize') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashOfferingLetterService
-          .finalize({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashOfferingLetterService
-          .finalize({
-            page: this.page,
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'review') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashOfferingLetterService
-          .review({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashOfferingLetterService
-          .review({
-            page: this.page,
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      }
-    } else if (this.activeRoute === 'confirmation') {
-      if (this.clickedChip['id'] !== '') {
-        this.cashOfferingLetterService
-          .confirmation({
-            page: this.page,
-            idStatus: this.convertStatus(this.clickedChip['id']),
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-      } else {
-        this.cashOfferingLetterService
-          .confirmation({
-            page: this.page,
-            idPostion: this.getLocStor('POS'),
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-          .subscribe({
-            next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
+
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
+    } else {
+      if (this.activeRoute === 'distribution') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .distribution({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .distribution({
+              page: this.page,
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'finalize') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .finalize({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .finalize({
+              page: this.page,
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'review') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .review({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .review({
+              page: this.page,
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'confirmation') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .confirmation({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .confirmation({
+              page: this.page,
+              idPostion: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
       }
     }
   }

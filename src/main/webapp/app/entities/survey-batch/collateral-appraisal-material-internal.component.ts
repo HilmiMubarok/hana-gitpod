@@ -28,6 +28,7 @@ import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
 import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-appraisal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material-internal',
   templateUrl: './collateral-appraisal-material-internal.component.html',
@@ -70,6 +71,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   public clickedChip: string;
   public iconTimeline: any;
   public activeRoute: string;
+  public positionIdLocStor: string;
   public filterData: {
     [key: string]: Object;
   }[] = [];
@@ -110,6 +112,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     protected applicationStateLogService: ApplicationStateLogService,
     public accountService: AccountService,
     protected dialog: MatDialog,
+    private templateService: TemplateService,
     protected router: Router,
     public cashSurveyAppraisalsService: CashSurveyAppraisalsService
   ) {
@@ -128,6 +131,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
 
   ngOnInit(): void {
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
+    this.positionIdLocStor = this.getLocStor('POS');
     this.filterStatusCode();
     this.loadCity();
     this.loadAll();
@@ -214,34 +218,39 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     this.checkLogin();
     this.loading = true;
 
-    if (this.clickedChip !== '') {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByInternal({
-          page: this.page,
-          idStatus: this.clickedChip,
-          idPosition: this.getLocStor('POS'),
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
+    } else {
+      if (this.clickedChip !== '') {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByInternal({
+            page: this.page,
+            idStatus: this.clickedChip,
+            idPosition: this.positionIdLocStor,
+            size: this.itemsPerPage,
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      }
 
-    if (this.urlAppraisalInternal) {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByInternal({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.getLocStor('POS'),
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+      if (this.urlAppraisalInternal) {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByInternal({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
     }
   }
 

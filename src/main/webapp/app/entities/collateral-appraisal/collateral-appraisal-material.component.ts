@@ -28,6 +28,7 @@ import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-ap
 import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material',
   templateUrl: './collateral-appraisal-material.component.html',
@@ -129,7 +130,8 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     public accountService: AccountService,
     protected dialog: MatDialog,
     protected router: Router,
-    protected cashSurveyAppraisalsService: CashSurveyAppraisalsService
+    protected cashSurveyAppraisalsService: CashSurveyAppraisalsService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, cashSurveyAppraisalsService);
     this.globalSearchValModel = '';
@@ -180,6 +182,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.filterStatusCode();
     this.loadCity();
     this.loadAll();
@@ -381,46 +384,65 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   public loadAll(): void {
     this.checkLogin();
     this.loading = true;
-    this.positionIdLocStor = this.getLocStor('POS');
-    if (this.clickedChip !== '') {
-      if (this.urlAppraisalInternal) {
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
+    } else {
+      if (this.clickedChip !== '') {
+        if (this.urlAppraisalInternal) {
+          this.cashSurveyAppraisalsService
+            .cashSurveyAppraisalQueryFilterBy({
+              page: this.page,
+              idStatus: this.clickedChip,
+              apprOfficer: 'Internal',
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .subscribe({
+              next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else if (this.urlAppraisalProcess) {
+          this.cashSurveyAppraisalsService
+            .cashSurveyAppraisalQueryFilterBy({
+              page: this.page,
+              idStatus: this.clickedChip,
+              apprOfficer: 'Internal',
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .subscribe({
+              next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        } else {
+          this.cashSurveyAppraisalsService
+            .cashSurveyAppraisalQueryFilterBy({
+              page: this.page,
+              idStatus: this.clickedChip,
+              idPosition: this.positionIdLocStor,
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .subscribe({
+              next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+          return;
+        }
+      }
+
+      if (this.globalSearchVal) {
         this.cashSurveyAppraisalsService
-          .cashSurveyAppraisalQueryFilterBy({
+          .search({
             page: this.page,
-            idStatus: this.clickedChip,
-            apprOfficer: 'Internal',
-            idPosition: this.positionIdLocStor,
+            query: this.globalSearchVal,
             size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .subscribe({
-            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
-      } else if (this.urlAppraisalProcess) {
-        this.cashSurveyAppraisalsService
-          .cashSurveyAppraisalQueryFilterBy({
-            page: this.page,
-            idStatus: this.clickedChip,
-            apprOfficer: 'Internal',
-            idPosition: this.positionIdLocStor,
-            size: this.itemsPerPage,
-            sort: this.sortData(),
-          })
-          .subscribe({
-            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-            error: (res: HttpErrorResponse) => this.onError(res.message),
-          });
-        return;
-      } else {
-        this.cashSurveyAppraisalsService
-          .cashSurveyAppraisalQueryFilterBy({
-            page: this.page,
-            idStatus: this.clickedChip,
-            idPosition: this.positionIdLocStor,
-            size: this.itemsPerPage,
-            sort: this.sortData(),
+            sort: ['id,desc'],
           })
           .subscribe({
             next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
@@ -428,108 +450,93 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
           });
         return;
       }
-    }
 
-    if (this.globalSearchVal) {
-      this.cashSurveyAppraisalsService
-        .search({
-          page: this.page,
-          query: this.globalSearchVal,
-          size: this.itemsPerPage,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (this.urlRequestAppraisal) {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterBy({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    } else if (this.urlAppraisalInternal) {
-      this.cashSurveyAppraisalsService
-        .queryUrlAppraisalInternal({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    } else if (this.urlAppraisalExternal) {
-      this.cashSurveyAppraisalsService
-        .queryUrlAppraisalExternal({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    } else if (this.urlAppraisalProcess) {
-      this.cashSurveyAppraisalsService
-        .queryUrlAppraisalProcess({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    } else if (this.urlReportApproval) {
-      this.cashSurveyAppraisalsService
-        .queryUrlReportApproval({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    } else if (this.urlReportInqury) {
-      this.cashSurveyAppraisalsService
-        .cashSurveyAppraisalQueryFilterByInquiry({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    } else {
-      this.cashSurveyAppraisalsService
-        .queryUrlAppraisalProcess({
-          page: this.page,
-          size: this.itemsPerPage,
-          idPosition: this.positionIdLocStor,
-          isActive: true,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+      if (this.urlRequestAppraisal) {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterBy({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      } else if (this.urlAppraisalInternal) {
+        this.cashSurveyAppraisalsService
+          .queryUrlAppraisalInternal({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      } else if (this.urlAppraisalExternal) {
+        this.cashSurveyAppraisalsService
+          .queryUrlAppraisalExternal({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      } else if (this.urlAppraisalProcess) {
+        this.cashSurveyAppraisalsService
+          .queryUrlAppraisalProcess({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      } else if (this.urlReportApproval) {
+        this.cashSurveyAppraisalsService
+          .queryUrlReportApproval({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      } else if (this.urlReportInqury) {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByInquiry({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      } else {
+        this.cashSurveyAppraisalsService
+          .queryUrlAppraisalProcess({
+            page: this.page,
+            size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
+            isActive: true,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
     }
   }
 
