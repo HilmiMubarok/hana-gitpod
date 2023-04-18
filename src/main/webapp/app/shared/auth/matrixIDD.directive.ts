@@ -28,8 +28,6 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
 
       .subscribe(res => {
-        console.log('test', res.authorities);
-
         this.authorities = res.authorities;
         this.checkAccess();
       });
@@ -50,7 +48,6 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
   }
 
   private checkAccess(): void {
-    console.log('elemen', this.elementType);
     if (this.elementType === 'input') {
       this.matrixInput();
     } else {
