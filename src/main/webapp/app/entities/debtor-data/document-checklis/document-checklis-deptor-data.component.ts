@@ -8,6 +8,7 @@ import { IDebtorData } from '../debtor-data.model';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import lodash from 'lodash';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 @Component({
   selector: 'jhi-deptor-data-document-checklist',
   templateUrl: './document-checklis-deptor-data.component.html',
@@ -40,6 +41,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
 
           
           this.typeData = res.body
+          
           for (let i = 0; i < this.typeData.length; i++) {
             if (this.typeData[i].id.includes('DEPO')) {
               this.typeData[i].collateralTypeId = 'DEPOSIT'
@@ -59,16 +61,21 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
             }else if (this.typeData[i].id.includes('PIUTG')) {
               this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+            }else if (this.typeData[i].id.includes('COR')) {
+              this.typeData[i].collateralTypeId = 'COR'
+            }else if (this.typeData[i].id.includes('IND')) {
+              this.typeData[i].collateralTypeId = 'IND'
             }
-            
           }
-          const result: IDocumentType[] = this.typeData.filter(obj1 => this.partyCif.collaterals.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
 
-
+          const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(obj => obj.statusCode !== 'CANCEL')
+          const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
+          const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType)
+          const result: IDocumentType[] =  [...collateralData, ...INDCORData]
           for (let i = 0; i < result.length; i++) {
             this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
               result[i].level = re.body;
-
+      
               const mergeArray: ILevel[] = result[i].level.map(item1 => {
                 const file = this.file.find(item2 => item2.idFile === item1.id);
                 return { ...item1, ...file };
