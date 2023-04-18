@@ -10,6 +10,7 @@ import lodash from 'lodash';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 @Component({
   selector: 'jhi-document-checklist-history',
   templateUrl: './credit-proposal-document-checklist-history.component.html',
@@ -90,10 +91,17 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
                 this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
               }else if (this.typeData[i].id.includes('PIUTG')) {
                 this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+              }else if (this.typeData[i].id.includes('COR')) {
+                this.typeData[i].collateralTypeId = 'COR'
+              }else if (this.typeData[i].id.includes('IND')) {
+                this.typeData[i].collateralTypeId = 'IND'
               }
               
             }
-            const result: IDocumentType[] = this.typeData.filter(obj1 => this.historyData().collaterals.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
+            const filterStatus: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusCode !== 'CANCEL')
+            const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
+            const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType)
+            const result: IDocumentType[] =  [...collateralData, ...INDCORData]
   
   
             for (let i = 0; i < result.length; i++) {
