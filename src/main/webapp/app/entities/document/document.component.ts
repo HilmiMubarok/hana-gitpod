@@ -143,7 +143,7 @@ export class DocumentComponent implements OnChanges, OnInit {
       width: '40vw',
       data: {
         title: 'Delete Document',
-        message: 'Are you sure to delete ' + element.convertDan(element['folder']) + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
     });
     dialogRef.afterClosed().subscribe(respond => {
