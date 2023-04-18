@@ -1,11 +1,22 @@
 <div class="form-group">
-  <mat-form-field appearance="outline" class="w-100">
-    <mat-label>Jurisdiction Country</mat-label>
-    <mat-select [(ngModel)]="countryId.jurisdictionCountryId" [disabled]="dataSource()">
-      <mat-option *ngFor="let item of country" [value]="item.id">
-        {{ item.description }}
-      </mat-option>
-    </mat-select>
-    <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-  </mat-form-field>
+  <section *jhiMatrixDirIDD="'input'">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Jurisdiction Country</mat-label>
+      <mat-select [(ngModel)]="countryId.jurisdictionCountryId" [disabled]="dataSource()">
+        <mat-option *ngFor="let item of country" [value]="item.id">
+          {{ item.description }}
+        </mat-option>
+      </mat-select>
+      <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+    </mat-form-field>
+  </section>
+  <section *jhiMatrixDirIDD="''">
+    <div class="fontsebled row">
+      <div class="col">Jurisdiction Country</div>
+      <div class="col-md-auto">:</div>
+      <div class="col">
+        {{ countryId.jurisdictionCountryId }}
+      </div>
+    </div>
+  </section>
 </div>

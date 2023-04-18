@@ -2,95 +2,205 @@
   <!-- LEFT SIDE -->
   <div class="col-6">
     <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>CIF Number</mat-label>
-        <input matInput type="text" [(ngModel)]="organization.cifNumber" [disabled]="dataSource()" />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>CIF Number</mat-label>
+          <input matInput type="text" [(ngModel)]="organization.cifNumber" [disabled]="dataSource()" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">CIF Number</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ organization.cifNumber }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="row">
       <div class="col-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>First Name</mat-label>
-            <input matInput type="text" [disabled]="view" [(ngModel)]="person.firstName" [disabled]="dataSource()" />
-            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input matInput type="text" [disabled]="view" [(ngModel)]="person.firstName" [disabled]="dataSource()" />
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">First Name</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ person.firstName }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Last Name</mat-label>
-            <input matInput type="text" [(ngModel)]="person.lastName" [disabled]="dataSource()" />
-            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input matInput type="text" [(ngModel)]="person.lastName" [disabled]="dataSource()" />
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Last Name</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ person.lastNamee }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>ID Number</mat-label>
-        <input matInput type="text" [(ngModel)]="person.personalIdNumber" [disabled]="dataSource()" />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>ID Number</mat-label>
+          <input matInput type="text" [(ngModel)]="person.personalIdNumber" [disabled]="dataSource()" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">ID Number</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ person.personalIdNumber }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Identity Type</mat-label>
-          <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Identity Type</mat-label>
+            <input matInput type="text" [(ngModel)]="person.personalIdType" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Identity Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ person.personalIdType }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Gender</mat-label>
-        <mat-select [(ngModel)]="person.gender" [disabled]="dataSource()">
-          <mat-option value="">-Please select-</mat-option>
-          <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
-        </mat-select>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Gender</mat-label>
+          <mat-select [(ngModel)]="person.gender" [disabled]="dataSource()">
+            <mat-option value="">-Please select-</mat-option>
+            <mat-option *ngFor="let item of genders | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
+          </mat-select>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Gender</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ person.gende }}
+          </div>
+        </div>
+      </section>
     </div>
   </div>
   <!-- RIGHT SIDE -->
   <!-- [(ngModel)]="person.dob" -->
   <div class="col-6">
     <div class="form-group" *ngIf="managementType === 'CONTROL_PERSON'">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Place of Birth</mat-label>
-        <input matInput type="text" [(ngModel)]="person.pob" [disabled]="dataSource()" />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Place of Birth</mat-label>
+          <input matInput type="text" [(ngModel)]="person.pob" [disabled]="dataSource()" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Place of Birth</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ person.pob }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Date of Birth</mat-label>
-        <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [disabled]="approvalDisabled()" [(ngModel)]="person.dob" />
-        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
-        <mat-datepicker #dob></mat-datepicker>
-        <mat-hint align="start"
-          ><strong>{{ countAge() }} years old</strong>
-        </mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Date of Birth</mat-label>
+          <input [matDatepicker]="dob" matInput type="text" [formControl]="date" [disabled]="approvalDisabled()" [(ngModel)]="person.dob" />
+          <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+          <mat-datepicker #dob></mat-datepicker>
+          <mat-hint align="start"
+            ><strong>{{ countAge() }} years old</strong>
+          </mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Date of Birth</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ person.dob }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>ID Expiry Date</mat-label>
-        <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" [disabled]="dataSource()" />
-        <mat-datepicker-toggle matSuffix [for]="idExpiryDate" [disabled]="dataSource()"></mat-datepicker-toggle>
-        <mat-datepicker #idExpiryDate [disabled]="dataSource()"></mat-datepicker>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>ID Expiry Date</mat-label>
+          <input [matDatepicker]="idExpiryDate" matInput type="text" [(ngModel)]="person.idExpiryDate" [disabled]="dataSource()" />
+          <mat-datepicker-toggle matSuffix [for]="idExpiryDate" [disabled]="dataSource()"></mat-datepicker-toggle>
+          <mat-datepicker #idExpiryDate [disabled]="dataSource()"></mat-datepicker>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">ID Expiry Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ person.idExpiryDate }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>NPWP</mat-label>
-        <input matInput type="text" [(ngModel)]="person.taxIdNumber" [disabled]="dataSource()" />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>NPWP</mat-label>
+          <input matInput type="text" [(ngModel)]="person.taxIdNumber" [disabled]="dataSource()" />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">NPWP</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ person.taxIdNumber }}
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>

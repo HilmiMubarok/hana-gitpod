@@ -2,109 +2,197 @@
   <div class="col-12">
     <div *ngIf="collateralApprAddress !== true">
       <div class="form-group">
-        <ejs-textbox
-          placeholder="address1"
-          [(ngModel)]="postalAddress.address1"
-          cssClass="e-outline"
-          rows="3"
-          [multiline]="true"
-          floatLabelType="Auto"
-          [maxlength]="100"
-          [disabled]="dataSource()"
-        >
-        </ejs-textbox>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        <section *jhiMatrixDirIDD="'input'">
+          <ejs-textbox
+            placeholder="address1"
+            [(ngModel)]="postalAddress.address1"
+            cssClass="e-outline"
+            rows="3"
+            [multiline]="true"
+            floatLabelType="Auto"
+            [maxlength]="100"
+            [disabled]="dataSource()"
+          >
+          </ejs-textbox>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">address1</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ postalAddress.address1 }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
     <div *ngIf="collateralApprAddress === true">
       <div class="form-group">
-        <ejs-textbox
-          placeholder="address1"
-          [(ngModel)]="postalAddress.address1"
-          cssClass="e-outline"
-          rows="3"
-          [multiline]="true"
-          floatLabelType="Auto"
-          [maxlength]="100"
-          disabled
-        >
-        </ejs-textbox>
+        <section *jhiMatrixDirIDD="'input'">
+          <ejs-textbox
+            placeholder="address1"
+            [(ngModel)]="postalAddress.address1"
+            cssClass="e-outline"
+            rows="3"
+            [multiline]="true"
+            floatLabelType="Auto"
+            [maxlength]="100"
+            disabled
+          >
+          </ejs-textbox>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">address1</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ postalAddress.address1 }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Country</mat-label>
-        <input type="text" matInput [formControl]="myControlCountry" [matAutocomplete]="auto" [(ngModel)]="country" />
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCounrtry" (optionSelected)="getValueCountryChange()">
-          <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option">
-            {{ option.description }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Country</mat-label>
+          <input type="text" matInput [formControl]="myControlCountry" [matAutocomplete]="auto" [(ngModel)]="country" />
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCounrtry" (optionSelected)="getValueCountryChange()">
+            <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Country</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ displayFnProvince(country) }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Province</mat-label>
-        <input type="text" matInput [formControl]="myControlProvince" [matAutocomplete]="autoP" [(ngModel)]="province" />
-        <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProvince" (optionSelected)="getValueProvinceChange()">
-          <mat-option *ngFor="let option of filteredOptionsProvince | async" [value]="option">
-            {{ option.description }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Province</mat-label>
+          <input type="text" matInput [formControl]="myControlProvince" [matAutocomplete]="autoP" [(ngModel)]="province" />
+          <mat-autocomplete #autoP="matAutocomplete" [displayWith]="displayFnProvince" (optionSelected)="getValueProvinceChange()">
+            <mat-option *ngFor="let option of filteredOptionsProvince | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Province</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ displayFnProvince(province) }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>City</mat-label>
-        <input type="text" matInput [formControl]="myControlCity" [matAutocomplete]="autoC" [(ngModel)]="cities" />
-        <mat-autocomplete #autoC="matAutocomplete" [displayWith]="displayFnCity" (optionSelected)="getValueCityChange()">
-          <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
-            {{ option.description }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>City</mat-label>
+          <input type="text" matInput [formControl]="myControlCity" [matAutocomplete]="autoC" [(ngModel)]="cities" />
+          <mat-autocomplete #autoC="matAutocomplete" [displayWith]="displayFnCity" (optionSelected)="getValueCityChange()">
+            <mat-option *ngFor="let option of filteredOptionsCity | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">City</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ displayFnProvince(cities) }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field appearance="outline" class="w-100">
-        <mat-label>District</mat-label>
-        <input type="text" matInput [formControl]="myControlDistrict" [matAutocomplete]="autoD" [(ngModel)]="districts" />
-        <mat-autocomplete #autoD="matAutocomplete" [displayWith]="displayFnDistrict" (optionSelected)="getValueDistrictChange()">
-          <mat-option *ngFor="let option of filteredOptionsDistrict | async" [value]="option">
-            {{ option.description }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>District</mat-label>
+          <input type="text" matInput [formControl]="myControlDistrict" [matAutocomplete]="autoD" [(ngModel)]="districts" />
+          <mat-autocomplete #autoD="matAutocomplete" [displayWith]="displayFnDistrict" (optionSelected)="getValueDistrictChange()">
+            <mat-option *ngFor="let option of filteredOptionsDistrict | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">District</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ displayFnProvince(districts) }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Village</mat-label>
-        <input
-          type="text"
-          matInput
-          [formControl]="myControlVillage"
-          [matAutocomplete]="autoE"
-          [(ngModel)]="villages"
-          (ngModelChange)="getIdVillage()"
-        />
-        <mat-autocomplete #autoE="matAutocomplete" [displayWith]="displayFnVillage">
-          <mat-option *ngFor="let option of filteredOptionsVillage | async" [value]="option">
-            {{ option.description }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Village</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="myControlVillage"
+            [matAutocomplete]="autoE"
+            [(ngModel)]="villages"
+            (ngModelChange)="getIdVillage()"
+          />
+          <mat-autocomplete #autoE="matAutocomplete" [displayWith]="displayFnVillage">
+            <mat-option *ngFor="let option of filteredOptionsVillage | async" [value]="option">
+              {{ option.description }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Village</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ displayFnProvince(villages) }}
+          </div>
+        </div>
+      </section>
     </div>
     <div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Kode Pos</mat-label>
-          <input matInput type="text" [(ngModel)]="postalAddress.postalCode" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Kode Pos</mat-label>
+            <input matInput type="text" [(ngModel)]="postalAddress.postalCode" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Kode Pos</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ postalAddress.postalCode }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
