@@ -38,6 +38,8 @@ import { CreditProposalTabSummaryComponent } from './credit-proposal-tab-summary
 import { CreditProposaTabManagementInfoComponent } from './credit-proposal-tab-management-info.component';
 import { RemarskComponent } from './trade-checking/Remarks/credit-proposal-trade-checking-remarks.component';
 import { CreditProposalCollateralInfoComponent } from './collateral-info/credit-proposal-collateral-info.component';
+import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { StorageService } from '../storage/storage.service';
 import { Subject } from 'rxjs';
 
@@ -102,6 +104,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoleId: number;
   public routeHelper: string;
   public resAttr: IProcessTask;
+  public lendingProgram = [];
 
   appName: any;
   appNameMenu: any;
@@ -115,6 +118,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public saveWord: Boolean = false;
   public saveWordOpinionCondition: Boolean = false;
   public dataChil: any;
+  public proposType = [];
 
   private BUCKET: string;
 
@@ -136,10 +140,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected reportUtils: ReportUtilService,
     public accountService: AccountService,
     public applicationRoleService: ApplicationRoleService,
+    public lendingProgramParameterService: LendingProgramParameterService,
+    public generalParameterService: GeneralParameterService,
 	private storageService: StorageService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
-	this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -229,7 +235,9 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lendingProgramParameter();
     this.getTitle();
+    this.lovProposalType();
 	this.getBucketNameSummary();
 
     this.accountService.identity().subscribe(account => {
@@ -265,9 +273,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTitleMenu();
   }
 
-  public setSubmenu(event: IEJOptionNode): void {
+  public setSubmenu(event: Object): void {
     if (event) {
-      if (event.id === ID_GREATER_15_BN) {
+      if (event === ID_GREATER_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -283,7 +291,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
         }
-      } else if (event.id === ID_LOWER_EQUAL_15_BN) {
+      } else if (event === ID_LOWER_EQUAL_15_BN) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -299,7 +307,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         } else {
           this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
         }
-      } else if (event.id === ID_BACK_TO_BACK) {
+      } else if (event === ID_BACK_TO_BACK) {
         if (this.parentPath === 'cp-status-approval') {
           this.subMenu = [
             {
@@ -334,10 +342,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public menuCreditProposal() {
     if (this.parentPath === 'cp-status-approval') {
-      if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' &&
-        this.creditProposal.attributes.proposalType !== undefined
-      ) {
+      if (this.creditProposal.attributes.proposalType === ID_GREATER_15_BN && this.creditProposal.attributes.proposalType !== undefined) {
         this.subMenu = [
           {
             id: 'credit-proposal-approval',
@@ -351,7 +356,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
         this.dataChil = 'child';
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' &&
+        this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = [
@@ -367,7 +372,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         ];
         this.dataChil = 'child';
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
+        this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = [
@@ -386,18 +391,15 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.subMenu = PROPOSAL_TYPE;
       }
     } else if (this.parentPath === 'credit-proposal-status') {
-      if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure > IDR 15 Bio' &&
-        this.creditProposal.attributes.proposalType !== undefined
-      ) {
+      if (this.creditProposal.attributes.proposalType === ID_GREATER_15_BN && this.creditProposal.attributes.proposalType !== undefined) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure <= IDR 15 Bio' &&
+        this.creditProposal.attributes.proposalType === ID_LOWER_EQUAL_15_BN &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else if (
-        this.creditProposal.attributes.proposalType === 'Total Exposure Back to Back' &&
+        this.creditProposal.attributes.proposalType === ID_BACK_TO_BACK &&
         this.creditProposal.attributes.proposalType !== undefined
       ) {
         this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
@@ -413,7 +415,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public routeSubMenu(menu: object): void {
     if (menu['id'] === ID_GREATER_15_BN) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure > IDR 15 Bio';
+      this.creditProposal.attributes.proposalType = ID_GREATER_15_BN;
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
       } else {
@@ -431,7 +433,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     if (menu['id'] === ID_LOWER_EQUAL_15_BN) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure <= IDR 15 Bio';
+      this.creditProposal.attributes.proposalType = ID_LOWER_EQUAL_15_BN;
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
       } else {
@@ -449,7 +451,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     }
     if (menu['id'] === ID_BACK_TO_BACK) {
-      this.creditProposal.attributes.proposalType = 'Total Exposure Back to Back';
+      this.creditProposal.attributes.proposalType = ID_BACK_TO_BACK;
       if (this.parentPath === 'credit-proposal-status') {
         this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
       } else {
@@ -541,6 +543,25 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.creditProposalProcessService.processTask(this.resAttr).subscribe(() => {
       this.router.navigate([this.router.url.split('/')[1]]);
     });
+  }
+  public a = [];
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.proposType.length; i++) {
+          if (this.proposType[i].code === this.creditProposal.attributes['proposalType']) {
+            this.a = this.proposType[i].value;
+          }
+        }
+      });
   }
 
   public onClickRed(): void {
@@ -875,6 +896,25 @@ export class ProposalBasicInformationComponent implements OnInit {
     }
   }
 
+  public valueCpLendingProgram: [];
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
+      });
+  }
+
   private preSave(status: string): ICreditProposal {
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
@@ -979,10 +1019,11 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
-	if (copyCreditProposal.prospectPerson) {
-	  copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
-	}
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
 
     return copyCreditProposal;
   }

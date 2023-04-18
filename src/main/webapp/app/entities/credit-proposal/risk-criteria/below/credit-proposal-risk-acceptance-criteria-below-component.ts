@@ -5,6 +5,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-below',
@@ -23,11 +24,22 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   public remarksColl?: any = [];
   public status: any = [];
   public dataInput: any = [];
+  public collateralCoverages: string;
 
-  constructor(protected creditProposalService: CreditProposalService, protected positionService: PositionService) {}
+  public dataBelowChecklist = [];
+  public dataBelowChecklistBot = [];
+  public dataBelowChecklistBF = [];
+  public dataBelowChecklistCollateral = [];
+  public dataBelowChecklistExclusively = [];
+
+  constructor(
+    protected creditProposalService: CreditProposalService,
+    protected positionService: PositionService,
+    private generalParameterService: GeneralParameterService
+  ) {}
   public _item: ICreditProposal;
   public data: Object[];
-
+  public collateralStatuss: string;
   @Input()
   get item() {
     return this._item;
@@ -38,7 +50,7 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   }
 
   public displayColumns: string[] = ['no', 'NilaiPembelian ', 'FacilityType', 'JenisJaminan', 'KeteranganJaminan', 'action'];
-
+  public collateralInsurances: string;
   public onSelect(value: string, data: any): void {
     // console.log('bot', data, value);
 
@@ -113,268 +125,262 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
   }
 
   // for grid one
-  public dataBelowChecklist = [
-    {
-      No: 1,
-      parameterBelow: 'Debitur merupakan individu (perorangan), Warga Negara Indonesia (WNI) dan berdomisili di Indonesia?',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 2,
-      parameterBelow: 'Umur untuk debitur perorangan: Min. 24 tahun saat pengajuan, Max. 65 tahun pada saat jatem kredit',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 3,
-      parameterBelow: 'Lokasi usaha ≤ 30 KM dari booking unit cabang Hana Bank',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 4,
-      parameterBelow: 'Apakah industri debitur termasuk dalam watch list industry?',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 5,
-      parameterBelow: 'Tidak termasuk dalam Daftar Hitam Nasional (DHN) Bank Indonesia',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 6,
-      parameterBelow: 'Tujuan pengajuan kredit bukan untuk pembelian tanah',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 7,
-      parameterBelow: 'Bukan merupakan Political Exposed Person (PEP) -> termasuk pasangan kawin, BOD & BOC debitur',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 8,
-      parameterBelow:
-        'Apakah debitur / pemegang saham / manajemen / guarantor tidak memiliki permasalahan pajak dan tidak memiliki info negatif lainnya? (Hukum, kriminal, sengketa dengan pihak lainnya, dsb.) Mohon juga dilakukan pengecekan melalui google.',
-      value: 'Yes',
-      remarks: '',
-    },
-    {
-      No: 9,
-      parameterBelow: 'Debitur tidak memiliki obligor di Bank KEB Hana Indonesia*',
-      value: 'Yes',
-      remarks: '',
-    },
-  ];
+  // public dataBelowChecklist = [
+  //   {
+  //     No: 1,
+  //     parameterBelow: 'Debitur merupakan individu (perorangan), Warga Negara Indonesia (WNI) dan berdomisili di Indonesia?',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     parameterBelow: 'Umur untuk debitur perorangan: Min. 24 tahun saat pengajuan, Max. 65 tahun pada saat jatem kredit',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     parameterBelow: 'Lokasi usaha ≤ 30 KM dari booking unit cabang Hana Bank',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 4,
+  //     parameterBelow: 'Apakah industri debitur termasuk dalam watch list industry?',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 5,
+  //     parameterBelow: 'Tidak termasuk dalam Daftar Hitam Nasional (DHN) Bank Indonesia',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 6,
+  //     parameterBelow: 'Tujuan pengajuan kredit bukan untuk pembelian tanah',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 7,
+  //     parameterBelow: 'Bukan merupakan Political Exposed Person (PEP) -> termasuk pasangan kawin, BOD & BOC debitur',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 8,
+  //     parameterBelow:
+  //       'Apakah debitur / pemegang saham / manajemen / guarantor tidak memiliki permasalahan pajak dan tidak memiliki info negatif lainnya? (Hukum, kriminal, sengketa dengan pihak lainnya, dsb.) Mohon juga dilakukan pengecekan melalui google.',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  //   {
+  //     No: 9,
+  //     parameterBelow: 'Debitur tidak memiliki obligor di Bank KEB Hana Indonesia*',
+  //     value: 'Yes',
+  //     remarks: '',
+  //   },
+  // ];
 
   // for grid two
-  public dataBelowChecklistBot = [
-    {
-      No: 1,
-      parameterBelow: 'Have experience and a business that has been running for 3 years',
-      value: 'Yes',
-      remarksAm: '',
-    },
-    {
-      No: 2,
-      parameterBelow: 'Key Person maximum age 65 years or already have a successor',
-      value: 'Yes',
-      remarksAm: '',
-    },
-    {
-      No: 3,
-      parameterBelow:
-        'Verify the location of the debtors house / business owner where the house is in accordance with (reflecting) the financial data provided, the community and the number of debtor credit applications.',
-      value: 'Yes',
-      remarksAm: '',
-    },
-    {
-      No: 4,
-      parameterBelow:
-        'There has been no change in the core management position in the last 3 years and the Key person is the owner or one of the shareholders families',
-      value: 'Yes',
-      remarksAm: '',
-    },
-    {
-      No: 5,
-      parameterBelow: 'The composition of shareholders is family (family business)',
-      value: 'Yes',
-      remarksAm: '',
-    },
-    {
-      No: 6,
-      parameterBelow: 'The results of the visit to the business location were positive and the business ran smoothly.',
-      value: 'Yes',
-      remarksAm: '',
-    },
-    {
-      No: 7,
-      parameterBelow: 'The results of Trade checking & Community checking (KYC) are positive',
-      value: 'Yes',
-      remarksAm: '',
-    },
-  ];
+  // public dataBelowChecklistBot = [
+  //   {
+  //     No: 1,
+  //     parameterBelow: 'Have experience and a business that has been running for 3 years',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     parameterBelow: 'Key Person maximum age 65 years or already have a successor',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     parameterBelow:
+  //       'Verify the location of the debtors house / business owner where the house is in accordance with (reflecting) the financial data provided, the community and the number of debtor credit applications.',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  //   {
+  //     No: 4,
+  //     parameterBelow:
+  //       'There has been no change in the core management position in the last 3 years and the Key person is the owner or one of the shareholders families',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  //   {
+  //     No: 5,
+  //     parameterBelow: 'The composition of shareholders is family (family business)',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  //   {
+  //     No: 6,
+  //     parameterBelow: 'The results of the visit to the business location were positive and the business ran smoothly.',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  //   {
+  //     No: 7,
+  //     parameterBelow: 'The results of Trade checking & Community checking (KYC) are positive',
+  //     value: 'Yes',
+  //     remarksAm: '',
+  //   },
+  // ];
 
-  // for grNo there
-  public dataBelowChecklistBF = [
-    {
-      No: 1,
-      parameterBelow: 'Business location is own property (not lease/contract)',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 2,
-      parameterBelow: 'Sales are stable or increasing in the last 3 years',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 3,
-      parameterBelow:
-        'Minimum 80% verified sales on:-Account mutations for the last 3 months, and/or-Recapitulation of PO and Invoice for the last 3 months according to interview results and valid evidence',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 4,
-      parameterBelow: 'Number of buyers (buyer) > 5 (not concentrated on 1 or 2 buyers)',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 5,
-      parameterBelow:
-        'There is no late payment of principal and / or interest (past due) for 3x in the last 6 months, and there is no clearing rejection for any reason.',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 6,
-      parameterBelow: 'Total bank financing is a maximum of 80% of working capital requirements',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 7,
-      parameterBelow:
-        'Average monthly balance in account/savings mutation > 3 months debtors obligation. (including loan facility unused as cashflow)',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 8,
-      parameterBelow: 'Average credit utilization in the last 3 months 80%, credit card utilization 50% in the last 3 months',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 9,
-      parameterBelow: 'No clearing rejection for any reason',
-      value: 'Yes',
-      remarksBf: '',
-    },
-    {
-      No: 10,
-      parameterBelow: 'Positive SLIK checking (DPD is allowed only for CC utilization up to 5% of the limit or due to annual fee',
-      value: 'Yes',
-      remarksBf: '',
-    },
-  ];
+  // // for grNo there
+  // public dataBelowChecklistBF = [
+  //   {
+  //     No: 1,
+  //     parameterBelow: 'Business location is own property (not lease/contract)',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     parameterBelow: 'Sales are stable or increasing in the last 3 years',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     parameterBelow:
+  //       'Minimum 80% verified sales on:-Account mutations for the last 3 months, and/or-Recapitulation of PO and Invoice for the last 3 months according to interview results and valid evidence',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 4,
+  //     parameterBelow: 'Number of buyers (buyer) > 5 (not concentrated on 1 or 2 buyers)',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 5,
+  //     parameterBelow:
+  //       'There is no late payment of principal and / or interest (past due) for 3x in the last 6 months, and there is no clearing rejection for any reason.',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 6,
+  //     parameterBelow: 'Total bank financing is a maximum of 80% of working capital requirements',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 7,
+  //     parameterBelow:
+  //       'Average monthly balance in account/savings mutation > 3 months debtors obligation. (including loan facility unused as cashflow)',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 8,
+  //     parameterBelow: 'Average credit utilization in the last 3 months 80%, credit card utilization 50% in the last 3 months',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 9,
+  //     parameterBelow: 'No clearing rejection for any reason',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  //   {
+  //     No: 10,
+  //     parameterBelow: 'Positive SLIK checking (DPD is allowed only for CC utilization up to 5% of the limit or due to annual fee',
+  //     value: 'Yes',
+  //     remarksBf: '',
+  //   },
+  // ];
 
-  // for grid four
-  public dataBelowChecklistCollateral = [
-    {
-      No: 1,
-      parameterBelow: 'Collateral on behalf of: Debtor / Married partner / parents / shareholder / married partner shareholder',
-      value: 'Yes',
-      remarksColl: '',
-    },
-    {
-      No: 2,
-      parameterBelow: 'Not included in the Negative List Collateral',
-      value: 'Yes',
-      remarksColl: '',
-    },
-    {
-      No: 3,
-      parameterBelow: 'Located in a city / residential / industrial area / commercial area with good / fair marketability.',
-      value: 'Yes',
-      remarksColl: '',
-    },
-    {
-      No: 4,
-      parameterBelow:
-        'Guarantee status: SHGB / SHM / SHMSRS and certificate maturity 2 years upon maturity of IL / WCI and 5 years for DL / OD.',
-      value: 'Yes',
-      remarksColl: '',
-    },
-    {
-      No: 5,
-      parameterBelow: 'The age of the security owner is 65 years and the security owner is the debtor / spouse / parent or shareholder.',
-      value: 'Yes',
-      remarksColl: '',
-    },
-  ];
+  // // for grid four
+  // public dataBelowChecklistCollateral = [
+  //   {
+  //     No: 1,
+  //     parameterBelow: 'Collateral on behalf of: Debtor / Married partner / parents / shareholder / married partner shareholder',
+  //     value: 'Yes',
+  //     remarksColl: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     parameterBelow: 'Not included in the Negative List Collateral',
+  //     value: 'Yes',
+  //     remarksColl: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     parameterBelow: 'Located in a city / residential / industrial area / commercial area with good / fair marketability.',
+  //     value: 'Yes',
+  //     remarksColl: '',
+  //   },
+  //   {
+  //     No: 4,
+  //     parameterBelow:
+  //       'Guarantee status: SHGB / SHM / SHMSRS and certificate maturity 2 years upon maturity of IL / WCI and 5 years for DL / OD.',
+  //     value: 'Yes',
+  //     remarksColl: '',
+  //   },
+  //   {
+  //     No: 5,
+  //     parameterBelow: 'The age of the security owner is 65 years and the security owner is the debtor / spouse / parent or shareholder.',
+  //     value: 'Yes',
+  //     remarksColl: '',
+  //   },
+  // ];
 
-  // for grid five
-  public dataBelowChecklistExclusively = [
-    {
-      No: 1,
-      parameterBelow: 'Debtors have deposits / CASA at KEB Hana Bank',
-      value: 'Yes',
-      remarksCsc: '',
-    },
-    {
-      No: 2,
-      parameterBelow: 'Account activity at KEB Hana Bank',
-      value: 'Yes',
-      remarksCsc: '',
-    },
-    {
-      No: 3,
-      parameterBelow: 'Been a debtor 3 years',
-      value: 'Yes',
-      remarksCsc: '',
-    },
-    {
-      No: 4,
-      parameterBelow: 'Total loan exposure (incl. other banks) equals or decreases',
-      value: 'Yes',
-      remarksCsc: '',
-    },
-  ];
+  // // for grid five
+  // public dataBelowChecklistExclusively = [
+  //   {
+  //     No: 1,
+  //     parameterBelow: 'Debtors have deposits / CASA at KEB Hana Bank',
+  //     value: 'Yes',
+  //     remarksCsc: '',
+  //   },
+  //   {
+  //     No: 2,
+  //     parameterBelow: 'Account activity at KEB Hana Bank',
+  //     value: 'Yes',
+  //     remarksCsc: '',
+  //   },
+  //   {
+  //     No: 3,
+  //     parameterBelow: 'Been a debtor 3 years',
+  //     value: 'Yes',
+  //     remarksCsc: '',
+  //   },
+  //   {
+  //     No: 4,
+  //     parameterBelow: 'Total loan exposure (incl. other banks) equals or decreases',
+  //     value: 'Yes',
+  //     remarksCsc: '',
+  //   },
+  // ];
 
   public Cs: string;
-  public collateralStatus: object = [
-    'Vacant',
-
-    'Occupied by debtor/debtors',
-
-    'Leased to other parties (with lease 2 years)',
-
-    'Leased to other parties (with lease > 2 years)',
-  ];
+  public collateralStatus = [];
 
   public Cv: string;
-  public collateralCoverage: object = ['Increase', 'Stable (±10% Change)', 'Decrease'];
+  public collateralCoverage = [];
 
   // public Ca: string;
   // public creditApplication: object = ['Yes', 'No'];
 
   public Ci: string;
-  public collateralInsurance: object = [
-    'Covered by partner insurance company',
-    'Covered by non-partner insurance companies',
-    'Not covered with insurance',
+  public collateralInsurance = [
+    // 'Covered by partner insurance company',
+    // 'Covered by non-partner insurance companies',
+    // 'Not covered with insurance',
   ];
 
   ngOnInit(): void {
     this.refreshRacBelow();
+    this.loadLov();
+    this.racbelon();
   }
 
   public refreshRacBelow() {
@@ -431,5 +437,239 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         this.remarksCsc[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksCsc;
       }
     }
+  }
+
+  public loadLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_INSURANCE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralInsurance = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralInsurance.length; i++) {
+          if (this.collateralInsurance[i].code === this.item.attributes['cpRacBelow'].Ci) {
+            this.collateralInsurances = this.collateralInsurance[i].value;
+          }
+        }
+      });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_COVERAGE_BASED_ON_LV',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralCoverage = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralCoverage.length; i++) {
+          if (this.collateralCoverage[i].code === this.item.attributes['cpRacBelow'].Cv) {
+            this.collateralCoverages = this.collateralInsurance[i].value;
+          }
+        }
+      });
+
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_COLLATERAL_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralStatus = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralStatus.length; i++) {
+          if (this.collateralStatus[i].code === this.item.attributes['cpRacBelow'].Cs) {
+            this.collateralStatuss = this.collateralStatus[i].value;
+          }
+        }
+      });
+  }
+  public racbelon() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BELOW_GENERAL',
+        page: 0,
+        size: 9999,
+      })
+      // .subscribe(res => {
+      //   this.dataBelowChecklist = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklist.length; i++) {
+      //   if (this.dataBelowChecklist[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklist = this.dataBelowChecklist[i].value;
+      //   }
+      // }
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklist = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValueBot.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValueBot = this.dataBelowChecklist;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValueBot.length; i++) {
+            this.dataBelowChecklist = this.item.attributes['cpRacBelow'].cpValueBot;
+            this.remarks[i] = this.item.attributes['cpRacBelow'].cpValueBot[i].remarks;
+          }
+        }
+      });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BELOW_KYC_MANAGEMENT',
+        page: 0,
+        size: 9999,
+      })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistBot = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistBot.length; i++) {
+      //   if (this.dataBelowChecklistBot[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistBot = this.dataBelowChecklistBot[i].value;
+      //   }
+      // }
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistBot = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuTwo.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuTwo = this.dataBelowChecklistBot;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuTwo.length; i++) {
+            this.dataBelowChecklistBot = this.item.attributes['cpRacBelow'].cpValeuTwo;
+            this.remarksAm[i] = this.item.attributes['cpRacBelow'].cpValeuTwo[i].remarksAm;
+          }
+        }
+      });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BELOW_BUSINESS_FINANCE',
+        page: 0,
+        size: 9999,
+      })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistBF = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistBF.length; i++) {
+      //   if (this.dataBelowChecklistBF[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistBF = this.dataBelowChecklistBF[i].value;
+      //   }
+      // }
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistBF = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistBF;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
+            this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
+            this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
+          }
+        }
+      });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BELOW_COLLATERAL',
+        page: 0,
+        size: 9999,
+      })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistCollateral = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistCollateral.length; i++) {
+      //   if (this.dataBelowChecklistCollateral[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistCollateral = this.dataBelowChecklistCollateral[i].value;
+      //   }
+      // }
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistCollateral = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuFour.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuFour = this.dataBelowChecklistCollateral;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFour.length; i++) {
+            this.dataBelowChecklistCollateral = this.item.attributes['cpRacBelow'].cpValeuFour;
+            this.remarksColl[i] = this.item.attributes['cpRacBelow'].cpValeuFour[i].remarksColl;
+          }
+        }
+      });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'RAC_BELOW_EXCLUSIVELY_FOR_EXISTING',
+        page: 0,
+        size: 9999,
+      })
+      // .subscribe(res => {
+      //   this.dataBelowChecklistExclusively = lodash.filter(res.body, function (o) {
+      //     return o.statusId === 'ACTIVE';
+      //   });
+      // for (let i = 0; i < this.dataBelowChecklistExclusively.length; i++) {
+      //   if (this.dataBelowChecklistExclusively[i].code === this.item.attributes['code'].Ci) {
+      //     this.dataBelowChecklistExclusively = this.dataBelowChecklistExclusively[i].value;
+      //   }
+      // }
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+
+        const dataGrid = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i + 1;
+          dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
+        }
+        this.dataBelowChecklistBF = dataGrid;
+
+        if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistBF;
+        } else {
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
+            this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
+            this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
+          }
+        }
+      });
   }
 }

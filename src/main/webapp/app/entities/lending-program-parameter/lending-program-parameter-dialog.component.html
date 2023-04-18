@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>ADD / EDIT LENDING PROGRAM PARAMETER</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Lending Program</mat-label>
+          <input matInput type="text" [(ngModel)]="lendingProgramParameter.description" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <!-- <input matInput type="date" [(ngModel)]="lendingProgramParameter.createdDate" /> -->
+          <input [matDatepicker]="createdDate" matInput type="text" [(ngModel)]="lendingProgramParameter.createdDate" />
+          <mat-datepicker-toggle matSuffix [for]="createdDate"></mat-datepicker-toggle>
+          <mat-datepicker #createdDate></mat-datepicker>
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>End Date</mat-label>
+          <!-- <input matInput type="date" [(ngModel)]="lendingProgramParameter.lastModifiedDate"/> -->
+          <input [matDatepicker]="lastModifiedDate" matInput type="text" [(ngModel)]="lendingProgramParameter.lastModifiedDate" />
+          <mat-datepicker-toggle matSuffix [for]="lastModifiedDate"></mat-datepicker-toggle>
+          <mat-datepicker #lastModifiedDate></mat-datepicker>
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Status</mat-label>
+          <!-- <input matInput type="text" [(ngModel)]="lendingProgramParameter.status" /> -->
+          <mat-select name="status" [(ngModel)]="lendingProgramParameter.statusId">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of statuses | keyvalue" [value]="item.key">
+              {{ item.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="save()">SAVE</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

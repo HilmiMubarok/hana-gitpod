@@ -46,7 +46,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { firstValueFrom } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, ScoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { DocumentComponent } from '../document/document.component';
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-land-certificates.component';
@@ -843,7 +843,7 @@ export class SurveyBatchEditComponent implements OnInit {
       data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
-        data.attributes['scoreCard'] = scoreCard;
+        data.attributes['scoreCard'] = new ScoreCard();
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }

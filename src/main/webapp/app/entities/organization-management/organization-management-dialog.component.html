@@ -54,8 +54,8 @@
               <mat-label>Position</mat-label>
               <mat-select name="posManagement" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()">
                 <mat-option value="">-Please Select-</mat-option>
-                <mat-option *ngFor="let item of posManagement" [value]="item.label">
-                  {{ item.label }}
+                <mat-option *ngFor="let item of posManagement" [value]="item.code">
+                  {{ item.value }}
                 </mat-option>
               </mat-select>
             </mat-form-field>

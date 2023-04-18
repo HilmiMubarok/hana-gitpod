@@ -30,6 +30,8 @@ import moment from 'moment';
 import { ICreditProposal } from './credit-proposal.model';
 import { CATEGORY_DEBTOR, COLLECTABILITY_STATUS, RELATION_WITH_HANA, UMKM_CLASSIFICATION } from 'app/shared/constants/base.constants';
 import { PartyCifService } from '../party-cif/party-cif.service';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 moment.locale('id');
 
@@ -67,7 +69,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public maritalStatuses: IOptionNode[];
   public genders: IOptionNode[];
   private _deptorData: ICreditProposal;
-
+  public ifcRiskCategory: string;
+  public callReportCategory: string;
   @Input()
   get deptorData() {
     return this._deptorData;
@@ -92,10 +95,11 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public gendersss = ['Laki - Laki', 'Perempuan'];
   public collectabilityStatusData = ['1', '2', '3', '4', '5'];
   // public CollecStatus: string = 'Canada';
-  public ifcRiskCategoryData = ['Low', 'Medium', 'High'];
+  public ifcRiskCategoryData = [];
   public categoryDebitur = ['70', '80', '90', '99'];
   public umkm = ['micro', 'small', 'intermediate', 'high'];
-  public callReportCategoryData = ['Green', 'Yellow (Early Warning)', 'Red (Watch List)'];
+  public callReportCategoryData = [];
+  public pep = [];
 
   constructor(
     protected dataUtils: BaseDataUtils,
@@ -112,7 +116,8 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     protected eventManager: EventManager,
     protected partyCifService: PartyCifService,
     private masterInitialDebtorDataService: MasterInitialDebtorDataService,
-    public account: AccountService
+    public account: AccountService,
+    protected generalParameterService: GeneralParameterService
   ) {
     super(personService, messageService, elementRef, dataUtils, account, eventManager);
     (this.collectabilityStatus = COLLECTABILITY_STATUS),
@@ -124,6 +129,10 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   }
 
   ngOnInit(): void {
+    this.lovCallreport();
+    this.getLov();
+    this.lovPep();
+
     this.masterInitialDebtorDataService.getMaritalStatus().subscribe((res: HttpResponse<IOptionNode[]>) => {
       this.maritalStatuses = res.body;
     });
@@ -160,6 +169,25 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     if (this.item.lastName === null) {
       this.item.lastName = '';
     }
+  }
+
+  public lovCallreport() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CALL_REPORT_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.callReportCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.callReportCategoryData.length; i++) {
+          if (this.callReportCategoryData[i].code === this.deptorData.debtorData.callReportCategory) {
+            this.callReportCategory = this.callReportCategoryData[i].value;
+          }
+        }
+      });
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['item']) {
@@ -203,6 +231,39 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     if (changes['_deptorData']) {
       console.log('Deptor data Changes', this._deptorData);
     }
+  }
+
+  public getLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'IFC_AND_RISK_CATEGORY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.ifcRiskCategoryData.length; i++) {
+          if (this.ifcRiskCategoryData[i].code === this.deptorData.debtorData.ifcRiskCategory) {
+            this.ifcRiskCategory = this.ifcRiskCategoryData[i].value;
+          }
+        }
+      });
+  }
+
+  public lovPep() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PEP_STATUS',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.pep = _.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public collectabilityStatus: any;

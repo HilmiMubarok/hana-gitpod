@@ -1,0 +1,144 @@
+<div [hidden]="hiddenHeader">
+  <ng-container *ngTemplateOutlet="headerViewTemplate; context: { $implicit: item }"></ng-container>
+</div>
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'edit'">
+    <div [hidden]="hiddenDefaultEdit">
+      <div class="form-group" [hidden]="!item.id">
+        <label for="id" jhiTranslate="global.field.id">ID</label>
+        <input type="text" class="form-control" id="id" name="id" [(ngModel)]="item.id" readonly />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.code" for="field_code">Code</label>
+        <input type="text" class="form-control" name="code" id="field_code" [(ngModel)]="item.code" [disabled]="readOnly()" />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.description" for="field_description"
+          >Description</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="description"
+          id="field_description"
+          [(ngModel)]="item.description"
+          [disabled]="readOnly()"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.statusCode" for="field_statusCode"
+          >Status Code</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="statusCode"
+          id="field_statusCode"
+          [(ngModel)]="item.statusCode"
+          [disabled]="readOnly()"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.statusId" for="field_statusId">Status Id</label>
+        <input type="text" class="form-control" name="statusId" id="field_statusId" [(ngModel)]="item.statusId" [disabled]="readOnly()" />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.statusCode" for="field_statusCode"
+          >Status Code</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="statusCode"
+          id="field_statusCode"
+          [(ngModel)]="item.statusCode"
+          [disabled]="readOnly()"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.createdBy" for="field_createdBy">Created By</label>
+        <input
+          type="text"
+          class="form-control"
+          name="createdBy"
+          id="field_createdBy"
+          [(ngModel)]="item.createdBy"
+          [disabled]="readOnly()"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.createdDate" for="field_createdDate"
+          >Created Date</label
+        >
+        <div class="input-group">
+          <p-calendar
+            inputId="field_createdDate"
+            name="input_createdDate"
+            [(ngModel)]="item.createdDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.lastModifiedBy" for="field_lastModifiedBy"
+          >Last Modified By</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="lastModifiedBy"
+          id="field_lastModifiedBy"
+          [(ngModel)]="item.lastModifiedBy"
+          [disabled]="readOnly()"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label" jhiTranslate="losgwApp.lendingProgramParameter.lastModifiedDate" for="field_lastModifiedDate"
+          >Last Modified Date</label
+        >
+        <div class="input-group">
+          <p-calendar
+            inputId="field_lastModifiedDate"
+            name="input_lastModifiedDate"
+            [(ngModel)]="item.lastModifiedDate"
+            dateFormat="dd-mm-yy"
+            [showTime]="false"
+            hourFormat="24"
+            [showSeconds]="true"
+            [showIcon]="true"
+            [hideOnDateTimeSelect]="true"
+            [disabled]="readOnly()"
+          >
+          </p-calendar>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="editViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'card'">
+    <div [hidden]="hiddenDefaultCard">
+      <p-card title="{{ item.id }}" subtitle="Subtitle" styleClass="col-sm-4">
+        <p-header> </p-header>
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam
+          repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!
+        </div>
+        <p-footer>
+          <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: 0.25em"></button>
+          <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button>
+        </p-footer>
+      </p-card>
+    </div>
+    <ng-container *ngTemplateOutlet="cardViewTemplate; context: { $implicit: item }"> </ng-container>
+  </ng-container>
+</ng-container>
+<div [hidden]="hiddenFooter">
+  <ng-container *ngTemplateOutlet="footerViewTemplate; context: { $implicit: item }"></ng-container>
+</div>

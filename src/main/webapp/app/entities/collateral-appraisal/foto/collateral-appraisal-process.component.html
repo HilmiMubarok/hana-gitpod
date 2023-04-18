@@ -18,8 +18,8 @@
                 [disabled]="hideordisable()"
               >
                 <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of photoCategory" [value]="item.id">
-                  {{ item.label }}
+                <mat-option *ngFor="let item of photoCategory" [value]="item.code">
+                  {{ item.value }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -34,18 +34,18 @@
       <div class="col-12" style="display: grid; grid-gap: 10px; grid-template-columns: 50% 50%">
         <ngx-dropzone-preview *ngFor="let f of uploadFiles" [removable]="hideordisable2()" (removed)="onRemove(f)">
           <ngx-dropzone-label>
-            <div style="width:200px">
+            <div style="width: 200px">
               <img width="200px" *ngIf="f.metaData['Value'] === 'application/pdf'" src="../../../../content/images/pdf.png" />
-              <img width="200px" [src]="f.url" *ngIf="f.metaData['Value'] !== 'application/pdf'"/>
-              <div style="width: 200px; position: sticky; margin-top: -150px; margin-bottom: 140px; display: flex; justify-content: center;">
+              <img width="200px" [src]="f.url" *ngIf="f.metaData['Value'] !== 'application/pdf'" />
+              <div style="width: 200px; position: sticky; margin-top: -150px; margin-bottom: 140px; display: flex; justify-content: center">
                 <button mat-raised-button (click)="donwload(f.url, f.name)"><mat-icon>get_app</mat-icon></button>
               </div>
             </div>
-              <p>File Name: {{ f.name }}</p>
-              <p class="card-text">File Size: {{ f.size / 1000 }} Kb</p>
-              <p class="card-text">File Type: {{ f.metaData['Value'] }}</p>
-              <p class="card-text">Uploaded By: {{ f.tags.uploadBy }}</p>
-              <p class="card-text">Modified Date: {{ f.tags.createdDate }}</p>
+            <p>File Name: {{ f.name }}</p>
+            <p class="card-text">File Size: {{ f.size / 1000 }} Kb</p>
+            <p class="card-text">File Type: {{ f.metaData['Value'] }}</p>
+            <p class="card-text">Uploaded By: {{ f.tags.uploadBy }}</p>
+            <p class="card-text">Modified Date: {{ f.tags.createdDate }}</p>
           </ngx-dropzone-label>
         </ngx-dropzone-preview>
       </div>
@@ -89,7 +89,6 @@
           <ngx-dropzone-label *ngIf="f.metaData['Value'] !== 'application/pdf'">
             <img [src]="f.url" />
           </ngx-dropzone-label>
-       
         </ngx-dropzone-preview>
       </div>
     </div>

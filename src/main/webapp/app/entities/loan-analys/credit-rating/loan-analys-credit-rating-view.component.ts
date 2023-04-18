@@ -29,6 +29,8 @@ import { IListOfValueIndustry } from 'app/entities/credit-proposal/list-of-value
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { ListOfValueIndustryService } from 'app/entities/credit-proposal/list-of-value-industry.service';
 import { CreditRatingService } from 'app/entities/credit-rating/credit-rating.service';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-loan-analys-credit-rating-view',
@@ -47,7 +49,7 @@ export class LoanAnalysCreditRatingViewComponent extends AbstractEntityBaseViewC
   public loading = false;
   public listOfIndustry: IListOfValueIndustry[];
   public industryList: string[] = [];
-
+  public internalMaxLLL = [];
   @Input()
   get creditProposalItem() {
     return this._creditProposalItem;
@@ -79,7 +81,8 @@ export class LoanAnalysCreditRatingViewComponent extends AbstractEntityBaseViewC
     protected eventManager: EventManager,
     public account: AccountService,
     protected applicationOptionService: ApplicationOptionService,
-    public listOfIndustryService: ListOfValueIndustryService // private _ngxSpinner: NgxSpinnerService
+    public listOfIndustryService: ListOfValueIndustryService, // private _ngxSpinner: NgxSpinnerService
+    protected generalParameterService: GeneralParameterService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
@@ -123,6 +126,7 @@ export class LoanAnalysCreditRatingViewComponent extends AbstractEntityBaseViewC
 
     this.getApplicationOption();
     this.getListIndustry();
+    this.getLovinternalMaxLLL();
   }
 
   save() {
@@ -183,5 +187,18 @@ export class LoanAnalysCreditRatingViewComponent extends AbstractEntityBaseViewC
         this.industryList = [...this.industryList, res.body[i].label];
       }
     });
+  }
+  public getLovinternalMaxLLL() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTERNAL_MAXIMUM_LLL',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.internalMaxLLL = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }

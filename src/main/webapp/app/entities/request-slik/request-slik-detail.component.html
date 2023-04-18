@@ -1,0 +1,171 @@
+<div class="page-view" style="padding-bottom: 30px">
+  <!-- <h5 class="page-heading">
+    <span jhiTranslate="losgwApp.requestSlik.home.viewLabel">Request Sliks</span>
+  </h5> -->
+  <!-- <jhi-debtor-data-slik-summary [mode]="'edit'" [partyCif]="partyCif"> </jhi-debtor-data-slik-summary> -->
+
+  <div
+    *ngIf="isLoading"
+    style="
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+    "
+  >
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="row px-3 pt-5" *ngIf="!isLoading">
+    <div class="col">
+      <div class="d-flex justify-content-start align-item-center">
+        <h4 style="margin: 0 20px 0 0">Debtor Data</h4>
+        <section>
+          <mat-checkbox>Check SLIK</mat-checkbox>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="row px-3 pt-5" *ngIf="!isLoading">
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Request Number</mat-label>
+        <input matInput type="text" [ngModel]="requestSlik.requestNumber" (ngModelChange)="requestSlik.requestNumber = $event" />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Request Date</mat-label>
+        <input matInput type="text" [ngModel]="requestSlik.requestDate | date: 'long'" (ngModelChange)="requestSlik.requestDate = $event" />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Cif Number</mat-label>
+        <input matInput type="text" [ngModel]="partyCif.customerNumber" (ngModelChange)="partyCif.customerNumber = $event" />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Customer Name</mat-label>
+        <input matInput type="text" [ngModel]="partyCif.name" (ngModelChange)="partyCif.name = $event" />
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Segment</mat-label>
+        <input matInput type="text" />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>ID/Deed of Establishment Number</mat-label>
+        <input
+          matInput
+          type="text"
+          [ngModel]="partyCif.organizationLegal?.deedEstablishNum"
+          (ngModelChange)="partyCif.organizationLegal.deedEstablishNum = $event"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Birth of Date / Deed of Establishment Date</mat-label>
+        <input
+          matInput
+          type="text"
+          [ngModel]="partyCif.organizationLegal?.deedEstablishDate | date: 'long'"
+          (ngModelChange)="partyCif.organizationLegal.deedEstablishDate = $event"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>NPWP</mat-label>
+        <input
+          matInput
+          type="text"
+          [ngModel]="partyCif.customerPerson?.taxIdNumber"
+          (ngModelChange)="partyCif.customerPerson.taxIdNumber = $event"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row px-3 pt-5" *ngIf="!isLoading">
+    <div class="col">
+      <jhi-request-slik-management-data-grid
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        [checklists]="checklists"
+        managementType="MANAGEMENT_DATA"
+        (checklistData)="getChecklistManagementData($event)"
+      ></jhi-request-slik-management-data-grid>
+      <div class="my-5"></div>
+      <jhi-request-slik-shareholder-grid
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        [checklists]="checklists"
+        managementType="SHAREHOLDER"
+        (checklistData)="getChecklistShareholder($event)"
+      ></jhi-request-slik-shareholder-grid>
+      <div class="my-5"></div>
+      <jhi-request-slik-other-grid
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        [checklists]="checklists"
+        managementType="CONTROL_PERSON"
+        (checklistData)="getChecklistOther($event)"
+      ></jhi-request-slik-other-grid>
+      <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="MANAGEMENT_DATA">
+      </jhi-debtor-data-organization-management-list> -->
+      <!-- <jhi-debtor-data-organization-management-list [cif]="partyCif.customerNumber" [partyCif]="partyCif" managementType="SHAREHOLDER">
+      </jhi-debtor-data-organization-management-list> -->
+      <!-- <div class="my-5"></div>
+      <jhi-debtor-data-organization-management-list
+        [cif]="partyCif.customerNumber"
+        [partyCif]="partyCif"
+        managementType="CONTROL_PERSON"
+        onRequestSlik="true"
+      >
+      </jhi-debtor-data-organization-management-list> -->
+    </div>
+  </div>
+
+  <div class="row px-3 pt-5" *ngIf="!isLoading">
+    <mat-card>
+      <h5 mat-title>Remarks</h5>
+      <mat-conten>
+        <ejs-documenteditorcontainer
+          #document_editor_container
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDown($event)"
+          (created)="onCreate()"
+          [enableEditor]="true"
+          [isReadOnly]="false"
+        ></ejs-documenteditorcontainer>
+      </mat-conten>
+    </mat-card>
+  </div>
+  <div class="row px-3 pt-5" *ngIf="!isLoading">
+    <jhi-document-request-slik [requestSlik]="requestSlik"></jhi-document-request-slik>
+  </div>
+  <div class="d-flex justify-content-center" style="margin-top: 30px">
+    <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
+    <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
+    <button mat-raised-button color="primary" *ngIf="requestSlik?.status === 'Draft'" (click)="save()">Save</button>
+  </div>
+  <!-- <p-panel>
+    <p-header>
+      <span jhiTranslate="losgwApp.requestSlik.detail.title">Request Slik</span>
+    </p-header>
+
+    <jhi-request-slik-view [item]="requestSlik" mode="edit"> </jhi-request-slik-view>
+    <p-footer>
+      <button type="submit" (click)="previousState()" class="btn-info flat-style-button">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/request-slik', requestSlik.id, 'edit']" class="btn-info flat-style-button">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+      </button>
+    </p-footer>
+  </p-panel> -->
+</div>

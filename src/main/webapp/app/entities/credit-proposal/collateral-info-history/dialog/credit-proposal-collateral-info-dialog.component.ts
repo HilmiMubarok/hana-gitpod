@@ -23,6 +23,7 @@ import {
   ICreditProposalCollateralBinding,
   ICreditProposalCollateralInsurance,
 } from '../../collateral-info/credit-proposal-collateral-info.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -56,7 +57,7 @@ export const MY_FORMATS = {
 export class CollateralInfoHistoryDialogComponent implements OnInit {
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
-  public collateralGrading: OptionNode[];
+  public collateralGrading = [];
   public collateralDetails: object[];
   public bindingTypesHobies: any;
   public facilityTypes: any;
@@ -95,11 +96,12 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
   public insuranceTypes: string[] = ['Partner', 'Non - Partner'];
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
-
+  public collateralGradings: string;
   constructor(
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
+    private generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CollateralInfoHistoryDialogComponent>,
 
     @Inject(MAT_DIALOG_DATA)
@@ -176,9 +178,22 @@ export class CollateralInfoHistoryDialogComponent implements OnInit {
   }
 
   private loadCollateralGrading(): void {
-    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
-      this.collateralGrading = res.body;
-    });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_GRADING',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralGrading.length; i++) {
+          if (this.collateralGrading[i].code === this.collateral.collateralGrading) {
+            this.collateralGradings = this.collateralGrading[i].value;
+          }
+        }
+      });
   }
 
   private loadCollateralDetailOption(): Promise<void> {

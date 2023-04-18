@@ -5,6 +5,7 @@ import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { CreditProposalProcessService } from '../credit-proposal/credit-proposal-process.service';
+import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 
 import { MessageService } from 'primeng/api';
 import lodash from 'lodash';
@@ -51,6 +52,7 @@ import { StorageService } from '../storage/storage.service';
 import { HttpClient } from '@angular/common/http';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -130,6 +132,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public conditionFileWord: File;
 
   private saveState: string;
+  public proposType = [];
   public parentSubject:Subject<any> = new Subject();
 
   constructor(
@@ -143,11 +146,13 @@ export class LoanAnalysMainComponent implements OnInit {
     public applicationRoleService: ApplicationRoleService,
     public loanAnalystService: LoanAnalysService,
     private storageService: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private generalParameterService: GeneralParameterService,
+    private lendingProgramParameterService: LendingProgramParameterService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
-	this.creditProposalStartState = this.activatedRoute.snapshot.data['loanAnalys'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -156,7 +161,6 @@ export class LoanAnalysMainComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
     this.sourceSlikChecking = this.creditProposal.statusId === 'CP_ASSIGNMENT' ? 'edit' : 'loan';
     this.darRouter = this.router.url.split('/').indexOf('dar-notif') > -1;
-
     this.url = this.parentPath;
 
     switch (this.parentPath) {
@@ -441,6 +445,8 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lendingProgramParameter();
+    this.lovProposalType();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -554,7 +560,17 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     });
   }
-
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = res.body;
+      });
+  }
   public previousState(): void {
     window.history.back();
   }
@@ -809,10 +825,11 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
-	if (copyCreditProposal.prospectPerson) {
-	  copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
-	}
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
 
     return copyCreditProposal;
   }
@@ -1437,6 +1454,26 @@ export class LoanAnalysMainComponent implements OnInit {
         this.http.get('/services/report/api/report/compliance/pdf-word/' + this.id, { responseType: 'text', observe: 'response' })
       );
     }
+  }
+
+  public lendingProgram = [];
+  public valueCpLendingProgram: [];
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
+      });
   }
 }
 

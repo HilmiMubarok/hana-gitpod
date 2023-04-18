@@ -21,6 +21,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBorrowerComponent } from './credit-proposal-dialog-borrower.component';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-management-info',
@@ -29,9 +31,6 @@ import { DialogBorrowerComponent } from './credit-proposal-dialog-borrower.compo
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
-  // @ViewChild('grid') public grid: GridComponent;
-  // @ViewChild('findCifDialog')
-
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
@@ -44,7 +43,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   private fileGet: File;
   private BUCKET: string;
 
-  // @Input() saveWord: any;
   @Input()
   creditProposalItem: ICreditProposal = new CreditProposal();
   public dataItem: ICreditProposal = new CreditProposal();
@@ -60,10 +58,9 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public newMessage: string;
   public resourceUrl: string;
   public dataCoBorrower: any = [];
-
+  public No: string;
+  public indexNum: any;
   public customHeadersJWT: any;
-
-  // address: string;
 
   get item() {
     return this.creditProposalItem;
@@ -72,100 +69,30 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   set item(item: ICreditProposal) {
     this.creditProposalItem = item;
   }
+
   @Input()
   get dataSource() {
     return this.organizationLegal;
   }
+
   set dataSource(param: IOrganizationLegal[]) {
     this.organizationLegal = param;
   }
 
   // atribut
-  public dataAttrMgn = [
-    {
-      No: 1,
-      Management: 'Year in Business with the same industry / in the same company > 5 years',
-      value: 'No',
-    },
-    {
-      No: 2,
-      Management: 'No major change in key management position in the last 3 years',
-      value: 'No',
-    },
-    {
-      No: 3,
-      Management: 'The Business is managed / handled by owner of family',
-      value: 'No',
-    },
-    // {
-    //   No: 4,
-    //   Management: 'The Business is managed /handled by owner or family',
-    //   value: 'No',
-    // },
-    {
-      No: 4,
-      Management: 'Delinquency / DPD in the last 12 months for debtor /spouse / shaeholder < 50% / management',
-      value: 'No',
-    },
-    {
-      No: 5,
-      Management: 'Bounce cheque due any reason',
-      value: 'No',
-    },
-    {
-      No: 6,
-      Management: 'Credit Card Ultilization of debtor / spouse / shareholder  < 50% / management',
-      value: 'No',
-    },
-    {
-      No: 7,
-      Management: 'Ownership of Business premise is self-owned',
-      value: 'No',
-    },
-    {
-      No: 8,
-      Management: 'Number of buyer > 5 (no concentration in one or tow buyer)',
-      value: 'No',
-    },
-    {
-      No: 9,
-      Management: '80% of Sales reflected in Bank Statement',
-      value: 'No',
-    },
-    {
-      No: 10,
-      Management: 'Distance  from Business location to booking unit < 30 km ',
-      value: 'No',
-    },
-    {
-      No: 11,
-      Management: 'Checking result  from google is positive & no issue',
-      value: 'No',
-    },
-    {
-      No: 12,
-      Management: 'Relationship among shareholder is family (not patner)',
-      value: 'No',
-    },
-    {
-      No: 13,
-      Management: 'The collateral is occupied by debitor / family / Shareholder',
-      value: 'No',
-    },
-  ];
-
+  public dataAttrMgn = [];
+  public Management: string;
   constructor(
     private creditProposalService: CreditProposalService,
     public dialog: MatDialog,
     private organizationLegalService: OrganizationLegalService,
-    // private actRoute: ActivatedRoute,
-    // private storageService: StorageService
     protected actRoute: ActivatedRoute,
     private router: Router,
     private storageService: StorageService,
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     this.dataItem;
   }
@@ -174,37 +101,39 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
-    console.log('this', this.organizationLegal);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/storage');
 
-    // this.bucket = BUCKET;
-    // this.actRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
-    //   this.getContainer();
-    // });
-
     this.dataCoBorrower = this.creditProposalItem.attributes['basicInformation'].coborowed;
-    // this.actRoute.params.subscribe(params => {
-    //   this.paramsIdGet = params['id'];
-    //   this.getKey = 'credit_proposal/remark/m-info/' + this.paramsIdGet + '/sfdt';
-    //   this.getContainer();
-    // });
+
     if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
       this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
     } else {
       this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
     }
-    // if (this.item.attributes['managementInfo'].DebtorPerformentCriteria.length !== 0) {
-    //   for (let i = 0; i < this.item.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
-    //     this.dataAttrMgn = this.item.attributes['managementInfo'].DebtorPerformentCriteria;
-    //   }
-    // }
+
     this.getWord();
 
     this.matrixRemoveTag();
     this.getPartyCif();
     this.getPartyCifDate();
+    this.lovDebtorPerformance();
+  }
+
+  public lovDebtorPerformance() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'DEBTOR_PERFORMANCE_AND_MANAGEMENT_INFORMATION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.dataAttrMgn = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.dataAttrMgn.length; i++) {
+          this.dataAttrMgn[i]['indexNum'] = i + 1;
+        }
+      });
   }
 
   private getToken(cookieName: string) {
@@ -234,6 +163,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         this.loadDataByNumber(this.partyCifService.findPartyId(res.body[0]));
       });
   }
+
   public getPartyCifDate() {
     this.partyCifService
       .queryFilterBy({
@@ -248,10 +178,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (this.saveWord === true) {
-    //   this.triggeredSave();
-    // }
-
     this.dataItem = changes.creditProposalItem.currentValue;
     if (this.dataItem !== undefined) {
       this.data.push(this.dataItem);
@@ -274,6 +200,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       this.setData();
     });
   }
+
   public loadDataByNumber(_idOrganization: string = null): void {
     this.organizationLegalService
       .queryFilterBy({
@@ -285,6 +212,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         this.deeedNumber = res.body[0].deedRecentChangeNumber;
       });
   }
+
   public loadDataByDate(_idOrganization: string = null): void {
     this.organizationLegalService
       .queryFilterBy({
@@ -318,6 +246,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   onDocumentChange() {
     this.container.restrictEditing = true;
   }
+
   // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
@@ -325,6 +254,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
       this.getContainer();
     });
   }
+
   public triggeredSave(): void {
     let paramsId = '';
     this.actRoute.params.subscribe(params => {
@@ -409,7 +339,6 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     if (isCtrlKey && keyCode === '86') {
       // To prevent copy operation set isHandled to true
       args.isHandled = true;
-      // console.log('ini paste');
     }
   }
 
@@ -438,6 +367,5 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
     const dialogRef = this.dialog.open(DialogBorrowerComponent, predicate);
     dialogRef.afterClosed().subscribe(() => {});
-    console.log('element', element);
   }
 }
