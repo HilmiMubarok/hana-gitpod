@@ -21,6 +21,7 @@ import { CollateralPrevious, ICollateralPrevious } from './collateral-previous.m
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan',
@@ -78,13 +79,32 @@ export class CreditProposalCollateralTabLoanComponent implements OnChanges {
       }
     });
   }
-  // DELETE
-  public onDelete(element: ICreditProposal) {
-    const dataGrid = this.creditProposal.attributes['collateralPrevious'].filter(({ id }) => id !== element.id);
-    this.creditProposal.attributes['collateralPrevious'] = dataGrid;
-    this.creditProposal.attributes['collateralPrevious'] = dataGrid;
-    console.log('Tes Delete', dataGrid);
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Collateral Detail Data',
+        message: 'Are you sure to delete ' + element.collateralType + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposal.attributes['collateralPrevious'].filter(({ id }) => id !== element.id);
+        this.creditProposal.attributes['collateralPrevious'] = dataGrid;
+        this.creditProposal.attributes['collateralPrevious'] = dataGrid;
+        console.log('Tes Delete', dataGrid);
+      }
+    });
   }
+
+  // DELETE
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGrid = this.creditProposal.attributes['collateralPrevious'].filter(({ id }) => id !== element.id);
+  //   this.creditProposal.attributes['collateralPrevious'] = dataGrid;
+  //   this.creditProposal.attributes['collateralPrevious'] = dataGrid;
+  //   console.log('Tes Delete', dataGrid);
+  // }
 }
 // public openDialog(element: ICollateralPrevious): void {
 //   // console.log('bab', this.creditProposal);

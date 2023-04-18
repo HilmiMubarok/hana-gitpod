@@ -12,6 +12,7 @@ import {
   OrganizationManagementAttributeShareholder,
 } from './organization-management.model';
 import { OrganizationManagementService } from './organization-management.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-organization-management-list',
@@ -164,12 +165,29 @@ export class OrganizationManagementListComponent
       }
     });
   }
-
-  public deleteData(element): void {
-    this.organizationManagementService.delete(element.id).subscribe(() => {
-      this.loadDataBy(this.cif, this.managementType);
+  // Delete Confirm
+  public deleteData(element: IOrganizationManagement): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Management / Shareholder',
+        message: 'Are you sure to delete ' + element.person.name + ' ?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
+      if (res) {
+        this.organizationManagementService.delete(element.id).subscribe(() => {
+          this.loadDataBy(this.cif, this.managementType);
+        });
+      }
     });
   }
+
+  // public deleteData(element): void {
+  //   this.organizationManagementService.delete(element.id).subscribe(() => {
+  //     this.loadDataBy(this.cif, this.managementType);
+  //   });
+  // }
 
   public hiddenButton(element: IOrganizationManagement) {
     if (element.dataSource === 'h' || element.dataSource === 'H') {

@@ -5,6 +5,7 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { IOtherCovenant, OtherCovenant } from './other-convenant.model';
 import { CreditProposalOtherCovenantDialogComponent } from './add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditComponent } from './edit/credit-proposal-other-covenant-edit.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-other-covenant',
@@ -96,11 +97,28 @@ export class CreditProposalOtherCovenantComponent implements OnInit {
       }
     });
   }
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Covenant',
+        message: 'Are you sure to delete ' + element.covenant + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+      }
+    });
+  }
 
   // DELETE
-  public onDelete(element: ICreditProposal) {
-    const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
-    this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
-    this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
-  }
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
+  //   this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+  //   this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+  // }
 }

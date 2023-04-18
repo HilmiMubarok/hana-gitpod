@@ -15,6 +15,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-real-estate',
   templateUrl: './collateral-appraisal-process-detail-real-estate.component.html',
@@ -192,15 +193,35 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
     this.getData();
     this.actionSelectionMenuProperty.emit(this.selectedMenuId);
   }
-
-  public deleteBuilding(element) {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.getData();
-      // this.propertyDataBuilding(this.collateral.id, CollateralPropertyType.BUILDING);
-      this.collateralAppraisalService.totalDataDetailLand = element;
-      // this.collateralAppraisalService.totalDataDetailBuilding = element.id;
+  // Delete Confirmation
+  public deleteBuilding(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Building Info',
+        message: 'Are you sure to delete ' + element.buildingSpec + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.collateralPropertyService.delete(element.id).subscribe(() => {
+          this.getData();
+          // this.propertyDataBuilding(this.collateral.id, CollateralPropertyType.BUILDING);
+          this.collateralAppraisalService.totalDataDetailLand = element;
+          // this.collateralAppraisalService.totalDataDetailBuilding = element.id;
+        });
+      }
     });
   }
+
+  // public deleteBuilding(element) {
+  //   this.collateralPropertyService.delete(element.id).subscribe(() => {
+  //     this.getData();
+  //     // this.propertyDataBuilding(this.collateral.id, CollateralPropertyType.BUILDING);
+  //     this.collateralAppraisalService.totalDataDetailLand = element;
+  //     // this.collateralAppraisalService.totalDataDetailBuilding = element.id;
+  //   });
+  // }
 
   public deleteLand(element) {
     this.collateralPropertyService.delete(element.id).subscribe(() => {

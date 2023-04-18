@@ -26,6 +26,7 @@ import lodash from 'lodash';
 import { CPFacilityTable, ICPFacilityTable } from './exposure/total-exposure/cp-facility-table-model';
 import { Router } from '@angular/router';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-credit-proposal-tab-summary',
   templateUrl: './credit-proposal-tab-summary.component.html',
@@ -662,14 +663,35 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     });
   }
 
-  public onDelete(data: IObj) {
-    this.storageService.deleteFile(this.BUCKET, data.key).subscribe(res => {
-      this.getFile(this._item.id);
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File ' + data.fileName + ' Delete Successfully' });
+  // Delete Confirmation
+  public onDelete(data): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Document',
+        message: 'Are you sure to delete ' + data.fileName + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(respond => {
+      if (respond) {
+        this.storageService.deleteFile(this.BUCKET, data.key).subscribe(res => {
+          this.getFile(this._item.id);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File ' + data.fileName + ' Delete Successfully' });
 
-      this.onRefresh();
+          this.onRefresh();
+        });
+      }
     });
   }
+
+  // public onDelete(data: IObj) {
+  //   this.storageService.deleteFile(this.BUCKET, data.key).subscribe(res => {
+  //     this.getFile(this._item.id);
+  //     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'File ' + data.fileName + ' Delete Successfully' });
+
+  //     this.onRefresh();
+  //   });
+  // }
 
   private viewBlob(title: string, data: any) {
     const win = window.open();

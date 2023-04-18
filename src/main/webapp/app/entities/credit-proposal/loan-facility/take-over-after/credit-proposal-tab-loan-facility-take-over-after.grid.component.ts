@@ -9,6 +9,7 @@ import { ILoanApplication } from 'app/entities/loan-application/loan-application
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ApplicationProductTakeOverBank } from '../application-product-take-over-after-bank/application-product-take-over-after-bank.model';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over-after-grid',
@@ -74,15 +75,39 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
       }
     });
   }
-  public onDelete(element: ICreditProposal) {
-    const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'].filter(({ id }) => id !== element.id);
-    // const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'];
-    if (dataGridTakeOver === undefined) {
-      return dataGridTakeOver.length;
-    }
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Take Over After Data',
+        message: 'Are you sure to delete ' + element.facilityTypeOverBank.label + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'].filter(({ id }) => id !== element.id);
+        // const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'];
+        if (dataGridTakeOver === undefined) {
+          return dataGridTakeOver.length;
+        }
 
-    this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
-    this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
-    console.log('Tes facilityTakeOverAfterBank', dataGridTakeOver);
+        this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
+        this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
+        console.log('Tes facilityTakeOverAfterBank', dataGridTakeOver);
+      }
+    });
   }
+
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'].filter(({ id }) => id !== element.id);
+  //   // const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'];
+  //   if (dataGridTakeOver === undefined) {
+  //     return dataGridTakeOver.length;
+  //   }
+
+  //   this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
+  //   this.creditProposal.attributes['facilityTakeOverAfterBank'] = dataGridTakeOver;
+  //   console.log('Tes facilityTakeOverAfterBank', dataGridTakeOver);
+  // }
 }
