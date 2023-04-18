@@ -27,6 +27,7 @@ import {
 } from 'app/entities/credit-proposal/loan-facility/application-product-take-over/application-product-take-over.model';
 import { LoanFacilityTakeOverAfterHistoryComponent } from '../take-over-after/credit-proposal-tab-loan-facility-take-over-after.component';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-loan-facility-take-over-grid-history',
   templateUrl: './credit-proposal-tab-loan-facility-take-over.grid.component.html',
@@ -125,10 +126,29 @@ export class LoanFacilityTakeOverGridHistoryComponent implements OnChanges, OnIn
       }
     });
   }
+  // Delete Confirmation
   public facilityTakeOver: any;
-  public onDelete(element: ICreditProposal) {
-    const dataGridTake = this.parsedAttr.previousHistory.facilityTakeOver.filter(({ id }) => id !== element.id);
-    this.facilityTakeOver = dataGridTake;
-    this.parsedAttr.previousHistory.facilityTakeOver = dataGridTake;
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Facility Takeover',
+        message: 'Are you sure to delete ' + element.facilityTypeBank + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGridTake = this.parsedAttr.previousHistory.facilityTakeOver.filter(({ id }) => id !== element.id);
+        this.facilityTakeOver = dataGridTake;
+        this.parsedAttr.previousHistory.facilityTakeOver = dataGridTake;
+      }
+    });
   }
+
+  // public facilityTakeOver: any;
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGridTake = this.parsedAttr.previousHistory.facilityTakeOver.filter(({ id }) => id !== element.id);
+  //   this.facilityTakeOver = dataGridTake;
+  //   this.parsedAttr.previousHistory.facilityTakeOver = dataGridTake;
+  // }
 }

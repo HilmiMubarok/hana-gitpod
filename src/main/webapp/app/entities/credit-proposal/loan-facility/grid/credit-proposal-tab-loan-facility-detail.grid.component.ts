@@ -21,6 +21,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IProduct } from 'app/entities/product/product.model';
 import { PageEvent } from '@angular/material/paginator';
 import { CreditProposalService } from '../../credit-proposal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -364,29 +365,29 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (idx === -1) {
         if (mark) {
           let isAlready2StepVerification = false;
-		  this.dataParty.forEach(dP => {
-			if (dP.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas) {
-			  isAlready2StepVerification = true;
-			}
-		  });
-		  
-		  if (isAlready2StepVerification) {
-			idx = lodash.findIndex(this.dataParty, function (o) {
-			  return o.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas;
-			});
-			this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-			this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-			this.dataParty = [...this.dataParty];
-		  } else {
-			const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
-			copyApplicationProduct.applicationId = this.creditProposal.id;
+          this.dataParty.forEach(dP => {
+            if (dP.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas) {
+              isAlready2StepVerification = true;
+            }
+          });
 
-			this.dataParty = [...this.dataParty, copyApplicationProduct];
-			this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
+          if (isAlready2StepVerification) {
+            idx = lodash.findIndex(this.dataParty, function (o) {
+              return o.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas;
+            });
+            this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+            this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+            this.dataParty = [...this.dataParty];
+          } else {
+            const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
+            copyApplicationProduct.applicationId = this.creditProposal.id;
 
-			// this.dataParty = [...this.dataParty, this.applicationProduct];
-			// this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
-		  }
+            this.dataParty = [...this.dataParty, copyApplicationProduct];
+            this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
+
+            // this.dataParty = [...this.dataParty, this.applicationProduct];
+            // this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
+          }
         }
       } else {
         this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
@@ -402,14 +403,33 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       this.dataParty = [...this.dataParty];
     }
   }
-
-  public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(
-      ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
-    );
-    this.dataParty = dataGrid;
-    this.creditProposal.products = this.dataParty;
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Facility Detail Data',
+        message: 'Are you sure to delete this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposal.products.filter(
+          ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
+        );
+        this.dataParty = dataGrid;
+        this.creditProposal.products = this.dataParty;
+      }
+    });
   }
+
+  // public onDelete(element: IApplicationProduct) {
+  //   const dataGrid = this.creditProposal.products.filter(
+  //     ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
+  //   );
+  //   this.dataParty = dataGrid;
+  //   this.creditProposal.products = this.dataParty;
+  // }
 
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);

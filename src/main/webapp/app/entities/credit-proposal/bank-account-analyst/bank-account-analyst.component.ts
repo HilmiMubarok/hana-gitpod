@@ -5,6 +5,7 @@ import { ICreditProposal } from '../credit-proposal.model';
 import { CreditProposalBankAccountAnalystDialogComponent } from './bank-account-analyst-dialog.component';
 import { BankAccountAnalyst, IBankAccountAnalyst } from './bank-account-analyst.model';
 import { CreditProposalBankAccountAnalystDialogEditComponent } from './edit/bank-account-analyst-dialog-edit.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst',
@@ -432,17 +433,41 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
 
     return result;
   }
+  // Delete Confirmation
+  public deleteAccount(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Account Data',
+        message: 'Are you sure to delete ' + element.accName + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const data = this.creditProposal.attributes['bankAnalyst'].filter(({ accNo }) => accNo !== element.accNo);
+        this.creditProposal.attributes['bankAnalyst'] = data;
 
-  public deleteAccount(element) {
-    const data = this.creditProposal.attributes['bankAnalyst'].filter(({ accNo }) => accNo !== element.accNo);
-    this.creditProposal.attributes['bankAnalyst'] = data;
-
-    if (element.accNo > 0) {
-      // average other
-      this.totalData = this.findByMatchingProperties(this.totalData, element.average_other);
-    } else {
-      // average
-      this.totalData = this.findByMatchingProperties(this.totalData, element.average);
-    }
+        if (element.accNo > 0) {
+          // average other
+          this.totalData = this.findByMatchingProperties(this.totalData, element.average_other);
+        } else {
+          // average
+          this.totalData = this.findByMatchingProperties(this.totalData, element.average);
+        }
+      }
+    });
   }
+
+  // public deleteAccount(element) {
+  //   const data = this.creditProposal.attributes['bankAnalyst'].filter(({ accNo }) => accNo !== element.accNo);
+  //   this.creditProposal.attributes['bankAnalyst'] = data;
+
+  //   if (element.accNo > 0) {
+  //     // average other
+  //     this.totalData = this.findByMatchingProperties(this.totalData, element.average_other);
+  //   } else {
+  //     // average
+  //     this.totalData = this.findByMatchingProperties(this.totalData, element.average);
+  //   }
+  // }
 }

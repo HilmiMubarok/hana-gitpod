@@ -9,6 +9,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { ICollateralAppraisal, CollateralAppraisal } from '../../collateral-appraisal.model';
 import { CollateralAppraisalService } from '../../collateral-appraisal.service';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-machine',
   templateUrl: './collateral-appraisal-valuation-machine.component.html',
@@ -73,11 +74,29 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
     });
   }
 
+  // Delete Confirmation
   public deleteMechine(element): void {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.loadData(this.collateral);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Collateral Object',
+        message: 'Are you sure to delete ' + element.machineName + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.collateralPropertyService.delete(element.id).subscribe(() => {
+          this.loadData(this.collateral);
+        });
+      }
     });
   }
+
+  // public deleteMechine(element): void {
+  //   this.collateralPropertyService.delete(element.id).subscribe(() => {
+  //     this.loadData(this.collateral);
+  //   });
+  // }
 
   private countingData(): void {
     if (this.collateralProperties.length > 0) {
@@ -100,12 +119,11 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   }
 
   private countMarketValue() {
-   this.roundedtotalMarketValue = this.collateralPropertyService.roundHundred(this.totalMarketValue);
+    this.roundedtotalMarketValue = this.collateralPropertyService.roundHundred(this.totalMarketValue);
   }
 
   private countLiquidationValueIndication() {
     this.roundedtotalLiquid = this.collateralPropertyService.roundHundred(this.totalLiquid);
- 
   }
 
   public loadData(collateral: ICollateral): void {
