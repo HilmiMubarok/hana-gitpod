@@ -238,13 +238,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   }
 
   ngOnInit(): void {
-    this.detailTypeChange(this.collateral.collateralTypeId);
     this.loadCurrencyMeasure();
-    this.collateral.collateralTypeId;
-    this.setCertyficateType();
-    this.setManagementBrance();
-    this.setBranches();
-    this.cekDataSource();
     this.cekData();
     this.getLovGuarantee();
     this.getLovGuaranteeIdentification();
@@ -282,9 +276,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     }
     if (this.collateralProperty.attributes.managementBranch === undefined) {
       this.collateralProperty.attributes.managementBranch = '01';
-    }
-    if (this.collateralProperty.attributes.accountOfficer === undefined) {
-      this.collateralProperty.attributes.accountOfficer = this.officerName;
     }
   }
 
@@ -362,58 +353,12 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       });
   }
 
-  private loadAreaMeasure(): void {
-    this.uomService
-      .queryFilterBy({
-        idUomType: UOM_TYPE.AREAMEASURE,
-        page: 0,
-        size: 9999,
-      })
-      .subscribe(res => {
-        this.areaMeasure = res.body;
-      });
-  }
-
-  public detailTypeChange(event) {
-    switch (event) {
-      case 'REALESTATE':
-        this.collateralDetailType = REALESTATE_COLLATERAL_DETAIL_TYPE;
-        break;
-      case 'VEHICLE':
-        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_VEHICLES_DETAIL_TYPE;
-        break;
-      case 'MACHINE':
-        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_MECHINE_DETAIL_TYPE;
-        break;
-      case 'DEPOSIT':
-        this.collateralDetailType = DEPOSIT_COLLATERAL_DETAIL_TYPE;
-        break;
-      case 'SECURITIES':
-        this.collateralDetailType = SECURITIES_COLLATERAL_DETAIL_TYPE;
-        break;
-      case 'PERSONAL_PROPERTY':
-        this.collateralDetailType = PERSONAL_PROPERTIES_COLLATERAL_DETAIL_TYPE;
-        break;
-      case 'LETTER_OF_GUARANTY':
-        this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
-        break;
-      case 'OTHER':
-        this.collateralDetailType = OTHER_COLLATERAL_DETAIL_TYPE;
-        break;
-      default:
-        this.collateralDetailType;
-        break;
-    }
-  }
-
   public dataSource() {
     if (this.collateral.dataSource === 'h' || this.collateral.dataSource === 'H') {
       return true;
     }
     return false;
   }
-
-  public cekDataSource() {}
 
   public setManagementBrance() {
     this.partyCifService.getManagementBranc().subscribe(res => {
@@ -425,12 +370,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
       console.log('branch ', this.branchesNames);
-    });
-  }
-
-  public setCertyficateType() {
-    this.partyCifService.getCertificate().subscribe(res => {
-      this.certificateType = res.body;
     });
   }
 
@@ -560,7 +499,8 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         size: 9999,
       })
       .subscribe(res => {
-        console.log('ini res ', res);
+        console.log('ini res certificate type', res.body);
+        console.log('ini id certificate type ', this.collateralProperty.attributes.certificateType);
         this.certypicateTypeLov = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
