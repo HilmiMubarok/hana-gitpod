@@ -25,6 +25,7 @@ import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-foun
 import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { LoanFacilityAproveLevelComponent } from 'app/entities/loan-analys/approval-level/approve-level.component';
+import { LoanFacilityAproveMatrixComponent } from 'app/entities/loan-analys/approval-matrix/approve-matrix.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -52,6 +53,7 @@ import { LoanFacilityAproveLevelComponent } from 'app/entities/loan-analys/appro
     TimelineDialogComponent,
     ConfirmDialogComponent,
     LoanFacilityAproveLevelComponent,
+    LoanFacilityAproveMatrixComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -78,6 +80,7 @@ import { LoanFacilityAproveLevelComponent } from 'app/entities/loan-analys/appro
     TimelineDialogComponent,
     ConfirmDialogComponent,
     LoanFacilityAproveLevelComponent,
+    LoanFacilityAproveMatrixComponent,
   ],
 })
 export class SharedModule {}
