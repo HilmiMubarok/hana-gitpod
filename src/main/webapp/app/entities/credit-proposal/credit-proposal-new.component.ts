@@ -54,7 +54,7 @@ export class CreditProposalNewComponent {
 
   public search(): void {
     this.partyCifService
-      .findLikeCif(this.currentSearch, {
+      .findLikeCifSegregasi(this.currentSearch, {
         page: 0,
         size: 9999,
         idInternal: this.getLocStor('INT'),
