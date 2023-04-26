@@ -215,7 +215,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             .distribution({
               page: this.page,
               idStatus: this.convertStatus(this.clickedChip['id']),
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -228,7 +228,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .distribution({
               page: this.page,
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -244,7 +244,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             .finalize({
               page: this.page,
               idStatus: this.convertStatus(this.clickedChip['id']),
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -257,7 +257,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .finalize({
               page: this.page,
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -273,7 +273,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             .review({
               page: this.page,
               idStatus: this.convertStatus(this.clickedChip['id']),
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -286,7 +286,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .review({
               page: this.page,
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -302,7 +302,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             .confirmation({
               page: this.page,
               idStatus: this.convertStatus(this.clickedChip['id']),
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
@@ -315,7 +315,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .confirmation({
               page: this.page,
-              idPostion: this.getLocStor('POS'),
+              idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
             })
