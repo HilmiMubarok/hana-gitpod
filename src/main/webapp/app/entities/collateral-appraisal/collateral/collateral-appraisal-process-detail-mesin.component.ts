@@ -45,7 +45,6 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
     }
     this.checkLogin();
     this.hiddenTombol();
-    // console.log('hiddenAdmin', this.hiddenRmAdmin);
   }
 
   private getData(): void {
@@ -58,11 +57,15 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   }
 
   public collateralProperties(collateralId: number): void {
-    this.collateralPropertyService
-      .queryFilterBy({ idCollateral: collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
-      .subscribe(res => {
-        this.collateralAppraisalService.totalDataDetailMachine = res.body;
-      });
+    if (collateralId === undefined) {
+      return;
+    } else {
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
+        .subscribe(res => {
+          this.collateralAppraisalService.totalDataDetailMachine = res.body;
+        });
+    }
   }
 
   public openDialog(property: ICollateralProperty = null): void {

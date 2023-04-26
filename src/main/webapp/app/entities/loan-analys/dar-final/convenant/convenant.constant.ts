@@ -128,7 +128,7 @@ export const dataCovenantAbove = [
   {
     id: 0,
     covenant:
-      'DEBITOR wajib secara berkala menyampaikan laporan keuangan usaha intern selambat-lambatnya 90 (sembilanpuluh) hari setelah berakhirnya periode laporan keuangan serta Laporan Keuangan usaha audited selambat-lambatnya 180 (seratus delapanpuluh) hari sejak tanggal penutupan tahun buku dan sewaktu-waktu bila dianggap perlu oleh BANK, DEBITOR bersedia memberikan data / informasi usaha terkini termasuk data-data mutasi rekening koran pada BANK atau bank lain.',
+      'DEBITOR wajib secara berkala menyampaikan laporan keuangan usaha intern selambat-lambatnya 90 (sembilanpuluh) hari setelah berakhirnya periode laporan keuangan serta Laporan Keuangan usaha audited selambat-lambatnya 270 (seratus delapanpuluh) hari sejak tanggal penutupan tahun buku dan sewaktu-waktu bila dianggap perlu oleh BANK, DEBITOR bersedia memberikan data / informasi usaha terkini termasuk data-data mutasi rekening koran pada BANK atau bank lain.',
     status: 'Applied',
     deviation: '',
     justification: '',
@@ -165,16 +165,16 @@ export const dataCovenantAbove = [
     deviation: '',
     justification: '',
   },
+  // {
+  //   id: 5,
+  //   covenant:
+  //     'DEBITOR wajib mendapatkan persetujuan terlebih dahulu dari BANK sebelum membayar dividen atau melakukan distribusi atas pendapatan lainnya kepada pemegang sahamnya',
+  //   status: 'Applied',
+  //   deviation: '',
+  //   justification: '',
+  // },
   {
     id: 5,
-    covenant:
-      'DEBITOR wajib mendapatkan persetujuan terlebih dahulu dari BANK sebelum membayar dividen atau melakukan distribusi atas pendapatan lainnya kepada pemegang sahamnya',
-    status: 'Applied',
-    deviation: '',
-    justification: '',
-  },
-  {
-    id: 6,
     covenant:
       'DEBITOR wajib memberikan laporan secara tertulis apabila memperoleh fasilitas kredit / pinjaman dari pihak lain atau kreditur lain kepada BANK dan wajib mendapatkan persetujuan terlebih dahulu dari BANK',
     status: 'Applied',
@@ -182,7 +182,7 @@ export const dataCovenantAbove = [
     justification: '',
   },
   {
-    id: 7,
+    id: 6,
     covenant:
       'DEBITOR, Direksi dan anggota Dewan Komisaris serta pemegang saham DEBITOR, semua atau masing-masing tidak memiliki sengketa hukum, tunggakan pajak atau kewajiban keuangan lainnya yang dapat mempengaruhi jalannya usaha.',
     status: 'Applied',
