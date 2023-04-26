@@ -45,6 +45,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
 
           this.typeData = [...res.body, ...res1.body]
+    
           for (let i = 0; i < this.typeData.length; i++) {
             if (this.typeData[i].id.includes('DEPO')) {
               this.typeData[i].collateralTypeId = 'DEPOSIT'
@@ -74,7 +75,8 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(obj => obj.statusCode !== 'CANCEL')
           const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
           const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType)
-          const result: IDocumentType[] =  [...collateralData, ...INDCORData]
+          const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR')
+          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...PersetujuanKredit]
 
 
           for (let i = 0; i < result.length; i++) {
