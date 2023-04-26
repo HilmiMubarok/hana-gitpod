@@ -103,7 +103,9 @@ export class CreditProposal implements ICreditProposal {
     public collateralProductRelations?: ICollateralProductRelation[],
     public products?: IApplicationProduct[],
     public groupProducts?: IApplicationProduct[],
-    public intarnalId?: string
+    public intarnalId?: string,
+    public bookingBranchId?: string,
+    public bookingBranchName?: string
   ) {
     this.setCompliance = null;
     this.creditRatings = new Array<ICreditRating>();
