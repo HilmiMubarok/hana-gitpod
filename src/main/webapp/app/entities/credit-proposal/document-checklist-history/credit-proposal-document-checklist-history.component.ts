@@ -101,7 +101,8 @@ export class CreditProposalDocumentChecklistHistoryComponent implements OnInit {
             const filterStatus: ICollateral[] = this.historyData().collaterals.filter(obj => obj.statusCode !== 'CANCEL')
             const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
             const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType)
-            const result: IDocumentType[] =  [...collateralData, ...INDCORData]
+            const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR')
+            const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...PersetujuanKredit]
   
   
             for (let i = 0; i < result.length; i++) {
