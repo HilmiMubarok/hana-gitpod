@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, Input, OnInit } from '@angular/core';
 import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { ICreditProposal, CreditProposal } from '../credit-proposal.model';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { EmitType } from '@syncfusion/ej2-base';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +14,7 @@ import {
 import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import lodash from 'lodash';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
@@ -40,7 +42,12 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   public route: any;
   public partyCif: IPartyCif;
 
-  constructor(protected activatedRoute: ActivatedRoute, private router: Router, private partyCifService: PartyCifService) {}
+  constructor(
+    protected activatedRoute: ActivatedRoute,
+    private router: Router,
+    private partyCifService: PartyCifService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.data = this.creditProposal.attributes['basicInformation'].coborowed;
@@ -139,12 +146,29 @@ export class ProposalBasicInformationViewComponent implements OnInit {
       this.view = false;
     }
   }
-
-  public onDelete(element: any) {
-    const dataGrid = this.data.filter(({ customerNumber }) => customerNumber !== element.customerNumber);
-    this.data = dataGrid;
-    this.creditProposal.attributes['basicInformation'].coborowed = dataGrid;
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Co-Borrower Info Data',
+        message: 'Are you sure to delete ' + element.name + ' company with CIF number ' + element.customerNumber + '?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.data.filter(({ customerNumber }) => customerNumber !== element.customerNumber);
+        this.data = dataGrid;
+        this.creditProposal.attributes['basicInformation'].coborowed = dataGrid;
+      }
+    });
   }
+
+  // public onDelete(element: any) {
+  //   const dataGrid = this.data.filter(({ customerNumber }) => customerNumber !== element.customerNumber);
+  //   this.data = dataGrid;
+  //   this.creditProposal.attributes['basicInformation'].coborowed = dataGrid;
+  // }
 
   public setBusinessGroup() {
     const cifNumber = this.creditProposal?.customerNumber;

@@ -19,6 +19,7 @@ import {
 } from 'app/entities/collateral-product-relation/collateral-product-relation.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-history',
@@ -187,13 +188,31 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       this.dataParty[idx] = appProduct;
     }
   }
-
-  public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
-    this.dataParty = dataGrid;
-    this.creditProposal.products = dataGrid;
-    this.partyCifFunc();
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Facility Detail Data',
+        message: 'Are you sure to delete this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+        this.dataParty = dataGrid;
+        this.creditProposal.products = dataGrid;
+        this.partyCifFunc();
+      }
+    });
   }
+
+  // public onDelete(element: IApplicationProduct) {
+  //   const dataGrid = this.creditProposal.products.filter(({ attributes }) => attributes !== element.attributes);
+  //   this.dataParty = dataGrid;
+  //   this.creditProposal.products = dataGrid;
+  //   this.partyCifFunc();
+  // }
 
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);

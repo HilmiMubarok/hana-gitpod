@@ -21,6 +21,7 @@ import {
 } from 'app/entities/application-product/application-product.model';
 import { LoanFacilityDialogTempComponent } from '../dialog/loan-facility-dialog.component';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-temp',
@@ -382,14 +383,33 @@ export class LoanFacilityDetailGridTempComponent implements OnInit {
       this.dataParty = [...this.dataParty];
     }
   }
-
-  public onDelete(element: IApplicationProduct) {
-    const dataGrid = this.creditProposal.products.filter(
-      ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
-    );
-    this.dataParty = dataGrid;
-    this.creditProposal.products = this.dataParty;
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Facility Details',
+        message: 'Are you sure to delete ' + element.attributes.applicationType + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposal.products.filter(
+          ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
+        );
+        this.dataParty = dataGrid;
+        this.creditProposal.products = this.dataParty;
+      }
+    });
   }
+
+  // public onDelete(element: IApplicationProduct) {
+  //   const dataGrid = this.creditProposal.products.filter(
+  //     ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
+  //   );
+  //   this.dataParty = dataGrid;
+  //   this.creditProposal.products = this.dataParty;
+  // }
 
   public parseStringToInt(data: string): number {
     return parseInt(data, 10);

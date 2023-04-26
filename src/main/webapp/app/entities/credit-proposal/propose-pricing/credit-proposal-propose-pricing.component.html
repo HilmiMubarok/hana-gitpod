@@ -9,106 +9,126 @@
       </div>
     </div>
     <div class="e-card-content">
-      <div class="col-md-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Modified Date</mat-label>
-              <input
-                [matDatepicker]="modifiedDate"
-                matInput
-                type="text"
-                [formControl]="date"
-                [(ngModel)]="creditProposal.lastModifiedDate"
-                disabled
-              />
-              <mat-datepicker-toggle matSuffix [for]="modifiedDate"></mat-datepicker-toggle>
-              <mat-datepicker #expiry [disabled]="true"></mat-datepicker>
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col-3">Modified Date</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-5">
-              {{ creditProposal.lastModifiedDate }}
+      <div class="row">
+        <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Modified Date</mat-label>
+                <input
+                  [matDatepicker]="modifiedDate"
+                  matInput
+                  type="text"
+                  [formControl]="date"
+                  [(ngModel)]="creditProposal.lastModifiedDate"
+                  disabled
+                />
+                <mat-datepicker-toggle matSuffix [for]="modifiedDate"></mat-datepicker-toggle>
+                <mat-datepicker #expiry [disabled]="true"></mat-datepicker>
+              </mat-form-field>
             </div>
-          </div>
-        </section>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">Modified Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-5">
+                {{ creditProposal.lastModifiedDate }}
+              </div>
+            </div>
+          </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="form-group">
-            <ejs-textbox
-              placeholder="Credit Rating"
-              [(ngModel)]="creditProposal.creditRatings[0].creditRating"
-              cssClass="e-outline"
-              floatLabelType="Always"
-              disabled
-            ></ejs-textbox>
-          </div>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col-3">Credit Rating</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-2">
-              {{ creditProposal.creditRatings[0].creditRating }}
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="col-md-6">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>USD to IDR</mat-label>
-              <input
-                matInput
-                currencyMask
-                type="text"
-                [value]="defaultCurrencyData"
-                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-                min="0"
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-textbox
+                placeholder="Credit Rating"
+                [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+                cssClass="e-outline"
+                floatLabelType="Always"
                 disabled
-              />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col-3">USD to IDR</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-2">
-              {{ defaultCurrencyData }}
+              ></ejs-textbox>
             </div>
-          </div>
-        </section>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">Credit Rating</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.creditRatings[0].creditRating }}
+              </div>
+            </div>
+          </section>
 
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-          <div class="form-group">
-            <ejs-combobox
-              cssClass="e-outline"
-              (change)="selectIndustry($event)"
-              id="dropdownlistdata"
-              #dropdownlistdata
-              [dataSource]="industryList"
-              placeholder="Industry"
-              floatLabelType="Auto"
-              [value]="creditProposal.attributes['purposePricing'].industry"
-            >
-            </ejs-combobox>
-          </div>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col-3">Industry</div>
-            <div class="col-md-auto">:</div>
-            <div class="col col-lg-2">
-              {{ creditProposal.attributes['purposePricing'].industry }}
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>USD to IDR</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [value]="defaultCurrencyData"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  min="0"
+                  disabled
+                />
+              </mat-form-field>
             </div>
-          </div>
-        </section>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">USD to IDR</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ defaultCurrencyData }}
+              </div>
+            </div>
+          </section>
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <ejs-combobox
+                cssClass="e-outline"
+                (change)="selectIndustry($event)"
+                id="dropdownlistdata"
+                #dropdownlistdata
+                [dataSource]="industryList"
+                placeholder="Industry"
+                floatLabelType="Auto"
+                [value]="creditProposal.attributes['purposePricing'].industry"
+              >
+              </ejs-combobox>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">Industry</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['purposePricing'].industry }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="col-6">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Rating Corporate Guarantee</mat-label>
+                <input matInput type="text" [(ngModel)]="creditProposal.attributes['creditRatingPricing']" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">Rating Corporate Guarantee</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ creditProposal.attributes['creditRatingPricing'] }}
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   </div>

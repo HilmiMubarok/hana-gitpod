@@ -1,0 +1,68 @@
+<mat-card *ngIf="this.creditProposal.statusId === 'CP_ASSIGNMENT'">
+  <mat-card-header>
+    <mat-card-subtitle>
+      <div style="float: left; line-height: 85px">Approval Matrix</div>
+      <div style="float: right">
+        <mat-form-field appearance="fill">
+          <mat-label>Approval Level</mat-label>
+          <mat-select [value]="creditProposal.approvalLc" (selectionChange)="selectRelationType($event.value)">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of relationTypes" [value]="item.id">
+              {{ item.description }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="clear: both"></div>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="items" class="w-100">
+      <ng-container matColumnDef="approval_name">
+        <th mat-header-cell *matHeaderCellDef>Approval Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionToEmployeeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Position</th>
+        <td mat-cell *matCellDef="let element">{{ element.positionToEmployeeName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.fromDate | formatMediumDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="alternatename">
+        <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.positionDelegationToEmployeeName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="availableStatus">
+        <th mat-header-cell *matHeaderCellDef>Available Status</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.positionDelegationToEmployeeName }}
+        </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="available_status">
+        <th mat-header-cell *matHeaderCellDef>Available Status</th>
+        <td mat-cell *matCellDef="let element">
+          <input type="checkbox" [disabled]="view" (click)="singleCheck($event)" />
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="recomendation">
+        <th mat-header-cell *matHeaderCellDef>Recomendation</th>
+        <td mat-cell *matCellDef="let element">
+          <input matInput type="text" disabled="true" />
+        </td>
+      </ng-container> -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+    </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

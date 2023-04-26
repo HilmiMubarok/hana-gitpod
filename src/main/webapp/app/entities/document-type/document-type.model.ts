@@ -30,6 +30,7 @@ export interface IDocumentType {
   rootId?: string;
   rootDescription?: string;
   level?: ILevel[];
+  collateralTypeId?: string
 }
 
 export class DocumentType implements IDocumentType {

@@ -18,6 +18,7 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 import { Router } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
@@ -34,7 +35,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   public bucket: string;
   public parentPath = this.router.url.split('/')[1];
   public isCpApproval: boolean;
- 
 
   @Input()
   get managementType() {
@@ -72,8 +72,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this._partyCifDM = item;
   }
 
-
-  @Input() loanStatus: string
+  @Input() loanStatus: string;
 
   @Input()
   get partyId() {
@@ -167,16 +166,12 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
-  public _loanStatus: string
+  public _loanStatus: string;
   ngOnChanges(changes: SimpleChanges): void {
-    this._loanStatus = changes.loanStatus.currentValue
+    this._loanStatus = changes.loanStatus.currentValue;
     if (changes['partyId']) {
       this.loadDataBy();
     }
-
-   
-
-  
   }
 
   ngOnInit(): void {
@@ -364,7 +359,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           listPartySlik.push(partySlik);
         }
         if (listPartySlik.length > 0) {
-          this.creditProposalService.partySliks = listPartySlik
+          this.creditProposalService.partySliks = listPartySlik;
           this.partySlikService.saveAll(listPartySlik).subscribe(res => {
             this.loadDataBy();
           });
@@ -372,6 +367,21 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           this.loadDataBy();
         }
         this.TransferService.setparam(this.partySliks);
+      }
+    });
+  }
+  // Delete Confirmation
+  public openRemoveDebtorData(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Debtor Data',
+        message: 'Are you sure to delete this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.removeDebtorData(element);
       }
     });
   }
