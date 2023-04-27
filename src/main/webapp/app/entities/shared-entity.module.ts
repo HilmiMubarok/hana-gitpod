@@ -352,7 +352,11 @@ import { CreditProposalDeviationDarAboveComponent } from './loan-analys/dar-fina
 import { ApproveFinalComponent } from './loan-analys/approval-final/approve-final.component';
 import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral.component';
 import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collateral-property/dialogs/collateral-property-personal-corporate-guarantee.component';
+
 import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/credit-proposal-branch.component';
+import { GroupCollateralInfoComponent } from './party-cif/group-collateral-list/group-collateral-info.component';
+import { GroupCollateralListComponent } from './party-cif/group-collateral-list/group-collateral-list.component';
+import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-idd/paripasu-collateral-idd.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -764,6 +768,10 @@ import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/
     CreditProposalDeviationDarAboveComponent,
         ApproveFinalComponent,
         CollateralPropertyPersonalCorporateGuaranteeComponent,
+        // cross idd //
+        ParipasuCollateralIddComponent,
+        GroupCollateralInfoComponent,
+        GroupCollateralListComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1135,6 +1143,10 @@ import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/
     LendingProgramParameterViewComponent,
     RequestSlikViewComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
+    // cross idd //
+    ParipasuCollateralIddComponent,
+    GroupCollateralInfoComponent,
+    GroupCollateralListComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
