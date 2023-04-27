@@ -38,9 +38,9 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     this.getBucket().then(() => {
       this.getFiles(this.partyCif.customerNumber).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
-
+          this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res1: any) => {
           
-          this.typeData = res.body
+          this.typeData = [...res.body, ...res1.body]
           
           for (let i = 0; i < this.typeData.length; i++) {
             if (this.typeData[i].id.includes('DEPO')) {
@@ -55,7 +55,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
               this.typeData[i].collateralTypeId = 'VEHICLE'
             }else if (this.typeData[i].id.includes('GRNT')) {
               this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
-            }else if(this.typeData[i].id.includes('OTHER')){
+            }else if(this.typeData[i].id.includes('DOC_COLL_OTHER')){
               this.typeData[i].collateralTypeId = 'OTHER'
             }else if (this.typeData[i].id.includes('STOCK')) {
               this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
@@ -71,7 +71,8 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
           const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(obj => obj.statusCode !== 'CANCEL')
           const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
           const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType)
-          const result: IDocumentType[] =  [...collateralData, ...INDCORData]
+          const OtherDoc: IDocumentType[] = this.typeData.filter(obj => obj.id === "DOC_IDD_OTHER")
+          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...OtherDoc]
           for (let i = 0; i < result.length; i++) {
             this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
               result[i].level = re.body;
@@ -94,7 +95,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
           
           }
           
-          
+        })
      
         });
       });
