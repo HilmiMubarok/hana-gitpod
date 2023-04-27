@@ -6,11 +6,12 @@ import { SharedModule } from 'app/shared/shared.module';
 import { CollateralParameterComponent } from './collateral-parameter.component';
 import { CollateralParameterDialogComponent } from './collateral-parameter-dialog.component';
 import { collateralParameterRoute } from './collateral-parameter.route';
+import { CollateralProposePricingDialogEditComponent } from './collateral-propose-pricing/collateral-propose-pricing-dialog-edit.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, SharedLibsModule, RouterModule.forChild(collateralParameterRoute)],
-  declarations: [CollateralParameterComponent, CollateralParameterDialogComponent],
-  entryComponents: [CollateralParameterDialogComponent],
+  declarations: [CollateralParameterComponent, CollateralParameterDialogComponent, CollateralProposePricingDialogEditComponent],
+  entryComponents: [CollateralParameterDialogComponent, CollateralProposePricingDialogEditComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LosgwCollateralParameterModule {}
