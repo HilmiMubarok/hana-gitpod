@@ -79,7 +79,8 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR')
           const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING')
           const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER')
-          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...PersetujuanKredit, ...PengikatKredit, ...DocumentLainnya]
+          const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_OTHER_ID')
+          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...PersetujuanKredit, ...PengikatKredit, ...DocumentLainnya, ...DocumentLainnyaIdentitasDebiturPerorangan]
 
           for (let i = 0; i < result.length; i++) {
             this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
