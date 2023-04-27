@@ -46,6 +46,7 @@ export interface ICreditProposal extends ILoanApplication {
   collateralProductRelations?: ICollateralProductRelation[];
   products?: IApplicationProduct[];
   groupProducts?: IApplicationProduct[];
+  intarnalId?: string;
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -101,7 +102,10 @@ export class CreditProposal implements ICreditProposal {
     public cif?: ICif,
     public collateralProductRelations?: ICollateralProductRelation[],
     public products?: IApplicationProduct[],
-    public groupProducts?: IApplicationProduct[]
+    public groupProducts?: IApplicationProduct[],
+    public intarnalId?: string,
+    public bookingBranchId?: string,
+    public bookingBranchName?: string
   ) {
     this.setCompliance = null;
     this.creditRatings = new Array<ICreditRating>();

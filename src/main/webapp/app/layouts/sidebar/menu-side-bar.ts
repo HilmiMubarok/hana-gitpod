@@ -65,6 +65,16 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'list-of-value-parameter',
       },
+      {
+        name: 'Product',
+        iconname: 'minus',
+        route: 'master-product-parameter',
+      },
+      {
+        name: 'Collateral',
+        iconname: 'minus',
+        route: 'collateral-parameter',
+      },
     ],
   },
   {
@@ -398,6 +408,16 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'list-of-value-parameter',
       },
+      {
+        name: 'Product',
+        iconname: 'minus',
+        route: 'master-product-parameter',
+      },
+      {
+        name: 'Collateral',
+        iconname: 'minus',
+        route: 'collateral-parameter',
+      },
     ],
   },
   {
@@ -595,6 +615,17 @@ export const SIDEBAR_MENU_BM: ISidebarMenuModel[] = [
 
 export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
     children: [
@@ -673,6 +704,16 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'list-of-value-parameter',
       },
+      {
+        name: 'Product',
+        iconname: 'minus',
+        route: 'master-product-parameter',
+      },
+      {
+        name: 'Collateral',
+        iconname: 'minus',
+        route: 'collateral-parameter',
+      },
     ],
   },
   {
@@ -711,6 +752,17 @@ export const SIDEBAR_MENU_APR_DH: ISidebarMenuModel[] = [
 
 export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
     children: [
@@ -739,6 +791,16 @@ export const APPRAISAL_MENU_TL: ISidebarMenuModel[] = [
     name: 'Appraisal',
     iconname: 'file',
     children: [
+      {
+        name: 'Appraisal Distribution External',
+        iconname: 'minus',
+        route: 'batch-apprisal',
+      },
+      {
+        name: 'Appraisal Distribution Internal',
+        iconname: 'minus',
+        route: 'batch-apprisal/internal',
+      },
       {
         name: 'Appraisal Process',
         iconname: 'minus',
@@ -877,60 +939,6 @@ export const APPRAISAL_MENU_CHECKER2: ISidebarMenuModel[] = [
     ],
   },
 ];
-
-// export const APPRAISAL_MENU_CRC: ISidebarMenuModel[] = [
-//   {
-//     name: 'Loan Analysis & Approval',
-//     iconname: 'paperclip',
-//     children: [
-//       {
-//         name: 'Loan Analysis Distribution',
-//         iconname: 'minus',
-//         route: 'la-distribution',
-//       },
-//       {
-//         name: 'Loan Analysis',
-//         iconname: 'minus',
-//         route: 'la-analyst',
-//       },
-//       {
-//         name: 'Loan Analysis SME Credit Review Checker',
-//         iconname: 'minus',
-//         route: 'la-SME-CRC',
-//       },
-//       {
-//         name: 'Loan Approval',
-//         iconname: 'minus',
-//         route: 'la-approval',
-//       },
-//       {
-//         name: 'Loan Approval Inquiry',
-//         iconname: 'minus',
-//         route: 'la-approval-inquiry',
-//       },
-//       {
-//         name: 'DAR Finalization',
-//         iconname: 'minus',
-//         route: 'dar-final',
-//       },
-//       {
-//         name: 'Final DAR - Checker',
-//         iconname: 'minus',
-//         route: 'dar-checker',
-//       },
-//       {
-//         name: 'Loan Komite Approval',
-//         iconname: 'minus',
-//         route: 'loan-committee-approval',
-//       },
-//       {
-//         name: 'DAR Notification',
-//         iconname: 'minus',
-//         route: 'dar-notif',
-//       },
-//     ],
-//   },
-// ];
 
 export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
   {
@@ -1119,6 +1127,17 @@ export const APPRAISAL_MENU_LEGAL_OFFICER: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
@@ -1168,22 +1187,17 @@ export const APPRAISAL_APR_DEPT_HEAD: ISidebarMenuModel[] = [
 ];
 
 export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
-  // {
-  //   name: 'Appraisal',
-  //   iconname: 'file',
-  //   children: [
-  //     {
-  //       name: 'Appraisal Process',
-  //       iconname: 'minus',
-  //       route: 'batch-apprisal/process',
-  //     },
-  //     {
-  //       name: 'Appraisal Report Approval',
-  //       iconname: 'minus',
-  //       route: 'batch-apprisal/approval',
-  //     },
-  //   ],
-  // },
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
   {
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
@@ -1209,11 +1223,6 @@ export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'distribution',
       },
-      // {
-      //   name: 'Finalize Offering Letter',
-      //   iconname: 'minus',
-      //   route: 'finalize',
-      // },
       {
         name: 'Offering Letter Review',
         iconname: 'minus',

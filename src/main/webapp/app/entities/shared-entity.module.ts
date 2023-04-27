@@ -352,6 +352,7 @@ import { CreditProposalDeviationDarAboveComponent } from './loan-analys/dar-fina
 import { ApproveFinalComponent } from './loan-analys/approval-final/approve-final.component';
 import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral.component';
 import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collateral-property/dialogs/collateral-property-personal-corporate-guarantee.component';
+import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/credit-proposal-branch.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -592,6 +593,7 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBookingBranchComponent,
+    CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalMappingFacilityComponent,
@@ -962,6 +964,7 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBookingBranchComponent,
+    CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     CreditProposalMappingFacilityComponent,
     // mapping collateral

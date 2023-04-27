@@ -17,6 +17,7 @@ import { IPostalAddress, PostalAddress } from '../../postal-address/postal-addre
 import { IPartyPostalAddress } from '../../party-postal-address/party-postal-address.model';
 import { SurveyAppraisalsService } from '../../survey-appraisals/survey-appraisals.service';
 import { ISurveyAppraisals, SurveyAppraisals } from '../../survey-appraisals/survey-appraisals.model';
+import { CashSurveyAppraisalsService } from 'app/entities/survey-appraisals/cash-survey-appraisal.service';
 
 import { Observable, of } from 'rxjs';
 import { PageSettingsModel, RowSelectEventArgs } from '@syncfusion/ej2-angular-grids';
@@ -32,6 +33,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { IPartyGroup } from 'app/entities/party-group/party-group.model';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
+import { LoginService } from 'app/login/login.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -60,6 +62,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public showCollateral = false;
   public dialogVisible: boolean;
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
+  private internalIdLocStor: string;
+  private positionIdLocStor: string;
 
   public paginatorLength: number;
   public paginatorPageSize: number;
@@ -80,7 +84,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected _snackBar: MatSnackBar,
     protected messageService: MessageService,
     protected accountService: AccountService,
-    protected cashCollateralService: CashCollateralService
+    protected cashCollateralService: CashCollateralService,
+    protected loginService: LoginService,
+    protected cashSurveyAppraisalService: CashSurveyAppraisalsService
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -155,6 +161,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     const predicate = {
       page: this.page,
       size: this.itemsPerPage,
+      idInternal: this.getLocStor('INT'),
       sort: ['id', 'desc'],
     };
 
@@ -185,6 +192,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.template(1).subscribe((res: HttpResponse<ISurveyAppraisals>) => {
         this.surveyAppraisalTemplate = res.body;
+
         resolve();
       });
     });
@@ -270,38 +278,68 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     });
   }
 
-  public onAdd(): void {
-    if (this.statusChecked.length === 0) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Appraisal Officer Type' });
-    } else {
-      const createSurveyAppraisalPromises = [];
-      this.InternalExternal = [];
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
 
-      for (let i = 0; i < this.statusChecked.length; i++) {
-        this.InternalExternal.push(this.statusChecked[i]);
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
       }
+    });
 
-      for (let e = 0; e < this.statusChecked.length; e++) {
-        for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-          const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+    return result;
+  }
 
-          surveyAppraisal.partyId =
-            this.selectedPartyCif.customerType === 'PERSONAL'
-              ? this.selectedPartyCif.customerPerson.id
-              : this.selectedPartyCif.customerOrganization.id;
-          surveyAppraisal.applicationId = null;
-          surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
-          surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+  public onAdd(): void {
+    this.internalIdLocStor = this.getLocStor('INT');
+    this.positionIdLocStor = this.getLocStor('POS');
 
-          surveyAppraisal.apprOfficer = this.InternalExternal[e];
+    if (!this.internalIdLocStor || !this.positionIdLocStor) {
+      this.logout();
+    } else {
+      if (!this.internalIdLocStor) {
+        this.logout();
+      } else {
+        if (this.statusChecked.length === 0) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Appraisal Officer Type' });
+        } else {
+          const createSurveyAppraisalPromises = [];
+          this.InternalExternal = [];
 
-          createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+          for (let i = 0; i < this.statusChecked.length; i++) {
+            this.InternalExternal.push(this.statusChecked[i]);
+          }
+
+          for (let e = 0; e < this.statusChecked.length; e++) {
+            for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+              const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+              surveyAppraisal.internalId = this.internalIdLocStor;
+              surveyAppraisal.partyId =
+                this.selectedPartyCif.customerType === 'PERSONAL'
+                  ? this.selectedPartyCif.customerPerson.id
+                  : this.selectedPartyCif.customerOrganization.id;
+              surveyAppraisal.applicationId = null;
+              surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+              surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+
+              surveyAppraisal.apprOfficer = this.InternalExternal[e];
+
+              createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+            }
+          }
+          Promise.all(createSurveyAppraisalPromises).then(results => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
         }
       }
-
-      Promise.all(createSurveyAppraisalPromises).then(results => {
-        this.router.navigate(['./collateral-appraisal']);
-      });
     }
+  }
+
+  private logout(): void {
+    this.loginService.logout();
+    this.router.navigate(['']);
   }
 }

@@ -12,7 +12,6 @@ export enum Authority {
   CRA = 'ROLE_CRA',
   CRC1 = 'ROLE_CHECKER1',
   CRC2 = 'ROLE_CHECKER2',
-  // CRC = 'ROLE_CRC',
   HCR = 'ROLE_HCR1',
   ROLE_HCR2 = 'ROLE_HCR2',
   BUSINESS_DIR = 'ROLE_BUSINESS_DIR',

@@ -27,6 +27,8 @@ import { Account } from 'app/core/auth/account.model';
 import _ from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { map } from 'rxjs';
+import { CashSurveyAppraisalsService } from '../survey-appraisals/cash-survey-appraisal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-collateral-appraisal-material-internal',
   templateUrl: './collateral-appraisal-material-internal.component.html',
@@ -69,10 +71,11 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   public clickedChip: string;
   public iconTimeline: any;
   public activeRoute: string;
+  public positionIdLocStor: string;
   public filterData: {
     [key: string]: Object;
   }[] = [];
-  public statusSearch = false
+  public statusSearch = false;
   public subMenu: object[];
   public globalSearchValModel: string;
   public collateralAppraisalStatusCodes: IOptionNode[] = [
@@ -109,7 +112,9 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     protected applicationStateLogService: ApplicationStateLogService,
     public accountService: AccountService,
     protected dialog: MatDialog,
-    protected router: Router
+    private templateService: TemplateService,
+    protected router: Router,
+    public cashSurveyAppraisalsService: CashSurveyAppraisalsService
   ) {
     super(_snackBar, surveyAppraisalService);
     this.globalSearchValModel = '';
@@ -126,6 +131,7 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
 
   ngOnInit(): void {
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
+    this.positionIdLocStor = this.getLocStor('POS');
     this.filterStatusCode();
     this.loadCity();
     this.loadAll();
@@ -193,73 +199,58 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
     });
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   public loadAll(): void {
     this.checkLogin();
     this.loading = true;
 
-    if (this.clickedChip !== '') {
-      this.surveyAppraisalService
-        .queryFilterBy({
-          page: this.page,
-          idStatus: this.clickedChip,
-          size: this.itemsPerPage,
-          apprOfficer: 'Internal',
-          sort: this.sortData(),
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (this.currentSearch && this.currentSearch !== '') {
-      this.surveyAppraisalService
-        .searchInternal(
-          {
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
+    } else {
+      if (this.clickedChip !== '') {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByInternal({
             page: this.page,
-            // query: this.currentSearch,
+            idStatus: this.clickedChip,
+            idPosition: this.positionIdLocStor,
             size: this.itemsPerPage,
-            sort: ['id,desc'],
-          },
-          this.currentSearch
-        )
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
+            sort: this.sortData(),
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+        return;
+      }
 
-    if (this.globalSearchVal) {
-      this.surveyAppraisalService
-        .searchNew(
-          {
+      if (this.urlAppraisalInternal) {
+        this.cashSurveyAppraisalsService
+          .cashSurveyAppraisalQueryFilterByInternal({
             page: this.page,
-            query: this.globalSearchVal,
             size: this.itemsPerPage,
+            idPosition: this.positionIdLocStor,
             sort: ['id,desc'],
-          },
-          'Internal'
-        )
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    }
-
-    if (this.urlAppraisalInternal) {
-      this.surveyAppraisalService
-        .queryUrlAppraisalInternal({
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
+          })
+          .subscribe({
+            next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
     }
   }
 
@@ -298,8 +289,8 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   protected postLoadDataLazy(): void {
     if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
       this.loadAll();
-    }else{
-      this.doSearch()
+    } else {
+      this.doSearch();
     }
   }
 
@@ -379,38 +370,37 @@ export class CollateralAppraisalMaterialInternalComponent extends AbstractEntity
   }
 
   public doSearch(args: any = null): void {
-    this.statusSearch = true
-      const predicate: object = {
-        page: this.page,
-        query: this.currentSearch,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      };
+    this.statusSearch = true;
+    const predicate: object = {
+      page: this.page,
+      query: this.currentSearch,
+      size: this.itemsPerPage,
+      sort: this.sortData(),
+    };
 
-      if (this.activeRoute === 'batch-apprisalinternal') {
-        predicate['target'] = 'appraisal-distribution-internal';
-      }
+    if (this.activeRoute === 'batch-apprisalinternal') {
+      predicate['target'] = 'appraisal-distribution-internal';
+    }
 
-      this.surveyAppraisalService
-        .search(predicate)
-        .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ISurveyAppraisals[]>) => {
-            this.initDataForMatTableCustom(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    
+    this.cashSurveyAppraisalsService
+      .search(predicate)
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<ISurveyAppraisals[]>) => {
+          this.initDataForMatTableCustom(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
   }
- 
-  public closeSearch(){
-    this.statusSearch = false
-    this.currentSearch = ''
-    this.page = 0
 
-    this.itemsPerPage = 10
-    this.loadAll()
+  public closeSearch() {
+    this.statusSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
+
+    this.itemsPerPage = 10;
+    this.loadAll();
   }
 
   public goToEdit(): void {

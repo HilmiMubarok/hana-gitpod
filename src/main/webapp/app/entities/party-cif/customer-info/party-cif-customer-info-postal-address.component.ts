@@ -11,8 +11,7 @@ import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
   templateUrl: './party-cif-customer-info-postal-address.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress>
-{
+export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
   public districts: IStateBoundary[];
@@ -32,22 +31,20 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   set partyPostalAddress(data: IPartyPostalAddress) {
     this._partyPostalAddresses = data;
 
-	this.loadCountry();
-	this.loadProvince(this._partyPostalAddresses.address.countryId);
+    this.loadCountry();
+    this.loadProvince(this._partyPostalAddresses.address.countryId);
     this.loadCity(this._partyPostalAddresses.address.provinceId);
     this.loadDistrict(this._partyPostalAddresses.address.cityId);
     this.loadVillage(this._partyPostalAddresses.address.districtId);
   }
 
-  constructor(
-    protected activatedRoute: ActivatedRoute,
-    private stateBoundaryService: StateBoundaryService
-  ) {
+  constructor(protected activatedRoute: ActivatedRoute, private stateBoundaryService: StateBoundaryService) {
     super();
-	this.country = [];
+    this.country = [];
     this.provinces = [];
     this.cities = [];
     this.districts = [];
+    this.villages = [];
   }
 
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
@@ -66,7 +63,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.stateBoundaryService
       .queryFilterBy({
         idBoundaryType: GEO_BOUNDARY_TYPE['country'],
-		page: 0,
+        page: 0,
         size: 9999,
       })
       .subscribe(res => {
@@ -75,18 +72,20 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   }
 
   public loadProvince(idCountry: number = null): void {
-	if (idCountry) {
-	  const predicate: object = {
-		idBoundaryType: GEO_BOUNDARY_TYPE['province'],
-		page: 0,
-		size: 9999,
-		idParent: idCountry,
-	  };
+    if (idCountry) {
+      const predicate: object = {
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        page: 0,
+        size: 9999,
+        idParent: idCountry,
+      };
 
-	  this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-		this.provinces = res.body;
-	  });
-	}
+      this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
+        console.log('dataaa', res);
+
+        // this.provinces = res.body;
+      });
+    }
 
     /* if (idCountry === 199) {
       const predicate: object = {
@@ -112,6 +111,27 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
         // ini untuk sementara
       });
     } */
+
+    // provinces
+  }
+  public filterCountry(id: number, name: any): any {
+    if (name === 'country') {
+      const country = this.country.filter(obj => obj.id === id);
+      return country.length > 0 ? country[0].description : '';
+      // return this.country.filter(obj => obj.id === id)[0].description ;
+    } else if (name === 'provinces') {
+      const provinces = this.provinces.filter(obj => obj.id === id);
+      return provinces.length > 0 ? provinces[0].description : '';
+    } else if (name === 'cities') {
+      const cities = this.cities.filter(obj => obj.id === id);
+      return cities.length > 0 ? cities[0].description : '';
+    } else if (name === 'districts') {
+      const districts = this.districts.filter(obj => obj.id === id);
+      return districts.length > 0 ? districts[0].description : '';
+    } else if (name === 'villages') {
+      const villages = this.villages.filter(obj => obj.id === id);
+      return villages.length > 0 ? villages[0].description : '';
+    }
   }
 
   public loadCity(idProvince: number = null): void {
