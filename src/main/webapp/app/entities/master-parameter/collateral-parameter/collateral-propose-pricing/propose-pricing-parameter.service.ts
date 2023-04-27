@@ -6,19 +6,23 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ICollateralParameter } from './collateral-parameter.model';
+import { ICollateralProposePricingParam } from './propose-pricing-parameter.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CollateralParameterService extends AbstractEntityService<ICollateralParameter> {
+export class CollateralProposePricingParameterService extends AbstractEntityService<ICollateralProposePricingParam> {
   public paramTypeId: Subject<any> = new Subject();
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-parameters');
-    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-propose-pricing-parameter');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-propose-pricing-parameter');
   }
 
+  public filterTableData(id: number) {
+    return this.http.get<ICollateralProposePricingParam[]>(`${this.resourceUrl}/find-by-collateral-parameter/${id}`, {
+      observe: 'response',
+    });
+  }
   setPrameterType(message: any) {
     this.paramTypeId.next(message);
   }

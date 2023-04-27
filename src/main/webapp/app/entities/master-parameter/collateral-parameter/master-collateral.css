@@ -197,7 +197,14 @@ table .mat-table {
   padding-top: 13px;
   cursor: move;
 }
+.mat-card-header-text {
+  margin: 0 0px;
+}
 
+h6 {
+  font-family: 'Poppins', sans-serif;
+  color: #008881;
+}
 /* [mat-dialog-title] {
   margin: -24px -24px 0px -24px !important;
   padding: 10px 24px;
