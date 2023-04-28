@@ -54,6 +54,10 @@ export class CollateralParameterDialogComponent implements OnInit {
     });
   }
 
+  public onSave(): void {
+    this.validate().then(() => this.save());
+  }
+
   public save() {
     if (this.collateralParameter.id) {
       // update
@@ -76,5 +80,72 @@ export class CollateralParameterDialogComponent implements OnInit {
         this._dialog.close(res.body);
       });
     }
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      collateralTypeCode: true,
+      collateralTypeCodeDescription: true,
+      collateralDetailTypeCode: true,
+      collateralDetailTypeDescription: true,
+    };
+
+    if (!this.collateralParameter.collateralTypeCode) {
+      this._showNotification('error', 'Masukkan Collateral Code terlebih dahulu');
+      mustValidate.collateralTypeCode = false;
+    }
+
+    if (!this.collateralParameter.collateralTypeCodeDescription) {
+      this._showNotification('error', 'Masukkan Collateral Code Description terlebih dahulu');
+      mustValidate.collateralTypeCodeDescription = false;
+    }
+
+    if (!this.collateralParameter.collateralDetailTypeCode) {
+      this._showNotification('error', 'Masukkan Collateral Detail Code terlebih dahulu');
+      mustValidate.collateralDetailTypeCode = false;
+    }
+
+    if (!this.collateralParameter.collateralDetailTypeDescription) {
+      this._showNotification('error', 'Masukkan Collateral Detail Code terlebih dahulu');
+      mustValidate.collateralDetailTypeDescription = false;
+    }
+
+    // if (!this.generalParameter.value) {
+    //   this._showNotification('error', 'Masukkan Description terlebih dahulu');
+    //   mustValidate.value = false;
+    // }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateMasterCollateral(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Master Product Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateMasterCollateral().then(() => resolve(true));
+    });
   }
 }
