@@ -71,7 +71,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
 
   public selectedMenu: string;
   public isChecked: boolean;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -136,7 +136,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
     this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
-
+  private _group: string;
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   @Input() isViewMode;
 
   constructor(
@@ -240,6 +247,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);

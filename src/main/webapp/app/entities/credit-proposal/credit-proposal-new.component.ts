@@ -57,7 +57,7 @@ export class CreditProposalNewComponent {
       .findLikeCifSegregasi(this.currentSearch, {
         page: 0,
         size: 9999,
-        idInternal: this.getLocStor('INT'),
+        idPosition: this.getLocStor('POS'),
       })
       .subscribe(res => {
         this.partyCifs = res.body;

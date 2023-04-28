@@ -1,4 +1,4 @@
-<mat-card [hidden]="collateral !== null">
+<mat-card>
   <mat-card-header>
     <mat-card-subtitle class="fw-bold">Collateral Info</mat-card-subtitle>
   </mat-card-header>
@@ -51,62 +51,25 @@
           </button>
         </td>
       </ng-container>
-      <ng-container matColumnDef="expand">
-        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-        <td mat-cell *matCellDef="let element">
-          <button
-            mat-icon-button
-            aria-label="expand row"
-            (click)="expandData(element); expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
-          >
-            <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
-            <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-      <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
-          <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <jhi-collateral-property-list
-              class="w-100"
-              *ngIf="element === expandedElement"
-              [collateral]="selectedCollateral"
-            ></jhi-collateral-property-list>
-          </div>
-        </td>
-      </ng-container>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
       </tr>
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
-      <tr
-        mat-row
-        *matRowDef="let element; columns: displayedColumnsExpand"
-        [class.mat-expanded-row]="expandedElement === element"
-        class="mat-element-row"
-        (click)="expandData(element); expandedElement = expandedElement === element ? null : element"
-      ></tr>
-      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
     </table>
-    <mat-card *ngIf="loading" id="material-loading-bar">
-      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-    </mat-card>
-    <mat-paginator
-      showFirstLastButtons
-      ngClass="transparant"
-      [length]="paginatorLength"
-      [pageSize]="paginatorPageSize"
-      [pageSizeOptions]="paginatorPageSizeOption"
-      (page)="loadDataLazy($event)"
-    >
-    </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right">
-    <button mat-raised-button class="text-uppercase" (click)="syncHobis()">SYNC from HOBIS</button>
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()">Add New Collateral</button>
-  </mat-card-actions>
 </mat-card>
 
 <mat-card *ngIf="collateral !== null">
@@ -120,4 +83,3 @@
     <jhi-document [document]="'document-collateral'" [collateral]="collateral"></jhi-document>
   </mat-card-content>
 </mat-card>
-<jhi-group-collateral-list [partyCif]="partyCif"> </jhi-group-collateral-list>

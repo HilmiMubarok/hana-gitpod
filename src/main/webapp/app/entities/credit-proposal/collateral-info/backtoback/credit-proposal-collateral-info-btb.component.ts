@@ -37,7 +37,14 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     'crossCollateral',
     'action',
   ];
-
+  private _group: string;
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   private dataFilter: ICollateral[];
