@@ -451,7 +451,7 @@
                           <mat-label>IFC & Risk Category</mat-label>
                           <mat-select
                             (selectionChange)="onSelectConstruction($event)"
-                            [(ngModel)]="deptorData.debtorData.ifcRiskCategory"
+                            [(ngModel)]="item.debtorData.ifcRiskCategory"
                             [disabled]="
                               item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
                             "
