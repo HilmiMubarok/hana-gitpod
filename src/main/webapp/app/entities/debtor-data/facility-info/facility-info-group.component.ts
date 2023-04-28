@@ -32,6 +32,8 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
 
   public displayColumns: string[] = [
     'no',
+    'appraisalNo',
+    'facilityCategory',
     'customerName',
     'bank',
     'limit',

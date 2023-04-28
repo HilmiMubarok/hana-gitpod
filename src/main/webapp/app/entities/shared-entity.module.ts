@@ -357,6 +357,10 @@ import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/
 import { GroupCollateralInfoComponent } from './party-cif/group-collateral-list/group-collateral-info.component';
 import { GroupCollateralListComponent } from './party-cif/group-collateral-list/group-collateral-list.component';
 import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-idd/paripasu-collateral-idd.component';
+import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-facility-info.component';
+import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
+import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
+import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -772,6 +776,10 @@ import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-
         ParipasuCollateralIddComponent,
         GroupCollateralInfoComponent,
         GroupCollateralListComponent,
+        MainFacilityInfoComponent,
+        MainFacilityInfoChildComponent,
+        MainFacilityComponent,
+        MainFacilityChildComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1147,6 +1155,9 @@ import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-
     ParipasuCollateralIddComponent,
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
+    MainFacilityInfoComponent,
+    MainFacilityComponent,
+    MainFacilityChildComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
