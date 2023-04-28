@@ -15,6 +15,7 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   public displayColumns: string[] = ['no', 'code', 'value', 'status', 'action'];
   public listGeneralLov;
   public typeID: string;
+  private paramType: any;
   constructor(protected _snackbar: MatSnackBar, protected generalParameterService: GeneralParameterService, protected dialog: MatDialog) {
     super(_snackbar, generalParameterService);
     this.page = 0;
@@ -41,8 +42,8 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   }
 
   public onSelect(element: any) {
-    const paramType = element;
-    this.generalParameterService.setPrameterType(paramType);
+    this.paramType = element;
+    this.generalParameterService.setPrameterType(this.paramType);
   }
 
   private loadAll(): void {
@@ -97,5 +98,8 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
         }
       }
     });
+  }
+  previousState(): void {
+    window.history.back();
   }
 }
