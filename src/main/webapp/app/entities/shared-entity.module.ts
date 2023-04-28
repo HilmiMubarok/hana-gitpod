@@ -51,6 +51,7 @@ import { PartyClassificationAsChildComponent } from './party-classification/part
 import { PartyClassificationViewComponent } from './party-classification/party-classification-view.component';
 import { ProductCategoryViewComponent } from './product-category/product-category-view.component';
 import { ProductCategoryTypeViewComponent } from './product-category-type/product-category-type-view.component';
+import { ProductCategoryDialogComponent } from './product-category/product-category-dialog.component';
 import { ProductClassificationViewComponent } from './product-classification/product-classification-view.component';
 import { PeriodTypeViewComponent } from './period-type/period-type-view.component';
 import { WorkTypeViewComponent } from './work-type/work-type-view.component';
@@ -354,6 +355,7 @@ import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan
 import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collateral-property/dialogs/collateral-property-personal-corporate-guarantee.component';
 
 import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/credit-proposal-branch.component';
+import { ProductCategoryEditDialogComponent } from './product-category/product-category-edit-dialog.component';
 import { GroupCollateralInfoComponent } from './party-cif/group-collateral-list/group-collateral-info.component';
 import { GroupCollateralListComponent } from './party-cif/group-collateral-list/group-collateral-list.component';
 import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-idd/paripasu-collateral-idd.component';
@@ -433,6 +435,8 @@ import { SummaryGridComponent } from './credit-proposal/collateral-info/collater
     PartyClassificationViewComponent,
     ProductCategoryViewComponent,
     ProductCategoryTypeViewComponent,
+    ProductCategoryDialogComponent,
+    ProductCategoryEditDialogComponent,
     ProductClassificationViewComponent,
     PeriodTypeViewComponent,
     WorkTypeViewComponent,

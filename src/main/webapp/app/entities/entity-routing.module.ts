@@ -530,6 +530,10 @@ import { RouterModule } from '@angular/router';
           import('./master-parameter/master-product/master-product-parameter.module').then(m => m.LosgwMasterProductParameterModule),
       },
       {
+        path: 'product-category',
+        loadChildren: () => import('./product-category/product-category.module').then(m => m.LosgwProductCategoryModule),
+      },
+      {
         path: 'collateral-parameter',
         loadChildren: () =>
           import('./master-parameter/collateral-parameter/collateral-parameter.module').then(m => m.LosgwCollateralParameterModule),
