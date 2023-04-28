@@ -60,7 +60,16 @@ export class CreditProposalNewComponent {
         idPosition: this.getLocStor('POS'),
       })
       .subscribe(res => {
-        this.partyCifs = res.body;
+        if (res.body.length > 0) {
+          this.partyCifs = res.body;
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail:
+              'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
+          });
+        }
       });
   }
 
