@@ -7,6 +7,7 @@ import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { Observable } from 'rxjs';
 import lodash from 'lodash';
 import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
+import { createRequestOption } from 'app/core/request/request-util';
 
 @Injectable({ providedIn: 'root' })
 export class CollateralService extends AbstractEntityService<ICollateral> {
@@ -80,5 +81,8 @@ export class CollateralService extends AbstractEntityService<ICollateral> {
   }
   public getLovLand(): Observable<HttpResponse<object[]>> {
     return this.http.get<object[]>(this.resourceUrl + '/lov/V2/land-plantation', { observe: 'response' });
+  }
+  public getSummaryCollateral(applicationId: number): Observable<HttpResponse<object[]>> {
+    return this.http.get<any>(`${this.resourceUrl}/summary/${applicationId}`, { observe: 'response' });
   }
 }

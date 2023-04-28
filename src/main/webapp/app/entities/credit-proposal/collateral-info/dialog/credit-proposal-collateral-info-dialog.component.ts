@@ -55,7 +55,14 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   private insuranceStart: ICreditProposalCollateralInsurance;
   private collateralStart: ICollateral;
   private bindingStart: ICreditProposalCollateralBinding;
-
+  private _group: string;
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
   public collateralGrading = [];
@@ -122,6 +129,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       ownerShip: string;
       matrikBindingType: string;
       isViewMode: boolean;
+      group: string;
     }
   ) {
     // this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;

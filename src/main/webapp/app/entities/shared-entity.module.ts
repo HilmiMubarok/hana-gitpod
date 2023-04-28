@@ -357,6 +357,10 @@ import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/
 import { GroupCollateralInfoComponent } from './party-cif/group-collateral-list/group-collateral-info.component';
 import { GroupCollateralListComponent } from './party-cif/group-collateral-list/group-collateral-list.component';
 import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-idd/paripasu-collateral-idd.component';
+import { GroupCollateralListCpComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral-list-cp.component';
+import { ParipasuCollateralDebiturComponent } from './credit-proposal/collateral-info/paripasu-collateral-debitur/paripasu-collateral-debitur.component';
+import { ParipasuCollateralGroupComponent } from './credit-proposal/collateral-info/paripasu-collateral-group/paripasu-collateral-group.component';
+import { SummaryGridComponent } from './credit-proposal/collateral-info/collateral-summary/summary-grid.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -772,6 +776,11 @@ import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-
         ParipasuCollateralIddComponent,
         GroupCollateralInfoComponent,
         GroupCollateralListComponent,
+        // cross cp //
+        ParipasuCollateralGroupComponent,
+        ParipasuCollateralDebiturComponent,
+        GroupCollateralListCpComponent,
+        SummaryGridComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1147,6 +1156,11 @@ import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-
     ParipasuCollateralIddComponent,
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
+    // cross cp //
+    ParipasuCollateralGroupComponent,
+    ParipasuCollateralDebiturComponent,
+    GroupCollateralListCpComponent,
+    SummaryGridComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -30,6 +30,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
 export class GroupCollateralComponent implements OnChanges, OnInit {
+  public mappingStatus: [];
   @Input() isViewMode;
   public displayedColumns: string[] = [
     'no',
@@ -68,6 +69,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  isChecked: boolean;
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -79,6 +81,14 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+  private _group: string;
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
   }
 
   constructor(
@@ -98,6 +108,37 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     this.setCertyficateType();
   }
 
+  public slideChange($event) {
+    if (this.isChecked === true) {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
+      if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
+        for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
+          for (let j = 0; j < this.creditProposal.products.length; j++) {
+            if ($event === true) {
+              const tempCollateralProductRelationObject = {
+                collateralId: this.creditProposal.collaterals[i].id,
+                bindingValue: 0,
+                applicationProduct: this.creditProposal.products[j],
+              };
+              this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+            }
+          }
+        }
+      }
+    } else {
+      this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
+      if (this.creditProposal.collateralProductRelations.length > 0) {
+        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+          if (
+            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
+            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
+          ) {
+            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+          }
+        }
+      }
+    }
+  }
   @ViewChild('paginator') paginator: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -155,6 +196,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         certDueDate: this.getExpiry(element),
         isViewMode: true,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);

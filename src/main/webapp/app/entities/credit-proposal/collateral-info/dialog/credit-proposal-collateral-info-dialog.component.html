@@ -656,7 +656,12 @@
     >
     </jhi-mapping-facility>
   </div>
-  <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+  <div *ngIf="group === 'group'">
+    <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+  </div>
+  <div *ngIf="group !== 'group'">
+    <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

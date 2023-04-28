@@ -23,13 +23,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
-
+import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 @Component({
-  selector: 'jhi-bellow-grid',
-  templateUrl: './bellow-grid.component.html',
+  selector: 'jhi-summary-grid',
+  templateUrl: './summary-grid.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
+export class SummaryGridComponent extends AbstractEntityMaterialComponent<ICollateral> implements OnChanges, OnInit, AfterViewInit {
   public displayedColumns: string[] = [
     'no',
     // 'id',
@@ -52,14 +53,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     'crossCollateral',
     'action',
   ];
-  private _group: string;
-  @Input()
-  get group() {
-    return this._group;
-  }
-  set group(data: string) {
-    this._group = data;
-  }
+
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
@@ -75,11 +69,21 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   public totalPlafond: number;
   public biddingValueSum: number;
   public biddingValueCoverage: number;
+
   public selectedMenu: string;
   public isChecked: boolean;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
+  }
+  public _partyCif: IPartyCif;
+  @Input()
+  get partyCif() {
+    return this._partyCif;
+  }
+
+  set partyCif(object: IPartyCif) {
+    this._partyCif = object;
   }
 
   @Input()
@@ -180,18 +184,15 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('paginator2') paginator2: MatPaginator;
 
-  private loadByPartyId(param: string): void {
-    this.collateralService
-      .queryFilterBy({
-        idParty: param,
-        isActive: true,
-      })
-      .subscribe(res => {
-        this.getBindingCalculate(res.body);
-        this.dataCollateral = res.body;
-        this.dataItem = new MatTableDataSource(res.body);
-        this.dataItem.paginator = this.paginator;
-      });
+  private loadSummaryCollateral(): void {
+    const applicationNumber = this.creditProposal.id;
+    this.collateralService.getSummaryCollateral(applicationNumber).subscribe(res => {
+      this.dataCollateral = res.body;
+      this.dataItem = new MatTableDataSource(res.body);
+      this.dataItem.paginator = this.paginator;
+      this.getBindingCalculate(res.body);
+      console.log('data', res.body);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -201,8 +202,8 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
           this.findCollateralProperty(collateral);
-          if (this.creditProposal.cif) {
-            this.loadByPartyId(this.creditProposal.cif.partyId);
+          if (this.creditProposal.id) {
+            this.loadSummaryCollateral();
           }
         }
       }
@@ -285,6 +286,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         } else {
           this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
         }
+        console.log(res, 'debtorCollateral');
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
@@ -514,6 +516,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     }
     return 'IDR';
   }
+
   private fungsiSumcredit(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       let result: number;
@@ -547,6 +550,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
 
       this.totalPlafond = result + dolar;
+
       resolve();
     });
   }
@@ -619,8 +623,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['vehicle'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
-      collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']
+      collateral.collateralTypeId === COLLATERAL_TYPE['realestate']
     ) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -685,7 +688,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     let result: string;
 
     // console.log("collateral in above grid",collateral);
-    if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
+    if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -694,18 +697,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
-        }
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.certificateNumber === undefined) {
-          string2 = '';
-        } else {
-          string2 = data.certificateNumber;
         }
       }
     }
@@ -757,18 +748,6 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
           result = '';
         } else {
           result = data.attributes.maturityDate;
-        }
-      }
-    }
-    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
-      data = this.collateralProperties.find(
-        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
-      );
-      if (data !== undefined) {
-        if (data.certificateExpiryDate === undefined) {
-          result = '';
-        } else {
-          result = data.certificateExpiryDate;
         }
       }
     }
@@ -861,7 +840,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     return '';
   }
 
-  public getBindingCalculate(res: any) {
+  public getBindingCalculate(res: any[]) {
     const array1 = res;
     const array2 = this.creditProposal.attributes['binding'];
     let getBindingCalculateValue;
@@ -875,6 +854,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       });
     });
   }
+
   public convertNan(value: any): any {
     if (Number.isNaN(value)) {
       return 0;
