@@ -71,6 +71,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'master-product-parameter',
       },
       {
+        name: 'Product Category',
+        iconname: 'minus',
+        route: 'product-category',
+      },
+      {
         name: 'Collateral',
         iconname: 'minus',
         route: 'collateral-parameter',

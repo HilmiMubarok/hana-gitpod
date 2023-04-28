@@ -51,6 +51,7 @@ import { PartyClassificationAsChildComponent } from './party-classification/part
 import { PartyClassificationViewComponent } from './party-classification/party-classification-view.component';
 import { ProductCategoryViewComponent } from './product-category/product-category-view.component';
 import { ProductCategoryTypeViewComponent } from './product-category-type/product-category-type-view.component';
+import { ProductCategoryDialogComponent } from './product-category/product-category-dialog.component';
 import { ProductClassificationViewComponent } from './product-classification/product-classification-view.component';
 import { PeriodTypeViewComponent } from './period-type/period-type-view.component';
 import { WorkTypeViewComponent } from './work-type/work-type-view.component';
@@ -353,6 +354,7 @@ import { ApproveFinalComponent } from './loan-analys/approval-final/approve-fina
 import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral.component';
 import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collateral-property/dialogs/collateral-property-personal-corporate-guarantee.component';
 import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/credit-proposal-branch.component';
+import { ProductCategoryEditDialogComponent } from './product-category/product-category-edit-dialog.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -425,6 +427,8 @@ import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/
     PartyClassificationViewComponent,
     ProductCategoryViewComponent,
     ProductCategoryTypeViewComponent,
+    ProductCategoryDialogComponent,
+    ProductCategoryEditDialogComponent,
     ProductClassificationViewComponent,
     PeriodTypeViewComponent,
     WorkTypeViewComponent,
