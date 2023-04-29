@@ -131,9 +131,6 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
     this.selectedMenu = 'INFORMATION';
 
     if (changes['creditProposal']) {
-      /* if (this.creditProposal.customerNumber) {
-        this.collateralMybusiness();
-      } */
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
@@ -147,26 +144,19 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
   }
 
   private findAndCleanConnection(col: any): void {
-	/* let i = this.creditProposal.collateralProductRelations.length - 1;
-	while (i--) {
-	  for (let j = 0; j < this.creditProposal.products.length; j++) {
-		if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
-		  this.creditProposal.collateralProductRelations.splice(i,1);
-		}
-	  }
-	} */
-	
-	for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-	  for (let j = 0; j < this.creditProposal.products.length; j++) {
-		if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
-		  this.creditProposal.collateralProductRelations.splice(i,1);
+	if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && col) {
+	  for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+		for (let j = 0; j < this.creditProposal.products.length; j++) {
+		  if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
+			this.creditProposal.collateralProductRelations.splice(i,1);
+		  }
 		}
 	  }
 	}
   }
 
   public changeCheckedColGroupAssignToProdAll(event: MatCheckboxChange, index: number): void {
-	if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && this.groupCollaterals.length > 0) {
+	if (this.creditProposal.products.length > 0 && this.groupCollaterals.length > 0) {
 	  this.findAndCleanConnection(this.groupCollaterals[index]);
 	  if (event.checked === true) {
 		for (let j = 0; j < this.creditProposal.products.length; j++) {
@@ -178,7 +168,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
 		  this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
 		}
 	  } else if (event.checked === false) {
-		// do nothing; done by another function
+		// do nothing; done by another function //
 	  }
 	}
 	this.creditProposalService.changeColRelByCP(this.creditProposal);

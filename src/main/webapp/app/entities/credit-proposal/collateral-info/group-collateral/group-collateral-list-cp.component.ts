@@ -105,7 +105,6 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
 			for (let i = 0; i < res.body.length; i++ ) {
 			  this.listGroupCollateralItems.push(res.body[i]);
 			}
-			// this.listGroupCollateralItems = [this.listGroupCollateralItems, ...res.body];
 			this.checkGroupAll(this.creditProposal);
 		  });
 	  });
@@ -150,14 +149,12 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
   }
 
   private cleanUpColGroupRel(): void {
-	if (this.creditProposal.collateralProductRelations.length > 0) {
-	  if (this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-		for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-		  for (let j = 0; j < this.creditProposal.products.length; j++) {
-			for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-			  if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
-				this.creditProposal.collateralProductRelations.splice(i,1);
-			  }
+	if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+	  for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+		for (let j = 0; j < this.creditProposal.products.length; j++) {
+		  for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+			if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
+			  this.creditProposal.collateralProductRelations.splice(i,1);
 			}
 		  }
 		}
