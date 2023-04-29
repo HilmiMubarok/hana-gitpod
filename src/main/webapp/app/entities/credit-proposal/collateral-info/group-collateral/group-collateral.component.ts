@@ -145,7 +145,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
 
   private findAndCleanConnection(col: any): void {
 	if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && col) {
-	  for (let i = this.creditProposal.collateralProductRelations.length - 1; i = 0; i--) {
+	  for (let i = this.creditProposal.collateralProductRelations.length - 1; i >= 0; i--) {
 		for (let j = 0; j < this.creditProposal.products.length; j++) {
 		  if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
 			this.creditProposal.collateralProductRelations.splice(i,1);
