@@ -133,7 +133,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       sort: this.sortData(),
     };
 
-    if (this.activeRoute === 'distribution') {
+    if (this.activeRoute === 'la-distribution') {
       predicate['target'] = 'loan-analyst-distribution';
     } else if (this.activeRoute === 'la-analyst') {
       predicate['target'] = 'loan-analyst';
@@ -246,7 +246,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
-      if (this.activeRoute === 'distribution') {
+      if (this.activeRoute === 'la-distribution') {
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDistribution({
