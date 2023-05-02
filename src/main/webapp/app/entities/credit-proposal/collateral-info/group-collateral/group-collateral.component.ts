@@ -229,7 +229,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
         matrikBindingType: this.getBindingType(element.collBindingType),
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         certDueDate: this.getExpiry(element),
-        isViewMode: true,
+        isViewMode: false,
         group: this.group,
       },
     };
