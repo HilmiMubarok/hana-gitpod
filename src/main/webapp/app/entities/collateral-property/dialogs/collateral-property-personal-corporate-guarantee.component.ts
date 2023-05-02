@@ -245,6 +245,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.initializeCountry();
     this.getLovManagementBranch();
     this.getLovCertificateType();
+    this.cekRemark();
     console.log('collateral ', this.collateralProperty.marketValue);
   }
 
@@ -509,5 +510,11 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
 
   print() {
     console.log('collateral property', this.collateralProperty);
+  }
+
+  cekRemark() {
+    if (!this.collateralProperty.attributes.remark) {
+      this.collateralProperty.attributes.remark = '';
+    }
   }
 }
