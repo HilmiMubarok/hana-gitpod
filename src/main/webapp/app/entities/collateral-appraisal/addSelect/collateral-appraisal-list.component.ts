@@ -161,12 +161,23 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     const predicate = {
       page: this.page,
       size: this.itemsPerPage,
-      idInternal: this.getLocStor('INT'),
+      idPosition: this.getLocStor('POS'),
       sort: ['id', 'desc'],
     };
 
-    this.partyCifService.findLikeCif(this.cifNumber, predicate).subscribe(res => {
-      this.initDataForMatTable(res, res.headers);
+    this.partyCifService.findLikeCifSegregasi(this.cifNumber, predicate).subscribe(res => {
+      if (res.body.length > 0) {
+        this.initDataForMatTable(res, res.headers);
+      } else {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Warning',
+          detail:
+            'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
+        });
+        this.initDataForMatTable(res, res.headers);
+      }
+
       // Validation Kepemilikan Data - Start - Commented with wa group @28.12.2022 (Keys : Dwi)//
       /* let filteredData = [];
 	  this.accountService.identity().subscribe(account => {
