@@ -161,8 +161,9 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
     window.history.back();
   }
 
-  //  Grid Collateral Propose Pricing
+  //  Grid Collateral Propose Pricingthis.
   public expandData(param: ICollateralParameter): void {
+    this.selectedCollateral = param;
     this.collateralProposePricingService.filterTableData(param.id).subscribe(res => {
       this.dataSource = res.body;
       console.log('res body', this.dataSource);
@@ -172,6 +173,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
   public openDialogPricing(element: ICollateralProposePricingParam): void {
     let predicate: ICollateralProposePricingParam;
     predicate = new CollateralProposePricingParameter();
+
     const data = this.collateralProposePricingService.paramTypeId.subscribe((message: any) => {
       this.collateralParameterId = message;
     });
@@ -186,6 +188,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
       width: '100%',
       data: {
         collateralProposePricingParameter: predicate,
+        dataCollateral: this.selectedCollateral,
       },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralProposePricingParam) => {
