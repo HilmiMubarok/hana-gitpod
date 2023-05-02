@@ -27,7 +27,7 @@ export class CashLoanAnalysService extends AbstractEntityService<ICreditProposal
   loanAnalisysDistribution(req?: any): Observable<HttpResponse<ICreditProposal[]>> {
     const options = createRequestOption(req);
     return this.http
-      .get<ICreditProposal[]>(this.resourceUrl + '/cash-loan-analisys/distribution', { params: options, observe: 'response' })
+      .get<ICreditProposal[]>(this.resourceUrl + '/cash-loan-analisys/la-distribution', { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
   }
