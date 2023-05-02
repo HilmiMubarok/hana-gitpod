@@ -12,8 +12,9 @@ import { ICollateralParameter } from '../collateral-parameter.model';
 })
 export class CollateralProposePricingDialogEditComponent implements OnInit {
   public collateralProposePricingParameter: ICollateralProposePricingParam;
+  public collateralParameter: ICollateralProposePricingParam;
   public view: boolean;
-  public param: ICollateralParameter;
+  public dataCollateral: ICollateralParameter;
 
   public statusValue = [
     {
@@ -32,6 +33,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralProposePricingParameter: ICollateralProposePricingParam;
+      dataCollateral: ICollateralParameter;
       view: false;
     },
     private _dialog: MatDialogRef<CollateralProposePricingDialogEditComponent>,
@@ -40,23 +42,13 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
     protected messageService: MessageService
   ) {
     this.collateralProposePricingParameter = this.data.collateralProposePricingParameter;
+    this.dataCollateral = this.data.dataCollateral;
     this.view = this.data.view;
   }
   ngOnInit(): void {
-    this.findValueById(this.collateralProposePricingParameter);
+    this.collateralProposePricingParameter.collateralParameterId = this.dataCollateral.id;
   }
 
-  // Untuk Kebutuhan Add Data
-  public findValueById(param: ICollateralParameter) {
-    this.collateralProposePricingService.filterTableData(param.id).subscribe(result => {
-      console.log('result', result);
-      if (result.body.length) {
-        for (let i = 0; i < result.body.length; i++) {
-          this.collateralProposePricingParameter.collateralParameterId = result.body[i].collateralParameterId;
-        }
-      }
-    });
-  }
   public save() {
     if (this.collateralProposePricingParameter.id) {
       // update
