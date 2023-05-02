@@ -196,6 +196,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     } else {
       this.clickedChip = option;
     }
+
     this.loadAll();
   }
 
