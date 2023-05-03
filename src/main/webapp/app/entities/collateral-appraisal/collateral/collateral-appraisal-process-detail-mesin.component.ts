@@ -11,6 +11,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-mesin',
   templateUrl: './collateral-appraisal-process-detail-mesin.component.html',
@@ -44,7 +45,6 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
     }
     this.checkLogin();
     this.hiddenTombol();
-    // console.log('hiddenAdmin', this.hiddenRmAdmin);
   }
 
   private getData(): void {
@@ -57,11 +57,15 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   }
 
   public collateralProperties(collateralId: number): void {
-    this.collateralPropertyService
-      .queryFilterBy({ idCollateral: collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
-      .subscribe(res => {
-        this.collateralAppraisalService.totalDataDetailMachine = res.body;
-      });
+    if (collateralId === undefined) {
+      return;
+    } else {
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
+        .subscribe(res => {
+          this.collateralAppraisalService.totalDataDetailMachine = res.body;
+        });
+    }
   }
 
   public openDialog(property: ICollateralProperty = null): void {
@@ -86,11 +90,29 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
     });
   }
 
+  // Delete Confirmation
   public deleteMchine(element): void {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.getData();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Machine',
+        message: 'Are you sure to delete ' + element.machineName + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.collateralPropertyService.delete(element.id).subscribe(() => {
+          this.getData();
+        });
+      }
     });
   }
+
+  // public deleteMchine(element): void {
+  //   this.collateralPropertyService.delete(element.id).subscribe(() => {
+  //     this.getData();
+  //   });
+  // }
   hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;

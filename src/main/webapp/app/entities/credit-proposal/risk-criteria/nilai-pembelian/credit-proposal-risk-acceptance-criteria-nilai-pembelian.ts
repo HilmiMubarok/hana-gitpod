@@ -7,6 +7,7 @@ import { INilaiRac, NilaiRac } from './nilai-pembelian.model';
 import { CreditProposalRacNilaiPembelianAddComponent } from './credrit-proposal-risk-acceptance-criteria-add';
 import { CreditProposalRacNilaiPembelianEditComponent } from './credit-proposal-risk-acceptance-criteria-edit';
 import { CpRacBelow } from '../below/risk-criteria-below.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-nilai-pembelian',
@@ -94,11 +95,28 @@ export class CreditProposalRacNilaiPembelianComponent {
       }
     });
   }
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Asset Transaction',
+        message: 'Are you sure to delete transaction value of ' + element.nilaiPembelian + ' ' + element.ccy + '?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGridNilai = this.item.attributes['cpRacBelow']['lovBelow'].filter(({ id }) => id !== element.id);
+        this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
+        this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
+      }
+    });
+  }
 
   // DELETE
-  public onDelete(element: ICreditProposal) {
-    const dataGridNilai = this.item.attributes['cpRacBelow']['lovBelow'].filter(({ id }) => id !== element.id);
-    this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
-    this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
-  }
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGridNilai = this.item.attributes['cpRacBelow']['lovBelow'].filter(({ id }) => id !== element.id);
+  //   this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
+  //   this.item.attributes['cpRacBelow']['lovBelow'] = dataGridNilai;
+  // }
 }

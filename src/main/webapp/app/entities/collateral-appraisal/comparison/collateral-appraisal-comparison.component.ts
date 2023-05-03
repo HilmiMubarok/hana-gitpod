@@ -7,6 +7,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
@@ -37,17 +38,23 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
   }
 
   public getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService
-      .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
+    if (id === undefined) {
+      return;
+    } else {
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: id, page: 0, size: 9999, idPropertyType: CollateralPropertyType.COMPARISON })
 
-      .subscribe(res => {
-        this.collateralProperties = res.body;
+        .subscribe(res => {
+          this.collateralProperties = res.body;
 
-        for (let index = 0; index < res.body.length; index++) {
-          this.collateralProperties[index].attributes['comparison'] = JSON.parse(this.collateralProperties[index].attributes['comparison']);
-        }
-        this.collateralAppraisalService.totalDataComparison = res.body;
-      });
+          for (let index = 0; index < res.body.length; index++) {
+            this.collateralProperties[index].attributes['comparison'] = JSON.parse(
+              this.collateralProperties[index].attributes['comparison']
+            );
+          }
+          this.collateralAppraisalService.totalDataComparison = res.body;
+        });
+    }
   }
 
   public edit(element: ICollateralProperty): void {
@@ -61,12 +68,29 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
       }
     });
   }
-
+  // Delete Confirmation
   public deleteCpRealEstate(element): void {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.getCollateralPropertyByCollateralId(this.collateralId);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Comparison Data',
+        message: 'Are you sure to delete ' + element.attributes.comparison.nameFile + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.collateralPropertyService.delete(element.id).subscribe(() => {
+          this.getCollateralPropertyByCollateralId(this.collateralId);
+        });
+      }
     });
   }
+
+  // public deleteCpRealEstate(element): void {
+  //   this.collateralPropertyService.delete(element.id).subscribe(() => {
+  //     this.getCollateralPropertyByCollateralId(this.collateralId);
+  //   });
+  // }
 
   public openDialog() {
     const dialogRef = this.dialog.open(CollateralAppraisalComparisonDialogComponent, {

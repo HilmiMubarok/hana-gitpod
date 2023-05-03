@@ -6,6 +6,7 @@ import { IOtherCovenant, OtherCovenant } from './other-convenant.model';
 import { OtherCovenantTempDialogComponent } from './add/credit-proposal-other-covenant-dialog.component';
 import { CreditProposalOtherCovenantEditTempComponent } from './edit/credit-proposal-other-covenant-edit.component';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-other-covenant-temp',
@@ -171,11 +172,28 @@ export class OtherCovenantTempComponent implements OnInit {
       }
     });
   }
-
-  // DELETE
-  public onDelete(element: ICreditProposal) {
-    const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
-    this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
-    this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Covenant',
+        message: 'Are you sure to delete ' + element.covenant + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+        this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+      }
+    });
   }
+
+  // // DELETE
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGrid = this.creditProposalItem.attributes['convenant']['otherCovenant'].filter(({ id }) => id !== element.id);
+  //   this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+  //   this.creditProposalItem.attributes['convenant']['otherCovenant'] = dataGrid;
+  // }
 }

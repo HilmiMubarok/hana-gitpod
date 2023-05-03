@@ -99,7 +99,8 @@
           </section>
         </div>
 
-        <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE' && creditProposalItem.statusId !== 'CP_LOAN_APPROVAL'">
+		<!-- <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE' && creditProposalItem.statusId !== 'CP_LOAN_APPROVAL'"> -->
+        <section *ngIf="tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC'">
           <div class="form-group">
             <p class="e-card-sub-title">Recomendation</p>
             <div class="d-flex justify-content-around">
@@ -131,7 +132,8 @@
           </div>
         </section>
 
-        <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' || creditProposalItem.statusId === 'CP_LOAN_APPROVAL'">
+		<!-- <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' || creditProposalItem.statusId === 'CP_LOAN_APPROVAL'"> -->
+        <section *ngIf="tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval'">
           <div class="form-group">
             <p class="e-card-sub-title">Approved Status</p>
             <div class="d-flex justify-content-around">

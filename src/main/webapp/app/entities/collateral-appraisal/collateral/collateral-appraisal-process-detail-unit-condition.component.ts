@@ -60,13 +60,17 @@ export class CollateralAppraisalDetailProcessUnitConditionComponent implements O
   }
 
   public getCollateralPropertyByCollateralId(id: number): void {
-    this.collateralPropertyService
-      .queryFilterBy({ idCollateral: id, size: 9999, page: 0, idPropertyType: CollateralPropertyType.VEHICLE })
-      .subscribe(res => {
-        this.collateralProperties = res.body;
+    if (id === undefined) {
+      return;
+    } else {
+      this.collateralPropertyService
+        .queryFilterBy({ idCollateral: id, size: 9999, page: 0, idPropertyType: CollateralPropertyType.VEHICLE })
+        .subscribe(res => {
+          this.collateralProperties = res.body;
 
-        this.collateralAppraisalService.totalDataDetailVehicle = res.body;
-      });
+          this.collateralAppraisalService.totalDataDetailVehicle = res.body;
+        });
+    }
   }
 
   public openDialog(colProp: ICollateralProperty = null): void {

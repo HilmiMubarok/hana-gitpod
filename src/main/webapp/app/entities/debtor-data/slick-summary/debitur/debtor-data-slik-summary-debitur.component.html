@@ -63,7 +63,7 @@
           <button mat-icon-button (click)="openDialog(element, i)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="removeDebtorData(element)" [hidden]="isCpApproval">
+          <button mat-icon-button (click)="openRemoveDebtorData(element)" [hidden]="isCpApproval">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -101,8 +101,8 @@
     <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
       Upload
     </button>
-    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
   </div>
+  <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
   <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>
@@ -195,8 +195,8 @@
     <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
       Upload
     </button>
-    <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
   </div>
+  <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
   <table mat-table [dataSource]="partySliks" class="w-100">
     <ng-container matColumnDef="no">
       <th mat-header-cell *matHeaderCellDef>No</th>

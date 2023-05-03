@@ -10,6 +10,7 @@ import { DocumentDialogDialogV2Component } from './document-detail-dialog-v2.com
 import { STATUS } from 'app/shared/constants/status.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-document',
@@ -68,13 +69,12 @@ export class DocumentComponent implements OnChanges, OnInit {
     }
   }
 
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
     }
-    
   }
 
   private getBucket(): Promise<void> {
@@ -136,28 +136,61 @@ export class DocumentComponent implements OnChanges, OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
+  // Delete Confirmation
   dataKey: any;
   public delete(element): void {
-    for (let i = 0; i < element.files.length; i++) {
-      if (this.collateral) {
-        this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-          this.getBucket().then(() => {
-            this.getFiles('collateral', this.collateral.id);
-          });
-        });
-        this.dataKey = element;
-      }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Document',
+        message: 'Are you sure to delete this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(respond => {
+      if (respond) {
+        for (let i = 0; i < element.files.length; i++) {
+          if (this.collateral) {
+            this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+              this.getBucket().then(() => {
+                this.getFiles('collateral', this.collateral.id);
+              });
+            });
+            this.dataKey = element;
+          }
 
-      if (this.appraisal) {
-        this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-          this.getBucket().then(() => {
-            this.getFiles('appraisal', this.appraisal.id);
-          });
-        });
-        this.dataKey = element;
+          if (this.appraisal) {
+            this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+              this.getBucket().then(() => {
+                this.getFiles('appraisal', this.appraisal.id);
+              });
+            });
+            this.dataKey = element;
+          }
+        }
       }
-    }
+    });
   }
+  // public delete(element): void {
+  //   for (let i = 0; i < element.files.length; i++) {
+  //     if (this.collateral) {
+  //       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+  //         this.getBucket().then(() => {
+  //           this.getFiles('collateral', this.collateral.id);
+  //         });
+  //       });
+  //       this.dataKey = element;
+  //     }
+
+  //     if (this.appraisal) {
+  //       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
+  //         this.getBucket().then(() => {
+  //           this.getFiles('appraisal', this.appraisal.id);
+  //         });
+  //       });
+  //       this.dataKey = element;
+  //     }
+  //   }
+  // }
 
   public openDialog(): void {
     const predicate: object = {
@@ -319,5 +352,32 @@ export class DocumentComponent implements OnChanges, OnInit {
         this.IfRmEnable = false;
       }
     }
+  }
+
+  public testDate() {
+    if (this.folders.length !== undefined) {
+      for (let i = 0; i < this.folders.length; i++) {
+        const date = this.folders[i]['date'];
+      }
+    }
+  }
+  public convert(str) {
+    const mnths = {
+        Jan: '01',
+        Feb: '02',
+        Mar: '03',
+        Apr: '04',
+        May: '05',
+        Jun: '06',
+        Jul: '07',
+        Aug: '08',
+        Sep: '09',
+        Oct: '10',
+        Nov: '11',
+        Dec: '12',
+      },
+      date = str.split(' ');
+
+    return [date[3], mnths[date[1]], date[2]].join('-');
   }
 }

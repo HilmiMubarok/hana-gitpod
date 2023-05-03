@@ -1,4 +1,4 @@
-interface ILevel {
+export interface ILevel {
   id?: string;
   category?: string;
   description?: string;
@@ -13,6 +13,7 @@ interface ILevel {
   remarks?: string;
   status?: string;
   dueDate?: string;
+  collateralTypeId?: string
 }
 
 export interface IDocumentType {
@@ -29,6 +30,7 @@ export interface IDocumentType {
   rootId?: string;
   rootDescription?: string;
   level?: ILevel[];
+  collateralTypeId?: string
 }
 
 export class DocumentType implements IDocumentType {
