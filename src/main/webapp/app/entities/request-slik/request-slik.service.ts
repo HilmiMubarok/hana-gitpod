@@ -5,17 +5,20 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import _ from 'lodash';
+import { MatTableDataSource } from '@angular/material/table';
+import { PartySlikService } from '../party-slik/party-slik.service';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
   constructor(
     protected http: HttpClient,
     protected applicationConfigService: ApplicationConfigService,
-    protected partyCifService: PartyCifService
+    protected partyCifService: PartyCifService,
+    protected partySlikService: PartySlikService
   ) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
@@ -178,7 +181,6 @@ export class RequestSlikService extends AbstractEntityService<any> {
     const data = {
       id: 0,
       partyId: cbasData.partyId,
-      requestReffId: '',
       requestSlikId: cbasData.id,
       status: 1,
     };
@@ -194,11 +196,24 @@ export class RequestSlikService extends AbstractEntityService<any> {
     return forkJoin([save, changeStatus]);
   }
 
+  pushPartySlik(data) {
+    // * NOTES: sementara di comment dulu, karena belum ada data di partyId lain, jadi kalau udah terlanjur complete, tidak bisa test di status verify lagi
+    // const save = this.partySlikService.saveAll(data.verifyData);
+    // const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
+    // return forkJoin([save, changeStatus]);
+    return this.partySlikService.saveAll(data.verifyData);
+  }
+
   public onSubmit(data) {
     if (data.status === 'Checking') {
       return this.postCBAS(data);
     } else if (data.status === 'ApprovalSlik') {
       return this.submitDraft(data);
+    } else if (data.status === 'Complete') {
+      // push partyslik data.verifyData
+      return this.pushPartySlik(data);
+      // const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
+      // return this.partySlikService.saveAll(data.verifyData);
     } else {
       return this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
       // this.saveDetails(data.details)
@@ -208,30 +223,48 @@ export class RequestSlikService extends AbstractEntityService<any> {
     }
   }
 
-  parseSlikResult(data) {
-    // Clone the input array to avoid modifying the original array
-    const outputArr = [...data];
-
-    // Loop through each object in the input array
-    outputArr.forEach(obj => {
-      // Check if the object has a 'resultJson' property
-      // eslint-disable-next-line no-prototype-builtins
-      if (obj.hasOwnProperty('resultJson')) {
-        try {
-          // Parse the 'resultJson' property value into a JavaScript object
-          const parsedResultJson = JSON.parse(obj.resultJson);
-          // Update the 'resultJson' property with the parsed value
-          obj.resultJson = parsedResultJson;
-        } catch (error) {
-          console.error('Failed to parse resultJson:', error);
-        }
+  mapSlikResult(data) {
+    // console.log('data ori', {
+    //   data,
+    //   typeResult: typeof data.resultJson,
+    // });
+    // eslint-disable-next-line no-prototype-builtins
+    if (data.hasOwnProperty('resultJson')) {
+      try {
+        // Parse the 'resultJson' property value into a JavaScript object
+        const parsedResultJson = JSON.parse(data.resultJson);
+        // Update the 'resultJson' property with the parsed value
+        data.resultJson = parsedResultJson;
+      } catch (error) {
+        console.error('Failed to test parse resultJson:', error);
       }
-    });
+    }
 
-    // Return the modified array with parsed 'resultJson' property values
-    return outputArr;
+    const finalData = [];
+
+    data.resultJson.sliks.forEach(slik => {
+      const { nikNpwp, ideb, partySlik } = slik;
+      finalData.push(Object.assign({}, ideb.data.dataPokokDebitur[0], { nikNpwp, partySlik: partySlik[0] }));
+    });
+    return finalData;
   }
 
+  getCbasFilterBy(idCbasSlik) {
+    const params = new HttpParams().set('idCbasSLik', idCbasSlik);
+    return this.http.get<any>(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik_result/filterBy'), {
+      observe: 'response',
+      params,
+    });
+  }
+
+  getCbasRes(id, partyId) {
+    const params = new HttpParams().set('idParty', partyId).set('idRequestSLik', id).set('page', 1).set('size', 10);
+
+    return this.http.get<any>(this.resourceUrlNew + '/getIdCbas', {
+      observe: 'response',
+      params,
+    });
+  }
   getCbasResult(id, partyId) {
     const idParty = new HttpParams().set('idParty', partyId);
     const page = new HttpParams().set('page', 1);
@@ -258,6 +291,15 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
   //   return this.http.post<any>(this.resourceUrl, { params: options, observe: 'response' });
   // }
+
+  nikNpwp = new BehaviorSubject<string[]>([]);
+  getNikNpwp() {
+    return this.nikNpwp;
+  }
+
+  setNikNpwp(nikNpwp) {
+    this.nikNpwp.next(nikNpwp);
+  }
 
   protected preSave(entity: IRequestSlik) {}
 }

@@ -1,5 +1,5 @@
 <div class="page-view" style="padding-bottom: 30px">
-  {{ requestSlik?.status }}
+  <!-- {{ requestSlik?.status }} -->
   <!-- <h5 class="page-heading">
     <span jhiTranslate="losgwApp.requestSlik.home.viewLabel">Request Sliks</span>
   </h5> -->
@@ -124,9 +124,9 @@
             [partyCif]="partyCif"
             [checklists]="checklists"
             [requestSlik]="requestSlik"
-            [result]="result"
             managementType="MANAGEMENT_DATA"
             (checklistData)="getChecklistManagementData($event)"
+            (selectedVerifyData)="getSelectedVerifyData($event)"
           ></jhi-request-slik-management-data-grid>
           <div class="my-5"></div>
           <jhi-request-slik-shareholder-grid
@@ -137,6 +137,7 @@
             [result]="result"
             managementType="SHAREHOLDER"
             (checklistData)="getChecklistShareholder($event)"
+            (selectedVerifyData)="getSelectedVerifyData($event)"
           ></jhi-request-slik-shareholder-grid>
           <div class="my-5"></div>
           <jhi-request-slik-other-grid
@@ -147,6 +148,7 @@
             [result]="result"
             managementType="CONTROL_PERSON"
             (checklistData)="getChecklistOther($event)"
+            (selectedVerifyData)="getSelectedVerifyData($event)"
           ></jhi-request-slik-other-grid>
           <!-- =============== -->
           <!-- =============== -->
@@ -183,6 +185,7 @@
         <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
         <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
         <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'Draft'" (click)="save()">Save</button>
+        <!-- <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'Verify'" (click)="hitPartySlik()">Test Hit Party Slik</button> -->
       </div>
     </div>
   </div>

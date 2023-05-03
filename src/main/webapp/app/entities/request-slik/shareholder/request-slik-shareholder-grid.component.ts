@@ -42,16 +42,42 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
 })
 export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
-  @Output() checklistData = new EventEmitter<any>();
+  constructor(
+    protected organizationManagementService: OrganizationManagementService,
+    protected _snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private router: Router,
+    public requestSlikService: RequestSlikService
+  ) {
+    super(_snackBar, organizationManagementService);
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.displayedColumns = null;
+    this.displayedColumnsExpand = null;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
+    this.organizationManagementRes = [];
+    this.requestSlikId = Number(this.router.url.split('/')[2]);
+  }
 
+  @Output() checklistData = new EventEmitter<any>();
   @Input() requestSlik: IRequestSlik;
   @Input() public cif: string;
   @Input() public managementType: string;
+  @Input() result: any;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
   public expandedElement;
+  private _partyCif: IPartyCif;
+  public dataPartySlik: IPartySlik[];
+  public displayedColumns: string[];
+  public displayedColumnsExpand: string[];
+  dataSourceExpand;
+  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', 'action'];
+  requestSlikId: number;
+  @Input() checklists;
+  partyId: number;
 
-  @Input() result: any;
   @Input()
   get organizationManagement() {
     return this.items;
@@ -59,9 +85,6 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   set organizationManagement(param: IOrganizationManagement[]) {
     this.items = param;
   }
-
-  private _partyCif: IPartyCif;
-  public dataPartySlik: IPartySlik[];
 
   @Input()
   get partyCif() {
@@ -83,28 +106,6 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     this._loanStatus = item;
   }
 
-  public displayedColumns: string[];
-  public displayedColumnsExpand: string[];
-
-  requestSlikId: number;
-
-  constructor(
-    protected organizationManagementService: OrganizationManagementService,
-    protected _snackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private router: Router,
-    public requestSlikService: RequestSlikService
-  ) {
-    super(_snackBar, organizationManagementService);
-    this.itemsPerPage = 10;
-    this.page = 0;
-    this.displayedColumns = null;
-    this.displayedColumnsExpand = null;
-    this.predicate = 'id';
-    this.entityKeyName = 'id';
-    this.organizationManagementRes = [];
-    this.requestSlikId = Number(this.router.url.split('/')[2]);
-  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif'] && changes['managementType']) {
       this.loadDataBy(this.partyCif.customerNumber, this.managementType);
@@ -113,12 +114,17 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   private defineDisplayedColumns(param: string) {
-    this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'select'];
+    this.displayedColumns =
+      this.requestSlik.status === 'Verify'
+        ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
+        : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'select'];
+    // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'select'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
+      // this.dataSourceExpand = ELEMENT_DATA;
       this.organizationManagementService
         .queryFilterBy({
           cifNumber: this.cif,
@@ -129,6 +135,21 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
+            res.body.forEach(element => {
+              this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
+                // console.log('cbasRes cbas', cbasRes.body.data.content);
+                cbasRes.body.data.content.length > 0 &&
+                  cbasRes.body.data.content.forEach(el => {
+                    this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
+                      console.log('res filter', resFilter.body.data.content);
+                      // add object key dataExpand on element
+                      Object.assign(element, {
+                        dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
+                      });
+                    });
+                  });
+              });
+            });
             this.requestSlik.status !== 'Draft'
               ? this.requestSlikService
                   .filterData(res, this.checklists, 'shareholder')
@@ -140,6 +161,49 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     }
   }
 
+  mapCbasResult(dataCbas, dataFilter) {
+    console.log('Map Cbas Result', {
+      dataCbas,
+      dataFilter,
+    });
+    const finalDataFilter = [];
+
+    dataFilter.forEach(el => {
+      finalDataFilter.push(this.requestSlikService.mapSlikResult(el));
+    });
+
+    const result = this.finalDataFilter(dataCbas.partyId, finalDataFilter);
+
+    // console.log('FINAL', result);
+
+    return result;
+  }
+
+  finalDataFilter(partyId, data) {
+    console.log('dataPartySlik', { data, partyId });
+    const result = [];
+    // const result2 = [];
+
+    // dataPartySlik.forEach(el => {
+    //   el.forEach(element => {
+    //     element.resultJson.sliks.forEach(element2 => {
+    //       console.log('element2', element2);
+    //     });
+    //   });
+    // });
+
+    data.forEach(el => {
+      el.forEach(element => {
+        result.push(element);
+        // add party id
+        element.partyId = partyId;
+        // element.partySlik = dataPartySlik
+      });
+    });
+
+    return result;
+  }
+
   protected containsObject(obj, list) {
     const res = _.find(list, function (val) {
       return _.isEqual(obj, val);
@@ -147,7 +211,34 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     return _.isObject(res) ? true : false;
   }
 
-  @Input() checklists;
+  nikNpwp;
+  @Output() selectedVerifyData = new EventEmitter<any>();
+  selectRow(el) {
+    console.log('select row', el);
+    this.nikNpwp = el.nikNpwp;
+
+    // Emit selectedVerifyData to parent
+    this.selectedVerifyData.emit(el);
+  }
+
+  findDetail(expandedEl) {
+    if (expandedEl) {
+      // if !person.id, use shareHolderOrg.id
+      // const id = expandedEl.person !== null ? expandedEl.person.id : expandedEl.shareHolderOrg.id;
+      // this.partyId = id;
+      // console.log('party id', id);
+      // this.requestSlikService.getCbasResult(this.requestSlikId, id).subscribe(resss => {
+      //   const data = this.requestSlikService.parseSlikResult(resss);
+      //   console.log('ressssss', data);
+      // });
+      const id = expandedEl.person.id;
+      this.partyId = id;
+      console.log(expandedEl);
+    } else {
+      console.log('closed expand');
+    }
+  }
+
   isDetailChecked(row) {
     return this.requestSlikService.isDetailChecked(row, this.checklists, 'shareholder');
   }
@@ -216,190 +307,17 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
       }
     });
   }
-
-  // ======
-
-  // _partyCif;
-  // @Input()
-  // get partyCif() {
-  //   return this._partyCif;
-  // }
-  // set partyCif(items) {
-  //   this._partyCif = items;
-  // }
-
-  // constructor(protected organizationManagementService: OrganizationManagementService, protected _snackBar: MatSnackBar) {
-  //   super(_snackBar, organizationManagementService);
-  // }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log('changes');
-  // }
-
-  // @Input() public cif: string;
-  // @Input() public managementType: string;
-  // public expandedElement: IOrganizationManagement | null;
-  // public organizationManagementRes: IOrganizationManagement[];
-  // public _loanStatus: string;
-  // @Input()
-  // get organizationManagement() {
-  //   return this.items;
-  // }
-  // set organizationManagement(param: IOrganizationManagement[]) {
-  //   this.items = param;
-  // }
-
-  // @Input()
-  // get loanStatus() {
-  //   return this._loanStatus;
-  // }
-
-  // set loanStatus(item: any) {
-  //   this._loanStatus = item;
-  // }
-
-  // public displayedColumns: string[];
-  // public columnsToDisplayWithExpand = [];
 }
 
-/**
- *
- *
- *
- @Input() public cif: string;
-  @Input() public managementType: string;
-  public expandedElement: IOrganizationManagement | null;
-  public organizationManagementRes: IOrganizationManagement[];
-  public _loanStatus: string;
-  @Input()
-  get organizationManagement() {
-    return this.items;
-  }
-  set organizationManagement(param: IOrganizationManagement[]) {
-    this.items = param;
-  }
-
-  private _partyCif: IPartyCif;
-  public dataPartySlik: IPartySlik[];
-
-  @Input()
-  get partyCif() {
-    return this._partyCif;
-  }
-
-  set partyCif(object: IPartyCif) {
-    this.dataPartySlik = object.sliks;
-    this._partyCif = object;
-    this.loadDataBy();
-  }
-
-  @Input()
-  get loanStatus() {
-    return this._loanStatus;
-  }
-
-  set loanStatus(item: any) {
-    this._loanStatus = item;
-  }
-
-  public displayedColumns: string[];
-  public columnsToDisplayWithExpand = [];
-
-  constructor(
-    protected organizationManagementService: OrganizationManagementService,
-    protected _snackBar: MatSnackBar,
-    public dialog: MatDialog
-  ) {
-    super(_snackBar, organizationManagementService);
-    this.itemsPerPage = 10;
-    this.page = 0;
-    this.displayedColumns = null;
-    this.predicate = 'id';
-    this.entityKeyName = 'id';
-    this.organizationManagementRes = [];
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyCif'] && changes['managementType']) {
-      this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-      this.defineDisplayedColumns(this.managementType);
-    }
-  }
-
-  private defineDisplayedColumns(param: string) {
-    if (param === 'MANAGEMENT_DATA') {
-      this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-    } else if (param === 'SHAREHOLDER') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-    } else if (param === 'CONTROL_PERSON') {
-      this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-    }
-  }
-
-  public loadDataBy(cif: string = null, managementType: string = null): void {
-    if (cif && managementType) {
-      this.organizationManagementService
-        .queryFilterBy({
-          cifNumber: cif,
-          organizationManagementType: managementType,
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<IOrganizationManagement[]>) => (
-            (this.organizationManagementRes = res.body), this.initDataForMatTable(res, res.headers)
-          ),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-    }
-  }
-
-  protected postLoadDataLazy(): void {
-    this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-  }
-
-  private setAttribute(param: IOrganizationManagement): void {
-    if (this.managementType === 'MANAGEMENT_DATA') {
-      param.attributes = new OrganizationManagementAttributeManagementData();
-    } else if (this.managementType === 'SHAREHOLDER') {
-      param.attributes = new OrganizationManagementAttributeShareholder();
-    }
-  }
-
-  public openDialog(param: IOrganizationManagement = null): void {
-    let orgMgm: IOrganizationManagement;
-    orgMgm = new OrganizationManagement();
-    orgMgm.cifNumber = this.cif;
-    orgMgm.organizationManagementTypeId = this.managementType;
-    orgMgm.attributes = {};
-    this.setAttribute(orgMgm);
-    if (param) {
-      orgMgm = param;
-    }
-    const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
-      width: '80vw',
-      data: {
-        organizationManagement: orgMgm,
-        managementType: this.managementType,
-      },
-    });
-    dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
-      if (res) {
-        if (res.id) {
-          // update
-          this.organizationManagementService.update(res).subscribe(rs => {
-            this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-          });
-        } else {
-          // create
-          this.organizationManagementService.create(res).subscribe(rs => {
-            this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-          });
-        }
-      }
-    });
-  }
- */
+const ELEMENT_DATA = [
+  { name: '1 ' },
+  { name: '2 ' },
+  { name: '3 ' },
+  { name: '4 ' },
+  { name: '5 ' },
+  { name: '6 ' },
+  { name: '7 ' },
+  { name: '8 ' },
+  { name: '9 ' },
+  { name: '10' },
+];

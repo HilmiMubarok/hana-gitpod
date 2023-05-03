@@ -44,12 +44,21 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class RequestSlikOtherGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
   @Output() checklistData = new EventEmitter<any>();
   @Input() requestSlik: IRequestSlik;
+  @Input() result: any;
+  @Input() checklists;
   @Input() public cif: string;
   @Input() public managementType: string;
-  @Input() result: any;
   public organizationManagementRes: IOrganizationManagement[];
   public _loanStatus: string;
   public expandedElement;
+  public dataPartySlik: IPartySlik[];
+  public displayedColumns: string[];
+  public displayedColumnsExpand: string[];
+  private _partyCif: IPartyCif;
+  public displayedColumnsDetail: string[] = ['no', 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', 'action'];
+  dataSourceExpand;
+  requestSlikId: number;
+  nikNpwp;
 
   @Input()
   get organizationManagement() {
@@ -58,9 +67,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   set organizationManagement(param: IOrganizationManagement[]) {
     this.items = param;
   }
-
-  private _partyCif: IPartyCif;
-  public dataPartySlik: IPartySlik[];
 
   @Input()
   get partyCif() {
@@ -82,11 +88,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     this._loanStatus = item;
   }
 
-  public displayedColumns: string[];
-  public displayedColumnsExpand: string[];
-
-  requestSlikId: number;
-
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
@@ -104,6 +105,16 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     this.organizationManagementRes = [];
     this.requestSlikId = Number(this.router.url.split('/')[2]);
   }
+
+  @Output() selectedVerifyData = new EventEmitter<any>();
+  selectRow(el) {
+    console.log('select row', el);
+    this.nikNpwp = el.nikNpwp;
+
+    // Emit selectedVerifyData to parent
+    this.selectedVerifyData.emit(el);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif'] && changes['managementType']) {
       this.loadDataBy(this.partyCif.customerNumber, this.managementType);
@@ -112,12 +123,17 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   }
 
   private defineDisplayedColumns(param: string) {
-    this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
+    // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
+    this.displayedColumns =
+      this.requestSlik.status === 'Verify'
+        ? ['no', 'fullname', 'idCard', 'dob', 'address']
+        : ['no', 'fullname', 'idCard', 'dob', 'address', 'select'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
+      this.dataSourceExpand = ELEMENT_DATA;
       this.organizationManagementService
         .queryFilterBy({
           cifNumber: this.cif,
@@ -128,12 +144,81 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
+            res.body.forEach(element => {
+              this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
+                // console.log('cbasRes cbas', cbasRes.body.data.content);
+                cbasRes.body.data.content.length > 0 &&
+                  cbasRes.body.data.content.forEach(el => {
+                    this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
+                      console.log('res filter', resFilter.body.data.content);
+                      // add object key dataExpand on element
+                      Object.assign(element, {
+                        dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
+                      });
+                    });
+                  });
+              });
+            });
             this.requestSlik.status !== 'Draft'
               ? this.requestSlikService.filterData(res, this.checklists, 'other').then(data => this.initDataForMatTable(data, res.headers))
               : this.initDataForMatTable(res, res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
+    }
+  }
+
+  mapCbasResult(dataCbas, dataFilter) {
+    console.log('Map Cbas Result', {
+      dataCbas,
+      dataFilter,
+    });
+    const finalDataFilter = [];
+
+    dataFilter.forEach(el => {
+      finalDataFilter.push(this.requestSlikService.mapSlikResult(el));
+    });
+
+    const result = this.finalDataFilter(dataCbas.partyId, finalDataFilter);
+
+    // console.log('FINAL', result);
+
+    return result;
+  }
+
+  finalDataFilter(partyId, data) {
+    console.log('dataPartySlik', { data, partyId });
+    const result = [];
+    // const result2 = [];
+
+    // dataPartySlik.forEach(el => {
+    //   el.forEach(element => {
+    //     element.resultJson.sliks.forEach(element2 => {
+    //       console.log('element2', element2);
+    //     });
+    //   });
+    // });
+
+    data.forEach(el => {
+      el.forEach(element => {
+        result.push(element);
+        // add party id
+        element.partyId = partyId;
+        // element.partySlik = dataPartySlik
+      });
+    });
+
+    return result;
+  }
+
+  partyId;
+  findDetail(expandedEl) {
+    if (expandedEl) {
+      const id = expandedEl.person.id;
+      this.partyId = id;
+      console.log(expandedEl);
+    } else {
+      console.log('closed expand');
     }
   }
 
@@ -144,7 +229,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     return _.isObject(res) ? true : false;
   }
 
-  @Input() checklists;
   isDetailChecked(row) {
     return this.requestSlikService.isDetailChecked(row, this.checklists, 'other');
   }
@@ -214,3 +298,16 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     });
   }
 }
+
+const ELEMENT_DATA = [
+  { name: '1 ' },
+  { name: '2 ' },
+  { name: '3 ' },
+  { name: '4 ' },
+  { name: '5 ' },
+  { name: '6 ' },
+  { name: '7 ' },
+  { name: '8 ' },
+  { name: '9 ' },
+  { name: '10' },
+];
