@@ -197,7 +197,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
   }
 
   public setInterestRate(index: number) {
-    return this.cpFacility[index]?.FILN11_SPREAD_RT;
+    return this.creditProposal.products[index].attributes.currentInterestRate;
   }
 
   private getBucketNameSummary(): Promise<Object> {
