@@ -11,7 +11,6 @@ import { PartyCifCustomerInfoDebtorDataComponent } from './customer-info/party-c
 import { PartyCifDocumentChecklistComponent } from './document-checklist/party-cif-document.checklist.component';
 import { PartyCifCustomerInfoRMInfoComponent } from './customer-info/party-cif-customer-info-rm-info.component';
 import { PartyCifManagementDataComponent } from './management-data/management-data-list.component';
-// import { PartyCifCustomerInfoPostalAddressComponent } from './customer-info/party-cif-customer-info-postal-address.component';
 import { PartyCifCollateralInfoComponent } from './collateral-info/collateral-info.component';
 import { PartyCifCollateralInfoDialogComponent } from './collateral-info/collateral-info-dialog.component';
 import { PartyCifBusinessGroupComponent } from './business-group/party-cif-business-group.component';
@@ -29,7 +28,6 @@ import { PartyCifDecisionApprovalReportComponent } from './decision-approval-rep
     PartyCifComponent,
     PartyCifDetailComponent,
     PartyCifUpdateComponent,
-    // PartyCifCustomerInfoPostalAddressComponent,
     PartyCifCustomerInfoComponent,
     PartyCifCustomerInfoDebtorDataComponent,
     PartyCifDocumentChecklistComponent,

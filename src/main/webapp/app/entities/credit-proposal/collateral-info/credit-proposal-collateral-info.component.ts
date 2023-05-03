@@ -47,7 +47,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -68,7 +68,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   ngOnInit(): void {
     // View Sub Menu Collateral Info in Loan And Offering Letter
     if (
-      // this.router.url.split('/')[1] === 'la-distribution' ||
+      this.router.url.split('/')[1] === 'la-distribution' ||
       this.router.url.split('/')[1] === 'la-analyst' ||
       this.router.url.split('/')[1] === 'la-SME-CRC' ||
       this.router.url.split('/')[1] === 'la-approval' ||

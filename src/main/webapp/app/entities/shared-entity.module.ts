@@ -51,6 +51,7 @@ import { PartyClassificationAsChildComponent } from './party-classification/part
 import { PartyClassificationViewComponent } from './party-classification/party-classification-view.component';
 import { ProductCategoryViewComponent } from './product-category/product-category-view.component';
 import { ProductCategoryTypeViewComponent } from './product-category-type/product-category-type-view.component';
+import { ProductCategoryDialogComponent } from './product-category/product-category-dialog.component';
 import { ProductClassificationViewComponent } from './product-classification/product-classification-view.component';
 import { PeriodTypeViewComponent } from './period-type/period-type-view.component';
 import { WorkTypeViewComponent } from './work-type/work-type-view.component';
@@ -353,6 +354,16 @@ import { ApproveFinalComponent } from './loan-analys/approval-final/approve-fina
 import { CreditProposalMappingCollateralComponent } from './credit-proposal/loan-facility/mapping/mapping-collateral.component';
 import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collateral-property/dialogs/collateral-property-personal-corporate-guarantee.component';
 
+import { CreditProposalBranchComponent } from './credit-proposal/booking-branch/credit-proposal-branch.component';
+import { ProductCategoryEditDialogComponent } from './product-category/product-category-edit-dialog.component';
+import { GroupCollateralInfoComponent } from './party-cif/group-collateral-list/group-collateral-info.component';
+import { GroupCollateralListComponent } from './party-cif/group-collateral-list/group-collateral-list.component';
+import { ParipasuCollateralIddComponent } from './party-cif/paripasu-collateral-idd/paripasu-collateral-idd.component';
+import { GroupCollateralListCpComponent } from './credit-proposal/collateral-info/group-collateral/group-collateral-list-cp.component';
+import { ParipasuCollateralDebiturComponent } from './credit-proposal/collateral-info/paripasu-collateral-debitur/paripasu-collateral-debitur.component';
+import { ParipasuCollateralGroupComponent } from './credit-proposal/collateral-info/paripasu-collateral-group/paripasu-collateral-group.component';
+import { SummaryGridComponent } from './credit-proposal/collateral-info/collateral-summary/summary-grid.component';
+
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
 @NgModule({
@@ -424,6 +435,8 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     PartyClassificationViewComponent,
     ProductCategoryViewComponent,
     ProductCategoryTypeViewComponent,
+    ProductCategoryDialogComponent,
+    ProductCategoryEditDialogComponent,
     ProductClassificationViewComponent,
     PeriodTypeViewComponent,
     WorkTypeViewComponent,
@@ -592,6 +605,7 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBankAccountAnalystDialogEditComponent,
     CreditProposalBookingBranchComponent,
+    CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     ProposalBasicInformationViewComponent,
     CreditProposalMappingFacilityComponent,
@@ -762,6 +776,15 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     CreditProposalDeviationDarAboveComponent,
         ApproveFinalComponent,
         CollateralPropertyPersonalCorporateGuaranteeComponent,
+        // cross idd //
+        ParipasuCollateralIddComponent,
+        GroupCollateralInfoComponent,
+        GroupCollateralListComponent,
+        // cross cp //
+        ParipasuCollateralGroupComponent,
+        ParipasuCollateralDebiturComponent,
+        GroupCollateralListCpComponent,
+        SummaryGridComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -962,6 +985,7 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     RemarskComponent,
     CreditProposalFinancialStatementRemarksComponent,
     CreditProposalBookingBranchComponent,
+    CreditProposalBranchComponent,
     PartyCifCustomerInfoPostalAddressWarehouseComponent,
     CreditProposalMappingFacilityComponent,
     // mapping collateral
@@ -1132,6 +1156,15 @@ import { CollateralPropertyPersonalCorporateGuaranteeComponent } from './collate
     LendingProgramParameterViewComponent,
     RequestSlikViewComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
+    // cross idd //
+    ParipasuCollateralIddComponent,
+    GroupCollateralInfoComponent,
+    GroupCollateralListComponent,
+    // cross cp //
+    ParipasuCollateralGroupComponent,
+    ParipasuCollateralDebiturComponent,
+    GroupCollateralListCpComponent,
+    SummaryGridComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

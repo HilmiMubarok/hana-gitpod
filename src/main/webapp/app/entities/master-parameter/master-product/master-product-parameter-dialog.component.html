@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>ADD / EDIT Product Parameter</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Facility Type</mat-label>
+          <mat-select name="type" [(ngModel)]="productParameter.productTypeId">
+            <mat-option value="">- Please Select -</mat-option>
+            <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
+              {{ item.id }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Product Code</mat-label>
+          <input matInput type="text" required [(ngModel)]="productParameter.code" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Product Name</mat-label>
+          <input matInput type="text" required [(ngModel)]="productParameter.name" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            rows="5"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            [(ngModel)]="productParameter.description"
+          ></textarea>
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Intro Date</mat-label>
+          <input [matDatepicker]="introDate" matInput type="text" [(ngModel)]="productParameter.introDate" disabled />
+          <mat-datepicker-toggle matSuffix [for]="introDate"></mat-datepicker-toggle>
+          <mat-datepicker #introDate disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Discontinue Date</mat-label>
+          <input [matDatepicker]="discontinueDate" matInput type="text" [(ngModel)]="productParameter.discontinueDate" disabled />
+          <mat-datepicker-toggle matSuffix [for]="discontinueDate"></mat-datepicker-toggle>
+          <mat-datepicker #discontinueDate disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </section>
+      <section class="example-section mt-2">
+        <mat-checkbox class="example-margin" [(ngModel)]="productParameter.revolving"> Revolving</mat-checkbox>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="onSave()">SAVE</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

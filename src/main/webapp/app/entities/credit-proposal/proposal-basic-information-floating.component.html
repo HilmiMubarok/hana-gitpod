@@ -36,6 +36,9 @@
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
               <div class="form-group">
+                <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
+              </div>
+              <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
                     disabled
@@ -126,7 +129,8 @@
                       [(ngModel)]="creditProposal.attributes.proposalType"
                       required
                       [disabled]="disabledProptype()"
-                      (selectionChange)="setSubmenu($event.value)">
+                      (selectionChange)="setSubmenu($event.value)"
+                    >
                       <mat-option value="">- Please select proposal type -</mat-option>
                       <mat-option *ngFor="let item of proposType" [value]="item.code">
                         {{ item.value }}
@@ -190,7 +194,7 @@
                 </section>
               </div>
               <div class="form-group">
-                <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
+                <jhi-credit-proposal-branch [creditProposal]="creditProposal"></jhi-credit-proposal-branch>
               </div>
               <div class="form-group">
                 <!-- <section class="mt-2"> -->
@@ -353,17 +357,17 @@
 
               <div *ngIf="clickedMenu === 'opinion'">
                 <jhi-credit-proposal-opinion-history
-				  #creditProposalOpinionHistoryComponent
+                  #creditProposalOpinionHistoryComponent
                   (uuidPath)="setUuidPath($event)"
                   (newItemEvent)="setOpinionRecomendation($event)"
-				  (posLog)="setPositionLogin($event)"
-				  (isAllowSave)="setIsAllowSave($event)"
-				  (opinionFileSfdt)="setOpinionFileSfdt($event)"
-				  (opinionFileWord)="setOpinionFileWord($event)"
-				  (conditionFileSfdt)="setConditionFileSfdt($event)"
-				  (conditionFileWord)="setConditionFileWord($event)"
+                  (posLog)="setPositionLogin($event)"
+                  (isAllowSave)="setIsAllowSave($event)"
+                  (opinionFileSfdt)="setOpinionFileSfdt($event)"
+                  (opinionFileWord)="setOpinionFileWord($event)"
+                  (conditionFileSfdt)="setConditionFileSfdt($event)"
+                  (conditionFileWord)="setConditionFileWord($event)"
                   [creditProposalItem]="creditProposal"
-				  [notifyChild]="parentSubject"
+                  [notifyChild]="parentSubject"
                 ></jhi-credit-proposal-opinion-history>
                 <jhi-approve-user [creditProposal]="creditProposal"></jhi-approve-user>
               </div>

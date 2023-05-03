@@ -54,13 +54,38 @@ export class CreditProposalNewComponent {
 
   public search(): void {
     this.partyCifService
-      .findLikeCif(this.currentSearch, {
+      .findLikeCifSegregasi(this.currentSearch, {
         page: 0,
         size: 9999,
+        idPosition: this.getLocStor('POS'),
       })
       .subscribe(res => {
-        this.partyCifs = res.body;
+        if (res.body.length > 0) {
+          this.partyCifs = res.body;
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail:
+              'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
+          });
+        }
       });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public create(): void {
@@ -79,6 +104,7 @@ export class CreditProposalNewComponent {
             creditProposal.collaterals = res.collaterals;
             creditProposal.debtorData = res.debtorData;
             creditProposal.setCompliance = null;
+            creditProposal.internalId = this.getLocStor('INT');
 
             this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
               if (res3.body) {

@@ -55,6 +55,15 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   private insuranceStart: ICreditProposalCollateralInsurance;
   private collateralStart: ICollateral;
   private bindingStart: ICreditProposalCollateralBinding;
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
 
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
@@ -99,6 +108,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   public collateralGradings: string;
+
   constructor(
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
@@ -122,9 +132,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       ownerShip: string;
       matrikBindingType: string;
       isViewMode: boolean;
+      group: string;
     }
   ) {
-    // this.bindingTypesHobies = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
@@ -141,18 +151,17 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.insurance = this.data.insurance;
     this.insuranceStart = lodash.cloneDeep(this.insurance);
     this.matrikBindingType = this.data.matrikBindingType;
-    // for (let i = 1; i < 101; i++) {
-    //   this.lovRank.push(i.toString());
-    // }
     this.lovCollateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
     this.dataCertDueDate = data.certDueDate;
     this.dataOwnerShip = data.ownerShip;
     this.isViewMode = data.isViewMode;
   }
+
   ngAfterViewInit(): void {
     throw new Error('Method not implemented.');
   }
+
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();
@@ -278,7 +287,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
   }
 
   public cancel() {
-    this._dialog.close();
+    this._dialog.close({
+	  creditProposal: this.creditProposalOpenState,
+	});
   }
 
   public getCertificateDueDate(): string {

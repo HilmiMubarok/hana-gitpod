@@ -5,7 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { ICreditProposal } from './credit-proposal.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { map, Observable, Subject } from 'rxjs';
+import { map, Observable, Subject, BehaviorSubject } from 'rxjs';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
@@ -29,6 +29,15 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   }
 
   public totalChanges: Subject<any> = new Subject();
+
+  private changgedColRelByCP?: ICreditProposal;
+  private triggerChanggedColRelByCP = new BehaviorSubject<ICreditProposal>(this.changgedColRelByCP);
+  public triggerChanggedColRelByCPObservable = this.triggerChanggedColRelByCP.asObservable();
+
+  public changeColRelByCP(newCP: ICreditProposal) {
+    this.changgedColRelByCP = newCP;
+    this.triggerChanggedColRelByCP.next(this.changgedColRelByCP);
+  }
 
   protected isNew(entity: ICreditProposal): boolean {
     return entity.id === undefined || entity.id === null;
@@ -95,9 +104,6 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return this.http.post<any>(this.resourceUrl + '/send-notification-dar/' + idApp, { observe: 'response' });
   }
 
-  // public getStatus(): Observable<HttpResponse<any>> {
-  //   return this.http.get<any>(this.resourceUrl + '/lov/credit-proposal-status', { observe: 'response' });
-  // }
   public getStatus(path: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(this.resourceUrl + '/lov/' + path, { observe: 'response' });
   }
@@ -112,8 +118,6 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return this.http.get<any>(this.resourceRetrive + '/find-fin-analysis/' + cif, { observe: 'response' });
   }
   public getListRetrive(cif?: string, req?: any): Observable<HttpResponse<any>> {
-    // const params = new HttpParams().set('page', page).set('size', size);
-    // return this.http.get<any>(this.resouceGridRetrive + cif, { params, observe: 'response' });
     const options = createRequestOption(req);
     const url = this.resouceGridRetrive + cif;
     return this.http
@@ -147,8 +151,4 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
   public getFacilityProductList(facType: any): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceFacility}/lov/product-list-by-facility/` + facType, { observe: 'response' });
   }
-
-  // public getFacilityProductList(): Observable<HttpResponse<any>> {
-  //   return this.http.get<any>(`${this.resourceFacility}/lov/product-list`, { observe: 'response' });
-  // }
 }

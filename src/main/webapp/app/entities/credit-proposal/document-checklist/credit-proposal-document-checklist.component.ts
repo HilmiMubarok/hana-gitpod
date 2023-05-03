@@ -43,8 +43,9 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
       this.getFiles(String(this.creditProposal.id)).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
           this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
+            this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
 
-          this.typeData = [...res.body, ...res1.body]
+          this.typeData = [...res.body, ...res1.body, ...res2.body]
     
           for (let i = 0; i < this.typeData.length; i++) {
             if (this.typeData[i].id.includes('DEPO')) {
@@ -59,7 +60,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
               this.typeData[i].collateralTypeId = 'VEHICLE'
             }else if (this.typeData[i].id.includes('GRNT')) {
               this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
-            }else if(this.typeData[i].id.includes('OTHER')){
+            }else if(this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')){
               this.typeData[i].collateralTypeId = 'OTHER'
             }else if (this.typeData[i].id.includes('STOCK')) {
               this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
@@ -76,8 +77,10 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
           const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
           const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType)
           const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR')
-          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...PersetujuanKredit]
-
+          const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING')
+          const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER')
+          const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_OTHER_ID')
+          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...PersetujuanKredit, ...PengikatKredit, ...DocumentLainnya, ...DocumentLainnyaIdentitasDebiturPerorangan]
 
           for (let i = 0; i < result.length; i++) {
             this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
@@ -99,6 +102,7 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
               });
           }
         });
+        })
         });
       });
     });

@@ -24,6 +24,9 @@ import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { CashOfferingLetterService } from './cash-offering-letter.service';
+import { CashCreditProposalService } from '../credit-proposal/cash-credit-proposal.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-offering-letter',
   templateUrl: './offering-letter.component.html',
@@ -67,7 +70,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   public isShow: boolean;
   public title: string;
   public value: string;
-  public statusSearch = false
+  public statusSearch = false;
+  public positionIdLocStor: string;
 
   constructor(
     private offeringLetterService: OfferingLetterService,
@@ -77,7 +81,10 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     public dialog: MatDialog,
     private applicationStateLogService: ApplicationStateLogService,
     protected applicationConfigService: ApplicationConfigService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    private cashOfferingLetterService: CashOfferingLetterService,
+    private cashCreditProposalService: CashCreditProposalService,
+    private templateService: TemplateService
   ) {
     super(_snackBar, offeringLetterService);
     this.page = 0;
@@ -101,48 +108,48 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   }
 
   ngOnInit(): void {
+    this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
   }
- 
-  public closeSearch(){
-    this.statusSearch = false
-    this.currentSearch = ''
-    this.page = 0
 
-    this.itemsPerPage = 10
-    this.loadAll()
+  public closeSearch() {
+    this.statusSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
+
+    this.itemsPerPage = 10;
+    this.loadAll();
   }
   public doSearch(): void {
-    this.statusSearch = true
-      const predicate: object = {
-        page: this.page,
-        query: this.currentSearch,
-        size: this.itemsPerPage,
-        sort: this.sortData(),
-      };
+    this.statusSearch = true;
+    const predicate: object = {
+      page: this.page,
+      query: this.currentSearch,
+      size: this.itemsPerPage,
+      sort: this.sortData(),
+    };
 
-      if (this.activeRoute === 'distribution') {
-        predicate['target'] = 'offering-letter-distribution';
-      }else if(this.activeRoute === 'finalize'){
-        predicate['target'] = 'offering-letter-finalize';
-      }else if(this.activeRoute === 'review'){
-        predicate['target'] = 'offering-letter-review';
-      }else if(this.activeRoute === 'confirmation'){
-        predicate['target'] = 'offering-letter-confirmation';
-      }
+    if (this.activeRoute === 'distribution') {
+      predicate['target'] = 'offering-letter-distribution';
+    } else if (this.activeRoute === 'finalize') {
+      predicate['target'] = 'offering-letter-finalize';
+    } else if (this.activeRoute === 'review') {
+      predicate['target'] = 'offering-letter-review';
+    } else if (this.activeRoute === 'confirmation') {
+      predicate['target'] = 'offering-letter-confirmation';
+    }
 
-      this.creditProposalService
-        .search(predicate)
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => {
-            this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    
+    this.cashCreditProposalService
+      .searchCP(predicate)
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<ICreditProposal[]>) => {
+          this.initDataForMatTable(res, res.headers);
+        },
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
   }
 
   public chipClick(option: Object): void {
@@ -164,25 +171,9 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
   protected postLoadDataLazy(): void {
     if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
       this.loadAll();
-    }else{
-      this.doSearch()
+    } else {
+      this.doSearch();
     }
-   
-  }
-
-  private convertStatusActivateRoute(activeRoute: string): string {
-    let activeRouteHelper = activeRoute;
-    if (activeRoute === 'distribution') {
-      activeRouteHelper = 'distribution';
-    } else if (activeRoute === 'finalize') {
-      activeRouteHelper = 'finalize';
-    } else if (activeRoute === 'review') {
-      activeRouteHelper = 'review';
-    } else if (activeRoute === 'confirmation') {
-      activeRouteHelper = 'confirmation';
-    }
-
-    return activeRouteHelper;
   }
 
   private convertStatus(status: string) {
@@ -196,46 +187,146 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     return _status;
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   private loadAll(): void {
     this.loading = true;
-    const dynamicURL: string = this.applicationConfigService.getEndpointFor(
-      MICROSERVICENAME.LOS + '/api/offering-letter/' + this.convertStatusActivateRoute(this.activeRoute)
-    );
-    console.log('Ini dynamicURL', dynamicURL);
 
-    if (this.clickedChip['id'] !== '') {
-      this.offeringLetterService
-        .queryFilterBy({
-          page: this.page,
-          idStatus: this.convertStatus(this.clickedChip['id']),
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
+    if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
+      this.router.navigate(['']);
+    } else {
+      if (this.activeRoute === 'distribution') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .distribution({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .distribution({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'finalize') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .finalize({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .finalize({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'review') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .review({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .review({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      } else if (this.activeRoute === 'confirmation') {
+        if (this.clickedChip['id'] !== '') {
+          this.cashOfferingLetterService
+            .confirmation({
+              page: this.page,
+              idStatus: this.convertStatus(this.clickedChip['id']),
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        } else {
+          this.cashOfferingLetterService
+            .confirmation({
+              page: this.page,
+              idPosition: this.getLocStor('POS'),
+              size: this.itemsPerPage,
+              sort: this.sortData(),
+            })
+            .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoad(res)))
+            .subscribe({
+              next: (res: HttpResponse<ICreditProposal[]>) => this.initDataForMatTable(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
+        }
+      }
     }
-
-  
-
-    this.offeringLetterService
-      .queryDynamicURL(
-        {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        },
-        dynamicURL
-      )
-      .subscribe({
-        next: (res: HttpResponse<ICreditProposal[]>) => {
-          this.initDataForMatTable(res, res.headers);
-        },
-        error: (res: HttpErrorResponse) => this.onError(res.message),
-      });
   }
   initDataForMatTable(data: any, headers: HttpHeaders) {
     let customItem = [];

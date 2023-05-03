@@ -4,6 +4,7 @@ import { STATUS_LOV_PARAMETER, STATUS_PARAMETER } from 'app/shared/constants/sta
 import { IGeneralParameter } from '../general-parameter/general-parameter.model';
 import { GeneralParameterService } from '../general-parameter/general-parameter.service';
 import { MasterParameterLegalLendingLimitDialogComponent } from '../legal-lending-limit-parameter/legal-lending-limit-parameter-dialog.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-master-lov-parameter-dialog',
@@ -20,6 +21,8 @@ export class MasterLovParameterDialogComponent implements OnInit {
       generalParameter: IGeneralParameter;
       view: false;
     },
+    protected messageService: MessageService,
+
     private _dialog: MatDialogRef<MasterParameterLegalLendingLimitDialogComponent>,
     protected generalParameterService: GeneralParameterService
   ) {
@@ -49,6 +52,81 @@ export class MasterLovParameterDialogComponent implements OnInit {
   }
 
   public onSave(): void {
-    this._dialog.close(this.generalParameter);
+    this.validate().then(() => this.save());
+    // this._dialog.close(this.generalParameter);
+  }
+
+  public save() {
+    if (this.generalParameter.id) {
+      // update
+      this.generalParameterService.update(this.generalParameter).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+        this._dialog.close(res.body);
+      });
+    } else {
+      // create
+      this.generalParameterService.create(this.generalParameter).subscribe(res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Save Success',
+        });
+        this._dialog.close(res.body);
+      });
+    }
+  }
+
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      code: true,
+      value: true,
+    };
+
+    if (!this.generalParameter.code) {
+      this._showNotification('error', 'Masukkan Code terlebih dahulu');
+      mustValidate.code = false;
+    }
+
+    if (!this.generalParameter.value) {
+      this._showNotification('error', 'Masukkan Description terlebih dahulu');
+      mustValidate.value = false;
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateMasterLov(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Master Product Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateMasterLov().then(() => resolve(true));
+    });
   }
 }

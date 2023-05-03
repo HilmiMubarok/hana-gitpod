@@ -30,6 +30,7 @@ import lodash from 'lodash';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
+
 export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;

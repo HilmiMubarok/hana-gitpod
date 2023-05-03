@@ -1,97 +1,87 @@
-<div class="page-view">
-    <h5 class="page-heading">
-        <span jhiTranslate="losgwApp.productCategory.home.title">Product Categories</span>
-    </h5>
-    <p-table
-        [value]="productCategories"
-        dataKey="id"
-        [paginator]="true"
-        [rows]="20"
-        [rowsPerPageOptions]="rowsPerPage"
-        [first]="first"
-        [totalRecords]="totalItems"
-        [loading]="loading"
-        [rowHover]="true"
-        [lazy]="true"
-        [rowTrackBy]="trackId"
-        [responsive]="true"
-        [stateKey]="'productCategories_grid_state'"
-        (onLazyLoad)="loadDataLazy($event)"
-        (onPage)="pageSizeChanged($event)">
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Product" url="/document-type"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Product Category</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <table mat-table [dataSource]="items" class="mat-table-expand mt-3" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Category Code</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="productTypeId">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Product Type</th>
+            <td mat-cell *matCellDef="let element" class="text-center">{{ element.productTypeId }}</td>
+          </ng-container> -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Description</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            {{ element.description }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+            <button mat-icon-button (click)="openEditDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
 
-        <ng-template pTemplate="caption">
-            <ul class="nav justify-content-end">
-                <li class="nav-item">
-                    <a class="btn" (click)="print()" style="cursor: pointer;" tooltip="Print current data">
-                        <span><fa-icon icon="print"></fa-icon> &nbsp;{{'entity.action.print' | translate}}</span>
-                    </a>
-                </li>
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-                    <span>
-                        <a class="btn" href="javascript:void(0)" style="cursor: pointer;" tooltip="Upload File">
-                            <fa-icon icon="upload"></fa-icon>
-                            <label for="fileInput" style="cursor: pointer;"> &nbsp;&nbsp;{{ 'entity.action.loadFile' | translate }}</label>
-                            <input id="fileInput" type="file" (change)="onUploadFile($event)" multiple="false"
-                                accept="application/vnd.ms-excel" style="display: none" #inputFile/>
-                        </a>
-                    </span>
-                </li>
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_ADMIN'])">
-                    <a class="btn" (click)="downloadFile('productCategory.xls')" href="javascript:void(0)" style="cursor: pointer;" tooltip="Download File">
-                        <span><fa-icon icon="download"></fa-icon> &nbsp;{{ 'entity.action.downloadFile' | translate }}</span>
-                    </a>
-                </li>
-                <li class="nav-item" *ngIf="accountService.hasAnyAuthority(['ROLE_USER'])">
-                    <a class="btn" [routerLink]="['./new']" [queryParams]="queryParams()" tooltip="Add new Data">
-                        <span><fa-icon icon="plus"></fa-icon> &nbsp;{{ 'entity.action.add' | translate }}</span>
-                    </a>
-                </li>
-            </ul>
-        </ng-template>
-
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 60px; text-align: center;"><span jhiTranslate="global.field.sequence">No</span></th>
-                <th style="width: 130px; text-align: center;"><span jhiTranslate="global.field.id">ID</span></th>
-                <th><span jhiTranslate="losgwApp.productCategory.description">Description</span></th>
-                <th style="text-align: left;"><span jhiTranslate="losgwApp.productCategory.parent">Parent</span></th>
-                <th style="text-align: left;"><span jhiTranslate="losgwApp.productCategory.categoryType">Category Type</span></th>
-                <th style="width: 140px; text-align: center;"><span jhiTranslate="global.field.action">Action</span></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-            <tr>
-                <td style="text-align: right;">{{rowIndex + 1}}</td>
-                <td style="text-align: left; width: 120px;">{{rowData.id}}</td>
-                <td>{{rowData.description}}</td>
-                <td>
-                    <div *ngIf="rowData.parentId">
-                        <a [routerLink]="['../product-category', rowData.parentId , 'view' ]" >{{rowData.parentDescription}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="rowData.categoryTypeId">
-                        <a [routerLink]="['../product-category-type', rowData.categoryTypeId , 'view' ]" >{{rowData.categoryTypeDescription}}</a>
-                    </div>
-                </td>
-                <td style="text-align: center;">
-                    <button pButton type="submit"
-                        [routerLink]="['/product-category', rowData.id, 'view' ]"
-                        class="flat-button">
-                        <fa-icon icon="eye"></fa-icon>
-                    </button>
-                    <button pButton type="submit"
-                        [routerLink]="['/product-category', rowData.id, 'edit']"
-                        class="flat-button">
-                        <fa-icon icon="pencil-alt"></fa-icon>
-                    </button>
-                    <button pButton type="button"
-                        (click)="deleteItem(rowData.id)"
-                        class="flat-button">
-                        <fa-icon icon="trash-alt"></fa-icon>
-                    </button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr> -->
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <button mat-raised-button (click)="openDialog()">ADD NEW CATEGORY</button>
+      </div>
+    </div>
+  </div>
 </div>

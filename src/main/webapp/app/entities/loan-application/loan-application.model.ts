@@ -41,6 +41,8 @@ export interface ILoanApplication {
   products?: IApplicationProduct[];
   prospectPerson?: IPerson;
   prospectOrganization?: IPartyGroup;
+  bookingBranchId?: string;
+  bookingBranchName?: string;
   approvalLc?: string;
   approvalLcDefault?: string;
 }
@@ -74,6 +76,8 @@ export class LoanApplication implements ILoanApplication {
     public creditFacilityId?: number,
     public creditFacilityName?: string,
     public products?: IApplicationProduct[],
+    public bookingBranchId?: string,
+    public bookingBranchName?: string,
     public approvalLc?: string,
     public approvalLcDefault?: string
   ) {

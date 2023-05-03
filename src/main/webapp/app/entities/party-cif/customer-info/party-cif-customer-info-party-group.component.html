@@ -2,62 +2,150 @@
   <!-- LEFT SIDE -->
   <div class="col-6">
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Complete Name</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.groupName" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Complete Name</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.groupName" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Complete Name</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.groupName }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Company Type</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.companyType" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Company Type</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.companyType" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Company type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.companyType }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
       <div class="row">
         <div class="col-4">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Country Code</mat-label>
-            <input matInput type="text" [(ngModel)]="countryCode" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Country Code</mat-label>
+              <input matInput type="text" [(ngModel)]="countryCode" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Country Code</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ countryCode }}
+              </div>
+            </div>
+          </section>
         </div>
         <div class="col-8 form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Phone Number 1</mat-label>
-            <input matInput type="text" [(ngModel)]="phoneNumber" [maxlength]="50" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Phone Number 1</mat-label>
+              <input matInput type="text" [(ngModel)]="phoneNumber" [maxlength]="50" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Phone Number 1</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ phoneNumber }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
     <div class="form-group">
       <div class="row">
         <div class="col-4">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Country Code</mat-label>
-            <input matInput type="text" [(ngModel)]="countryCode" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Country Code</mat-label>
+              <input matInput type="text" [(ngModel)]="countryCode" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Country Code</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ countryCode }}
+              </div>
+            </div>
+          </section>
         </div>
         <div class="col-8 form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Phone Number 2</mat-label>
-            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Phone Number 2</mat-label>
+              <input matInput type="text" [(ngModel)]="partyGroup.otherPhone1" [maxlength]="50" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Phone Number 2</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ partyGroup.otherPhone1 }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
     <div class="form-group">
       <div class="row">
         <div class="col-4">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Country Code</mat-label>
-            <input matInput type="text" [(ngModel)]="countryCode" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Country Code</mat-label>
+              <input matInput type="text" [(ngModel)]="countryCode" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Country Code</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ countryCode }}
+              </div>
+            </div>
+          </section>
         </div>
         <div class="col-8 form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Phone Number 3</mat-label>
-            <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Phone Number 3</mat-label>
+              <input matInput type="text" [(ngModel)]="partyGroup.otherPhone2" [maxlength]="50" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Phone Number 3</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ partyGroup.otherPhone2 }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -65,34 +153,89 @@
   <!-- RIGHT SIDE -->
   <div class="col-6">
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>NPWP</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.taxIdNumber" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>NPWP</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.taxIdNumber" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">NPWP</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.taxIdNumber }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Identity Type</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.organizationIdType" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Identity Type</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.organizationIdType" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Identity Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.organizationIdType }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Identity Number</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.organizationIdNumber" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Identity Number</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.organizationIdNumber" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Identity Number</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.organizationIdNumber }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.officeMail" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.officeMail" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Email</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.officeMail }}
+          </div>
+        </div>
+      </section>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>FAX</mat-label>
-        <input matInput type="text" [(ngModel)]="partyGroup.faxOffice" disabled />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>FAX</mat-label>
+          <input matInput type="text" [(ngModel)]="partyGroup.faxOffice" disabled />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">FAX</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyGroup.faxOffice }}
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>

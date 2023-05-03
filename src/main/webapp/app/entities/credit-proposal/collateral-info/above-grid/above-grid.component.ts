@@ -71,7 +71,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
 
   public selectedMenu: string;
   public isChecked: boolean;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
@@ -136,7 +136,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this._creditProposal.attributes['coverageTotal'].countTotalLVKJJP / this._creditProposal.attributes['coverageTotal'].creditLimit;
     this._creditProposal.attributes['coverageTotal'].lvKjjpCoverage = lvKjjpCoverage.toFixed(2);
   }
-
+  private _group: string;
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   @Input() isViewMode;
 
   constructor(
@@ -240,6 +247,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
@@ -797,15 +805,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-      if (this.creditProposal.collateralProductRelations.length > 0) {
-        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-          if (
-            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
-            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
-          ) {
-            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
-          }
-        }
+      if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && this.creditProposal.collaterals.length > 0) {
+		for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+		  for (let j = 0; j < this.creditProposal.products.length; j++) {
+			for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
+			  if (this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[index].collateralId === this.creditProposal.collaterals[k].id) {
+				this.creditProposal.collateralProductRelations.splice(index,1);
+			  }
+			}
+		  }
+		}
       }
     }
   }

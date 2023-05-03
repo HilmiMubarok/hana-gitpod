@@ -11,8 +11,15 @@ import { ICollateralParameter } from './collateral-parameter.model';
   providedIn: 'root',
 })
 export class CollateralParameterService extends AbstractEntityService<ICollateralParameter> {
+  public paramTypeId: Subject<any> = new Subject();
+
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-parameters');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-propose-pricing-parameter');
+  }
+
+  setPrameterType(message: any) {
+    this.paramTypeId.next(message);
   }
 }

@@ -2,19 +2,35 @@
 <mat-dialog-content>
   <div class="row">
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Available Limit</mat-label>
-        <input
-          matInput
-          currencyMask
-          [(ngModel)]="cpFacility.AVAILABLE_LIMIT"
-          [options]="{ prefix: '', thousands: ',', decimal: ',', precision: 0 }"
-        />
-      </mat-form-field>
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Available Limit</mat-label>
+          <input
+            matInput
+            currencyMask
+            [(ngModel)]="cpFacility.AVAILABLE_LIMIT"
+            [options]="{ prefix: '', thousands: ',', decimal: ',', precision: 0 }"
+          />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Available Limit</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ cpFacility.AVAILABLE_LIMIT }}
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button (click)="save()">SAVE</button>
+<section *jhiMatrixDirIDD="'input'">
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="save()">SAVE</button>
+    <button mat-button (click)="cancel()">CLOSE</button>
+  </mat-dialog-actions>
+</section>
+<section *jhiMatrixDirIDD="''" align="center">
   <button mat-button (click)="cancel()">CLOSE</button>
-</mat-dialog-actions>
+</section>
