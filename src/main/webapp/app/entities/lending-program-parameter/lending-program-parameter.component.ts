@@ -5,7 +5,6 @@ import { LendingProgramParameterDialogComponent } from './lending-program-parame
 import { MatDialog } from '@angular/material/dialog';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-lending-program-parameter',
@@ -13,7 +12,6 @@ import lodash from 'lodash';
 })
 export class LendingProgramParameterComponent extends AbstractEntityMaterialComponent<ILendingProgramParameter> implements OnInit {
   public dateNow = new Date();
-  public lendingProgram = [];
   displayedColumns: string[] = ['no', 'lending-program', 'start-date', 'end-date', 'status', 'action'];
   constructor(
     protected lendingProgramParameterService: LendingProgramParameterService,
