@@ -10,6 +10,8 @@ export interface ILendingProgramParameter {
   lastModifiedDate?: Date;
   lendingProgram?: string;
   status?: string;
+  fromDate?: Date;
+  thruDate?: Date;
 }
 
 export class LendingProgramParameter implements ILendingProgramParameter {
@@ -24,6 +26,8 @@ export class LendingProgramParameter implements ILendingProgramParameter {
     public lastModifiedBy?: string,
     public lastModifiedDate?: Date,
     public lendingProgram?: string,
-    public status?: string
+    public status?: string,
+    public fromDate?: Date,
+    public thruDate?: Date
   ) {}
 }

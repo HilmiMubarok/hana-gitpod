@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './lending-program-parameter.component.html',
 })
 export class LendingProgramParameterComponent extends AbstractEntityMaterialComponent<ILendingProgramParameter> implements OnInit {
+  public dateNow = new Date();
   displayedColumns: string[] = ['no', 'lending-program', 'start-date', 'end-date', 'status', 'action'];
   constructor(
     protected lendingProgramParameterService: LendingProgramParameterService,
@@ -42,7 +43,18 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
         size: this.itemsPerPage,
       })
       .subscribe({
-        next: res => this.initDataForMatTable(res, res.headers),
+        next: res => {
+          res.body.forEach((el: any) => {
+            if (new Date(el.thruDate) < this.dateNow && el.statusId === 'ACTIVE') {
+              el.statusId = 'NON_ACTIVE';
+              el.statusDescription = 'Non Active';
+              this.lendingProgramParameterService.update(el).subscribe(res2 => {
+                console.log('eeellll', res2);
+              });
+            }
+          });
+          this.initDataForMatTable(res, res.headers);
+        },
         error: res => this.onError(res.message),
       });
   }
