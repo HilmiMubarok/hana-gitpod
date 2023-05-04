@@ -127,7 +127,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     this.displayedColumns =
       this.requestSlik.status === 'Verify'
         ? ['no', 'fullname', 'idCard', 'dob', 'address']
-        : ['no', 'fullname', 'idCard', 'dob', 'address', 'select'];
+        : ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 

@@ -197,11 +197,10 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   pushPartySlik(data) {
-    // * NOTES: sementara di comment dulu, karena belum ada data di partyId lain, jadi kalau udah terlanjur complete, tidak bisa test di status verify lagi
-    // const save = this.partySlikService.saveAll(data.verifyData);
-    // const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-    // return forkJoin([save, changeStatus]);
-    return this.partySlikService.saveAll(data.verifyData);
+    const save = this.partySlikService.saveAll(data.verifyData);
+    const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
+    return forkJoin([save, changeStatus]);
+    // return this.partySlikService.saveAll(data.verifyData);
   }
 
   public onSubmit(data) {
