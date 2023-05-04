@@ -60,8 +60,8 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     if (this.isViewMode === true) {
       this.field = true;
     } else if (this.isViewMode === false) {
-	  this.field = false;
-	}
+      this.field = false;
+    }
 
     this.sableFeild();
     this.disableFeild();

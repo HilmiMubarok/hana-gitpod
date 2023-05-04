@@ -73,16 +73,20 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
   // public isChecked: boolean;
   public isChecked = false;
 
-  constructor(protected partyCifService: PartyCifService, protected collateralService: CollateralService, protected creditProposalService: CreditProposalService) {}
+  constructor(
+    protected partyCifService: PartyCifService,
+    protected collateralService: CollateralService,
+    protected creditProposalService: CreditProposalService
+  ) {}
 
   ngOnInit(): void {
     this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(updatedCP => {
-	  if (updatedCP && this.listGroupCollateralItems) {
-		if (updatedCP.collateralProductRelations.length > 0 && updatedCP.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-		  this.checkGroupAll(updatedCP);
-		}
-	  }
-	});
+      if (updatedCP && this.listGroupCollateralItems) {
+        if (updatedCP.collateralProductRelations.length > 0 && updatedCP.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+          this.checkGroupAll(updatedCP);
+        }
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -92,65 +96,72 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
       }
     }
   }
-  
+
   private getAllColGroup(): void {
-	if (this.listGroupCollateral.length > 0) {
-	  this.listGroupCollateral.forEach(item => {
-		this.collateralService
-		  .queryFilterBy({
-			idParty: item.partyId,
-			isActive: true
-		  })
-		  .subscribe(res => {
-			for (let i = 0; i < res.body.length; i++ ) {
-			  this.listGroupCollateralItems.push(res.body[i]);
-			}
-			this.checkGroupAll(this.creditProposal);
-		  });
-	  });
-	}
+    if (this.listGroupCollateral.length > 0) {
+      this.listGroupCollateral.forEach(item => {
+        this.collateralService
+          .queryFilterBy({
+            idParty: item.partyId,
+            isActive: true,
+          })
+          .subscribe(res => {
+            for (let i = 0; i < res.body.length; i++) {
+              this.listGroupCollateralItems.push(res.body[i]);
+            }
+            this.checkGroupAll(this.creditProposal);
+          });
+      });
+    }
   }
 
   private checkGroupAll(cp: ICreditProposal): void {
-	if (cp.collateralProductRelations.length === 0) {
-	  this.isChecked = false;
-	} else {
-	  if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-		const totalAllGroup = cp.products.length * this.listGroupCollateralItems.length;
-		let countChecked = 0;
+    if (cp.collateralProductRelations.length === 0) {
+      this.isChecked = false;
+    } else {
+      if (cp.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+        const totalAllGroup = cp.products.length * this.listGroupCollateralItems.length;
+        let countChecked = 0;
 
-		for (let i = 0; i < cp.collateralProductRelations.length; i++) {
-		  for (let j = 0; j < cp.products.length; j++) {
-			for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-			  if (cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id && cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
-				++countChecked;
-			  }
-			}
-		  }
-		}
+        for (let i = 0; i < cp.collateralProductRelations.length; i++) {
+          for (let j = 0; j < cp.products.length; j++) {
+            for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+              if (
+                cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
+                cp.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id
+              ) {
+                ++countChecked;
+              }
+            }
+          }
+        }
 
-		if (countChecked === totalAllGroup) {
-		  this.isChecked = true;
-		} else {
-		  this.isChecked = false;
-		}
-	  } else {
-		this.isChecked = false;
-	  }
-	}
+        if (countChecked === totalAllGroup) {
+          this.isChecked = true;
+        } else {
+          this.isChecked = false;
+        }
+      } else {
+        this.isChecked = false;
+      }
+    }
   }
 
   public loadDataBy(): void {
     const cifNumber = this.creditProposal.customerNumber;
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
-	  this.getAllColGroup();
+      this.getAllColGroup();
     });
   }
 
   private cleanUpColGroupRel(): void {
-	if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-	  /* for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+    if (
+      this.creditProposal.collateralProductRelations.length > 0 &&
+      this.creditProposal.products.length > 0 &&
+      this.listGroupCollateralItems.length > 0
+    ) {
+      /* for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
 		for (let j = 0; j < this.creditProposal.products.length; j++) {
 		  for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
 			if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === this.listGroupCollateralItems[k].id) {
@@ -159,36 +170,39 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
 		  }
 		}
 	  } */
-	  for (let [index, item] of this.creditProposal.collateralProductRelations.entries()) {
-		for (let j = 0; j < this.creditProposal.products.length; j++) {
-		  for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-			if (this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[index].collateralId === this.listGroupCollateralItems[k].id) {
-			  this.creditProposal.collateralProductRelations.splice(index,1);
-			}
-		  }
-		}
-	  }
-	}
+      for (let [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+        for (let j = 0; j < this.creditProposal.products.length; j++) {
+          for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+            if (
+              this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+              this.creditProposal.collateralProductRelations[index].collateralId === this.listGroupCollateralItems[k].id
+            ) {
+              this.creditProposal.collateralProductRelations.splice(index, 1);
+            }
+          }
+        }
+      }
+    }
   }
 
   public slideChange(event) {
     if (event === true) {
-	  if (this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
-		this.cleanUpColGroupRel();
-		for (let j = 0; j < this.creditProposal.products.length; j++) {
-		  for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
-			const tempCollateralProductRelationObject = {
-			  applicationProduct: this.creditProposal.products[j],
-			  collateralId: this.listGroupCollateralItems[k].id,
-			  bindingValue: 0
-			};
-			this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
-		  }
-		}
-	  }
+      if (this.creditProposal.products.length > 0 && this.listGroupCollateralItems.length > 0) {
+        this.cleanUpColGroupRel();
+        for (let j = 0; j < this.creditProposal.products.length; j++) {
+          for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
+            const tempCollateralProductRelationObject = {
+              applicationProduct: this.creditProposal.products[j],
+              collateralId: this.listGroupCollateralItems[k].id,
+              bindingValue: 0,
+            };
+            this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+          }
+        }
+      }
     } else {
-	  this.cleanUpColGroupRel();
+      this.cleanUpColGroupRel();
     }
-	this.creditProposalService.changeColRelByCP(this.creditProposal);
+    this.creditProposalService.changeColRelByCP(this.creditProposal);
   }
 }
