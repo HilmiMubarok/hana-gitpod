@@ -5,12 +5,14 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IProductClassification } from './product-classification.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
+import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
 export class ProductClassificationService extends AbstractEntityService<IProductClassification> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/product-classifications');
+    // this.resourceUrl = this.applicationConfigService.getEndpointFor('services/los/api/product-classifications');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/product-classifications');
   }
 
   protected isNew(entity: IProductClassification): boolean {
