@@ -142,14 +142,18 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     'facilityType',
     'rate',
     'period',
-    'collateralType',
     'collateralValue',
     'tenor',
+    'firstConstractDate',
+    'disbursementDate',
+    'maturityDate',
     'lastKol',
     'worseKol',
-    'restructureWay',
+    'restructureMethod',
+    'condition',
     'action',
   ];
+
   constructor(
     public partySlikService: PartySlikService,
     protected _snackBar: MatSnackBar,
@@ -305,6 +309,32 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       }
       this.loading = false;
     });
+  }
+
+  // count total limit
+  public countTotalLimit(): number {
+    let totalLimit: number;
+    totalLimit = 0;
+    const partySlik: IPartySlik[] = this.partySliks;
+    if (partySlik) {
+      for (let i = 0; i < partySlik.length; i++) {
+        totalLimit = totalLimit + Number(partySlik[i].limit);
+      }
+    }
+    return totalLimit;
+  }
+
+  // count total outstanding
+  public countTotalOutstanding(): number {
+    let totalOutstanding: number;
+    totalOutstanding = 0;
+    const partySlik: IPartySlik[] = this.partySliks;
+    if (partySlik) {
+      for (let i = 0; i < partySlik.length; i++) {
+        totalOutstanding = totalOutstanding + Number(partySlik[i].outstanding);
+      }
+    }
+    return totalOutstanding;
   }
 
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {

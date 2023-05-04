@@ -1,16 +1,14 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Account } from 'app/core/auth/account.model';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
-import { map, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'jhi-document-request-slik-dialog',
   templateUrl: './document-request-slik-dialog.component.html',
 })
-export class DocumentRequestSlikDialogComponent implements OnDestroy {
+export class DocumentRequestSlikDialogComponent {
   slikRequestId: number;
   document: any;
   docName: string;
@@ -19,8 +17,10 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
   mode: string;
   element;
   userLogin: string;
+  requestSlik;
   files: File[] = [];
   file = [];
+  fileData;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -28,6 +28,8 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
       mode: string;
       element;
       slikRequestId: number;
+      requestSlik;
+      fileData;
     },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentRequestSlikDialogComponent>,
@@ -39,7 +41,9 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
     this.docDate = this.data.element && this.data.element.tags.docDate;
     this.element = this.data.element;
     this.document = this.element && this.element;
+    this.requestSlik = this.data.requestSlik;
     this.slikRequestId = this.data.slikRequestId;
+    this.fileData = this.data.fileData;
     this.accountService
       .identity()
       .pipe(map(user => user.login))
@@ -47,12 +51,10 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
   }
 
   onSelect(event) {
-    console.log(event);
     this.files.push(...event.addedFiles);
   }
 
   onRemove(event) {
-    console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
 
@@ -68,33 +70,20 @@ export class DocumentRequestSlikDialogComponent implements OnDestroy {
 
       const formData = new FormData();
       formData.append('file', file);
-      // console.log({
-      //   file,
-      //   formData,
-      //   tags,
-      // });
       this.storageService.uploadMeta(this.bucket, formData, tags).subscribe(res => this._dialog.close(res));
     });
-    // return new Promise((resolve, reject) => {
-    // resolve({
-    //   tags,
-    //   data: this.data,
-    //   files: this.files,
-    // });
-    // });
   }
 
-  save() {
-    this.preSave();
-    // console.log({
-    //   doc: this.document,
-    //   files: this.files,
-    //   docName: this.docName,
-    //   docDate: new Date(this.docDate),
-    // });
+  edit() {
+    const file = this.data.fileData;
+    const tags = {
+      docName: this.docName,
+      docDate: new Date(this.docDate).toISOString(),
+    };
+    this.storageService.update(this.bucket, tags, { key: file.key }).subscribe(res => this._dialog.close(res));
   }
 
-  ngOnDestroy(): void {
-    console.log('Destroyed');
+  save(mode) {
+    mode === 'edit' ? this.edit() : this.preSave();
   }
 }

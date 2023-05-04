@@ -25,19 +25,9 @@
           <button mat-icon-button (click)="openDialog('edit', element)" *ngIf="requestSlik.status === 'Draft'">
             <mat-icon>create</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="requestSlik.status === 'Draft'">
+          <button mat-icon-button *ngIf="requestSlik.status === 'Draft'" (click)="delete(element)">
             <mat-icon>delete</mat-icon>
           </button>
-          <!-- <button mat-icon-button (click)="view(element)">
-            <mat-icon>remove_red_eye</mat-icon>
-          </button>
-
-          <button mat-icon-button (click)="edit(element)" [disabled]="IfRmEnable">
-            <mat-icon [hidden]="IfRmEnable">create</mat-icon>
-          </button>
-          <button mat-icon-button (click)="delete(element)" [disabled]="IfRmEnable">
-            <mat-icon [hidden]="IfRmEnable">delete</mat-icon>
-          </button> -->
         </td>
       </ng-container>
       <tr class="mat-row" *matNoDataRow>
