@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="requestSlik.status !== 'Verify'">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">Others (group, guarantor, etc)</mat-card-header-subtitle>
   </mat-card-header>
@@ -40,6 +40,7 @@
             (click)="$event.stopPropagation()"
             (change)="updateChecklist(element, c)"
             [checked]="isDetailChecked(element)"
+            [disabled]="requestSlik.status !== 'Draft'"
           ></mat-checkbox>
         </td>
       </ng-container>
@@ -48,6 +49,155 @@
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+    </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="requestSlik.status === 'Verify'">
+  <mat-card-header>
+    <mat-card-header-subtitle class="text-capitalize">Others (group, guarantor, etc)</mat-card-header-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="organizationManagement" class="w-100 mat-table-expand" multiTemplateDataRows>
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+        <td mat-cell *matCellDef="let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+      </ng-container>
+      <ng-container matColumnDef="fullname">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Fullname</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.person.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="idCard">
+        <th mat-header-cell *matHeaderCellDef class="text-center">ID Card</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.person.personalIdNumber }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dob">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Date of Birth</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.person?.dob | formatMediumDate }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Address</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          {{ element.postalAddress.address1 }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
+        <td mat-cell *matCellDef="let element" class="text-center">
+          <mat-checkbox
+            #c
+            (click)="$event.stopPropagation()"
+            (change)="updateChecklist(element, c)"
+            [checked]="isDetailChecked(element)"
+            [disabled]="requestSlik.status !== 'Draft'"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            aria-label="expand row"
+            (click)="expandedElement = expandedElement === element ? null : element; findDetail(expandedElement); $event.stopPropagation()"
+          >
+            <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
+          <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="p-3 w-100">
+              <!--
+                  =====================================
+                  Table Expand
+                  =====================================
+                -->
+              <!-- <jhi-request-slik-other-grid-expand [partyId]="partyId"></jhi-request-slik-other-grid-expand> -->
+              <mat-table [dataSource]="element.dataExpand" class="mat-elevation-z8">
+                <ng-container matColumnDef="no">
+                  <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                  <mat-cell *matCellDef="let i = index"> {{ i + 1 }} </mat-cell>
+                </ng-container>
+
+                <!--
+                    <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+        </ng-container>
+                   -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.namaDebitur }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="nikNpwp">
+                  <mat-header-cell *matHeaderCellDef> NIK NPWP </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.nikNpwp }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="noIdentitas">
+                  <mat-header-cell *matHeaderCellDef> No. Identitas </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.noIdentitas }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="alamat">
+                  <mat-header-cell *matHeaderCellDef> Alamat </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.alamat }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="jenisKelamin">
+                  <mat-header-cell *matHeaderCellDef> Jenis Kelamin </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{ element.jenisKelaminKet }} </mat-cell>
+                </ng-container>
+
+                <!-- 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', -->
+
+                <ng-container matColumnDef="action">
+                  <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                  <mat-cell *matCellDef="let tes">
+                    <mat-radio-group [(ngModel)]="element.person.id">
+                      <mat-radio-button [value]="tes" (click)="selectRow(tes)"></mat-radio-button>
+                    </mat-radio-group>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsDetail"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsDetail"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumnsExpand"
+        [class.mat-expanded-row]="expandedElement === element"
+        class="mat-element-row"
+        (click)="expandedElement = expandedElement === element ? null : element; findDetail(expandedElement)"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
     </table>
     <mat-card *ngIf="loading" id="material-loading-bar">
       <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>

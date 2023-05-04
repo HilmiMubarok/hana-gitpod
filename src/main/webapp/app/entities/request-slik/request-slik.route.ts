@@ -13,6 +13,7 @@ import { RequestSlikService } from './request-slik.service';
 import { RequestSlikComponent } from './request-slik.component';
 import { RequestSlikDetailComponent } from './request-slik-detail.component';
 import { RequestSlikUpdateComponent } from './request-slik-update.component';
+import { RequestSlikBucketComponent } from './request-slik-bucket.component';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikResolve implements Resolve<IRequestSlik> {
@@ -54,7 +55,7 @@ export class RequestSlikResolve implements Resolve<IRequestSlik> {
 export const requestSlikRoute: Routes = [
   {
     path: '',
-    component: RequestSlikComponent,
+    component: RequestSlikBucketComponent,
     resolve: {
       pagingParams: JhiResolvePagingParams,
     },
