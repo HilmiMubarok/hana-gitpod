@@ -312,14 +312,13 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   // count total limit
-  public countTotalLimit(): number {
-    let data: IPartySlik;
+  public countTotalLimit(element: IPartySlik): number {
     let totalLimit: number;
     totalLimit = 0;
     const partySlik: IPartySlik[] = this.partySliks;
     if (partySlik) {
       for (let i = 0; i < partySlik.length; i++) {
-        totalLimit = totalLimit + Number(data.limit);
+        totalLimit = totalLimit + Number(partySlik[i].limit);
       }
     }
     return totalLimit;
@@ -327,30 +326,15 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
   // count total outstanding
   public countTotalOutstanding(): number {
-    let data: IPartySlik;
     let totalOutstanding: number;
     totalOutstanding = 0;
     const partySlik: IPartySlik[] = this.partySliks;
     if (partySlik) {
       for (let i = 0; i < partySlik.length; i++) {
-        totalOutstanding = totalOutstanding + Number(data.outstanding);
+        totalOutstanding = totalOutstanding + Number(partySlik[i].outstanding);
       }
     }
     return totalOutstanding;
-  }
-
-  // count total collateral value
-  public countCollateralValue(): number {
-    let data: IPartySlik;
-    let totalCollateralValue: number;
-    totalCollateralValue = 0;
-    const partySlik: IPartySlik[] = this.partySliks;
-    if (partySlik) {
-      for (let i = 0; i < partySlik.length; i++) {
-        totalCollateralValue = totalCollateralValue + Number(data.collateralIdrMio);
-      }
-    }
-    return totalCollateralValue;
   }
 
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {
