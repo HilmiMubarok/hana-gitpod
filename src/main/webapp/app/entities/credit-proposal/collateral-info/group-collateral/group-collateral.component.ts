@@ -152,7 +152,7 @@ export class GroupCollateralComponent implements OnInit, OnChanges {
 		  }
 		}
 	  } */
-      for (let [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+      for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           if (
             this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&

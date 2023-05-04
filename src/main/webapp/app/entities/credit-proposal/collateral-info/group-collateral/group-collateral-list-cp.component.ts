@@ -170,7 +170,7 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
 		  }
 		}
 	  } */
-      for (let [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+      for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
         for (let j = 0; j < this.creditProposal.products.length; j++) {
           for (let k = 0; k < this.listGroupCollateralItems.length; k++) {
             if (
