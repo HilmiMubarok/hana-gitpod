@@ -8,10 +8,14 @@ import { RequestSlikUpdateComponent } from './request-slik-update.component';
 import { requestSlikRoute } from './request-slik.route';
 import { DocumentRequestSlikComponent } from './document/document-request-slik.component';
 import { DocumentRequestSlikDialogComponent } from './document/dialog/document-request-slik-dialog.component';
-import { MatInputModule } from '@angular/material/input';
 import { RequestSlikManagementDataGridComponent } from './management-data/request-slik-management-data-grid.component';
 import { RequestSlikShareholderGridComponent } from './shareholder/request-slik-shareholder-grid.component';
 import { RequestSlikOtherGridComponent } from './others/request-slik-other-grid.component';
+import { RequestSlikBucketComponent } from './request-slik-bucket.component';
+import { RequestSlikManagementDataDialogComponent } from './management-data/dialog/request-slik-management-data-dialog.component';
+// import { RequestSlikShareholderGridExpandComponent } from './shareholder/expand/request-slik-shareholder-grid-expand.component';
+// import { RequestSlikManagementDataGridExpandComponent } from './management-data/expand/request-slik-management-data-grid-expand.component';
+// import { RequestSlikOtherGridExpandComponent } from './others/expand/request-slik-other-grid-expand.component';
 
 @NgModule({
   imports: [SharedModule, SharedEntityModule, RouterModule.forChild(requestSlikRoute)],
@@ -24,6 +28,11 @@ import { RequestSlikOtherGridComponent } from './others/request-slik-other-grid.
     RequestSlikManagementDataGridComponent,
     RequestSlikShareholderGridComponent,
     RequestSlikOtherGridComponent,
+    RequestSlikBucketComponent,
+    RequestSlikManagementDataDialogComponent,
+    // RequestSlikShareholderGridExpandComponent,
+    // RequestSlikManagementDataGridExpandComponent,
+    // RequestSlikOtherGridExpandComponent,
   ],
   entryComponents: [
     RequestSlikComponent,
@@ -34,6 +43,11 @@ import { RequestSlikOtherGridComponent } from './others/request-slik-other-grid.
     RequestSlikManagementDataGridComponent,
     RequestSlikShareholderGridComponent,
     RequestSlikOtherGridComponent,
+    RequestSlikBucketComponent,
+    RequestSlikManagementDataDialogComponent,
+    // RequestSlikShareholderGridExpandComponent,
+    // RequestSlikManagementDataGridExpandComponent,
+    // RequestSlikOtherGridExpandComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
