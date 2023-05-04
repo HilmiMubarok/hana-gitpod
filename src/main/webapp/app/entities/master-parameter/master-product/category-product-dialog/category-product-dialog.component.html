@@ -16,24 +16,30 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Product Id</mat-label>
-          <input matInput type="text" required [value]="productClasification.productId" disabled />
+          <input matInput type="text" required [(ngModel)]="productClasification.productId" disabled />
         </mat-form-field>
       </section>
-      <!-- <section class="mt-2">
+      <!-- <section class="mt-2" [hidden]="true">
         <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Facility Type</mat-label>
-          <mat-select name="type" [(ngModel)]="">
+          <mat-label>Product Id</mat-label>
+          <input matInput type="text" required [(ngModel)]="productClasification.productName" disabled />
+        </mat-form-field>
+      </section> -->
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="productClasification.categoryId">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
-              {{ item.id }}
+            <mat-option *ngFor="let item of categoryList" [value]="item.categoryId">
+              {{ item.categoryDescription }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </section> -->
+      </section>
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button>SAVE</button>
+  <button mat-button (click)="save()">SAVE</button>
   <button mat-button mat-dialog-close>CLOSE</button>
 </mat-dialog-actions>

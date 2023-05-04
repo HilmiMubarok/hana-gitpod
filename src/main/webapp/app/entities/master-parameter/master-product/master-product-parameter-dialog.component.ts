@@ -11,6 +11,7 @@ import { ProductCategoryService } from 'app/entities/product-category/product-ca
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import { IProductClassification, ProductClassification } from 'app/entities/product-classification/product-classification.model';
 import { CategoryProductDialogComponent } from './category-product-dialog/category-product-dialog.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 // import { CategoryProductDialogEditComponent } from './category-product-dialog/category-product-dialog-edit.component';
 
 export const MY_FORMATS = {
@@ -70,8 +71,7 @@ export class MasterProductParameterDialogComponent implements OnInit {
     this.view = this.data.view;
   }
   ngOnInit(): void {
-    this.getFacilityType();
-    this.getProductClasification();
+    this.loadAll();
   }
   public getFacilityType() {
     this.productParameterService.getLovFacilityType().subscribe(res => {
@@ -117,7 +117,11 @@ export class MasterProductParameterDialogComponent implements OnInit {
       if (res) {
         if (res.id) {
           this.productClasificationService.update(res).subscribe(_res => {
-            // this.loadAll();
+            this.loadAll();
+          });
+        } else {
+          this.productClasificationService.create(res).subscribe(_res => {
+            this.loadAll();
           });
         }
       }
@@ -141,6 +145,11 @@ export class MasterProductParameterDialogComponent implements OnInit {
   //     }
   //   });
   // }
+
+  public loadAll() {
+    this.getFacilityType();
+    this.getProductClasification();
+  }
 
   private _showNotification(severity: string, message: string): void {
     const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
@@ -232,6 +241,27 @@ export class MasterProductParameterDialogComponent implements OnInit {
         this._dialog.close(res.body);
       });
     }
+  }
+
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Category',
+        message: 'Are you sure to delete ' + element.categoryDescription,
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.productClasificationService.delete(element.id).subscribe(() => {
+          this.loadAll();
+        });
+        // this.productClasificationService.delete(res.id).subscribe(_res => {
+        //   this.loadAll();
+        // });
+      }
+    });
   }
 
   public onSave(): void {
