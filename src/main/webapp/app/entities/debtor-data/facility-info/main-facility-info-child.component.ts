@@ -1,70 +1,30 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ICategoryList, IMainFacility } from 'app/entities/main-facility/main-facility.model';
 
 @Component({
   selector: 'jhi-main-facility-info-child',
   templateUrl: './main-facility-info-child.component.html',
   styleUrls: ['./main-facility-info-child.style.css'],
 })
-export class MainFacilityInfoChildComponent implements OnInit, OnChanges {
+export class MainFacilityInfoChildComponent implements OnChanges {
   @Input()
-  get id() {
-    return this._id;
+  get mainFacility() {
+    return this._mainFacility;
   }
 
-  set id(items: any) {
-    this._id = items;
+  set mainFacility(items: IMainFacility) {
+    this._mainFacility = items;
   }
 
-  private _id: any;
-
-  dataSource: PeriodicElement[];
-  dataSource2: PeriodicElement[];
+  private _mainFacility: IMainFacility;
+  public dataSource: ICategoryList[];
   displayColumns = ['facilityCategory', 'mainPlafond', 'outstanding'];
 
   constructor() {}
-
-  ngOnInit() {
-    console.log('child ', this.id);
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['id']) {
-      console.log('changes ', this.id);
-      const data: PeriodicElement[] = ELEMENT_DATA.filter(obj => obj.position === this.id);
-      console.log('data element find ', data);
-      this.dataSource = data;
+    if (changes['mainFacility']) {
+      this.dataSource = this.mainFacility.categoryListDTO;
+      console.log('ini data source ', this.dataSource);
     }
   }
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    name: 'anjar',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen`,
-  },
-  {
-    position: 2,
-    name: 'rendy',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen`,
-  },
-  {
-    position: 3,
-    name: 'obet',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen`,
-  },
-];

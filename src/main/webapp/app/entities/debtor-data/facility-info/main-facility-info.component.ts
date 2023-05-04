@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MainFacilityService } from 'app/entities/main-facility/main-facility.service';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { IMainFacility } from 'app/entities/main-facility/main-facility.model';
 
 @Component({
   selector: 'jhi-main-facility-info',
@@ -13,48 +16,36 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ]),
   ],
 })
-export class MainFacilityInfoComponent {
-  dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['no', 'appraisalNo', 'currency', 'mainPlafond', 'maturityDate', 'availableLimit'];
+export class MainFacilityInfoComponent implements OnInit {
+  private _partyCif: IPartyCif;
+  public dataMainFacility: IMainFacility[];
+  public dataSendMainFacility: IMainFacility;
+
+  @Input() // for internal purpose
+  get partyCif() {
+    return this._partyCif;
+  }
+  set partyCif(param: IPartyCif) {
+    this._partyCif = param;
+  }
+
+  constructor(protected mainFacilityService: MainFacilityService) {}
+
+  ngOnInit(): void {
+    console.log('data party cif', this.partyCif);
+    this.getData(this.partyCif.partyId);
+  }
+
+  columnsToDisplay = ['no', 'approvalNo', 'currency', 'mainPlafond', 'maturityDate', 'availableLimit'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement: PeriodicElement | null;
 
-  public id: any;
+  public getData(param: string) {
+    this.mainFacilityService.getFacilities(param).subscribe(res => {
+      this.dataMainFacility = res.body;
+    });
+  }
 
-  public expanData(element: PeriodicElement) {
-    console.log(element);
-    this.id = element.position;
+  public expanData(element: IMainFacility) {
+    this.dataSendMainFacility = element;
   }
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    name: 'Hydrogen',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen`,
-  },
-  {
-    position: 2,
-    name: 'Oxigen',
-    weight: 2000,
-    symbol: 'H2O',
-    description: `Oxygen`,
-  },
-  {
-    position: 3,
-    name: 'Pattogen',
-    weight: 2000,
-    symbol: 'P2C',
-    description: `Golem`,
-  },
-];
