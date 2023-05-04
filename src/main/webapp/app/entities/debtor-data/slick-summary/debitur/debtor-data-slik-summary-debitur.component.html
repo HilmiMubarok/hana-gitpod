@@ -49,7 +49,6 @@
       <ng-container matColumnDef="collateralValue">
         <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
         <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}</td>
-        <
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="tenor">
@@ -89,7 +88,7 @@
       </ng-container>
       <ng-container matColumnDef="condition">
         <th mat-header-cell *matHeaderCellDef>Condition</th>
-        <td mat-cell *matCellDef="let element">{{ element.kondisi }}</td>
+        <td mat-cell *matCellDef="let element"></td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="action">
