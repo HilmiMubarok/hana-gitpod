@@ -29,6 +29,7 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
   @Input() isViewMode: Boolean = false;
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
 
+  public dataCollateral: ICollateral[];
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
@@ -71,8 +72,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
         isActive: true,
       })
       .subscribe(res => {
-        this.dataItem = res.body;
-        this.dataItem = new MatTableDataSource(this.dataItem);
+        this.dataCollateral = res.body;
+        this.dataItem = new MatTableDataSource(res.body);
         this.dataItem.paginator = this.paginator;
       });
   }
@@ -374,14 +375,14 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
           data = properties.find(obj => obj.external === false);
           if (data !== undefined) {
-            result = result + data.liquidationValue;
+            result = result + Number(data.liquidationValue);
           }
         }
       }
@@ -393,8 +394,8 @@ export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges 
     let data: ICollateralProperty;
     let result: number;
     result = 0;
-    const collaterals: ICollateral[] = this.creditProposal.collaterals;
-    if (collaterals.length > 0) {
+    const collaterals: ICollateral[] = this.dataCollateral;
+    if (collaterals) {
       for (let i = 0; i < collaterals.length; i++) {
         const properties: ICollateralProperty[] = this.filterProperties(collaterals[i]);
         if (properties.length > 0) {
