@@ -52,7 +52,14 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     'crossCollateral',
     'action',
   ];
-
+  private _group: string;
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
@@ -794,13 +801,21 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
     } else {
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'No';
-      if (this.creditProposal.collateralProductRelations.length > 0) {
-        for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
-          if (
-            this.creditProposal.collateralProductRelations[i].collateralId === this.creditProposal.collaterals[i]?.id &&
-            this.creditProposal.collateralProductRelations[i].applicationProduct?.id === this.creditProposal.products[i]?.id
-          ) {
-            this.creditProposal.collateralProductRelations.splice(i, this.creditProposal.collateralProductRelations.length);
+      if (
+        this.creditProposal.collateralProductRelations.length > 0 &&
+        this.creditProposal.products.length > 0 &&
+        this.creditProposal.collaterals.length > 0
+      ) {
+        for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+          for (let j = 0; j < this.creditProposal.products.length; j++) {
+            for (let k = 0; k < this.creditProposal.collaterals.length; k++) {
+              if (
+                this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+                this.creditProposal.collateralProductRelations[index].collateralId === this.creditProposal.collaterals[k].id
+              ) {
+                this.creditProposal.collateralProductRelations.splice(index, 1);
+              }
+            }
           }
         }
       }

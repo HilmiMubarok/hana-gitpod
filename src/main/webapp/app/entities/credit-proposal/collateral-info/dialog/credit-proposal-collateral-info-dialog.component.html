@@ -320,22 +320,6 @@
             </div>
           </section>
 
-          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-label>Certificates Due Date</mat-label>
-              <div [innerHTML]="getCertificateDueDate()"></div>
-            </div>
-          </section> -->
-          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Certificates Due Date</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ getCertificateDueDate() }}
-              </div>
-            </div>
-          </section> -->
-
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
@@ -656,7 +640,12 @@
     >
     </jhi-mapping-facility>
   </div>
-  <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+  <div *ngIf="group === 'group'">
+    <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+  </div>
+  <div *ngIf="group !== 'group'">
+    <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

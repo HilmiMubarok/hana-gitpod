@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>ADD / EDIT PRODUCT CATEGORY</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-12">
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Category ID</mat-label>
+          <input matInput type="text" [(ngModel)]="productParameter.id" />
+        </mat-form-field>
+      </section>
+      <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Category Description</mat-label>
+          <input matInput type="text" [(ngModel)]="productParameter.description" />
+        </mat-form-field>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="save()">SAVE</button>
+  <button mat-button mat-dialog-close>CLOSE</button>
+</mat-dialog-actions>

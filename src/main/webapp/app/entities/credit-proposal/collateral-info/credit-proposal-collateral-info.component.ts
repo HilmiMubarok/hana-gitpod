@@ -47,7 +47,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   private _creditProposal: ICreditProposal;
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+  public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }

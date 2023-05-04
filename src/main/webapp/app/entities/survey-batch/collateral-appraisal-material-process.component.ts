@@ -209,10 +209,10 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     this.checkLogin();
     this.loading = true;
     if (!this.positionIdLocStor) {
+      this.templateService.changePosInt('Empty');
       this.router.navigate(['']);
     } else {
       if (this.clickedChip !== '') {
-        this.templateService.changePosInt('Empty');
         this.cashSurveyAppraisalsService
           .cashSurveyAppraisalQueryFilterByProsses({
             page: this.page,
@@ -366,6 +366,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     } else {
       this.clickedChip = option.id;
     }
+
     this.loadAll();
   }
 

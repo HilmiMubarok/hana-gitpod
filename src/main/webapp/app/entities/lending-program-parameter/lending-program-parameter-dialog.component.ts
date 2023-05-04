@@ -10,7 +10,17 @@ import { FormControl } from '@angular/forms';
 })
 export class LendingProgramParameterDialogComponent {
   public lendingProgramParameter: ILendingProgramParameter;
-  public statuses: any;
+  public statusValue = [
+    {
+      id: 'ACTIVE',
+      description: 'Active',
+    },
+    {
+      id: 'NON_ACTIVE',
+      description: 'Non Active',
+    },
+  ];
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -19,7 +29,6 @@ export class LendingProgramParameterDialogComponent {
     private _dialog: MatDialogRef<LendingProgramParameterDialogComponent>
   ) {
     this.lendingProgramParameter = this.data.lendingProgramParameter;
-    this.statuses = STATUS_PARAMETER;
   }
 
   public save(): void {
