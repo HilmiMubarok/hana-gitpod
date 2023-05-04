@@ -312,7 +312,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   // count total limit
-  public countTotalLimit(element: IPartySlik): number {
+  public countTotalLimit(): number {
     let totalLimit: number;
     totalLimit = 0;
     const partySlik: IPartySlik[] = this.partySliks;
