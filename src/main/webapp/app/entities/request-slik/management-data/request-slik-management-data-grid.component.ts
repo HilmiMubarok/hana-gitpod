@@ -131,14 +131,14 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
       finalDataFilter.push(this.requestSlikService.mapSlikResult(el));
     });
 
-    const result = this.finalDataFilter(dataCbas.partyId, finalDataFilter);
+    const result = this.finalDataFilter(dataCbas.partyId, dataCbas.requestReffId, finalDataFilter);
 
     // console.log('FINAL', result);
 
     return result;
   }
 
-  finalDataFilter(partyId, data) {
+  finalDataFilter(partyId, reqReffId, data) {
     console.log('dataPartySlik', { data, partyId });
     const result = [];
     // const result2 = [];
@@ -156,6 +156,9 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
         result.push(element);
         // add party id
         element.partyId = partyId;
+
+        // add request reff id
+        element.requestReffId = reqReffId;
         // element.partySlik = dataPartySlik
       });
     });
@@ -232,6 +235,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                       Object.assign(element, {
                         dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
                       });
+                      console.log('THEE DATA', element);
                     });
                   });
               });

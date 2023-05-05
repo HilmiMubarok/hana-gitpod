@@ -179,14 +179,14 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
       finalDataFilter.push(this.requestSlikService.mapSlikResult(el));
     });
 
-    const result = this.finalDataFilter(dataCbas.partyId, finalDataFilter);
+    const result = this.finalDataFilter(dataCbas.partyId, dataCbas.requestReffId, finalDataFilter);
 
     // console.log('FINAL', result);
 
     return result;
   }
 
-  finalDataFilter(partyId, data) {
+  finalDataFilter(partyId, reqReffId, data) {
     console.log('dataPartySlik', { data, partyId });
     const result = [];
     // const result2 = [];
@@ -205,6 +205,9 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
         // add party id
         element.partyId = partyId;
         // element.partySlik = dataPartySlik
+
+        // add request reff id
+        element.requestReffId = reqReffId;
       });
     });
 
