@@ -50,46 +50,90 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group" *ngIf="managementType === 'MANAGEMENT_DATA'">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Position</mat-label>
-              <mat-select name="posManagement" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()">
-                <mat-option value="">-Please Select-</mat-option>
-                <mat-option *ngFor="let item of posManagement" [value]="item.label">
-                  {{ item.label }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <section *jhiMatrixDirIDD="'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Position</mat-label>
+                <mat-select name="posManagement" [(ngModel)]="organizationManagement.attributes.position" [disabled]="dataSource()">
+                  <mat-option value="">-Please Select-</mat-option>
+                  <mat-option *ngFor="let item of posManagement" [value]="item.code">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDirIDD="''">
+              <div class="fontsebled row">
+                <div class="col">Positione</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ organizationManagement.attributes.positione }}
+                </div>
+              </div>
+            </section>
           </div>
           <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline" floatLabel="always">
-              <mat-label>PEP Status</mat-label>
-              <mat-select name="pepStatus" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()">
-                <mat-option value="">-Please select-</mat-option>
-                <mat-option *ngFor="let item of pepStatus" [value]="item.label">
-                  {{ item.label }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <section *jhiMatrixDirIDD="'input'">
+              <mat-form-field class="w-100" appearance="outline" floatLabel="always">
+                <mat-label>PEP Status</mat-label>
+                <mat-select name="pepStatus" [(ngModel)]="organizationManagement.attributes.pep" [disabled]="dataSource()">
+                  <mat-option value="">-Please select-</mat-option>
+                  <mat-option *ngFor="let item of pepStatus" [value]="item.label">
+                    {{ item.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDirIDD="''">
+              <div class="fontsebled row">
+                <div class="col">PEP Statu</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ organizationManagement.attributes.pep }}
+                </div>
+              </div>
+            </section>
           </div>
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Ownership(%)</mat-label>
-              <input matInput type="number" [(ngModel)]="organizationManagement.attributes.ownership" [disabled]="dataSource()" />
-            </mat-form-field>
+            <section *jhiMatrixDirIDD="'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Ownership(%)</mat-label>
+                <input matInput type="number" [(ngModel)]="organizationManagement.attributes.ownership" [disabled]="dataSource()" />
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDirIDD="''">
+              <div class="fontsebled row">
+                <div class="col">Ownership(%)</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ organizationManagement.attributes.ownership }}
+                </div>
+              </div>
+            </section>
           </div>
           <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>nominal of shares</mat-label>
-              <input
-                matInput
-                currencyMask
-                type="text"
-                class="nominal"
-                [(ngModel)]="organizationManagement.attributes.stockNominal"
-                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-                [disabled]="dataSource()"
-              />
-            </mat-form-field>
+            <section *jhiMatrixDirIDD="'input'">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>nominal of shares</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  class="nominal"
+                  [(ngModel)]="organizationManagement.attributes.stockNominal"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="dataSource()"
+                />
+              </mat-form-field>
+            </section>
+            <section *jhiMatrixDirIDD="''">
+              <div class="fontsebled row">
+                <div class="col">nominal of shares</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ organizationManagement.attributes.stockNominal }}
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </div>

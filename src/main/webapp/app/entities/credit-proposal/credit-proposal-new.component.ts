@@ -47,20 +47,45 @@ export class CreditProposalNewComponent {
     private partyCifService: PartyCifService,
     private dialog: MatDialog,
     private router: Router,
-	private messageService: MessageService
+    private messageService: MessageService
   ) {
     this.partyCifs = [];
   }
 
   public search(): void {
     this.partyCifService
-      .findLikeCif(this.currentSearch, {
+      .findLikeCifSegregasi(this.currentSearch, {
         page: 0,
         size: 9999,
+        idPosition: this.getLocStor('POS'),
       })
       .subscribe(res => {
-        this.partyCifs = res.body;
+        if (res.body.length > 0) {
+          this.partyCifs = res.body;
+        } else {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail:
+              'Maaf, data CIF ini tercatat sebagai debitur cabang lain di HOBIS. Silakan melakukan update cabang debitur di HOBIS apabila debitur ini adalah debitur Anda.',
+          });
+        }
       });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public create(): void {
@@ -72,36 +97,37 @@ export class CreditProposalNewComponent {
     });
 
     dialogRef.afterClosed().subscribe((res: IPartyCif) => {
-	  if (res && res.customerNumber) {
-		if (res.customerType === 'PERSONAL') {
-		  this.creditProposalService.findPersonTemplate(res.customerNumber).subscribe(res2 => {
-			const creditProposal: ICreditProposal = res2.body;
-			creditProposal.collaterals = res.collaterals;
-			creditProposal.debtorData = res.debtorData;
-			creditProposal.setCompliance = null;
+      if (res && res.customerNumber) {
+        if (res.customerType === 'PERSONAL') {
+          this.creditProposalService.findPersonTemplate(res.customerNumber).subscribe(res2 => {
+            const creditProposal: ICreditProposal = res2.body;
+            creditProposal.collaterals = res.collaterals;
+            creditProposal.debtorData = res.debtorData;
+            creditProposal.setCompliance = null;
+            creditProposal.internalId = this.getLocStor('INT');
 
-			this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+            this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
               if (res3.body) {
-				this.router.navigate([this.router.url.split('/')[1]]);
+                this.router.navigate([this.router.url.split('/')[1]]);
               }
-			});
+            });
           });
-		} else {
+        } else {
           this.creditProposalService.findPartyGroupTemplate(res.customerNumber).subscribe(res2 => {
-			const creditProposal: ICreditProposal = res2.body;
-			creditProposal.collaterals = res.collaterals;
-			creditProposal.debtorData = res.debtorData;
+            const creditProposal: ICreditProposal = res2.body;
+            creditProposal.collaterals = res.collaterals;
+            creditProposal.debtorData = res.debtorData;
 
-			this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+            this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
               if (res3.body) {
-				this.router.navigate([this.router.url.split('/')[1]]);
+                this.router.navigate([this.router.url.split('/')[1]]);
               }
-			});
+            });
           });
-		}
-	  } else {
-		this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Terjadi kesalahan pada sistem, silahkan ulangi proses' });
-	  }
+        }
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Terjadi kesalahan pada sistem, silahkan ulangi proses' });
+      }
     });
   }
 }

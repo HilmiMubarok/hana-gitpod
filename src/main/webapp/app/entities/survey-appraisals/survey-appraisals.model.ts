@@ -3,7 +3,7 @@ import { Cif, ICif } from 'app/entities/cif/cif.model';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
 import { ApplicationRole, IApplicationRole } from '../application-role/application-role.model';
-import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+// import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { IPerson } from '../person/person.model';
 import { IPartyGroup } from '../party-group/party-group.model';
 
@@ -123,6 +123,7 @@ export interface ISurveyAppraisals {
   teamLeadId?: number;
   teamLeadName?: string;
   teamLeadPersonId?: string;
+  internalId?: string;
 }
 
 export class SurveyAppraisals implements ISurveyAppraisals {
@@ -243,7 +244,8 @@ export class SurveyAppraisals implements ISurveyAppraisals {
     public unitHeadPersonId?: string,
     public teamLeadId?: number,
     public teamLeadName?: string,
-    public teamLeadPersonId?: string
+    public teamLeadPersonId?: string,
+    public internalId?: string
   ) {
     this.cif = new Cif();
     this.rm = new ApplicationRole();

@@ -4,6 +4,8 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { HttpResponse } from '@angular/common/http';
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
+import { MatDialog } from '@angular/material/dialog';
+
 import moment from 'moment';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
@@ -11,6 +13,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { DatePipe } from '@angular/common';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process',
@@ -45,7 +49,9 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
     private collateralAppraisalService: CollateralAppraisalService,
     private accountService: AccountService,
     private datePipe: DatePipe,
-    public reportUtilService: ReportUtilService
+    public reportUtilService: ReportUtilService,
+    public generalParameterService: GeneralParameterService,
+    public dialog: MatDialog
   ) {
     this.categoryFilter = '';
     this.uploadFiles = [];
@@ -78,11 +84,23 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
 
   private getPhotoCategory(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.collateralAppraisalService.customGet('photo-category').subscribe((res: HttpResponse<any>) => {
-        this.photoCategory = res.body;
+      // this.collateralAppraisalService.customGet('photo-category').subscribe((res: HttpResponse<any>) => {
+      //   this.photoCategory = res.body;
 
-        resolve();
-      });
+      //   resolve();
+      // });
+      this.generalParameterService
+        .queryFilterBy({
+          idParameterType: 'FOTO_OBJECT_JAMINAN_CATEGORY',
+          page: 0,
+          size: 9999,
+        })
+        .subscribe(res => {
+          this.photoCategory = lodash.filter(res.body, function (o) {
+            return o.statusId === 'ACTIVE';
+          });
+          resolve();
+        });
     });
   }
 
@@ -187,16 +205,37 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
       });
     }
   }
+  // Delete Confirmation
+  public onRemove(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Image',
+        message: 'Are you sure to delete ' + element.name + ' this image?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(respond => {
+      if (respond) {
+        this.isLoading = true; // outputs the first file
 
-  public onRemove(f: any) {
-    this.isLoading = true; // outputs the first file
+        this.storageService.deleteFile(this.bucket, element.key).subscribe(res => {
+          this.isLoading = false;
 
-    this.storageService.deleteFile(this.bucket, f.key).subscribe(res => {
-      this.isLoading = false;
-
-      this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
+          this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
+        });
+      }
     });
   }
+
+  // public onRemove(f: any) {
+  //   this.isLoading = true; // outputs the first file
+
+  //   this.storageService.deleteFile(this.bucket, f.key).subscribe(res => {
+  //     this.isLoading = false;
+
+  //     this.getFilesByKey(`/appraisals/${this.appraisalId}/jaminan`);
+  //   });
+  // }
   hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
       return true;

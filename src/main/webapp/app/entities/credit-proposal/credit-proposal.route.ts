@@ -54,6 +54,7 @@ import { LegalLendingLimit } from './exposure/legal-lending/legal-lending-limit.
 import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
 import { CalculationExposure } from './exposure/total-exposure/calculation-exposure.model';
 import { DocumentData } from '../loan-analys/assign-to/assign.model';
+import { LendingProgramParameter } from '../lending-program-parameter/lending-program-parameter.model';
 
 @Injectable({ providedIn: 'root' })
 export class CreditProposalResolve implements Resolve<ICreditProposal> {
@@ -359,6 +360,14 @@ export class CreditProposalResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['calculationExposure'] = new CalculationExposure();
             } else {
               creditProposal.body.attributes['calculationExposure'] = JSON.parse(creditProposal.body.attributes['calculationExposure']);
+            }
+
+            if (!lodash.has(creditProposal.body.attributes, 'lendingProgramParameter')) {
+              creditProposal.body.attributes['lendingProgramParameter'] = [];
+            } else {
+              creditProposal.body.attributes['lendingProgramParameter'] = JSON.parse(
+                creditProposal.body.attributes['lendingProgramParameter']
+              );
             }
 
             //

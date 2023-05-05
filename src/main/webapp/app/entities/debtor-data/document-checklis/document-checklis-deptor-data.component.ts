@@ -5,7 +5,10 @@ import { MessageService } from 'primeng/api';
 import { IDocumentChecklistDebtorData, DocumentChecklistDebtorData } from './debtor-data-document-checklist';
 import { DebtorDataDocumentChecklistDialogComponent } from './debtor-data-document-checklis-dialog.component';
 import { IDebtorData } from '../debtor-data.model';
+import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
 import lodash from 'lodash';
+import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
 @Component({
   selector: 'jhi-deptor-data-document-checklist',
   templateUrl: './document-checklis-deptor-data.component.html',
@@ -17,7 +20,11 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   private _partyCif: IDebtorData;
   private dataKey: any;
   public folders = [];
-  constructor(private storageService: StorageService, public dialog: MatDialog, private messageService: MessageService) {}
+  public typeData: IDocumentType[];
+  public type2: IDocumentType[];
+  public file = [];
+  public dataArray: IDocumentType[]
+  constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -26,10 +33,73 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   set partyCif(item: IDebtorData) {
     this._partyCif = item;
   }
-
+  
   ngOnInit(): void {
-    this.getBucket().then(res => {
-      this.getFiles(this.partyCif.partyId);
+    this.getBucket().then(() => {
+      this.getFiles(this.partyCif.customerNumber).then(() => {
+        this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
+          this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res1: any) => {
+          
+          this.typeData = [...res.body, ...res1.body]
+          
+          for (let i = 0; i < this.typeData.length; i++) {
+            if (this.typeData[i].id.includes('DEPO')) {
+              this.typeData[i].collateralTypeId = 'DEPOSIT'
+            }else if (this.typeData[i].id.includes('RE')) {
+              this.typeData[i].collateralTypeId = 'REALESTATE'
+            }else if (this.typeData[i].id.includes('MC')) {
+              this.typeData[i].collateralTypeId = 'MACHINE'
+            }else if (this.typeData[i].id.includes('SHIP')) {
+              this.typeData[i].collateralTypeId = 'MACHINE'
+            }else if (this.typeData[i].id.includes('VH')) {
+              this.typeData[i].collateralTypeId = 'VEHICLE'
+            }else if (this.typeData[i].id.includes('GRNT')) {
+              this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
+            }else if(this.typeData[i].id.includes('DOC_COLL_OTHER')){
+              this.typeData[i].collateralTypeId = 'OTHER'
+            }else if (this.typeData[i].id.includes('STOCK')) {
+              this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+            }else if (this.typeData[i].id.includes('PIUTG')) {
+              this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
+            }else if (this.typeData[i].id.includes('COR')) {
+              this.typeData[i].collateralTypeId = 'COR'
+            }else if (this.typeData[i].id.includes('IND')) {
+              this.typeData[i].collateralTypeId = 'IND'
+            }
+          }
+
+          const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(obj => obj.statusCode !== 'CANCEL')
+          const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
+          const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType)
+          const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING')
+          const OtherDoc: IDocumentType[] = this.typeData.filter(obj => obj.id === "DOC_IDD_OTHER")
+          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...OtherDoc, ...PengikatKredit]
+          for (let i = 0; i < result.length; i++) {
+            this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+              result[i].level = re.body;
+      
+              const mergeArray: ILevel[] = result[i].level.map(item1 => {
+                const file = this.file.find(item2 => item2.idFile === item1.id);
+                return { ...item1, ...file };
+              });
+
+            
+              const personalCorporate = mergeArray.filter(obj => obj.customerType === this.partyCif.customerType);
+              const nullData = mergeArray.filter(obj => obj.customerType === 'ALL')
+
+      
+              result[i].level = [...personalCorporate,...nullData];
+              
+              this.dataArray = result
+              
+            })
+          
+          }
+          
+        })
+     
+        });
+      });
     });
   }
 
@@ -41,80 +111,51 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
       });
     });
   }
-  public convertDan(value: string): any{
-    if(value !== null && value !== undefined){
-      return value.replace('codeSpecialDan', '&')
-    }else{
-      return ''
-    }
-  
-  }
-  private getFiles(id: string): void {
-    const predicate: Object = {
-      key: `/cif/${id}/document`,
-    };
-    this.storageService.getObjects(this.bucket, predicate).subscribe(res => {
-      this.groupByFolder(res.body);
+
+  private getFiles(id: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      const predicate: Object = {
+        key: `/idd/${id}/document/`,
+      };
+      this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
+        for (let index = 0; index < res.body.length; index++) {
+          this.file = [
+            ...this.file,
+            {
+              idFile: res.body[index].tags.id,
+              url: res.body[index].url,
+              name: res.body[index].key,
+              remarks: res.body[index].tags.remarks,
+              status: res.body[index].tags.status,
+              dueDate: res.body[index].tags.dueDate,
+            },
+          ];
+        }
+        resolve();
+      });
     });
   }
 
- 
-
-  public deleteFile(element: IDocumentChecklistDebtorData = null): void {
-    this.dataKey = element;
-
-    for (let i = 0; i < element.files.length; i++) {
-      this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-        this.getFiles(this.partyCif.partyId);
-      });
+  public convertDan(value: string): any {
+    if (value !== null && value !== undefined) {
+      return value.replace('codeSpecialDan', '&');
+    } else {
+      return '';
     }
   }
 
-  public openDialog(element: IDocumentChecklistDebtorData = null, view: string): void {
+  public openDialog(element: IDocumentType = null, view: string, item: string): void {
     const predicate = { width: '80vw', data: {} };
-    predicate.data['view'] = false;
-    predicate.data['partyId'] = this.partyCif.partyId;
+    predicate.data['partyId'] = this.partyCif.customerNumber;
     predicate.data['bucket'] = this.bucket;
-    predicate.data['files'] = this.files;
-    if (element) {
-      predicate.data['documentChecklist'] = element;
-      predicate.data['view'] = view;
-    } else {
-      predicate.data['documentChecklist'] = new DocumentChecklistDebtorData();
-      predicate.data['view'] = view;
-    }
+    predicate.data['files'] = element;
+    predicate.data['typeData'] = this.typeData;
+    predicate.data['view'] = view;
+    predicate.data['item'] = item;
 
     const dialogRef = this.dialog.open(DebtorDataDocumentChecklistDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getBucket().then(() => {
-        this.getFiles(this.partyCif.partyId);
-      });
+    dialogRef.afterClosed().subscribe((r: any) => {
+    
     });
-  }
-
-
-  private groupByFolder(param: any[]): void {
-    this.folders = [];
-    if (param.length > 0) {
-      this.folders = lodash
-        .chain(param)
-        .groupBy('tags.document')
-        .map((val, key) => ({
-          folder: key,
-          key: val[0].key,
-          data: val,
-          documentType: val[0]['tags']['documentType'],
-          document: val[0]['tags']['document'],
-          category: val[0]['tags']['category'],
-          dueDate: val[0]['tags']['dueDate'],
-          status: val[0]['tags']['status'],
-          remarks: val[0]['tags']['remarks'],
-          nameFile: val[0].name,
-          files: val,
-        }))
-        .value();
-    } else {
-      this.folders = [];
-    }
   }
 }

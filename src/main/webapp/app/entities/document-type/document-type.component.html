@@ -1,0 +1,137 @@
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Document Checklist" url="/document-type"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Document Checklist</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <mat-card class="mt-3">
+        <mat-card-content>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Document </mat-label>
+                  <mat-select [(ngModel)]="documentType.rootId" (selectionChange)="changeDocumentType($event)">
+                    <mat-option value="">Please Select</mat-option>
+                    <mat-option *ngFor="let item of docTypeValue" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Document Type</mat-label>
+                  <mat-select [(ngModel)]="documentType.parentId" (selectionChange)="doSearch($event.value)">
+                    <mat-option *ngFor="let item of parentIdValue" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <table mat-table [dataSource]="items" class="mat-table-expand mt-3" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Document Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+        </ng-container>
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.category }}</td>
+        </ng-container>
+        <ng-container matColumnDef="statusDescription">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <mat-chip>{{ element.statusDescription }}</mat-chip>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+            <a
+              href="javascript:void();"
+              [routerLink]="['/document-type/', element.id, 'view']"
+              mat-icon-button
+              (click)="$event.stopPropagation()"
+            >
+              <mat-icon>remove_red_eye</mat-icon>
+            </a>
+            <a
+              href="javascript:void();"
+              [routerLink]="['/document-type/', element.id, 'edit']"
+              mat-icon-button
+              (click)="$event.stopPropagation()"
+            >
+              <mat-icon>create</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">
+            No records found, Please Select Document and Document Type ..!
+          </td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: displayedColumnsExpand"
+          [class.mat-expanded-row]="expandedElement === element"
+          class="mat-element-row"
+          (click)="expandedElement = expandedElement === element ? null : element"
+        ></tr>
+        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr> -->
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3">
+        <!-- <button mat-raised-button [routerLink]="['/document-type/', documentType.parentId, 'create']" [disabled]="isView">
+          ADD NEW DOCUMENT TYPE
+        </button> -->
+        <button mat-raised-button (click)="openDialog()" [disabled]="isView">ADD NEW DOCUMENT TYPE</button>
+      </div>
+    </div>
+  </div>
+</div>

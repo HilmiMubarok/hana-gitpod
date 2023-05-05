@@ -7,6 +7,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import { CollateralAppraisalService } from '../collateral-appraisal.service';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison',
@@ -67,12 +68,29 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
       }
     });
   }
-
+  // Delete Confirmation
   public deleteCpRealEstate(element): void {
-    this.collateralPropertyService.delete(element.id).subscribe(() => {
-      this.getCollateralPropertyByCollateralId(this.collateralId);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Comparison Data',
+        message: 'Are you sure to delete ' + element.attributes.comparison.nameFile + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.collateralPropertyService.delete(element.id).subscribe(() => {
+          this.getCollateralPropertyByCollateralId(this.collateralId);
+        });
+      }
     });
   }
+
+  // public deleteCpRealEstate(element): void {
+  //   this.collateralPropertyService.delete(element.id).subscribe(() => {
+  //     this.getCollateralPropertyByCollateralId(this.collateralId);
+  //   });
+  // }
 
   public openDialog() {
     const dialogRef = this.dialog.open(CollateralAppraisalComparisonDialogComponent, {

@@ -18,6 +18,7 @@ import { StorageService } from 'app/entities/storage/storage.service';
 import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 import { Router } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
@@ -34,7 +35,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   public bucket: string;
   public parentPath = this.router.url.split('/')[1];
   public isCpApproval: boolean;
- 
 
   @Input()
   get managementType() {
@@ -72,8 +72,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this._partyCifDM = item;
   }
 
-
-  @Input() loanStatus: string
+  @Input() loanStatus: string;
 
   @Input()
   get partyId() {
@@ -143,14 +142,21 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     'facilityType',
     'rate',
     'period',
-    'collateralType',
     'collateralValue',
     'tenor',
+    'firstConstractDate',
+    'disbursementDate',
+    'maturityDate',
     'lastKol',
     'worseKol',
-    'restructureWay',
+    'restructureMethod',
+    'condition',
     'action',
   ];
+  
+  public totalLimit = 0;
+  public totalOutstanding = 0;
+
   constructor(
     public partySlikService: PartySlikService,
     protected _snackBar: MatSnackBar,
@@ -167,16 +173,12 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
-  public _loanStatus: string
+  public _loanStatus: string;
   ngOnChanges(changes: SimpleChanges): void {
-    this._loanStatus = changes.loanStatus.currentValue
+    this._loanStatus = changes.loanStatus.currentValue;
     if (changes['partyId']) {
       this.loadDataBy();
     }
-
-   
-
-  
   }
 
   ngOnInit(): void {
@@ -213,6 +215,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => {
+		  this.totalLimit = this.countTotalLimit(res.body);
+		  this.totalOutstanding = this.countTotalOutstanding(res.body);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -312,8 +316,35 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     });
   }
 
+  // count total limit
+  public countTotalLimit(partySlik: any): number {
+    let totalLimit: number;
+    totalLimit = 0;
+    if (partySlik) {
+      for (let i = 0; i < partySlik.length; i++) {
+		const regex = /[.,\s]/g;
+		if (partySlik[i].plafond) {
+		  totalLimit = totalLimit + Number(partySlik[i].plafond.replace(regex,''));
+		}
+      }
+    }
+    return totalLimit;
+  }
+
+  // count total outstanding
+  public countTotalOutstanding(partySlik: any): number {
+    let totalOutstanding: number;
+    totalOutstanding = 0;
+    if (partySlik) {
+      for (let i = 0; i < partySlik.length; i++) {
+        totalOutstanding = totalOutstanding + Number(partySlik[i].outstanding);
+      }
+    }
+    return totalOutstanding;
+  }
+
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {
-    const partySlik: IPartySlik = new PartySlik();
+    const partySlik: any = new PartySlik();
     partySlik.attributes = {
       name: item.debtorName,
     };
@@ -334,8 +365,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
     partySlik.facilityType = item.facilityType;
     partySlik.period = item.period;
-    // const findPeriod = this.bulan.find(obj => obj.name === item.period.substring(3, 6));
-    // partySlik.period = (item.period);
 
     return partySlik;
   }
@@ -351,7 +380,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
     dialogRef.afterClosed().subscribe((response: any) => {
-      this.resData = response.data;
+      this.resData = response.data.kredit;
 
       if (this.resData) {
         this.uploadData(response.files);
@@ -364,7 +393,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           listPartySlik.push(partySlik);
         }
         if (listPartySlik.length > 0) {
-          this.creditProposalService.partySliks = listPartySlik
+          this.creditProposalService.partySliks = listPartySlik;
           this.partySlikService.saveAll(listPartySlik).subscribe(res => {
             this.loadDataBy();
           });
@@ -372,6 +401,21 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
           this.loadDataBy();
         }
         this.TransferService.setparam(this.partySliks);
+      }
+    });
+  }
+  // Delete Confirmation
+  public openRemoveDebtorData(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Debtor Data',
+        message: 'Are you sure to delete this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.removeDebtorData(element);
       }
     });
   }

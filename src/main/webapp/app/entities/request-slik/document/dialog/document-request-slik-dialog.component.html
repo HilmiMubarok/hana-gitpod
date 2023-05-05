@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>{{ mode === 'edit' ? 'Edit' : 'Add' }} Document</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-6">
+      <ngx-dropzone (change)="onSelect($event)" accept="*" multiple="true" *ngIf="mode !== 'view'" [disabled]="mode === 'edit'">
+        <ngx-dropzone-label>Drop file here or choose your file</ngx-dropzone-label>
+      </ngx-dropzone>
+
+      <img [src]="element.url" *ngIf="element && mode === 'view'" width="300" />
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Document Name</mat-label>
+        <input
+          matInput
+          type="text"
+          [disabled]="mode === 'view'"
+          [(ngModel)]="docName"
+          [value]="mode === 'view' && element.tags['docName']"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Document Issued Date</mat-label>
+        <input
+          [matDatepicker]="documentDate"
+          matInput
+          type="text"
+          [value]="mode === 'view' && element.tags['docDate']"
+          [(ngModel)]="docDate"
+          [disabled]="mode === 'view'"
+        />
+        <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+        <mat-datepicker #documentDate [disabled]="mode === 'view'"></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <ngx-dropzone-preview
+      ngProjectAs="ngx-dropzone-preview"
+      *ngFor="let f of files"
+      [removable]="true"
+      [file]="f"
+      (removed)="onRemove(f)"
+      class="col-6 mx-5"
+    >
+      <ngx-dropzone-label>
+        <ngx-dropzone-image-preview
+          ngProjectAs="ngx-dropzone-image-preview"
+          [file]="f"
+          *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+        >
+        </ngx-dropzone-image-preview>
+      </ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="save(mode)" *ngIf="mode !== 'view'">Save</button>
+</mat-dialog-actions>

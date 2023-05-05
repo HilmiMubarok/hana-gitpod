@@ -320,22 +320,6 @@
             </div>
           </section>
 
-          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
-              <mat-label>Certificates Due Date</mat-label>
-              <div [innerHTML]="getCertificateDueDate()"></div>
-            </div>
-          </section> -->
-          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
-              <div class="col-4">Certificates Due Date</div>
-              <div class="col-md-auto">:</div>
-              <div class="col">
-                {{ getCertificateDueDate() }}
-              </div>
-            </div>
-          </section> -->
-
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
@@ -421,8 +405,8 @@
                 <mat-label>Collateral Grading</mat-label>
                 <mat-select name="collateralGrading" [(ngModel)]="collateral.collateralGrading" [disabled]="disabledOpt">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of collateralGrading" [value]="item.id">
-                    {{ item.label }}
+                  <mat-option *ngFor="let item of collateralGrading" [value]="item.code">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -433,7 +417,7 @@
               <div class="col-4">Collateral Grading</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateral.collateralGrading }}
+                {{ collateralGradings }}
               </div>
             </div>
           </section>
@@ -471,8 +455,8 @@
                   <mat-label>Insurance Type</mat-label>
                   <mat-select [(ngModel)]="insurance.insuranceType" name="facilityType">
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of insuranceTypes" [value]="item">
-                      {{ item }}
+                    <mat-option *ngFor="let item of insuranceTypes" [value]="code">
+                      {{ item.value }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -517,8 +501,8 @@
                   <mat-label>Rank</mat-label>
                   <mat-select [(ngModel)]="collateral.attributes['rank']" name="rank">
                     <mat-option value=" ">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of lovRank" [value]="item">
-                      {{ item }}
+                    <mat-option *ngFor="let item of lovRank" [value]="item.code">
+                      {{ item.value }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -610,7 +594,7 @@
                   <mat-label>Binding Type</mat-label>
                   <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType">
                     <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of bindingTypesHobies | keyvalue" [value]="item.key">
+                    <mat-option *ngFor="let item of bindingTypesHobies" [value]="item.code">
                       {{ item.value }}
                     </mat-option>
                   </mat-select>
@@ -656,7 +640,12 @@
     >
     </jhi-mapping-facility>
   </div>
-  <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+  <div *ngIf="group === 'group'">
+    <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+  </div>
+  <div *ngIf="group !== 'group'">
+    <jhi-paripasu-collateral-debitur [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-debitur>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

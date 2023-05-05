@@ -11,12 +11,14 @@ import { IDebtorData } from '../debtor-data/debtor-data.model';
 
 @Injectable({ providedIn: 'root' })
 export class PartyCifService extends AbstractEntityService<IPartyCif> {
+  private resourceUrlSegregasi: string;
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs');
     this.resourceSearchUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/_search/party-cifs');
     this.resourceSyncHobis = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs');
     this.resourceUrlBrance = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals');
+    this.resourceUrlSegregasi = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-party-cifs');
   }
 
   protected isNew(entity: IPartyCif): boolean {
@@ -33,9 +35,18 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
     return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/find/${cif}`, { observe: 'response' });
   }
 
+  public findCifCash(cif: string): Observable<HttpResponse<IPartyCif>> {
+    return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/${cif}`, { observe: 'response' });
+  }
+
   public findLikeCif(cif: string, req: any): Observable<HttpResponse<IPartyCif[]>> {
     const options = createRequestOption(req);
     return this.http.get<IPartyCif[]>(this.resourceUrl + '/cif/like/' + cif, { params: options, observe: 'response' });
+  }
+
+  public findLikeCifSegregasi(cif: string, req: any): Observable<HttpResponse<IPartyCif[]>> {
+    const options = createRequestOption(req);
+    return this.http.get<IPartyCif[]>(this.resourceUrlSegregasi + '/cif/like/' + cif, { params: options, observe: 'response' });
   }
 
   public findPartyGroupByCif(cif: string): Observable<HttpResponse<IPartyCif>> {
@@ -63,7 +74,7 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
   }
 
   public geBranches(): Observable<HttpResponse<IPartyCif>> {
-    return this.http.get<IPartyCif>(`${this.resourceUrlBrance}/filterBy?idInternalType=BRANCH`, { observe: 'response' });
+    return this.http.get<IPartyCif>(`${this.resourceUrlBrance}/filterBy?idInternalType=BRANCH&size=999`, { observe: 'response' });
   }
 
   public getGuarantee(): Observable<HttpResponse<IPartyCif>> {

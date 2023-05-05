@@ -28,6 +28,8 @@ import { Subject, firstValueFrom, takeUntil } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
+import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -67,7 +69,7 @@ export class OfferingLetterMainComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   public dataOfferingSPPK = [];
   public isHistoryExist: boolean;
-
+  public proposType = [];
   @Input('item')
   get item() {
     return this.creditProposal;
@@ -89,7 +91,9 @@ export class OfferingLetterMainComponent implements OnInit {
     public applicationRoleService: ApplicationRoleService,
     protected reportUtils: ReportUtilService,
     private storageService: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private generalParameterService: GeneralParameterService,
+    private lendingProgramParameterService: LendingProgramParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -185,6 +189,8 @@ export class OfferingLetterMainComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lendingProgramParameter();
+    this.lovProposalType();
     this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
@@ -213,7 +219,17 @@ export class OfferingLetterMainComponent implements OnInit {
       this.tasks = res.body;
     });
   }
-
+  public lovProposalType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'PROPOSAL_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.proposType = res.body;
+      });
+  }
   public processTask(task: IProcessTask): void {
     const dialogRef = this.dialog.open(TaskCommentDialogComponent, {
       width: '80vw',
@@ -315,6 +331,7 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
+    copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
     return copyCreditProposal;
   }
@@ -502,6 +519,26 @@ export class OfferingLetterMainComponent implements OnInit {
     const genrateSPPK = await firstValueFrom(
       this.http.get('/services/report/api/report/spkk/word/' + this.id, { responseType: 'text', observe: 'response' })
     );
+  }
+
+  public lendingProgram = [];
+  public valueCpLendingProgram: [];
+  public lendingProgramParameter() {
+    this.lendingProgramParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.lendingProgram = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.lendingProgram.length; i++) {
+          if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
+            this.valueCpLendingProgram = this.lendingProgram[i].description;
+          }
+        }
+      });
   }
 }
 interface IObj {

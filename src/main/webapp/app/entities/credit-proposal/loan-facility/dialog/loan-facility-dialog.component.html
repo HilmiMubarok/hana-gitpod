@@ -127,8 +127,8 @@
             <mat-label>Installment Method</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['installmentMethod']" name="facilityType">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of listOfValue.installmentMethodList" [value]="item">
-                {{ item }}
+              <mat-option *ngFor="let item of installmentMethodList" [value]="item.code">
+                {{ item.value }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -483,8 +483,8 @@
             <mat-label>Restruct Method</mat-label>
             <mat-select [(ngModel)]="applicationProduct.attributes['restructMethod']">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of listOfValue.restructList" [value]="item">
-                {{ item }}
+              <mat-option *ngFor="let item of restructList" [value]="item.code">
+                {{ item.value }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -592,8 +592,8 @@
                   [disabled]="status"
                 >
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of listOfValue.interestRateTypeList" [value]="item">
-                    {{ item }}
+                  <mat-option *ngFor="let item of interestTypeList" [value]="item.code">
+                    {{ item.value }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

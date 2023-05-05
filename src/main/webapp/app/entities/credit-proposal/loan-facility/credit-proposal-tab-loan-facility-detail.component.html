@@ -1,6 +1,18 @@
 <div class="e-card">
   <div class="e-card-header">
     <div class="e-card-header-caption">
+      <div class="e-card-header-title">Main Facility</div>
+    </div>
+  </div>
+
+  <div class="e-card-content">
+    <div class="row mb-3 mt-3">
+      <jhi-main-facility [isViewMode]="isViewMode" [creditProposal]="creditProposal"> </jhi-main-facility>
+    </div>
+  </div>
+
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
       <div class="e-card-header-title">Facility Details</div>
     </div>
   </div>
@@ -33,9 +45,6 @@
           </div>
         </section>
 
-
-        
-
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <div class="form-group">
@@ -49,7 +58,7 @@
                 readonly="true"
                 disabled
               ></ejs-numerictextbox>
-    
+
               <ejs-numerictextbox
                 *ngIf="fungsiSumchange().toString().split('')[0] !== '-'"
                 placeholder="Sub Total Changes (IDR)"

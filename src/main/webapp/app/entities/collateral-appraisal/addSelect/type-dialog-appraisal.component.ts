@@ -15,6 +15,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -69,11 +70,15 @@ export class TypeDialogAppraisalComponent implements OnInit, OnChanges {
 
   public facilityTypes: any;
   public bindingTypes: any;
-  public collateralGrading: OptionNode[];
+  public collateralGrading = [];
   public collateralDetails: object[];
   public collateralTypes: ICollateralType[];
   public collateralCode: object[];
-  constructor(private collateralTypeService: CollateralTypeService, private cashCollateralService: CashCollateralService) {
+  constructor(
+    private collateralTypeService: CollateralTypeService,
+    private cashCollateralService: CashCollateralService,
+    private generalParameterService: GeneralParameterService
+  ) {
     this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralStatus = STATUS_COLLATERAL;
@@ -94,9 +99,17 @@ export class TypeDialogAppraisalComponent implements OnInit, OnChanges {
   }
 
   private loadCollateralGrading(): void {
-    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
-      this.collateralGrading = res.body;
-    });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_GRADING',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   private setCollateralDetail(): void {
@@ -146,5 +159,4 @@ export class TypeDialogAppraisalComponent implements OnInit, OnChanges {
 
     return false;
   }
- 
 }

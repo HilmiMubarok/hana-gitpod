@@ -23,15 +23,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'jhi-group-collateral',
   templateUrl: './group-collateral.component.html',
   styleUrls: ['../collateral-info-cp.style.scss'],
 })
-export class GroupCollateralComponent implements OnChanges, OnInit {
+export class GroupCollateralComponent implements OnInit, OnChanges {
+  public mappingStatus: [];
   @Input() isViewMode;
   public displayedColumns: string[] = [
+    'select',
     'no',
     'collateralType',
     'collateralAddress',
@@ -61,17 +64,26 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
   public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
-  // public totalKJJPMVInt: number;
-  // public totalKJJPLVInt: number;
   private _creditProposal: ICreditProposal;
+  private _partyId: string;
   public groupCollaterals = [];
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
+
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
   }
+
   @Input() cif: string;
+
+  @Input()
+  get partyId() {
+    return this._partyId;
+  }
+  set partyId(partyId: string) {
+    this._partyId = partyId;
+  }
 
   @Input()
   get creditProposal() {
@@ -81,7 +93,20 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     this._creditProposal = cp;
   }
 
+  private _group: string;
+
+  @Input()
+  get group() {
+    return this._group;
+  }
+  set group(data: string) {
+    this._group = data;
+  }
+
+  public mappingStatusHelper: any = [];
+
   constructor(
+    protected collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
     private partyCifService: PartyCifService,
     public dialog: MatDialog,
@@ -91,43 +116,100 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     this.totalMVInt = 0;
     this.totalLVInt = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
-    // this.totalKJJPLVInt = 0;
-    // this.totalKJJPMVInt = 0;
   }
+
   ngOnInit(): void {
     this.setCertyficateType();
+    this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(newCP => {
+      this.checkIndividualCol(newCP);
+    });
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedMenu = 'INFORMATION';
+
     if (changes['creditProposal']) {
-      if (this.creditProposal.customerNumber) {
-        this.collateralMybusiness();
-      }
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
         }
       }
     }
+
+    if (changes['partyId']) {
+      this.collateralMybusiness();
+    }
   }
 
-  // cp: this.creditProposal,
-  // collateral: element,
-  // marketability: this.getMarketability(element),
-  // internalMV: this.countMV(element),
-  // internalLV: this.countLV(element),
-  // externalMV: this.countKJJPMV(element),
-  // externalLV: this.countKJJPLV(element),
-  // properties: this.filterProperties(element),
-  // binding: this.getBinding(element),
-  // insurance: this.getInsurance(element),
-  // certDueDate: this.getExpiry(element),
-  // ownerShip: this.findCertyficate(element.certificateType) + ' ' + this.getOwnerShip(element),
-  // applicationProduct: this.creditProposal.products,
-  // matrikBindingType: this.getBindingType(element.collBindingType),
+  private findAndCleanConnection(col: any): void {
+    if (this.creditProposal.collateralProductRelations.length > 0 && this.creditProposal.products.length > 0 && col) {
+      /* for (let i = 0; i < this.creditProposal.collateralProductRelations.length; i++) {
+		for (let j = 0; j < this.creditProposal.products.length; j++) {
+		  if (this.creditProposal.collateralProductRelations[i].applicationProduct.id === this.creditProposal.products[j].id && this.creditProposal.collateralProductRelations[i].collateralId === col.id) {
+			this.creditProposal.collateralProductRelations.splice(i,1);
+		  }
+		}
+	  } */
+      for (const [index, item] of this.creditProposal.collateralProductRelations.entries()) {
+        for (let j = 0; j < this.creditProposal.products.length; j++) {
+          if (
+            this.creditProposal.collateralProductRelations[index].applicationProduct.id === this.creditProposal.products[j].id &&
+            this.creditProposal.collateralProductRelations[index].collateralId === col.id
+          ) {
+            this.creditProposal.collateralProductRelations.splice(index, 1);
+          }
+        }
+      }
+    }
+  }
+
+  public changeCheckedColGroupAssignToProdAll(event: MatCheckboxChange, index: number): void {
+    if (this.creditProposal.products.length > 0 && this.groupCollaterals.length > 0) {
+      this.findAndCleanConnection(this.groupCollaterals[index]);
+      if (event.checked === true) {
+        for (let j = 0; j < this.creditProposal.products.length; j++) {
+          const tempCollateralProductRelationObject = {
+            applicationProduct: this.creditProposal.products[j],
+            collateralId: this.groupCollaterals[index].id,
+            bindingValue: 0,
+          };
+          this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+        }
+      } else if (event.checked === false) {
+        // do nothing; done by another function //
+      }
+    }
+    this.creditProposalService.changeColRelByCP(this.creditProposal);
+  }
+
+  private checkIndividualCol(cp: ICreditProposal): void {
+    this.mappingStatusHelper = [];
+    if (cp.collateralProductRelations.length > 0 && cp.products.length > 0 && this.groupCollaterals.length > 0) {
+      for (let k = 0; k < this.groupCollaterals.length; k++) {
+        const prodLength = cp.products.length;
+        let countChecked = 0;
+
+        for (let i = 0; i < cp.collateralProductRelations.length; i++) {
+          for (let j = 0; j < cp.products.length; j++) {
+            if (
+              cp.collateralProductRelations[i].applicationProduct.id === cp.products[j].id &&
+              cp.collateralProductRelations[i].collateralId === this.groupCollaterals[k].id
+            ) {
+              ++countChecked;
+            }
+          }
+        }
+
+        if (countChecked === prodLength) {
+          this.mappingStatusHelper.push('yes');
+        } else {
+          this.mappingStatusHelper.push('no');
+        }
+      }
+    }
+  }
 
   public openDialog(element: ICollateral): void {
     let cp = {};
@@ -136,7 +218,6 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
         cp = this.creditProposal;
       }
     }
-    // console.log('bab', this.creditProposal);
     const predicate: object = {
       width: '80vw',
       data: {
@@ -154,51 +235,57 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
         matrikBindingType: this.getBindingType(element.collBindingType),
         ownerShip: this.findCertyficate(element) + ' ' + this.getOwnerShip(element),
         certDueDate: this.getExpiry(element),
-        isViewMode: true,
+        isViewMode: false,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        if (res.action === 'cancel') {
+        /* if (res.action === 'cancel') {
           this.creditProposal.collateralProductRelations = res.creditProposal.collateralProductRelations;
-        }
-      }
+        } */
+        this.creditProposalService.changeColRelByCP(res.creditProposal);
 
-      const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
-        return o.id === res['collateral'].id;
-      });
-      if (collateralIdx > -1) {
-        this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-      }
+        const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, function (o) {
+          return o.id === res['collateral'].id;
+        });
 
-      // replace / add binding
-      const bindingIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['binding'],
-        function (o: ICreditProposalCollateralBinding) {
-          return o.collateralId === res['collateral'].id;
+        if (collateralIdx > -1) {
+          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
         }
-      );
-      if (bindingIdx > -1) {
-        this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
-      } else {
-        this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
-      }
 
-      // replace / add insurance
-      const insuranceIdx: number = lodash.findIndex(
-        this.creditProposal.attributes['insurance'],
-        function (o: ICreditProposalCollateralInsurance) {
-          return o.collateralId === res['collateral'].id;
+        // replace / add binding
+        const bindingIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['binding'],
+          function (o: ICreditProposalCollateralBinding) {
+            return o.collateralId === res['collateral'].id;
+          }
+        );
+
+        if (bindingIdx > -1) {
+          this.creditProposal.attributes['binding'][bindingIdx] = res['binding'];
+        } else {
+          this.creditProposal.attributes['binding'] = [...this.creditProposal.attributes['binding'], res['binding']];
         }
-      );
-      if (insuranceIdx > -1) {
-        this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
-      } else {
-        this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
+
+        // replace / add insurance
+        const insuranceIdx: number = lodash.findIndex(
+          this.creditProposal.attributes['insurance'],
+          function (o: ICreditProposalCollateralInsurance) {
+            return o.collateralId === res['collateral'].id;
+          }
+        );
+
+        if (insuranceIdx > -1) {
+          this.creditProposal.attributes['insurance'][insuranceIdx] = res['insurance'];
+        } else {
+          this.creditProposal.attributes['insurance'] = [...this.creditProposal.attributes['insurance'], res['insurance']];
+        }
       }
     });
   }
+
   countKJJPLV(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
@@ -219,6 +306,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     }
     return result;
   }
+
   countKJJPMV(collateral: ICollateral) {
     let result: number;
     result = 0;
@@ -247,10 +335,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     if (this.creditProposal.appraisals.length > 0) {
       const lastAppraisal: ICollateralAppraisal = this.creditProposal.appraisals[this.creditProposal.appraisals.length - 1];
       if (lodash.has(lastAppraisal.attributes, 'summary')) {
-        // console.log(lastAppraisal.attributes);
-
         return JSON.parse(lastAppraisal.attributes['summary']).marketbility;
-        // return lastAppraisal.attributes['summary'].marketbility;
       }
     }
     return 'N/A';
@@ -273,6 +358,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
     return this.bindingTypeVal[keyy];
   }
+
   private getBinding(element: ICollateral): ICreditProposalCollateralBinding {
     if (this.creditProposal.attributes['binding'].length > 0) {
       for (let i = 0; i < this.creditProposal.attributes['binding'].length; i++) {
@@ -330,7 +416,7 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     let result: string;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
+
     if (collateral.collateralTypeId === COLLATERAL_TYPE['deposit']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -473,7 +559,6 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     let result: number;
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -528,17 +613,33 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
   }
 
   public groubCollateralPagination: any;
+
   public collateralMybusiness() {
-    const groupId = this.creditProposal.debtorData.groupCompanyId;
-    const idParty = this.creditProposal.cif.partyId;
-    const cifNumber = this.creditProposal.customerNumber;
-    this.partyCifService.getListGroupCollateral(cifNumber).subscribe(res => {
+    // const groupId = this.creditProposal.debtorData.groupCompanyId;
+    // const idParty = this.creditProposal.cif.partyId;
+    // const cifNumber = this.creditProposal.customerNumber;
+
+    this.collateralService
+      .queryFilterBy({
+        idParty: this._partyId,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.groupCollaterals = res.body;
+        if (this.creditProposal) {
+          this.checkIndividualCol(this.creditProposal);
+        }
+        this.mapCollateralProperty(res.body);
+        this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
+        this.groubCollateralPagination.paginator = this.paginator;
+      });
+    /* this.partyCifService.getListGroupCollateral(cifNumber).subscribe(res => {
       this.groupCollaterals = res.body;
+	  this.checkIndividualCol();
       this.mapCollateralProperty(res.body);
-      console.log('group colllateral ', this.groupCollaterals);
       this.groubCollateralPagination = new MatTableDataSource(this.groupCollaterals);
       this.groubCollateralPagination.paginator = this.paginator;
-    });
+    }); */
   }
 
   public mapCollateralProperty(data: ICollateral[]) {
@@ -569,7 +670,6 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
   public findCertyficate(collateral) {
     let data: ICollateralProperty;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -596,7 +696,6 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     let string2: string;
     let result: string;
 
-    // console.log("collateral in above grid",collateral);
     if (collateral.collateralTypeId) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
@@ -617,7 +716,6 @@ export class GroupCollateralComponent implements OnChanges, OnInit {
     let data: ICollateralProperty;
     let datas: ICollateralProperty[];
 
-    // console.log("collateral in above grid",collateral);
     if (
       collateral.collateralTypeId === COLLATERAL_TYPE['realestate'] ||
       collateral.collateralTypeId === COLLATERAL_TYPE['machine'] ||

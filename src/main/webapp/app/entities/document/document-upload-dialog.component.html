@@ -15,15 +15,14 @@
             [removable]="true"
             (removed)="onRemove(f)"
           >
-          <ngx-dropzone-label>
-            <ngx-dropzone-image-preview
-              ngProjectAs="ngx-dropzone-image-preview"
-              [file]="f"
-              *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
-            >
-            </ngx-dropzone-image-preview>
-     
-          </ngx-dropzone-label>
+            <ngx-dropzone-label>
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-image-preview"
+                [file]="f"
+                *ngIf="f.type === 'image/jpeg' || f.type === 'image/png' || f.type === 'image/jpg' || f.type === 'image/gif'"
+              >
+              </ngx-dropzone-image-preview>
+            </ngx-dropzone-label>
             <ngx-dropzone-label *ngIf="f.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'">
               <img src="../../../content/images/excel.png" width="100%" height="100%" />
             </ngx-dropzone-label>
@@ -62,49 +61,87 @@
       </div>
       <div class="col-6">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Document Issued Date</mat-label>
-            <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
-            <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
-            <mat-datepicker #documentDate disabled="false"></mat-datepicker>
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Document Issued Date</mat-label>
+              <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="document.documentDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
+              <mat-datepicker #documentDate disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Document Issued Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ document.documentDate }}
+              </div>
+            </div>
+          </section>
         </div>
         <!-- <div *ngIf="collateralView"> -->
         <div class="form-group" *ngIf="collateralOrAppraisal === 'collateral'">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Document Collateral</mat-label>
-            <mat-select [(ngModel)]="document.documentType">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Document Collateral</mat-label>
+              <mat-select [(ngModel)]="document.documentType">
+                <mat-option value="">- Please Select -</mat-option>
+                <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.description }} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Document Collateral</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ document.documentTypet }}
+              </div>
+            </div>
+          </section>
         </div>
         <!-- </div> -->
         <!-- <div *ngIf="!collateralView"> -->
         <div class="form-group" *ngIf="collateralOrAppraisal === 'appraisal'">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Dokumen Collateral</mat-label>
+            <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="document.documentType">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+              <mat-option *ngFor="let item of documentTypes" [value]="item.id">{{ item.description }} </mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
             </mat-select>
           </mat-form-field>
         </div>
         <!-- </div> -->
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Document Name</mat-label>
-            <input matInput type="text" [(ngModel)]="document.documentNumber" />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Document Name</mat-label>
+              <input matInput type="text" [(ngModel)]="document.documentNumber" />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Document Name</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ document.documentNumber }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
   </mat-dialog-content>
-  <mat-dialog-actions align="center">
+  <section *jhiMatrixDirIDD="'input'">
+    <mat-dialog-actions align="center">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button (click)="save()">Save</button>
+    </mat-dialog-actions>
+  </section>
+  <section *jhiMatrixDirIDD="''" align="center">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="save()">Save</button>
-  </mat-dialog-actions>
+  </section>
 </div>
 
 <div *ngIf="view === 'edit'">
@@ -206,7 +243,7 @@
             <mat-label>Document Collateral</mat-label>
             <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option>
+              <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.description }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -217,7 +254,7 @@
             <mat-label>Dokumen Collateral</mat-label>
             <mat-select [(ngModel)]="folder['files'][0]['tags']['docType']">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of documentTypes | keyvalue" [value]="item.value">{{ item.value }}</mat-option>
+              <mat-option *ngFor="let item of documentTypes" [value]="item.id">{{ item.description }} </mat-option>
               <!-- <mat-option *ngFor="let item of certiFicateTypeName" [value]="item.id">{{ item.label }}</mat-option> -->
             </mat-select>
           </mat-form-field>
@@ -226,7 +263,7 @@
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Document Name</mat-label>
-            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(folder['files'][0]['tags']['docNo'])"  />
+            <input (change)="setModel($event)" matInput type="text" [value]="convertDan(folder['files'][0]['tags']['docNo'])" />
           </mat-form-field>
         </div>
       </div>

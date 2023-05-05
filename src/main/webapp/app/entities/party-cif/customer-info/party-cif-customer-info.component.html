@@ -11,15 +11,26 @@
       <mat-panel-title class="fw-bold"> Customer Info </mat-panel-title>
     </mat-expansion-panel-header>
     <div>
-      This customer type is <span class="fw-bold">{{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
+      This customer type is disini jhainya<span class="fw-bold">{{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
     </div>
     <div class="row mt-5">
       <div class="col-12">
         <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Cif</mat-label>
-            <input matInput type="text" [value]="partyCif.customerNumber" disabled />
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Cif</mat-label>
+              <input matInput type="text" [value]="partyCif.customerNumber" disabled />
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col-3">Cif</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ partyCif.customerNumber }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>

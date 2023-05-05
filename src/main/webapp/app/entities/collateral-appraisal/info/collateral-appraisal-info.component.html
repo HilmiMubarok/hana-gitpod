@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Branchs</mat-label>
+            <mat-label>RM Branchs</mat-label>
             <mat-select [(ngModel)]="rmBranch.id" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of branchs" [value]="item.id">
@@ -67,6 +67,17 @@
     </div>
   </div>
   <div class="e-card-content">
+    <section class="mt-3">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Proposal/Appraisal Branchs</mat-label>
+        <mat-select [(ngModel)]="surveyAppraisal.internalId" disabled>
+          <mat-option value="">Please Select</mat-option>
+          <mat-option *ngFor="let item of branchs" [value]="item.id">
+            {{ item.organizationName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
     <section class="mt-3">
       <ejs-textbox
         cssClass="e-outline"

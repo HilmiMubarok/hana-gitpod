@@ -1,0 +1,22 @@
+{
+  "losgwApp": {
+    "requestSlik": {
+      "home": {
+        "title": "Request Sliks",
+        "createLabel": "Buat Request Slik baru",
+        "createOrEditLabel": "Buat atau edit Request Slik",
+        "viewLabel": "Lihat Request Slik",
+        "notFound": "No Request Sliks found"
+      },
+      "created": "Request Slik dengan id {{ param }} telah dibuat",
+      "updated": "Request Slik dengan id {{ param }} telah diperbaharui",
+      "deleted": "Request Slik dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Request Slik {{ id }}?"
+      },
+      "detail": {
+        "title": "Request Slik"
+      }
+    }
+  }
+}

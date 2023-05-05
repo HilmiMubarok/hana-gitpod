@@ -474,6 +474,18 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
         }
       }
     }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateExpiryDate === undefined) {
+          result = '';
+        } else {
+          result = data.certificateExpiryDate;
+        }
+      }
+    }
     return result;
   }
 
@@ -512,7 +524,8 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
     let string2: string;
     let result: string;
 
-    if (collateral.collateralTypeId) {
+    // console.log("collateral in above grid",collateral);
+    if (collateral.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']) {
       data = this.collateralProperties.find(
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
@@ -521,6 +534,18 @@ export class CollateralInfoBTPHistoryComponent extends AbstractEntityMaterialCom
           string2 = '';
         } else {
           string2 = data.attributes.certificateNumber;
+        }
+      }
+    }
+    if (collateral.collateralTypeId === COLLATERAL_TYPE['personalCorporateGuarantee']) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.certificateNumber === undefined) {
+          string2 = '';
+        } else {
+          string2 = data.certificateNumber;
         }
       }
     }

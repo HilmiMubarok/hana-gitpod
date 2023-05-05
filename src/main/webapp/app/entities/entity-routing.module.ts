@@ -506,6 +506,38 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./position-reporting-structure/position-reporting-structure.module').then(m => m.LosgwPositionReportingStructureModule),
       },
+      {
+        path: 'document-type',
+        loadChildren: () => import('./document-type/document-type.module').then(m => m.LosgwDocumentTypeModule),
+      },
+      {
+        path: 'lending-program-parameter',
+        loadChildren: () =>
+          import('./lending-program-parameter/lending-program-parameter.module').then(m => m.LosgwLendingProgramParameterModule),
+      },
+      {
+        path: 'request-slik',
+        loadChildren: () => import('./request-slik/request-slik.module').then(m => m.LosgwRequestSlikModule),
+      },
+      {
+        path: 'list-of-value-parameter',
+        loadChildren: () =>
+          import('./master-parameter/master-lov-parameter/master-lov-parameter.module').then(m => m.LosgwMasterLovParameterModule),
+      },
+      {
+        path: 'master-product-parameter',
+        loadChildren: () =>
+          import('./master-parameter/master-product/master-product-parameter.module').then(m => m.LosgwMasterProductParameterModule),
+      },
+      {
+        path: 'product-category',
+        loadChildren: () => import('./product-category/product-category.module').then(m => m.LosgwProductCategoryModule),
+      },
+      {
+        path: 'collateral-parameter',
+        loadChildren: () =>
+          import('./master-parameter/collateral-parameter/collateral-parameter.module').then(m => m.LosgwCollateralParameterModule),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],

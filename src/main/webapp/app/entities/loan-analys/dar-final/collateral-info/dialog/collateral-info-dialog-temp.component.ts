@@ -20,6 +20,8 @@ import { FormControl } from '@angular/forms';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { GeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -51,7 +53,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public disabledData: Boolean = true;
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
-  public collateralGrading: OptionNode[];
+  public collateralGrading = [];
   public collateralDetails: object[];
   public bindingTypesHobies: any;
   public facilityTypes: any;
@@ -75,6 +77,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   public matrikBindingType;
   public facilityTypeMatrik: any;
   public collateralCodeMatrik: any;
+  public collateralGradings: string;
   public optionBindingTypes: string[] = [
     'HAK TANGGUNGAN (APHT)',
     'GADAI',
@@ -95,6 +98,7 @@ export class CollateralInfoDialogTempComponent implements OnInit {
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
+    private generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CollateralInfoDialogTempComponent>,
 
     @Inject(MAT_DIALOG_DATA)
@@ -160,9 +164,22 @@ export class CollateralInfoDialogTempComponent implements OnInit {
   }
 
   private loadCollateralGrading(): void {
-    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
-      this.collateralGrading = res.body;
-    });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_GRADING',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < this.collateralGrading.length; i++) {
+          if (this.collateralGrading[i].code === this.collateral.collateralGrading) {
+            this.collateralGradings = this.collateralGrading[i].value;
+          }
+        }
+      });
   }
 
   private loadCollateralDetailOption(): Promise<void> {

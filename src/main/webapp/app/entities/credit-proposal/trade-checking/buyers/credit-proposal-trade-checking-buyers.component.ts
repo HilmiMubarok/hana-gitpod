@@ -7,6 +7,7 @@ import { LoanApplicationService } from 'app/entities/loan-application/loan-appli
 import { ITradeCheckingBuyers, TradeCheckingBuyers } from './trade-checking-buyers.model';
 import { CreditProposalTradeCheckingBuyersDialogComponent } from './credit-proposal-trade-checking-buyers-dialog.component';
 import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-trade-checking-buyers',
@@ -145,12 +146,30 @@ export class CreditProposalTradeCheckingBuyersComponent implements OnChanges {
       // jika indexnya lebih dari -1
     });
   }
-
-  // DELETE
-  public onDelete(element: ICreditProposal) {
-    const dataGrid = this.creditProposal.attributes['tradeCheckingBuyers'].filter(({ id }) => id !== element.id);
-    this.creditProposal.attributes['tradeCheckingBuyers'] = dataGrid;
-    this.creditProposal.attributes['tradeCheckingBuyers'] = dataGrid;
-    console.log('Tes Delete', dataGrid);
+  // Delete Confirmation
+  public onDelete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Buyer',
+        message: 'Are you sure to delete ' + element.buyersName + ' this data?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const dataGrid = this.creditProposal.attributes['tradeCheckingBuyers'].filter(({ id }) => id !== element.id);
+        this.creditProposal.attributes['tradeCheckingBuyers'] = dataGrid;
+        this.creditProposal.attributes['tradeCheckingBuyers'] = dataGrid;
+        console.log('Tes Delete', dataGrid);
+      }
+    });
   }
+
+  // // DELETE
+  // public onDelete(element: ICreditProposal) {
+  //   const dataGrid = this.creditProposal.attributes['tradeCheckingBuyers'].filter(({ id }) => id !== element.id);
+  //   this.creditProposal.attributes['tradeCheckingBuyers'] = dataGrid;
+  //   this.creditProposal.attributes['tradeCheckingBuyers'] = dataGrid;
+  //   console.log('Tes Delete', dataGrid);
+  // }
 }

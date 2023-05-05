@@ -292,6 +292,15 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
             } else {
               creditProposal.body.attributes['legalLendingLimit'] = JSON.parse(creditProposal.body.attributes['legalLendingLimit']);
             }
+
+            if (!lodash.has(creditProposal.body.attributes, 'lendingProgramParameter')) {
+              creditProposal.body.attributes['lendingProgramParameter'] = [];
+            } else {
+              creditProposal.body.attributes['lendingProgramParameter'] = JSON.parse(
+                creditProposal.body.attributes['lendingProgramParameter']
+              );
+            }
+
             if (!lodash.has(creditProposal.body.attributes, 'dataAssignTo')) {
               creditProposal.body.attributes['dataAssignTo'] = [];
               creditProposal.body.attributes['dataAssignTo'].push(new DocumentData());

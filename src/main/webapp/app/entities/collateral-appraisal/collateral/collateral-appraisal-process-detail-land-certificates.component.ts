@@ -14,6 +14,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { CollateralLandCertificateService } from './dialogs/collateral-land-certificate.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land-certificates',
@@ -136,11 +137,10 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
         if (typeof this.collateral.attributes['landCertificates'] === 'string') {
           if (this.collateral.attributes['landCertificates'] === '') {
             this.collateral.attributes['landCertificates'] = '[]';
-            this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates'])
-          }else{
-            this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates'])
+            this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates']);
+          } else {
+            this.collateral.attributes['landCertificates'] = JSON.parse(this.collateral.attributes['landCertificates']);
           }
-          
         }
       }
     }
@@ -163,24 +163,58 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
       }
     });
   }
-
-  public delete(element: ICollateralLandAttribute): void {
-    const copyCertificates: ICollateralLandAttribute[] = lodash.clone(this.certificates);
-    const idx: number = lodash.findIndex(copyCertificates, function (o: ICollateralLandAttribute) {
-      return o.id === element.id;
+  // Delete Confirmation
+  public delete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete Certificate',
+        message:
+          'Are you sure to delete the certificate in the name of ' +
+          element.certName +
+          ' with certificate number ' +
+          element.certNumber +
+          '?',
+      },
     });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const copyCertificates: ICollateralLandAttribute[] = lodash.clone(this.certificates);
+        const idx: number = lodash.findIndex(copyCertificates, function (o: ICollateralLandAttribute) {
+          return o.id === element.id;
+        });
 
-    if (idx > -1) {
-      copyCertificates.splice(idx, 1);
-    }
-    this.certificates = lodash.cloneDeep(copyCertificates);
-    this.collateral.attributes['landCertificates'] = lodash.cloneDeep(copyCertificates);
-    if(this.collateral.attributes['landCertificates'].length < 1){
-      this.collateral.attributes['landCertificates'] = '';
-    }
-    this.getTotalArea();
-    // this.collateralService.update(this.collateral);
+        if (idx > -1) {
+          copyCertificates.splice(idx, 1);
+        }
+        this.certificates = lodash.cloneDeep(copyCertificates);
+        this.collateral.attributes['landCertificates'] = lodash.cloneDeep(copyCertificates);
+        if (this.collateral.attributes['landCertificates'].length < 1) {
+          this.collateral.attributes['landCertificates'] = '';
+        }
+        this.getTotalArea();
+        // this.collateralService.update(this.collateral);
+      }
+    });
   }
+
+  // public delete(element: ICollateralLandAttribute): void {
+  //   const copyCertificates: ICollateralLandAttribute[] = lodash.clone(this.certificates);
+  //   const idx: number = lodash.findIndex(copyCertificates, function (o: ICollateralLandAttribute) {
+  //     return o.id === element.id;
+  //   });
+
+  //   if (idx > -1) {
+  //     copyCertificates.splice(idx, 1);
+  //   }
+  //   this.certificates = lodash.cloneDeep(copyCertificates);
+  //   this.collateral.attributes['landCertificates'] = lodash.cloneDeep(copyCertificates);
+  //   if (this.collateral.attributes['landCertificates'].length < 1) {
+  //     this.collateral.attributes['landCertificates'] = '';
+  //   }
+  //   this.getTotalArea();
+  //   // this.collateralService.update(this.collateral);
+  // }
 
   hideordisable() {
     if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantAbove } from '../convenant.constant';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-covenant-above',
@@ -15,7 +16,8 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGridAbove: any = dataCovenantAbove;
+  // public standardDataGridAbove: any = dataCovenantAbove;
+  public standardDataGridAbove: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -31,6 +33,10 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
 
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
+  }
+
+  constructor(private generalParameterService: GeneralParameterService) {
+    this.LovCovenantAbove();
   }
 
   public onKeyUpEvent(input: string, event: any, data: any) {
@@ -65,5 +71,19 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
     }
 
     // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  public LovCovenantAbove() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_ABOVE_STANDARD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.standardDataGridAbove = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }

@@ -47,7 +47,7 @@ import { IOptionNode } from 'app/shared/model/option-node.model';
 import { Subject, firstValueFrom, takeUntil } from 'rxjs';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
-import { IScoreCard, scoreCard } from '../collateral-appraisal/negative/score-card.constant';
+import { IScoreCard, ScoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralAppraisalComparisonComponent } from '../collateral-appraisal/comparison/collateral-appraisal-comparison.component';
 import { CollateralAppraisalForwardToComponent } from '../collateral-appraisal/summary/forward-to/collateral-appraisal-forward-to.component';
@@ -934,10 +934,10 @@ export class SurveyBatchEditInternalComponent implements OnInit {
       data.attributes['marketbility'] = '';
     }
     if (data.attributes === undefined || data.attributes === null || typeof data.attributes['scoreCard'] === 'string') {
-      data.attributes['scoreCard'] = scoreCard;
+      data.attributes['scoreCard'] = new ScoreCard();
     } else {
       if (!Object.prototype.hasOwnProperty.call(data.attributes, 'scoreCard')) {
-        data.attributes['scoreCard'] = scoreCard;
+        data.attributes['scoreCard'] = new ScoreCard();
       } else {
         data.attributes['scoreCard'] = JSON.parse(data.attributes['scoreCard']);
       }

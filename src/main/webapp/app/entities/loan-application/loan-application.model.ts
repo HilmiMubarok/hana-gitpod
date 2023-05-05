@@ -41,6 +41,10 @@ export interface ILoanApplication {
   products?: IApplicationProduct[];
   prospectPerson?: IPerson;
   prospectOrganization?: IPartyGroup;
+  bookingBranchId?: string;
+  bookingBranchName?: string;
+  approvalLc?: string;
+  approvalLcDefault?: string;
 }
 
 export class LoanApplication implements ILoanApplication {
@@ -71,7 +75,11 @@ export class LoanApplication implements ILoanApplication {
     public rm?: IApplicationRole,
     public creditFacilityId?: number,
     public creditFacilityName?: string,
-    public products?: IApplicationProduct[]
+    public products?: IApplicationProduct[],
+    public bookingBranchId?: string,
+    public bookingBranchName?: string,
+    public approvalLc?: string,
+    public approvalLcDefault?: string
   ) {
     this.products = new Array<IApplicationProduct>();
   }

@@ -15,6 +15,9 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { CollateralParameter, ICollateralParameter } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.model';
+import { CollateralParameterService } from 'app/entities/master-parameter/collateral-parameter/collateral-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -69,15 +72,28 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this._disabledOpt = item;
   }
 
+  public corporatePersonalGuaranteeType = {
+    appraise: false,
+    attributes: {},
+    description: 'Corporate/Personal Guarantee',
+    id: 'GUARANTEE',
+    parentDescription: null,
+    parentId: null,
+  };
   public facilityTypes: any;
-  public bindingTypes: any;
-  public collateralGrading: OptionNode[];
+  public collateralGrading = [];
+  public bindingTypes = [];
   public collateralDetails: object[];
   public collateralTypes: ICollateralType[];
-  public collateralCode: object[];
-  constructor(private collateralTypeService: CollateralTypeService, private cashCollateralService: CashCollateralService) {
-    this.bindingTypes = COLLATERAL_BINDING_TYPE;
-    this.facilityTypes = COLLATERAL_FACILITY_TYPE;
+  public collateralCode: ICollateralParameter[];
+  constructor(
+    private collateralTypeService: CollateralTypeService,
+    private cashCollateralService: CashCollateralService,
+    protected generalParameterService: GeneralParameterService,
+    protected collateralParameterService: CollateralParameterService
+  ) {
+    // this.bindingTypes = COLLATERAL_BINDING_TYPE;
+
     this.collateralStatus = STATUS_COLLATERAL;
     this.paripasuStatus = PARIPASU_STATUS;
   }
@@ -95,6 +111,22 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
     this.loadCollateralType();
     this.loadCollateralGrading();
     this.cekData();
+    this.lovBindingType();
+    this.collateralFacilityTypeLov();
+    this.loadCollateralCode();
+  }
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   public disabledOccupansy() {
@@ -111,9 +143,15 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   }
 
   private loadCollateralGrading(): void {
-    this.cashCollateralService.loadCollateralGradingType().subscribe(res => {
-      this.collateralGrading = res.body;
-    });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_GRADING',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralGrading = res.body;
+      });
   }
 
   private setCollateralDetail(): void {
@@ -136,21 +174,28 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
 
   private loadCollateralType(): void {
     this.collateralTypeService.query().subscribe(res => {
-      this.collateralTypes = res.body;
-      this.collateralTypes.pop();
+      this.collateralTypes = res.body.filter(obj => obj.id !== 'CASH');
+      console.log('collateral types ', this.collateralTypes);
     });
   }
 
   public changeCollateralType(event: MatSelectChange): void {
-    this.collateralCode = lodash.find(this.collateralDetails, function (o) {
-      return o['id'] === event.value;
-    })['child'];
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: event.value,
+      })
+      .subscribe(res => {
+        this.collateralCode = res.body;
+        this.collateral.attributes.collateralProposePricing = '';
+        this.collateral.attributes.collateralCode = '';
+      });
+    console.log('collateral code ', this.collateral.attributes.collateralCode);
   }
 
   public changeCollateralCode(event: MatSelectChange): void {
     this.collateral.attributes.collateralProposePricing = lodash.find(this.collateralCode, function (o) {
-      return o['id'] === event.value;
-    })['proposePricing'];
+      return o['collateralTypeCode'] === event.value;
+    })['collateralDetailTypeDescription'];
   }
 
   public dataSource() {
@@ -169,5 +214,39 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       return true;
     }
     return false;
+  }
+
+  public collateralFacilityTypeLov() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_FACILITY_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.facilityTypes = res.body;
+      });
+  }
+
+  public collateralCodeLov() {
+    this.collateralParameterService
+      .queryFilterBy({
+        collateralType: 'vehicle',
+      })
+      .subscribe(res => {
+        console.log('ini parameter ', res.body);
+      });
+  }
+
+  loadCollateralCode() {
+    if (this.collateral.collateralTypeId) {
+      this.collateralParameterService
+        .queryFilterBy({
+          collateralType: this.collateral.collateralTypeId,
+        })
+        .subscribe(res => {
+          this.collateralCode = res.body;
+        });
+    }
   }
 }
