@@ -11,14 +11,17 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import _ from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartySlikService } from '../party-slik/party-slik.service';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
+  private bucket: string;
   constructor(
     protected http: HttpClient,
     protected applicationConfigService: ApplicationConfigService,
     protected partyCifService: PartyCifService,
-    protected partySlikService: PartySlikService
+    protected partySlikService: PartySlikService,
+    protected storageService: StorageService
   ) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
@@ -197,9 +200,19 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   pushPartySlik(data) {
+    // copas slik file from cbas to $party_id
+    const push = data.verifyData.map(res => this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`));
+
+    // Remove reqReffId attributes on this.verifyData
+    data.verifyData = data.verifyData.map(res => {
+      delete res.attributes['reqReffId'];
+      return res;
+    });
+
     const save = this.partySlikService.saveAll(data.verifyData);
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-    return forkJoin([save, changeStatus]);
+    return forkJoin([save, changeStatus, push]);
+    // return forkJoin([save, changeStatus, push]);
     // return this.partySlikService.saveAll(data.verifyData);
   }
 
@@ -220,6 +233,44 @@ export class RequestSlikService extends AbstractEntityService<any> {
       //   .then(() => this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status }));
       // return this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
     }
+  }
+
+  CopasSlikFile(partyId, reqReffId, source, target) {
+    // Get Bucket
+    return this.storageService.getBucketName().subscribe(bucket => {
+      const bucketName = bucket.body['bucket'];
+      // Get Objects
+      const predicate: Object = {
+        key: `${source}/${reqReffId}`,
+      };
+      this.storageService.getObjects(bucketName, predicate).subscribe(objects => {
+        console.log('OBJECTS', objects);
+
+        // convert object to file
+        objects.body.forEach(element => {
+          // Fetch the file from the URL and create a new File object
+          fetch(element['url'])
+            .then(response => response.blob())
+            .then(blob => {
+              const file = new File([blob], element['name'], { type: element['metaData']['Value'], lastModified: element['lastModified'] });
+
+              const formData = new FormData();
+              formData.append('file', file);
+
+              this.storageService
+                .uploadMeta(bucketName, formData, {
+                  objectName: `${target}/${partyId}/${element['name']}`,
+                })
+                .subscribe(uploadFile => {
+                  console.log('UPLOAD FILE', uploadFile);
+                });
+            })
+            .catch(error => {
+              console.error('Error fetching the file:', error);
+            });
+        });
+      });
+    });
   }
 
   mapSlikResult(data) {

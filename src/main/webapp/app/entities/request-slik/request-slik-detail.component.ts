@@ -9,6 +9,7 @@ import { MessageService } from 'primeng/api';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { IPDFSlik } from 'app/shared/ocr/pdf-slik.model';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
+import { StorageService } from '../storage/storage.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -41,7 +42,8 @@ export class RequestSlikDetailComponent {
     private router: Router,
     private requestSlikService: RequestSlikService,
     protected messageService: MessageService,
-    protected partySlikService: PartySlikService
+    protected partySlikService: PartySlikService,
+    protected storageService: StorageService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
@@ -81,14 +83,21 @@ export class RequestSlikDetailComponent {
   // }
 
   hitPartySlik() {
-    this.partySlikService.saveAll(this.verifyData).subscribe(res => {
-      console.log(res);
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+    this.verifyData = this.verifyData.map(res => {
+      delete res.attributes['reqReffId'];
+      return res;
     });
+
+    console.log(this.verifyData);
+    // this.partySlikService.saveAll(this.verifyData).subscribe(res => {
+    //   console.log(res);
+    //   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+    // });
   }
 
   submit() {
     // this.requestSlikService.onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status));
+
     const data = {
       id: this.requestSlikId,
       status: this.checkStatus(this.requestSlik.status).status,
@@ -184,9 +193,13 @@ export class RequestSlikDetailComponent {
   protected makePartySlikWithPartyId(data) {
     const partySlik = data.partySlik;
     const partyId = data.partyId;
+    const reqReffId = data.requestReffId;
 
     // add partyId to partySlik
     partySlik.partyId = partyId;
+
+    // add reqReffId to partySlik
+    partySlik.reqReffId = reqReffId;
 
     return partySlik;
   }
@@ -195,6 +208,7 @@ export class RequestSlikDetailComponent {
     const partySlik: IPartySlik = new PartySlik();
     partySlik.attributes = {
       partySlikCollaterals: item.partySlikCollaterals,
+      reqReffId: item.reqReffId,
     };
     partySlik.partyId = item.partyId;
     partySlik.bank = item.bank;
@@ -229,6 +243,15 @@ export class RequestSlikDetailComponent {
 
     // Map over verifyData and create new objects with attributes key
     this.verifyData = this.verifyData.map(res => {
+      // ! add reqreffid disini harusnya
+      console.log('Req reff id', res);
+
+      // party_slik / cbas / { reqReffId }-- > source;
+
+      // party_slik / partyId / slik_date.pdf-- > target;
+
+      // this.requestSlikService.CopasSlikFile(res.partyId, res.reqReffId, `party_slik/cbas`, `party_slik`);
+
       // Destructure res and omit partySlikCollaterals key
       const finalVerifyData = this.mapperIPDFSlikToPartySlik(res);
       // const { partySlikCollaterals, ...rest } = res;
