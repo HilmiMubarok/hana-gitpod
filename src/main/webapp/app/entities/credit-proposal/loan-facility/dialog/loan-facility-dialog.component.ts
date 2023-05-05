@@ -329,7 +329,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       const dateNew = new Date().toISOString().split('T')[0];
       if (this.rateType !== '' && this.ccy !== '' && dateNew) {
         this.indexRateService
-          .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
+          .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
           .subscribe((res: any) => {
             for (let i = 1; i < 13; i++) {
               if (i === this.dateIndex) {
