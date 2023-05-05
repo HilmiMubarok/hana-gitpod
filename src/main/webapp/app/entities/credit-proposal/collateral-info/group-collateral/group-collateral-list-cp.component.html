@@ -3,9 +3,11 @@
     <mat-card-header-subtitle class="text-capitalize">Group Collateral</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
-	<div style="margin: 30px">
-	  <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)">Is Collateral Cross col Group, All Facillities?</mat-slide-toggle>
-	</div>
+    <div style="margin: 30px">
+      <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
+        >Is Collateral Cross col Group, All Facillities?</mat-slide-toggle
+      >
+    </div>
     <div class="table-responsive-material">
       <table mat-table [dataSource]="listGroupCollateral" multiTemplateDataRows class="w-100">
         <ng-container matColumnDef="no">
@@ -47,7 +49,7 @@
                 <mat-card-content>
                   <jhi-group-collateral
                     [cif]="element.customerCIF"
-					[partyId]="element.partyId"
+                    [partyId]="element.partyId"
                     [isViewMode]="isViewMode"
                     [creditProposal]="creditProposal"
                     [group]="'group'"

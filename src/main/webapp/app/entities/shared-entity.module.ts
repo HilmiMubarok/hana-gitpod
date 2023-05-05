@@ -363,6 +363,10 @@ import { GroupCollateralListCpComponent } from './credit-proposal/collateral-inf
 import { ParipasuCollateralDebiturComponent } from './credit-proposal/collateral-info/paripasu-collateral-debitur/paripasu-collateral-debitur.component';
 import { ParipasuCollateralGroupComponent } from './credit-proposal/collateral-info/paripasu-collateral-group/paripasu-collateral-group.component';
 import { SummaryGridComponent } from './credit-proposal/collateral-info/collateral-summary/summary-grid.component';
+import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-facility-info.component';
+import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
+import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
+import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -785,6 +789,10 @@ import { SummaryGridComponent } from './credit-proposal/collateral-info/collater
         ParipasuCollateralDebiturComponent,
         GroupCollateralListCpComponent,
         SummaryGridComponent,
+        MainFacilityInfoComponent,
+        MainFacilityInfoChildComponent,
+        MainFacilityComponent,
+        MainFacilityChildComponent,
   ],
   exports: [
     ...entityDialogModule,
@@ -1165,6 +1173,9 @@ import { SummaryGridComponent } from './credit-proposal/collateral-info/collater
     ParipasuCollateralDebiturComponent,
     GroupCollateralListCpComponent,
     SummaryGridComponent,
+    MainFacilityInfoComponent,
+    MainFacilityComponent,
+    MainFacilityChildComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

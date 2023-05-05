@@ -153,6 +153,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     'condition',
     'action',
   ];
+  
+  public totalLimit = 0;
+  public totalOutstanding = 0;
 
   constructor(
     public partySlikService: PartySlikService,
@@ -212,6 +215,8 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => {
+		  this.totalLimit = this.countTotalLimit(res.body);
+		  this.totalOutstanding = this.countTotalOutstanding(res.body);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -312,23 +317,24 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   // count total limit
-  public countTotalLimit(): number {
+  public countTotalLimit(partySlik: any): number {
     let totalLimit: number;
     totalLimit = 0;
-    const partySlik: IPartySlik[] = this.partySliks;
     if (partySlik) {
       for (let i = 0; i < partySlik.length; i++) {
-        totalLimit = totalLimit + Number(partySlik[i].limit);
+		const regex = /[.,\s]/g;
+		if (partySlik[i].plafond) {
+		  totalLimit = totalLimit + Number(partySlik[i].plafond.replace(regex,''));
+		}
       }
     }
     return totalLimit;
   }
 
   // count total outstanding
-  public countTotalOutstanding(): number {
+  public countTotalOutstanding(partySlik: any): number {
     let totalOutstanding: number;
     totalOutstanding = 0;
-    const partySlik: IPartySlik[] = this.partySliks;
     if (partySlik) {
       for (let i = 0; i < partySlik.length; i++) {
         totalOutstanding = totalOutstanding + Number(partySlik[i].outstanding);
@@ -338,7 +344,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   }
 
   private mapperIPDFSlikToPartySlik(item: IPDFSlik): IPartySlik {
-    const partySlik: IPartySlik = new PartySlik();
+    const partySlik: any = new PartySlik();
     partySlik.attributes = {
       name: item.debtorName,
     };
@@ -359,8 +365,6 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
     partySlik.facilityType = item.facilityType;
     partySlik.period = item.period;
-    // const findPeriod = this.bulan.find(obj => obj.name === item.period.substring(3, 6));
-    // partySlik.period = (item.period);
 
     return partySlik;
   }
@@ -376,7 +380,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
 
     const dialogRef = this.dialog.open(DebtorDataSlikUploadComponent, predicate);
     dialogRef.afterClosed().subscribe((response: any) => {
-      this.resData = response.data;
+      this.resData = response.data.kredit;
 
       if (this.resData) {
         this.uploadData(response.files);

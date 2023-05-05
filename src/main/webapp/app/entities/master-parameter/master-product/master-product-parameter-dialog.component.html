@@ -82,6 +82,9 @@
               <button mat-icon-button (click)="openDialogCategory(element)">
                 <mat-icon>edit</mat-icon>
               </button>
+              <button ejs-button cssClass="e-danger" type="button" (click)="onDelete(element)">
+                <fa-icon icon="trash-alt"></fa-icon>
+              </button>
             </td>
             <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
               <button mat-icon-button (click)="openDialogCategory(element)">

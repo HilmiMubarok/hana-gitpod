@@ -15,15 +15,31 @@ import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import lodash from 'lodash';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import {
+  DocumentEditorComponent,
+  DocumentEditorContainerComponent,
+  DocumentEditorKeyDownEventArgs,
+  SelectionService,
+  EditorService,
+  SfdtExportService,
+} from '@syncfusion/ej2-angular-documenteditor';
+import { StorageService } from 'app/entities/storage/storage.service';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'jhi-credit-proposal-basic-information',
   templateUrl: './basic-information-view.component.html',
   styleUrls: ['../css/credit-proposal-basic-information.css'],
+  providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class ProposalBasicInformationViewComponent implements OnInit {
   @ViewChild('ejDialog') ejDialog: DialogComponent;
   // The Dialog shows within the target element.
   @ViewChild('container', { read: ElementRef, static: true }) container: ElementRef;
+  // remarks
+  @ViewChild('document_editor_container')
+  public containers: DocumentEditorContainerComponent;
+  @ViewChild('document_editor')
+  public documentEditor: DocumentEditorComponent;
 
   private _creditProposal: ICreditProposal;
   @Input()
@@ -32,6 +48,22 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   }
   set creditProposal(item: ICreditProposal) {
     this._creditProposal = item;
+  }
+
+  private bucket: string;
+  public customHeadersJWT: any;
+  private paramsIdGet: string;
+  private getKey: string;
+  private ngUnsubscribe = new Subject();
+  private fileGet: File;
+
+  private getBucket(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.storageService.getBucketName().subscribe(res => {
+        this.bucket = res.body['bucket'];
+        resolve();
+      });
+    });
   }
 
   @Input()
@@ -46,10 +78,24 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     private partyCifService: PartyCifService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
+    // remarks
+    const token = this.getToken('XSRF-TOKEN');
+    this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+
+    this.bucket = ' ';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/basic-info/' + this.paramsIdGet + '/sfdt';
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
+    });
+
     this.data = this.creditProposal.attributes['basicInformation'].coborowed;
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
       return e.purposeTypeId === 'PRIMARY_LOCATION';
@@ -71,6 +117,106 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.watchListChange();
     this.hiddenData();
     this.setBusinessGroup();
+  }
+
+  // remarks
+
+  private getToken(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
+  public onKeyDown(args: DocumentEditorKeyDownEventArgs): void {
+    const keyCode: string = args.event.key;
+    const isCtrlKey: boolean = args.event.ctrlKey || args.event.metaKey ? true : keyCode === '17' ? true : false;
+    console.log('keycode', keyCode);
+    console.log('isCtrlKey', isCtrlKey);
+    if (isCtrlKey && keyCode === '86') {
+      args.isHandled = true;
+    }
+  }
+
+  onCreate(): void {
+    // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
+    this.containers.serviceUrl = '/services/los/api/wordeditor/';
+  }
+
+  public triggeredSave(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const key = 'credit_proposal/remark/basic-info';
+
+    const timeStamp = Math.floor(Date.now() / 1000);
+
+    const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+
+    docEditor.saveAsBlob('Docx').then((exportedDocument: Blob) => {
+      const fileType = 'word';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileType + '.docs';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+    });
+
+    docEditor.saveAsBlob('Sfdt').then((exportedDocument: Blob) => {
+      const fileType = 'sfdt';
+      const fileName = 'credit-proposal-remark-' + paramsId + '-basic-info' + fileType + '.sfdt';
+      const metaData = {
+        objectName: `${key}/${paramsId}/${fileType}/${fileName}`,
+      };
+      const formData = new FormData();
+      formData.append('file', new File([exportedDocument], fileName));
+
+      this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe();
+    });
+  }
+
+  // remarks
+
+  private getContainer(): void {
+    let paramsId = '';
+    this.activatedRoute.params.subscribe(params => {
+      paramsId = params['id'];
+    });
+    const obj = {
+      key: 'credit_proposal/remark/basic-info/' + paramsId + '/sfdt',
+    };
+    this.storageService
+      .getObjects(this.bucket, obj)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(response => {
+        if (response.body.length > 0) {
+          this.storageService
+            .fileBlob(response.body[response.body.length - 1]['url'])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              this.fileGet = new File([res.body], 'credit-proposal-remark-' + this.paramsIdGet + '-basic-info-sfdt.sfdt');
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const docEditor = this.containers?.documentEditor as DocumentEditorComponent;
+                const contents: string = e.target.result;
+                docEditor.open(contents);
+              };
+              fileReader.readAsText(this.fileGet);
+            });
+        }
+      });
   }
 
   public addItem(event: any) {
@@ -175,5 +321,9 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.partyCifService.getBusinessGroup(cifNumber).subscribe(res => {
       this.gridCreditProposal = res.body;
     });
+  }
+
+  public onDocumentChange() {
+    this.containers.restrictEditing = true;
   }
 }

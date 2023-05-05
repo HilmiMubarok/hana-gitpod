@@ -32,6 +32,8 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
 
   public displayColumns: string[] = [
     'no',
+    'appraisalNo',
+    'facilityCategory',
     'bank',
     'limit',
     'loantype',

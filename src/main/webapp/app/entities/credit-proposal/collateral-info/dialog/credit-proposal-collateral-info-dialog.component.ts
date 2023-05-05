@@ -288,8 +288,8 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
 
   public cancel() {
     this._dialog.close({
-	  creditProposal: this.creditProposalOpenState,
-	});
+      creditProposal: this.creditProposalOpenState,
+    });
   }
 
   public getCertificateDueDate(): string {
