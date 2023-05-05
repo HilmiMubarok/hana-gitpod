@@ -210,8 +210,8 @@ export class RequestSlikService extends AbstractEntityService<any> {
     });
 
     const save = this.partySlikService.saveAll(data.verifyData);
-    // const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-    return forkJoin([save, push]);
+    const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
+    return forkJoin([save, changeStatus, push]);
     // return forkJoin([save, changeStatus, push]);
     // return this.partySlikService.saveAll(data.verifyData);
   }
