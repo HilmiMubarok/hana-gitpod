@@ -322,4 +322,8 @@ export class ProposalBasicInformationViewComponent implements OnInit {
       this.gridCreditProposal = res.body;
     });
   }
+
+  public onDocumentChange() {
+    this.containers.restrictEditing = true;
+  }
 }
