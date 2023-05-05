@@ -342,6 +342,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.creditProposalService.findByCif(params.cif.customerId).subscribe(res => {
       // this.creditProposal = res.body[0];
       const result: ICreditProposal = res.body[0];
+      console.log('resuktt', result);
       if (result) {
         this.creditProposal = result;
       }
