@@ -214,212 +214,94 @@
 </div>
 
 <div *ngIf="mode === 'view'">
-  <div class="style-close">
-    <button class="button-close" mat-button mat-dialog-close>X</button>
-  </div>
-  <h2 mat-dialog-title>DETAIL</h2>
+  <div class="style-close"></div>
+  <h2 mat-dialog-title>Slik Collateral Info</h2>
   <mat-dialog-content>
-    <div class="row">
-      <!-- LEFT SIDE -->
-      <div class="col-6">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Slik Checking Name</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.attributes['name']" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Relationship</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.attributes['relationship']" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Bank</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.bank" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Limit</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.limit | number: '1.0-0'"
-              (ngModelChange)="partySlik.limit = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>O/S</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.outstanding | number: '1.0-0'"
-              (ngModelChange)="partySlik.outstanding = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="collateralInfoList.flat()" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="collateralType">
+          <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="ownershipDocument">
+          <th mat-header-cell *matHeaderCellDef>Ownership Document Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.buktiKepemilikan }}</td>
+          <td mat-footer-cell *matFooterCellDef><p>Total in IDR</p></td>
+        </ng-container>
+        <ng-container matColumnDef="collateralValue">
+          <th mat-header-cell *matHeaderCellDef>Collateral Value</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>{{ totalCollateralValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="collateralValueNJOP">
+          <th mat-header-cell *matHeaderCellDef>
+            <div [align]="center">Collateral Value</div>
+            <div [align]="center">(NJOP/Market Value)</div>
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.nilaiNJOP }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>{{ totalNJOP | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="collateralValueIndependentAppraisal">
+          <th mat-header-cell *matHeaderCellDef>
+            <div [align]="center">Market Value</div>
+            <div [align]="center">(Independent Appraisal)</div>
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.nilaiPenilai }}</td>
+          <td mat-footer-cell *matFooterCellDef>
+            <p>{{ totalMarketValue | currency: 'IDR ':'symbol':'1.0-0' }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="banksAppraisalDate">
+          <th mat-header-cell *matHeaderCellDef>
+            <div [align]="center">Bank's</div>
+            <div [align]="center">Appraisal Date</div>
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.tanggalPenilaianPelapor }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="independentAppraisalDate">
+          <th mat-header-cell *matHeaderCellDef>
+            <div [align]="center">Independent</div>
+            <div [align]="center">Appraisal Date</div>
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.tanggalPenilaianPenilai }}</td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
 
-        <!-- <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Collateral Type</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.collateralType" [disabled]="true" />
-          </mat-form-field>
-        </div> -->
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Collateral IDR Mio</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.collateralIdrMio | number: '1.0-0'"
-              (ngModelChange)="partySlik.collateralIdrMio = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.description" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Arrears Reason</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.arrearsReason" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Arrears Date</mat-label>
-            <input matInput type="datetime" [(ngModel)]="partySlik.arrearsDate" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Arrears Base</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.arrearsBase | number: '1.0-0'"
-              (ngModelChange)="partySlik.arrearsBase = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Arrears Interest</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.arrearsInterest | number: '1.0-0'"
-              (ngModelChange)="partySlik.arrearsInterest = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Arrears Frequency</mat-label>
-            <input matInput type="number" [(ngModel)]="partySlik.arrearsFrequency" [disabled]="true" />
-          </mat-form-field>
-        </div>
-      </div>
-      <!-- RIGHT SIDE -->
+        <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
+        <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
 
-      <div class="col-6">
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Facility Type</mat-label>
-            <mat-select [(ngModel)]="partySlik.facilityType" name="facilityType" [disabled]="true">
-              <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of facility_types | keyvalue" [value]="item.key">
-                {{ item.value }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Rate</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.rate | number: '1.0-0'"
-              (ngModelChange)="partySlik.rate = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Period</mat-label>
-            <input matInput type="number" [(ngModel)]="partySlik.period" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Tenor</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.tenor | number: '1.0-0'"
-              (ngModelChange)="partySlik.tenor = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Fee</mat-label>
-            <input
-              matInput
-              type="text"
-              [ngModel]="partySlik.fee | number: '1.0-0'"
-              (ngModelChange)="partySlik.fee = numberInputChanged($event)"
-              [disabled]="true"
-            />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Restructure Frequency</mat-label>
-            <input matInput type="number" [(ngModel)]="partySlik.restructureFrequency" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Restructure Date Thru</mat-label>
-            <input matInput type="datetime" [(ngModel)]="partySlik.restructureDateThru" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Last Collectablility</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.lastCollectability" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Worst Collectability</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.worstCollectability" [disabled]="true" />
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Restructure Way</mat-label>
-            <input matInput type="text" [(ngModel)]="partySlik.restructureType" [disabled]="true" />
-          </mat-form-field>
-        </div>
-      </div>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayColumns"></tr>
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-card>
+        <mat-paginator
+          showFirstLastButtons
+          ngClass="transparant"
+          [length]="paginatorLength"
+          [pageSize]="paginatorPageSize"
+          [pageSizeOptions]="paginatorPageSizeOption"
+          (page)="loadDataLazy($event)"
+        >
+        </mat-paginator>
+      </mat-card>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
