@@ -19,7 +19,7 @@ import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-
 import { Router } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { Obj } from '@popperjs/core';
+
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',

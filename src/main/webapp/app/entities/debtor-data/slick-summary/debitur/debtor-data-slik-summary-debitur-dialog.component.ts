@@ -98,7 +98,7 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
     if (element) {
       for (let index = 0; index < element.length; index++) {
         totalCount = totalCount + 1;
-        console.log('this is the total count', totalCount);
+        // console.log('this is the total count', totalCount);
       }
     }
     return totalCount;
