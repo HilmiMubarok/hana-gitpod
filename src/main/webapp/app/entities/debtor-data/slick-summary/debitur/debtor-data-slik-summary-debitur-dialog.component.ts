@@ -86,10 +86,10 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
   }
   ngOnInit(): void {
     this.parsingPartySlikCollaterals();
-    this.paginatorLength = this.countPageLength(this.collateralInfoList.flat());
-    this.totalCollateralValue = this.countTotalCollateralValue(this.collateralInfoList.flat());
-    this.totalNJOP = this.countTotalNJOP(this.collateralInfoList.flat());
-    this.totalMarketValue = this.countTotlMarketValue(this.collateralInfoList.flat());
+    this.paginatorLength = this.countPageLength(this.collateralInfoList);
+    this.totalCollateralValue = this.countTotalCollateralValue(this.collateralInfoList);
+    this.totalNJOP = this.countTotalNJOP(this.collateralInfoList);
+    this.totalMarketValue = this.countTotlMarketValue(this.collateralInfoList);
   }
 
   public countPageLength(element: any): number {
@@ -105,7 +105,7 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
   }
 
   protected postLoadDataLazy(): void {
-    this.collateralInfoList.flat();
+    this.collateralInfoList;
   }
 
   numberInputChanged(value) {
@@ -190,11 +190,12 @@ export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityM
       if (this.viewData[y].id === this.selectedDataId) {
         if (this.viewData[y].attributes.partySlikCollaterals) {
           const item = this.viewData[y].attributes.partySlikCollaterals;
-          this.collateralInfoList.push(JSON.parse(item));
+          this.collateralInfoList = [...JSON.parse(item)];
           // listDetailPartySlik = this.parsedPartyCollaterals(JSON.parse(item))
         }
       }
     }
+    // console.log('this is the respnes collateralInfoList', this.collateralInfoList)
   }
 
   // Count Total Collateral Value
