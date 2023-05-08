@@ -22,6 +22,7 @@ import {
   APPRAISAL_MENU_TL,
   APPRAISAL_MENU_CRA,
   APPRAISAL_MENU_HCR,
+  APPRAISAL_MENU_LEGAL_TEAM_LEAD,
   APPRAISAL_MENU_BUSINESS_DIR,
   APPRAISAL_MENU_CREDIT_DIR,
   APPRAISAL_MENU_FINANCE_DIR,
@@ -106,6 +107,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             this.dataSource.data = APPRAISAL_MENU_CHECKER1;
           } else if (newPosSet === 'CRC2') {
             this.dataSource.data = APPRAISAL_MENU_CHECKER2;
+          } else if (newPosSet === 'LEGAL_TEAM_LEAD') {
+            this.dataSource.data = APPRAISAL_MENU_LEGAL_TEAM_LEAD;
           } else if (newPosSet === 'HCR1' || newPosSet === 'ROLE_HCR2') {
             this.dataSource.data = APPRAISAL_MENU_HCR;
           } else if (newPosSet === 'BUSINESS_DIR') {
