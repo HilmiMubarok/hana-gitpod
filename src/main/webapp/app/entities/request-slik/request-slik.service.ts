@@ -38,6 +38,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     // return this.http.get(url).pipe(map((response: any) => response.data));
     return this.http.get<any>(this.resourceUrl + url, { observe: 'response' }).pipe(
       switchMap(data => {
+        console.log('BUCKET DATA', data.body.data);
         const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
         return forkJoin([...requests]).pipe(
           map(details =>

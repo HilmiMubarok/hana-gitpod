@@ -108,7 +108,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
 
   @Output() selectedVerifyData = new EventEmitter<any>();
   selectRow(el) {
-    console.log('select row', el);
+    // console.log('select row', el);
     this.nikNpwp = el.nikNpwp;
 
     // Emit selectedVerifyData to parent
@@ -133,7 +133,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
-      this.dataSourceExpand = ELEMENT_DATA;
+      // this.dataSourceExpand = ELEMENT_DATA;
       this.organizationManagementService
         .queryFilterBy({
           cifNumber: this.cif,
@@ -150,7 +150,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
                 cbasRes.body.data.content.length > 0 &&
                   cbasRes.body.data.content.forEach(el => {
                     this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
-                      console.log('res filter', resFilter.body.data.content);
+                      // console.log('res filter', resFilter.body.data.content);
                       // add object key dataExpand on element
                       Object.assign(element, {
                         dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
@@ -169,10 +169,10 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   }
 
   mapCbasResult(dataCbas, dataFilter) {
-    console.log('Map Cbas Result', {
-      dataCbas,
-      dataFilter,
-    });
+    // console.log('Map Cbas Result', {
+    //   dataCbas,
+    //   dataFilter,
+    // });
     const finalDataFilter = [];
 
     dataFilter.forEach(el => {
@@ -187,7 +187,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   }
 
   finalDataFilter(partyId, reqReffId, data) {
-    console.log('dataPartySlik', { data, partyId });
+    // console.log('dataPartySlik', { data, partyId });
     const result = [];
     // const result2 = [];
 
@@ -219,9 +219,9 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     if (expandedEl) {
       const id = expandedEl.person.id;
       this.partyId = id;
-      console.log(expandedEl);
+      // console.log(expandedEl);
     } else {
-      console.log('closed expand');
+      // console.log('closed expand');
     }
   }
 
@@ -301,16 +301,3 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     });
   }
 }
-
-const ELEMENT_DATA = [
-  { name: '1 ' },
-  { name: '2 ' },
-  { name: '3 ' },
-  { name: '4 ' },
-  { name: '5 ' },
-  { name: '6 ' },
-  { name: '7 ' },
-  { name: '8 ' },
-  { name: '9 ' },
-  { name: '10' },
-];

@@ -51,7 +51,6 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
       .subscribe({
         next: res => {
           res.body.forEach((el: any) => {
-            console.log('ell', this._datePipe.transform(new Date(el.thruDate), 'dd-MM-yyyy'));
             if (
               this._datePipe.transform(new Date(el.thruDate), 'dd-MM-yyyy') <
                 this._datePipe.transform(new Date(currentDate), 'dd-MM-yyyy') &&
@@ -70,6 +69,15 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
             ) {
               el.statusId = 'ACTIVE';
               el.statusDescription = 'Active';
+              this.lendingProgramParameterService.update(el).subscribe(res2 => {
+                console.log('eeellll', res2);
+              });
+            }
+            if (
+              this._datePipe.transform(new Date(el.fromDate), 'dd-MM-yyyy') > this._datePipe.transform(new Date(currentDate), 'dd-MM-yyyy')
+            ) {
+              el.statusId = 'NON_ACTIVE';
+              el.statusDescription = 'Non Active';
               this.lendingProgramParameterService.update(el).subscribe(res2 => {
                 console.log('eeellll', res2);
               });
