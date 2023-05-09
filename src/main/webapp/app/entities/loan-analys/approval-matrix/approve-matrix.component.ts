@@ -60,7 +60,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   public _creditProposal: ICreditProposal;
   public statusList = ['CP_ASSIGNMENT'];
   public dropDwon = false;
-  public approvalStatus: string;
   @Output() newItemEvent = new EventEmitter<string>();
   public disabled: boolean;
   public hidden: boolean;
@@ -84,9 +83,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   ) {
     super(snackbar, positionReportingStructureService);
     this.loading = false;
-    this.idApp = this.activatedRoute.snapshot.paramMap.get('id');
-    this.selectedRelationType = '';
-    this.filteringItems = [];
   }
 
   @Input()
@@ -99,10 +95,9 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   }
 
   ngOnInit(): void {
-    console.log(this.selectedRelationType);
     this.getApplicationRolesByApplicationId();
-
-    // this.hidePleaseSelect();
+    this.loadRelationType();
+    console.log(this.relationTypes);
   }
   public hidePleaseSelect() {
     this.patch = this.router.url.split('/')[1];
@@ -113,15 +108,7 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
     }
   }
 
-  singleCheck(checkNode: any) {
-    if (checkNode.target.classList.contains('checked')) {
-      checkNode.target.classList.remove('checked');
-    } else {
-      checkNode.target.classList.add('checked');
-    }
-  }
-
-  private loadRelationType(params: IPositionReportingStructure[]): void {
+  private loadRelationType(): void {
     this.relationTypeService
       .queryFilterBy({
         idParent: this.creditProposal.applicationTypeId,
@@ -130,8 +117,7 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
       })
       .subscribe(res => {
         this.data = res.body;
-        console.log('ini data', this.data);
-        if (this.data.length) {
+        if (this.data.length > 0) {
           const index = this.data.length - 1;
           if (this.data[index].id === this.creditProposal.approvalLcDefault) {
             this.relationTypes = [];
@@ -141,34 +127,40 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
               o => o.id !== this.creditProposal.approvalLcDefault && o.id > this.creditProposal.approvalLcDefault
             );
           }
+          // Condition Selected Approval Matriks
+          // Jika Nelum Dipilih Approval Matriks atau value Approval LC dan Defaultnya sama maka grid approval matriks akan dikosongkan
+          if (this.creditProposal.approvalLc === this.creditProposal.approvalLcDefault) {
+            if (this.relationTypes.length > 0) {
+              for (const relationType of this.relationTypes) {
+                this.selectedRelationType = relationType.id;
+                break;
+              }
+              this.items = [];
+            }
+            // Jika value approval LC dan default beda atau suadah dipilih LC nya dan di save maka akan load data table berdasarkan LC yang dipilih
+          } else {
+            this.selectedRelationType = this.creditProposal.approvalLc;
+            this.getApplicationRolesByApplicationId();
+          }
         }
       });
   }
 
-  public selectRelationType(value: string): void {
-    this.selectedRelationType = value;
-    // this.filteringItems = [];
-    // if (value !== '') {
-    //   for (let i = 0; i < this.items.length; i++) {
-    //     const each: IPositionReportingStructure = this.items[i];
-    //     if (each.relationTypeId && each.relationTypeId === value) {
-    //       this.filteringItems.push(each);
-    //     }
-    //   }
-    // }
+  public selectRelationType(event): void {
+    console.log('evt', event.value);
+    this.selectedRelationType = event.value;
     this.getApplicationRolesByApplicationId();
   }
 
   private getApplicationRolesByApplicationId(): void {
     this.positionReportingStructureService
       .queryFilterBy({
-        idRelationType: this.idRelationType,
+        idRelationType: this.selectedRelationType,
         page: 0,
         size: 9999,
       })
       .subscribe(res => {
         this.items = res.body;
-        this.loadRelationType(this.items);
       });
   }
 }
