@@ -154,20 +154,11 @@
                   Table Expand
                   =====================================
                 -->
-                <!-- *ngIf="expandedElement === element" -->
-                <!-- <jhi-request-slik-shareholder-grid-expand [partyId]="partyId"></jhi-request-slik-shareholder-grid-expand> -->
                 <table mat-table [dataSource]="element.dataExpand" class="mat-elevation-z8">
                   <ng-container matColumnDef="no">
                     <th mat-header-cell *matHeaderCellDef>No.</th>
                     <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
                   </ng-container>
-
-                  <!--
-                    <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-          <td mat-cell *matCellDef="let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
-        </ng-container>
-                   -->
                   <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef>Name</th>
                     <td mat-cell *matCellDef="let element">{{ element.namaDebitur }}</td>
@@ -188,9 +179,6 @@
                     <th mat-header-cell *matHeaderCellDef>Jenis Kelamin</th>
                     <td mat-cell *matCellDef="let element">{{ element.jenisKelaminKet }}</td>
                   </ng-container>
-
-                  <!-- 'name', 'nikNpwp', 'noIdentitas', 'alamat', 'jenisKelamin', -->
-
                   <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef>Action</th>
                     <td mat-cell *matCellDef="let tes">
