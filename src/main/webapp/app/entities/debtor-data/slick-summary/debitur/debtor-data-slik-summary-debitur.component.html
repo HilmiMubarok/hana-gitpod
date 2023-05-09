@@ -2,7 +2,28 @@
   <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="openDialogUpload()" [hidden]="isHideButtonCp">
     Upload
   </button>
-  <button style="float: right" mat-raised-button class="btn-save-debtor" (click)="viewDialog()">View</button>
+  <!-- <button
+    style="float: right"
+    mat-raised-button
+    class="btn-save-debtor"
+    href="javascript:void();"
+    [routerLink]="['/party-cif', partyCif.id, 'detailFiles']"
+    (click)="$event.stopPropagation()"
+  >
+    View
+  </button> -->
+
+  <a
+    style="float: right"
+    mat-raised-button
+    class="btn-save-debtor"
+    href="javascript:void();"
+    [routerLink]="['/party-cif', partyCif.id, selectedManagementType, 'detailFiles']"
+    (click)="$event.stopPropagation()"
+  >
+    View
+  </a>
+
   <div class="table-responsive-material">
     <table mat-table [dataSource]="partySliks" class="w-100">
       <ng-container matColumnDef="no">

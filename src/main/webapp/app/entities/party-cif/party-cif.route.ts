@@ -14,6 +14,7 @@ import { PartyCifComponent } from './party-cif.component';
 import { PartyCifDetailComponent } from './party-cif-detail.component';
 import { PartyCifUpdateComponent } from './party-cif-update.component';
 import { DebtorCreditRatings } from '../debtor-data/credit-rating/credit-ratings.model';
+import { DebtorDataSlikSummaryDebiturViewComponent } from '../debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur-view.component';
 @Injectable({ providedIn: 'root' })
 export class PartyCifResolve implements Resolve<IPartyCif> {
   constructor(private service: PartyCifService, private router: Router) {}
@@ -135,6 +136,19 @@ export const partyCifRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.partyCif.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/:managementType/detailFiles',
+    component: DebtorDataSlikSummaryDebiturViewComponent,
+    resolve: {
+      content: PartyCifResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.partyCif.home.title',
+      managementType: ['_managementType'],
     },
     canActivate: [UserRouteAccessService],
   },
