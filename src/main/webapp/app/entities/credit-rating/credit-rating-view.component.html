@@ -3,7 +3,7 @@
     <div class="e-card">
       <div class="e-card-header">
         <div class="e-card-header-caption">
-          <div class="e-card-header-title">MAKSIMUM INTERNAL CREDIT RATING</div>
+          <div class="e-card-header-title">MAKSIMUM INTERNAL CREDIT RATING 3</div>
           <div class="e-card-sub-title"></div>
         </div>
       </div>
@@ -302,73 +302,128 @@
         <div class="form-space">
           <div class="row my-3">
             <div class="col">
-              <ejs-textbox
-                [(ngModel)]="creditRatings.creditRating"
-                placeholder="Credit Rating"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-                disabled
-              >
-              </ejs-textbox>
+              <section *jhiMatrixDirIDD="'input'">
+                <ejs-textbox
+                  [(ngModel)]="creditRatings.creditRating"
+                  placeholder="Credit Rating"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">Credit Rating</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ creditRatings.creditRating }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Internal Maksimum LLL (%)</mat-label>
-                <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
-                    {{ item.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <section *jhiMatrixDirIDD="'input'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Internal Maksimum LLL (%)</mat-label>
+                  <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
+                    <mat-option value="">- Please Select -</mat-option>
+                    <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">Internal Maksimum LLL (%)</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ creditRatings.internalMaxLLL }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
-              <ejs-numerictextbox
-                [(ngModel)]="creditRatings.equityPosition"
-                placeholder="Equity Position as of Value"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-                format="0,"
-                min="0"
-                disabled
-              >
-              </ejs-numerictextbox>
+              <section *jhiMatrixDirIDD="'input'">
+                <ejs-numerictextbox
+                  [(ngModel)]="creditRatings.equityPosition"
+                  placeholder="Equity Position as of Value"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  format="0,"
+                  min="0"
+                  disabled
+                >
+                </ejs-numerictextbox>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">Equity Position as of Value</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ creditRatings.equityPosition }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
-              <ejs-datepicker
-                cssClass="e-outline"
-                type="date"
-                placeholder="Equity Position as of (Date)"
-                floatLabelType="Auto"
-                [(ngModel)]="creditRatings.equityPositionDate"
-                format="yyyy/MM/dd"
-                disabled="true"
-              >
-              </ejs-datepicker>
+              <section *jhiMatrixDirIDD="'input'">
+                <ejs-datepicker
+                  cssClass="e-outline"
+                  type="date"
+                  placeholder="Equity Position as of (Date)"
+                  floatLabelType="Auto"
+                  [(ngModel)]="creditRatings.equityPositionDate"
+                  format="yyyy/MM/dd"
+                  disabled="true"
+                >
+                </ejs-datepicker>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">Equity Position as of (Date)</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ creditRatings.equityPosition }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
-              <ejs-numerictextbox
-                disabled="true"
-                placeholder="LLL IDR MIO"
-                [value]="parseCif()"
-                floatLabelType="Auto"
-                cssClass="e-outline"
-                format="0,"
-                min="0"
-              >
-              </ejs-numerictextbox>
+              <section *jhiMatrixDirIDD="'input'">
+                <ejs-numerictextbox
+                  disabled="true"
+                  placeholder="LLL IDR MIO"
+                  [value]="parseCif()"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  format="0,"
+                  min="0"
+                >
+                </ejs-numerictextbox>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">LLL IDR MIO</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ parseCif() }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
 
@@ -384,23 +439,37 @@
                 [fields]="fields"
               >
               </ejs-combobox> -->
-              <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Sector Industry</mat-label>
-                <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industry']">
-                  <mat-option value="">Please Select</mat-option>
-                  <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
-                    {{ item.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <section *jhiMatrixDirIDD="'input'">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Sector Industry</mat-label>
+                  <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industry']">
+                    <mat-option value="">Please Select</mat-option>
+                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
+                      {{ item.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </section>
+              <section *jhiMatrixDirIDD="''">
+                <div class="fontsebled row">
+                  <div class="col">Sector Industry</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    {{ partyCif.creditRatings[0].attributes['industry'] }}
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
       </div>
-      <div class="e-card-actions mx-auto mb-5 mt-3">
-        <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()">SYNC from HOBIS</button>
-        <button mat-raised-button (click)="save()">Save</button>
-      </div>
+      <section *jhiMatrixDirIDD="'input'">
+        <div class="e-card-actions mx-auto mb-5 mt-3">
+          <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()">SYNC from HOBIS</button>
+          <button mat-raised-button (click)="save()">Save</button>
+        </div>
+      </section>
+      <section *jhiMatrixDirIDD="''"></section>
     </div>
   </div>
 </div>
