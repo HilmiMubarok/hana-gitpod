@@ -20,7 +20,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-detail {
   overflow: hidden;
-  display: flex;
 }
 
 .example-element-diagram {
@@ -58,4 +57,14 @@ td.mat-footer-cell {
   padding: 0px 30px 0px 100px;
   border-bottom-width: 1px;
   border-bottom-style: solid;
+}
+
+element.style {
+  height: 0px;
+  min-height: 0px;
+}
+
+.example-element-detail[_ngcontent-nos-c976] {
+  overflow: hidden;
+  display: block;
 }
