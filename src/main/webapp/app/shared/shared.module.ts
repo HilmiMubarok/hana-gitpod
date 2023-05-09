@@ -20,6 +20,7 @@ import { RibbonComponent } from './custom-component/ribbon/ribbon-component';
 
 import { DragndropDirective } from './dragndrop/dragndrop.directive';
 import { AgePipe } from './date/age.pipe';
+import { FormatFileSizePipe } from './date/size.pipe';
 import { ArrayCountPipe } from './directives/array-count.pipe';
 import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { NoRecordFoundComponent } from 'app/layouts/miscellaneous/no-record-found.component';
@@ -50,6 +51,7 @@ import { LoanFacilityAproveMatrixComponent } from 'app/entities/loan-analys/appr
     TextBoxComponent,
     RibbonComponent,
     AgePipe,
+    FormatFileSizePipe,
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
     TimelineDialogComponent,
@@ -78,6 +80,7 @@ import { LoanFacilityAproveMatrixComponent } from 'app/entities/loan-analys/appr
     TextBoxComponent,
     RibbonComponent,
     AgePipe,
+    FormatFileSizePipe,
     TaskCommentDialogComponent,
     NoRecordFoundComponent,
     TimelineDialogComponent,
