@@ -194,17 +194,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.isCpApproval = this.parentPath === 'cp-status-approval' && true;
 
     this.getFiles();
-    this.getBucket();
     this.hideButtonUploadCP();
-  }
-
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
   }
 
   public loadDataBy(): void {

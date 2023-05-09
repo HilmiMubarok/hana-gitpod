@@ -105,15 +105,6 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
       this.selectedManagementType = event.managementType;
     });
     this.getFiles();
-    this.getBucket();
-  }
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
   }
 
   private getFiles(): void {
