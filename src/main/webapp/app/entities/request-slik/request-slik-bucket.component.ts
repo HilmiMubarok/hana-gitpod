@@ -41,7 +41,7 @@ export class RequestSlikBucketComponent implements OnInit {
   getData(page = 1, size = 10, sort = 'id,desc') {
     this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
       next: data => {
-        console.log('data', data);
+        // console.log('data', data);
         this.dataSource = new MatTableDataSource(data);
         this.totalItemCount = data.length;
         this.dataSource.paginator = this.paginator;
@@ -89,7 +89,7 @@ export class RequestSlikBucketComponent implements OnInit {
       this.isLoading = true;
       this.requestSlikService.searchByStatus(option).subscribe({
         next: data => {
-          console.log('data', data);
+          // console.log('data', data);
           this.dataSource.data = data;
         },
         complete: () => {
@@ -111,7 +111,7 @@ export class RequestSlikBucketComponent implements OnInit {
     this.isLoading = true;
     this.requestSlikService.searchByCif(cif).subscribe({
       next: data => {
-        console.log('data', data);
+        // console.log('data', data);
         this.dataSource.data = data;
       },
       complete: () => {

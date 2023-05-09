@@ -26,6 +26,16 @@ export interface IPartySlik {
   worstCollectability?: number;
   restructureType?: number;
   attributes?: any;
+  debtorName?: string;
+  bankPelapor?: string;
+  tanggalAkadAwal?: any;
+  tanggalMulai?: any;
+  tanggalJatuhTempo?: any;
+  kondisi?: any;
+  totalAgunan?: any;
+  sumCollateralIdrMio?: any;
+  typeOfFacility?: any;
+  plafond?: any;
 }
 
 export class PartySlik implements IPartySlik {
@@ -54,6 +64,16 @@ export class PartySlik implements IPartySlik {
     public lastCollectability?: number,
     public worstCollectability?: number,
     public restructureType?: number,
-    public attributes?: any
+    public attributes?: any,
+    public debtorName?: any,
+    public bankPelapor?: string,
+    public tanggalAkadAwal?: any,
+    public tanggalMulai?: any,
+    public tanggalJatuhTempo?: any,
+    public kondisi?: any,
+    public totalAgunan?: any,
+    public sumCollateralIdrMio?: any,
+    public typeOfFacility?: any,
+    public plafond?: any
   ) {}
 }

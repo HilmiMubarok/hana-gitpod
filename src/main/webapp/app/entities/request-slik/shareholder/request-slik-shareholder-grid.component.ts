@@ -141,7 +141,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
                 cbasRes.body.data.content.length > 0 &&
                   cbasRes.body.data.content.forEach(el => {
                     this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
-                      console.log('res filter', resFilter.body.data.content);
+                      // console.log('res filter', resFilter.body.data.content);
                       // add object key dataExpand on element
                       Object.assign(element, {
                         dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
@@ -162,10 +162,10 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   mapCbasResult(dataCbas, dataFilter) {
-    console.log('Map Cbas Result', {
-      dataCbas,
-      dataFilter,
-    });
+    // console.log('Map Cbas Result', {
+    //   dataCbas,
+    //   dataFilter,
+    // });
     const finalDataFilter = [];
 
     dataFilter.forEach(el => {
@@ -180,7 +180,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   finalDataFilter(partyId, reqReffId, data) {
-    console.log('dataPartySlik', { data, partyId });
+    // console.log('dataPartySlik', { data, partyId });
     const result = [];
     // const result2 = [];
 
@@ -217,7 +217,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   nikNpwp;
   @Output() selectedVerifyData = new EventEmitter<any>();
   selectRow(el) {
-    console.log('select row', el);
+    // console.log('select row', el);
     this.nikNpwp = el.nikNpwp;
 
     // Emit selectedVerifyData to parent
@@ -236,9 +236,9 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
       // });
       const id = expandedEl.person.id;
       this.partyId = id;
-      console.log(expandedEl);
+      // console.log(expandedEl);
     } else {
-      console.log('closed expand');
+      // console.log('closed expand');
     }
   }
 
@@ -311,16 +311,3 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     });
   }
 }
-
-const ELEMENT_DATA = [
-  { name: '1 ' },
-  { name: '2 ' },
-  { name: '3 ' },
-  { name: '4 ' },
-  { name: '5 ' },
-  { name: '6 ' },
-  { name: '7 ' },
-  { name: '8 ' },
-  { name: '9 ' },
-  { name: '10' },
-];
