@@ -210,6 +210,7 @@ import { CreditProposalOtherCovenantComponent } from './credit-proposal/convenan
 import { DebtorDataSlikSummaryComponent } from './debtor-data/slick-summary/debtor-data-slik-summary.component';
 import { DeborDataSlikSummaryDebiturComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur.component';
 import { DebtorDataSlikSummaryDebiturDialogComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur-dialog.component';
+import { DebtorDataSlikSummaryDebiturViewComponent } from './debtor-data/slick-summary/debitur/debtor-data-slik-summary-debitur-view.component';
 import { DebtorDataSlikSummaryShareHolderComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder.component';
 import { DebtorDataSlikSummaryShareHolderDialogComponent } from './debtor-data/slick-summary/share-holder/slik-summary-share-holder-dialog.component';
 import { DebtorDataSlikSummaryComparisonComponent } from './debtor-data/slick-summary/comparison/debtor-data-comparison.component';
@@ -585,6 +586,7 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
     DebtorDataSlikSummaryComponent,
     DeborDataSlikSummaryDebiturComponent,
     DebtorDataSlikSummaryDebiturDialogComponent,
+    DebtorDataSlikSummaryDebiturViewComponent,
     DebtorDataSlikSummaryShareHolderComponent,
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,
@@ -970,6 +972,7 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
     DebtorDataSlikSummaryComponent,
     DeborDataSlikSummaryDebiturComponent,
     DebtorDataSlikSummaryDebiturDialogComponent,
+    DebtorDataSlikSummaryDebiturViewComponent,
     DebtorDataSlikSummaryShareHolderComponent,
     DebtorDataSlikSummaryShareHolderDialogComponent,
     DebtorDataSlikSummaryComparisonComponent,

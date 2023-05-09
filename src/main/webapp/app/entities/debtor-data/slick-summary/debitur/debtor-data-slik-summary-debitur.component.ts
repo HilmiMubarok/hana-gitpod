@@ -157,6 +157,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   public detailSlik: any = [];
   public totalLimit = 0;
   public totalOutstanding = 0;
+  public selectedManagementType = '';
 
   constructor(
     public partySlikService: PartySlikService,
@@ -193,17 +194,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.isCpApproval = this.parentPath === 'cp-status-approval' && true;
 
     this.getFiles();
-    this.getBucket();
     this.hideButtonUploadCP();
-  }
-
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
   }
 
   public loadDataBy(): void {
@@ -239,6 +230,11 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].tags.managementType === this.managementType) {
             this.folders.push(res.body[i]);
+          }
+        }
+        if (this.folders[0] !== undefined) {
+          if (this.folders[0].tags.managementType === this.managementType) {
+            this.selectedManagementType = this.folders[0].tags.managementType;
           }
         }
       });
