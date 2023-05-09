@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="dataMainFacility" multiTemplateDataRows class="mat-table-expand">
   <ng-container matColumnDef="no">
     <th mat-header-cell *matHeaderCellDef>No</th>
-    <td mat-cell *matCellDef="let element"></td>
+    <td mat-cell *matCellDef="let element; let i = dataIndex">{{ i + 1 }}</td>
   </ng-container>
   <ng-container matColumnDef="approvalNo">
     <th mat-header-cell *matHeaderCellDef>Approval No</th>
@@ -41,7 +41,9 @@
   <ng-container matColumnDef="expandedDetail">
     <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
       <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <jhi-main-facility-info-child [mainFacility]="dataSendMainFacility"></jhi-main-facility-info-child>
+        <div class="w-100">
+          <jhi-main-facility-info-child [mainFacility]="dataSendMainFacility"></jhi-main-facility-info-child>
+        </div>
       </div>
     </td>
   </ng-container>
