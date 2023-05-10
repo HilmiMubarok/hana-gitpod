@@ -19,6 +19,7 @@ import { IPerson } from '../person/person.model';
 import { IManagementInfo } from './credit-proposal-tab-management-info.model';
 import { ICollateralProductRelation } from '../collateral-product-relation/collateral-product-relation.model';
 import { IApplicationProduct } from '../application-product/application-product.model';
+import { IMainFacility } from '../main-facility/main-facility.model';
 
 export interface ICreditProposal extends ILoanApplication {
   credatedBy?: string;
@@ -47,6 +48,7 @@ export interface ICreditProposal extends ILoanApplication {
   products?: IApplicationProduct[];
   groupProducts?: IApplicationProduct[];
   intarnalId?: string;
+  mainProducts?: IMainFacility[];
 }
 
 export class CreditProposal implements ICreditProposal {
@@ -105,7 +107,8 @@ export class CreditProposal implements ICreditProposal {
     public groupProducts?: IApplicationProduct[],
     public intarnalId?: string,
     public bookingBranchId?: string,
-    public bookingBranchName?: string
+    public bookingBranchName?: string,
+    public mainProducts?: IMainFacility[]
   ) {
     this.setCompliance = null;
     this.creditRatings = new Array<ICreditRating>();

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { IMainFacility } from 'app/entities/main-facility/main-facility.model';
 import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
@@ -13,13 +15,26 @@ import { map, Observable, startWith } from 'rxjs';
 export class MainFacilityDialogComponent implements OnInit {
   public myControlCurrency = new FormControl();
   public optionsCurrency: IUom[];
+  public mainCcy: IUom;
   public filteredOptionsCurrency: Observable<IUom[]>;
   public amountCcy: IUom;
+  public mainFacility: IMainFacility;
 
-  constructor(private uomService: UomService) {}
+  constructor(
+    private uomService: UomService,
+
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      mainData: IMainFacility;
+    },
+    private _dialog: MatDialogRef<MainFacilityDialogComponent>
+  ) {
+    this.mainFacility = data.mainData;
+  }
 
   ngOnInit(): void {
     this.loadCurrencyMeasure();
+    console.log('ini element ', this.mainFacility);
   }
 
   filteredCurrency() {
@@ -51,6 +66,18 @@ export class MainFacilityDialogComponent implements OnInit {
       .subscribe(res => {
         this.optionsCurrency = res.body;
         this.filteredCurrency();
+        this.mainCcy = this.optionsCurrency.find(obj => obj.id === this.mainFacility.currency);
       });
+  }
+
+  getMainCcy() {
+    this.mainFacility.currency = this.mainCcy.id;
+  }
+
+  public save(): void {
+    this._dialog.close(this.mainFacility);
+  }
+  public cancel(): void {
+    this._dialog.close();
   }
 }
