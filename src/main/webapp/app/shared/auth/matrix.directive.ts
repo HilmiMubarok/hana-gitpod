@@ -156,17 +156,25 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private matrixInput(): void {
-    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0) {
+    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
       this.roleRMMatrixInput();
+    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
+      this.roleOtherMatrixInput();
     } else {
+      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
+      // sementara role yang di diskus masih di menu cp
       this.roleOtherMatrixInput();
     }
   }
 
   private matrixLabel(): void {
-    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0) {
+    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
       this.roleRMMatrixLabel();
+    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
+      this.roleOtherMatrixLabel();
     } else {
+      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
+      // sementara role yang di diskus masih di menu cp
       this.roleOtherMatrixLabel();
     }
   }
