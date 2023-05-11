@@ -41,7 +41,7 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.AverageBalance();
+    // this.AverageBalance();
     this.bufferFs();
     this.bufferAverage();
     this.bufferCredit();
@@ -73,17 +73,17 @@ export class CreditProposalRepaymentCapabilityComponent implements OnChanges {
   // }
 
   public limitBank: any;
-  public AverageBalance() {
-    for (let i = 0; i < this.creditProposal.attributes['bankAnalyst'].length; i++) {
-      if (this._creditProposal.attributes['bankAnalyst'] === undefined) {
-        console.log('masuk');
-      } else {
-        this.totalAv = this.totalAv + this._creditProposal.attributes['bankAnalyst'][i]['average_other'].balance / 1000000;
-      }
+  // public AverageBalance() {
+  //   for (let i = 0; i < this.creditProposal.attributes['bankAnalyst'].length; i++) {
+  //     if (this._creditProposal.attributes['bankAnalyst'] === undefined) {
+  //       return
+  //     } else {
+  //       this.totalAv = this.totalAv + this._creditProposal.attributes['bankAnalyst'][i]['average_other'].balance / 1000000;
+  //     }
 
-      this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] = this.totalAv;
-    }
-  }
+  //     this.creditProposal.attributes['repaymentCapability'][0]['detail']['averageBalance'] = this.totalAv;
+  //   }
+  // }
 
   public bufferFs(): Number {
     this.creditProposal.attributes['repaymentCapability'][0]['detail']['bufferFs'] = Number(
