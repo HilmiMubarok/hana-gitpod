@@ -5,6 +5,8 @@ import { GeneralParameterService } from '../master-parameter/general-parameter/g
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { IOrganizationManagement } from './organization-management.model';
 import lodash from 'lodash';
+import { IPartyGroup } from '../party-group/party-group.model';
+
 @Component({
   selector: 'jhi-organization-management-dialog',
   templateUrl: './organization-management-dialog.component.html',
@@ -22,6 +24,9 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public pepStatus: any;
   public posManagement: any;
   public typeSable: string;
+  public customerType: string;
+  public partyGroup: IPartyGroup;
+  public isDisabled = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -110,5 +115,11 @@ export class OrganizationManagementDialogComponent implements OnInit {
           return o.statusId === 'ACTIVE';
         });
       });
+  }
+
+  public onChange(event: string) {
+    if (this.customerType === event) {
+      this.organizationManagement.attributes['customerType'] = event;
+    }
   }
 }
