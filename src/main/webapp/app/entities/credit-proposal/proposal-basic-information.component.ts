@@ -991,7 +991,6 @@ export class ProposalBasicInformationComponent implements OnInit {
         for (let i = 0; i < this.lendingProgram.length; i++) {
           if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
             this.valueCpLendingProgram = this.lendingProgram[i].description;
-            console.log('sdsa', this.valueCpLendingProgram);
           }
         }
       });
