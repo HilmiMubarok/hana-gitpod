@@ -6,30 +6,35 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { IDebtorData } from '../../debtor-data.model';
 import { ICPFacilityTable } from 'app/entities/credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { CPFacility, ICPFacility } from 'app/shared/model/cp-facility.models';
+import { IDebtorDataFacility } from '../../debtor-data-facility.model';
 // import { FacilityInfoDebiturDialogComponent } from './facility-info-dialog/facility-info-debitur-dialog.component';
 
 @Component({
   selector: 'jhi-facility-info-debitur-dialog',
   templateUrl: './facility-info-debitur-dialog.component.html',
 })
-export class FacilityInfoDebiturDialogComponent {
+export class FacilityInfoDebiturDialogComponent implements OnInit {
   public availablelimit: string;
-  public cpFacility: ICPFacility;
-  public preData: ICPFacility;
+  public debtorData: IDebtorDataFacility;
+  public preData: IDebtorDataFacility;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      cpFacility: ICPFacility;
+      debtorData: IDebtorDataFacility;
     },
     private _dialog: MatDialogRef<FacilityInfoDebiturDialogComponent>
   ) {
-    this.cpFacility = data.cpFacility;
-    this.preData = data.cpFacility;
+    this.debtorData = data.debtorData;
+    this.preData = data.debtorData;
+  }
+
+  ngOnInit(): void {
+    console.log('debtor data init ', this.debtorData);
   }
 
   public save(): void {
-    this._dialog.close(this.cpFacility);
+    this._dialog.close(this.debtorData);
   }
   public cancel(): void {
     this._dialog.close();

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { MainFacilityDialogComponent } from './main-facility-dialog.component';
+import { ICreditProposal } from '../../credit-proposal.model';
+import { ICategoryList, IMainFacility } from 'app/entities/main-facility/main-facility.model';
 
 @Component({
   selector: 'jhi-main-facility',
@@ -15,10 +17,22 @@ import { MainFacilityDialogComponent } from './main-facility-dialog.component';
     ]),
   ],
 })
-export class MainFacilityComponent {
+export class MainFacilityComponent implements OnInit, OnChanges {
+  private _creditProposal: ICreditProposal;
+  public dataSource: IMainFacility[];
+  public dataMain: IMainFacility;
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(item: ICreditProposal) {
+    this._creditProposal = item;
+  }
+
   constructor(public dialog: MatDialog) {}
 
-  dataSource = ELEMENT_DATA;
   columnsToDisplay = [
     'no',
     'appraisalNo',
@@ -31,57 +45,34 @@ export class MainFacilityComponent {
     'action',
   ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement: PeriodicElement | null;
+  expandedElement: IMainFacility | null;
 
   public id: any;
 
-  public expanData(element: PeriodicElement) {
-    console.log(element);
-    this.id = element.position;
+  ngOnInit() {
+    console.log('ini cp main products', this.creditProposal.mainProducts);
   }
 
-  public openDialog(element): void {
-    const predicate: object = {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['creditProposal']) {
+      this.dataSource = this.creditProposal.mainProducts;
+    }
+  }
+
+  public expanData(element: IMainFacility) {
+    this.dataMain = element;
+    console.log(element);
+  }
+
+  public openDialog(params: IMainFacility) {
+    const dialogRef = this.dialog.open(MainFacilityDialogComponent, {
       width: '80vw',
       data: {
-        elemen: element,
+        mainData: params,
       },
-    };
-    const dialogRef = this.dialog.open(MainFacilityDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+    });
+    dialogRef.afterClosed().subscribe((data: IMainFacility) => {
+      console.log(data);
     });
   }
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    name: 'Hydrogen',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen`,
-  },
-  {
-    position: 2,
-    name: 'Oxigen',
-    weight: 2000,
-    symbol: 'H2O',
-    description: `Oxygen`,
-  },
-  {
-    position: 3,
-    name: 'Pattogen',
-    weight: 2000,
-    symbol: 'P2C',
-    description: `Golem`,
-  },
-];

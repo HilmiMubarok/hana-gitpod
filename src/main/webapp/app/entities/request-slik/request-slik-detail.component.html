@@ -119,6 +119,17 @@
 
       <div class="row px-3 pt-5">
         <div class="col">
+          <jhi-request-slik-debitur-grid
+            *ngIf="requestSlik.status === 'Verify'"
+            [cif]="partyCif.customerNumber"
+            [partyCif]="partyCif"
+            [checklists]="checklists"
+            [requestSlik]="requestSlik"
+            managementType="DEBITUR"
+            (checklistData)="getChecklistManagementData($event)"
+            (selectedVerifyData)="getSelectedVerifyData($event)"
+          ></jhi-request-slik-debitur-grid>
+          <div class="my-5"></div>
           <jhi-request-slik-management-data-grid
             [cif]="partyCif.customerNumber"
             [partyCif]="partyCif"

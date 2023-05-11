@@ -121,10 +121,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   mapCbasResult(dataCbas, dataFilter) {
-    console.log('Map Cbas Result', {
-      dataCbas,
-      dataFilter,
-    });
+    // console.log('Map Cbas Result', {
+    //   dataCbas,
+    //   dataFilter,
+    // });
     const finalDataFilter = [];
 
     dataFilter.forEach(el => {
@@ -139,7 +139,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   finalDataFilter(partyId, reqReffId, data) {
-    console.log('dataPartySlik', { data, partyId });
+    // console.log('dataPartySlik', { data, partyId });
     const result = [];
     // const result2 = [];
 
@@ -171,14 +171,12 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     if (expandedEl) {
       const id = expandedEl.person.id;
       this.partyId = id;
-      console.log(expandedEl);
+      // console.log(expandedEl);
 
       // this.requestSlikService.getCbasResult(this.requestSlikId, id).subscribe(resss => {
       // const data = this.requestSlikService.parseSlikResult(resss);
       // console.log('ressssss', data);
       // });
-    } else {
-      console.log('closed expand');
     }
   }
 
@@ -195,7 +193,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
 
   @Output() selectedVerifyData = new EventEmitter<any>();
   selectRow(el) {
-    console.log('select row', el);
+    // console.log('select row', el);
     this.nikNpwp = el.nikNpwp;
 
     // Emit selectedVerifyData to parent
@@ -230,19 +228,19 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                 cbasRes.body.data.content.length > 0 &&
                   cbasRes.body.data.content.forEach(el => {
                     this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
-                      console.log('res filter', resFilter.body.data.content);
+                      // console.log('res filter', resFilter.body.data.content);
                       // add object key dataExpand on element
                       Object.assign(element, {
                         dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
                       });
-                      console.log('THEE DATA', element);
+                      // console.log('THEE DATA', element);
                     });
                   });
               });
             });
             this.requestSlik.status !== 'Draft'
               ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-                  console.log('thee data', data);
+                  // console.log('thee data', data);
                   this.initDataForMatTable(data, res.headers);
                 })
               : this.initDataForMatTable(res, res.headers);
@@ -335,16 +333,3 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   //   });
   // }
 }
-
-const ELEMENT_DATA = [
-  { nikNpwp: '1 ' },
-  { nikNpwp: '2 ' },
-  { nikNpwp: '3 ' },
-  { nikNpwp: '4 ' },
-  { nikNpwp: '5 ' },
-  { nikNpwp: '6 ' },
-  { nikNpwp: '7 ' },
-  { nikNpwp: '8 ' },
-  { nikNpwp: '9 ' },
-  { nikNpwp: '10' },
-];

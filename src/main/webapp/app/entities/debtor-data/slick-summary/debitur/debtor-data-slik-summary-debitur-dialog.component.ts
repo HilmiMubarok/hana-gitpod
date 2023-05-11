@@ -1,23 +1,28 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { FACILITY_TYPE } from '../../../../shared/constants/base.constants';
+import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { DebtorDataSlikUploadComponent } from './debtor-data-silk-upload/debtor-data-slik-upload.component';
 import { ActivatedRoute } from '@angular/router';
 import { left } from '@popperjs/core';
 import { toLower } from 'lodash';
+import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur-dialog',
   templateUrl: './debtor-data-slik-summary-debitur-dialog.component.html',
   styleUrls: ['../slik.css'],
 })
-export class DebtorDataSlikSummaryDebiturDialogComponent {
+export class DebtorDataSlikSummaryDebiturDialogComponent extends AbstractEntityMaterialComponent<IPartySlik> implements OnInit {
   public partySlik: IPartySlik;
   public partyCif: IPartyCif;
-  public mode: string;
+  public mode: any;
   public cif: string;
+  public viewData: any;
+  public selectedDataId: any;
   public facility_types: any = FACILITY_TYPE;
   public bulan: any = [
     { id: 1, name: 'Jan' },
@@ -33,23 +38,74 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
     { id: 11, name: 'Nov' },
     { id: 12, name: 'Des' },
   ];
+
+  public displayColumns: string[] = [
+    'no',
+    'collateralType',
+    'ownershipDocument',
+    'collateralValue',
+    'collateralValueNJOP',
+    'collateralValueIndependentAppraisal',
+    'banksAppraisalDate',
+    'independentAppraisalDate',
+  ];
+
+  public collateralInfoList: any = [];
+  public totalCollateralValue = 0;
+  public totalNJOP = 0;
+  public totalMarketValue = 0;
+  public pageLength: String;
+
   id: string;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
+      selectedDataId: any;
+      viewData: any;
       object: IPartyCif;
       partySlik: IPartySlik;
       mode: string;
       cif: string;
     },
+    public partySlikService: PartySlikService,
+    protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private _dialog: MatDialogRef<DebtorDataSlikSummaryDebiturDialogComponent>,
     protected activatedRoute: ActivatedRoute
   ) {
+    super(_snackBar, partySlikService);
+    this.loading = false;
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.selectedDataId = this.data.selectedDataId;
+    this.viewData = this.data.viewData;
     this.partyCif = this.data.object;
     this.partySlik = this.data.partySlik;
     this.mode = this.data.mode;
     this.cif = this.data.cif;
+  }
+  ngOnInit(): void {
+    this.parsingPartySlikCollaterals();
+    this.paginatorLength = this.countPageLength(this.collateralInfoList);
+    this.totalCollateralValue = this.countTotalCollateralValue(this.collateralInfoList);
+    this.totalNJOP = this.countTotalNJOP(this.collateralInfoList);
+    this.totalMarketValue = this.countTotlMarketValue(this.collateralInfoList);
+  }
+
+  public countPageLength(element: any): number {
+    let totalCount: number;
+    totalCount = 0;
+    if (element) {
+      for (let index = 0; index < element.length; index++) {
+        totalCount = totalCount + 1;
+        // console.log('this is the total count', totalCount);
+      }
+    }
+    return totalCount;
+  }
+
+  protected postLoadDataLazy(): void {
+    this.collateralInfoList;
   }
 
   numberInputChanged(value) {
@@ -125,5 +181,71 @@ export class DebtorDataSlikSummaryDebiturDialogComponent {
 
   onNoClick(): void {
     this._dialog.close();
+  }
+
+  // Data Parsing
+  public parsingPartySlikCollaterals(): void {
+    // const listDetailPartySlik: any = [];
+    for (let y = 0; y < this.viewData.length; y++) {
+      if (this.viewData[y].id === this.selectedDataId) {
+        if (this.viewData[y].attributes.partySlikCollaterals) {
+          const item = this.viewData[y].attributes.partySlikCollaterals;
+          this.collateralInfoList = [...JSON.parse(item)];
+          // listDetailPartySlik = this.parsedPartyCollaterals(JSON.parse(item))
+        }
+      }
+    }
+    // console.log('this is the respnes collateralInfoList', this.collateralInfoList)
+  }
+
+  // Count Total Collateral Value
+  public countTotalCollateralValue(element: any): number {
+    let totalCollateralValue: number;
+    totalCollateralValue = 0;
+    if (element) {
+      for (let i = 0; i < element.length; i++) {
+        const regex = /[.,\s]/g;
+        if (element[i].collateralIdrMio) {
+          totalCollateralValue = totalCollateralValue + Number(element[i].collateralIdrMio.replace(regex, ''));
+        }
+      }
+    }
+    // console.log('datanya yang di ambil', element);
+    // console.log('Hasil Hitungan', totalCollateralValue);
+    return totalCollateralValue;
+  }
+
+  // Count Total NJOP
+  public countTotalNJOP(element: any): number {
+    let totalNJOP: number;
+    totalNJOP = 0;
+    if (element) {
+      for (let i = 0; i < element.length; i++) {
+        const regex = /[.,\s]/g;
+        if (element[i].nilaiNJOP) {
+          totalNJOP = totalNJOP + Number(element[i].nilaiNJOP.replace(regex, ''));
+        }
+      }
+    }
+    // console.log('datanya yang di ambil', element);
+    // console.log('Hasil Hitungan', totalNJOP);
+    return totalNJOP;
+  }
+
+  // Count Total Market Value
+  public countTotlMarketValue(element: any): number {
+    let totalMarketValue: number;
+    totalMarketValue = 0;
+    if (element) {
+      for (let i = 0; i < element.length; i++) {
+        const regex = /[.,\s]/g;
+        if (element[i].nilaiPenilai) {
+          totalMarketValue = totalMarketValue + Number(element[i].nilaiPenilai.replace(regex, ''));
+        }
+      }
+    }
+    // console.log('datanya yang di ambil', element);
+    // console.log('Hasil Hitungan', totalMarketValue);
+    return totalMarketValue;
   }
 }

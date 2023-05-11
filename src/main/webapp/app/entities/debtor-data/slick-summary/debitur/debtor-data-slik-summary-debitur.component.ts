@@ -19,6 +19,7 @@ import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-
 import { Router } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur',
   templateUrl: './debtor-data-slik-summary-debitur.component.html',
@@ -153,9 +154,10 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     'condition',
     'action',
   ];
-  
+  public detailSlik: any = [];
   public totalLimit = 0;
   public totalOutstanding = 0;
+  public selectedManagementType = '';
 
   constructor(
     public partySlikService: PartySlikService,
@@ -192,17 +194,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     this.isCpApproval = this.parentPath === 'cp-status-approval' && true;
 
     this.getFiles();
-    this.getBucket();
     this.hideButtonUploadCP();
-  }
-
-  private getBucket(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.storageService.getBucketName().subscribe(res => {
-        this.bucket = res.body['bucket'];
-        resolve();
-      });
-    });
   }
 
   public loadDataBy(): void {
@@ -215,8 +207,9 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => {
-		  this.totalLimit = this.countTotalLimit(res.body);
-		  this.totalOutstanding = this.countTotalOutstanding(res.body);
+          this.detailSlik = res.body;
+          this.totalLimit = this.countTotalLimit(res.body);
+          this.totalOutstanding = this.countTotalOutstanding(res.body);
           this.initDataForMatTable(res, res.headers);
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
@@ -237,6 +230,11 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].tags.managementType === this.managementType) {
             this.folders.push(res.body[i]);
+          }
+        }
+        if (this.folders[0] !== undefined) {
+          if (this.folders[0].tags.managementType === this.managementType) {
+            this.selectedManagementType = this.folders[0].tags.managementType;
           }
         }
       });
@@ -286,12 +284,14 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     }
   }
 
-  public openDialog(element: IPartySlik = null, index: number): void {
+  public openDialog(element: IPartySlik = null, index: number, view: string): void {
     const predicate = {
       width: '80vw',
       data: {
+        selectedDataId: element.id,
+        viewData: this.detailSlik,
         object: element,
-        mode: this.mode,
+        mode: view,
         cif: this.partyCif !== undefined ? this.partyCif.customerNumber : this.partyCifDM,
       },
     };
@@ -322,10 +322,10 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     totalLimit = 0;
     if (partySlik) {
       for (let i = 0; i < partySlik.length; i++) {
-		const regex = /[.,\s]/g;
-		if (partySlik[i].plafond) {
-		  totalLimit = totalLimit + Number(partySlik[i].plafond.replace(regex,''));
-		}
+        const regex = /[.,\s]/g;
+        if (partySlik[i].plafond) {
+          totalLimit = totalLimit + Number(partySlik[i].plafond.replace(regex, ''));
+        }
       }
     }
     return totalLimit;

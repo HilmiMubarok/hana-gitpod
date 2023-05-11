@@ -1207,11 +1207,6 @@ export const APPRAISAL_MENU_FINANCE_DIR: ISidebarMenuModel[] = [
     iconname: 'paperclip',
     children: [
       {
-        name: 'Loan Approval',
-        iconname: 'minus',
-        route: 'la-approval',
-      },
-      {
         name: 'Loan Approval Inquiry',
         iconname: 'minus',
         route: 'la-approval-inquiry',
@@ -1247,6 +1242,11 @@ export const APPRAISAL_MENU_CC_ADMIN: ISidebarMenuModel[] = [
         name: 'Compliance Checking Distribution',
         iconname: 'minus',
         route: 'cc-distribution',
+      },
+      {
+        name: 'Compliance Checking Inquiry',
+        iconname: 'minus',
+        route: 'cc-inquiry',
       },
     ],
   },

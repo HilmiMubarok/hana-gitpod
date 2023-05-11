@@ -227,6 +227,17 @@ export class RequestSlikDetailComponent {
     partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
     partySlik.facilityType = item.facilityType;
     partySlik.period = item.period;
+    // ! Penambahan Field Party Slilk disini =====
+    partySlik.debtorName = item.debtorName;
+    partySlik.bankPelapor = item.bankPelapor;
+    partySlik.tanggalAkadAwal = item.tanggalAkadAwal;
+    partySlik.tanggalMulai = item.tanggalMulai;
+    partySlik.tanggalJatuhTempo = item.tanggalJatuhTempo;
+    partySlik.kondisi = item.kondisi;
+    partySlik.totalAgunan = item.totalAgunan;
+    partySlik.sumCollateralIdrMio = item.sumCollateralIdrMio;
+    partySlik.typeOfFacility = item.typeOfFacility;
+    partySlik.plafond = item.plafond;
 
     return partySlik;
   }

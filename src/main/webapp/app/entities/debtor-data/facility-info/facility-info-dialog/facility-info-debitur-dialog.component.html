@@ -8,7 +8,7 @@
           <input
             matInput
             currencyMask
-            [(ngModel)]="cpFacility.AVAILABLE_LIMIT"
+            [(ngModel)]="debtorData.availableLimit"
             [options]="{ prefix: '', thousands: ',', decimal: ',', precision: 0 }"
           />
         </mat-form-field>
@@ -18,7 +18,7 @@
           <div class="col">Available Limit</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ cpFacility.AVAILABLE_LIMIT }}
+            {{ debtorData.availableLimit }}
           </div>
         </div>
       </section>
