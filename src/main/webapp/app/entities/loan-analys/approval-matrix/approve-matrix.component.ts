@@ -97,16 +97,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   ngOnInit(): void {
     this.getApplicationRolesByApplicationId();
     this.loadRelationType();
-    this.test();
-    console.log(this.relationTypes);
-  }
-
-  public activeRoute: string;
-  public clickedMenu: string;
-  public test() {
-    console.log('click', this.clickedMenu);
-
-    this.clickedMenu = 'credit-proposal-approval';
   }
 
   private loadRelationType(): void {
@@ -149,7 +139,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   }
 
   public selectRelationType(event): void {
-    console.log('evt', event.value);
     this.selectedRelationType = event.value;
     this.getApplicationRolesByApplicationId();
   }
