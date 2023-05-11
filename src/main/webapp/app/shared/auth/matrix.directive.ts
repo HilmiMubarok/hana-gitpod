@@ -44,12 +44,25 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private checkAccess(): void {
-    if (this.jhiMatrixDirMenu === 'credit-proposal' && !this.router.url.includes('cp-status-approval')) {
+    if (
+      this.jhiMatrixDirMenu === 'credit-proposal' &&
+      !this.router.url.includes('cp-status-approval') &&
+      !this.router.url.includes('la-distribution') &&
+      !this.router.url.includes('la-analyst')
+    ) {
       this.checkOnCreditProposal();
     }
 
     if (this.router.url.includes('cp-status-approval')) {
       this.checkOnCPStatusApproval();
+    }
+
+    if (this.router.url.includes('la-analyst')) {
+      this.checkOnLaAnalyst();
+    }
+
+    if (this.router.url.includes('la-distribution')) {
+      this.checkOnlaDistribution();
     }
 
     if (this.jhiMatrixDirMenu === 'collateral-appraisal') {
@@ -133,11 +146,101 @@ export class MatrixDirective implements OnInit, OnDestroy {
 	} */
   }
 
+  private checkOnlaDistribution(): void {
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.matrixInputLaDistribution();
+    } else {
+      this.matrixLabelLaDistribution();
+    }
+  }
+
+  private checkOnLaAnalyst(): void {
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.matrixInputLaAnalyst();
+    } else {
+      this.matrixLableLaAnalyst();
+    }
+  }
+
   private checkOnCPStatusApproval(): void {
     if (this.jhiMatrixDirElementType === 'input') {
       this.matrixInputCpApproval();
     } else {
       this.matrixLableCpApproval();
+    }
+  }
+
+  private matrixInputLaAnalyst() {
+    if (lodash.indexOf(this.authorities, 'ROLE_CRO') >= 0) {
+      if (this.status === 'CP_ASSIGNMENT' || this.status === 'RETURN_TO_CR') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
+  }
+
+  private matrixLableLaAnalyst() {
+    if (lodash.indexOf(this.authorities, 'ROLE_CRO') >= 0) {
+      if (this.status !== 'CP_ASSIGNMENT' && this.status !== 'RETURN_TO_CR') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
+  }
+
+  private matrixInputLaDistribution() {
+    if (lodash.indexOf(this.authorities, 'ROLE_CRA') >= 0) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        if (this.status === 'APPROVE_TO_LA' || this.status === 'RETURN_TO_CR') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    } else if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        if (this.status === 'APPROVE_TO_LA' || this.status === 'RETURN_TO_CR') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    } else if (
+      lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
+    ) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        if (this.status === 'CP_ASSIGNMENT' || this.status === 'RETURN_TO_CR') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    }
+  }
+
+  private matrixLabelLaDistribution() {
+    if (lodash.indexOf(this.authorities, 'ROLE_CRA') >= 0) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        if (this.status !== 'APPROVE_TO_LA' && this.status !== 'RETURN_TO_CR') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    } else if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        if (this.status !== 'APPROVE_TO_LA' && this.status !== 'RETURN_TO_CR') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    } else if (
+      lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
+      lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
+    ) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        if (this.status !== 'CP_ASSIGNMENT' && this.status !== 'RETURN_TO_CR') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
     }
   }
 
