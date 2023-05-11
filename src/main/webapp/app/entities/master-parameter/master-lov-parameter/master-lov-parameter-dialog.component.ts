@@ -15,6 +15,18 @@ export class MasterLovParameterDialogComponent implements OnInit {
   public listGeneralLov: any;
   public generalParameter: IGeneralParameter;
   public view: boolean;
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
