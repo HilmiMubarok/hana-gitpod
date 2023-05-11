@@ -5,7 +5,6 @@ import { LendingProgramParameterDialogComponent } from './lending-program-parame
 import { MatDialog } from '@angular/material/dialog';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-lending-program-parameter',
@@ -16,8 +15,7 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
   constructor(
     protected lendingProgramParameterService: LendingProgramParameterService,
     protected dialog: MatDialog,
-    protected _snackbar: MatSnackBar,
-    protected _datePipe: DatePipe
+    protected _snackbar: MatSnackBar
   ) {
     super(_snackbar, lendingProgramParameterService);
     this.page = 0;
@@ -38,53 +36,13 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
   }
 
   private loadAll(): void {
-    const currentDate = new Date();
-    // const tomorrow = new Date(currentDate.getTime());
-    // const yesterday = new Date(currentDate.getTime());
-    // tomorrow.setDate(tomorrow.getDate() + 1);
-    // yesterday.setDate(yesterday.getDate() - 1);
     this.lendingProgramParameterService
       .query({
         page: this.page,
         size: this.itemsPerPage,
       })
       .subscribe({
-        next: res => {
-          res.body.forEach((el: any) => {
-            if (
-              this._datePipe.transform(new Date(el.thruDate), 'dd-MM-yyyy') <
-                this._datePipe.transform(new Date(currentDate), 'dd-MM-yyyy') &&
-              el.statusId === 'ACTIVE'
-            ) {
-              el.statusId = 'NON_ACTIVE';
-              el.statusDescription = 'Non Active';
-              this.lendingProgramParameterService.update(el).subscribe(res2 => {
-                console.log('eeellll', res2);
-              });
-            }
-            if (
-              this._datePipe.transform(new Date(el.fromDate), 'dd-MM-yyyy') ===
-                this._datePipe.transform(new Date(currentDate), 'dd-MM-yyyy') &&
-              el.statusId === 'NON_ACTIVE'
-            ) {
-              el.statusId = 'ACTIVE';
-              el.statusDescription = 'Active';
-              this.lendingProgramParameterService.update(el).subscribe(res2 => {
-                console.log('eeellll', res2);
-              });
-            }
-            if (
-              this._datePipe.transform(new Date(el.fromDate), 'dd-MM-yyyy') > this._datePipe.transform(new Date(currentDate), 'dd-MM-yyyy')
-            ) {
-              el.statusId = 'NON_ACTIVE';
-              el.statusDescription = 'Non Active';
-              this.lendingProgramParameterService.update(el).subscribe(res2 => {
-                console.log('eeellll', res2);
-              });
-            }
-          });
-          this.initDataForMatTable(res, res.headers);
-        },
+        next: res => this.initDataForMatTable(res, res.headers),
         error: res => this.onError(res.message),
       });
   }

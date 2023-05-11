@@ -984,7 +984,9 @@ export class ProposalBasicInformationComponent implements OnInit {
       })
       .subscribe(res => {
         this.lendingProgram = lodash.filter(res.body, function (o) {
-          return o.statusId === 'ACTIVE';
+          const fromDate = new Date(o.fromDate);
+          const thruDate = new Date(o.thruDate);
+          return o.statusId === 'ACTIVE' && fromDate <= new Date() && thruDate >= new Date();
         });
         for (let i = 0; i < this.lendingProgram.length; i++) {
           if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {
