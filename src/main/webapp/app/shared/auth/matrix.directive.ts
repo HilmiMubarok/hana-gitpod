@@ -48,7 +48,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
       this.jhiMatrixDirMenu === 'credit-proposal' &&
       !this.router.url.includes('cp-status-approval') &&
       !this.router.url.includes('la-distribution') &&
-      !this.router.url.includes('la-analyst')
+      !this.router.url.includes('la-analyst') &&
+      !this.router.url.includes('la-SME-CRC')
     ) {
       this.checkOnCreditProposal();
     }
@@ -59,6 +60,10 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
     if (this.router.url.includes('la-analyst')) {
       this.checkOnLaAnalyst();
+    }
+
+    if (this.router.url.includes('la-SME-CRC')) {
+      this.checkOnLaSMECRC();
     }
 
     if (this.router.url.includes('la-distribution')) {
@@ -154,6 +159,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
   }
 
+  private checkOnLaSMECRC() {
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.matrixInputLaSMECRC();
+    } else {
+      this.matrixLabelLaSMECRC();
+    }
+  }
+
   private checkOnLaAnalyst(): void {
     if (this.jhiMatrixDirElementType === 'input') {
       this.matrixInputLaAnalyst();
@@ -181,6 +194,22 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private matrixLableLaAnalyst() {
     if (lodash.indexOf(this.authorities, 'ROLE_CRO') >= 0) {
       if (this.status !== 'CP_ASSIGNMENT' && this.status !== 'RETURN_TO_CR') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
+  }
+
+  private matrixInputLaSMECRC() {
+    if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
+  }
+
+  private matrixLabelLaSMECRC() {
+    if (lodash.indexOf(this.authorities, 'ROLE_CRC') === -1) {
+      if (this.jhiMatrixDirSubMenu !== 'summary') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }
