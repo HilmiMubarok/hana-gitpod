@@ -97,15 +97,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   ngOnInit(): void {
     this.getApplicationRolesByApplicationId();
     this.loadRelationType();
-    console.log(this.relationTypes);
-  }
-  public hidePleaseSelect() {
-    this.patch = this.router.url.split('/')[1];
-    if (this.patch === 'credit-proposal-status' || this.patch === 'cp-status-approval') {
-      this.hidden = false;
-    } else {
-      this.hidden = true;
-    }
   }
 
   private loadRelationType(): void {
@@ -135,6 +126,7 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
                 this.selectedRelationType = relationType.id;
                 break;
               }
+              this.selectedRelationType = '';
               this.items = [];
             }
             // Jika value approval LC dan default beda atau suadah dipilih LC nya dan di save maka akan load data table berdasarkan LC yang dipilih
@@ -147,7 +139,6 @@ export class LoanFacilityAproveMatrixComponent extends AbstractEntityMaterialCom
   }
 
   public selectRelationType(event): void {
-    console.log('evt', event.value);
     this.selectedRelationType = event.value;
     this.getApplicationRolesByApplicationId();
   }
