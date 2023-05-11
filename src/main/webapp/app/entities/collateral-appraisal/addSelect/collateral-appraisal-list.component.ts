@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, ViewChild, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, ViewChild, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
@@ -44,9 +44,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   @ViewChild('template') template: DialogComponent;
   @Input() cifNumber: string;
   public cifType?: string;
-
   private collateral?: ICollateral;
-  private collateralsData?: any[];
+  public collateralsData?: any[];
   public dataSelectedCheckbox?: ICollateral[] = [];
   private person?: IPerson;
   public cif?: ICif;
@@ -57,22 +56,27 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   public showDetail: IPartyCif;
   public showDetails: IPartyGroup;
-  private selectedPartyCif: IPartyCif;
+  private selectedPartyCif?: IPartyCif;
   public dialogSection: string;
   public showCollateral = false;
   public dialogVisible: boolean;
   public animationSettings = { effect: 'Zoom', duration: 400, delay: 0 };
   private internalIdLocStor: string;
   private positionIdLocStor: string;
-
+  public statusCheckedGroupEmit: boolean;
   public paginatorLength: number;
   public paginatorPageSize: number;
   public surveyAppraisalTemplate: ISurveyAppraisals;
   public pageSettings: PageSettingsModel = { pageSizes: true, pageCount: 2, pageSize: 5 };
   public displayedColumns: string[] = ['no', 'noCif', 'debiturName', 'debiturType', 'action'];
   public statusChecked = [];
+  public isCheckDebCol: boolean;
   public InternalExternal = [];
   public partyIds?: string;
+  statusCheckedGroupFromColl: boolean;
+  public dataGroupCollateral?: ICollateral[] = [];
+  public collateralsDataGroup?: any[];
+  getsCif: IPartyCif[];
   constructor(
     public dialog: MatDialog,
     protected router: Router,
@@ -110,8 +114,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.initialize();
+    // this.outputgroupselectedColl.emit(this.statusCheckedGroupFromColl);
 
+    this.initialize();
     if (
       changes.cifNumber.currentValue === 'undefined' ||
       changes.cifNumber.currentValue === '' ||
@@ -123,16 +128,13 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     }
     this.getSurveyAppraisalsTemplate();
   }
-
   public selectCif(ev: IPartyCif): void {
     this.selectedPartyCif = ev;
+    // this.selectedPartyCif = this.getsCif;
+    // console.log('getCifss',this.getsCif);
+    console.log('selectedPartyCif', this.selectedPartyCif);
     this.showCollateral = true;
     this.setAvailableCollateralForAppraise(ev.partyId);
-    // if (this.collateralsData.length > 0) {
-    //   for (let i = 0; i < this.collateralsData.length; i++) {
-    //     this.collateralsData[i]['indexNum'] = i + 1;
-    //   }
-    // }
   }
 
   private setAvailableCollateralForAppraise(partyId: string): void {
@@ -149,6 +151,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   private initialize(): void {
     this.showCollateral = false;
     this.dataSelectedCheckbox = [];
+    this.dataGroupCollateral = [];
   }
 
   public onOpen(args: any) {
@@ -180,17 +183,17 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
       // Validation Kepemilikan Data - Start - Commented with wa group @28.12.2022 (Keys : Dwi)//
       /* let filteredData = [];
-	  this.accountService.identity().subscribe(account => {
-		filteredData = lodash.filter(res.body, function (item: IPartyCif) {
-		  return item.rm.userLogin === account.login;
-		});
-	  });
-	  if (filteredData.length > 0) {
-		this.initDataForMatTable(res, res.headers);
-	  } else {
-		this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
-		this.loading = false;
-	  } */
+    this.accountService.identity().subscribe(account => {
+    filteredData = lodash.filter(res.body, function (item: IPartyCif) {
+      return item.rm.userLogin === account.login;
+    });
+    });
+    if (filteredData.length > 0) {
+    this.initDataForMatTable(res, res.headers);
+    } else {
+    this.messageService.add({ severity: 'info', summary: 'DATA CIF!!!', detail: 'DATA CIF TELAH DIAJUKAN OLEH RM LAIN' });
+    this.loading = false;
+    } */
       // Validation Kepemilikan Data - End - Commented with wa group @28.12.2022 (Keys : Dwi)//
     });
   }
@@ -267,17 +270,58 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public onOverlayClick(): void {
     this.dialogVisible = false;
   }
+  public getCifsFromChild(listGroupCollateral: any): void {
+    this.getsCif = listGroupCollateral;
+    console.log('getcisss', this.getsCif);
+  }
+  public getCollateralChecklist(statusCheckedGroupEmit: any): void {
+    this.statusCheckedGroupFromColl = statusCheckedGroupEmit;
+    console.log('dasasa', this.statusCheckedGroupFromColl);
+  }
+  // public getCustomerPersonOrOrganization(): void {
+  //   for (let i = 0; i < this.getsCif.length; i++) {
+  //     if (this.getsCif[i].customerType === 'PERSONAL') {
+  //         this.dataCif =this.getsCif[i].customerPartyId;
+  //     } else {
+  //         this.dataCif = this.getsCif[i].customerPartyId;
+  //     }
+  //   }
+  // }
 
-  public onChecked(changeEventArgs: ChangeEventArgs, value: ICollateral): void {
-    if (changeEventArgs['checked'] === true) {
-      this.dataSelectedCheckbox.push(value);
-    } else {
-      for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-        if (this.dataSelectedCheckbox[i]['id'] === value['id']) {
+  public dataGroupCollaterals(): void {
+    for (let i = 0; i < this.dataGroupCollateral.length; i++) {
+      if (this.statusCheckedGroupFromColl === true) {
+        // this.getCustomerPersonOrOrganization();
+        this.dataSelectedCheckbox.push(this.dataGroupCollateral[i]);
+        console.log('datasser', this.dataSelectedCheckbox);
+        console.log('getCif', this.getsCif);
+      } else {
+        for (let j = 0; j < this.dataSelectedCheckbox.length; j++) {
           this.dataSelectedCheckbox.splice(i, 1);
           i = this.dataSelectedCheckbox.length - 1;
         }
       }
+    }
+  }
+  public getDataGroup(listDataGroup: any): void {
+    this.dataGroupCollateral = listDataGroup;
+    // this.collateralsDataGroup = listDataGroup;
+    console.log('tttesw', this.dataGroupCollateral);
+  }
+  public onChecked(changeEventArgs: ChangeEventArgs, value: ICollateral): void {
+    if (changeEventArgs['checked'] === true) {
+      this.dataSelectedCheckbox.push(value);
+      this.isCheckDebCol = true;
+      console.log('checkDebitur', this.dataSelectedCheckbox);
+    } else {
+      for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+        // if (this.dataSelectedCheckbox[i].id === this.collateralsData[index].id) {
+        this.dataSelectedCheckbox.splice(i, 1);
+        i = this.dataSelectedCheckbox.length - 1;
+        console.log('UncheckDebitur', this.dataSelectedCheckbox);
+      }
+      console.log('xzzz', this.dataSelectedCheckbox);
+      this.isCheckDebCol = false;
     }
   }
 
@@ -305,6 +349,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   public onAdd(): void {
+    this.dataGroupCollaterals();
+    console.log('GROUP', this.dataGroupCollateral);
     this.internalIdLocStor = this.getLocStor('INT');
     this.positionIdLocStor = this.getLocStor('POS');
 
@@ -325,25 +371,52 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           }
 
           for (let e = 0; e < this.statusChecked.length; e++) {
+            const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
             for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-              const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
+              for (let j = 0; j < this.getsCif.length; j++) {
+                for (let z = 0; z < this.selectedPartyCif.collaterals.length; z++) {
+                  if (this.selectedPartyCif.customerNumber === this.dataSelectedCheckbox[i].accountCustCif) {
+                    if (this.selectedPartyCif.customerType === 'PERSONAL') {
+                      surveyAppraisal.partyId = this.selectedPartyCif.customerPerson.id;
+                    } else {
+                      surveyAppraisal.partyId = this.selectedPartyCif.customerOrganization.id;
+                    }
+                  } else if (this.selectedPartyCif.collaterals[z].id === this.dataSelectedCheckbox[i].id) {
+                    if (this.selectedPartyCif.customerType === 'PERSONAL') {
+                      surveyAppraisal.partyId = this.selectedPartyCif.customerPerson.id;
+                    } else {
+                      surveyAppraisal.partyId = this.selectedPartyCif.customerOrganization.id;
+                    }
+                  } else {
+                    if (this.dataSelectedCheckbox[i].accountCustCif === this.getsCif[j].customerCIF) {
+                      if (this.getsCif[j].customerType === 'PERSONAL') {
+                        surveyAppraisal.partyId = this.getsCif[j].customerPartyId;
+                      } else {
+                        surveyAppraisal.partyId = this.getsCif[j].customerPartyId;
+                      }
+                    }
+                  }
+                }
+              }
+
               surveyAppraisal.internalId = this.internalIdLocStor;
-              surveyAppraisal.partyId =
-                this.selectedPartyCif.customerType === 'PERSONAL'
-                  ? this.selectedPartyCif.customerPerson.id
-                  : this.selectedPartyCif.customerOrganization.id;
               surveyAppraisal.applicationId = null;
               surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
               surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
-
               surveyAppraisal.apprOfficer = this.InternalExternal[e];
 
+              console.log(this.selectedPartyCif);
+              console.log(this.dataSelectedCheckbox);
+              console.log(this.getsCif);
+              // console.log(createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal)))
               createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
             }
+            //  console.log(createSurveyAppraisalPromises.push(surveyAppraisal))
           }
-          Promise.all(createSurveyAppraisalPromises).then(results => {
-            this.router.navigate(['./collateral-appraisal']);
-          });
+          console.log('createSurveyAppraisalPromises', createSurveyAppraisalPromises);
+          // Promise.all(createSurveyAppraisalPromises).then(results => {
+          //   this.router.navigate(['./collateral-appraisal']);
+          // });
         }
       }
     }
