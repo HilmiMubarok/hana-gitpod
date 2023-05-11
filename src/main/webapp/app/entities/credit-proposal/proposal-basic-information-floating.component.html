@@ -203,7 +203,7 @@
                     <mat-label>Lending Program</mat-label>
                     <mat-select name="lendingProgram" [(ngModel)]="creditProposal.attributes['lendingProgramParameter']">
                       <mat-option value="">Please Select</mat-option>
-                      <mat-option *ngFor="let item of lendingProgram" [value]="item.id">
+                      <mat-option *ngFor="let item of lendingProgram" [value]="item.description">
                         {{ item.description }}
                       </mat-option>
                     </mat-select>
@@ -214,7 +214,7 @@
                     <div class="col-4">Lending Program</div>
                     <div class="col-md-auto">:</div>
                     <div class="col col-lg-4">
-                      {{ valueCpLendingProgram }}
+                      {{ this.creditProposal.attributes['lendingProgramParameter'] }}
                     </div>
                   </div>
                 </section>
