@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   IPartyPostalAddressWarehouse,
   PartyPostalAddressWarehouse,
@@ -12,6 +12,7 @@ import { PurposeTypeService } from 'app/entities/purpose-type/purpose-type.servi
 import { PURPOSE_TYPE } from 'app/shared/constants/base.constants';
 import lodash from 'lodash';
 import { IPartyCif, PartyCif } from '../party-cif.model';
+import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 
 @Component({
   selector: 'jhi-party-cif-customer-info',
@@ -25,6 +26,17 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
   public primaryLocation: IPartyPostalAddress;
   public warehouseLocation: IPartyPostalAddressWarehouse;
   public purposeTypes: IPurposeType[];
+  private id: number;
+  public _creditProposal: ICreditProposal = new CreditProposal();
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(data: ICreditProposal) {
+    this._creditProposal = data;
+  }
 
   @Input()
   get partyCif() {
@@ -35,7 +47,7 @@ export class PartyCifCustomerInfoComponent implements OnChanges {
     this._partyCIf = data;
   }
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected router: Router) {}
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif']) {
       this.splitPostalAddress(this.partyCif.addresses);

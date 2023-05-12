@@ -161,7 +161,11 @@
 
         <mat-card class="mb-3">
           <mat-card-content>
-            <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="postalAdresss">
+            <jhi-party-cif-customer-info-postal-address
+              [disabled]="true"
+              [creditProposal]="creditProposal"
+              [partyPostalAddress]="postalAdresss"
+            >
             </jhi-party-cif-customer-info-postal-address>
           </mat-card-content>
         </mat-card>
