@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="e-card-content">
-    <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="postalAdresss">
+    <jhi-party-cif-customer-info-postal-address [disabled]="true" [creditProposal]="creditProposal" [partyPostalAddress]="postalAdresss">
     </jhi-party-cif-customer-info-postal-address>
   </div>
 </div>
@@ -63,6 +63,7 @@
     <jhi-party-cif-customer-info-postal-address
       [disabled]="true"
       [partyPostalAddress]="generalLocation"
+      [creditProposal]="creditProposal"
       [partyCif]="partyCif"
     ></jhi-party-cif-customer-info-postal-address>
   </div>
@@ -78,7 +79,11 @@
       </div>
     </div>
     <div class="e-card-content">
-      <jhi-party-cif-customer-info-postal-address [disabled]="true" [partyPostalAddress]="warehouseLocation">
+      <jhi-party-cif-customer-info-postal-address
+        [disabled]="true"
+        [creditProposal]="creditProposal"
+        [partyPostalAddress]="warehouseLocation"
+      >
       </jhi-party-cif-customer-info-postal-address>
       <!-- <jhi-party-cif-customer-info-postal-address-warehouse
           [disabled]="true"
