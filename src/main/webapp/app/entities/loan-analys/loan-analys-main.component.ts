@@ -130,7 +130,8 @@ export class LoanAnalysMainComponent implements OnInit {
   public conditionFileWord: File;
 
   private saveState: string;
-  public parentSubject:Subject<any> = new Subject();
+  public parentSubject: Subject<any> = new Subject();
+  private KEYG = 'credit_proposal/summary';
 
   constructor(
     private creditProposalService: CreditProposalService,
@@ -147,7 +148,7 @@ export class LoanAnalysMainComponent implements OnInit {
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
-	this.creditProposalStartState = this.activatedRoute.snapshot.data['loanAnalys'];
+    this.creditProposalStartState = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -725,10 +726,15 @@ export class LoanAnalysMainComponent implements OnInit {
       }
     }
 
-	if (status === 'complete')  {
-	  if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
-		if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
-		  let tempHelper = 0;
+    if (status === 'complete') {
+      if (
+        tempRouter === 'la-analyst' ||
+        tempRouter === 'la-SME-CRC' ||
+        tempRouter === 'la-approval' ||
+        tempRouter === 'loan-committee-approval'
+      ) {
+        if (this.id && this.positionLoginFromEmit && this.recomendation && this.uuidPath) {
+          let tempHelper = 0;
           let tempOpinionType = '';
 
           tempOpinionType = tempRouter === 'loan-committee-approval' ? 'loan_committee' : 'loan_analysis';
@@ -755,9 +761,9 @@ export class LoanAnalysMainComponent implements OnInit {
               this.addNewNotes(this.positionLoginFromEmit, '', this.recomendation, this.uuidPath, tempOpinionType)
             );
           }
-		}
-	  }
-	}
+        }
+      }
+    }
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
     copyCreditProposal.attributes['shareHolder'] = JSON.stringify(copyCreditProposal.attributes['shareHolder']);
@@ -810,15 +816,15 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
 
-	if (copyCreditProposal.prospectPerson) {
-	  copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
-	}
+    if (copyCreditProposal.prospectPerson) {
+      copyCreditProposal.prospectPerson.dob = this.creditProposalStartState.prospectPerson.dob;
+    }
 
     return copyCreditProposal;
   }
 
   public onClickRed(): void {
-	this.parentSubject.next('red-clicked');
+    this.parentSubject.next('red-clicked');
   }
 
   setUuidPath(newItem: string) {
@@ -862,166 +868,199 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   setIsAllowSave(status: boolean) {
-	const statusPreSave = status ? 'complete' : 'not-complete';
-	
+    const statusPreSave = status ? 'complete' : 'not-complete';
+
     if (this.creditProposal.id) {
-	  let isAllowedSaveWith2StepVerification = false;
-	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC' || this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
-		isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
-	  } else {
-		isAllowedSaveWith2StepVerification = true;
-	  }
+      let isAllowedSaveWith2StepVerification = false;
+      if (
+        this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+        (this.parentPath === 'la-analyst' ||
+          this.parentPath === 'la-SME-CRC' ||
+          this.parentPath === 'la-approval' ||
+          this.parentPath === 'loan-committee-approval')
+      ) {
+        isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
+      } else {
+        isAllowedSaveWith2StepVerification = true;
+      }
 
-	  if (isAllowedSaveWith2StepVerification) {
-		this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
-		  this.creditProposal.notes = res.body.notes;
+      if (isAllowedSaveWith2StepVerification) {
+        this.creditProposalService.update(this.preSave(statusPreSave)).subscribe(res => {
+          this.creditProposal.notes = res.body.notes;
 
-		  if (this.loanAnalysOpinionComponent) {
-			this.loanAnalysOpinionComponent.refresh();
-		  }
+          if (this.loanAnalysOpinionComponent) {
+            this.loanAnalysOpinionComponent.refresh();
+          }
 
           this.saveApplicationRole(this.saveState);
-		});
-	  } else {
-		if (this.recomendation) {
-		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
-		}
-	  }
+        });
+      } else {
+        if (this.recomendation) {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Warning',
+            detail:
+              'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu',
+          });
+        }
+      }
     }
   }
 
   private saveFile(): void {
-	const formDataOpinionSfdt = new FormData();
-	const formDataOpinionWord = new FormData();
+    const formDataOpinionSfdt = new FormData();
+    const formDataOpinionWord = new FormData();
 
-	const formDataConditionSfdt = new FormData();
-	const formDataConditionWord = new FormData();
+    const formDataConditionSfdt = new FormData();
+    const formDataConditionWord = new FormData();
 
-	const fileNameSfdt = this.uuidPath + '.sfdt';
-	const fileNameWord = this.uuidPath + '.docs';
-	const fileTypeSfdt = 'sfdt';
-	const fileTypeWord = 'word';
+    const fileNameSfdt = this.uuidPath + '.sfdt';
+    const fileNameWord = this.uuidPath + '.docs';
+    const fileTypeSfdt = 'sfdt';
+    const fileTypeWord = 'word';
 
-	const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
-	const pathHelperOpinion = this.uuidPath + '-opinion';
-	const metaDataOpinionSfdt = {
-	  objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
-	};
-	const metaDataOpinionWord = {
-	  objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
-	};
+    const keyOpinion = 'credit_proposal/remark/opinion-history/opinion';
+    const pathHelperOpinion = this.uuidPath + '-opinion';
+    const metaDataOpinionSfdt = {
+      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+    };
+    const metaDataOpinionWord = {
+      objectName: `${keyOpinion}/${this.id}/${pathHelperOpinion}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+    };
 
-	const keyCondition = 'credit_proposal/remark/opinion-history/condition';
-	const pathHelperCondition = this.uuidPath + '-condition';
-	const metaDataConditionSfdt = {
-	  objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
-	};
-	const metaDataConditionWord = {
-	  objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
-	};
+    const keyCondition = 'credit_proposal/remark/opinion-history/condition';
+    const pathHelperCondition = this.uuidPath + '-condition';
+    const metaDataConditionSfdt = {
+      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeSfdt.replace('&', '')}/${fileNameSfdt}`,
+    };
+    const metaDataConditionWord = {
+      objectName: `${keyCondition}/${this.id}/${pathHelperCondition}/${fileTypeWord.replace('&', '')}/${fileNameWord}`,
+    };
 
-	formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
-	formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
+    formDataOpinionSfdt.append('file', new File([this.opinionFileSfdt], fileNameSfdt));
+    formDataOpinionWord.append('file', new File([this.opinionFileWord], fileNameWord));
 
-	formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
-	formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
+    formDataConditionSfdt.append('file', new File([this.conditionFileSfdt], fileNameSfdt));
+    formDataConditionWord.append('file', new File([this.conditionFileWord], fileNameWord));
 
-	this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
-	this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
+    this.storageService.uploadMeta(this.BUCKET, formDataOpinionSfdt, metaDataOpinionSfdt).subscribe();
+    this.storageService.uploadMeta(this.BUCKET, formDataOpinionWord, metaDataOpinionWord).subscribe();
 
-	this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
-	this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
+    this.storageService.uploadMeta(this.BUCKET, formDataConditionSfdt, metaDataConditionSfdt).subscribe();
+    this.storageService.uploadMeta(this.BUCKET, formDataConditionWord, metaDataConditionWord).subscribe();
   }
-  
+
   private twoStepVerificationOpinionRadio() {
-	let returnStat = false;
+    let returnStat = false;
 
-	if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC')) {
-	  if (this.recomendation === 'Recommend as Propose' || this.recomendation === 'Recommend With Condition' || this.recomendation === 'Not Recommend') {
-		returnStat = true;
-	  }
-	} else if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
-	  if (this.recomendation === 'Approved as Propose' || this.recomendation === 'Approved With Condition' || this.recomendation === 'Not Approved') {
-		returnStat = true;
-	  }
-	}
+    if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC')) {
+      if (
+        this.recomendation === 'Recommend as Propose' ||
+        this.recomendation === 'Recommend With Condition' ||
+        this.recomendation === 'Not Recommend'
+      ) {
+        returnStat = true;
+      }
+    } else if (
+      this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+      (this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')
+    ) {
+      if (
+        this.recomendation === 'Approved as Propose' ||
+        this.recomendation === 'Approved With Condition' ||
+        this.recomendation === 'Not Approved'
+      ) {
+        returnStat = true;
+      }
+    }
 
-	return returnStat;
+    return returnStat;
   }
 
   private saveUpdate(status: string, source: string): void {
-	if (status === 'not-complete-not-visit') {
-	  this.creditProposalService.update(this.preSave(status)).subscribe(res => {
-		this.creditProposal.products = res.body.products;
-		this.creditProposal.notes = res.body.notes;
+    if (status === 'not-complete-not-visit') {
+      this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+        this.creditProposal.products = res.body.products;
+        this.creditProposal.notes = res.body.notes;
 
-		const tempRouterA = this.router.url.split('/')[1];
+        const tempRouterA = this.router.url.split('/')[1];
 
-		if (tempRouterA === 'cc-review') {
-		  if (this.loanAnalysOpinionCompliancePartComponent) {
-			this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-			this.loanAnalysOpinionCompliancePartComponent.refresh();
-			this.loanAnalysOpinionCompliancePartComponent.onCreate();
-		  }
-		}
+        if (tempRouterA === 'cc-review') {
+          if (this.loanAnalysOpinionCompliancePartComponent) {
+            this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+            this.loanAnalysOpinionCompliancePartComponent.refresh();
+            this.loanAnalysOpinionCompliancePartComponent.onCreate();
+          }
+        }
 
-		if (this.selectedMenu === 'loan-facility') {
-		  if (this.loanFacilityDetailTempComponent) {
-			this.loanFacilityDetailTempComponent.triggeredSave();
-			this.loanFacilityDetailTempComponent.onCreate();
-		  }
-		}
+        if (this.selectedMenu === 'loan-facility') {
+          if (this.loanFacilityDetailTempComponent) {
+            this.loanFacilityDetailTempComponent.triggeredSave();
+            this.loanFacilityDetailTempComponent.onCreate();
+          }
+        }
 
-		this.saveDoc = true;
-		this.saveApplicationRole(source);
-	  });
-	} else {
-	  let isAllowedSaveWith2StepVerification = false;
-	  if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' && (this.parentPath === 'la-analyst' || this.parentPath === 'la-SME-CRC' || this.parentPath === 'la-approval' || this.parentPath === 'loan-committee-approval')) {
-		isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
-	  } else {
-		isAllowedSaveWith2StepVerification = true;
-	  }
+        this.saveDoc = true;
+        this.saveApplicationRole(source);
+      });
+    } else {
+      let isAllowedSaveWith2StepVerification = false;
+      if (
+        this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' &&
+        (this.parentPath === 'la-analyst' ||
+          this.parentPath === 'la-SME-CRC' ||
+          this.parentPath === 'la-approval' ||
+          this.parentPath === 'loan-committee-approval')
+      ) {
+        isAllowedSaveWith2StepVerification = this.twoStepVerificationOpinionRadio();
+      } else {
+        isAllowedSaveWith2StepVerification = true;
+      }
 
-	  if (isAllowedSaveWith2StepVerification) {
-		this.creditProposalService.update(this.preSave(status)).subscribe(res => {
-		  this.creditProposal.products = res.body.products;
-		  this.creditProposal.notes = res.body.notes;
+      if (isAllowedSaveWith2StepVerification) {
+        this.creditProposalService.update(this.preSave(status)).subscribe(res => {
+          this.creditProposal.products = res.body.products;
+          this.creditProposal.notes = res.body.notes;
 
-		  if (status === 'complete') {
-			this.saveFile();
-		  }
+          if (status === 'complete') {
+            this.saveFile();
+          }
 
-		  const tempRouterA = this.router.url.split('/')[1];
+          const tempRouterA = this.router.url.split('/')[1];
 
-		  if (tempRouterA === 'cc-review') {
-			if (this.loanAnalysOpinionCompliancePartComponent) {
-			  this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
-			  this.loanAnalysOpinionCompliancePartComponent.refresh();
-			  this.loanAnalysOpinionCompliancePartComponent.onCreate();
-			}
-		  }
+          if (tempRouterA === 'cc-review') {
+            if (this.loanAnalysOpinionCompliancePartComponent) {
+              this.loanAnalysOpinionCompliancePartComponent.triggeredSave();
+              this.loanAnalysOpinionCompliancePartComponent.refresh();
+              this.loanAnalysOpinionCompliancePartComponent.onCreate();
+            }
+          }
 
-		  if (this.selectedMenu === 'loan-facility') {
-			if (this.loanFacilityDetailTempComponent) {
-			  this.loanFacilityDetailTempComponent.triggeredSave();
-			  this.loanFacilityDetailTempComponent.onCreate();
-			}
-		  }
+          if (this.selectedMenu === 'loan-facility') {
+            if (this.loanFacilityDetailTempComponent) {
+              this.loanFacilityDetailTempComponent.triggeredSave();
+              this.loanFacilityDetailTempComponent.onCreate();
+            }
+          }
 
-		  this.saveDoc = true;
-		  this.saveApplicationRole(source);
-		});
-	  } else {
-		if (this.recomendation) {
-		  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu'});
-		}
-	  }
-	}
+          this.saveDoc = true;
+          this.saveApplicationRole(source);
+        });
+      } else {
+        if (this.recomendation) {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Warning',
+            detail:
+              'System Failure at Opinion Menu! Please refresh the page, re-check progress you do at all menu exept Opinion Menu, & repeat what you do at Opinion Menu',
+          });
+        }
+      }
+    }
   }
 
   public onSave(source: string): void {
-	this.saveState = source;
+    this.saveState = source;
 
     for (let i = 0; i < this.creditProposalService.partySliks.length; i++) {
       this.creditProposal.sliks = [...this.creditProposal.sliks, this.creditProposalService.partySliks[i]];
@@ -1030,17 +1069,22 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.id) {
       const tempRouter = this.router.url.split('/')[1];
 
-	  if (tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC' || tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval') {
-		if (this.loanAnalysOpinionComponent) {
-		  this.loanAnalysOpinionComponent.triggeredSaveValidate();
-		} else {
-		  let countValidate = 0;
-		  if (this.positionLoginFromEmit) {
-			if (this.opinionFileSfdt && this.opinionFileWord) {
-			  const fileReader: FileReader = new FileReader();
-			  fileReader.onload = (e: any) => {
-				const testSfdtFile = JSON.parse(fileReader.result as string);
-				/* if (testSfdtFile.sections[0].blocks) {
+      if (
+        tempRouter === 'la-analyst' ||
+        tempRouter === 'la-SME-CRC' ||
+        tempRouter === 'la-approval' ||
+        tempRouter === 'loan-committee-approval'
+      ) {
+        if (this.loanAnalysOpinionComponent) {
+          this.loanAnalysOpinionComponent.triggeredSaveValidate();
+        } else {
+          let countValidate = 0;
+          if (this.positionLoginFromEmit) {
+            if (this.opinionFileSfdt && this.opinionFileWord) {
+              const fileReader: FileReader = new FileReader();
+              fileReader.onload = (e: any) => {
+                const testSfdtFile = JSON.parse(fileReader.result as string);
+                /* if (testSfdtFile.sections[0].blocks) {
 				  if (testSfdtFile.sections[0].blocks.length > 0) {
 					++countValidate;
 				  }
@@ -1049,51 +1093,63 @@ export class LoanAnalysMainComponent implements OnInit {
 				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 				} */
 
-				if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
-				  if (testSfdtFile.sections[0].blocks[0].columnCount) {
-					if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
-					  ++countValidate;
-					} else {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					}
-				  } else if (testSfdtFile.sections[0].blocks[0].inlines) {
-					let isEmpty = true;
-					testSfdtFile.sections[0].blocks.forEach((block) => {
-					  if (block.inlines) {
-						if (block.inlines.length > 0) {
-						  isEmpty = false;
-						}
-					  }
-					});
+                if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
+                  if (testSfdtFile.sections[0].blocks[0].columnCount) {
+                    if (testSfdtFile.sections[0].blocks[0].columnCount > 0) {
+                      ++countValidate;
+                    } else {
+                      // toast opinion empty
+                      this.messageService.add({
+                        severity: 'info',
+                        summary: 'Warning',
+                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                      });
+                    }
+                  } else if (testSfdtFile.sections[0].blocks[0].inlines) {
+                    let isEmpty = true;
+                    testSfdtFile.sections[0].blocks.forEach(block => {
+                      if (block.inlines) {
+                        if (block.inlines.length > 0) {
+                          isEmpty = false;
+                        }
+                      }
+                    });
 
-					if (isEmpty) {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					} else {
-					  ++countValidate;
-					}
+                    if (isEmpty) {
+                      // toast opinion empty
+                      this.messageService.add({
+                        severity: 'info',
+                        summary: 'Warning',
+                        detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                      });
+                    } else {
+                      ++countValidate;
+                    }
 
-					/* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
+                    /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
 					  ++countValidate;
 					} else {
 					  // toast opinion empty
 					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
 					} */
-				  }
-				} else {
-				  // toast opinion empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				}
+                  }
+                } else {
+                  // toast opinion empty
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'Warning',
+                    detail: 'Opinion Empty! All data will be save except data at tab opinion',
+                  });
+                }
 
-				if (this.recomendation) {
-				  ++countValidate;
-				  if (this.recomendation === 'Recommend With Condition' || this.recomendation === 'Approved With Condition') {
-					if (this.conditionFileSfdt && this.conditionFileWord) {
-					  const fileReaderCondition: FileReader = new FileReader();
-					  fileReaderCondition.onload = (eCondition: any) => {
-						const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
-						/* if (testSfdtFileCondition.sections[0].blocks) {
+                if (this.recomendation) {
+                  ++countValidate;
+                  if (this.recomendation === 'Recommend With Condition' || this.recomendation === 'Approved With Condition') {
+                    if (this.conditionFileSfdt && this.conditionFileWord) {
+                      const fileReaderCondition: FileReader = new FileReader();
+                      fileReaderCondition.onload = (eCondition: any) => {
+                        const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
+                        /* if (testSfdtFileCondition.sections[0].blocks) {
 						  if (testSfdtFileCondition.sections[0].blocks.length > 0) {
 							++countValidate;
 						  } else {
@@ -1105,73 +1161,92 @@ export class LoanAnalysMainComponent implements OnInit {
 						  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 						} */
 
-						if (testSfdtFileCondition.sections[0].blocks[0].inlines || testSfdtFileCondition.sections[0].blocks[0].columnCount) {
-						  if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
-							if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
-							let isEmpty = true;
-							testSfdtFileCondition.sections[0].blocks.forEach((block) => {
-							  if (block.inlines) {
-								if (block.inlines.length > 0) {
-								  isEmpty = false;
-								}
-							  }
-							});
+                        if (
+                          testSfdtFileCondition.sections[0].blocks[0].inlines ||
+                          testSfdtFileCondition.sections[0].blocks[0].columnCount
+                        ) {
+                          if (testSfdtFileCondition.sections[0].blocks[0].columnCount) {
+                            if (testSfdtFileCondition.sections[0].blocks[0].columnCount > 0) {
+                              ++countValidate;
+                            } else {
+                              // toast condition empty
+                              this.messageService.add({
+                                severity: 'info',
+                                summary: 'Warning',
+                                detail: 'Condition Empty! All data will be save except data at tab opinion',
+                              });
+                            }
+                          } else if (testSfdtFileCondition.sections[0].blocks[0].inlines) {
+                            let isEmpty = true;
+                            testSfdtFileCondition.sections[0].blocks.forEach(block => {
+                              if (block.inlines) {
+                                if (block.inlines.length > 0) {
+                                  isEmpty = false;
+                                }
+                              }
+                            });
 
-							if (isEmpty) {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							} else {
-							  ++countValidate;
-							}
+                            if (isEmpty) {
+                              // toast condition empty
+                              this.messageService.add({
+                                severity: 'info',
+                                summary: 'Warning',
+                                detail: 'Condition Empty! All data will be save except data at tab opinion',
+                              });
+                            } else {
+                              ++countValidate;
+                            }
 
-							/* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
+                            /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
 							  ++countValidate;
 							} else {
 							  // toast condition empty
 							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
 							} */
-						  }
-						}
+                          }
+                        }
 
-						if (countValidate === 3) {
-						  this.saveUpdate('complete', source);
-						} else {
-						  this.saveUpdate('not-complete', source);
-						}
-					  };
-					  fileReaderCondition.readAsText(this.conditionFileSfdt);
-					}
-				  } else {
-					if (countValidate === 2) {
-					  this.saveUpdate('complete', source);
-					} else {
-					  this.saveUpdate('not-complete', source);
-					}
-				  }
-				} else {
-				  // toast recomendation empty
-				  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Recommendation Empty! All data will be save except data at tab opinion' });
-				  this.saveUpdate('not-complete', source);
-				}
-			  };
-			  fileReader.readAsText(this.opinionFileSfdt);
-			} else {
-			  // toast opinion empty
-			  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-			  this.saveUpdate('not-complete', source);
-			}
-		  } else {
-			this.saveUpdate('not-complete-not-visit', source);
-		  }
-		}
-	  } else {
-		this.saveUpdate('not-complete-not-visit', source);
+                        if (countValidate === 3) {
+                          this.saveUpdate('complete', source);
+                        } else {
+                          this.saveUpdate('not-complete', source);
+                        }
+                      };
+                      fileReaderCondition.readAsText(this.conditionFileSfdt);
+                    }
+                  } else {
+                    if (countValidate === 2) {
+                      this.saveUpdate('complete', source);
+                    } else {
+                      this.saveUpdate('not-complete', source);
+                    }
+                  }
+                } else {
+                  // toast recomendation empty
+                  this.messageService.add({
+                    severity: 'info',
+                    summary: 'Warning',
+                    detail: 'Recommendation Empty! All data will be save except data at tab opinion',
+                  });
+                  this.saveUpdate('not-complete', source);
+                }
+              };
+              fileReader.readAsText(this.opinionFileSfdt);
+            } else {
+              // toast opinion empty
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Warning',
+                detail: 'Opinion Empty! All data will be save except data at tab opinion',
+              });
+              this.saveUpdate('not-complete', source);
+            }
+          } else {
+            this.saveUpdate('not-complete-not-visit', source);
+          }
+        }
+      } else {
+        this.saveUpdate('not-complete-not-visit', source);
       }
     }
     this.saveWord = true;
@@ -1370,13 +1445,20 @@ export class LoanAnalysMainComponent implements OnInit {
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
+
+      if (this.id) {
+        this.KEYG += `/${this.id}/`;
+      } else {
+        console.warn('Param id not found');
+      }
+
       this.onRefresh();
     });
   }
 
   private onRefresh(): void {
     const obj = {
-      key: 'credit_proposal/summary/' + this.id,
+      key: this.KEYG,
     };
     this.storageService
       .getObjects(this.BUCKET, obj)
