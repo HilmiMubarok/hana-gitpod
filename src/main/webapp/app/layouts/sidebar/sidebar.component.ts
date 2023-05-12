@@ -39,6 +39,8 @@ import {
   APPRAISAL_APR_DEPT_HEAD,
   APPRAISAL_MENU_SIDEBAR_ALL,
   MENU_MASTER,
+  APPRAISAL_MENU_ADMIN_CONFIG,
+  MENU_MASTER_CONFIG,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 
@@ -60,6 +62,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     node => node.expandable
   );
 
+  public treeControlConfig = new FlatTreeControl<FlatNode>(
+    node => node.level,
+    node => node.expandable
+  );
+
   public treeFlattener = new MatTreeFlattener(
     this.transformer,
     node => node.level,
@@ -67,18 +74,28 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     node => node.children
   );
 
+  public treeFlattenerConfig = new MatTreeFlattener(
+    this.transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children
+  );
+
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  public dataSourceConfig: any = new MatTreeFlatDataSource(this.treeControlConfig, this.treeFlattenerConfig);
 
   constructor(private accountService: AccountService, private router: Router, private templateService: TemplateService) {
     this.accountService.identity().subscribe(account => {
       if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
         this.dataSource.data = APPRAISAL_MENU_ADMIN;
+        this.dataSourceConfig.data = APPRAISAL_MENU_ADMIN_CONFIG;
       } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
         if (lodash.indexOf(account.authorities, Authority.SURVEYOR) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_SURVEYOR;
           // roll
         } else if (lodash.indexOf(account.authorities, Authority.MASTER_ADMIN) >= 0) {
           this.dataSource.data = MENU_MASTER;
+          this.dataSourceConfig.data = MENU_MASTER_CONFIG;
         } else if (lodash.indexOf(account.authorities, Authority.RM) >= 0) {
           this.dataSource.data = APPRAISAL_MENU_RM;
         } else if (lodash.indexOf(account.authorities, Authority.BM) >= 0) {
