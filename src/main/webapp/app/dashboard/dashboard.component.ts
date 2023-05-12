@@ -1,35 +1,28 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { ILoadedEventArgs, ChartTheme } from '@syncfusion/ej2-angular-charts';
 import { Browser } from '@syncfusion/ej2-base';
+import { AccountService } from 'app/core/auth/account.service';
+import { TemplateService } from 'app/layouts/template/template.service';
+import { LoginService } from 'app/login/login.service';
+import { SessionStorageService } from 'ngx-webstorage';
+import { TranslateService } from '@ngx-translate/core';
+import { EmployeeService } from 'app/entities/employee/employee.service';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { CustomMatMenu } from 'app/layouts/navbar/menu.model';
+import { Account } from 'app/core/auth/account.model';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { IEmployee } from 'app/entities/employee/employee.model';
 
 @Component({
   selector: 'jhi-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  styleUrls: ['./dashboard.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
   public primaryXAxis: Object;
   public chartData: Object[];
-  ngOnInit(): void {
-    this.chartData = [
-      { month: 'Jan', sales: 35, sales1: 28 },
-      { month: 'Feb', sales: 28, sales1: 35 },
-      { month: 'Mar', sales: 34, sales1: 32 },
-      { month: 'Apr', sales: 32, sales1: 34 },
-      { month: 'May', sales: 40, sales1: 32 },
-      { month: 'Jun', sales: 32, sales1: 40 },
-      { month: 'Jul', sales: 35, sales1: 55 },
-      { month: 'Aug', sales: 55, sales1: 35 },
-      { month: 'Sep', sales: 38, sales1: 30 },
-      { month: 'Oct', sales: 30, sales1: 38 },
-      { month: 'Nov', sales: 25, sales1: 32 },
-      { month: 'Dec', sales: 32, sales1: 25 },
-    ];
-    this.primaryXAxis = {
-      valueType: 'Category',
-    };
-  }
 
   public data: Object[] = [
     { x: new Date(2005, 0, 1), y: 21 },
@@ -94,7 +87,80 @@ export class DashboardComponent implements OnInit {
   }
   // custom code end
   public title: String = 'Inflation - Consumer Price';
-  constructor() {
+  public menuListItems: CustomMatMenu[] = [];
+  public positionListItems: CustomMatMenu[] = [];
+  public isLogin: Boolean = false;
+  public account: Account | null = null;
+
+  public loginName: string;
+  public lastLogin: string;
+  public positionIdPub: string;
+  public internalIdPub: string;
+  public positionName: string;
+  public internalName: string;
+  public isPositionMoreThan1 = false;
+  private cNamePos = 'POS';
+  private cNameInt = 'INT';
+  private durationInSecond: Number = 2;
+  protected horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  protected verticalPosition: MatSnackBarVerticalPosition = 'top';
+  public isAdministrator = false;
+  constructor(
+    private accountService: AccountService,
+    private loginService: LoginService,
+    private templateService: TemplateService,
+    private router: Router,
+    private sessionStorageService: SessionStorageService,
+    private translateService: TranslateService,
+    private employeeService: EmployeeService,
+    private _snackBar: MatSnackBar
+  ) {
     // code
+  }
+
+  ngOnInit(): void {
+    this.checkLogin();
+  }
+
+  private onError(errorMessage: string) {
+    this._snackBar.open(errorMessage, '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: this.durationInSecond.valueOf() * 1000,
+    });
+  }
+
+  private checkLogin(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.isLogin = true;
+
+        this.employeeService
+          .queryFilterBy({
+            page: 0,
+            query: 999,
+            eqLogin: account.login,
+            sort: ['id,desc'],
+          })
+          .subscribe({
+            next: (res: HttpResponse<IEmployee[]>) => this.setUpAcc(res, account),
+            error: (res: HttpErrorResponse) => this.onError(res.message),
+          });
+      }
+    });
+  }
+  private setUpAcc(res: any, account: any): void {
+    this.positionIdPub = '';
+    this.internalIdPub = '';
+
+    if (res.body.length < 1) {
+      this.loginName = 'First Name Last Name';
+    } else {
+      this.loginName = res.body[0].person.firstName + ' ' + res.body[0].person.lastName;
+    }
+
+    if (account.login === 'admin') {
+      this.isAdministrator = true;
+    }
   }
 }
