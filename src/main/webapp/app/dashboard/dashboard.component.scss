@@ -2,112 +2,23 @@
   display: none;
 }
 
-.dasboard-block {
-  background: rgba(245, 245, 245, 1);
-  height: auto;
-  width: auto;
+.pattern {
+  background-repeat: no-repeat;
 }
 
-.dasboard-block-alt {
-  background: rgba(49, 158, 152, 1);
-  height: auto;
-  width: auto;
+.greet {
+  align-content: center;
 }
 
-.greet-logo {
-  padding-left: 35px;
-  padding-top: 25px;
-  padding-bottom: 25px;
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
 }
 
-.greet-logo-person {
-  padding-right: 5px;
-  padding-bottom: 15px;
-  padding-top: 3px;
-  max-width: 100%;
-  height: auto;
-}
-
-.label-greet {
-  padding-top: 85px;
-  padding-left: 230px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 14px;
-  color: rgba(0, 136, 129, 1);
-  height: 16px;
-  line-height: 16px;
-  font-weight: 700;
-  display: inline-block;
-  position: fixed;
-}
-
-.label-greet-alt {
-  padding-top: 85px;
-  padding-left: 230px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 14px;
-  color: rgb(255, 255, 255);
-  height: 16px;
-  line-height: 16px;
-  font-weight: 700;
-  display: inline-block;
-  position: fixed;
-}
-
-.sub-label-greet {
-  padding-top: 115px;
-  padding-left: 230px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 24px;
-  color: rgba(0, 136, 129, 1);
-  height: 24px;
-  font-weight: 700;
-  line-height: 24px;
-  display: inline-block;
-  position: fixed;
-}
-
-.label-greet-logo {
-  padding-top: 65px;
-  padding-left: 342px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 14px;
-  color: rgba(0, 136, 129, 1);
-  height: 16px;
-  line-height: 16px;
-  font-weight: 700;
-  display: inline-block;
-  position: fixed;
-}
-
-.sub-label-greet-logo {
-  padding-top: 90px;
-  padding-left: 342px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 24px;
-  color: rgba(0, 136, 129, 1);
-  height: 24px;
-  font-weight: 700;
-  line-height: 24px;
-  display: inline-block;
-  position: fixed;
-}
-
-.sub-label-greet-alt {
-  padding-top: 115px;
-  padding-left: 230px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-size: 24px;
-  color: rgb(255, 255, 255);
-  height: 24px;
-  font-weight: 700;
-  line-height: 24px;
-  display: inline-block;
-  position: fixed;
+/* Clear floats after image containers */
+.row::after {
+  content: '';
+  clear: both;
+  display: table;
 }
