@@ -1,7 +1,7 @@
 import { ISidebarMenuModel } from './sidebar.model';
 export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
   {
-    name: 'Master',
+    name: 'Dashboard',
     iconname: 'house',
     children: [
       {
@@ -269,6 +269,20 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
       },
     ],
   },
+  // {
+  //   name: 'MIS Report',
+  //   iconname: 'file-lines',
+  //   route: '',
+  // },
+  // {
+  //   name: 'Configuration',
+  //   iconname: 'wrench',
+  //   route: 'application-option',
+  // },
+];
+
+// seperated config
+export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'MIS Report',
     iconname: 'file-lines',
@@ -370,7 +384,7 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
   {
-    name: 'Master',
+    name: 'Dashboard',
     iconname: 'house',
     children: [
       {
@@ -613,6 +627,20 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
       },
     ],
   },
+  // {
+  //   name: 'MIS Report',
+  //   iconname: 'file-lines',
+  //   route: '',
+  // },
+  // {
+  //   name: 'Configuration',
+  //   iconname: 'wrench',
+  //   route: 'application-option',
+  // },
+];
+
+// seperated config
+export const APPRAISAL_MENU_APPROVAL_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'MIS Report',
     iconname: 'file-lines',
@@ -737,7 +765,7 @@ export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
 
 export const MENU_MASTER: ISidebarMenuModel[] = [
   {
-    name: 'Master',
+    name: 'Dashboard',
     iconname: 'house',
     children: [
       {
@@ -813,6 +841,15 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
       },
     ],
   },
+  // {
+  //   name: 'Configuration',
+  //   iconname: 'wrench',
+  //   route: 'application-option',
+  // },
+];
+
+// seperated config
+export const MENU_MASTER_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'Configuration',
     iconname: 'wrench',
