@@ -34,7 +34,7 @@ export class MainFacilityDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCurrencyMeasure();
-    console.log('ini element ', this.mainFacility);
+    this.myControlCurrency.disable();
   }
 
   filteredCurrency() {

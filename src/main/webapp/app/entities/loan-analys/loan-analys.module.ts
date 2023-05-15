@@ -41,6 +41,7 @@ import { LoanAnalysFacilityDetailGridDarNotifComponent } from './dar-notif/loan-
 import { LoanAnalysFacilityDetaliMainComponent } from './dar-notif/loan-facility/loan-analys-facility-detali-main.component';
 import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MainFacilityDarComponent } from './dar-final/loan-facility/main-facility/main-facility-dar.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute), MatSlideToggleModule],
@@ -75,6 +76,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     // CreditProposalDeviationDarAboveComponent,
     LoanAnalysFacilityDetailGridDarNotifComponent,
     LoanAnalysFacilityDetaliMainComponent,
+    MainFacilityDarComponent,
   ],
   entryComponents: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
