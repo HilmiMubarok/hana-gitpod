@@ -148,7 +148,7 @@ export class NavbarComponent implements OnInit {
 		}
 
 		this.templateService.changePosInt(positionTypeId);
-		this.templateService.changePosIntObject(res.body[0].positions);
+		this.templateService.changePosIntObject(res.body[0].positions[0]);
 	  }
 	}
 
