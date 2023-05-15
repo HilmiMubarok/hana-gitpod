@@ -1,39 +1,22 @@
 <mat-toolbar>
   <span>
-    <a [routerLink]="['/dashboard']">
-      <img src="../../../content/images/cash_logo.png" style="max-width: 200px; width: 100%" />
-    </a>
+    <img src="../../../content/images/cash_logo.png" style="max-width: 200px; width: 100%" />
   </span>
   <button style="margin-left: 50px" mat-icon-button *ngIf="isLogin" (click)="toggleSidebar()">
     <mat-icon>dehaze</mat-icon>
   </button>
 
   <span class="spacer"></span>
-  <span>
-    <img src="../../../content/images/hana_bank_logo_navbar.png" style="max-width: 200px; width: 100%; margin-right: 120px" />
-  </span>
-  <span class="spacer"></span>
 
-  <section style="max-width: 26.67px; width: 100%; margin-left: 10px; margin-right: 10px">
-    <img id="avatar" src="../../../content/images/globe_icon.png" style="max-width: 60px; width: 100%" [matMenuTriggerFor]="language" />
-    <!-- <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
+  <section *ngIf="isLogin">
+    <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
     <section *ngIf="isAdministrator">
       <span style="font-size: 14px; line-height: 0.9cm">Last Login : {{ lastLogin }}</span>
     </section>
     <img *ngIf="!isAdministrator" src="" style="opacity: 0" />
     <section *ngIf="!isAdministrator" src="">
       <span style="font-size: 14px; line-height: 1px">Last Login : {{ lastLogin }}</span>
-    </section> -->
-  </section>
-
-  <section>
-    <section style="margin-top: 0px; size: 13px">
-      <span id="not-pointer">{{ loginName }}</span>
     </section>
-    <!-- <section style="margin-top: -10px">
-      <span *ngIf="!isPositionMoreThan1" id="not-pointer">{{ positionName }} - {{ internalName }}</span>
-      <span *ngIf="isPositionMoreThan1" id="pointer" [matMenuTriggerFor]="position">{{ positionName }} - {{ internalName }}</span>
-    </section> -->
   </section>
 
   <mat-menu #adminsitration="matMenu">
@@ -49,22 +32,22 @@
     <img
       id="avatar"
       src="../../../content/images/default_avatar_transp_small.png"
-      style="max-width: 27.67px; width: 100%"
+      style="max-width: 60px; width: 100%"
       [matMenuTriggerFor]="account"
     />
   </section>
-  <!-- <section>
-    <section style="margin-top: 0px">
+  <section>
+    <section style="margin-top: 10px">
       <span id="not-pointer">{{ loginName }}</span>
-    </section> -->
-  <!-- <section style="margin-top: -10px">
+    </section>
+    <section style="margin-top: -10px">
       <span *ngIf="!isPositionMoreThan1" id="not-pointer">{{ positionName }} - {{ internalName }}</span>
       <span *ngIf="isPositionMoreThan1" id="pointer" [matMenuTriggerFor]="position">{{ positionName }} - {{ internalName }}</span>
-    </section> -->
-  <!-- </section> -->
+    </section>
+  </section>
 
   <mat-menu #account="matMenu">
-    <!-- <button mat-menu-item [matMenuTriggerFor]="language">Language</button> -->
+    <button mat-menu-item [matMenuTriggerFor]="language">Language</button>
     <button *ngFor="let item of menuListItems" mat-menu-item (click)="item.fn()">
       {{ item.text }}
     </button>
