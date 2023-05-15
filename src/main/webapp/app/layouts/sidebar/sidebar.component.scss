@@ -83,8 +83,13 @@
   opacity: 0;
 }
 
+.label-dashboard {
+  font-size: 16px !important;
+}
+
 .label {
   font-size: 16px !important;
+  margin-left: 6px;
 }
 
 .sub-label {
@@ -92,6 +97,12 @@
   text-align: left;
   display: inline-block;
   position: fixed;
+  margin-left: 6px;
+}
+
+.label-config {
+  font-size: 16px !important;
+  margin-left: 4px;
 }
 
 /* /OVERRIDE ANGULAR MATERIAL */
