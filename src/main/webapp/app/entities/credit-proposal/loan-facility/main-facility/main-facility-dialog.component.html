@@ -10,8 +10,7 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Approval No</mat-label>
-              <input matInput type="text" [(ngModel)]="mainFacility.approvalNumber" />
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              <input matInput type="text" [(ngModel)]="mainFacility.approvalNumber" disabled />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -34,21 +33,18 @@
                               <mat-option value="">Please Select</mat-option>
                               <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
                             </mat-select> -->
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>?</mat-label>
-              <input matInput type="text" />
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              <input matInput type="text" disabled />
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Initial Limit</mat-label>
-              <input matInput type="text" />
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              <input matInput type="text" disabled />
             </mat-form-field>
           </div>
         </div>
@@ -56,10 +52,9 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Current maturity Date</mat-label>
-              <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" />
-              <mat-datepicker-toggle matSuffix [for]="currentMaturityDate"> </mat-datepicker-toggle>
+              <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="currentMaturityDate" disabled> </mat-datepicker-toggle>
               <mat-datepicker #currentMaturityDate></mat-datepicker>
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -74,14 +69,12 @@
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Changes</mat-label>
-              <input matInput type="text" [(ngModel)]="mainFacility.changes" />
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              <input matInput type="text" [(ngModel)]="mainFacility.changes" disabled />
             </mat-form-field>
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Total Plafond</mat-label>
-                <input matInput type="text" [(ngModel)]="mainFacility.totalPlafond" />
-                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+                <input matInput type="text" [(ngModel)]="mainFacility.totalPlafond" disabled />
               </mat-form-field>
             </div>
           </div>

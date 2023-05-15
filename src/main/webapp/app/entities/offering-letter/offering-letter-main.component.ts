@@ -70,6 +70,8 @@ export class OfferingLetterMainComponent implements OnInit {
   public dataOfferingSPPK = [];
   public isHistoryExist: boolean;
   public proposType = [];
+  private KEYG = 'credit_proposal/summary';
+
   @Input('item')
   get item() {
     return this.creditProposal;
@@ -468,13 +470,20 @@ export class OfferingLetterMainComponent implements OnInit {
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
+
+      if (this.id) {
+        this.KEYG += `/${this.id}/`;
+      } else {
+        console.warn('Param id not found');
+      }
+
       this.onRefresh();
     });
   }
 
   private onRefresh(): void {
     const obj = {
-      key: 'credit_proposal/summary/' + this.id,
+      key: this.KEYG,
     };
     this.storageService
       .getObjects(this.BUCKET, obj)

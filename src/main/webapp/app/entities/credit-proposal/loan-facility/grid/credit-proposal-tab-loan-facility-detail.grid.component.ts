@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ICreditProposal, CreditProposal } from '../../credit-proposal.model';
 import {
   IApplicationProduct,
@@ -28,7 +28,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
   templateUrl: './credit-proposal-tab-loan-facility-detail.grid.component.html',
   styleUrls: ['./loan.scss'],
 })
-export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit {
+export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit, OnChanges {
   public dataParty = [];
 
   @Input() isViewMode: Boolean = false;
@@ -42,6 +42,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this._creditProposal = item;
   }
 
+  public dataProduct: IApplicationProduct[];
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
   public collaterallInfo: any;
@@ -62,6 +63,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
 
   public displayColumns: string[] = [
     'no',
+    'approvalNo',
+    'facilityCategory',
     'applicationType',
     'facilityType',
     'subLimit',
@@ -101,6 +104,12 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     this.loading = false;
     this.visibleDialog = false;
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['creditProposal']) {
+      console.log('new cp', this.creditProposal);
+      this.dataProduct = this.creditProposal.products;
+    }
+  }
 
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
@@ -116,8 +125,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   ngOnInit(): void {
+    console.log('ini credit proposal loan ', this.creditProposal.products[0]);
     this.currency();
-    this.partyCifFunc();
+    // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
@@ -147,24 +157,25 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public getCurrency(element: IApplicationProduct) {
-    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+    if (element.provisionFeeType === 'Amount IDR') {
       return 'IDR';
     }
 
-    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+    if (element.provisionFeeType === 'Amount USD') {
       return 'USD';
     }
     return '';
   }
 
   public getCurrency2(element: IApplicationProduct) {
-    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+    if (element.provisionFeeType === '%p.a') {
       return '%p.a';
     }
     return '';
   }
+
   public currency() {
-    if (this.applicationProduct.attributes['currency'] !== 'IDR') {
+    if (this.applicationProduct.currencyId !== 'IDR') {
       const setDate = new Date().toISOString().split('T')[0];
       this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
         this.kurs = res.body[0]?.factor;
@@ -286,21 +297,21 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
         this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
       }
-      if (this.applicationProduct.attributes.commitedLine === 'true') {
-        this.applicationProduct.attributes.commitedLine = true;
-      } else if (this.applicationProduct.attributes.commitedLine === 'false') {
-        this.applicationProduct.attributes.commitedLine = false;
-      }
-      if (this.applicationProduct.attributes.subLimit === 'true') {
-        this.applicationProduct.attributes.subLimit = true;
-      } else if (this.applicationProduct.attributes.subLimit === 'false') {
-        this.applicationProduct.attributes.subLimit = false;
-      }
-      if (this.applicationProduct.attributes.restructuredStatus === 'true') {
-        this.applicationProduct.attributes.restructuredStatus = true;
-      } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
-        this.applicationProduct.attributes.restructuredStatus = false;
-      }
+      // if (this.applicationProduct.attributes.commitedLine === 'true') {
+      //   this.applicationProduct.attributes.commitedLine = true;
+      // } else if (this.applicationProduct.attributes.commitedLine === 'false') {
+      //   this.applicationProduct.attributes.commitedLine = false;
+      // }
+      // if (this.applicationProduct.attributes.subLimit === 'true') {
+      //   this.applicationProduct.attributes.subLimit = true;
+      // } else if (this.applicationProduct.attributes.subLimit === 'false') {
+      //   this.applicationProduct.attributes.subLimit = false;
+      // }
+      // if (this.applicationProduct.attributes.restructuredStatus === 'true') {
+      //   this.applicationProduct.attributes.restructuredStatus = true;
+      // } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
+      //   this.applicationProduct.attributes.restructuredStatus = false;
+      // }
     } else {
       this.applicationProduct = new ApplicationProduct();
       const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
@@ -308,16 +319,16 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         if (this.creditProposal.products.length > 0) {
           for (let i = 0; i < this.creditProposal.products.length; i++) {
             const nomorUrutFasilitasUnsorted = [];
-            nomorUrutFasilitasUnsorted.push(this.creditProposal.products[i].attributes['nomorUrutFasilitas']);
+            nomorUrutFasilitasUnsorted.push(this.creditProposal.products[i].nomorUrutFasilitas);
             const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b ? 1 : -1));
             if (nomorUrutFasilitasSorted) {
               if (nomorUrutFasilitasSorted.length > 0) {
-                attr.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
+                this.applicationProduct.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
               }
             }
           }
         } else if (this.creditProposal.products.length === 0) {
-          attr.nomorUrutFasilitas = 1;
+          this.applicationProduct.nomorUrutFasilitas = 1;
         }
       }
       this.applicationProduct.attributes = attr;
@@ -354,7 +365,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
         if (this.creditProposal.products.length) {
           for (let i = 0; i < this.creditProposal.products.length; i++) {
             if (appProduct) {
-              if (this.creditProposal.products[i].attributes['nomorUrutFasilitas'] === appProduct['attributes']['nomorUrutFasilitas']) {
+              if (this.creditProposal.products[i].nomorUrutFasilitas === appProduct.nomorUrutFasilitas) {
                 idx = i;
               }
             }
@@ -365,42 +376,44 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
       if (idx === -1) {
         if (mark) {
           let isAlready2StepVerification = false;
-          this.dataParty.forEach(dP => {
-            if (dP.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas) {
+          this.dataProduct.forEach(dP => {
+            if (dP.nomorUrutFasilitas === appProduct.nomorUrutFasilitas) {
               isAlready2StepVerification = true;
             }
           });
 
           if (isAlready2StepVerification) {
-            idx = lodash.findIndex(this.dataParty, function (o) {
-              return o.attributes.nomorUrutFasilitas === appProduct.attributes.nomorUrutFasilitas;
+            idx = lodash.findIndex(this.dataProduct, function (o) {
+              return o.nomorUrutFasilitas === appProduct.nomorUrutFasilitas;
             });
             this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-            this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-            this.dataParty = [...this.dataParty];
+            this.dataProduct[idx] = mark ? appProduct : this.applicationProductStartState;
+            this.dataProduct = [...this.dataProduct];
           } else {
             const copyApplicationProduct: IApplicationProduct = Object.assign({}, this.applicationProduct);
             copyApplicationProduct.applicationId = this.creditProposal.id;
 
-            this.dataParty = [...this.dataParty, copyApplicationProduct];
+            this.dataProduct = [...this.dataProduct, copyApplicationProduct];
             this.creditProposal.products = [...this.creditProposal.products, copyApplicationProduct];
 
             // this.dataParty = [...this.dataParty, this.applicationProduct];
             // this.creditProposal.products = [...this.creditProposal.products, this.applicationProduct];
           }
         }
-      } else {
-        this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-        this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-        this.dataParty = [...this.dataParty];
       }
+
+      // else {
+      //   this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
+      //   this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
+      //   this.dataParty = [...this.dataParty];
+      // }
     } else {
       idx = lodash.findIndex(this.creditProposal.products, function (o) {
         return o.id === appProduct.id;
       });
       this.creditProposal.products[idx] = mark ? appProduct : this.applicationProductStartState;
-      this.dataParty[idx] = mark ? appProduct : this.applicationProductStartState;
-      this.dataParty = [...this.dataParty];
+      this.dataProduct[idx] = mark ? appProduct : this.applicationProductStartState;
+      this.dataProduct = [...this.dataProduct];
     }
   }
   // Delete Confirmation
@@ -414,11 +427,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        const dataGrid = this.creditProposal.products.filter(
-          ({ attributes }) => attributes['nomorUrutFasilitas'] !== element.attributes['nomorUrutFasilitas']
-        );
-        this.dataParty = dataGrid;
-        this.creditProposal.products = this.dataParty;
+        const dataGrid = this.creditProposal.products.filter(obj => obj.nomorUrutFasilitas !== element.nomorUrutFasilitas);
+        this.dataProduct = dataGrid;
+        this.creditProposal.products = this.dataProduct;
       }
     });
   }
@@ -436,18 +447,18 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit 
   }
 
   public printElement(element) {
-    let subLimit: string;
-    subLimit = '';
+    let sublimit: string;
+    sublimit = '';
     if (element === true || element === 'true') {
-      subLimit = 'Yes';
+      sublimit = 'Yes';
     } else if (element === false || element === 'false') {
-      subLimit = 'No';
+      sublimit = 'No';
     }
-    return subLimit;
+    return sublimit;
   }
 
   public hiddenButton(element: IApplicationProduct) {
-    if (element.attributes.hobbies === true || element.attributes.hobbies === 'true') {
+    if (element.hobis === true) {
       return true;
     } else if (this.view) {
       return true;

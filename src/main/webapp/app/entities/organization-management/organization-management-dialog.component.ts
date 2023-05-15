@@ -5,6 +5,8 @@ import { GeneralParameterService } from '../master-parameter/general-parameter/g
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { IOrganizationManagement } from './organization-management.model';
 import lodash from 'lodash';
+import { IPartyGroup } from '../party-group/party-group.model';
+
 @Component({
   selector: 'jhi-organization-management-dialog',
   templateUrl: './organization-management-dialog.component.html',
@@ -22,6 +24,9 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public pepStatus: any;
   public posManagement: any;
   public typeSable: string;
+  public customerType = 'individu';
+  public partyGroup: IPartyGroup;
+  public isDisabled = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -45,6 +50,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.setPep();
     this.setPosition();
     // this.closes();
+    this.setRadioButton();
   }
 
   public dataSource() {
@@ -65,7 +71,20 @@ export class OrganizationManagementDialogComponent implements OnInit {
     return false;
   }
 
+  public SetNullObject = null;
+
   public save(): void {
+    if (this.customerType === 'individu') {
+      if (this.organizationManagement.shareHolderOrg !== null) {
+        this.organizationManagement.shareHolderOrg = this.SetNullObject;
+        this._dialog.close(this.organizationManagement);
+      }
+    } else if (this.customerType === 'corporate') {
+      if (this.organizationManagement.person !== null) {
+        this.organizationManagement.person = this.SetNullObject;
+        this._dialog.close(this.organizationManagement);
+      }
+    }
     this._dialog.close(this.organizationManagement);
   }
   public closes() {
@@ -110,5 +129,19 @@ export class OrganizationManagementDialogComponent implements OnInit {
           return o.statusId === 'ACTIVE';
         });
       });
+  }
+
+  public onChange(event: string) {
+    this.organizationManagement.attributes['customerType'] = event;
+  }
+
+  public setRadioButton() {
+    this.customerType = this.organizationManagement.attributes['customerType'];
+    if (this.organizationManagement.person.partyTypeId === 'PERSON' && this.customerType) {
+      this.isDisabled = true;
+    }
+    if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
+      this.isDisabled = true;
+    }
   }
 }

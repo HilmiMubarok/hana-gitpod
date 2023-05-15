@@ -64,16 +64,13 @@
     <e-columns>
       <e-column field="id" headerText="" textAlign="Left">
         <ng-template #template let-data>
-          <ejs-checkbox (change)="onChecked($event, data)"></ejs-checkbox>
+          <ejs-checkbox (change)="onChecked($event, data)" [disabled]="statusCheckedGroupFromColl"></ejs-checkbox>
         </ng-template>
       </e-column>
       <e-column field="indexNum" headerText="No" textAlign="Left"></e-column>
       <e-column field="collateralTypeDescription" headerText="Jenis Detail Jaminan" textAlign="Right"></e-column>
       <e-column field="collateralAddress.address1" headerText="Alamat Jaminan" textAlign="Left"></e-column>
       <e-column field="collateralAddress.cityName" headerText="Kota" textAlign="Left"></e-column>
-      <!--<e-column field="" headerText="Jenis Object" textAlign="Left"></e-column>
-      <e-column field="" headerText="Jenis Permohonan" textAlign="Left"></e-column>
-      <e-column field="" headerText="Tipe Officer Appraisal" textAlign="Left"></e-column>-->
       <e-column headerText="Action" width="150" textAlign="Center">
         <ng-template #template let-data>
           <div (click)="onDetailClick('collateral', data)">
@@ -84,7 +81,21 @@
     </e-columns>
   </ejs-grid>
 </div>
-
+<div class="e-card-content">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-sub-title">Group Collateral</div>
+    </div>
+  </div>
+  <jhi-group-collateral-list-appraisal
+    (outputGetsCifs)="getCifsFromChild($event)"
+    (outputGroupDatas)="getDataGroup($event)"
+    (outputgroupListselected)="getCollateralChecklist($event)"
+    [isCheckDebCol]="isCheckDebCol"
+    [cifNumber]="cifNumber"
+  >
+  </jhi-group-collateral-list-appraisal>
+</div>
 <div class="e-card-content">
   <div class="e-card-header-caption">
     <div class="e-card-sub-title">Appraisal Officer Type</div>

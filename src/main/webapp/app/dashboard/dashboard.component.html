@@ -1,27 +1,25 @@
-<mat-card>
+<!-- <mat-card>
   <mat-card-header>
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <div class="e-card-header-title">Credit Approval System of Hana Bank</div>
-        <mat-card-subtitle>Version 1.0.19</mat-card-subtitle>
+        <mat-card-subtitle>Version 1.0.21</mat-card-subtitle>
       </div>
     </div>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content class="dasboard-block">
     <div class="row">
-      <div class="col-md-6 p-3">
+      <div>
         <mat-card>
-          <mat-card-header>
-            <mat-card-title>Chart 1</mat-card-title>
-            <mat-card-subtitle>Description Chart 1</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <ejs-chart id="chart-container" [primaryXAxis]="primaryXAxis" [dataSource]="chartData">
-              <e-series-collection>
-                <e-series type="Column" xName="month" yName="sales" name="Sales"></e-series>
-                <e-series type="Column" xName="month" yName="sales1" name="Sales"></e-series>
-              </e-series-collection>
-            </ejs-chart>
+          <mat-card-header> </mat-card-header>
+          <mat-card-content class="dasboard-block">
+            <span>
+              <span>
+                <img class="greet-logo" src="../../../content/images/hana-greet-card.png" style="max-width: 200px; width: 100%" />
+                <label class="label-greet">Welcome, {{ loginName }} ! </label>
+                <label class="sub-label-greet"> TEXT TEXT TEXT TEXT</label>
+              </span>
+            </span>
           </mat-card-content>
         </mat-card>
       </div>
@@ -52,4 +50,45 @@
       </div>
     </div>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+<!-- 
+<mat-card>
+  <mat-card-content class="dasboard-block">
+    <div class="dasboard-block">
+      <div>
+        <mat-card>
+          <mat-card-content class="dasboard-block">
+            <span>
+              <span>
+                <section>
+                  <img
+                    class="pattern"
+                    src="../../../content/images/dashboard_pattern.png"
+                    style="max-width: 234px; width: 100%; max-height: 820.62px; height: 100%; margin-left: 85%"
+                  />
+                </section>
+              </span>
+            </span>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card> -->
+
+<div class="row">
+  <div class="column">
+    <img
+      class="greet"
+      src="../../../content/images/greet_person_dashboard.png"
+      style="max-width: 417px; width: 100%; max-height: 590.85px; height: 100%; margin-left: 82%"
+    />
+  </div>
+  <div class="column">
+    <img
+      class="pattern"
+      src="../../../content/images/dashboard_pattern.png"
+      style="max-width: 234px; width: 100%; max-height: 820.62px; height: 100%; margin-left: 155%"
+    />
+  </div>
+</div>

@@ -5,36 +5,67 @@
 <h2 *ngIf="this.data.organizationManagement.id === undefined" mat-dialog-title>ADD ORGANIZATION MANAGEMENT</h2>
 <h2 *ngIf="this.data.organizationManagement.id !== undefined" mat-dialog-title>EDIT ORGANIZATION MANAGEMENT</h2>
 <mat-dialog-content>
-  <mat-card>
-    <mat-card-header>
-      <div *ngIf="organizationManagement.person">
+  <mat-card-header>
+    <div>
+      <div *ngIf="customerType === 'individu' || managementType === 'MANAGEMENT_DATA'">
         <mat-card-subtitle>Person Info</mat-card-subtitle>
       </div>
-      <div *ngIf="!organizationManagement.person">
+    </div>
+    <div>
+      <div *ngIf="customerType === 'corporate'">
         <mat-card-subtitle>Organization Info</mat-card-subtitle>
       </div>
-    </mat-card-header>
+    </div>
+  </mat-card-header>
+  <mat-card>
+    <div class="form-group" *ngIf="managementType === 'SHAREHOLDER' || managementType === 'CONTROL_PERSON'">
+      <section class="py-3 mb-4">
+        <div class="row">
+          <div class="row">
+            <mat-radio-group
+              aria-label="Customer Type"
+              name="radioButtons"
+              [(ngModel)]="customerType"
+              (change)="onChange($event.value)"
+              [disabled]="isDisabled"
+            >
+              <mat-radio-button [value]="'individu'">Individu</mat-radio-button>
+              <mat-radio-button [value]="'corporate'">Corporate</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <mat-card-content>
-      <ng-container *ngIf="organizationManagement.person">
-        <!-- <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person"  [spouse]="'spouse'" mode="edit">
-        </jhi-party-cif-customer-info-person> -->
-        <jhi-party-cif-customer-management
-          [managementType]="managementType"
-          [organization]="organizationManagement"
-          [person]="organizationManagement.person"
-          [type]="typeSable"
-          mode="edit"
-        ></jhi-party-cif-customer-management>
-      </ng-container>
-      <ng-container *ngIf="!organizationManagement.person">
-        <jhi-party-cif-customer-info-party-group
-          [organization]="organizationManagement"
-          [partyGroup]="organizationManagement.shareHolderOrg"
-          mode="edit"
-          [type]="typeSable"
-        >
-        </jhi-party-cif-customer-info-party-group>
-      </ng-container>
+      <!-- <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person"  [spouse]="'spouse'" mode="edit">
+      </jhi-party-cif-customer-info-person> -->
+      <div *ngIf="customerType === 'individu' || managementType === 'MANAGEMENT_DATA'">
+        <div *ngIf="organizationManagement.person">
+          <jhi-party-cif-customer-management
+            [managementType]="managementType"
+            [organization]="organizationManagement"
+            [person]="organizationManagement.person"
+            [type]="typeSable"
+            mode="edit"
+          ></jhi-party-cif-customer-management>
+        </div>
+        <!-- <ng-container *ngIf="organizationManagement.person"> -->
+        <!-- </ng-container> -->
+      </div>
+      <div *ngIf="customerType === 'corporate'">
+        <div *ngIf="organizationManagement.shareHolderOrg">
+          <jhi-party-cif-customer-info-party-group
+            [organization]="organizationManagement"
+            [partyGroup]="organizationManagement.shareHolderOrg"
+            mode="edit"
+            [type]="typeSable"
+          >
+          </jhi-party-cif-customer-info-party-group>
+        </div>
+        <!-- <ng-container ng-container *ngIf="!organizationManagement.person" > -->
+        <!-- </ng-container> -->
+      </div>
     </mat-card-content>
   </mat-card>
   <mat-card class="mt-5">
