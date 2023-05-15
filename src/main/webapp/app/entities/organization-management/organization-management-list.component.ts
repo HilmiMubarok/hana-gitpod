@@ -171,7 +171,7 @@ export class OrganizationManagementListComponent
       width: '40vw',
       data: {
         title: 'Delete Management / Shareholder',
-        message: 'Are you sure to delete ' + element.person.name + ' ?',
+        message: 'Are you sure to delete ' + element.person?.name || element.shareHolderOrg?.name + ' ?',
       },
     });
     dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {

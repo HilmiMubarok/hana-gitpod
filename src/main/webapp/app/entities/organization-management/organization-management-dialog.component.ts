@@ -24,7 +24,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public pepStatus: any;
   public posManagement: any;
   public typeSable: string;
-  public customerType: string;
+  public customerType = 'individu';
   public partyGroup: IPartyGroup;
   public isDisabled = false;
 
@@ -50,6 +50,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.setPep();
     this.setPosition();
     // this.closes();
+    this.setRadioButton();
   }
 
   public dataSource() {
@@ -70,7 +71,20 @@ export class OrganizationManagementDialogComponent implements OnInit {
     return false;
   }
 
+  public SetNullObject = null;
+
   public save(): void {
+    if (this.customerType === 'individu') {
+      if (this.organizationManagement.shareHolderOrg !== null) {
+        this.organizationManagement.shareHolderOrg = this.SetNullObject;
+        this._dialog.close(this.organizationManagement);
+      }
+    } else if (this.customerType === 'corporate') {
+      if (this.organizationManagement.person !== null) {
+        this.organizationManagement.person = this.SetNullObject;
+        this._dialog.close(this.organizationManagement);
+      }
+    }
     this._dialog.close(this.organizationManagement);
   }
   public closes() {
@@ -118,8 +132,16 @@ export class OrganizationManagementDialogComponent implements OnInit {
   }
 
   public onChange(event: string) {
-    if (this.customerType === event) {
-      this.organizationManagement.attributes['customerType'] = event;
+    this.organizationManagement.attributes['customerType'] = event;
+  }
+
+  public setRadioButton() {
+    this.customerType = this.organizationManagement.attributes['customerType'];
+    if (this.organizationManagement.person.partyTypeId === 'PERSON' && this.customerType) {
+      this.isDisabled = true;
+    }
+    if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
+      this.isDisabled = true;
     }
   }
 }
