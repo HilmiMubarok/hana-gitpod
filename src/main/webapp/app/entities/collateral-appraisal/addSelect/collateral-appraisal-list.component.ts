@@ -34,6 +34,7 @@ import { IPartyGroup } from 'app/entities/party-group/party-group.model';
 import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { LoginService } from 'app/login/login.service';
+import { CollateralAppraisalsAppraiseService } from '../collateral-appraisal-process-appraise.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-list',
@@ -77,6 +78,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public dataGroupCollateral?: ICollateral[] = [];
   public collateralsDataGroup?: any[];
   getsCif: IPartyCif[];
+  test: any;
+  errors: any;
   constructor(
     public dialog: MatDialog,
     protected router: Router,
@@ -90,7 +93,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     protected accountService: AccountService,
     protected cashCollateralService: CashCollateralService,
     protected loginService: LoginService,
-    protected cashSurveyAppraisalService: CashSurveyAppraisalsService
+    protected cashSurveyAppraisalService: CashSurveyAppraisalsService,
+    protected collateralAppraisalsAppraiseService: CollateralAppraisalsAppraiseService
   ) {
     super(_snackBar, partyCifService);
     this.postalAddress = new PostalAddress();
@@ -369,59 +373,75 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           for (let i = 0; i < this.statusChecked.length; i++) {
             this.InternalExternal.push(this.statusChecked[i]);
           }
-
+          const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
           for (let e = 0; e < this.statusChecked.length; e++) {
-            const surveyAppraisal: ISurveyAppraisals = lodash.clone(this.surveyAppraisalTemplate);
             for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
               for (let j = 0; j < this.getsCif.length; j++) {
-                for (let z = 0; z < this.selectedPartyCif.collaterals.length; z++) {
-                  if (this.selectedPartyCif.customerNumber === this.dataSelectedCheckbox[i].accountCustCif) {
-                    if (this.selectedPartyCif.customerType === 'PERSONAL') {
-                      surveyAppraisal.partyId = this.selectedPartyCif.customerPerson.id;
-                    } else {
-                      surveyAppraisal.partyId = this.selectedPartyCif.customerOrganization.id;
-                    }
-                  } else if (this.selectedPartyCif.collaterals[z].id === this.dataSelectedCheckbox[i].id) {
-                    if (this.selectedPartyCif.customerType === 'PERSONAL') {
-                      surveyAppraisal.partyId = this.selectedPartyCif.customerPerson.id;
-                    } else {
-                      surveyAppraisal.partyId = this.selectedPartyCif.customerOrganization.id;
-                    }
+                if (this.selectedPartyCif) {
+                  if (this.selectedPartyCif.customerType === 'PERSONAL') {
+                    surveyAppraisal.partyId = this.selectedPartyCif.customerPerson.id;
+                    surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+                    surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
                   } else {
-                    if (this.dataSelectedCheckbox[i].accountCustCif === this.getsCif[j].customerCIF) {
-                      if (this.getsCif[j].customerType === 'PERSONAL') {
-                        surveyAppraisal.partyId = this.getsCif[j].customerPartyId;
-                      } else {
-                        surveyAppraisal.partyId = this.getsCif[j].customerPartyId;
-                      }
+                    surveyAppraisal.partyId = this.selectedPartyCif.customerOrganization.id;
+                    surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+                    surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+                  }
+                } else {
+                  if (this.dataSelectedCheckbox[i].partyId === this.getsCif[j].customerPartyId) {
+                    if (this.getsCif[j].customerType === 'PERSONAL') {
+                      surveyAppraisal.partyId = this.getsCif[j].customerPartyId;
+                      surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+                      surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+                    } else {
+                      surveyAppraisal.partyId = this.getsCif[j].customerPartyId;
+                      surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
+                      surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
                     }
                   }
                 }
               }
-
-              surveyAppraisal.internalId = this.internalIdLocStor;
-              surveyAppraisal.applicationId = null;
-              surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
-              surveyAppraisal.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
-              surveyAppraisal.apprOfficer = this.InternalExternal[e];
-
-              console.log(this.selectedPartyCif);
-              console.log(this.dataSelectedCheckbox);
-              console.log(this.getsCif);
-              // console.log(createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal)))
-              createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
             }
-            //  console.log(createSurveyAppraisalPromises.push(surveyAppraisal))
+            surveyAppraisal.internalId = this.internalIdLocStor;
+            surveyAppraisal.applicationId = null;
+
+            surveyAppraisal.apprOfficer = this.InternalExternal[e];
+
+            // createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+            // createSurveyAppraisalPromises.push(surveyAppraisal);
+            // this.validateAppraisel(this.dataSelectedCheckbox);
+            // console.log(this.validateAppraisel(this.dataSelectedCheckbox));
+            // if (this.test === 500) {
+            //   this.messageService.add({
+            //     severity: 'warn',
+            //     summary: 'Warning',
+            //     detail:
+            //       'Maaf, data CIF ini berjalan.',
+            //   });
+            // } else {
+            //   if (this.test === 200) {
+            createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
           }
-          console.log('createSurveyAppraisalPromises', createSurveyAppraisalPromises);
-          // Promise.all(createSurveyAppraisalPromises).then(results => {
-          //   this.router.navigate(['./collateral-appraisal']);
-          // });
+
+          // console.log('createSurveyAppraisalPromises', createSurveyAppraisalPromises);
+          Promise.all(createSurveyAppraisalPromises).then(results => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
+          //   }
+          // }
+          // }
+          // }
         }
       }
     }
   }
 
+  public validateAppraisel(collateral: ICollateral[]): void {
+    this.collateralAppraisalsAppraiseService.validateAppraise(collateral).subscribe(res => {
+      this.test = res.status;
+      console.log('srre', this.test);
+    });
+  }
   private logout(): void {
     this.loginService.logout();
     this.router.navigate(['']);
