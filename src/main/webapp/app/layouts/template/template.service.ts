@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+import { PositionService } from 'app/entities/position/position.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,7 +19,7 @@ export class TemplateService {
   private triggerChanggedPosIntObject = new BehaviorSubject<string>(this.changgedPosIntObject);
   public triggerChanggedPosIntObjectObservable = this.triggerChanggedPosIntObject.asObservable();
 
-  constructor() {
+  constructor(private positionService: PositionService) {
     this.sidebarStateChanged$.next('open');
   }
 
@@ -41,7 +43,7 @@ export class TemplateService {
     return result;
   } */
 
-  private getPos(posId: number): void {
+  private getPos(posId: string): void {
 	// this.positionService.find(this.getLocStor('POS')).subscribe(res => {
 	this.positionService.find(posId).subscribe(res => {
 	  this.changgedPosIntObject = res.body.positionTypeId;

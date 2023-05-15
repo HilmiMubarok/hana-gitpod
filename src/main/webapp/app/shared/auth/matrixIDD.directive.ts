@@ -83,7 +83,7 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.viewContainerRef.clear();
 	this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: string) => {
-      this.positionTypeId = res.body.positionTypeId;
+      this.positionTypeId = newPos;
 	  this.checkAccess();
     });
 	// this.getPositionTypeId();
