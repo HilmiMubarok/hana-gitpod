@@ -16,11 +16,6 @@ table {
 tr.example-detail-row {
   height: 0;
 }
-.mat-card-subtitle {
-  font-size: 24px;
-  font-weight: 500;
-  color: #008881;
-}
 
 tr.example-element-row:not(.example-expanded-row):hover {
   background: whitesmoke;

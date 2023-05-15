@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IPartyPostalAddress, PartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { IStateBoundary, StateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -11,7 +12,7 @@ import { GEO_BOUNDARY_TYPE } from 'app/shared/constants/base.constants';
   templateUrl: './party-cif-customer-info-postal-address.component.html',
   styleUrls: ['../party-cif.style.scss'],
 })
-export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> {
+export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityViewPageComponent<IPartyPostalAddress> implements OnInit {
   public country: IStateBoundary[];
   public provinces: IStateBoundary[];
   public districts: IStateBoundary[];
@@ -19,9 +20,24 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
   public cities: IStateBoundary[];
 
   private _partyPostalAddresses = new PartyPostalAddress();
+  public _creditProposal: ICreditProposal = new CreditProposal();
+  private id: number;
+  public url: string;
+
+  public parentPath = this.router.url.split('/')[1];
+  public activeRoute: string;
 
   @Input()
   public disabled: Boolean = false;
+
+  @Input()
+  get creditProposal() {
+    return this._creditProposal;
+  }
+
+  set creditProposal(data: ICreditProposal) {
+    this._creditProposal = data;
+  }
 
   @Input()
   get partyPostalAddress() {
@@ -38,15 +54,28 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
     this.loadVillage(this._partyPostalAddresses.address.districtId);
   }
 
-  constructor(protected activatedRoute: ActivatedRoute, private stateBoundaryService: StateBoundaryService) {
+  constructor(protected activatedRoute: ActivatedRoute, private stateBoundaryService: StateBoundaryService, protected router: Router) {
     super();
+    this.creditProposal = this.activatedRoute.snapshot.data['content'];
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params['id'];
+    });
+    this.activeRoute = this.router.url.replace(/\//g, '');
+
+    this.url = this.parentPath;
     this.country = [];
     this.provinces = [];
     this.cities = [];
     this.districts = [];
     this.villages = [];
   }
+  ngOnInit(): void {
+    this.RouteLink();
+  }
 
+  public RouteLink(): void {
+    console.log('router', this.parentPath);
+  }
   public findStateBoundary(id: number, param: IStateBoundary[]): IStateBoundary {
     if (param.length > 0) {
       for (let i = 0; i < param.length; i++) {
