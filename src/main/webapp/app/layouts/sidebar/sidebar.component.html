@@ -1,5 +1,19 @@
 <div class="sidebar_menu" [@onSideNavChange]="sidebarState">
   <mat-nav-list class="menu-list">
+    <mat-tree [dataSource]="dataSourceDashboard" [treeControl]="treeControlDashboard">
+      <mat-tree-node
+        class="menu-list"
+        *matTreeNodeDef="let node"
+        matTreeNodePadding
+        (click)="selectedNode()"
+        [ngClass]="getClassActive(node.route)"
+      >
+        <a routerLink="{{ node.route }}" routerLinkActive="active">
+          <span class="icon" [@iconAnimation]="sidebarState"><fa-icon [icon]="node.iconname"></fa-icon></span>
+          <span class="label-dashboard" [@labelAnimation]="sidebarState">{{ node.name }}</span>
+        </a>
+      </mat-tree-node></mat-tree
+    >
     <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl">
       <mat-tree-node
         class="menu-list"

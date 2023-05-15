@@ -42,6 +42,7 @@ import {
   MENU_MASTER,
   APPRAISAL_MENU_ADMIN_CONFIG,
   MENU_MASTER_CONFIG,
+  DASHBOARD,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 import { LoginService } from 'app/login/login.service';
@@ -61,6 +62,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   private treeData: ISidebarMenuModel[];
   public userRole: string;
 
+  public treeControlDashboard = new FlatTreeControl<FlatNode>(
+    node => node.level,
+    node => node.expandable
+  );
+
   public treeControl = new FlatTreeControl<FlatNode>(
     node => node.level,
     node => node.expandable
@@ -69,6 +75,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public treeControlConfig = new FlatTreeControl<FlatNode>(
     node => node.level,
     node => node.expandable
+  );
+
+  public treeFlattenerDashboard = new MatTreeFlattener(
+    this.transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children
   );
 
   public treeFlattener = new MatTreeFlattener(
@@ -85,6 +98,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     node => node.children
   );
 
+  public dataSourceDashboard: any = new MatTreeFlatDataSource(this.treeControlDashboard, this.treeFlattenerDashboard);
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   public dataSourceConfig: any = new MatTreeFlatDataSource(this.treeControlConfig, this.treeFlattenerConfig);
 
@@ -94,7 +108,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     if (newPosSet !== 'Empty') {
       this.accountService.identity().subscribe(account => {
         if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
+          this.dataSourceDashboard.data = DASHBOARD;
           this.dataSource.data = APPRAISAL_MENU_ADMIN;
+          this.dataSourceConfig.data = APPRAISAL_MENU_ADMIN_CONFIG;
         } else if (lodash.indexOf(account.authorities, Authority.ADMIN) < 1) {
           if (newPosSet === 'MASTER_ADMIN') {
             this.dataSource.data = MENU_MASTER;

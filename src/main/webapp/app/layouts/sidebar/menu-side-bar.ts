@@ -1,7 +1,16 @@
 import { ISidebarMenuModel } from './sidebar.model';
-export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
+
+// Dashboard
+export const DASHBOARD: ISidebarMenuModel[] = [
   {
     name: 'Dashboard',
+    iconname: 'house',
+    route: 'dashboard',
+  },
+];
+export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
+  {
+    name: 'Master',
     iconname: 'house',
     children: [
       {
@@ -384,7 +393,7 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
   {
-    name: 'Dashboard',
+    name: 'Master',
     iconname: 'house',
     children: [
       {
@@ -765,7 +774,7 @@ export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
 
 export const MENU_MASTER: ISidebarMenuModel[] = [
   {
-    name: 'Dashboard',
+    name: 'Master',
     iconname: 'house',
     children: [
       {
