@@ -10,6 +10,7 @@ import { MasterLovParameterDialogComponent } from './master-lov-parameter-dialog
 @Component({
   selector: 'jhi-master-lov-parameter',
   templateUrl: './master-lov-parameter.component.html',
+  styleUrls: ['./master-lov-parameter.css'],
 })
 export class MasterLovParameterComponent extends AbstractEntityMaterialComponent<IGeneralParameter> implements OnInit {
   public displayColumns: string[] = ['no', 'code', 'value', 'status', 'action'];
