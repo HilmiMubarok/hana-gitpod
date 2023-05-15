@@ -278,19 +278,20 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
-    this.ccy = this.data.applicationProduct.attributes['currency'];
-    this.rateType = this.data.applicationProduct.attributes['interestRateType'];
-    this.dateIndex = this.data.applicationProduct.attributes['interestRatePeriod'];
+    this.ccy = this.data.applicationProduct.currencyId;
+    this.rateType = this.data.applicationProduct.rateTypeName;
+    this.dateIndex = this.data.applicationProduct.intResetFrequency;
     this.indexRateServiceFun();
   }
 
   ngOnInit(): void {
+    console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();
-    this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.attributes['sublimitFromExistingFacility']);
+    this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.sublimitFromExistingFacility);
 
-    this.disableButtonChange(this.applicationProduct.attributes['facilityType']);
-    this.chnageCurrency(this.applicationProduct.attributes['currency']);
+    this.disableButtonChange(this.applicationProduct.productTypeId);
+    this.chnageCurrency(this.applicationProduct.currencyId);
 
     this.conditionFieldInOfferingLetter();
     this.getApplicationOption();
@@ -330,6 +331,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   indexRateServiceFun() {
+    if (!this.rateType) {
+      this.rateType = '';
+    }
     if (this.rateType === 'FIXED') {
       if (this.ccy !== '') {
         this.indexRateService.find('get?&ccy=' + this.ccy + '&rateType=FIXED').subscribe((res: any) => {
@@ -343,13 +347,14 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else {
       const dateNew = new Date().toISOString().split('T')[0];
       if (this.rateType !== '' && this.ccy !== '' && dateNew) {
+        console.log('ini rate type ', this.rateType);
         this.indexRateService
           .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
           .subscribe((res: any) => {
             for (let i = 1; i < 13; i++) {
               if (i === this.dateIndex) {
                 this.indexRate = res.body['rate' + i + 'M'] + '%';
-                this.applicationProduct.attributes.indexRate = this.indexRate;
+                this.applicationProduct.indexRateStr = this.indexRate;
               }
             }
           });
@@ -384,21 +389,20 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public calTotalPlafond(): number {
-    this.applicationProduct.attributes.totalPlafond =
-      Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
-    return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
+    this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
+    return Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
   }
 
   public getLovSublimit() {
     for (let i = 0; i < this.creditProposalData.products.length; i++) {
-      if (this.creditProposalData.products[i].attributes.facilityType !== '') {
+      if (this.creditProposalData.products[i].productTypeId !== '') {
         this.lovSublimit.push({
-          label: this.creditProposalData.products[i].attributes.facilityType,
-          index: this.creditProposalData.products[i].attributes.nomorUrutFasilitas,
+          label: this.creditProposalData.products[i].productTypeId,
+          index: this.creditProposalData.products[i].nomorUrutFasilitas,
         });
-        const result = this.labelSublimit.find(obj => obj === this.creditProposalData.products[i].attributes.facilityType);
+        const result = this.labelSublimit.find(obj => obj === this.creditProposalData.products[i].productTypeId);
         if (result === undefined) {
-          this.labelSublimit.push(this.creditProposalData.products[i].attributes.facilityType);
+          this.labelSublimit.push(this.creditProposalData.products[i].productTypeId);
         }
       }
     }
@@ -409,13 +413,13 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public changeSublimit(event) {
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === event);
-    this.applicationProduct.attributes['indexFacilityMain'] = this.lovIndex[0].index;
+    this.applicationProduct.indexFacilityMain = this.lovIndex[0].index;
   }
 
   public changeSublimitCheck() {
-    if (this.applicationProduct.attributes['subLimit'] === false) {
-      this.applicationProduct.attributes['sublimitFromExistingFacility'] = '';
-      this.applicationProduct.attributes['indexFacilityMain'] = '';
+    if (this.applicationProduct.sublimit === false) {
+      this.applicationProduct.sublimitFromExistingFacility = '';
+      this.applicationProduct.indexFacilityMain = '';
     }
   }
 
@@ -429,14 +433,14 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.creditProposalData = creditProposalMappingData;
   }
   public printElement(element) {
-    let subLimit: string;
-    subLimit = '';
+    let sublimit: string;
+    sublimit = '';
     if (element === true || element === 'true') {
-      subLimit = 'Yes';
+      sublimit = 'Yes';
     } else if (element === false || element === 'false') {
-      subLimit = 'No';
+      sublimit = 'No';
     }
-    return subLimit;
+    return sublimit;
   }
 
   public cursIdr: number;
@@ -445,9 +449,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
       this.cursIdr = res.body[0]?.factor;
-      this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] * this.cursIdr;
-      this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] * this.cursIdr;
-      this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] * this.cursIdr;
+      this.applicationProduct.initialLimit = this.applicationProduct.initialLimit * this.cursIdr;
+      this.applicationProduct.outstanding = this.applicationProduct.outstanding * this.cursIdr;
+      this.applicationProduct.changes = this.applicationProduct.changes * this.cursIdr;
     });
   }
 
@@ -457,7 +461,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;
-      this.applicationProduct.attributes['kurs'] = res.body[0]?.factor;
+      this.applicationProduct.kurs = res.body[0]?.factor;
       if (this.preCurent === '') {
         if (value === 'IDR') {
           this.conCcy = true;
@@ -475,9 +479,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         } else if (value === 'USD') {
           this.conCcy = true;
           this.logoCcy = {};
-          this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] / this.currencyName;
-          this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] / this.currencyName;
-          this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] / this.currencyName;
+          this.applicationProduct.initialLimit = this.applicationProduct.initialLimit / this.currencyName;
+          this.applicationProduct.outstanding = this.applicationProduct.outstanding / this.currencyName;
+          this.applicationProduct.changes = this.applicationProduct.changes / this.currencyName;
           this.preCurent = 'USD';
         }
       } else if (this.preCurent === 'USD') {
@@ -594,22 +598,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.applicationOptionService.query().subscribe(res => {
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'LATE_PAYMENT_FEE_USD') {
-          if (
-            this.applicationProduct.attributes['latePaymentFee'] === '' ||
-            this.applicationProduct.attributes['latePaymentFee'] === undefined
-          ) {
-            if (this.applicationProduct.attributes['currency'] === 'USD') {
-              this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
+          if (this.applicationProduct.latePaymentFee === '' || this.applicationProduct.latePaymentFee === undefined) {
+            if (this.applicationProduct.currencyId === 'USD') {
+              this.applicationProduct.latePaymentFee = res.body[i].value;
             }
           }
         }
         if (res.body[i].id === 'LATE_PAYMENT_FEE_IDR') {
-          if (
-            this.applicationProduct.attributes['latePaymentFee'] === '' ||
-            this.applicationProduct.attributes['latePaymentFee'] === undefined
-          ) {
-            if (this.applicationProduct.attributes['currency'] === 'IDR') {
-              this.applicationProduct.attributes['latePaymentFee'] = res.body[i].value;
+          if (this.applicationProduct.latePaymentFee === '' || this.applicationProduct.latePaymentFee === undefined) {
+            if (this.applicationProduct.currencyId === 'IDR') {
+              this.applicationProduct.latePaymentFee = res.body[i].value;
             }
           }
         }
@@ -618,10 +616,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
             this.applicationProduct.attributes['paymentObligation'] === '' ||
             this.applicationProduct.attributes['paymentObligation'] === undefined
           ) {
-            if (
-              this.applicationProduct.attributes['facilityType'] === 'BG' ||
-              this.applicationProduct.attributes['facilityType'] === 'LC'
-            ) {
+            if (this.applicationProduct.productTypeId === 'BG' || this.applicationProduct.productTypeId === 'LC') {
               this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
             }
           }
@@ -632,11 +627,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
             this.applicationProduct.attributes['paymentObligation'] === undefined
           ) {
             if (
-              this.applicationProduct.attributes['facilityType'] === 'DL' ||
-              this.applicationProduct.attributes['facilityType'] === 'MML' ||
-              this.applicationProduct.attributes['facilityType'] === 'FL' ||
-              this.applicationProduct.attributes['facilityType'] === 'IL' ||
-              this.applicationProduct.attributes['facilityType'] === 'OD'
+              this.applicationProduct.productTypeId === 'DL' ||
+              this.applicationProduct.productTypeId === 'MML' ||
+              this.applicationProduct.productTypeId === 'FL' ||
+              this.applicationProduct.productTypeId === 'IL' ||
+              this.applicationProduct.productTypeId === 'OD'
             ) {
               this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
             }
@@ -653,21 +648,18 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.obligationCashLoan = 3;
     this.obligationNonCashLoan = 2;
 
-    if (
-      this.applicationProduct.attributes['earlyRepaymentPenalty'] === '0' ||
-      this.applicationProduct.attributes['earlyRepaymentPenalty'] === undefined
-    ) {
+    if (this.applicationProduct.earlyRepaymentPenalty === null) {
       if (
-        this.applicationProduct.attributes['facilityType'] === 'DL' ||
-        this.applicationProduct.attributes['facilityType'] === 'MML' ||
-        this.applicationProduct.attributes['facilityType'] === 'FL' ||
-        this.applicationProduct.attributes['facilityType'] === 'IL' ||
-        this.applicationProduct.attributes['facilityType'] === 'OD'
+        this.applicationProduct.productTypeId === 'DL' ||
+        this.applicationProduct.productTypeId === 'MML' ||
+        this.applicationProduct.productTypeId === 'FL' ||
+        this.applicationProduct.productTypeId === 'IL' ||
+        this.applicationProduct.productTypeId === 'OD'
       ) {
-        this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationCashLoan;
+        this.applicationProduct.earlyRepaymentPenalty = this.obligationCashLoan;
       }
-      if (this.applicationProduct.attributes['facilityType'] === 'BG' || this.applicationProduct.attributes['facilityType'] === 'LC') {
-        this.applicationProduct.attributes['earlyRepaymentPenalty'] = this.obligationNonCashLoan;
+      if (this.applicationProduct.productTypeId === 'BG' || this.applicationProduct.productTypeId === 'LC') {
+        this.applicationProduct.earlyRepaymentPenalty = this.obligationNonCashLoan;
       }
     }
   }
@@ -684,7 +676,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   cekApplicationType() {
-    if (this.applicationProduct.attributes['applicationType'] === 'Existing') {
+    if (this.applicationProduct.applicationType === 'Existing') {
       // this.getObligation();
       this.myControl.disable();
       this.statusFacilityDisabled = true;
@@ -716,7 +708,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.indexRateService
       .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
       .subscribe((res: any) => {
-        this.applicationProduct.attributes.indexRate = res.body['rate' + this.dateIndex + 'M'] + '%';
+        this.applicationProduct.indexRateStr = res.body['rate' + this.dateIndex + 'M'] + '%';
       });
   }
 
