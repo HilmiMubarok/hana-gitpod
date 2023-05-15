@@ -371,7 +371,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           for (let e = 0; e < this.statusChecked.length; e++) {
             for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
               for (let j = 0; j < this.getsCif.length; j++) {
-                if (this.selectedPartyCif) {
+                if (this.selectedPartyCif.partyId === this.dataSelectedCheckbox[i].partyId) {
                   if (this.selectedPartyCif.customerType === 'PERSONAL') {
                     surveyAppraisal.partyId = this.selectedPartyCif.customerPerson.id;
                     surveyAppraisal.collateralId = this.dataSelectedCheckbox[i].id;
@@ -415,17 +415,17 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
             // } else {
             //   if (this.test === 200) {
             createSurveyAppraisalPromises.push(this.createSurveyAppraisal(surveyAppraisal));
+            //   }
+            // }
           }
-
           // console.log('createSurveyAppraisalPromises', createSurveyAppraisalPromises);
           Promise.all(createSurveyAppraisalPromises).then(results => {
             this.router.navigate(['./collateral-appraisal']);
           });
-          //   }
-          // }
-          // }
-          // }
         }
+
+        // }
+        // }
       }
     }
   }
