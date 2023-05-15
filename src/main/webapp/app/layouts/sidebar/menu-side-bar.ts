@@ -314,6 +314,11 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'party-cif',
       },
+      {
+        name: 'Request Slik',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
     ],
   },
   {
@@ -343,31 +348,31 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
       },
     ],
   },
-  {
-    name: 'Loan Analysis & Approval',
-    iconname: 'paperclip',
-    children: [
-      {
-        name: 'Loan Analysis Distribution',
-        iconname: 'minus',
-        route: 'la-distribution',
-      },
-      {
-        name: 'Compliance Checking Distribution',
-        iconname: 'minus',
-        route: 'cc-distribution',
-      },
-    ],
-  },
+  // {
+  //   name: 'Loan Analysis & Approval',
+  //   iconname: 'paperclip',
+  //   children: [
+  //     {
+  //       name: 'Loan Analysis Distribution',
+  //       iconname: 'minus',
+  //       route: 'la-distribution',
+  //     },
+  //     {
+  //       name: 'Compliance Checking Distribution',
+  //       iconname: 'minus',
+  //       route: 'cc-distribution',
+  //     },
+  //   ],
+  // },
   {
     name: 'Offering Letter & Legal',
     iconname: 'square-check',
     children: [
-      {
-        name: 'Distribution Offering Letter',
-        iconname: 'minus',
-        route: 'distribution',
-      },
+      // {
+      //   name: 'Distribution Offering Letter',
+      //   iconname: 'minus',
+      //   route: 'distribution',
+      // },
       {
         name: 'Offering Letter Confirmation',
         iconname: 'minus',
