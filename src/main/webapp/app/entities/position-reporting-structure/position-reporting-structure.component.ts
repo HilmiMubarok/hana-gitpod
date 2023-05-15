@@ -12,6 +12,7 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'jhi-position-reporting-structure',
   templateUrl: './position-reporting-structure.component.html',
+  styleUrls: ['./position-reporting-structure.css'],
 })
 export class PositionReportingStructureComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
   private LOS_REL = 'LOS_REL';
@@ -108,5 +109,8 @@ export class PositionReportingStructureComponent extends AbstractEntityMaterialC
         }
       }
     });
+  }
+  previousState(): void {
+    window.history.back();
   }
 }

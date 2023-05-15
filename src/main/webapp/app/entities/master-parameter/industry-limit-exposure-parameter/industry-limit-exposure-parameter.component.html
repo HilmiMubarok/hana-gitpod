@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
   <mat-card-header>
     <mat-card-subtitle>Industry Limit Exposure Parameter</mat-card-subtitle>
   </mat-card-header>
@@ -61,4 +61,88 @@
     >
     </mat-paginator>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Industry Limit Exposure Parameter" url="/industry-limit-exposure-parameter"></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Industry Limit Exposure Parameter</p>
+        </div>
+      </div>
+    </div>
+    <div class="e-card-content">
+      <table mat-table [dataSource]="items" class="mat-table-expand">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="industry">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Industry</th>
+          <td mat-cell *matCellDef="let element" class="text-left text-capitalize">{{ element.industryLabel }}</td>
+        </ng-container>
+        <ng-container matColumnDef="limitPercentage">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Limit (In % From Total O/S Loan)</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.limitPercentage }}</td>
+        </ng-container>
+        <ng-container matColumnDef="limitNominal">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Limit (in IDR Million)</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.limitNominal }}</td>
+        </ng-container>
+        <ng-container matColumnDef="remainingBalance">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Remaining Balance (in IDR Million)</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.remainingBalance }}</td>
+        </ng-container>
+        <ng-container matColumnDef="industryLimitExposure">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Industry Limit Exposure</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.industryLimitExposure }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.statusId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <button mat-icon-button (click)="openDialog(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayColumns"></tr>
+      </table>
+      <mat-card *ngIf="loading" id="material-loading-bar">
+        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+      </mat-card>
+      <mat-paginator
+        showFirstLastButtons
+        ngClass="transparant"
+        [length]="paginatorLength"
+        [pageSize]="paginatorPageSize"
+        [pageSizeOptions]="paginatorPageSizeOption"
+        (page)="loadDataLazy($event)"
+      >
+      </mat-paginator>
+    </div>
+    <div class="e-card-actions">
+      <div class="d-flex justify-content-center mb-3 mt-3"></div>
+    </div>
+  </div>
+</div>
