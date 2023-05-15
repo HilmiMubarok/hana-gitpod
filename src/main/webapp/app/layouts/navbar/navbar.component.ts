@@ -148,6 +148,7 @@ export class NavbarComponent implements OnInit {
 		}
 
 		this.templateService.changePosInt(positionTypeId);
+		this.templateService.changePosIntObject(res.body[0].positions);
 	  }
 	}
 
@@ -184,6 +185,7 @@ export class NavbarComponent implements OnInit {
 		  this.setCookie(this.cNamePos, position.id, position.positionTypeDescription);
 		  this.setCookie(this.cNameInt, position.internalId, position.internalName);
 		  this.templateService.changePosInt(position.positionTypeId);
+		  this.templateService.changePosIntObject(position);
 		}
 		this.positionListItems.push(item);
 	  }

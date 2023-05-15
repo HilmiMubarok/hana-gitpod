@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { PositionService } from 'app/entities/position/position.service';
+// import { PositionService } from 'app/entities/position/position.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,12 @@ export class TemplateService {
   private triggerChanggedPosInt = new BehaviorSubject<string>(this.changgedPosInt);
   public triggerChanggedPosIntObservable = this.triggerChanggedPosInt.asObservable();
 
-  private changgedPosIntObject?: string;
-  private triggerChanggedPosIntObject = new BehaviorSubject<string>(this.changgedPosIntObject);
+  private changgedPosIntObject?: any;
+  private triggerChanggedPosIntObject = new BehaviorSubject<any>(this.changgedPosIntObject);
   public triggerChanggedPosIntObjectObservable = this.triggerChanggedPosIntObject.asObservable();
 
-  constructor(private positionService: PositionService) {
+  // constructor(private positionService: PositionService) {
+  constructor() {
     this.sidebarStateChanged$.next('open');
   }
 
@@ -42,18 +43,22 @@ export class TemplateService {
 
     return result;
   } */
+  
+  public changePosIntObject(newPos: any) {
+	this.changgedPosIntObject = newPos;
+	this.triggerChanggedPosIntObject.next(this.changgedPosIntObject);
+  }
 
-  private getPos(posId: string): void {
+  /* private getPos(posId: string): void {
 	// this.positionService.find(this.getLocStor('POS')).subscribe(res => {
 	this.positionService.find(posId).subscribe(res => {
 	  this.changgedPosIntObject = res.body.positionTypeId;
 	  this.triggerChanggedPosIntObject.next(this.changgedPosIntObject);
 	});
-  }
+  } */
 
   public changePosInt(newPosTypeId: string) {
     this.changgedPosInt = newPosTypeId;
-	this.getPos(newPosTypeId);
     this.triggerChanggedPosInt.next(this.changgedPosInt);
   }
 }
