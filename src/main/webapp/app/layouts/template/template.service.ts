@@ -13,6 +13,10 @@ export class TemplateService {
   private triggerChanggedPosInt = new BehaviorSubject<string>(this.changgedPosInt);
   public triggerChanggedPosIntObservable = this.triggerChanggedPosInt.asObservable();
 
+  private changgedPosIntObject?: string;
+  private triggerChanggedPosIntObject = new BehaviorSubject<string>(this.changgedPosIntObject);
+  public triggerChanggedPosIntObjectObservable = this.triggerChanggedPosIntObject.asObservable();
+
   constructor() {
     this.sidebarStateChanged$.next('open');
   }
@@ -22,8 +26,32 @@ export class TemplateService {
     this.sidebarStateChanged$.next(this.sidebarState);
   }
 
+  /* private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  } */
+
+  private getPos(posId: number): void {
+	// this.positionService.find(this.getLocStor('POS')).subscribe(res => {
+	this.positionService.find(posId).subscribe(res => {
+	  this.changgedPosIntObject = res.body.positionTypeId;
+	  this.triggerChanggedPosIntObject.next(this.changgedPosIntObject);
+	});
+  }
+
   public changePosInt(newPosTypeId: string) {
     this.changgedPosInt = newPosTypeId;
+	this.getPos(newPosTypeId);
     this.triggerChanggedPosInt.next(this.changgedPosInt);
   }
 }

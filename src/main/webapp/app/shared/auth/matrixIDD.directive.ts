@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { PositionService } from 'app/entities/position/position.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 import lodash from 'lodash';
 
@@ -21,7 +22,7 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
     this.elementType = value;
   }
 
-  constructor(private accountService: AccountService, private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef, private positionService: PositionService) {}
+  constructor(private accountService: AccountService, private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef, private positionService: PositionService, private templateService: TemplateService) {}
 
   private matrixInput(): void {
 	if (this.positionTypeId) {
@@ -57,7 +58,7 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
     }
   }
   
-  private getLocStor(cookieName: string) {
+  /* private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
 
@@ -70,18 +71,22 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
     });
 
     return result;
-  }
+  } */
   
-  private getPositionTypeId(): void {
+  /* private getPositionTypeId(): void {
 	this.positionService.find(this.getLocStor('POS')).subscribe(res => {
 	  this.positionTypeId = res.body.positionTypeId;
 	  this.checkAccess();
 	});
-  }
+  } */
 
   ngOnInit() {
     this.viewContainerRef.clear();
-	this.getPositionTypeId();
+	this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: string) => {
+      this.positionTypeId = res.body.positionTypeId;
+	  this.checkAccess();
+    });
+	// this.getPositionTypeId();
 
     /* this.accountService
       .getAuthenticationState()
