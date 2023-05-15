@@ -40,6 +40,8 @@ import {
   APPRAISAL_APR_DEPT_HEAD,
   APPRAISAL_MENU_SIDEBAR_ALL,
   MENU_MASTER,
+  APPRAISAL_MENU_ADMIN_CONFIG,
+  MENU_MASTER_CONFIG,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
 import { LoginService } from 'app/login/login.service';
@@ -64,6 +66,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     node => node.expandable
   );
 
+  public treeControlConfig = new FlatTreeControl<FlatNode>(
+    node => node.level,
+    node => node.expandable
+  );
+
   public treeFlattener = new MatTreeFlattener(
     this.transformer,
     node => node.level,
@@ -71,7 +78,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     node => node.children
   );
 
+  public treeFlattenerConfig = new MatTreeFlattener(
+    this.transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children
+  );
+
   public dataSource: any = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  public dataSourceConfig: any = new MatTreeFlatDataSource(this.treeControlConfig, this.treeFlattenerConfig);
 
   private positionIdLocStor: string;
 

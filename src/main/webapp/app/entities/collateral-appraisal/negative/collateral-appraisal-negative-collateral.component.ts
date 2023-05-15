@@ -6,6 +6,7 @@ import { IScoreCard, ScoreCard } from './score-card.constant';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { NumberFormat } from '@syncfusion/ej2-angular-spreadsheet';
+import lodash from 'lodash';
 @Component({
   selector: 'jhi-collateral-appraisal-negative-collateral',
   templateUrl: './collateral-appraisal-negative-collateral.component.html',
@@ -102,9 +103,12 @@ export class CollateralAppraisalNegativeCollateralComponent implements OnChanges
         size: 9999,
       })
       .subscribe(res => {
-        for (let i = 0; i < res.body.length; i++) {
+        const dataScoreCard = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        for (let i = 0; i < dataScoreCard.length; i++) {
           const num = i + 1;
-          this.score[i] = { id: num, criteria: res.body[i].value, value: 'no' };
+          this.score[i] = { id: num, criteria: dataScoreCard[i].value, value: 'no' };
         }
         this.item = this.score;
         if (

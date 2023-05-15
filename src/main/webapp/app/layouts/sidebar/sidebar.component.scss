@@ -59,16 +59,39 @@
 
 .icon {
   /* margin-left: 15px; */
-  margin-left: 10px;
+  margin-left: 16px;
   margin-right: 15px;
   color: rgba(0, 149, 145, 1);
   background-color: rgb(199, 204, 204);
   padding: 1px 5px 1px 5px;
   border-radius: 25%;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+  width: 29px;
+  height: 29px;
+  line-height: 29px;
+  text-align: center;
+}
+.sub-icon {
+  /* margin-left: 15px; */
+  margin-left: 7px;
+  margin-right: 0px;
+  color: rgb(255, 255, 255);
+  padding: 1px 0px 0px 2px;
+  border-radius: 25%;
+  opacity: 0;
 }
 
 .label {
-  font-size: 13px !important;
+  font-size: 16px !important;
+}
+
+.sub-label {
+  font-size: 12px !important;
+  text-align: left;
+  display: inline-block;
+  position: fixed;
 }
 
 /* /OVERRIDE ANGULAR MATERIAL */

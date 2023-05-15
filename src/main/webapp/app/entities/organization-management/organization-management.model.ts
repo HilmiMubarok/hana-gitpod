@@ -1,4 +1,4 @@
-import { IPartyGroup } from '../party-group/party-group.model';
+import { IPartyGroup, PartyGroup } from '../party-group/party-group.model';
 import { IPartyIdentification } from '../party-identification/party-identification.model';
 import { IPartySlik } from '../party-slik/party-slik.model';
 import { IPerson, Person } from '../person/person.model';
@@ -8,10 +8,11 @@ export interface IOrganizationManagementAttributeShareholder {
   ownership?: number;
   nomShares?: number;
   pep?: string;
+  customerType?: string;
 }
 
 export class OrganizationManagementAttributeShareholder implements IOrganizationManagementAttributeShareholder {
-  constructor(public ownership?: number, public nomShares?: number, public pep?: string) {}
+  constructor(public ownership?: number, public nomShares?: number, public pep?: string, public customerType?: string) {}
 }
 
 // ---------------------------------------------------------------
@@ -40,6 +41,7 @@ export interface IOrganizationManagement {
   partySliks?: IPartySlik[];
   dataSource?: string;
   jurisdictionCountryId?: string;
+  shareHolderOrg?: IPartyGroup;
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
@@ -57,11 +59,13 @@ export class OrganizationManagement implements IOrganizationManagement {
     public attributes?: any,
     public partySliks?: IPartySlik[],
     public dataSource?: string,
-    public jurisdictionCountryId?: string
+    public jurisdictionCountryId?: string,
+    public shareHolderOrg?: IPartyGroup
   ) {
     this.organization = null;
     this.person = new Person();
     this.postalAddress = new PostalAddress();
     this.identification = null;
+    this.shareHolderOrg = new PartyGroup();
   }
 }
