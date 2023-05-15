@@ -6,9 +6,9 @@
           <div class="e-card-header-caption">
             <div class="e-card-header-title">REMARKS</div>
             <div class="e-card-sub-title"></div>
-			<section *ngIf="parentSource === ''">
-			  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-				<ejs-documenteditorcontainer
+            <section *ngIf="parentSource === ''">
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+                <ejs-documenteditorcontainer
                   #document_editor_container
                   [headers]="customHeadersJWT"
                   [enableToolbar]="true"
@@ -19,12 +19,12 @@
                   [enableSpellCheck]="false"
                   (keyDown)="onKeyDown($event)"
                   (created)="onCreate()"
-				  [enableEditor]="true"
+                  [enableEditor]="true"
                   [isReadOnly]="false"
-				></ejs-documenteditorcontainer>
+                ></ejs-documenteditorcontainer>
               </section>
-              <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-				<ejs-documenteditorcontainer
+              <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+                <ejs-documenteditorcontainer
                   #document_editor_container
                   [headers]="customHeadersJWT"
                   [enableToolbar]="false"
@@ -34,9 +34,9 @@
                   (documentChange)="onDocumentChange()"
                   [enableEditor]="false"
                   [isReadOnly]="true"
-				></ejs-documenteditorcontainer>
+                ></ejs-documenteditorcontainer>
               </section>
-			</section>
+            </section>
             <section *ngIf="parentSource === 'loan-analys'">
               <ejs-documenteditorcontainer
                 #document_editor_container
