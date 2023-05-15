@@ -364,6 +364,8 @@ import { GroupCollateralListCpComponent } from './credit-proposal/collateral-inf
 import { ParipasuCollateralDebiturComponent } from './credit-proposal/collateral-info/paripasu-collateral-debitur/paripasu-collateral-debitur.component';
 import { ParipasuCollateralGroupComponent } from './credit-proposal/collateral-info/paripasu-collateral-group/paripasu-collateral-group.component';
 import { SummaryGridComponent } from './credit-proposal/collateral-info/collateral-summary/summary-grid.component';
+import { GroupCollateralListAppraisalComponent } from './collateral-appraisal/groupList/group-collateral-list-appraisal.component';
+import { GroupCollateralAppraisalComponent } from './collateral-appraisal/groupList/group-collateral-appraisal.component';
 import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-facility-info.component';
 import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
 import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
@@ -791,6 +793,11 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
         ParipasuCollateralDebiturComponent,
         GroupCollateralListCpComponent,
         SummaryGridComponent,
+
+                // cross appraisal //
+    GroupCollateralListAppraisalComponent,
+    GroupCollateralAppraisalComponent,
+
         MainFacilityInfoComponent,
         MainFacilityInfoChildComponent,
         MainFacilityComponent,
@@ -1176,6 +1183,11 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
     ParipasuCollateralDebiturComponent,
     GroupCollateralListCpComponent,
     SummaryGridComponent,
+
+    // cross appraisal //
+    GroupCollateralListAppraisalComponent,
+    GroupCollateralAppraisalComponent,
+
     MainFacilityInfoComponent,
     MainFacilityComponent,
     MainFacilityChildComponent,

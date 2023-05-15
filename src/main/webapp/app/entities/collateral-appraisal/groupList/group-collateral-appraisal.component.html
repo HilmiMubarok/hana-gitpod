@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Collateral</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-responsive-material">
+      <table mat-table class="w-100" [dataSource]="collateralsGroupData">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let i = index">
+            <mat-checkbox
+              [checked]="mappingStatusHelper[i] === 'yes'"
+              (change)="groupSelect($event, i)"
+              [disabled]="isCheckDebColfromParent"
+            ></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="jenisJaminan">
+          <th mat-header-cell *matHeaderCellDef>Jenis Detail Jaminan</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralTypeId }}</td>
+        </ng-container>
+        <ng-container matColumnDef="alamat">
+          <th mat-header-cell *matHeaderCellDef>Alamat Jaminan</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralAddress.address1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="kota">
+          <th mat-header-cell *matHeaderCellDef>Kota</th>
+          <td mat-cell *matCellDef="let element">{{ element.collateralAddress.cityName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="onDetailClick('collateral', element)">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

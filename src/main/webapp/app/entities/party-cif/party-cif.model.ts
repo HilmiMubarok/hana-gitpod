@@ -12,9 +12,11 @@ import { IOrganizationLegal, OrganizationLegal } from '../organization-legal/org
 
 export interface IPartyCif extends ICustomer {
   customerNumber?: string;
+  customerCIF?: string;
   collaterals?: ICollateral[];
   collateralProperties?: Array<ICollateralProperty>;
   collateralCode?: string;
+  customerPartyId?: string;
   customerPerson?: IPerson;
   customerOrganization?: IPartyGroup;
   debtorData?: IDebtorData;
@@ -53,7 +55,9 @@ export class PartyCif implements IPartyCif {
     public sliks?: IPartySlik[],
     public customerNumber?: string,
     public creditRatings?: ICreditRating[],
-    public organizationLegal?: IOrganizationLegal
+    public organizationLegal?: IOrganizationLegal,
+    public customerPartyId?: string,
+    public customerCIF?: string
   ) {
     this.collaterals = new Array<ICollateral>();
     this.appraisals = new Array<ICollateralAppraisal>();
