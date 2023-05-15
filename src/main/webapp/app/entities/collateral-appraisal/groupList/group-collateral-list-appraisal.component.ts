@@ -89,21 +89,16 @@ export class GroupCollateralListAppraisalComponent implements OnChanges {
   // }
   public getGroupData(statusCheckeds: any): void {
     this.listDataGroup = statusCheckeds;
-    console.log('statusCheckeds', statusCheckeds);
-    console.log('datagrouplistss', this.listDataGroup);
     this.outputGroupDatas.emit(this.listDataGroup);
   }
   public getGroupSelected(statusCheckedGroup: boolean): void {
     this.statusCheckedGroupEmit = statusCheckedGroup;
     this.outputgroupListselected.emit(this.statusCheckedGroupEmit);
-    console.log('dasasalist', this.statusCheckedGroupEmit);
-    console.log('dasasasslistt', statusCheckedGroup);
   }
   public loadDataBy(): void {
     this.partyCifService.getBusinessGroup(this.cifNumber).subscribe(res => {
       this.listGroupCollateral = res.body;
       // this.getAllColGroup();
-      console.log('datagrouplist', this.listGroupCollateral);
       this.outputGetsCifs.emit(this.listGroupCollateral);
     });
   }

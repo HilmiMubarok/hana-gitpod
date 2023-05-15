@@ -276,11 +276,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
   public getCifsFromChild(listGroupCollateral: any): void {
     this.getsCif = listGroupCollateral;
-    console.log('getcisss', this.getsCif);
   }
   public getCollateralChecklist(statusCheckedGroupEmit: any): void {
     this.statusCheckedGroupFromColl = statusCheckedGroupEmit;
-    console.log('dasasa', this.statusCheckedGroupFromColl);
   }
   // public getCustomerPersonOrOrganization(): void {
   //   for (let i = 0; i < this.getsCif.length; i++) {
@@ -297,8 +295,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       if (this.statusCheckedGroupFromColl === true) {
         // this.getCustomerPersonOrOrganization();
         this.dataSelectedCheckbox.push(this.dataGroupCollateral[i]);
-        console.log('datasser', this.dataSelectedCheckbox);
-        console.log('getCif', this.getsCif);
       } else {
         for (let j = 0; j < this.dataSelectedCheckbox.length; j++) {
           this.dataSelectedCheckbox.splice(i, 1);
@@ -309,8 +305,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
   public getDataGroup(listDataGroup: any): void {
     this.dataGroupCollateral = listDataGroup;
-    // this.collateralsDataGroup = listDataGroup;
-    console.log('tttesw', this.dataGroupCollateral);
   }
   public onChecked(changeEventArgs: ChangeEventArgs, value: ICollateral): void {
     if (changeEventArgs['checked'] === true) {
