@@ -83,13 +83,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
     if (
       this.jhiMatrixDirMenu === 'credit-proposal' &&
       !this.router.url.includes('cp-status-approval') &&
-      !this.router.url.includes('la-distribution')
+      !this.router.url.includes('la-distribution') &&
+      !this.router.url.includes('la-SME-CRC')
     ) {
       this.checkOnCreditProposal();
     }
 
     if (this.router.url.includes('la-analyst')) {
-      if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0 || lodash.indexOf(this.authorities, 'ROLE_CRO')) {
+      if (this.positionTypeId === 'CRA' || this.positionTypeId === 'CRC') {
         if (this.status === 'ASSIGNMENT') {
           this.defaultCpMatrixFull();
         } else {
@@ -100,11 +101,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
     if (this.router.url.includes('cp-status-approval')) {
       if (
-        lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
-        lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
-        lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
-        lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
-        lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
+        this.positionTypeId === 'BM' ||
+        this.positionTypeId === 'SME_HEAD' ||
+        this.positionTypeId === 'SDH' ||
+        this.positionTypeId === 'DH' ||
+        this.positionTypeId === 'DEPT_HEAD'
       ) {
         if (
           this.status === 'CP_APPROVAL_SME_HEAD' ||
@@ -126,11 +127,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
           }
         }
       } else if (
-        lodash.indexOf(this.authorities, 'ROLE_BM') === -1 &&
-        lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') === -1 &&
-        lodash.indexOf(this.authorities, 'ROLE_SDH') === -1 &&
-        lodash.indexOf(this.authorities, 'ROLE_DH') === -1 &&
-        lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') === -1
+        this.status !== 'CP_APPROVAL_SME_HEAD' &&
+        this.status !== 'CP_APPROVAL_BM' &&
+        this.status !== 'CP_APPROVAL_SDH' &&
+        this.status !== 'CP_APPROVAL_DH' &&
+        this.status !== 'CP_APPROVAL_DEPTHEAD'
       ) {
         if (this.jhiMatrixDirElementType === '') {
           this.matrixLabelCP();
@@ -139,25 +140,25 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
 
     if (this.router.url.includes('la-distribution')) {
-      if (lodash.indexOf(this.authorities, 'ROLE_CRA') >= 0) {
+      if (this.positionTypeId === 'CRA') {
         if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
           this.defaultCpMatrixFull();
         } else {
           this.matrixLabelCP();
         }
-      } else if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
+      } else if (this.positionTypeId === 'CRC') {
         if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
           this.defaultCpMatrixFull();
         } else {
           this.matrixLabelCP();
         }
       } else {
-        this.matrixLabelCP();
+        this.opinionCheck();
       }
     }
 
     if (this.router.url.includes('la-SME-CRC')) {
-      if (lodash.indexOf(this.authorities, 'ROLE_CRC')) {
+      if (this.positionTypeId === 'CRC') {
         this.defaultCpMatrixFull();
       } else {
         this.opinionCheck();
