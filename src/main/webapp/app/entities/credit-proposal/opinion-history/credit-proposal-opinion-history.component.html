@@ -41,24 +41,47 @@
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
 
-    <div class="e-card-content mt-5">
-      <div class="form-group">
-        <p class="e-card-sub-title">Opinion</p>
-        <ejs-documenteditorcontainer
-          #document_editor_container
-          [headers]="customHeadersJWT"
-          [enableToolbar]="true"
-          [enableLocalPaste]="false"
-          height="100vh"
-          style="display: block"
-          [spellcheck]="false"
-          [enableSpellCheck]="false"
-          (keyDown)="onKeyDown($event)"
-          (created)="onCreate()"
-        ></ejs-documenteditorcontainer>
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <div class="e-card-content mt-5">
+        <div class="form-group">
+          <p class="e-card-sub-title">Opinion</p>
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [headers]="customHeadersJWT"
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+          ></ejs-documenteditorcontainer>
+        </div>
       </div>
-    </div>
+    </section>
 
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <div class="e-card-content mt-5">
+        <div class="form-group">
+          <p class="e-card-sub-title">Opinion</p>
+          <ejs-documenteditorcontainer
+            #document_editor_container
+            [headers]="customHeadersJWT"
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDown($event)"
+            (created)="onCreate()"
+          ></ejs-documenteditorcontainer>
+        </div>
+      </div>
+    </section>
+
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'take_out_remark'"></section>
     <div class="form-group">
       <p class="e-card-sub-title">Recomendation</p>
       <div class="d-flex justify-content-around">
@@ -81,22 +104,42 @@
         </mat-radio-group>
       </div>
     </div>
-
-    <div class="form-group">
-      <p class="e-card-sub-title">Condition</p>
-      <ejs-documenteditorcontainer
-        #document_editor_container_condition
-        [headers]="customHeadersJWT"
-        [enableToolbar]="true"
-        [enableLocalPaste]="false"
-        height="100vh"
-        style="display: block"
-        [spellcheck]="false"
-        [enableSpellCheck]="false"
-        (keyDown)="onKeyDownCondition($event)"
-        (created)="onCreateCondition()"
-      >
-      </ejs-documenteditorcontainer>
-    </div>
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <div class="form-group">
+        <p class="e-card-sub-title">Condition</p>
+        <ejs-documenteditorcontainer
+          #document_editor_container_condition
+          [headers]="customHeadersJWT"
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDownCondition($event)"
+          (created)="onCreateCondition()"
+        >
+        </ejs-documenteditorcontainer>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <div class="form-group">
+        <p class="e-card-sub-title">Condition</p>
+        <ejs-documenteditorcontainer
+          #document_editor_container_condition
+          [headers]="customHeadersJWT"
+          [enableToolbar]="true"
+          [enableLocalPaste]="false"
+          height="100vh"
+          style="display: block"
+          [spellcheck]="false"
+          [enableSpellCheck]="false"
+          (keyDown)="onKeyDownCondition($event)"
+          (created)="onCreateCondition()"
+        >
+        </ejs-documenteditorcontainer>
+      </div>
+    </section>
+    <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'take_out_remark'"></section>
   </mat-card-content>
 </mat-card>

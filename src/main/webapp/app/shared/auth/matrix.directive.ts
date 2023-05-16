@@ -6,6 +6,7 @@ import { AccountService } from 'app/core/auth/account.service';
 
 import lodash from 'lodash';
 import { Router } from '@angular/router';
+import { PositionService } from 'app/entities/position/position.service';
 
 @Directive({
   selector: '[jhiMatrixDir]',
@@ -14,6 +15,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private authorities!: string[];
   private status!: string;
   private readonly destroy$ = new Subject<void>();
+  private positionTypeId: string;
 
   @Input()
   set jhiMatrixDir(value: string) {
@@ -26,9 +28,10 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   constructor(
     private accountService: AccountService,
+    private router: Router,
     private templateRef: TemplateRef<any>,
     private viewContainerRef: ViewContainerRef,
-    private router: Router
+    private positionService: PositionService
   ) {}
 
   ngOnInit() {
@@ -39,8 +42,41 @@ export class MatrixDirective implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.authorities = res.authorities;
-        this.checkAccess();
+        this.getPositionTypeId();
       });
+  }
+  private opinionCheck() {
+    if (!this.router.url.includes('opinion')) {
+      if (this.jhiMatrixDirElementType === '') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    } else if (this.router.url.includes('opinion')) {
+      if (this.jhiMatrixDirElementType === '') {
+        this.matrixLabelCP();
+      }
+    }
+  }
+
+  private getPositionTypeId(): void {
+    this.positionService.find(this.getLocStor('POS')).subscribe(res => {
+      this.positionTypeId = res.body.positionTypeId;
+      this.checkAccess();
+    });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   private checkAccess(): void {
@@ -48,26 +84,85 @@ export class MatrixDirective implements OnInit, OnDestroy {
       this.jhiMatrixDirMenu === 'credit-proposal' &&
       !this.router.url.includes('cp-status-approval') &&
       !this.router.url.includes('la-distribution') &&
-      !this.router.url.includes('la-analyst') &&
       !this.router.url.includes('la-SME-CRC')
     ) {
       this.checkOnCreditProposal();
     }
 
-    if (this.router.url.includes('cp-status-approval')) {
-      this.checkOnCPStatusApproval();
-    }
-
     if (this.router.url.includes('la-analyst')) {
-      this.checkOnLaAnalyst();
+      if (this.positionTypeId === 'CRA' || this.positionTypeId === 'CRC') {
+        if (this.status === 'ASSIGNMENT') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.opinionCheck();
+        }
+      }
     }
 
-    if (this.router.url.includes('la-SME-CRC')) {
-      this.checkOnLaSMECRC();
+    if (this.router.url.includes('cp-status-approval')) {
+      if (
+        this.positionTypeId === 'BM' ||
+        this.positionTypeId === 'SME_HEAD' ||
+        this.positionTypeId === 'SDH' ||
+        this.positionTypeId === 'DH' ||
+        this.positionTypeId === 'DEPT_HEAD'
+      ) {
+        if (
+          this.status === 'CP_APPROVAL_SME_HEAD' ||
+          this.status === 'CP_APPROVAL_BM' ||
+          this.status === 'CP_APPROVAL_SDH' ||
+          this.status === 'CP_APPROVAL_DH' ||
+          this.status === 'CP_APPROVAL_DEPTHEAD'
+        ) {
+          this.defaultCpMatrixFull();
+        } else if (
+          this.status !== 'CP_APPROVAL_SME_HEAD' &&
+          this.status !== 'CP_APPROVAL_BM' &&
+          this.status !== 'CP_APPROVAL_SDH' &&
+          this.status !== 'CP_APPROVAL_DH' &&
+          this.status !== 'CP_APPROVAL_DEPTHEAD'
+        ) {
+          if (this.jhiMatrixDirElementType === '') {
+            this.matrixLabelCP();
+          }
+        }
+      } else if (
+        this.status !== 'CP_APPROVAL_SME_HEAD' &&
+        this.status !== 'CP_APPROVAL_BM' &&
+        this.status !== 'CP_APPROVAL_SDH' &&
+        this.status !== 'CP_APPROVAL_DH' &&
+        this.status !== 'CP_APPROVAL_DEPTHEAD'
+      ) {
+        if (this.jhiMatrixDirElementType === '') {
+          this.matrixLabelCP();
+        }
+      }
     }
 
     if (this.router.url.includes('la-distribution')) {
-      this.checkOnlaDistribution();
+      if (this.positionTypeId === 'CRA') {
+        if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.matrixLabelCP();
+        }
+      } else if (this.positionTypeId === 'CRC') {
+        if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.matrixLabelCP();
+        }
+      } else {
+        this.opinionCheck();
+      }
+    }
+
+    if (this.router.url.includes('la-SME-CRC')) {
+      if (this.positionTypeId === 'CRC') {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+      }
     }
 
     if (this.jhiMatrixDirMenu === 'collateral-appraisal') {
@@ -166,9 +261,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   private checkOnCreditProposal(): void {
     if (this.jhiMatrixDirElementType === 'input') {
-      this.matrixInput();
+      this.matrixInputCP();
     } else {
-      this.matrixLabel();
+      this.matrixLabelCP();
     }
 
     /* if(lodash.indexOf(this.authorities, 'ROLE_RM') >= 0){
@@ -186,173 +281,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
 	} */
   }
 
-  private checkOnlaDistribution(): void {
+  private defaultCpMatrixFull() {
     if (this.jhiMatrixDirElementType === 'input') {
-      this.matrixInputLaDistribution();
+      this.matrixInput();
     } else {
-      this.matrixLabelLaDistribution();
-    }
-  }
-
-  private checkOnLaSMECRC() {
-    if (this.jhiMatrixDirElementType === 'input') {
-      this.matrixInputLaSMECRC();
-    } else {
-      this.matrixLabelLaSMECRC();
-    }
-  }
-
-  private checkOnLaAnalyst(): void {
-    if (this.jhiMatrixDirElementType === 'input') {
-      this.matrixInputLaAnalyst();
-    } else {
-      this.matrixLableLaAnalyst();
-    }
-  }
-
-  private checkOnCPStatusApproval(): void {
-    if (this.jhiMatrixDirElementType === 'input') {
-      this.matrixInputCpApproval();
-    } else {
-      this.matrixLableCpApproval();
-    }
-  }
-
-  private matrixInputLaAnalyst() {
-    if (lodash.indexOf(this.authorities, 'ROLE_CRO') >= 0) {
-      if (this.status === 'CP_ASSIGNMENT' || this.status === 'RETURN_TO_CR') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    }
-  }
-
-  private matrixLableLaAnalyst() {
-    if (lodash.indexOf(this.authorities, 'ROLE_CRO') >= 0) {
-      if (this.status !== 'CP_ASSIGNMENT' && this.status !== 'RETURN_TO_CR') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    }
-  }
-
-  private matrixInputLaSMECRC() {
-    if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    }
-  }
-
-  private matrixLabelLaSMECRC() {
-    if (lodash.indexOf(this.authorities, 'ROLE_CRC') === -1) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    }
-  }
-
-  private matrixInputLaDistribution() {
-    if (lodash.indexOf(this.authorities, 'ROLE_CRA') >= 0) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (this.status === 'APPROVE_TO_LA' || this.status === 'RETURN_TO_CR') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    } else if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (this.status === 'APPROVE_TO_LA' || this.status === 'RETURN_TO_CR') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    } else if (
-      lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
-    ) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (this.status === 'CP_ASSIGNMENT' || this.status === 'RETURN_TO_CR') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    }
-  }
-
-  private matrixLabelLaDistribution() {
-    if (lodash.indexOf(this.authorities, 'ROLE_CRA') >= 0) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (this.status !== 'APPROVE_TO_LA' && this.status !== 'RETURN_TO_CR') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    } else if (lodash.indexOf(this.authorities, 'ROLE_CRC') >= 0) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (this.status !== 'APPROVE_TO_LA' && this.status !== 'RETURN_TO_CR') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    } else if (
-      lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
-    ) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (this.status !== 'CP_ASSIGNMENT' && this.status !== 'RETURN_TO_CR') {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    }
-  }
-
-  private matrixInputCpApproval() {
-    if (
-      lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
-    ) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (
-          this.status === 'CP_APPROVAL_SME_HEAD' ||
-          this.status === 'CP_APPROVAL_BM' ||
-          this.status === 'CP_APPROVAL_SDH' ||
-          this.status === 'CP_APPROVAL_DH' ||
-          this.status === 'CP_APPROVAL_DEPTHEAD'
-        ) {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    } else {
-      this.roleOtherMatrixInput();
-    }
-  }
-
-  private matrixLableCpApproval() {
-    if (
-      lodash.indexOf(this.authorities, 'ROLE_BM') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_SDH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DH') >= 0 ||
-      lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0
-    ) {
-      if (this.jhiMatrixDirSubMenu !== 'summary') {
-        if (
-          this.status !== 'CP_APPROVAL_SME_HEAD' &&
-          this.status !== 'CP_APPROVAL_BM' &&
-          this.status !== 'CP_APPROVAL_SDH' &&
-          this.status !== 'CP_APPROVAL_DH' &&
-          this.status !== 'CP_APPROVAL_DEPTHEAD'
-        ) {
-          this.viewContainerRef.createEmbeddedView(this.templateRef);
-        }
-      }
-    } else {
-      this.roleOtherMatrixLabel();
+      this.matrixLabel();
     }
   }
 
@@ -419,34 +352,42 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private matrixInput(): void {
-    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
+    if (this.positionTypeId === 'RM') {
       this.roleRMMatrixInput();
-    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
-      this.roleOtherMatrixInput();
     } else {
-      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
-      // sementara role yang di diskus masih di menu cp
       this.roleOtherMatrixInput();
     }
   }
 
   private matrixLabel(): void {
-    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
+    if (this.positionTypeId === 'RM') {
       this.roleRMMatrixLabel();
-    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
+    } else {
+      this.roleOtherMatrixLabel();
+    }
+  }
+
+  private matrixInputCP(): void {
+    if (this.positionTypeId === 'RM' || this.positionTypeId === 'DH') {
+      this.roleRMMatrixInput();
+    } else if (this.positionTypeId === 'DEPT_HEAD' || this.positionTypeId === 'SME_HEAD') {
+      this.roleOtherMatrixInput();
+    } else {
+      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
+      // sementara role yang di diskus masih di menu cp
+      this.roleOtherMatrixInput();
+    }
+  }
+
+  private matrixLabelCP(): void {
+    if (this.positionTypeId === 'RM' || this.positionTypeId === 'DH') {
+      this.roleRMMatrixLabel();
+    } else if (this.positionTypeId === 'DEPT_HEAD' || this.positionTypeId === 'SME_HEAD') {
       this.roleOtherMatrixLabel();
     } else {
       // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
       // sementara role yang di diskus masih di menu cp
       this.roleOtherMatrixLabel();
-    }
-  }
-
-  private matrixCpApprovalLable(): void {
-    if (this.jhiMatrixDirSubMenu !== 'summary') {
-      if (this.status !== 'CP_APPROVAL_BM') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
     }
   }
 
