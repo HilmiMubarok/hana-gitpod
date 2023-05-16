@@ -17,6 +17,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 @Component({
   selector: 'jhi-uom-conversion',
   templateUrl: './uom-conversion.component.html',
+  styleUrls: ['./uom-conversion.css'],
 })
 export class UomConversionComponent extends AbstractEntityComponent<IUomConversion> {
   @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
@@ -114,5 +115,9 @@ export class UomConversionComponent extends AbstractEntityComponent<IUomConversi
 
   print() {
     this.reportUtils.viewFile('/api/report/UomConversion/pdf', {});
+  }
+
+  previousState(): void {
+    window.history.back();
   }
 }

@@ -108,10 +108,18 @@
   font-style: normal;
   border-radius: 6px;
 }
-@font-face {
-  font-family: 'Poppins';
-  src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+
+.string-output {
+  text-align: left !important;
 }
+
+.number-output {
+  text-align: right !important;
+}
+
+/* .position-name {
+    width: 30%
+  } */
 
 .submit-button {
   margin-left: 875px !important;

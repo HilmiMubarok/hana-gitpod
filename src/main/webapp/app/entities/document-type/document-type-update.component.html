@@ -6,6 +6,7 @@
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <e-breadcrumb-item text="Document Checklist" url="/document-type"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Update Document Checklist" url="/internal/element.id/'view'"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -82,8 +83,8 @@
         </mat-card-content>
       </mat-card>
       <mat-card-actions align="center">
-        <button style="text-align: center; margin-top: 15px" type="submit" (click)="saveData()" mat-raised-button color="primary">
-          Save
+        <button class="submit-button" mat-raised-button type="submit" (click)="saveData()">
+          <label class="submit-label">Save</label>
         </button>
       </mat-card-actions>
     </div>

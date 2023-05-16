@@ -10,6 +10,7 @@ import { MasterParameterLegalLendingLimitDialogComponent } from './legal-lending
 @Component({
   selector: 'jhi-legal-lending-limit-parameter',
   templateUrl: './legal-lending-limit-parameter.component.html',
+  styleUrls: ['./legal-lending-limit-parameter.css'],
 })
 export class MasterParameterLegalLendingLimitComponent extends AbstractEntityMaterialComponent<IGeneralParameter> implements OnInit {
   public displayColumns: string[] = ['no', 'code', 'value', 'status', 'action'];
@@ -70,5 +71,9 @@ export class MasterParameterLegalLendingLimitComponent extends AbstractEntityMat
         }
       }
     });
+  }
+
+  previousState(): void {
+    window.history.back();
   }
 }
