@@ -325,7 +325,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
 
   private createSurveyAppraisal(surveyAppraisal: ISurveyAppraisals): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.surveyAppraisalsService.create(surveyAppraisal).subscribe(res => {
+      this.surveyAppraisalsService.create(surveyAppraisal, { idPosition: this.getLocStor('POS') }).subscribe(res => {
         resolve();
       });
     });

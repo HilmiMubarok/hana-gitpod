@@ -42,6 +42,7 @@ export class CreditProposalNewComponent {
   public expandedElement: IPartyCif | null;
   public currentSearch: string;
   public partyCifs: IPartyCif[];
+  public positionIdLocStor: string;
   constructor(
     private creditProposalService: CreditProposalService,
     private partyCifService: PartyCifService,
@@ -100,13 +101,15 @@ export class CreditProposalNewComponent {
       if (res && res.customerNumber) {
         if (res.customerType === 'PERSONAL') {
           this.creditProposalService.findPersonTemplate(res.customerNumber).subscribe(res2 => {
+            console.log('res 2 person', res2);
             const creditProposal: ICreditProposal = res2.body;
             creditProposal.collaterals = res.collaterals;
             creditProposal.debtorData = res.debtorData;
             creditProposal.setCompliance = null;
             creditProposal.internalId = this.getLocStor('INT');
 
-            this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+            this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(res3 => {
+              console.log('res 3 person', res3);
               if (res3.body) {
                 this.router.navigate([this.router.url.split('/')[1]]);
               }
@@ -114,11 +117,13 @@ export class CreditProposalNewComponent {
           });
         } else {
           this.creditProposalService.findPartyGroupTemplate(res.customerNumber).subscribe(res2 => {
+            console.log('res 2 group', res2);
             const creditProposal: ICreditProposal = res2.body;
             creditProposal.collaterals = res.collaterals;
             creditProposal.debtorData = res.debtorData;
 
-            this.creditProposalService.create(creditProposal, {}).subscribe(res3 => {
+            this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(res3 => {
+              console.log('res 3 group', res3);
               if (res3.body) {
                 this.router.navigate([this.router.url.split('/')[1]]);
               }
