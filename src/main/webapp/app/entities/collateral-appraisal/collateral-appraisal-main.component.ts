@@ -431,7 +431,6 @@ export class CollateralAppraisalMainComponent implements OnInit {
       if (_res) {
         this.resProcess = _res;
 		this.resProcess.attr.idPosition = this.getLocStor('POS');
-		console.log('this.resProcess @task : ', this.resProcess);
         this.taskProcess = task;
         if (_res.name === 'return' || _res.name === 'cancel') {
           this.saveProcess();
