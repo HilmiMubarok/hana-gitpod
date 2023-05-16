@@ -76,10 +76,10 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected personService: PersonService,
     protected corporateService: PartyGroupService,
     protected messageService: MessageService,
-	protected loginService: LoginService,
-	protected cashCustomersService: CashCustomersService,
+    protected loginService: LoginService,
+    protected cashCustomersService: CashCustomersService,
     private cashCustomerService: CashCustomerService,
-	protected templateService: TemplateService
+    protected templateService: TemplateService
   ) {
     super(_snackBar, customerService, messageService);
 
@@ -94,11 +94,11 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
 
   ngOnInit(): void {
     this.positionIdLocStor = this.getPositionByLocStor('POS');
-	if (!this.positionIdLocStor) {
-	  this.logout();
-	} else {
-	  this.loadAll();
-	}
+    if (!this.positionIdLocStor) {
+      this.logout();
+    } else {
+      this.loadAll();
+    }
   }
 
   public openDialogFindCif(): void {
@@ -115,57 +115,72 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   protected postLoadDataLazy(): void {
     if (this.currentSearch === '' || this.currentSearch === undefined || this.currentSearch === null) {
       this.loadAll();
-    }else{
-      this.search()
+    } else {
+      this.search();
     }
   }
 
   public search() {
-    this.statusSearch = true
-      this.cashCustomerService
-        .cashCustomers({
-          page: this.page,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sortData(),
-        })
-        .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoad(res)))
-        .subscribe({
-          next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
-          error: (res: HttpErrorResponse) => this.onError(res.message),
-        });
-      return;
-    
+    this.statusSearch = true;
+    this.cashCustomerService
+      .cashCustomers({
+        page: this.page,
+        query: this.currentSearch,
+        size: this.itemsPerPage,
+        idPosition: this.getLocStor('POS'),
+        sort: this.sortData(),
+      })
+      .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoad(res)))
+      .subscribe({
+        next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
+        error: (res: HttpErrorResponse) => this.onError(res.message),
+      });
+    return;
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
   public cifNumber: any;
 
   public updateFromHobis(data: any): void {
-	this.cifNumber = data.customerId;
+    this.cifNumber = data.customerId;
     if (this.cifNumber !== undefined) {
       this.partyCifService.syncUpdateHobis(this.cifNumber).subscribe(res => {
-		if (res.status === 200) {
+        if (res.status === 200) {
           for (let i = 0; i < this.partyCifs.length; i++) {
-			this.partyCifs[i] = res.body;
+            this.partyCifs[i] = res.body;
           }
-		  this.messageService.add({
-			severity: 'success',
-			summary: 'Success',
-			detail: 'SYNC Update From Hobis Successful!',
-          });
-		} else if (res.status === 500) {
           this.messageService.add({
-			severity: 'error',
-			summary: 'Error',
-			detail: 'Update Data From HOBIS Failed!',
+            severity: 'success',
+            summary: 'Success',
+            detail: 'SYNC Update From Hobis Successful!',
           });
-		} else if (res.status === 404) {
-		  this.messageService.add({
-			severity: 'error',
-			summary: 'Error',
-			detail: 'Data From HOBIS Not Found!',
+        } else if (res.status === 500) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Update Data From HOBIS Failed!',
           });
-		}
+        } else if (res.status === 404) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Data From HOBIS Not Found!',
+          });
+        }
       });
     }
   }
@@ -186,18 +201,18 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     }
   }
 
-  public statusSearch = false
-  public closeSearch(){
-	this.statusSearch = false
-    this.currentSearch = ''
-    this.page = 0
+  public statusSearch = false;
+  public closeSearch() {
+    this.statusSearch = false;
+    this.currentSearch = '';
+    this.page = 0;
 
-    this.itemsPerPage = 0
-    this.loadAll()
+    this.itemsPerPage = 0;
+    this.loadAll();
   }
 
   private logout(): void {
-	this.templateService.changePosInt('Empty');
+    this.templateService.changePosInt('Empty');
     // this.loginService.logout();
     this.router.navigate(['']);
   }
@@ -221,10 +236,10 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     this.loading = true;
     this.cashCustomersService
       .query({
-		idPosition: this.positionIdLocStor,
+        idPosition: this.positionIdLocStor,
         page: this.page,
         size: this.itemsPerPage,
-        sort: this.sortData()		
+        sort: this.sortData(),
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => this.initDataForMatTable(res, res.headers),
@@ -265,6 +280,6 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
   }
-  
+
   public data: [];
 }
