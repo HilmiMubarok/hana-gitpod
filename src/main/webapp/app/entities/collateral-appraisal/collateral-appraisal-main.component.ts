@@ -211,6 +211,21 @@ export class CollateralAppraisalMainComponent implements OnInit {
     });
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   public menuFields: FieldSettingsModel = {
     text: ['text'],
   };
@@ -415,6 +430,8 @@ export class CollateralAppraisalMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resProcess = _res;
+		this.resProcess.attr.idPosition = this.getLocStor('POS');
+		console.log('this.resProcess @task : ', this.resProcess);
         this.taskProcess = task;
         if (_res.name === 'return' || _res.name === 'cancel') {
           this.saveProcess();
