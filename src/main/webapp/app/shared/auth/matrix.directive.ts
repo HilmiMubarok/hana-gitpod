@@ -47,13 +47,19 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
   private opinionCheck() {
     if (!this.router.url.includes('opinion')) {
-      if (this.jhiMatrixDirElementType === '') {
+      if (this.jhiMatrixDirElementType === 'show-remarks') {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     } else if (this.router.url.includes('opinion')) {
-      if (this.jhiMatrixDirElementType === '') {
+      if (this.jhiMatrixDirElementType === 'hide-remarks') {
         this.matrixLabelCP();
       }
+    }
+  }
+
+  private readOnly() {
+    if (this.jhiMatrixDirElementType === 'read-only') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
 
@@ -84,7 +90,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
       this.jhiMatrixDirMenu === 'credit-proposal' &&
       !this.router.url.includes('cp-status-approval') &&
       !this.router.url.includes('la-distribution') &&
-      !this.router.url.includes('la-SME-CRC')
+      !this.router.url.includes('la-SME-CRC') &&
+      !this.router.url.includes('la-approval')
     ) {
       this.checkOnCreditProposal();
     }
@@ -95,6 +102,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
           this.defaultCpMatrixFull();
         } else {
           this.opinionCheck();
+          this.readOnly();
         }
       }
     }
@@ -122,20 +130,16 @@ export class MatrixDirective implements OnInit, OnDestroy {
           this.status !== 'CP_APPROVAL_DH' &&
           this.status !== 'CP_APPROVAL_DEPTHEAD'
         ) {
-          if (this.jhiMatrixDirElementType === '') {
-            this.matrixLabelCP();
-          }
+          this.readOnly();
         }
       } else if (
-        this.status !== 'CP_APPROVAL_SME_HEAD' &&
-        this.status !== 'CP_APPROVAL_BM' &&
-        this.status !== 'CP_APPROVAL_SDH' &&
-        this.status !== 'CP_APPROVAL_DH' &&
-        this.status !== 'CP_APPROVAL_DEPTHEAD'
+        this.positionTypeId !== 'BM' &&
+        this.positionTypeId !== 'SME_HEAD' &&
+        this.positionTypeId !== 'SDH' &&
+        this.positionTypeId !== 'DH' &&
+        this.positionTypeId !== 'DEPT_HEAD'
       ) {
-        if (this.jhiMatrixDirElementType === '') {
-          this.matrixLabelCP();
-        }
+        this.readOnly();
       }
     }
 
@@ -144,16 +148,17 @@ export class MatrixDirective implements OnInit, OnDestroy {
         if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
           this.defaultCpMatrixFull();
         } else {
-          this.matrixLabelCP();
+          this.readOnly();
         }
       } else if (this.positionTypeId === 'CRC') {
         if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
           this.defaultCpMatrixFull();
         } else {
-          this.matrixLabelCP();
+          this.readOnly();
         }
       } else {
         this.opinionCheck();
+        this.readOnly();
       }
     }
 
@@ -162,6 +167,49 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.defaultCpMatrixFull();
       } else {
         this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    // perlu di tanyakan
+    if (this.router.url.includes('la-approval-inquiry')) {
+      if (this.positionTypeId === 'BUSINESS_DIR' || this.positionTypeId === 'CREDIT_DIR' || this.positionTypeId === 'FINANCE_DIR') {
+        this.opinionCheck();
+        this.readOnly();
+      } else {
+        this.defaultCpMatrixFull();
+      }
+    }
+
+    if (this.router.url.includes('la-approval')) {
+      if (
+        this.positionTypeId === 'DH' ||
+        this.positionTypeId === 'BUSINESS_DIR' ||
+        this.positionTypeId === 'CREDIT_DIR' ||
+        this.positionTypeId === 'CRC'
+      ) {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('loan-committee-approval')) {
+      if (this.positionTypeId === 'CRO') {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('dar-checker')) {
+      if (this.positionTypeId === 'HCR1') {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
       }
     }
 
@@ -170,7 +218,12 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
 
     if (this.jhiMatrixDirMenu === 'dar-final') {
-      this.checkOnDarFinal();
+      if (this.positionTypeId === 'CRO') {
+        this.checkOnDarFinal();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
     }
 
     if (this.jhiMatrixDirMenu === '/collateral-appraisal') {
@@ -227,7 +280,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private checkOnCreditProposal(): void {
     if (this.jhiMatrixDirElementType === 'input') {
       this.matrixInputCP();
-    } else {
+    } else if (this.jhiMatrixDirElementType === '') {
       this.matrixLabelCP();
     }
 
@@ -249,7 +302,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private defaultCpMatrixFull() {
     if (this.jhiMatrixDirElementType === 'input') {
       this.matrixInput();
-    } else {
+    } else if (this.jhiMatrixDirElementType === '') {
       this.matrixLabel();
     }
   }
