@@ -50,10 +50,10 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   ngOnInit(): void {
     if (this.creditProposal.products.length > 0) {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
-        if (this._creditProposal.products[i].attributes['facilityType'] !== '') {
+        if (this._creditProposal.products[i].productTypeId !== '') {
           this.dataFacilityType.push({
-            id: this._creditProposal.products[i].attributes['nomorUrutFasilitas'],
-            label: this._creditProposal.products[i].attributes['facilityType'],
+            id: this._creditProposal.products[i].nomorUrutFasilitas,
+            label: this._creditProposal.products[i].productTypeId,
           });
         }
       }
@@ -76,15 +76,15 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   }
   public changeFacility(event) {
     if (event !== undefined || event !== '') {
-      const result = this._creditProposal.products.find(obj => obj.attributes['nomorUrutFasilitas'] === event.value.id);
+      const result = this._creditProposal.products.find(obj => obj.nomorUrutFasilitas === event.value.id);
       if (result !== undefined) {
         this.lock = false;
-        this.facilityTakeOverAfterBank.maturityBankOver = result.attributes['initialLimit'];
-        this.facilityTakeOverAfterBank.initialLimitBankOver = result.attributes['maturity'];
-        this.facilityTakeOverAfterBank.outstandingBankOver = result.attributes['outstanding'];
-        this.facilityTakeOverAfterBank.maturityPeriodType = result.attributes['maturityPeriodType'];
-        this.facilityTakeOverAfterBank.changes = result.attributes['changes'];
-        this.facilityTakeOverAfterBank.currency = result.attributes['currency'];
+        this.facilityTakeOverAfterBank.maturityBankOver = result.initialLimit;
+        this.facilityTakeOverAfterBank.initialLimitBankOver = result.maturity;
+        this.facilityTakeOverAfterBank.outstandingBankOver = result.outstanding;
+        this.facilityTakeOverAfterBank.maturityPeriodType = result.periodType;
+        this.facilityTakeOverAfterBank.changes = result.changes;
+        this.facilityTakeOverAfterBank.currency = result.currencyId;
         // this.changeLogo(result.attributes.currency);
       } else {
         this.lock = true;
