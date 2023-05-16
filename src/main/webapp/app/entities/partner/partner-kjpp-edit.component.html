@@ -6,6 +6,7 @@
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <e-breadcrumb-item text="Partner KJPP" url="/partner-kjpp"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Edit Partner KJPP" url="/internal/element.id/'edit'"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -66,8 +67,8 @@
 
       <br />
       <mat-card-actions align="center">
-        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
-          Save
+        <button class="submit-button" mat-raised-button type="submit" (click)="submit()">
+          <label class="submit-label">Save</label>
         </button>
       </mat-card-actions>
     </div>

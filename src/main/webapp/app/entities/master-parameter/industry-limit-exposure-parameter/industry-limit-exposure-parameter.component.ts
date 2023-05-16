@@ -10,6 +10,7 @@ import { MasterParameterIndustryLimitExposureDialogComponent } from './industry-
 @Component({
   selector: 'jhi-industry-limit-exposure-parameter',
   templateUrl: './industry-limit-exposure-parameter.component.html',
+  styleUrls: ['./industry-limit-exposure-parameter.css'],
 })
 export class MasterParameterIndustryLimitExposureComponent
   extends AbstractEntityMaterialComponent<IIndustryLimitExposureParameter>
@@ -72,5 +73,9 @@ export class MasterParameterIndustryLimitExposureComponent
 
   protected postLoadDataLazy(): void {
     this.loadAll();
+  }
+
+  previousState(): void {
+    window.history.back();
   }
 }

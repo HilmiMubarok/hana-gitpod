@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'jhi-lending-program-parameter',
   templateUrl: './lending-program-parameter.component.html',
+  styleUrls: ['./lending-program-parameter.css'],
 })
 export class LendingProgramParameterComponent extends AbstractEntityMaterialComponent<ILendingProgramParameter> implements OnInit {
   displayedColumns: string[] = ['no', 'lending-program', 'start-date', 'end-date', 'status', 'action'];
@@ -78,5 +79,9 @@ export class LendingProgramParameterComponent extends AbstractEntityMaterialComp
 
   protected postLoadDataLazy(): void {
     this.loadAll();
+  }
+
+  previousState(): void {
+    window.history.back();
   }
 }

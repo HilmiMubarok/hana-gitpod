@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { PositionService } from 'app/entities/position/position.service';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 import lodash from 'lodash';
 
@@ -14,6 +15,7 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
   private authorities!: string[];
   private elementType!: string;
   private readonly destroy$ = new Subject<void>();
+  private position: any;
   private positionTypeId: string;
 
   @Input()
@@ -21,11 +23,16 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
     this.elementType = value;
   }
 
-  constructor(private accountService: AccountService, private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef, private positionService: PositionService) {}
+  constructor(private accountService: AccountService, private templateRef: TemplateRef<any>, private viewContainerRef: ViewContainerRef, private positionService: PositionService, private templateService: TemplateService) {}
 
   private matrixInput(): void {
-	if (this.positionTypeId) {
+	/* if (this.positionTypeId) {
 	  if (this.positionTypeId === 'RM') {
+		this.viewContainerRef.createEmbeddedView(this.templateRef);
+	  }
+	} */
+	if (this.position) {
+	  if (this.position.positionTypeId === 'RM') {
 		this.viewContainerRef.createEmbeddedView(this.templateRef);
 	  }
 	}
@@ -35,13 +42,20 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
   }
 
   private matrixLabel(): void {
-	if (this.positionTypeId) {
-	  if (this.positionTypeId === 'RM') {
+	if (this.position) {
+	  if (this.position.positionTypeId === 'RM') {
 		// do nothing
 	  } else {
 		this.viewContainerRef.createEmbeddedView(this.templateRef);
 	  }
 	}
+	/* if (this.positionTypeId) {
+	  if (this.positionTypeId === 'RM') {
+		// do nothing
+	  } else {
+		this.viewContainerRef.createEmbeddedView(this.templateRef);
+	  }
+	} */
     /* if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0) {
       // do nothing
     } else {
@@ -57,7 +71,7 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
     }
   }
   
-  private getLocStor(cookieName: string) {
+  /* private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
 
@@ -70,18 +84,24 @@ export class MatrixIDDDirective implements OnInit, OnDestroy {
     });
 
     return result;
-  }
+  } */
   
-  private getPositionTypeId(): void {
+  /* private getPositionTypeId(): void {
 	this.positionService.find(this.getLocStor('POS')).subscribe(res => {
 	  this.positionTypeId = res.body.positionTypeId;
 	  this.checkAccess();
 	});
-  }
+  } */
 
   ngOnInit() {
     this.viewContainerRef.clear();
-	this.getPositionTypeId();
+	this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+	  this.position = newPos;
+	  console.log('this.position @matrixIDD : ', this.position);
+      // this.positionTypeId = newPos;
+	  this.checkAccess();
+    });
+	// this.getPositionTypeId();
 
     /* this.accountService
       .getAuthenticationState()
