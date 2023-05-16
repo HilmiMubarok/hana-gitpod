@@ -226,6 +226,10 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
     }
 
+    if (this.jhiMatrixDirMenu === 'cp-and-memo') {
+      this.checkOnCpAndMemo();
+    }
+
     if (this.jhiMatrixDirMenu === '/collateral-appraisal') {
       this.checkOnCollateralAppraisalRouter();
     }
@@ -239,6 +243,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
   }
 
+  private checkOnCpAndMemo() {
+    if (this.jhiMatrixDirElementType === 'input') {
+      this.cpAndMemoInput();
+    } else {
+      this.cpAndMemoLabel();
+    }
+  }
+
   private darFinalInput() {
     if (this.status === 'CP_DAR_FINAL' || this.status === 'CP_LOAN_COMMITTEE' || this.status === 'OL_ASSIGNED') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
@@ -249,6 +261,29 @@ export class MatrixDirective implements OnInit, OnDestroy {
     // if status not in array, then create embedded view
     if (!arr.includes(this.status)) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
+    }
+  }
+
+  private cpAndMemoInput() {
+    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
+      this.roleRMCpAndMemoMatrixInput();
+    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
+      this.roleOtherMatrixInput();
+    } else {
+      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
+      // sementara role yang di diskus masih di menu cp
+      this.roleOtherMatrixInput();
+    }
+  }
+  private cpAndMemoLabel() {
+    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
+      this.roleRMCpAndMemoMatrixLabel();
+    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
+      this.roleOtherMatrixLabel();
+    } else {
+      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
+      // sementara role yang di diskus masih di menu cp
+      this.roleOtherMatrixLabel();
     }
   }
 
@@ -320,6 +355,36 @@ export class MatrixDirective implements OnInit, OnDestroy {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     } else {
       if (this.status !== 'DRAFT' && this.status !== 'CP_RETURN_TO_RM' && this.status !== 'CP_RETURN_TO_CR') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
+  }
+
+  private roleRMCpAndMemoMatrixInput(): void {
+    if (this.jhiMatrixDirSubMenu !== 'summary') {
+      if (
+        this.status === 'DRAFT' ||
+        this.status === 'CP_RETURN_TO_RM' ||
+        this.status === 'CP_RETURN_TO_CR' ||
+        // Dar appeal
+        this.status === 'OL_APPEAL'
+      ) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
+    }
+  }
+
+  private roleRMCpAndMemoMatrixLabel(): void {
+    if (this.jhiMatrixDirSubMenu === 'summary') {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    } else {
+      if (
+        this.status !== 'DRAFT' &&
+        this.status !== 'CP_RETURN_TO_RM' &&
+        this.status !== 'CP_RETURN_TO_CR' &&
+        // Dar appeal
+        this.status !== 'OL_APPEAL'
+      ) {
         this.viewContainerRef.createEmbeddedView(this.templateRef);
       }
     }

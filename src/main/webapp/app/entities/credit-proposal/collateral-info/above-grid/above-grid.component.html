@@ -6,12 +6,12 @@
     </mat-card-header>
     <mat-card-content>
       <div style="margin: 30px">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
             >Is Collateral Cross col, All Facillities?</mat-slide-toggle
           >
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
           <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
             >Is Collateral Cross col, All Facillities?</mat-slide-toggle
           >
@@ -29,7 +29,7 @@
           </ng-container>
           <ng-container matColumnDef="collateralType">
             <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
-            <td mat-cell *matCellDef="let element">{{ element.collateralTypeId }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.collateralTypeDescription }}</td>
             <td mat-footer-cell *matFooterCellDef></td>
           </ng-container>
           <ng-container matColumnDef="collateralAddress">
@@ -173,12 +173,12 @@
     </mat-card-header>
     <mat-card-content>
       <div style="margin: 30px">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)"
             >Is Collateral Cross col, All Facillities?</mat-slide-toggle
           >
         </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
           <mat-slide-toggle [(ngModel)]="isChecked" (ngModelChange)="slideChange($event)" disabled
             >Is Collateral Cross col, All Facillities?</mat-slide-toggle
           >
