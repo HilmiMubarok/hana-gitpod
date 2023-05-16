@@ -15,7 +15,7 @@
                     <ng-template #template let-data>
                       <div class="d-flex justify-content-around">
                         <div class="mx-2">
-                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                             <ejs-radiobutton
                               label="Yes"
                               value="Yes"
@@ -26,7 +26,7 @@
                             >
                             </ejs-radiobutton>
                           </section>
-                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
                             <ejs-radiobutton
                               label="Yes"
                               value="Yes"
@@ -46,7 +46,7 @@
                     <ng-template #template let-data>
                       <div class="d-flex justify-content-around">
                         <div class="mx-2">
-                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                             <ejs-radiobutton
                               label="No"
                               value="No"
@@ -57,7 +57,7 @@
                             >
                             </ejs-radiobutton>
                           </section>
-                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
                             <ejs-radiobutton
                               label="No"
                               value="No"
@@ -90,12 +90,12 @@
             <div class="e-card-header-title">REMARKS</div>
             <div class="e-card-sub-title"></div>
             <section
-              *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+              *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
               <ejs-richtexteditor [toolbarSettings]="tools"
                 [(ngModel)]="creditProposal.attributes['collateralChecklist'].remarks">
               </ejs-richtexteditor>
             </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
               <div class="fontsebled row">
                 <div class="col-4">Remarks</div>
                 <div class="col-md-auto">:</div>
