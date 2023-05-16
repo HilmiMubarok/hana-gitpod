@@ -101,10 +101,15 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'party-cif',
       },
       {
-        name: 'SLIK Checking',
+        name: 'Request Slik',
         iconname: 'minus',
-        route: '',
+        route: 'request-slik',
       },
+      // {
+      //   name: 'SLIK Checking',
+      //   iconname: 'minus',
+      //   route: '',
+      // },
     ],
   },
   {
@@ -730,6 +735,11 @@ export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'party-cif',
       },
+      {
+        name: 'Request Slik',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
     ],
   },
   {
@@ -1058,6 +1068,17 @@ export const APPRAISAL_MENU_CRA: ISidebarMenuModel[] = [
 ];
 export const APPRAISAL_MENU_CHECKER: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Request Slik',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
@@ -1380,6 +1401,11 @@ export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'party-cif',
       },
+      {
+        name: 'Request Slik',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
     ],
   },
   {
@@ -1450,6 +1476,11 @@ export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
         name: 'Initial Debtor Data',
         iconname: 'minus',
         route: 'party-cif',
+      },
+      {
+        name: 'Request Slik',
+        iconname: 'minus',
+        route: 'request-slik',
       },
     ],
   },
