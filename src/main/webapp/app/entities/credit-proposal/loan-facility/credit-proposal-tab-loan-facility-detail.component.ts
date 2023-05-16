@@ -293,7 +293,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.sublimit === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
@@ -322,7 +322,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.sublimit === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
@@ -351,7 +351,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.sublimit === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
@@ -394,7 +394,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.creditProposal.products.filter(obj => obj.sublimit === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
       const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');

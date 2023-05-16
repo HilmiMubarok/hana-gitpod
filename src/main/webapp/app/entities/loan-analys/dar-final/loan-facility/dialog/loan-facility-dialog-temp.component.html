@@ -5,496 +5,1019 @@
 <mat-dialog-content>
   <div class="row justify-content-between">
     <div class="col-6">
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Loan Account</mat-label>
-          <input [(ngModel)]="applicationProduct.attributes['loanAccount']" matInput type="text" disabled />
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Index Facility</mat-label>
-          <input matInput type="text" [(ngModel)]="applicationProduct.attributes['nomorUrutFasilitas']" disabled />
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Application Type</mat-label>
-          <mat-select
-            [(ngModel)]="applicationProduct.attributes['applicationType']"
-            name="facilityType"
-            (selectionChange)="applicationTypeChange($event)"
-          >
-            <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Facility Type</mat-label>
-          <input
-            type="text"
-            placeholder="Pick One"
-            aria-label="Number"
-            matInput
-            [formControl]="myControl"
-            [matAutocomplete]="auto"
-            [(ngModel)]="applicationProduct.attributes['facilityType']"
-            (ngModelChange)="berubah($event)"
-          />
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let option of listFacicility" [value]="option.label">
-              {{ option.label }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Loan Type</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['loanType']" [disabled]="statusFacilityDisabled">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listLoanType" [value]="item.label">
-              {{ item.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div [hidden]="facilityType === 'OD'" class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Installment Method</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['installmentMethod']" name="facilityType">
-            <mat-option *ngFor="let item of installmentMethodList" [value]="item.code">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Tenor</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['maturity']" />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Period Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['maturityPeriodType']">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Account</mat-label>
+            <input [(ngModel)]="applicationProduct.agreementNumber" matInput type="text" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Loan Account</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">{{ applicationProduct.agreementNumber }}</div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Index Facility</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.nomorUrutFasilitas" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Index Facility</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.nomorUrutFasilitas }}
           </div>
         </div>
-      </div>
-
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Maturity Date</mat-label>
-          <input [matDatepicker]="bindingDate" [formControl]="date" matInput [(ngModel)]="applicationProduct.attributes['maturityDate']" />
-          <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
-          <mat-datepicker #bindingDate></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-3" style="padding: 1rem">
-            <mat-checkbox
-              [(ngModel)]="applicationProduct.attributes['subLimit']"
-              (ngModelChange)="changeSublimitCheck()"
-              [disabled]="disButtonSub"
-              >Sub-Limit</mat-checkbox
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Application Type</mat-label>
+            <mat-select
+              [(ngModel)]="applicationProduct.applicationType"
+              name="facilityType"
+              (selectionChange)="applicationTypeChange($event)"
             >
-          </div>
-          <div class="col-6">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Sublimit From Existing Facility</mat-label>
-              <mat-select
-                [(ngModel)]="applicationProduct.attributes['sublimitFromExistingFacility']"
-                [disabled]="applicationProduct.attributes['subLimit'] !== true"
-                (ngModelChange)="changeSublimit($event)"
-              >
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of labelSublimit" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-3">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Index Facility Main</mat-label>
-              <mat-select
-                [(ngModel)]="applicationProduct.attributes['indexFacilityMain']"
-                [disabled]="applicationProduct.attributes['sublimitFromExistingFacility'] === ''"
-              >
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of lovIndex" [value]="item.index">
-                  {{ item.index }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Application Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.applicationType }}
           </div>
         </div>
-      </div>
-      <div class="mb-2">
-        <div class="row">
-          <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.attributes['commitedLine']">
-            <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
-            <mat-radio-button [value]="com" [checked]="applicationProduct.attributes['commitedLine']">Comitted </mat-radio-button>
-          </mat-radio-group>
-        </div>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Currency</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['currency']" (ngModelChange)="chnageCurrency($event)">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
-              {{ item }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Kurs</mat-label>
-          <input matInput type="number" [value]="currencyName" readonly />
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Initial Limit</mat-label>
-          <div *ngIf="conCcy; then thenBlock; else elseBlock"></div>
-          <ng-template #thenBlock
-            ><input
-              currencyMask
-              matInput
-              type="text"
-              [(ngModel)]="applicationProduct.attributes['initialLimit']"
-              [options]="logoCcy"
-              [disabled]="statusFacilityDisabled"
-          /></ng-template>
-          <ng-template #elseBlock>
-            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [disabled]="statusFacilityDisabled" />
-          </ng-template>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Outstanding</mat-label>
-          <div *ngIf="conCcy; then a; else b"></div>
-          <ng-template #a>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Type</mat-label>
             <input
-              currencyMask
-              matInput
               type="text"
-              [(ngModel)]="applicationProduct.attributes['outstanding']"
-              [options]="logoCcy"
-              [disabled]="statusFacilityDisabled"
+              placeholder="Pick One"
+              aria-label="Number"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+              [(ngModel)]="applicationProduct.productTypeId"
+              (ngModelChange)="berubah($event)"
             />
-          </ng-template>
-          <ng-template #b>
-            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['outstanding']" [disabled]="statusFacilityDisabled" />
-          </ng-template>
-        </mat-form-field>
-      </div>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let option of listGeneralLov" [value]="option.id">
+                {{ option.id }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Facility Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.productTypeId }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2" *ngIf="applicationProduct.applicationType !== 'Existing'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Type</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.productName" (selectionChange)="getfacilityCategory($event.value)">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listLoanType" [value]="item.name">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mb-2" *ngIf="applicationProduct.applicationType === 'Existing'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Type</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.productName" disabled />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Loan Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.productName }}
+          </div>
+        </div>
+      </section>
 
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Date O/S</mat-label>
-          <input [matDatepicker]="piker" [formControl]="date" matInput [(ngModel)]="applicationProduct.attributes['dateOS']" disabled />
-          <mat-datepicker-toggle matSuffix [for]="piker"></mat-datepicker-toggle>
-          <mat-datepicker #piker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Changes</mat-label>
-          <div *ngIf="conCcy; then c; else d"></div>
-          <ng-template #c>
-            <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" [options]="logoCcy" />
-          </ng-template>
-          <ng-template #d>
-            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['changes']" />
-          </ng-template>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Total Plafond</mat-label>
-          <div *ngIf="conCcy; then e; else f"></div>
-          <ng-template #e>
-            <input
-              currencyMask
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline" *ngIf="applicationProduct.productTypeId === 'OMNIBUS'">
+            <mat-label>Loan Type Remarks (SPPK)</mat-label>
+            <textarea
               matInput
-              type="text"
-              [(ngModel)]="applicationProduct.attributes['totalPlafond']"
-              [options]="logoCcy"
-              [value]="calTotalPlafond()"
-            />
-          </ng-template>
-          <ng-template #f>
-            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['totalPlafond']" [value]="calTotalPlafond()" />
-          </ng-template>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <div class="col-4" style="padding: 1rem">
-          <mat-checkbox [(ngModel)]="applicationProduct.attributes['restructuredStatus']">Restruct Status </mat-checkbox>
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['loanRemarkSppk']"
+            ></textarea>
+          </mat-form-field>
         </div>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Restruct Method</mat-label>
-          <mat-select [(ngModel)]="applicationProduct.attributes['restructMethod']">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of restructList" [value]="item.code">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Description</mat-label>
-          <input matInput type="text" [(ngModel)]="applicationProduct.attributes['keterangan']" />
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>REMARKS</mat-label>
-          <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']"></textarea>
-        </mat-form-field>
-      </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Facility Category / Appl Type</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.categoryId" name="facilityCategory">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listCategoryLov" [value]="item.categoryId">{{ item.categoryId }} </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Facility Category / Appl Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.categoryId }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div [hidden]="facilityType === 'OD'" class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Installment Method</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.installmentMethod" name="facilityType">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of installmentMethodList" [value]="item.code">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div [hidden]="facilityType === 'OD'" class="fontsebled row py-1">
+          <div class="col-3">Installment Method</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.installmentMethod }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Tenor</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.maturity" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.periodType">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Tenor</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.maturity }}
+          </div>
+        </div>
+        <div class="fontsebled row">
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.periodType }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="form-group">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Maturity Date</mat-label>
+            <input [matDatepicker]="bindingDate" matInput [(ngModel)]="applicationProduct.maturityDate" />
+            <mat-datepicker-toggle matSuffix [for]="bindingDate"></mat-datepicker-toggle>
+            <mat-datepicker #bindingDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Maturity Date</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.maturityDate | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-3" style="padding: 1rem">
+              <mat-checkbox [(ngModel)]="applicationProduct.subLimit" (ngModelChange)="changeSublimitCheck()" [disabled]="disButtonSub"
+                >Sub-Limit</mat-checkbox
+              >
+            </div>
+            <div class="col-6">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Sublimit From Existing Facility</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.sublimitFromExistingFacility"
+                  [disabled]="applicationProduct.subLimit !== true"
+                  (ngModelChange)="changeSublimit($event)"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of labelSublimit" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-3">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Index Facility Main</mat-label>
+                <mat-select
+                  [(ngModel)]="applicationProduct.indexFacilityMain"
+                  [disabled]="applicationProduct.sublimitFromExistingFacility === ''"
+                >
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of lovIndex" [value]="item.index">
+                    {{ item.index }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Sub-Limit</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ printElement(applicationProduct.subLimit) }}
+          </div>
+        </div>
+        <div class="fontsebled row">
+          <div class="col-3">Sublimit From Existing Facility</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.sublimitFromExistingFacility }}
+          </div>
+        </div>
+        <div class="fontsebled row">
+          <div class="col-3">Index Facility Main</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.indexFacilityMain }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row mb-2">
+            <label>Comitted Line:</label>
+          </div>
+          <div class="row">
+            <mat-radio-group aria-label="Comitted Line" [(ngModel)]="applicationProduct.commitedLine">
+              <mat-radio-button [value]="uncom">Un-Comitted Line</mat-radio-button>
+              <mat-radio-button [value]="com" [checked]="applicationProduct.commitedLine">Comitted </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Comitted Line</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ printElement(applicationProduct.commitedLine) }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Currency</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.currencyId" (ngModelChange)="chnageCurrency($event)">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listOfValue.currencyList" [value]="item">
+                {{ item }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Currency</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.currencyId }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Kurs</mat-label>
+            <input matInput type="number" [value]="currencyName" readonly />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Kurs</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.kurs }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Initial Limit</mat-label>
+            <div *ngIf="conCcy; then thenBlock; else elseBlock"></div>
+            <ng-template #thenBlock
+              ><input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.initialLimit"
+                [options]="logoCcy"
+                [disabled]="statusFacilityDisabled"
+            /></ng-template>
+            <ng-template #elseBlock>
+              <input matInput type="text" [(ngModel)]="applicationProduct.initialLimit" [disabled]="statusFacilityDisabled" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Initial Limit</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.initialLimit | number }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Outstanding</mat-label>
+            <div *ngIf="conCcy; then a; else b"></div>
+            <ng-template #a>
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.outstanding"
+                [options]="logoCcy"
+                [disabled]="statusFacilityDisabled"
+              />
+            </ng-template>
+            <ng-template #b>
+              <input matInput type="text" [(ngModel)]="applicationProduct.outstanding" [disabled]="statusFacilityDisabled" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Outstanding</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.outstanding | number }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Date O/S</mat-label>
+            <input [matDatepicker]="piker" [formControl]="date" matInput [(ngModel)]="applicationProduct.dateOS" disabled />
+            <mat-datepicker-toggle matSuffix [for]="piker"></mat-datepicker-toggle>
+            <mat-datepicker #piker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Date O/S</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.dateOS | date: 'yyyy/MM/dd' }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Changes</mat-label>
+            <div *ngIf="conCcy; then c; else d"></div>
+            <ng-template #c>
+              <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.changes" [options]="logoCcy" />
+            </ng-template>
+            <ng-template #d>
+              <input matInput type="text" [(ngModel)]="applicationProduct.changes" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Changes</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.changes | number }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Total Plafond</mat-label>
+            <div *ngIf="conCcy; then e; else f"></div>
+            <ng-template #e>
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="applicationProduct.totalPlafond"
+                [options]="logoCcy"
+                [value]="calTotalPlafond()"
+              />
+            </ng-template>
+            <ng-template #f>
+              <input matInput type="text" [(ngModel)]="applicationProduct.totalPlafond" [value]="calTotalPlafond()" />
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Total Plafond</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.totalPlafond | number }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="col-4" style="padding: 1rem">
+            <mat-checkbox [(ngModel)]="applicationProduct.restructStatus">Restruct Status </mat-checkbox>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Restruct Status</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ printElement(applicationProduct.restructStatus) }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Restruct Method</mat-label>
+            <mat-select [(ngModel)]="applicationProduct.restructMethod">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of restructList" [value]="item.code">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Restruct Method</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.restructMethod }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['keterangan']" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Description</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['keterangan'] }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div *ngIf="parentPath !== 'finalize'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Disbursement Condition</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1" *ngIf="parentPath !== 'finalize'">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['disbursementCondition'] }}
+          </div>
+        </div>
+      </section>
+      <section *ngIf="parentPath === 'finalize' && selectedMenu === 'loan-facility-detail'">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['disbursementCondition']"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="parentPath === 'finalize' && selectedMenu === 'loan-facility'">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Disbursement Condition</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <textarea
+                matInput
+                style="height: 200px"
+                [(ngModel)]="applicationProduct.attributes['disbursementCondition']"
+                disabled
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div>
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>REMARKS</mat-label>
+            <textarea matInput style="height: 200px" [(ngModel)]="applicationProduct.attributes['remark']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">REMARKS</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['remark'] }}
+          </div>
+        </div>
+      </section>
     </div>
 
     <div class="col-6">
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Interest Rate Type</mat-label>
-              <mat-select
-                [(ngModel)]="applicationProduct.attributes['interestRateType']"
-                (ngModelChange)="changeIntRateType($event)"
-                [disabled]="status"
-              >
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of interestTypeList" [value]="item.code">
-                  {{ item.value }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Interest Rate Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.rateTypeName" (ngModelChange)="changeIntRateType($event)" [disabled]="status">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of interestTypeList" [value]="item.code">
+                    {{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Interest Rate/Spread rate</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.currentInterestRate" (ngModelChange)="getSpread()" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Interest Rate Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.rateTypeName }}
+          </div>
+          <div class="col-3">Current Interest Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.currentInterestRate }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Reference Rate Period</mat-label>
                 <input
                   matInput
+                  (ngModelChange)="periodeDate($event)"
                   type="number"
-                  [(ngModel)]="applicationProduct.attributes['currentInterestRate']"
-                  (ngModelChange)="getSpread()"
+                  [(ngModel)]="applicationProduct.intResetFrequency"
+                  [disabled]="status || statIntRate"
                 />
               </mat-form-field>
-            </section>
-            <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
-              <div class="fontsebled row">
-                <div class="col-4">Interest Rate/Spread rate</div>
-                <div class="col-md-auto">:</div>
-                <div class="col-2">{{ applicationProduct.attributes['currentInterestRate'] }}</div>
-              </div>
-            </section>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.intResetPeriod" disabled>
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Reference Rate Period</mat-label>
-              <input
-                matInput
-                (ngModelChange)="periodeDate($event)"
-                type="number"
-                [(ngModel)]="applicationProduct.attributes['interestRatePeriod']"
-                [disabled]="status || statIntRate"
-              />
-            </mat-form-field>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Reference Rate Period</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.intResetFrequency }}
           </div>
-          <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Period Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['interestRatePeriodType']" disabled>
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.intResetPeriod }}
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Provision Fee</mat-label>
-              <input
-                *ngIf="applicationProduct.attributes['provitionFeeRateAmountType'] !== '%p.a'"
-                matInput
-                currencyMask
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['provitionFee']"
-                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-                [disabled]="status"
-                id="fee"
-              />
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Provision Fee</mat-label>
+                <input
+                  *ngIf="applicationProduct.provisionFeeType !== '%p.a'"
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="applicationProduct.provisionFeeAmount"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="status"
+                  id="fee"
+                />
 
-              <input
-                *ngIf="applicationProduct.attributes['provitionFeeRateAmountType'] === '%p.a'"
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['provitionFee']"
-                [disabled]="status"
-                id="fee"
-              />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Rate / Amount Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['provitionFeeRateAmountType']" [disabled]="status">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+                <input
+                  *ngIf="applicationProduct.provisionFeeType === '%p.a'"
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.provisionFeeAmount"
+                  [disabled]="status"
+                  id="fee"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Rate / Amount Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.provisionFeeType" [disabled]="status">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Admin Fee</mat-label>
-              <input
-                *ngIf="applicationProduct.attributes['adminFeeRateAmountType'] !== '%p.a'"
-                matInput
-                currencyMask
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['adminFee']"
-                [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-                [disabled]="status"
-                id="fee"
-              />
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Provision Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.provisionFeeAmount | number }}
+          </div>
+          <div class="col-3">Rate / Amount Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.provisionFeeType }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Admin Fee</mat-label>
+                <input
+                  *ngIf="applicationProduct.adminFeeType !== '%p.a'"
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="applicationProduct.adminFeeAmount"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="status"
+                  id="fee"
+                />
 
-              <input
-                *ngIf="applicationProduct.attributes['adminFeeRateAmountType'] === '%p.a'"
-                matInput
-                type="text"
-                [(ngModel)]="applicationProduct.attributes['adminFee']"
-                [disabled]="status"
-                id="fee"
-              />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Rate / Amount Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['adminFeeRateAmountType']" [disabled]="status">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Grace Period</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['gracePeriod']" />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Period Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['gracePeriodType']">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+                <input
+                  *ngIf="applicationProduct.adminFeeType === '%p.a'"
+                  matInput
+                  type="text"
+                  [(ngModel)]="applicationProduct.adminFeeAmount"
+                  [disabled]="status"
+                  id="fee"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Rate / Amount Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.adminFeeType" [disabled]="status">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Admin Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.adminFeeAmount | number }}
+          </div>
+          <div class="col-3">Rate / Amount Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.adminFeeType }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Grace Period</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.gracePeriod" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.gracePeriodType">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Grace Period</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.gracePeriod }}
+          </div>
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.gracePeriodType }}
+          </div>
+        </div>
+      </section>
 
-      <div class="mb-2">
-        <div class="row">
-          <div class="col-8">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Available Period</mat-label>
-              <input matInput type="number" [(ngModel)]="applicationProduct.attributes['availablePeriod']" />
-            </mat-form-field>
-          </div>
-          <div class="col-4">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Period Type</mat-label>
-              <mat-select [(ngModel)]="applicationProduct.attributes['availablePeriodType']" [value]="">
-                <mat-option value="">- Please Select -</mat-option>
-                <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
-                  {{ item }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2" *ngIf="applicationProduct.productTypeId === 'OMNIBUS'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Interest Rate Remarks (SPPK)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['interestRateRemarkSppk']"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Available Period</mat-label>
+                <input matInput type="number" [(ngModel)]="applicationProduct.availablePeriod" />
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Period Type</mat-label>
+                <mat-select [(ngModel)]="applicationProduct.availablePeriodType" [value]="">
+                  <mat-option value="">- Please Select -</mat-option>
+                  <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
+                    {{ item }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Index Rate</mat-label>
-          <input matInput [(ngModel)]="applicationProduct.attributes['indexRate']" type="text" disabled />
+          <input matInput [(ngModel)]="applicationProduct.indexRateStr" type="text" disabled />
         </mat-form-field>
       </div>
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Loan Purpose</mat-label>
-          <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="applicationProduct.attributes['loanPurpose']"></textarea>
-        </mat-form-field>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Available Period</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.availablePeriod }}
+          </div>
+          <div class="col-3">Period Type</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.availablePeriodType }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Loan Purpose</mat-label>
+            <textarea matInput type="multiline" style="height: 100px" [(ngModel)]="applicationProduct.attributes['loanPurpose']"></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Loan Purpose</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.attributes['loanPurpose'] }}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="form-group" class="col-md-6">
+      <div [hidden]="textBoxHidden">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Late Payment Fee</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <input
+                matInput
+                type="number"
+                class="example-right-align"
+                [(ngModel)]="applicationProduct.latePaymentFee"
+                [disabled]="status"
+              />
+              <div matSuffix>&nbsp;%</div>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" [hidden]="textBoxHidden">
+        <div class="fontsebled row py-1">
+          <div class="col-3">The Prime Lending Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <input
+                matInput
+                type="number"
+                class="example-right-align"
+                [(ngModel)]="applicationProduct.primeLandingRate"
+                [disabled]="status"
+              />
+              <span matSuffix>&nbsp;%</span>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" [hidden]="textBoxHidden">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Early Repayment Penalty</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <input
+                matInput
+                type="number"
+                class="example-right-align"
+                [(ngModel)]="applicationProduct.earlyRepaymentPenalty"
+                [disabled]="status"
+              />
+              <span matSuffix>&nbsp;%</span>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group" [hidden]="textBoxHidden">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Payment Obligations</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Payment Obligations</mat-label>
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                [(ngModel)]="applicationProduct.attributes['paymentObligation']"
+                [disabled]="status"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <mat-label>Mapping to Collateral</mat-label>
-  <jhi-mapping-collateral-temp (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral-temp>
+  <jhi-mapping-collateral (outputCreditProposalMappingData)="getCreditProposalMappingData($event)"> </jhi-mapping-collateral>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
-    <div class="text-center">
+  <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+    <button mat-button (click)="save()">Save</button>
+  </section>
+  <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+    <div class="mt-3 text-center">
+      <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
+    </div>
+  </section>
+  <section *ngIf="parentPath === 'finalize'">
+    <div class="mt-3 text-center">
       <button mat-raised-button color="primary" (click)="save()">Save</button>
     </div>
   </section>
-  <section *jhiMatrixDir="dataItem.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
-    <div class="mt-3 text-center">
-      <button mat-raised-button color="primary" hidden (click)="save()">ADD</button>
-    </div>
-  </section>
-
-  <!-- Kondisi Button Ofering Letter Finalize -->
-  <div class="m-2 text-center py-3">
+  <div class="mt-3 text-center py-3">
     <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
   </div>
 </mat-dialog-actions>

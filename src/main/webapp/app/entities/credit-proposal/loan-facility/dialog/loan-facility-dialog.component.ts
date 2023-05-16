@@ -20,6 +20,9 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { MasterProductParameterService } from 'app/entities/master-parameter/master-product/master-product-parameter.service';
+import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
+import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -62,6 +65,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   date = new FormControl(moment());
   private listFacicility: any;
   private listLoanType: any;
+  public listGeneralLov = [];
+  public masterProduct: IMasterProductParameter;
+  public listCategoryLov = [];
 
   @Input()
   get collateral() {
@@ -272,6 +278,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     public generalParameterService: GeneralParameterService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
+    protected productParameterService: MasterProductParameterService,
+    protected productClasificationService: ProductClassificationService,
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
@@ -303,6 +311,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.lovInstallmentMethod();
     this.lovInterestRateTypeList();
     this.lovRestructMethod();
+    this.getFacilityType();
   }
 
   public save(): void {
@@ -368,9 +377,17 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else {
       this.status = false;
     }
-    this.creditProposalService.getFacilityProductList(event).subscribe(res => {
-      this.listLoanType = res.body;
-    });
+    // this.creditProposalService.getFacilityProductList(event).subscribe(res => {
+    //   this.listLoanType = res.body;
+    // });
+
+    this.productParameterService
+      .queryFilterBy({
+        idProductType: event,
+      })
+      .subscribe(res => {
+        this.listLoanType = res.body;
+      });
 
     this.disableButtonChange(event);
   }
@@ -417,7 +434,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public changeSublimitCheck() {
-    if (this.applicationProduct.sublimit === false) {
+    if (this.applicationProduct.subLimit === false) {
       this.applicationProduct.sublimitFromExistingFacility = '';
       this.applicationProduct.indexFacilityMain = '';
     }
@@ -757,5 +774,35 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         });
         console.log('restruct', this.restructList);
       });
+  }
+
+  public getFacilityType() {
+    this.productParameterService.getLovFacilityType().subscribe(res => {
+      this.listGeneralLov = res.body;
+      if (this.masterProduct.productTypeId !== '') {
+        for (let i = 0; i < this.listGeneralLov.length; i++) {
+          this.masterProduct.productTypeId = this.listGeneralLov[i].id;
+        }
+      }
+    });
+  }
+
+  public getfacilityCategory(event) {
+    const data = this.listLoanType.find(obj => obj.name === event);
+    if (data) {
+      this.productClasificationService
+        .queryFilterBy({
+          idProduct: data.id,
+          page: 0,
+          size: 9999,
+          sort: ['asc'],
+        })
+        .subscribe(res => {
+          console.log('ini catgeory ', res.body);
+          this.listCategoryLov = res.body;
+        });
+      console.log('ini data ', data);
+      this.applicationProduct.productId = data.id;
+    }
   }
 }

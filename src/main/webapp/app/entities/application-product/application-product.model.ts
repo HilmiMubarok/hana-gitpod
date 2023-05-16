@@ -46,7 +46,7 @@ export interface IApplicationProduct {
   restructMethod?: string;
   restructStatus?: string;
   spreadRate?: number;
-  sublimit?: boolean;
+  subLimit?: boolean;
   totRate?: number;
   totalPlafond?: number;
   trxDate?: Date;
@@ -149,7 +149,7 @@ export class ApplicationProduct implements IApplicationProduct {
     public restructMethod?: string,
     public restructStatus?: string,
     public spreadRate?: number,
-    public sublimit?: boolean,
+    public subLimit?: boolean,
     public totRate?: number,
     public totalPlafond?: number,
     public trxDate?: Date,
@@ -210,10 +210,10 @@ export class ApplicationProduct implements IApplicationProduct {
     this.installmentMethod = 'Maturity Repayment';
     this.maturity = 0;
     this.maturityPeriodType = '';
-    this.sublimit = false;
+    this.subLimit = false;
     this.sublimitFromExistingFacility = '';
     this.commitedLine = false;
-    this.currencyId = '';
+    this.currencyId = null;
     this.kurs = 0;
     this.initialLimit = 0;
     this.outstanding = 0;

@@ -77,8 +77,8 @@
             />
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let option of listFacicility" [value]="option.label">
-                {{ option.label }}
+              <mat-option *ngFor="let option of listGeneralLov" [value]="option.id">
+                {{ option.id }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -97,10 +97,10 @@
         <div class="mb-2" *ngIf="applicationProduct.applicationType !== 'Existing'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Loan Type</mat-label>
-            <mat-select [(ngModel)]="applicationProduct.productName" [disabled]="statusFacilityDisabled">
+            <mat-select [(ngModel)]="applicationProduct.productName" (selectionChange)="getfacilityCategory($event.value)">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of listLoanType" [value]="item.label">
-                {{ item.label }}
+              <mat-option *ngFor="let item of listLoanType" [value]="item.name">
+                {{ item.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -121,13 +121,28 @@
           </div>
         </div>
       </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline" *ngIf="applicationProduct.productTypeId === 'OMNIBUS'">
+            <mat-label>Loan Type Remarks (SPPK)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['loanRemarkSppk']"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </section>
+
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Facility Category / Appl Type</mat-label>
             <mat-select [(ngModel)]="applicationProduct.categoryId" name="facilityCategory">
               <mat-option value="">- Please Select -</mat-option>
-              <mat-option *ngFor="let item of listOfValue.applicationTypeList" [value]="item">{{ item }} </mat-option>
+              <mat-option *ngFor="let item of listCategoryLov" [value]="item.categoryId">{{ item.categoryId }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -226,7 +241,7 @@
         <div class="mb-2">
           <div class="row">
             <div class="col-3" style="padding: 1rem">
-              <mat-checkbox [(ngModel)]="applicationProduct.sublimit" (ngModelChange)="changeSublimitCheck()" [disabled]="disButtonSub"
+              <mat-checkbox [(ngModel)]="applicationProduct.subLimit" (ngModelChange)="changeSublimitCheck()" [disabled]="disButtonSub"
                 >Sub-Limit</mat-checkbox
               >
             </div>
@@ -235,7 +250,7 @@
                 <mat-label>Sublimit From Existing Facility</mat-label>
                 <mat-select
                   [(ngModel)]="applicationProduct.sublimitFromExistingFacility"
-                  [disabled]="applicationProduct.sublimit !== true"
+                  [disabled]="applicationProduct.subLimit !== true"
                   (ngModelChange)="changeSublimit($event)"
                 >
                   <mat-option value="">- Please Select -</mat-option>
@@ -267,7 +282,7 @@
           <div class="col-3">Sub-Limit</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ printElement(applicationProduct.sublimit) }}
+            {{ printElement(applicationProduct.subLimit) }}
           </div>
         </div>
         <div class="fontsebled row">
@@ -823,6 +838,20 @@
           <div class="col">
             {{ applicationProduct.gracePeriodType }}
           </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2" *ngIf="applicationProduct.productTypeId === 'OMNIBUS'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Interest Rate Remarks (SPPK)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [(ngModel)]="applicationProduct.attributes['interestRateRemarkSppk']"
+            ></textarea>
+          </mat-form-field>
         </div>
       </section>
 
