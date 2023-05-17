@@ -91,7 +91,17 @@ export class MatrixDirective implements OnInit, OnDestroy {
       !this.router.url.includes('cp-status-approval') &&
       !this.router.url.includes('la-distribution') &&
       !this.router.url.includes('la-SME-CRC') &&
-      !this.router.url.includes('la-approval')
+      !this.router.url.includes('la-approval') &&
+      !this.router.url.includes('distribution') &&
+      !this.router.url.includes('la-approval-inquiry') &&
+      !this.router.url.includes('dar-checker') &&
+      !this.router.url.includes('cc-checking') &&
+      !this.router.url.includes('cc-review') &&
+      !this.router.url.includes('dar-notif') &&
+      !this.router.url.includes('loan-committee-approval') &&
+      !this.router.url.includes('cp-status-approval') &&
+      !this.router.url.includes('la-analyst') &&
+      !this.router.url.includes('confirmation')
     ) {
       this.checkOnCreditProposal();
     }
@@ -228,13 +238,49 @@ export class MatrixDirective implements OnInit, OnDestroy {
       } else {
         this.opinionCheck();
         this.readOnly();
-        ``;
       }
     }
 
     if (this.router.url.includes('cc-review')) {
       if (this.positionTypeId === 'CC_DIR' || this.positionTypeId === 'CC_DH' || this.positionTypeId === 'CC_DEPT_HEAD') {
         if (this.status === 'CP_CC_DEPT_HEAD' || this.status === 'CP_CC_DIV_HEAD' || this.status === 'CP_CC_DIRECTOR') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.opinionCheck();
+          this.readOnly();
+        }
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('cc-inquiry')) {
+      if (this.positionTypeId === 'CC_ANALYST' || this.positionTypeId === 'CC_ADMIN') {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('confirmation')) {
+      if (this.positionTypeId === 'OL_CONFIRMATION') {
+        if (this.status === 'RM') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.opinionCheck();
+          this.readOnly();
+        }
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('distribution')) {
+      if (this.positionTypeId === 'CREDIT_LEGAL_LEAD') {
+        if (this.status === 'OL_DISTRIBUTION') {
           this.defaultCpMatrixFull();
         } else {
           this.opinionCheck();
