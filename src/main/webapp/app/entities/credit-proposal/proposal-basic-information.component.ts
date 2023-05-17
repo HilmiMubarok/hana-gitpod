@@ -175,6 +175,21 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
   }
 
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
+
   private getBucketNameSummary() {
     this.storageService.getBucketName().subscribe(val => {
       this.BUCKET = val.body['bucket'];
@@ -538,6 +553,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resAttr = _res;
+		this.resAttr.attr.idPosition = this.getLocStor('POS');
+		console.log('this.resAttr @CP : ', this.resAttr);
         let exposure = 0;
         let init = 0;
         let change = 0;
