@@ -554,7 +554,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
 		this.resAttr.attr.idPosition = this.getLocStor('POS');
-		console.log('this.resAttr @CP : ', this.resAttr);
         let exposure = 0;
         let init = 0;
         let change = 0;
