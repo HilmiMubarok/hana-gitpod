@@ -21,10 +21,7 @@
   </div>
 
   <div *ngIf="!isLoading">
-    <div *ngIf="requestSlik.status === 'Checking'">
-      Checking... {{ partyCif?.partyId }} <button mat-raised-button color="primary" (click)="submit()">Submit</button>
-    </div>
-    <div *ngIf="requestSlik.status !== 'Checking'">
+    <div>
       <div class="row px-3 pt-5">
         <div class="col">
           <div class="d-flex justify-content-start align-item-center">
@@ -192,7 +189,11 @@
       <div class="row px-3 pt-5">
         <jhi-document-request-slik [requestSlik]="requestSlik"></jhi-document-request-slik>
       </div>
-      <div class="d-flex justify-content-center" style="margin-top: 30px" *ngIf="requestSlik.status !== 'Complete'">
+      <div
+        class="d-flex justify-content-center"
+        style="margin-top: 30px"
+        *ngIf="requestSlik.status !== 'Complete' && requestSlik.status !== 'Checking'"
+      >
         <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
         <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
         <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'Draft'" (click)="save()">Save</button>

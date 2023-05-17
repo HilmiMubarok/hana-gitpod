@@ -101,7 +101,7 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         route: 'party-cif',
       },
       {
-        name: 'Request Slik',
+        name: 'SLIK Checking',
         iconname: 'minus',
         route: 'request-slik',
       },
@@ -320,7 +320,7 @@ export const APPRAISAL_MENU_RM: ISidebarMenuModel[] = [
         route: 'party-cif',
       },
       {
-        name: 'Request Slik',
+        name: 'SLIK Checking',
         iconname: 'minus',
         route: 'request-slik',
       },
@@ -736,7 +736,7 @@ export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
         route: 'party-cif',
       },
       {
-        name: 'Request Slik',
+        name: 'SLIK Checking',
         iconname: 'minus',
         route: 'request-slik',
       },
@@ -1072,7 +1072,7 @@ export const APPRAISAL_MENU_CHECKER: ISidebarMenuModel[] = [
     iconname: 'pencil-alt',
     children: [
       {
-        name: 'Request Slik',
+        name: 'SLIK Checking',
         iconname: 'minus',
         route: 'request-slik',
       },
@@ -1402,7 +1402,7 @@ export const APPRAISAL_MENU_CRO: ISidebarMenuModel[] = [
         route: 'party-cif',
       },
       {
-        name: 'Request Slik',
+        name: 'SLIK Checking',
         iconname: 'minus',
         route: 'request-slik',
       },
@@ -1478,7 +1478,7 @@ export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
         route: 'party-cif',
       },
       {
-        name: 'Request Slik',
+        name: 'SLIK Checking',
         iconname: 'minus',
         route: 'request-slik',
       },

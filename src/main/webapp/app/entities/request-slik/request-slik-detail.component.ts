@@ -62,7 +62,7 @@ export class RequestSlikDetailComponent {
         // });
         this.checklists = res.details;
         this.requestSlik = res.slik;
-        this.partyCif = res.partyCif.customer;
+        this.partyCif = res.partyCif;
 
         // ! Tidak butuh ini harusnya
         // this.requestSlik.status === 'Verify' &&
@@ -154,9 +154,9 @@ export class RequestSlikDetailComponent {
   protected checkStatus(currentStatus: string) {
     if (currentStatus === 'Draft') {
       return {
-        status: 'ApprovalSlik',
+        status: 'Approval',
       };
-    } else if (currentStatus === 'ApprovalSlik') {
+    } else if (currentStatus === 'Approval') {
       return {
         status: 'Checking',
       };
