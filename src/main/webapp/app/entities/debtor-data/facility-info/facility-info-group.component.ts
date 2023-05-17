@@ -19,6 +19,7 @@ import { DebtorDataFacilityService } from '../debtor-data-facility.service';
 @Component({
   selector: 'jhi-facility-info-group',
   templateUrl: './facility-info-group.component.html',
+  styleUrls: ['./main-facility-info.style.css'],
 })
 export class FacilityInfoGroupComponent implements OnInit, OnChanges {
   public debtorDataFacility: IDebtorDataFacility[];

@@ -12,6 +12,7 @@ import { PartyCifService } from '../party-cif.service';
 @Component({
   selector: 'jhi-facility-info-cif',
   templateUrl: './facility-info-cif.component.html',
+  styleUrls: ['../../party-cif/party-cif.style.scss'],
 })
 export class FacilityInfoCifComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit {
   public loading: boolean;

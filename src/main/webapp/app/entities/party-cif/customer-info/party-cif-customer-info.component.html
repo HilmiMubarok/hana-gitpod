@@ -1,17 +1,17 @@
 <mat-accordion multi>
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title class="fw-bold"> RM Info </mat-panel-title>
+      <mat-panel-title class="label-font-detail"> RM Info </mat-panel-title>
     </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-rm-info [partyCif]="partyCif"></jhi-party-cif-customer-info-rm-info>
   </mat-expansion-panel>
 
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title class="fw-bold"> Customer Info </mat-panel-title>
+      <mat-panel-title class="label-font-detail"> Customer Info </mat-panel-title>
     </mat-expansion-panel-header>
     <div>
-      This customer type is<span class="fw-bold">{{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
+      This customer type is<span class="fw-bold"> {{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
     </div>
     <div class="row mt-5">
       <div class="col-12">
@@ -46,7 +46,7 @@
 
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title class="fw-bold"> Address Info </mat-panel-title>
+      <mat-panel-title class="label-font-detail"> Address Info </mat-panel-title>
     </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-postal-address [disabled]="true" [creditProposal]="creditProposal" [partyPostalAddress]="primaryLocation">
     </jhi-party-cif-customer-info-postal-address>
@@ -54,7 +54,7 @@
 
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title class="fw-bold"> Domicilie Address </mat-panel-title>
+      <mat-panel-title class="label-font-detail"> Domicilie Address </mat-panel-title>
     </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-postal-address [disabled]="true" [creditProposal]="creditProposal" [partyPostalAddress]="domicileLocation">
     </jhi-party-cif-customer-info-postal-address>
@@ -62,7 +62,7 @@
 
   <mat-expansion-panel *ngIf="partyCif.customerType === 'CORPORATE'" expanded="true">
     <mat-expansion-panel-header>
-      <mat-panel-title class="fw-bold"> Warehouse Address </mat-panel-title>
+      <mat-panel-title class="label-font-detail"> Warehouse Address </mat-panel-title>
     </mat-expansion-panel-header>
     <jhi-party-cif-customer-info-postal-address-en-cif-wh [partyCif]="partyCif"></jhi-party-cif-customer-info-postal-address-en-cif-wh>
   </mat-expansion-panel>
@@ -70,7 +70,7 @@
 
 <mat-card class="mt-4" *ngIf="partyCif.customerPerson">
   <mat-card-header>
-    <mat-card-subtitle class="fw-bold">Spouse Info</mat-card-subtitle>
+    <mat-card-subtitle class="label-font-detail">Spouse Info</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <jhi-party-cif-customer-info-person

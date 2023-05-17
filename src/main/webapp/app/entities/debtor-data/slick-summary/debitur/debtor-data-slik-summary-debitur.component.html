@@ -17,6 +17,7 @@
     style="float: right"
     mat-raised-button
     class="btn-save-debtor"
+    color="primary"
     href="javascript:void();"
     [routerLink]="['/party-cif', partyCif.id, selectedManagementType, 'detailFiles']"
     (click)="$event.stopPropagation()"
@@ -24,95 +25,99 @@
     View
   </a>
 
-  <div class="table-responsive-material">
+  <div class="table-responsive-material" style="padding-top: 8px">
     <table mat-table [dataSource]="partySliks" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef>No</th>
-        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">No</th>
+        <td mat-cell *matCellDef="let i = index" class="grid-index-label">{{ i + 1 }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="bank">
-        <th mat-header-cell *matHeaderCellDef>Bank</th>
-        <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Bank</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.bank }}</td>
         <td mat-footer-cell *matFooterCellDef><p>Total in IDR</p></td>
       </ng-container>
       <ng-container matColumnDef="limit">
-        <th mat-header-cell *matHeaderCellDef>Limit</th>
-        <td mat-cell *matCellDef="let element"><!-- {{ element.plafond | number: '1.0-0' }} -->{{ element.plafond }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Limit</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">
+          <!-- {{ element.plafond | number: '1.0-0' }} -->{{ element.plafond }}
+        </td>
         <td mat-footer-cell *matFooterCellDef>
           <p>{{ totalLimit | currency: 'IDR ':'symbol':'1.0-0' }}</p>
         </td>
       </ng-container>
       <ng-container matColumnDef="os">
-        <th mat-header-cell *matHeaderCellDef>O/S</th>
-        <td mat-cell *matCellDef="let element">{{ element.outstanding | number: '1.0-0' }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">O/S</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.outstanding | number: '1.0-0' }}</td>
         <td mat-footer-cell *matFooterCellDef>
           <p>{{ totalOutstanding | currency: 'IDR ':'symbol':'1.0-0' }}</p>
         </td>
       </ng-container>
       <ng-container matColumnDef="facilityType">
-        <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Facility Type</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.facilityType }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="rate">
-        <th mat-header-cell *matHeaderCellDef>Rate(%)</th>
-        <td mat-cell *matCellDef="let element">{{ element.rate | number: '1.0' }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Rate(%)</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.rate | number: '1.0' }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="period">
-        <th mat-header-cell *matHeaderCellDef>Tanggal Penarikan</th>
-        <td mat-cell *matCellDef="let element">{{ element.period }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Tanggal Penarikan</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.period }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="collateralValue">
-        <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
-        <td mat-cell *matCellDef="let element">{{ element.sumCollateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Collateral IDR Mio</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">
+          {{ element.sumCollateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}
+        </td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="tenor">
-        <th mat-header-cell *matHeaderCellDef>Tenor (Month)</th>
-        <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Tenor (Month)</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tenor | number: '1.0-0' }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="firstConstractDate">
-        <th mat-header-cell *matHeaderCellDef>First Contract Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.tanggalAkadAwal }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">First Contract Date</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tanggalAkadAwal }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="disbursementDate">
-        <th mat-header-cell *matHeaderCellDef>Disbursement Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.tanggalMulai }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Disbursement Date</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tanggalMulai }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="maturityDate">
-        <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.tanggalJatuhTempo }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Maturity Date</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.tanggalJatuhTempo }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="lastKol">
-        <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
-        <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Last Collectablility</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.lastCollectability }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="worseKol">
-        <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
-        <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Worst Collectability</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.worstCollectability }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="restructureMethod">
-        <th mat-header-cell *matHeaderCellDef>Restructure Method</th>
-        <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Restructure Method</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.restructureFrequency }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="condition">
-        <th mat-header-cell *matHeaderCellDef>Condition</th>
-        <td mat-cell *matCellDef="let element">{{ element.kondisi }}</td>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Condition</th>
+        <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.kondisi }}</td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element; let i = index">
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Action</th>
+        <td mat-cell *matCellDef="let element; let i = index" class="grid-index-label">
           <button mat-icon-button (click)="openDialog(element, i, 'view')">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
