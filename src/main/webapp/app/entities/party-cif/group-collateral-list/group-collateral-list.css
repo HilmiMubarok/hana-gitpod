@@ -48,3 +48,22 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-description-attribution {
   opacity: 0.5;
 }
+
+.label-font-detail {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #008881;
+}
+
+.grid-index {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  text-align: center;
+  font-size: 15px;
+}
+
+.grid-index-label {
+  text-align: center;
+}

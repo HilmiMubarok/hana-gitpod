@@ -21,6 +21,7 @@ import { IStateBoundary } from '../state-boundary/state-boundary.model';
 @Component({
   selector: 'jhi-collateral-property-list',
   templateUrl: './collateral-property-list.component.html',
+  styleUrls: ['./collateral-property.style.scss'],
 })
 export class CollateralPropertyListComponent extends AbstractEntityMaterialComponent<ICollateralProperty> implements OnChanges {
   public menu: any;

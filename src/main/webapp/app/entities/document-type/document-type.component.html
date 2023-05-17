@@ -130,7 +130,16 @@
         <!-- <button mat-raised-button [routerLink]="['/document-type/', documentType.parentId, 'create']" [disabled]="isView">
           ADD NEW DOCUMENT TYPE
         </button> -->
-        <button mat-raised-button (click)="openDialog()" [disabled]="isView">ADD NEW DOCUMENT TYPE</button>
+        <button *ngIf="isView === true" mat-raised-button (click)="openDialog()" [disabled]="isView">ADD NEW DOCUMENT TYPE</button>
+        <button
+          *ngIf="isView === false"
+          mat-raised-button
+          (click)="openDialog()"
+          [disabled]="isView"
+          style="background: rgba(0, 136, 129, 1); color: #ffffff"
+        >
+          ADD NEW DOCUMENT TYPE
+        </button>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@ import { PartyCifService } from '../party-cif.service';
 @Component({
   selector: 'jhi-party-cif-organization-legal',
   templateUrl: './party-cif-organization-legal.component.html',
+  styleUrls: ['../../party-cif/party-cif.style.scss'],
 })
 export class PartyCifOrganizationLegalComponent {
   private _partyCif: IPartyCif;

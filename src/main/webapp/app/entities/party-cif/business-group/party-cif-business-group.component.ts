@@ -11,6 +11,7 @@ import { PartyCifBusinessGroupDialogComponent } from './party-cif-business-group
 @Component({
   selector: 'jhi-party-cif-business-group',
   templateUrl: './party-cif-business-group.component.html',
+  styleUrls: ['../party-cif.style.scss'],
 })
 export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialComponent<IDebtorData> implements OnChanges {
   public dataSource: IDebtorData[];

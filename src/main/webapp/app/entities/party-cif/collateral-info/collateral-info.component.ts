@@ -29,6 +29,7 @@ import { MessageService } from 'primeng/api';
 @Component({
   selector: 'jhi-party-cif-collateral-info',
   templateUrl: './collateral-info.component.html',
+  styleUrls: ['./collateral-info.style.css'],
   animations: [
     trigger('detailExpand', [
       state(

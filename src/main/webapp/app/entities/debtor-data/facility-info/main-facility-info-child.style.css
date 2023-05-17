@@ -68,3 +68,9 @@ element.style {
   overflow: hidden;
   display: block;
 }
+
+.grid-index {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  font-size: 15px;
+}
