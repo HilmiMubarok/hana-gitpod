@@ -12,6 +12,8 @@ import _ from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { StorageService } from '../storage/storage.service';
+import { IInternal } from '../internal/internal.model';
+import { InternalService } from '../internal/internal.service';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
@@ -21,7 +23,8 @@ export class RequestSlikService extends AbstractEntityService<any> {
     protected applicationConfigService: ApplicationConfigService,
     protected partyCifService: PartyCifService,
     protected partySlikService: PartySlikService,
-    protected storageService: StorageService
+    protected storageService: StorageService,
+    protected internalService: InternalService
   ) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
@@ -39,18 +42,96 @@ export class RequestSlikService extends AbstractEntityService<any> {
     return this.http.get<any>(this.resourceUrl + url, { observe: 'response' }).pipe(
       switchMap(data => {
         console.log('BUCKET DATA', data.body.data);
-        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
+        console.log('request', requests);
         return forkJoin([...requests]).pipe(
           map(details =>
             data.body.data.map((user, i) => ({
               ...user,
-              customerName: details[i].body.customer.name,
-              customerType: details[i].body.customer.customerType,
+              customerName: details[i].body.name,
+              // segment: this.loadInternalById(details[i].body.internalId)
+              //   .then((res2: IInternal) => {
+              //     if (res2.parentId) {
+              //       this.rmBranch = res2;
+              //       this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+              //         this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+              //           if (res4.parentId) {
+              //             this.rmRegional = res4;
+              //             this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+              //               this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+              //                 this.rmSegment = res6.organizationName;
+              //                 return res6.organizationName;
+              //               });
+              //             });
+              //           }
+              //         });
+              //       });
+              //     }
+              //   })
+              //   .finally(() => this.rmSegment),
+              // segment: this.loadInternalInformationRM(details[i].body.internalId),
+              // segment: details[i].body.internalId,
+              customerType: details[i].body.customerType,
             }))
           )
         );
       })
     );
+  }
+
+  // getSegment = async (internalId: string) => {
+  //   const internal = await this.loadInternalById(internalId);
+  //   if (internal.parentId) {
+  //     const branch = await this.loadBranch(internal.parentId.toString());
+  //     if (branch !== null && (typeof branch?.parentId !== 'undefined' || branch?.parentId !== null)) {
+  //       const regional = await this.loadInternalById(branch.parentId.toString());
+  //       if (regional.parentId) {
+  //         const segment = await this.loadInternalById(regional.parentId.toString());
+  //         return segment.organizationName;
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // };
+  // getSegment = async internalId => {
+  //   const internal = await this.loadInternalById(internalId);
+  //   if (internal.parentId) {
+  //     const branch = this.loadBranch(internal.parentId.toString());
+  //     if (branch!.parentId) {
+  //       const regional = await this.loadInternalById(branch!.parentId.toString());
+  //       if (regional.parentId) {
+  //         const segment = await this.loadInternalById(regional.parentId.toString());
+  //         return segment.organizationName;
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // };
+
+  private loadInternalInformationRM(internalId): void {
+    this.branchs = [];
+    this.segments = [];
+    this.regionals = [];
+    this.loadInternalById(internalId).then((res2: IInternal) => {
+      if (res2.parentId) {
+        this.rmBranch = res2;
+        this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+          this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+            if (res4.parentId) {
+              this.rmRegional = res4;
+              this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                  this.rmSegment = res6.organizationName;
+                  // return res6.organizationName;
+                });
+              });
+            }
+          });
+        });
+      }
+    });
+    // console.log('SAD', this.rmSegment);
+    // return this.rmSegment;
   }
 
   public filterData(data, checklists, type) {
@@ -71,15 +152,16 @@ export class RequestSlikService extends AbstractEntityService<any> {
   public getData(): Observable<any> {
     return this.http.get<any>(this.resourceUrl, { observe: 'response' }).pipe(
       switchMap(data => {
-        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
         return forkJoin([...requests]).pipe(
-          map(details =>
+          map(details => {
+            console.log('DETAILS', details);
             data.body.data.map((user, i) => ({
               ...user,
-              customerName: details[i].body.customer.name,
-              customerType: details[i].body.customer.customerType,
-            }))
-          )
+              customerName: details[i].body.name,
+              customerType: details[i].body.customerType,
+            }));
+          })
         );
       })
     );
@@ -89,13 +171,13 @@ export class RequestSlikService extends AbstractEntityService<any> {
     const options = new HttpParams().set('status', status);
     return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(
       switchMap(data => {
-        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
         return forkJoin([...requests]).pipe(
           map(details =>
             data.body.data.map((user, i) => ({
               ...user,
-              customerName: details[i].body.customer.name,
-              customerType: details[i].body.customer.customerType,
+              customerName: details[i].body.name,
+              customerType: details[i].body.customerType,
             }))
           )
         );
@@ -109,13 +191,13 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
     return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(
       switchMap(data => {
-        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCif(item.cif));
+        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
         return forkJoin([...requests]).pipe(
           map(details =>
             data.body.data.map((user, i) => ({
               ...user,
-              customerName: details[i].body.customer.name,
-              customerType: details[i].body.customer.customerType,
+              customerName: details[i].body.name,
+              customerType: details[i].body.customerType,
             }))
           )
         );
@@ -139,7 +221,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     const options = new HttpParams().set('id', id);
     return this.http.get<any>(this.resourceUrl + '/byid', { observe: 'response', params: options }).pipe(
       switchMap(data =>
-        forkJoin(this.partyCifService.findCif(data.body.data.cif), this.getDetailsByRequestSlikId(id)).pipe(
+        forkJoin(this.partyCifService.findCifCash(data.body.data.cif), this.getDetailsByRequestSlikId(id)).pipe(
           map(detail => ({
             slik: data.body.data,
             partyCif: detail[0].body,
@@ -220,7 +302,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
   public onSubmit(data) {
     if (data.status === 'Checking') {
       return this.postCBAS(data);
-    } else if (data.status === 'ApprovalSlik') {
+    } else if (data.status === 'Approval') {
       return this.submitDraft(data);
     } else if (data.status === 'Complete') {
       // push partyslik data.verifyData
@@ -353,4 +435,45 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   protected preSave(entity: IRequestSlik) {}
+
+  private loadInternalById(internalId: string): Promise<IInternal> {
+    return new Promise<IInternal>((resolve, reject) => {
+      this.internalService.find(internalId).subscribe(res => {
+        if (res.body) {
+          resolve(res.body);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  private loadRegional(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.regionals = res.body;
+        resolve();
+      });
+    });
+  }
+
+  // private loadBranch(value: string) {
+  //   return this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 });
+  // }
+
+  private loadBranch(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.branchs = res.body;
+        resolve();
+      });
+    });
+  }
+
+  branchs;
+  segments;
+  regionals;
+  rmBranch;
+  rmSegment;
+  rmRegional;
 }
