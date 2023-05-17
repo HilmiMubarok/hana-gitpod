@@ -213,6 +213,53 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
     }
 
+    if (this.router.url.includes('dar-notif')) {
+      if (this.positionTypeId === 'CRO') {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('cc-distribution')) {
+      if (this.positionTypeId === 'CC_ADMIN') {
+        this.defaultCpMatrixFull();
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+        ``;
+      }
+    }
+
+    if (this.router.url.includes('cc-review')) {
+      if (this.positionTypeId === 'CC_DIR' || this.positionTypeId === 'CC_DH' || this.positionTypeId === 'CC_DEPT_HEAD') {
+        if (this.status === 'CP_CC_DEPT_HEAD' || this.status === 'CP_CC_DIV_HEAD' || this.status === 'CP_CC_DIRECTOR') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.opinionCheck();
+          this.readOnly();
+        }
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
+    if (this.router.url.includes('cc-checking')) {
+      if (this.positionTypeId === 'CC_ANALYST') {
+        if (this.status === 'CP_CC_ANALYST') {
+          this.defaultCpMatrixFull();
+        } else {
+          this.opinionCheck();
+          this.readOnly();
+        }
+      } else {
+        this.opinionCheck();
+        this.readOnly();
+      }
+    }
+
     if (this.jhiMatrixDirMenu === 'collateral-appraisal') {
       this.checkOnCollateralAppraisal();
     }
