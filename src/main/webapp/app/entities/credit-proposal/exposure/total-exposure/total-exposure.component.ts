@@ -397,17 +397,17 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
 
   fungsiSumTotalDebiturCashLoan() {
     for (let i = 0; i < this.dataSource.length; i++) {
-      if (this.dataSource[i].attributes.subLimit === false || this.dataSource[i].attributes.subLimit === 'false') {
+      if (this.dataSource[i].subLimit === false || this.dataSource[i].subLimit === 'false') {
         for (let j = 0; j < this.nonCashLoan.length; j++) {
-          if (this.dataSource[i].attributes.currency === 'IDR') {
-            if (this.dataSource[i].attributes['facilityType'] === this.nonCashLoan[j]) {
-              this.nonCashLoanDebitur = [...this.nonCashLoanDebitur, Number(this.dataSource[i].attributes.totalPlafond)];
+          if (this.dataSource[i].currencyId === 'IDR') {
+            if (this.dataSource[i].productTypeId === this.nonCashLoan[j]) {
+              this.nonCashLoanDebitur = [...this.nonCashLoanDebitur, Number(this.dataSource[i].totalPlafond)];
             }
           } else {
-            if (this.dataSource[i].attributes['facilityType'] === this.nonCashLoan[j]) {
+            if (this.dataSource[i].productTypeId === this.nonCashLoan[j]) {
               this.nonCashLoanDebitur = [
                 ...this.nonCashLoanDebitur,
-                Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs),
+                Number(this.dataSource[i].totalPlafond) * Number(this.dataSource[i].kurs),
               ];
             }
           }
@@ -419,25 +419,26 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   fungsiSuminit() {
     let result: number;
     let dolar: number;
+    let hasil: number;
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.initialLimit !== undefined) {
-            result = result + Number(filterIdr[i].attributes.initialLimit);
+          if (filterIdr[i].initialLimit !== null) {
+            result = result + Number(filterIdr[i].initialLimit);
           }
         }
       }
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.initialLimit !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
+          if (filterUsd[i].initialLimit !== undefined) {
+            dolar = dolar + Number(filterUsd[i].initialLimit) * Number(filterUsd[i].kurs);
           }
         }
       }
@@ -451,29 +452,26 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.changes !== undefined) {
-            result = result + Number(filterIdr[i].attributes.changes);
+          if (filterIdr[i].changes !== null) {
+            result = result + Number(filterIdr[i].changes);
           }
         }
       }
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.changes !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
+          if (filterUsd[i].changes !== null) {
+            dolar = dolar + Number(filterUsd[i].changes) * Number(filterUsd[i].kurs);
           }
         }
       }
     }
-    this.totalChanges = result + dolar;
-
-    this.creditProposalService.setTotalChanges(this.totalChanges);
     return result + dolar;
   }
 
@@ -483,22 +481,22 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.outstanding !== undefined) {
-            result = result + Number(filterIdr[i].attributes.outstanding);
+          if (filterIdr[i].outstanding !== null) {
+            result = result + Number(filterIdr[i].outstanding);
           }
         }
       }
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.outstanding !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          if (filterUsd[i].outstanding !== null) {
+            dolar = dolar + Number(filterUsd[i].outstanding) * Number(filterUsd[i].kurs);
           }
         }
       }
@@ -510,10 +508,10 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     let result: number;
     result = 0;
 
-    if (this.dataSource.length > 0) {
-      for (let i = 0; i < this.dataSource.length; i++) {
-        if (this.dataSource[i].attributes.availableLimit !== undefined) {
-          result = result + Number(this.dataSource[i].attributes.availableLimit);
+    if (this._creditProposal.products.length > 0) {
+      for (let i = 0; i < this._creditProposal.products.length; i++) {
+        if (this._creditProposal.products[i].availableLimit !== null) {
+          result = result + Number(this._creditProposal.products[i].availableLimit);
         }
       }
     }
@@ -526,22 +524,22 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     result = 0;
     dolar = 0;
 
-    const dataFilter = this.dataSource.filter(obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false);
+    const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
       if (filterIdr.length > 0) {
         for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].attributes.totalPlafond !== undefined) {
-            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          if (filterIdr[i].totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].totalPlafond);
           }
         }
       }
       if (filterUsd.length > 0) {
         for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].attributes.totalPlafond !== undefined) {
-            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          if (filterUsd[i].totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
           }
         }
       }
@@ -657,39 +655,39 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
   // currency code
   public ccy: any;
   getCurrency() {
-    this.ccy = this.creditProposal.products[0].attributes.currency;
+    this.ccy = this.creditProposal.products[0].currencyId;
   }
 
   public getCurrency1(element: IApplicationProduct) {
-    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+    if (element.provisionFeeType === 'Amount IDR') {
       return 'IDR';
     }
 
-    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+    if (element.provisionFeeType === 'Amount USD') {
       return 'USD';
     }
     return '';
   }
 
   public getCurrency2(element: IApplicationProduct) {
-    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+    if (element.provisionFeeType === '%p.a') {
       return '%p.a';
     }
     return '';
   }
   public getCurrency3(element: IApplicationProduct) {
-    if (element.attributes.adminFeeRateAmountType === 'Amount IDR') {
+    if (element.adminFeeType === 'Amount IDR') {
       return 'IDR';
     }
 
-    if (element.attributes.adminFeeRateAmountType === 'Amount USD') {
+    if (element.adminFeeType === 'Amount USD') {
       return 'USD';
     }
     return '';
   }
 
   public getCurrency4(element: IApplicationProduct) {
-    if (element.attributes.adminFeeRateAmountType === '%p.a') {
+    if (element.adminFeeType === '%p.a') {
       return '%p.a';
     }
     return '';
