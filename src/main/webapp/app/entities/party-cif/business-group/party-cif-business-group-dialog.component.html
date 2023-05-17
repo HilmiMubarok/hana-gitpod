@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>ADD / VIEW BUSINESS GROUP hgfdsa</h2>
+<h2 mat-dialog-title>ADD / VIEW BUSINESS GROUP</h2>
 <mat-dialog-content>
   <mat-card>
     <mat-card-content>
@@ -21,7 +21,9 @@
       </div>
       <div class="form-group text-center">
         <section *jhiMatrixDirIDD="'input'">
-          <button mat-raised-button (click)="findCif()">FIND CIF</button>
+          <button mat-raised-button (click)="findCif()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+            <mat-icon>search</mat-icon> FIND CIF
+          </button>
         </section>
         <section *jhiMatrixDirIDD="''"></section>
       </div>
@@ -59,5 +61,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <!-- <button mat-button (click)="save()" *ngIf="!view && selectedPartyCif">ADD</button> -->
-  <button mat-button mat-dialog-close>CLOSE</button>
+  <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
 </mat-dialog-actions>
