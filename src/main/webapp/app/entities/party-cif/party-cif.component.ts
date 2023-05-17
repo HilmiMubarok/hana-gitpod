@@ -28,6 +28,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-party-cif',
   templateUrl: './party-cif.component.html',
+  styleUrls: ['./party-cif.style.scss'],
   animations: [
     trigger('detailExpand', [
       state(
@@ -282,4 +283,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   }
 
   public data: [];
+
+  previousState(): void {
+    window.history.back();
+  }
 }

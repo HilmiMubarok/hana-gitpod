@@ -16,6 +16,7 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur-view',
   templateUrl: './debtor-data-slik-summary-debitur-view.component.html',
+  styleUrls: ['./debtror-data-slik-summary-debitur-view.style.scss'],
 })
 export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMaterialComponent<IPartyCif> implements OnInit {
   public loading: boolean;

@@ -13,6 +13,7 @@ import { CollateralPropertyCertificatesDialogComponent } from '../dialogs/collat
 @Component({
   selector: 'jhi-collateral-property-list-realestate-certificate-template',
   templateUrl: './collateral-property-list-realestate-certificate-template.component.html',
+  styleUrls: ['./collateral-property-list-expand.scss'],
 })
 export class CollateralPropertyListRealestateCertificateTemplateComponent implements OnInit, OnChanges {
   public displayedColumnsLand: string[] = [

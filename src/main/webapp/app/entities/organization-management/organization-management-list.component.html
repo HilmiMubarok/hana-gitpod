@@ -1,53 +1,53 @@
 <!--FOR MANAGEMENT DATA-->
 <mat-card *ngIf="displayedColumns && managementType === 'MANAGEMENT_DATA'">
   <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize">management data</mat-card-header-subtitle>
+    <mat-card-header-subtitle class="label-font-detail">Management Data</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="organizationManagement" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">No</th>
         <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
       </ng-container>
       <ng-container matColumnDef="fullname">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Fullname</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Position</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Position</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.attributes['position'] }}
         </td>
       </ng-container>
       <ng-container matColumnDef="idCard">
-        <th mat-header-cell *matHeaderCellDef class="text-center">ID Card</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">ID Card</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person.personalIdNumber }}
         </td>
       </ng-container>
       <ng-container matColumnDef="dob">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Date of Birth</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Date of Birth</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person.dob | formatMediumDate }}
         </td>
       </ng-container>
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Address</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Address</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.postalAddress.address1 }}
         </td>
       </ng-container>
       <ng-container matColumnDef="pep">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Pep</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Pep</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.attributes.pep }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Actions</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
@@ -77,65 +77,67 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right" [hidden]="view">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new management data</button>
+    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+      add new management data
+    </button>
   </mat-card-actions>
 </mat-card>
 
 <!--FOR SHAREHOLDER-->
 <mat-card *ngIf="displayedColumns && managementType === 'SHAREHOLDER'">
   <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize">shareholder</mat-card-header-subtitle>
+    <mat-card-header-subtitle class="label-font-detail">Shareholder</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="organizationManagement" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">No</th>
         <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
       </ng-container>
       <ng-container matColumnDef="fullname">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Fullname</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person?.name || element.shareHolderOrg?.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="idCard">
-        <th mat-header-cell *matHeaderCellDef class="text-center">ID</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">ID</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person?.personalIdNumber || element.shareHolderOrg?.taxIdNumber }}
         </td>
       </ng-container>
       <ng-container matColumnDef="dob">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Date of Birth</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Date of Birth</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person?.dob | formatMediumDate }}
         </td>
       </ng-container>
       <ng-container matColumnDef="ownership">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Ownership(%)</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Ownership(%)</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.attributes['ownership'] }}
         </td>
       </ng-container>
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Address</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Address</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.postalAddress.address1 }}
         </td>
       </ng-container>
       <ng-container matColumnDef="pep">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Pep</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Pep</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.attributes.pep }}
         </td>
       </ng-container>
       <ng-container matColumnDef="noOfShare">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Nominal of Share</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Nominal of Share</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.attributes.stockNominal | number: '1.0-0' }}
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Actions</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
@@ -165,47 +167,49 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right" [hidden]="view">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new shareholder</button>
+    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+      add new shareholder
+    </button>
   </mat-card-actions>
 </mat-card>
 
 <!--FOR CONTROL PERSON-->
 <mat-card *ngIf="displayedColumns && managementType === 'CONTROL_PERSON'">
   <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize">Others (group, guarantor, etc)</mat-card-header-subtitle>
+    <mat-card-header-subtitle class="label-font-detail">Others (group, guarantor, etc)</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="organizationManagement" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">No</th>
         <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
       </ng-container>
       <ng-container matColumnDef="fullname">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Fullname</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="idCard">
-        <th mat-header-cell *matHeaderCellDef class="text-center">ID Card</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">ID Card</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person.personalIdNumber }}
         </td>
       </ng-container>
       <ng-container matColumnDef="dob">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Date of Birth</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Date of Birth</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.person?.dob | formatMediumDate }}
         </td>
       </ng-container>
       <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Address</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Address</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           {{ element.postalAddress.address1 }}
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="text-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index">Actions</th>
         <td mat-cell *matCellDef="let element" class="text-center">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
@@ -235,6 +239,8 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right" [hidden]="view">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()">add new control person</button>
+    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+      add new control person
+    </button>
   </mat-card-actions>
 </mat-card>

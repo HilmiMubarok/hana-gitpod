@@ -1,34 +1,34 @@
-<mat-card>
+<!-- <mat-card>
   <mat-card-header>
-    <mat-card-title>SLIK IDEB FILE RESULT</mat-card-title>
+    <mat-card-title class="label-font-detail">SLIK IDEB FILE RESULT</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="row">
       <div class="col-12">
         <table mat-table [dataSource]="folders" class="mat-table-expand" multiTemplateDataRows>
           <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+            <th mat-header-cell *matHeaderCellDef class="grid-index">No</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-label">{{ i + 1 }}.</td>
           </ng-container>
           <ng-container matColumnDef="fileName">
-            <th mat-header-cell *matHeaderCellDef class="text-center">File Name</th>
-            <td mat-cell *matCellDef="let element" class="text-center">{{ element.name }}</td>
+            <th mat-header-cell *matHeaderCellDef class="grid-index">File Name</th>
+            <td mat-cell *matCellDef="let element" class="text-center-label">{{ element.name }}</td>
           </ng-container>
           <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Date</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef class="grid-index">Date</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-label">
               {{ element.lastModified | formatMediumDate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="fileSize">
-            <th mat-header-cell *matHeaderCellDef class="text-center">File Size</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef class="grid-index">File Size</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-label">
               {{ element.size | formatFileSize }}
             </td>
           </ng-container>
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element; let i = index">
+            <th mat-header-cell *matHeaderCellDef class="grid-index">Action</th>
+            <td mat-cell *matCellDef="let element; let i = index" class="grid-index-label">
               <button mat-icon-button (click)="viewDialog(element)">
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
@@ -53,4 +53,81 @@
       </div>
     </div>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+
+<div class="row">
+  <div class="e-card">
+    <div class="e-card-header">
+      <div class="e-card-header-caption">
+        <ejs-breadcrumb cssClass="margin: 1rem;">
+          <e-breadcrumb-items>
+            <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="Debtor Data Details" url="/party-cif/{{partyCif.customerId}}/detail"></e-breadcrumb-item> -->
+            <e-breadcrumb-item text="Detail Files" url=""></e-breadcrumb-item>
+          </e-breadcrumb-items>
+        </ejs-breadcrumb>
+        <div class="header-container">
+          <div class="header-content">
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
+            <span class="back-prefix" (click)="previousState()">Back | </span>
+          </div>
+          <p class="e-card-sub-title">Detail Files</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin: 1rem">
+      <table mat-table [dataSource]="folders" class="mat-table-expand" multiTemplateDataRows>
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-label">{{ i + 1 }}.</td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">File Name</th>
+          <td mat-cell *matCellDef="let element" class="text-center-label">{{ element.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">Date</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">
+            {{ element.lastModified | formatMediumDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileSize">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">File Size</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-label">
+            {{ element.size | formatFileSize }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="grid-index">Action</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="grid-index-label">
+            <button mat-icon-button (click)="viewDialog(element)">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+            <mat-checkbox [aria-label]="isSubscribedToEmailsMessage" (change)="viewFileBySelection($event, element)"> </mat-checkbox>
+          </td>
+
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div class="col-12 text-center">
+      <button mat-raised-button class="btn-lg text-uppercase" (click)="download()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+        Save
+      </button>
+      <button [hidden]="true"></button>
+      <button
+        mat-raised-button
+        class="btn-lg text-uppercase"
+        (click)="previousState()"
+        style="background: rgb(228, 39, 39); color: #ffffff"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
