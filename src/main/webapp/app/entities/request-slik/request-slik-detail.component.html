@@ -97,7 +97,7 @@
               [disabled]="requestSlik.status !== 'Draft'"
               matInput
               type="text"
-              [ngModel]="partyCif.organizationLegal?.deedEstablishDate | date: 'long'"
+              [ngModel]="partyCif.organizationLegal?.deedEstablishDate | date: 'YYY-MM-dd'"
               (ngModelChange)="partyCif.organizationLegal.deedEstablishDate = $event"
             />
           </mat-form-field>
