@@ -102,14 +102,15 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       for (let i = 0; i < res.body.length; i++) {
         this.statusCodesData.push(res.body[i]);
         this.isShow = true;
-        if (i <= 1) {
-          this.isShow = false;
-        }
+      }
+      if (res.body.length === 0) {
+        this.isShow = false;
       }
     });
   }
 
   ngOnInit(): void {
+    this.getPositionTypeId();
     this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
@@ -206,6 +207,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     } else {
       this.doSearch();
     }
+  }
+
+  private getPositionTypeId(): void {
+    this.positionService.find(this.getLocStor('POS')).subscribe(res => {
+      console.log('okkfff', res.body.positionTypeId);
+    });
   }
 
   private convertStatusActivateRoute(activeRoute: string): string {
