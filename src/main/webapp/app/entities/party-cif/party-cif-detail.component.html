@@ -158,7 +158,14 @@
               <button
                 mat-raised-button
                 (click)="save()"
-                style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 825px !important; margin-top: 25px !important"
+                style="
+                  background: rgba(0, 136, 129, 1);
+                  color: #ffffff;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-top: 25px !important;
+                "
                 *ngIf="clickedMenu !== 'credit-rating'"
               >
                 Save
@@ -174,7 +181,14 @@
               <button
                 mat-raised-button
                 (click)="previousState()"
-                style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 845px !important; margin-top: 25px !important"
+                style="
+                  background: rgba(0, 136, 129, 1);
+                  color: #ffffff;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-top: 25px !important;
+                "
                 *ngIf="clickedMenu === 'credit-rating'"
               >
                 Back
