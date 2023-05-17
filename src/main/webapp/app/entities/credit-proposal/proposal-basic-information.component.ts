@@ -109,7 +109,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public applicationRoles: IApplicationRole[];
   public applicationRoleId: number;
   public routeHelper: string;
-  public resAttr: IProcessTask;
+  public resAttr: any;
   public lendingProgram = [];
 
   appName: any;
