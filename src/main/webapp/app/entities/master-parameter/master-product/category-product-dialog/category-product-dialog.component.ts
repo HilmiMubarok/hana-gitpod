@@ -4,6 +4,7 @@ import { IProductClassification } from 'app/entities/product-classification/prod
 import { IMasterProductParameter } from '../master-product-parameter.model';
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
 import lodash from 'lodash';
+import { ProductCategoryService } from 'app/entities/product-category/product-category.service';
 
 @Component({
   selector: 'jhi-category-product-dialog',
@@ -22,14 +23,15 @@ export class CategoryProductDialogComponent implements OnInit {
       productId: IMasterProductParameter;
     },
     private _dialog: MatDialogRef<CategoryProductDialogComponent>,
-    protected productClasificationService: ProductClassificationService
+    protected productClasificationService: ProductClassificationService,
+    protected productCategoryService: ProductCategoryService
   ) {
     this.productClasification = this.data.productClasification;
-    console.log('category', this.data.productId.id);
   }
   ngOnInit(): void {
     this.getIdProduct();
     this.getProductClasification();
+
     this.getProductCategory();
   }
 
@@ -50,7 +52,7 @@ export class CategoryProductDialogComponent implements OnInit {
   }
 
   public getProductCategory() {
-    this.productClasificationService
+    this.productCategoryService
       .query({
         // idProduct: this.productParameter.id,
         page: 0,
@@ -59,10 +61,24 @@ export class CategoryProductDialogComponent implements OnInit {
       })
       .subscribe(res => {
         this.categoryList = res.body.filter(
-          (product, index, arr) =>
-            !this.categoryListGrid.includes(product.categoryId) && arr.findIndex(p => p.categoryId === product.categoryId) === index
+          (product, index, arr) => !this.categoryListGrid.includes(product.id) && arr.findIndex(p => p.id === product.id) === index
         );
-        console.log(this.categoryList);
+        console.log('category List', this.categoryList);
+        // const data = res.body;
+        // if (data.length > 0) {
+        //   for (let i = 0; i < data.length; i++) {
+        //     for (let j = 0; j < this.categoryListGrid.length; j++) {
+        //       if (data[i].id !== this.categoryListGrid[j].categoryId) {
+        //         this.categoryList.push(data[i].id);
+        //       }
+        //     }
+        //   }
+        // }
+        // this.categoryList = res.body.filter(o => {
+        //   o.id !== this.categoryListGrid.forEach(e => e.categoryId);
+        // });
+
+        // this.categoryList = lodash.filter(res.body, o => o.id !== this.categoryListGrid['categoryId']);
       });
   }
 
