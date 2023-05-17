@@ -30,8 +30,8 @@
           <mat-label>Category</mat-label>
           <mat-select [(ngModel)]="productClasification.categoryId">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of categoryList" [value]="item.categoryId">
-              {{ item.categoryDescription }}
+            <mat-option *ngFor="let item of categoryList" [value]="item.id">
+              {{ item.description }}
             </mat-option>
           </mat-select>
         </mat-form-field>
