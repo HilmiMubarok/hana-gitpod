@@ -13,7 +13,11 @@
         (select)="selectMenuItem($event)"
       ></ejs-menu>
       <div *ngIf="selectedMenu === 'INFORMATION'">
-        <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
+        <jhi-above-grid
+          [isViewMode]="isViewMode"
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+        ></jhi-above-grid>
         <div *ngIf="takeOutCompare !== true">
           <jhi-credit-proposal-collateral-info-remarks-information
             #creditProposalCollateralInfoRemarksInfoComponentAbove
@@ -50,7 +54,11 @@
   </div>
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
-    <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
+    <jhi-bellow-grid
+      [isViewMode]="isViewMode"
+      [creditProposal]="creditProposal"
+      [collateralProperties]="collateralProperties"
+    ></jhi-bellow-grid>
     <div *ngIf="takeOutCompare !== true">
       <jhi-credit-proposal-collateral-info-remarks-information
         #creditProposalCollateralInfoRemarksInfoComponentBelow
@@ -62,7 +70,11 @@
   </div>
 
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
-    <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+    <jhi-credit-proposal-collateral-info-btb
+      [isViewMode]="isViewMode"
+      [creditProposal]="creditProposal"
+      [collateralProperties]="collateralProperties"
+    >
     </jhi-credit-proposal-collateral-info-btb>
     <div *ngIf="takeOutCompare !== true">
       <jhi-credit-proposal-collateral-info-remarks-information
@@ -89,7 +101,11 @@
         (select)="selectMenuItem($event)"
       ></ejs-menu>
       <div *ngIf="selectedMenu === 'INFORMATION'">
-        <jhi-above-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-above-grid>
+        <jhi-above-grid
+          [isViewMode]="isViewMode"
+          [creditProposal]="creditProposal"
+          [collateralProperties]="collateralProperties"
+        ></jhi-above-grid>
       </div>
     </div>
     <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
@@ -114,7 +130,11 @@
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
     <div *ngIf="selectedMenu === 'INFORMATION'">
-      <jhi-bellow-grid [isViewMode]="isViewMode" [creditProposal]="creditProposal"></jhi-bellow-grid>
+      <jhi-bellow-grid
+        [isViewMode]="isViewMode"
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+      ></jhi-bellow-grid>
       <div *ngIf="selectedMenu === 'SUMMARY'">
         <div class="card-content">
           <jhi-summary-grid [creditProposal]="creditProposal"></jhi-summary-grid>
@@ -124,7 +144,11 @@
   </div>
   <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
     <div *ngIf="selectedMenu === 'INFORMATION'">
-      <jhi-credit-proposal-collateral-info-btb [isViewMode]="isViewMode" [creditProposal]="creditProposal">
+      <jhi-credit-proposal-collateral-info-btb
+        [isViewMode]="isViewMode"
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+      >
       </jhi-credit-proposal-collateral-info-btb>
       <div *ngIf="selectedMenu === 'SUMMARY'">
         <div class="card-content">
