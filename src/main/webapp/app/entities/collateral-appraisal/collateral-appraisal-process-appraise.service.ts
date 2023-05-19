@@ -12,7 +12,7 @@ export class CollateralAppraisalsAppraiseService {
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/survey-appraisals/check-active');
   }
 
-  public validateAppraise(collateral: ICollateral[]): Observable<HttpResponse<any>> {
-    return this.http.post<any>(`${this.resourceUrl}`, collateral, { observe: 'response' });
+  public validateAppraise(collateral: ICollateral[]): Observable<HttpResponse<object>> {
+    return this.http.post<object>(`${this.resourceUrl}`, collateral, { observe: 'response' });
   }
 }
