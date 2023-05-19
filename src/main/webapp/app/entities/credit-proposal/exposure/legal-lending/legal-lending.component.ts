@@ -163,8 +163,6 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
         this.generalParameter = lodash.filter(res.body, function (o) {
           return o.code !== null && o.statusId === STATUS.ACTIVE;
         });
-        console.log('res', res.body);
-        console.log('param', this.generalParameter);
       });
   }
 
