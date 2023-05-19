@@ -43,6 +43,7 @@ import { GeneralParameterService } from '../master-parameter/general-parameter/g
 import { StorageService } from '../storage/storage.service';
 import { Subject } from 'rxjs';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -553,7 +554,7 @@ export class ProposalBasicInformationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resAttr = _res;
-		this.resAttr.attr.idPosition = this.getLocStor('POS');
+        this.resAttr.attr.idPosition = this.getLocStor('POS');
         let exposure = 0;
         let init = 0;
         let change = 0;
@@ -1002,7 +1003,10 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.lendingProgram = lodash.filter(res.body, function (o) {
           const fromDate = new Date(o.fromDate);
           const thruDate = new Date(o.thruDate);
-          return o.statusId === 'ACTIVE' && fromDate <= new Date() && thruDate >= new Date();
+          const convertFromDate = moment(fromDate).format('YYYY-MM-DD');
+          const convertThruDate = moment(thruDate).format('YYYY-MM-DD');
+          const newDate = moment(new Date()).format('YYYY-MM-DD');
+          return o.statusId === 'ACTIVE' && convertFromDate <= newDate && convertThruDate >= newDate;
         });
         for (let i = 0; i < this.lendingProgram.length; i++) {
           if (this.lendingProgram[i].id === this.creditProposal.attributes['lendingProgramParameter']) {

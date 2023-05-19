@@ -173,6 +173,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.getFacilityType();
     this.lovBindingType();
     this.lovInsuranceTypes();
+    this.addLovRank();
   }
 
   public lovInsuranceTypes() {
