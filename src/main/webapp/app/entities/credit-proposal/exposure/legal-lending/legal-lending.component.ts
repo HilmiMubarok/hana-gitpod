@@ -17,6 +17,7 @@ import { IMasterParameter } from 'app/entities/master-parameter/master-parameter
 import { PARAMETER_TYPE } from 'app/shared/constants/base.constants';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { Router } from '@angular/router';
+import { STATUS } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-legal-lending',
   templateUrl: './legal-lending.component.html',
@@ -52,7 +53,7 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   public parsedAttr;
   public ccy: any;
   public totalExposureDebtorAndGroub: number;
-  public currencyMaster= 0;
+  public currencyMaster = 0;
   public totalWclGroub = 0;
   public totalDlGroub = 0;
   public totalODGroub = 0;
@@ -92,72 +93,57 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
   ngOnInit(): void {
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-
-    this.getApplicationOption();
-    this.getParameter();
-    })
+      this.getApplicationOption();
+      this.getParameter();
+    });
   }
-  public countBuffer(value: number): any{
+  public countBuffer(value: number): any {
     // value.toString()
-    if(value !== null && value !== undefined){
-      if (value.toString().split('')[0]==='-') {
-            const bil = new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR"
-            }).format(value);
-            return 'IDR -'+ bil.toString().replace('Rp', '').replace('-', '')
-          }else{
-            const bil = new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR"
-            }).format(value);
-            return 'IDR '+ bil.toString().replace('Rp', '')
-          }
+    if (value !== null && value !== undefined) {
+      if (value.toString().split('')[0] === '-') {
+        const bil = new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+        }).format(value);
+        return 'IDR -' + bil.toString().replace('Rp', '').replace('-', '');
+      } else {
+        const bil = new Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+        }).format(value);
+        return 'IDR ' + bil.toString().replace('Rp', '');
+      }
     }
-    
   }
   ngOnChanges(changes: SimpleChanges) {
     const setDate = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency('USD', 'IDR', setDate.replace(/-/g, '')).subscribe(res => {
-    this.debtorData()
-    this.fungsiSuminit();
-    this.fungsiSumTotalDebiturCashLoan();
-    this.totalCashLoan();
-    this.totalNonCashLoan();
-    this.grandTotalDebitur();
-    this.getMyBusinessGroup();
-    this.getCurrency();
-    })
+      this.debtorData();
+      this.fungsiSuminit();
+      this.fungsiSumTotalDebiturCashLoan();
+      this.totalCashLoan();
+      this.totalNonCashLoan();
+      this.grandTotalDebitur();
+      this.getMyBusinessGroup();
+      this.getCurrency();
+    });
   }
 
- 
-
-
-  public debtorData(){
-  
-    
-      if (this.router.url.split('=').indexOf('exposure') > -1) {
-      
-        this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
-        if (this.parsedAttr.previousHistory) {
-          this.dataSource = this.parsedAttr.previousHistory.products;
-        } else {
-       
-          this.dataSource = this.creditProposal.products;
+  public debtorData() {
+    if (this.router.url.split('=').indexOf('exposure') > -1) {
+      this.parsedAttr = parsePreviousAtrribute(this.creditProposal);
+      if (this.parsedAttr.previousHistory) {
+        this.dataSource = this.parsedAttr.previousHistory.products;
+      } else {
+        this.dataSource = this.creditProposal.products;
       }
-    }else{
+    } else {
       this.dataSource = this.creditProposal.products;
     }
-
-   
-
-
   }
-
 
   public getApplicationOption() {
     this.applicationOptionService.query().subscribe(res => {
-   
       for (let i = 0; i < res.body.length; i++) {
         if (res.body[i].id === 'MODAL_INTI_USAHA') {
           this.modalUsaha = res.body[i].value;
@@ -170,20 +156,20 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
     this.generalParameterService
       .queryFilterBy({
         idParameterType: PARAMETER_TYPE.LEGALLENDINGLIMIT,
+        page: 0,
+        size: 9999,
       })
       .subscribe(res => {
         this.generalParameter = lodash.filter(res.body, function (o) {
-          return o.code !== null;
+          return o.code !== null && o.statusId === STATUS.ACTIVE;
         });
+        console.log('res', res.body);
+        console.log('param', this.generalParameter);
       });
   }
 
-
-
   fungsiSuminit() {
-    const datafilter = this.dataSource.filter(
-      obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false
-    );
+    const datafilter = this.dataSource.filter(obj => obj.attributes['sublimit'] === 'false' || obj.attributes['sublimit'] === false);
 
     if (this.dataSource.length > 0) {
       for (let i = 0; i < this.dataSource.length; i++) {
@@ -199,7 +185,6 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
           if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
             if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
               this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond);
-             
             } else {
               this.totalWcl = this.totalWcl + Number(this.dataSource[i].attributes.outstanding);
             }
@@ -221,7 +206,6 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
             if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
               this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.totalPlafond);
             } else {
-       
               this.totalIL = this.totalIL + Number(this.dataSource[i].attributes.outstanding);
             }
           }
@@ -247,12 +231,11 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
             }
             if (this.dataSource[i].attributes['facilityType'] === 'WCI') {
               if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
-                this.totalWcl =this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
-                  
+                this.totalWcl =
+                  this.totalWcl + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {
                 this.totalWcl =
-                this.totalWcl + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
-                  
+                  this.totalWcl + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'DL') {
@@ -265,20 +248,18 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
             if (this.dataSource[i].attributes['facilityType'] === 'FL') {
               if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
                 this.totalFL =
-                this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+                  this.totalFL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {
                 this.totalFL =
-                  
                   this.totalFL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
               }
             }
             if (this.dataSource[i].attributes['facilityType'] === 'IL') {
               if (this.dataSource[i].attributes['applicationType'].toUpperCase() === 'NEW') {
                 this.totalIL =
-                this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
+                  this.totalIL + Number(this.dataSource[i].attributes.totalPlafond) * Number(this.dataSource[i].attributes.kurs);
               } else {
                 this.totalIL =
-                  
                   this.totalIL + Number(this.dataSource[i].attributes.outstanding) * Number(this.dataSource[i].attributes.kurs);
               }
             }
@@ -383,30 +364,29 @@ export class LegalLendingComponent extends AbstractEntityMaterialComponent<IPart
                 }
               } else if (parsed.CCY !== 'IDR') {
                 if (parsed.FacilityType === 'WCI') {
-                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS) *  Number(this.currencyMaster);
+                  this.totalWclGroub = this.totalWclGroub + Number(parsed.OS) * Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'IL') {
-                  this.totalILGroub = this.totalILGroub + Number(parsed.OS) *  Number(this.currencyMaster);
+                  this.totalILGroub = this.totalILGroub + Number(parsed.OS) * Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'FL') {
-                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS) *  Number(this.currencyMaster);
+                  this.totalFLGroub = this.totalFLGroub + Number(parsed.OS) * Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'MML') {
-                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
+                  this.totalMMLGroub = this.totalMMLGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'DL') {
-                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
+                  this.totalDlGroub = this.totalDlGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'OD') {
-                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
-                
+                  this.totalODGroub = this.totalODGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
                 }
                 if (parsed.FacilityType === 'LC') {
-                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
+                  this.totalLCGroub = this.totalLCGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
                 }
 
                 if (parsed.FacilityType === 'BG') {
-                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond) *  Number(this.currencyMaster);
+                  this.totalBGGroub = this.totalBGGroub + Number(parsed.TotalPlafond) * Number(this.currencyMaster);
                 }
               }
 
