@@ -79,8 +79,15 @@
             </div>
 
             <div class="col-12" align="center">
-              <button style="text-align: center; margin-top: 15px" type="submit" (click)="openDialog({})" mat-raised-button color="primary">
-                Tambah Position
+              <button
+                class="submit-button"
+                style="text-align: center; margin-top: 15px"
+                type="submit"
+                (click)="openDialog({})"
+                mat-raised-button
+                color="primary"
+              >
+                Add Position
               </button>
               <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
                 <ng-container matColumnDef="no">
@@ -129,7 +136,14 @@
       </mat-card>
 
       <mat-card-actions align="center">
-        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
+        <button
+          class="submit-button"
+          style="text-align: center; margin-top: 15px"
+          type="submit"
+          (click)="submit()"
+          mat-raised-button
+          color="primary"
+        >
           Save
         </button>
       </mat-card-actions>

@@ -112,3 +112,11 @@
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+.submit-button {
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px !important;
+  background: rgba(0, 136, 129, 1);
+  padding: 2px 20px 2px 20px;
+}

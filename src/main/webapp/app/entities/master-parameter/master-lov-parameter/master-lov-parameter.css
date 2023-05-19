@@ -120,3 +120,36 @@
 /* .position-name {
     width: 30%
   } */
+
+.submit-button {
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px !important;
+  background: rgba(0, 136, 129, 1);
+  padding: 2px 20px 2px 20px;
+}
+
+.submit-label {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.grid-index {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  text-align: center;
+  font-size: 15px;
+  font-size: 15px;
+}
+
+.label-font-detail {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #008881;
+}
+
+.grid-index-label {
+  text-align: center;
+}
