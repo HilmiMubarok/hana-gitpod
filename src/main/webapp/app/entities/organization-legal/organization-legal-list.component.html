@@ -45,7 +45,9 @@
 >
 </mat-paginator>
 <div class="text-end my-3">
-  <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-    add new organization legal
-  </button>
+  <section *jhiMatrixDirIDD="'input'">
+    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+      add new organization legal
+    </button>
+  </section>
 </div>

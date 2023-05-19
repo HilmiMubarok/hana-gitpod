@@ -20,6 +20,7 @@ import { DebtorDataSlikTransferService } from '../debtor-data/slick-summary/debi
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { LoginService } from 'app/login/login.service';
+import { PositionService } from '../position/position.service';
 
 @Component({
   selector: 'jhi-party-cif-detail',
@@ -37,6 +38,7 @@ export class PartyCifDetailComponent implements OnInit {
   public arrSliks: Object[];
   private internalIdLocStor: string;
   private positionIdLocStor: string;
+  public positionTypeId: string;
 
   constructor(
     protected messageService: MessageService,
@@ -44,9 +46,10 @@ export class PartyCifDetailComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private router: Router,
     protected partyCifService: PartyCifService,
-	protected loginService: LoginService,
+    protected loginService: LoginService,
     private partySlikService: PartySlikService,
-    private TransferService: DebtorDataSlikTransferService
+    private TransferService: DebtorDataSlikTransferService,
+    private positionService: PositionService
   ) {
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.partyCifStartState = this.activatedRoute.snapshot.data['content'];
@@ -63,13 +66,14 @@ export class PartyCifDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-	this.internalIdLocStor = this.getLocStor('INT');
-	this.positionIdLocStor = this.getLocStor('POS');
-	if (!this.internalIdLocStor || !this.positionIdLocStor) {
-	  this.logout();
-	} else {
-	  this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
-	}
+    this.getPositionTypeId();
+    this.internalIdLocStor = this.getLocStor('INT');
+    this.positionIdLocStor = this.getLocStor('POS');
+    if (!this.internalIdLocStor || !this.positionIdLocStor) {
+      this.logout();
+    } else {
+      this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
+    }
   }
 
   previousState(): void {
@@ -85,6 +89,12 @@ export class PartyCifDetailComponent implements OnInit {
       queryParams: {
         subroute: menu['id'],
       },
+    });
+  }
+
+  private getPositionTypeId(): void {
+    this.positionService.find(this.getLocStor('POS')).subscribe(res => {
+      this.positionTypeId = res.body.positionTypeId;
     });
   }
 
@@ -106,8 +116,8 @@ export class PartyCifDetailComponent implements OnInit {
     if (copyPartyCif.customerPerson?.dob) {
       copyPartyCif.customerPerson.dob = this.partyCifStartState.customerPerson.dob;
     }
-	
-	// copyPartyCif.internalId = this.internalIdLocStor;
+
+    // copyPartyCif.internalId = this.internalIdLocStor;
 
     return copyPartyCif;
   }
@@ -140,31 +150,31 @@ export class PartyCifDetailComponent implements OnInit {
 
     this.partyCif.sliks = lodash.concat(this.partyCif.sliks, this.arrSliks);
 
-	this.internalIdLocStor = this.getLocStor('INT');
-	this.positionIdLocStor = this.getLocStor('POS');
+    this.internalIdLocStor = this.getLocStor('INT');
+    this.positionIdLocStor = this.getLocStor('POS');
 
-	if (!this.internalIdLocStor || !this.positionIdLocStor) {
-	  this.logout();
-	} else {
-	  if (!this.internalIdLocStor) {
-		this.logout();
-	  } else {
-		this.partyCifService.update(this.preSave()).subscribe(res => {
-		  if (this.collateralInfo.length > 0) {
-			for (let i = 0; i < this.collateralInfo.length; i++) {
-			  this.collateralService.save(this.collateralInfo[i]);
-			  if (this.collateralInfo.length === i) {
-				this.collateralInfo = [];
-			  }
-			}
-		  }
-		  this.messageService.add({
-			severity: 'success',
-			summary: 'Success',
-			detail: 'Save Success',
-		  });
-		});
-	  }
-	}    
+    if (!this.internalIdLocStor || !this.positionIdLocStor) {
+      this.logout();
+    } else {
+      if (!this.internalIdLocStor) {
+        this.logout();
+      } else {
+        this.partyCifService.update(this.preSave()).subscribe(res => {
+          if (this.collateralInfo.length > 0) {
+            for (let i = 0; i < this.collateralInfo.length; i++) {
+              this.collateralService.save(this.collateralInfo[i]);
+              if (this.collateralInfo.length === i) {
+                this.collateralInfo = [];
+              }
+            }
+          }
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Save Success',
+          });
+        });
+      }
+    }
   }
 }

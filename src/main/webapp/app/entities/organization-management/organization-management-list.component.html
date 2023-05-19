@@ -76,11 +76,13 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right" [hidden]="view">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-      add new management data
-    </button>
-  </mat-card-actions>
+  <section *jhiMatrixDirIDD="'input'">
+    <mat-card-actions align="right" [hidden]="view">
+      <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+        add new management data
+      </button>
+    </mat-card-actions>
+  </section>
 </mat-card>
 
 <!--FOR SHAREHOLDER-->
@@ -166,11 +168,13 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right" [hidden]="view">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-      add new shareholder
-    </button>
-  </mat-card-actions>
+  <section *jhiMatrixDirIDD="'input'">
+    <mat-card-actions align="right" [hidden]="view">
+      <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+        add new shareholder
+      </button>
+    </mat-card-actions>
+  </section>
 </mat-card>
 
 <!--FOR CONTROL PERSON-->
@@ -238,9 +242,11 @@
     >
     </mat-paginator>
   </mat-card-content>
-  <mat-card-actions align="right" [hidden]="view">
-    <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-      add new control person
-    </button>
-  </mat-card-actions>
+  <section *jhiMatrixDirIDD="'input'">
+    <mat-card-actions align="right" [hidden]="view">
+      <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+        add new control person
+      </button>
+    </mat-card-actions>
+  </section>
 </mat-card>
