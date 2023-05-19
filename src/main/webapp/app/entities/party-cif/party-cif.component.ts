@@ -24,6 +24,7 @@ import { LoginService } from 'app/login/login.service';
 import { CashCustomersService } from '../customer-cash/customer-cash.service';
 import { CashCustomerService } from './cash-cusomer.service';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { PositionService } from '../position/position.service';
 
 @Component({
   selector: 'jhi-party-cif',
@@ -66,6 +67,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
   public statusCodesData: Object[] = [];
   public debtorData: IDebtorData;
   private positionIdLocStor: string;
+  public positionTypeId: string;
 
   constructor(
     protected partyCifService: PartyCifService,
@@ -80,7 +82,8 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     protected loginService: LoginService,
     protected cashCustomersService: CashCustomersService,
     private cashCustomerService: CashCustomerService,
-    protected templateService: TemplateService
+    protected templateService: TemplateService,
+    private positionService: PositionService
   ) {
     super(_snackBar, customerService, messageService);
 
@@ -95,6 +98,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
 
   ngOnInit(): void {
     this.positionIdLocStor = this.getPositionByLocStor('POS');
+    this.getPositionTypeId();
     if (!this.positionIdLocStor) {
       this.logout();
     } else {
@@ -119,6 +123,12 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
     } else {
       this.search();
     }
+  }
+
+  private getPositionTypeId(): void {
+    this.positionService.find(this.getLocStor('POS')).subscribe(res => {
+      this.positionTypeId = res.body.positionTypeId;
+    });
   }
 
   public search() {
