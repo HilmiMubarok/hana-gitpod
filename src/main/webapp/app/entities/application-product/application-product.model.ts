@@ -101,6 +101,7 @@ export interface IApplicationProduct {
   primeLandingRate?: string;
   intResetPeriod?: string;
   requiredSpread?: number;
+  intResetFrequencyParam?: string;
 }
 
 export class ApplicationProduct implements IApplicationProduct {
@@ -202,7 +203,8 @@ export class ApplicationProduct implements IApplicationProduct {
     public indexRateStr?: string,
     public primeLandingRate?: string,
     public intResetPeriod?: string,
-    public requiredSpread?: number
+    public requiredSpread?: number,
+    public intResetFrequencyParam?: string
   ) {
     this.uniqueKey = uuid.v4();
     this.applicationType = 'New';
@@ -264,6 +266,7 @@ export class ApplicationProduct implements IApplicationProduct {
     this.rateTypeName = '';
     this.intResetFrequency = 0;
     this.intResetPeriod = 'Month';
+    this.intResetFrequencyParam = 'M';
   }
 }
 

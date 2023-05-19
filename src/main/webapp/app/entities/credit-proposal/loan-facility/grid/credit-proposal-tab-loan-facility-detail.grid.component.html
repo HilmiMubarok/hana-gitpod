@@ -175,7 +175,7 @@
         </div>
         <div *ngIf="element.applicationType !== 'Existing'">
           {{
-            element.rateTypeName +
+            getRateTypeDesc(element.rateTypeName) +
               ' ' +
               element.intResetFrequency +
               ' ' +

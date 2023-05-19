@@ -51,7 +51,7 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class CreditProposalCollateralInfoDialogComponent implements OnInit, AfterViewInit {
+export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   private insuranceStart: ICreditProposalCollateralInsurance;
   private collateralStart: ICollateral;
   private bindingStart: ICreditProposalCollateralBinding;
@@ -158,10 +158,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
     this.isViewMode = data.isViewMode;
   }
 
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
   ngOnInit(): void {
     this.loadCollateralDetailOption().then(resolve => {
       this.setCollateralDetail();
@@ -225,7 +221,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
 
   public getCollateralCode() {
     const data = this.collateralCode.find(obj => obj.id === this.collateral.attributes.collateralCode);
-    this.collateralCodeMatrik = data.description;
+    if (data) {
+      this.collateralCodeMatrik = data.description;
+    }
   }
 
   private loadCollateralGrading(): void {
@@ -262,6 +260,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit, Afte
       this.collateralCode = lodash.find(this.collateralDetails, function (o) {
         return o['id'] === collateral.collateralTypeId;
       })['child'];
+
       this.getCollateralCode();
     }
   }

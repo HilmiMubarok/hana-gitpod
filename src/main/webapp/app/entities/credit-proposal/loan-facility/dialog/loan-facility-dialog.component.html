@@ -667,7 +667,7 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Period Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.intResetPeriod" disabled>
+                <mat-select [(ngModel)]="applicationProduct.intResetPeriod" (ngModelChange)="setPeriodeType()" disabled>
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.periodTypeList" [value]="item">
                     {{ item }}

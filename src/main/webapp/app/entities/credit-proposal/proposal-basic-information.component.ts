@@ -44,6 +44,10 @@ import { StorageService } from '../storage/storage.service';
 import { Subject } from 'rxjs';
 import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import moment from 'moment';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { ICollateral } from '../collateral/collateral.model';
+import { CollateralService } from '../collateral/collateral.service';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -86,6 +90,8 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   remaksComponent: RemarskComponent;
 
+  private collateralProperties: ICollateralProperty[] = [];
+  private collateral: ICollateral[] = [];
   private id: number;
   public clickedMenu: string;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -149,7 +155,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     public applicationRoleService: ApplicationRoleService,
     public lendingProgramParameterService: LendingProgramParameterService,
     public generalParameterService: GeneralParameterService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -327,6 +335,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.getTasks();
     this.getTitleUrl();
     this.getTitleMenu();
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
   }
 
   public setSubmenu(event: Object): void {
@@ -1257,4 +1268,32 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public notes: any;
+
+  private loadByPartyId(param: string): void {
+    console.log('load by party id jalan');
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        console.log('collateral in parent ', this.collateral);
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+
+  // find collateral property
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+        console.log('res body property ', this.collateralProperties);
+      });
+    }
+  }
 }
