@@ -262,6 +262,18 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
       });
     } else {
       // ketika uncek
+
+      // get checklist data by requestSlikId
+      this.requestSlikService.getChecklistData(true, this.requestSlikId).subscribe(checklistData => {
+        // get data where partyId === data.idParty
+        const resChecklistData = checklistData.body.data.filter(res => res.idParty === data.idParty);
+
+        resChecklistData.forEach(checklist => {
+          // remove checklist
+          this.requestSlikService.removeChecklist(checklist.id).subscribe();
+        });
+      });
+
       this.checklistData.emit({
         data,
         mode: 'remove',
