@@ -150,7 +150,9 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         size: 9999,
       })
       .subscribe(res => {
-        this.collateralGrading = res.body;
+        this.collateralGrading = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
 
