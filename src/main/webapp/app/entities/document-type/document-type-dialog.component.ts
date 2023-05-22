@@ -12,12 +12,12 @@ import { MessageService } from 'primeng/api';
 export class DocumentTypeDialogComponent implements OnInit {
   public statusValue = [
     {
-      id: 'ACTIVE',
-      description: 'Active',
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
     },
     {
-      id: 'NON_ACTIVE',
-      description: 'Non Active',
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
     },
   ];
 
@@ -42,12 +42,42 @@ export class DocumentTypeDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.findValueById();
+    this.findDataIndex();
   }
 
   public save(): void {
-    this.validate().then(() => this._dialog.close(this.documentType));
+    // this.validate().then(() => this._dialog.close(this.documentType));
+    this.validate().then(() => this.saveAll());
   }
 
+  public findDataIndex() {
+    this.documentTypeService
+      .filterTableData({
+        // lvl2: true,
+        parentId: this.documentType.parentId,
+        page: 0,
+        size: 9999,
+        sort: ['id', 'desc'],
+      })
+      .subscribe(res => {
+        this.documentType.orderNo = res.body.length + 1;
+        // console.log('res', res.body.length + 1);
+      });
+  }
+
+  public saveAll() {
+    // if (this.documentType.id) {
+    // create
+    this.documentTypeService.create(this.documentType).subscribe(res => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Save Success',
+      });
+      this._dialog.close(res.body);
+    });
+    // }
+  }
   public findValueById() {
     this.documentTypeService.find(this.documentType.parentId).subscribe(result => {
       this.documentType.rootId = result.body.parentId;
