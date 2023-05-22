@@ -17,6 +17,7 @@ import { default as _rollupMoment } from 'moment';
 import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
+import lodash from 'lodash';
 // import { log } from 'console';
 
 export const MY_FORMATS = {
@@ -131,8 +132,9 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   public getListIndustry() {
     this.listOfIndustryService.query().subscribe((res: any) => {
-      this.listOfIndustry = res.body;
-    
+      this.listOfIndustry = lodash.filter(res.body, function (o) {
+        return o.statusId === 'ACTIVE';
+      });
 
       for (let i = 0; i < res.body.length; i++) {
         this.industryList.push(res.body[i].label);
@@ -141,11 +143,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public selectIndustry(event: any) {
-    const industryCode = this.listOfIndustry.filter(data => data.label === event.itemData.value)
+    const industryCode = this.listOfIndustry.filter(data => data.label === event.itemData.value);
     this.creditProposal.attributes['purposePricing'] = {
       industryCode: industryCode[0].id,
       industry: event.itemData.value,
-    }
+    };
   }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
@@ -377,18 +379,17 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.creditRatingCondition();
     this.averagetoIDR();
 
-    this.findIndustryCode()
+    this.findIndustryCode();
   }
 
-  private findIndustryCode(){
-      if (this.creditProposal.attributes.purposePricing.industry !== '') {
-        const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.attributes.purposePricing.industry)
-        this.creditProposal.attributes['purposePricing'] = {
+  private findIndustryCode() {
+    if (this.creditProposal.attributes.purposePricing.industry !== '') {
+      const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.attributes.purposePricing.industry);
+      this.creditProposal.attributes['purposePricing'] = {
         industryCode: industryCode[0].id,
         industry: this.creditProposal.attributes.purposePricing.industry,
-      }
+      };
     }
-    
   }
   public creditRatingCondition() {
     if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
@@ -406,7 +407,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       this.defaultCurrencyData = res.body[0]?.factor;
     });
   }
- 
 
   spreadPerFacilityEvent(event): void {
     if (event) {
