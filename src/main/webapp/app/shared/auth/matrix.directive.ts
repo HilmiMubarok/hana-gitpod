@@ -129,24 +129,28 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'DH' ||
         this.positionTypeId === 'DEPT_HEAD'
       ) {
-        if (
-          this.status === 'CP_APPROVAL_SME_HEAD' ||
-          this.status === 'CP_APPROVAL_BM' ||
-          this.status === 'CP_APPROVAL_SDH' ||
-          this.status === 'CP_APPROVAL_DH' ||
-          this.status === 'CP_APPROVAL_DEPTHEAD'
-        ) {
-          this.defaultCpMatrixFull();
-        } else if (
-          this.status !== 'CP_APPROVAL_SME_HEAD' &&
-          this.status !== 'CP_APPROVAL_BM' &&
-          this.status !== 'CP_APPROVAL_SDH' &&
-          this.status !== 'CP_APPROVAL_DH' &&
-          this.status !== 'CP_APPROVAL_DEPTHEAD'
-        ) {
-          if (this.jhiMatrixDirElementType === '') {
-            this.viewContainerRef.createEmbeddedView(this.templateRef);
+        if (this.router.url.includes('credit-proposal-approval') || this.router.url.split('?')[1] === undefined) {
+          if (
+            this.status === 'CP_APPROVAL_SME_HEAD' ||
+            this.status === 'CP_APPROVAL_BM' ||
+            this.status === 'CP_APPROVAL_SDH' ||
+            this.status === 'CP_APPROVAL_DH' ||
+            this.status === 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            this.defaultCpMatrixFull();
+          } else if (
+            this.status !== 'CP_APPROVAL_SME_HEAD' &&
+            this.status !== 'CP_APPROVAL_BM' &&
+            this.status !== 'CP_APPROVAL_SDH' &&
+            this.status !== 'CP_APPROVAL_DH' &&
+            this.status !== 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
           }
+        } else {
+          this.defaultCpMatrixFull();
         }
       } else if (
         this.positionTypeId !== 'BM' &&
