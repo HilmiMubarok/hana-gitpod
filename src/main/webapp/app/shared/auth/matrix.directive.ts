@@ -57,12 +57,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
   }
 
-  private readOnly() {
-    if (this.jhiMatrixDirElementType === 'read-only') {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
-  }
-
   private getPositionTypeId(): void {
     this.positionService.find(this.getLocStor('POS')).subscribe(res => {
       this.positionTypeId = res.body.positionTypeId;
@@ -99,7 +93,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
       !this.router.url.includes('cc-review') &&
       !this.router.url.includes('dar-notif') &&
       !this.router.url.includes('loan-committee-approval') &&
-      !this.router.url.includes('cp-status-approval') &&
       !this.router.url.includes('la-analyst') &&
       !this.router.url.includes('confirmation')
     ) {
@@ -151,7 +144,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
           this.status !== 'CP_APPROVAL_DH' &&
           this.status !== 'CP_APPROVAL_DEPTHEAD'
         ) {
-          this.readOnly();
+          if (this.jhiMatrixDirElementType === '') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
         }
       } else if (
         this.positionTypeId !== 'BM' &&
@@ -160,7 +155,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId !== 'DH' &&
         this.positionTypeId !== 'DEPT_HEAD'
       ) {
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
