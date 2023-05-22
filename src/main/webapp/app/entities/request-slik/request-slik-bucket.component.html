@@ -32,11 +32,11 @@
             <mat-chip
               class="example-box text-capitalize"
               id="statusOption"
-              (click)="chipClick(item)"
+              (click)="chipClick(item.id)"
               cdkDrag
               *ngFor="let item of requestSlikStatusCodes"
             >
-              {{ item }}
+              {{ item.label }}
             </mat-chip>
           </mat-chip-list>
         </mat-card-content>
@@ -117,7 +117,7 @@
 
             <mat-cell *matCellDef="let row">
               <mat-chip class="example-box text-capitalize">
-                {{ row.status === 'Approval' ? 'Approval Slik' : row.status === 'Checking' ? 'Checking in Progress' : row.status }}
+                {{ row.status }}
               </mat-chip>
             </mat-cell>
           </ng-container>

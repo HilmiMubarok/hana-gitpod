@@ -207,6 +207,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     // return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
+  // Udah dipindah ke status service
   public getStatuses() {
     return this.http.get<any>(this.resourceUrl + '/status', { observe: 'response' }).pipe(map(res => res.body.data));
   }
@@ -311,11 +312,11 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   public onSubmit(data) {
-    if (data.status === 'Checking') {
+    if (data.status === 'CHECKING') {
       return this.postCBAS(data);
-    } else if (data.status === 'Approval') {
+    } else if (data.status === 'APPROVAL_SLIK') {
       return this.submitDraft(data);
-    } else if (data.status === 'Complete') {
+    } else if (data.status === 'COMPLETE') {
       // push partyslik data.verifyData
       return this.pushPartySlik(data);
       // const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });

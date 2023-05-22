@@ -1,5 +1,5 @@
 <div class="page-view" style="padding-bottom: 30px">
-  <!-- {{ requestSlik?.status }} -->
+  {{ requestSlik?.status }}
   <!-- <h5 class="page-heading">
     <span jhiTranslate="losgwApp.requestSlik.home.viewLabel">Request Sliks</span>
   </h5> -->
@@ -28,7 +28,7 @@
             <h4 style="margin: 0 20px 0 0">Debtor Data</h4>
             <section>
               <mat-checkbox
-                [disabled]="requestSlik.status !== 'Draft'"
+                [disabled]="requestSlik.status !== 'DRAFT'"
                 #c
                 (click)="$event.stopPropagation()"
                 (change)="updateChecklist(element, c)"
@@ -168,16 +168,31 @@
       </div>
 
       <div class="row px-3 pt-5">
+        <mat-form-field appearance="fill" class="col-6">
+          <mat-label>Request Purpose Type</mat-label>
+          <mat-select
+            [disabled]="requestSlik.status !== 'DRAFT'"
+            (selectionChange)="setPurposeCode($event)"
+            [(ngModel)]="requestSlik.purposeCode"
+          >
+            <mat-option *ngFor="let data of purposeType" [value]="data.code">
+              {{ data.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="row px-3 pt-5">
         <mat-card>
           <h5 mat-title>Remarks</h5>
           <mat-conten>
             <ejs-documenteditorcontainer
               #document_editor_container
               [headers]="customHeadersJWT"
-              [enableToolbar]="requestSlik.status === 'Draft' ? true : false"
-              [isReadOnly]="requestSlik.status === 'Draft' ? false : true"
-              [disabled]="requestSlik.status === 'Draft' ? false : true"
-              [enableEditor]="requestSlik.status === 'Draft' ? true : false"
+              [enableToolbar]="requestSlik.status === 'DRAFT' ? true : false"
+              [isReadOnly]="requestSlik.status === 'DRAFT' ? false : true"
+              [disabled]="requestSlik.status === 'DRAFT' ? false : true"
+              [enableEditor]="requestSlik.status === 'DRAFT' ? true : false"
               [enableLocalPaste]="false"
               height="100vh"
               style="display: block"
@@ -198,8 +213,11 @@
         *ngIf="requestSlik.status !== 'Complete' && requestSlik.status !== 'Checking'"
       >
         <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
+        <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'DRAFT'" style="margin-right: 10px" (click)="cancel()">
+          Cancel
+        </button>
         <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
-        <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'Draft'" (click)="save()">Save</button>
+        <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'DRAFT'" (click)="save()">Save</button>
         <!-- <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'Verify'" (click)="hitPartySlik()">Test Hit Party Slik</button> -->
       </div>
     </div>

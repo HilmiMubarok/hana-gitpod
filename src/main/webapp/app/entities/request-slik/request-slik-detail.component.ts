@@ -18,6 +18,7 @@ import { IPDFSlik } from 'app/shared/ocr/pdf-slik.model';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { RequestSlikStatusService } from './services/request-slik-status.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -31,6 +32,7 @@ export class RequestSlikDetailComponent implements OnInit {
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
+    this.getLovPurposeType();
     this.activatedRoute.params.subscribe(params => {
       this.paramsIdGet = params['id'];
       this.getKey = 'request_slik_remarks/' + this.paramsIdGet + '/sfdt';
@@ -72,7 +74,8 @@ export class RequestSlikDetailComponent implements OnInit {
     private requestSlikService: RequestSlikService,
     protected messageService: MessageService,
     protected partySlikService: PartySlikService,
-    protected storageService: StorageService
+    protected storageService: StorageService,
+    protected lovAndStatus: RequestSlikStatusService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
@@ -106,6 +109,15 @@ export class RequestSlikDetailComponent implements OnInit {
   // saveDetails(data: object[]) {
   // }
 
+  // Get Lov Purpose Type
+  purposeType;
+  getLovPurposeType() {
+    this.lovAndStatus.getLovProposeCode().subscribe(res => {
+      this.purposeType = res;
+      console.log('Asdasd', this.purposeType);
+    });
+  }
+
   submit() {
     // this.requestSlikService.onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status));
 
@@ -126,7 +138,7 @@ export class RequestSlikDetailComponent implements OnInit {
       custtype: this.partyCif.customerType === 'CORPORATE' ? '1' : '2',
       product: 'HR',
       channel: 'LOS',
-      purposeCode: '03',
+      purposeCode: this.requestSlik.purposeCode,
     };
 
     const data = {
@@ -157,10 +169,18 @@ export class RequestSlikDetailComponent implements OnInit {
 
   onSave() {
     return new Promise<void>((resolve, reject) => {
+      // Put Request Slik -> Update purposeCode
+      this.lovAndStatus.updateRequestSlik(this.requestSlik).subscribe();
+
       this.requestSlikService.saveDetails(this.checklists).subscribe();
       this.saveRemarks();
       resolve();
     });
+  }
+
+  setPurposeCode(ev) {
+    this.requestSlik.purposeCode = ev.value;
+    console.log(this.requestSlik);
   }
 
   isSaved: Boolean = false;
@@ -168,6 +188,12 @@ export class RequestSlikDetailComponent implements OnInit {
     this.onSave().then(res => {
       this.isSaved = true;
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Save Success' });
+    });
+  }
+
+  cancel() {
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(res => {
+      () => this.router.navigate(['/request-slik']);
     });
   }
 
@@ -295,21 +321,25 @@ export class RequestSlikDetailComponent implements OnInit {
   // === End Document Editor ===
 
   protected checkStatus(currentStatus: string) {
-    if (currentStatus === 'Draft') {
+    if (currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') {
       return {
-        status: 'Approval',
+        status: 'APPROVAL_BU',
       };
-    } else if (currentStatus === 'Approval') {
+    } else if (currentStatus === 'APPROVAL_BU') {
       return {
-        status: 'Checking',
+        status: 'APPROVAL_SLIK',
       };
-    } else if (currentStatus === 'Checking') {
+    } else if (currentStatus === 'APPROVAL_SLIK') {
       return {
-        status: 'Verify',
+        status: 'CHECKING',
+      };
+    } else if (currentStatus === 'VERIFY') {
+      return {
+        status: 'COMPLETE',
       };
     } else {
       return {
-        status: 'Complete',
+        status: 'COMPLETE',
       };
     }
   }

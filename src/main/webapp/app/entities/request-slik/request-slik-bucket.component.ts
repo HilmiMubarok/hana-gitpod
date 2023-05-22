@@ -11,6 +11,8 @@ import { InternalService } from '../internal/internal.service';
 import { MessageService } from 'primeng/api';
 import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { MatSort } from '@angular/material/sort';
+import { RequestSlikStatusService } from './services/request-slik-status.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -29,7 +31,8 @@ export class RequestSlikBucketComponent implements OnInit {
   constructor(
     private requestSlikService: RequestSlikService,
     private internalService: InternalService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected lovAndStatusService: RequestSlikStatusService
   ) {
     // this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     this.getStatus();
@@ -114,8 +117,29 @@ export class RequestSlikBucketComponent implements OnInit {
     this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
       next: data => {
         console.log('data', data);
+
+        // Modify status label
+        const modifiedData = _.map(data, obj => {
+          if (obj.status === 'DRAFT') {
+            return { ...obj, status: 'Draft' };
+          } else if (obj.status === 'APPROVAL_BU') {
+            return { ...obj, status: 'Approval SLIK By BU' };
+          } else if (obj.status === 'APPROVAL_SLIK') {
+            return { ...obj, status: 'Approval SLIK By Team SLIK' };
+          } else if (obj.status === 'CHECKING') {
+            return { ...obj, status: 'Checking In Progress' };
+          } else if (obj.status === 'RETURN_TO_RM') {
+            return { ...obj, status: 'Return To RM' };
+          } else if (obj.status === 'VERIFY') {
+            return { ...obj, status: 'Verify' };
+          } else if (obj.status === 'COMPLETE') {
+            return { ...obj, status: 'Complete' };
+          }
+          return obj.filter(data2 => data2.status !== 'CANCEL');
+        });
+
         // == get segment
-        data.forEach(item => {
+        modifiedData.forEach(item => {
           this.loadInternalById(item.internalId).then((res2: IInternal) => {
             if (res2.parentId) {
               this.rmBranch = res2;
@@ -136,8 +160,8 @@ export class RequestSlikBucketComponent implements OnInit {
           });
         });
         // == end get segment
-        this.dataSource = new MatTableDataSource(data);
-        this.totalItemCount = data.length;
+        this.dataSource = new MatTableDataSource(modifiedData);
+        this.totalItemCount = modifiedData.length;
         this.dataSource.paginator = this.paginator;
       },
       error: err => {
@@ -161,6 +185,7 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lovAndStatusService.getLovProposeCode().subscribe(res => console.log('LOV', res));
     this.dataSource = new MatTableDataSource();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -174,22 +199,13 @@ export class RequestSlikBucketComponent implements OnInit {
 
   public requestSlikStatusCodes: IOptionNode[] = [];
   getStatus() {
-    // this.requestSlikService.getStatuses().subscribe(res => (this.requestSlikStatusCodes = res));
-    this.requestSlikService.getStatuses().subscribe(res => {
-      // res includes Approval, then change to Approval Slik
-      // res includes Checking, then change to Checking in Progress
-      // console.log('res', res);
-      this.requestSlikStatusCodes = res.map(item => {
-        console.log('item', item);
-        if (item === 'Approval') {
-          item = 'Approval Slik';
-        }
-        if (item === 'Checking') {
-          item = 'Checking in Progress';
-        }
-        return item;
-      });
-      console.log('this.requestSlikStatusCodes', this.requestSlikStatusCodes);
+    this.lovAndStatusService.getStatuses().subscribe(res => {
+      console.log(
+        'res status',
+        res[0].filter(d => d.id !== 'CANCEL')
+      );
+      this.requestSlikStatusCodes = res[0].filter(d => d.id !== 'CANCEL');
+      console.log('this.requestSlikStatusCodes', this.requestSlikStatusCodes[0]);
     });
   }
   public drop(event: CdkDragDrop<string[]>): void {
@@ -207,6 +223,10 @@ export class RequestSlikBucketComponent implements OnInit {
     if (this.clickedChip === option) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
+      this.dataSource = new MatTableDataSource();
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.getData();
       // this.loadAll();
       this.isLoading = true;
       this.getData();
@@ -215,8 +235,8 @@ export class RequestSlikBucketComponent implements OnInit {
       this.isLoading = true;
       this.requestSlikService.searchByStatus(option).subscribe({
         next: data => {
-          // console.log('data', data);
-          this.dataSource.data = data;
+          console.log('data', data);
+          this.dataSource.data = data.length === 0 ? [] : data;
         },
         complete: () => {
           this.isLoading = false;
