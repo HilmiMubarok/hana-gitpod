@@ -295,6 +295,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     this.dataGroupCollateral = listDataGroup;
   }
   public onChecked(changeEventArgs: ChangeEventArgs, value: ICollateral): void {
+    this.dataSelectedCheckbox = [];
     if (changeEventArgs['checked'] === true) {
       this.dataSelectedCheckbox.push(value);
       this.isCheckDebCol = true;
