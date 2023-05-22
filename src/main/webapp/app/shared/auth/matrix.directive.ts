@@ -146,9 +146,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
             this.status === 'CP_APPROVAL_DH' ||
             this.status === 'CP_APPROVAL_DEPTHEAD'
           ) {
-            if (this.jhiMatrixDirElementType === 'input') {
-              this.viewContainerRef.createEmbeddedView(this.templateRef);
-            }
+            this.defaultCpMatrixFull();
           } else if (
             this.status !== 'CP_APPROVAL_SME_HEAD' &&
             this.status !== 'CP_APPROVAL_BM' &&
@@ -156,7 +154,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
             this.status !== 'CP_APPROVAL_DH' &&
             this.status !== 'CP_APPROVAL_DEPTHEAD'
           ) {
-            if (this.jhiMatrixDirElementType === '') {
+            if (this.jhiMatrixDirElementType === 'take_out_remark') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
           }
