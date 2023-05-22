@@ -185,7 +185,12 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         collateralType: event.value,
       })
       .subscribe(res => {
-        this.collateralCode = res.body;
+        // Filter status Active in collateral type
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        console.log('xxx', data);
+        this.collateralCode = data;
         this.collateral.attributes.collateralProposePricing = '';
         this.collateral.attributes.collateralCode = '';
       });
