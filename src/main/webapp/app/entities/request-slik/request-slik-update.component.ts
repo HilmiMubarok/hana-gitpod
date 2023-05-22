@@ -56,7 +56,7 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
       cif: this.selection.selected[0].customerNumber,
       requestor: this.userLogin,
       requestDate: new Date(),
-      status: 'Draft',
+      status: 'DRAFT',
       requestNumber: null,
     };
     // eslint-disable-next-line @typescript-eslint/no-misused-promises

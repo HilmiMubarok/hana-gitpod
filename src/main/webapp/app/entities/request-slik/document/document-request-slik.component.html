@@ -22,10 +22,10 @@
           <button mat-icon-button (click)="openDialog('view', element)">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button mat-icon-button (click)="openDialog('edit', element)" *ngIf="requestSlik.status === 'Draft'">
+          <button mat-icon-button (click)="openDialog('edit', element)" *ngIf="requestSlik.status === 'DRAFT'">
             <mat-icon>create</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="requestSlik.status === 'Draft'" (click)="delete(element)">
+          <button mat-icon-button *ngIf="requestSlik.status === 'DRAFT'" (click)="delete(element)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -38,7 +38,7 @@
     </table>
   </mat-card-content>
   <mat-card-actions align="center">
-    <button mat-raised-button color="primary" (click)="openDialog('add', null)" *ngIf="requestSlik.status === 'Draft'">
+    <button mat-raised-button color="primary" (click)="openDialog('add', null)" *ngIf="requestSlik.status === 'DRAFT'">
       <mat-icon>add</mat-icon> UPLOAD
     </button>
   </mat-card-actions>

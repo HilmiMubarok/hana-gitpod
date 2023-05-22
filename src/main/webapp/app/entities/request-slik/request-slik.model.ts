@@ -6,6 +6,7 @@ export interface IRequestSlik {
   customerType?: string;
   segment?: string;
   requestDate?: string;
+  purposeCode?: string;
   status?: string;
 }
 
@@ -18,6 +19,7 @@ export class RequestSlik implements IRequestSlik {
     public customerType?: string,
     public segment?: string,
     public requestDate?: string,
+    public purposeCode?: string,
     public status?: string
   ) {}
 }

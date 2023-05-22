@@ -207,6 +207,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     // return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
+  // Udah dipindah ke status service
   public getStatuses() {
     return this.http.get<any>(this.resourceUrl + '/status', { observe: 'response' }).pipe(map(res => res.body.data));
   }
