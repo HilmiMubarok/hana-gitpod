@@ -16,6 +16,9 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 import { IInternal, Internal } from './internal.model';
 import { InternalService } from './internal.service';
 import { IPostalAddress } from '../postal-address/postal-address.model';
+import { ACTION } from '@syncfusion/ej2-angular-richtexteditor';
+import lodash from 'lodash';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'jhi-internal-create',
@@ -30,7 +33,8 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
 
   public _primaryAddress: IPostalAddress;
   branchtype: any;
-  superior: IInternal[];
+  // superior: IInternal[];
+  public superior = [];
   superiorTMP: IInternal[];
   public filter: string;
   desc: {
@@ -74,27 +78,42 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
         description: 'Non Active',
       },
     ];
+
     this.internalService
       .queryCustom({
         page: 0,
         size: 20,
       })
       .subscribe(response => {
-        console.log('res branch type', response.body);
         this.branchtype = response.body;
       });
-
     this.internalService
       .query({
         page: 0,
         size: 999,
       })
       .subscribe(response => {
-        console.log('superior', response.body);
-        this.superior = response.body;
-        this.superiorTMP = response.body;
+        // const superior = response.body;
+        this.superior = lodash.filter(response.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
   }
+
+  // public groupSelect(event: MatSelectChange): void {
+  //   console.log('event ', event);
+  //   this.internalService
+  //   .query({
+  //     page: 0,
+  //     size: 999,
+  //   })
+  //   .subscribe(response => {
+  //     this.superior = lodash.filter(response.body, function (o) {
+  //       return o.statusId === event.value;
+  //     });
+  //     console.log('interest ', this.superior);
+  //   })
+  // }
 
   // onFocusOutEvent(e){
   //   // console.log("foccus out",e);
