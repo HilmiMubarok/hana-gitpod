@@ -57,12 +57,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
   }
 
-  private readOnly() {
-    if (this.jhiMatrixDirElementType === 'read-only') {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
-  }
-
   private getPositionTypeId(): void {
     this.positionService.find(this.getLocStor('POS')).subscribe(res => {
       this.positionTypeId = res.body.positionTypeId;
@@ -99,7 +93,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
       !this.router.url.includes('cc-review') &&
       !this.router.url.includes('dar-notif') &&
       !this.router.url.includes('loan-committee-approval') &&
-      !this.router.url.includes('cp-status-approval') &&
       !this.router.url.includes('la-analyst') &&
       !this.router.url.includes('confirmation')
     ) {
@@ -107,12 +100,23 @@ export class MatrixDirective implements OnInit, OnDestroy {
     }
 
     if (this.router.url.includes('la-analyst')) {
-      if (this.positionTypeId === 'CRA' || this.positionTypeId === 'CRC') {
-        if (this.status === 'ASSIGNMENT') {
+      if (this.positionTypeId === 'CRO') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'ASSIGNMENT') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.opinionCheck();
-          this.readOnly();
+        }
+      } else {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
         }
       }
     }
@@ -125,22 +129,28 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'DH' ||
         this.positionTypeId === 'DEPT_HEAD'
       ) {
-        if (
-          this.status === 'CP_APPROVAL_SME_HEAD' ||
-          this.status === 'CP_APPROVAL_BM' ||
-          this.status === 'CP_APPROVAL_SDH' ||
-          this.status === 'CP_APPROVAL_DH' ||
-          this.status === 'CP_APPROVAL_DEPTHEAD'
-        ) {
+        if (this.router.url.includes('credit-proposal-approval') || this.router.url.split('?')[1] === undefined) {
+          if (
+            this.status === 'CP_APPROVAL_SME_HEAD' ||
+            this.status === 'CP_APPROVAL_BM' ||
+            this.status === 'CP_APPROVAL_SDH' ||
+            this.status === 'CP_APPROVAL_DH' ||
+            this.status === 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            this.defaultCpMatrixFull();
+          } else if (
+            this.status !== 'CP_APPROVAL_SME_HEAD' &&
+            this.status !== 'CP_APPROVAL_BM' &&
+            this.status !== 'CP_APPROVAL_SDH' &&
+            this.status !== 'CP_APPROVAL_DH' &&
+            this.status !== 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else {
           this.defaultCpMatrixFull();
-        } else if (
-          this.status !== 'CP_APPROVAL_SME_HEAD' &&
-          this.status !== 'CP_APPROVAL_BM' &&
-          this.status !== 'CP_APPROVAL_SDH' &&
-          this.status !== 'CP_APPROVAL_DH' &&
-          this.status !== 'CP_APPROVAL_DEPTHEAD'
-        ) {
-          this.readOnly();
         }
       } else if (
         this.positionTypeId !== 'BM' &&
@@ -149,45 +159,86 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId !== 'DH' &&
         this.positionTypeId !== 'DEPT_HEAD'
       ) {
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('la-distribution')) {
       if (this.positionTypeId === 'CRA') {
-        if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else if (this.status !== 'CP_APPROVE_TO_LA' && this.status !== 'CP_RETURN_TO_CR') {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.readOnly();
         }
-      } else if (this.positionTypeId === 'CRC') {
-        if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+      }
+      if (this.positionTypeId === 'CRC' || this.positionTypeId === 'HCR1' || this.positionTypeId === 'HCR2') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else if (this.status !== 'CP_APPROVE_TO_LA' && this.status !== 'CP_RETURN_TO_CR') {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.readOnly();
         }
-      } else {
-        this.opinionCheck();
-        this.readOnly();
+      }
+
+      if (
+        this.positionTypeId !== 'CRC' &&
+        this.positionTypeId !== 'HCR1' &&
+        this.positionTypeId !== 'HCR2' &&
+        this.positionTypeId !== 'CRA'
+      ) {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('la-SME-CRC')) {
       if (this.positionTypeId === 'CRC') {
-        this.defaultCpMatrixFull();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     // perlu di tanyakan
     if (this.router.url.includes('la-approval-inquiry')) {
       if (this.positionTypeId === 'BUSINESS_DIR' || this.positionTypeId === 'CREDIT_DIR' || this.positionTypeId === 'FINANCE_DIR') {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === '') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.defaultCpMatrixFull();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
@@ -198,111 +249,201 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.positionTypeId === 'CREDIT_DIR' ||
         this.positionTypeId === 'CRC'
       ) {
-        this.defaultCpMatrixFull();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('loan-committee-approval')) {
       if (this.positionTypeId === 'CRO') {
-        this.defaultCpMatrixFull();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('dar-checker')) {
-      if (this.positionTypeId === 'HCR1') {
-        this.defaultCpMatrixFull();
+      if (this.positionTypeId === 'HCR1' || this.positionTypeId === 'HCR2') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('dar-notif')) {
       if (this.positionTypeId === 'CRO') {
-        this.defaultCpMatrixFull();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('cc-distribution')) {
       if (this.positionTypeId === 'CC_ADMIN') {
-        this.defaultCpMatrixFull();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('cc-review')) {
       if (this.positionTypeId === 'CC_DIR' || this.positionTypeId === 'CC_DH' || this.positionTypeId === 'CC_DEPT_HEAD') {
-        if (this.status === 'CP_CC_DEPT_HEAD' || this.status === 'CP_CC_DIV_HEAD' || this.status === 'CP_CC_DIRECTOR') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'CP_CC_DEPT_HEAD' || this.status === 'CP_CC_DIV_HEAD' || this.status === 'CP_CC_DIRECTOR') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.opinionCheck();
-          this.readOnly();
         }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('cc-inquiry')) {
       if (this.positionTypeId === 'CC_ANALYST' || this.positionTypeId === 'CC_ADMIN') {
-        this.defaultCpMatrixFull();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('confirmation')) {
-      if (this.positionTypeId === 'OL_CONFIRMATION') {
-        if (this.status === 'RM') {
+      if (this.positionTypeId === 'RM') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.jhiMatrixDirElementType === 'input') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.opinionCheck();
-          this.readOnly();
         }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('distribution')) {
       if (this.positionTypeId === 'CREDIT_LEGAL_LEAD') {
-        if (this.status === 'OL_DISTRIBUTION') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'OL_DISTRIBUTION') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.opinionCheck();
-          this.readOnly();
         }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
     if (this.router.url.includes('cc-checking')) {
       if (this.positionTypeId === 'CC_ANALYST') {
-        if (this.status === 'CP_CC_ANALYST') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'CP_CC_ANALYST') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
           this.defaultCpMatrixFull();
-        } else {
-          this.opinionCheck();
-          this.readOnly();
         }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      }
+    }
+
+    if (this.router.url.includes('finalize')) {
+      if (this.positionTypeId === 'LEGAL_OFFICER') {
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'OL_ASSIGNED') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.defaultCpMatrixFull();
+        }
+      } else {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
@@ -312,10 +453,23 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
     if (this.jhiMatrixDirMenu === 'dar-final') {
       if (this.positionTypeId === 'CRO') {
-        this.checkOnDarFinal();
+        if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
+          if (this.status === 'CP_CC_ANALYST') {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          } else {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
+          this.checkOnDarFinal();
+        }
       } else {
-        this.opinionCheck();
-        this.readOnly();
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
       }
     }
 
