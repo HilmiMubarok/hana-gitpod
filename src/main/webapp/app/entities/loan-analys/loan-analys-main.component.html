@@ -35,25 +35,47 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group mb-3">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [(ngModel)]="creditProposal.applicationNumber"
-                    placeholder="Proposal Number"
-                    cssClass="e-outline"
-                    floatLabelType="Auto"
-                  ></ejs-textbox>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      required
+                      disabled
+                      [(ngModel)]="creditProposal.applicationNumber"
+                      placeholder="Proposal Number"
+                      cssClass="e-outline"
+                      floatLabelType="Auto"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Proposal Number</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.applicationNumber }}
+                      </div>
+                    </div>
+                  </section>
                 </div>
 
                 <div class="form-group mb-3">
-                  <ejs-textbox
-                    required
-                    disabled
-                    [value]="creditProposal.createdDate | formatMediumDate"
-                    placeholder="Proposal Date"
-                    cssClass="e-outline"
-                    floatLabelType="Always"
-                  ></ejs-textbox>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                    <ejs-textbox
+                      required
+                      disabled
+                      [value]="creditProposal.createdDate | formatMediumDate"
+                      placeholder="Proposal Date"
+                      cssClass="e-outline"
+                      floatLabelType="Always"
+                    ></ejs-textbox>
+                  </section>
+                  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4">Proposal Date</div>
+                      <div class="col-md-auto">:</div>
+                      <div class="col col-lg-4">
+                        {{ creditProposal.createdDate | formatMediumDate }}
+                      </div>
+                    </div>
+                  </section>
                 </div>
                 <div class="form-group mb-3">
                   <ejs-textbox

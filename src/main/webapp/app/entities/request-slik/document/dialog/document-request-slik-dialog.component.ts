@@ -3,10 +3,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { map } from 'rxjs';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-document-request-slik-dialog',
   templateUrl: './document-request-slik-dialog.component.html',
+  styleUrls: ['./document.scss'],
 })
 export class DocumentRequestSlikDialogComponent {
   slikRequestId: number;
@@ -33,7 +35,8 @@ export class DocumentRequestSlikDialogComponent {
     },
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentRequestSlikDialogComponent>,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private reportUtilService: ReportUtilService
   ) {
     this.bucket = this.data.bucket;
     this.mode = this.data.mode;
@@ -56,6 +59,9 @@ export class DocumentRequestSlikDialogComponent {
 
   onRemove(event) {
     this.files.splice(this.files.indexOf(event), 1);
+  }
+  public donwload(event: any, name: any) {
+    this.reportUtilService.downloadFileBYName(event, name.name);
   }
 
   preSave() {
