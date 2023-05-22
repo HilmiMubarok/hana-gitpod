@@ -51,7 +51,7 @@
     <mat-label>Binding Type</mat-label>
     <mat-select name="bindingType" [(ngModel)]="collateral.collBindingType" disabled="true">
       <mat-option value="">- Please Select -</mat-option>
-      <mat-option *ngFor="let item of bindingTypes | keyvalue" [value]="item.key">
+      <mat-option *ngFor="let item of bindingTypes" [value]="item.code">
         {{ item.value }}
       </mat-option>
     </mat-select>
