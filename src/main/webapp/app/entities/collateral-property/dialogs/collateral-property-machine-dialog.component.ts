@@ -28,6 +28,7 @@ import { FormControl } from '@angular/forms';
 import { firstValueFrom, map, Observable, startWith } from 'rxjs';
 import { CollateralPropertyService } from '../collateral-property.service';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-collateral-property-machine-dialog',
@@ -104,9 +105,10 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
-    private collateralPropertyService: CollateralPropertyService
+    private collateralPropertyService: CollateralPropertyService,
+    protected generalParameterService: GeneralParameterService
   ) {
-    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
@@ -133,10 +135,11 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
-    this.setCertyficateType();
+    // this.setCertyficateType();
     this.dataSource();
     this.cekData();
     this.cekDataSource();
+    this.lovcertificateType();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -387,11 +390,25 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
     });
   }
 
-  public setCertyficateType() {
-    this.partyCifService.getCertificate().subscribe(res => {
-      this.certificateType = res.body;
-    });
+  public lovcertificateType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CERTIFICATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.certificateType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
+
+  // public setCertyficateType() {
+  //   this.partyCifService.getCertificate().subscribe(res => {
+  //     this.certificateType = res.body;
+  //   });
+  // }
 
   public getCcy() {
     this.collateralProperty.attributes.marketValueCcy = this.Ccy.id;
