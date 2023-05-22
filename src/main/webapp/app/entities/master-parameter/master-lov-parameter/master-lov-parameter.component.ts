@@ -23,6 +23,7 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
     this.itemsPerPage = 10;
     this.predicate = 'id';
     this.entityKeyName = 'id';
+    this.items = [];
   }
 
   ngOnInit(): void {
@@ -42,19 +43,23 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
       });
   }
 
-  public onSelect(element: any) {
+  public onSelect(element: any): void {
+    this.items = [];
+    this.page = 0;
     this.paramType = element;
-    this.generalParameterService.setPrameterType(this.paramType);
+    this.loadAll();
+    this.paginator.firstPage();
   }
 
   private loadAll(): void {
+    this.generalParameterService.setPrameterType(this.paramType);
     const data = this.generalParameterService.paramTypeId.subscribe((message: any) => {
       this.typeID = message;
       this.generalParameterService
         .queryFilterBy({
           idParameterType: this.typeID,
-          page: 0,
-          size: 9999,
+          page: this.page,
+          size: this.itemsPerPage,
           sort: ['code', 'asc'],
         })
         .subscribe({

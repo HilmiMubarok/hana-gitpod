@@ -18,6 +18,7 @@ import { CollateralLandCertificationDialogComponent } from 'app/entities/collate
 @Component({
   selector: 'jhi-collateral-property-list-realestate-land-template',
   templateUrl: './collateral-property-list-realestate-land-template.component.html',
+  styleUrls: ['./collateral-property-list-expand.scss'],
   animations: [
     trigger('detailExpand', [
       state(

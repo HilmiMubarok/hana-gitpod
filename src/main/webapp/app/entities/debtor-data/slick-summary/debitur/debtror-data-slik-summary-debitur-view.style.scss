@@ -5,7 +5,7 @@
 
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
+  font-size: 36px;
   font-weight: 1000;
   color: red;
   line-height: 35px;
@@ -108,10 +108,6 @@
   font-style: normal;
   border-radius: 6px;
 }
-@font-face {
-  font-family: 'Poppins';
-  src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
-}
 
 .submit-button {
   justify-content: center;
@@ -119,4 +115,27 @@
   margin-top: 25px !important;
   background: rgba(0, 136, 129, 1);
   padding: 2px 20px 2px 20px;
+}
+
+.submit-label {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.grid-index {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  text-align: center;
+}
+
+.grid-index-label {
+  text-align: center;
+}
+
+.label-font-detail {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #008881;
 }

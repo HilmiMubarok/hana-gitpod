@@ -465,8 +465,16 @@
       </div>
       <section *jhiMatrixDirIDD="'input'">
         <div class="e-card-actions mx-auto mb-5 mt-3">
-          <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()">SYNC from HOBIS</button>
-          <button mat-raised-button (click)="save()">Save</button>
+          <button
+            mat-raised-button
+            [class.spinner]="loading"
+            [disabled]="loading"
+            (click)="syncCreditReting()"
+            style="background: rgba(0, 136, 129, 1); color: #ffffff"
+          >
+            SYNC from HOBIS
+          </button>
+          <button mat-raised-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
         </div>
       </section>
       <section *jhiMatrixDirIDD="''"></section>

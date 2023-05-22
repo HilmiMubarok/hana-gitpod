@@ -110,7 +110,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   }
 
   ngOnInit(): void {
-    this.getPositionTypeId();
     this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
@@ -207,12 +206,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     } else {
       this.doSearch();
     }
-  }
-
-  private getPositionTypeId(): void {
-    this.positionService.find(this.getLocStor('POS')).subscribe(res => {
-      console.log('okkfff', res.body.positionTypeId);
-    });
   }
 
   private convertStatusActivateRoute(activeRoute: string): string {

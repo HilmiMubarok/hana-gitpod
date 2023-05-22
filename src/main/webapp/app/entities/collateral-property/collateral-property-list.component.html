@@ -2,7 +2,7 @@
 <div *ngIf="collateral.collateralTypeId === 'REALESTATE'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
-      <mat-card-subtitle>Collateral Real Estate Info Detail</mat-card-subtitle>
+      <mat-card-subtitle class="label-font-detail">Collateral Real Estate Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <ejs-menu cssClass="e-rounded-menu e-custom-scroll" style="margin: 0px auto" [items]="menuItems" (select)="selectMenuItem($event)">
@@ -55,7 +55,7 @@
 <div *ngIf="collateral.collateralTypeId === 'MACHINE'" class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
-      <mat-card-subtitle>Collateral Machine Info Detail</mat-card-subtitle>
+      <mat-card-subtitle class="label-font-detail">Collateral Machine Info Detail</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <jhi-collateral-property-list-machine-template
@@ -153,7 +153,7 @@
 <div class="py-3">
   <mat-card class="my-3 w-100">
     <mat-card-header>
-      <mat-card-subtitle>Adress</mat-card-subtitle>
+      <mat-card-subtitle class="label-font-detail">Adress</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <div class="row">

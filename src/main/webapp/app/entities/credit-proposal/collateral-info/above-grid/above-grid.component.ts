@@ -53,6 +53,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     'action',
   ];
 
+  private _collateralProperty: ICollateralProperty[];
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
@@ -61,7 +62,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
-  public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
@@ -82,6 +82,14 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
   }
 
   public presentage(value: string, status: string) {
@@ -159,7 +167,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
-    this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }
@@ -201,12 +208,15 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       if (this.creditProposal.collaterals.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
           const collateral = this.creditProposal.collaterals[i];
-          this.findCollateralProperty(collateral);
           if (this.creditProposal.cif) {
             this.loadByPartyId(this.creditProposal.cif.partyId);
           }
         }
       }
+    }
+
+    if (changes['collateralProperties']) {
+      console.log('above ', this.collateralProperties);
     }
   }
 
@@ -395,14 +405,6 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
     }
     return new CreditProposalCollateralBinding();
-  }
-
-  public findCollateralProperty(collateral: ICollateral): void {
-    if (collateral.id) {
-      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
-        this.collateralProperties = [...this.collateralProperties, ...res.body];
-      });
-    }
   }
 
   private filterProperties(collateral: ICollateral): ICollateralProperty[] {

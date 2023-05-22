@@ -2640,6 +2640,6 @@ export const EMPLOYEE: object[] = [
   },
   {
     id: 'role',
-    label: 'Role',
+    label: 'Position',
   },
 ];

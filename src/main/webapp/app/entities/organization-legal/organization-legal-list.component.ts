@@ -10,6 +10,7 @@ import { OrganizationLegalService } from './organization-legal.service';
 @Component({
   selector: 'jhi-organization-legal-list',
   templateUrl: './organization-legal-list.component.html',
+  styleUrls: ['../party-cif/party-cif.style.scss'],
 })
 export class OrganizationLegalListComponent extends AbstractEntityMaterialComponent<IOrganizationLegal> implements OnChanges {
   @Input() public organizationId: string;

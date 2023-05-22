@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { STATUS_PARAMETER } from 'app/shared/constants/status.constants';
 import { ILendingProgramParameter } from './lending-program-parameter.model';
 import { FormControl } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-lending-program-parameter-dialog',
@@ -26,12 +27,21 @@ export class LendingProgramParameterDialogComponent {
     public data: {
       lendingProgramParameter: ILendingProgramParameter;
     },
-    private _dialog: MatDialogRef<LendingProgramParameterDialogComponent>
+    private _dialog: MatDialogRef<LendingProgramParameterDialogComponent>,
+    protected messageService: MessageService
   ) {
     this.lendingProgramParameter = this.data.lendingProgramParameter;
   }
 
   public save(): void {
-    this._dialog.close(this.lendingProgramParameter);
+    if (this.lendingProgramParameter.fromDate > this.lendingProgramParameter.thruDate) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Cannot Start Date Larger Than End Date',
+      });
+    } else {
+      this._dialog.close(this.lendingProgramParameter);
+    }
   }
 }

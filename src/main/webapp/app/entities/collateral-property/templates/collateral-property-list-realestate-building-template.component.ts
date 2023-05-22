@@ -17,6 +17,7 @@ import { CollateralPropertyBuildingDialogComponent } from '../dialogs/collateral
 @Component({
   selector: 'jhi-collateral-property-list-realestate-building-template',
   templateUrl: './collateral-property-list-realestate-building-template.component.html',
+  styleUrls: ['./collateral-property-list-expand.scss'],
 })
 export class CollateralPropertyListRealestateBuildingTemplateComponent implements OnChanges {
   private _collateral: ICollateral;

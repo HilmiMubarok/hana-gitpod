@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
+            <e-breadcrumb-item text="Position" url="/employee"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">Update Role</p>
+          <p class="e-card-sub-title">Update Position</p>
         </div>
       </div>
     </div>
@@ -79,8 +79,15 @@
             </div>
 
             <div class="col-12" align="center">
-              <button style="text-align: center; margin-top: 15px" type="submit" (click)="openDialog({})" mat-raised-button color="primary">
-                Tambah Position
+              <button
+                class="submit-button"
+                style="text-align: center; margin-top: 15px"
+                type="submit"
+                (click)="openDialog({})"
+                mat-raised-button
+                color="primary"
+              >
+                Add Position
               </button>
               <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
                 <ng-container matColumnDef="no">
@@ -129,7 +136,14 @@
       </mat-card>
 
       <mat-card-actions align="center">
-        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
+        <button
+          class="submit-button"
+          style="text-align: center; margin-top: 15px"
+          type="submit"
+          (click)="submit()"
+          mat-raised-button
+          color="primary"
+        >
           Save
         </button>
       </mat-card-actions>

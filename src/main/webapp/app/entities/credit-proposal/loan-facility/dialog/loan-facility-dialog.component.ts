@@ -805,4 +805,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.applicationProduct.productId = data.id;
     }
   }
+
+  public setPeriodeType() {
+    if (this.applicationProduct.intResetPeriod === 'Month') {
+      this.applicationProduct.intResetFrequencyParam = 'M';
+    }
+  }
 }

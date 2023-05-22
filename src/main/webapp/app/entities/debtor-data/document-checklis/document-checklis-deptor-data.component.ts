@@ -12,6 +12,7 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 @Component({
   selector: 'jhi-deptor-data-document-checklist',
   templateUrl: './document-checklis-deptor-data.component.html',
+  styleUrls: ['./document.scss'],
 })
 export class DeptorDataDocumentChecklistComponent implements OnInit {
   public files: any[];
@@ -23,7 +24,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public typeData: IDocumentType[];
   public type2: IDocumentType[];
   public file = [];
-  public dataArray: IDocumentType[]
+  public dataArray: IDocumentType[];
   constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get partyCif() {
@@ -33,71 +34,66 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   set partyCif(item: IDebtorData) {
     this._partyCif = item;
   }
-  
+
   ngOnInit(): void {
     this.getBucket().then(() => {
       this.getFiles(this.partyCif.customerNumber).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
           this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res1: any) => {
-          
-          this.typeData = [...res.body, ...res1.body]
-          
-          for (let i = 0; i < this.typeData.length; i++) {
-            if (this.typeData[i].id.includes('DEPO')) {
-              this.typeData[i].collateralTypeId = 'DEPOSIT'
-            }else if (this.typeData[i].id.includes('RE')) {
-              this.typeData[i].collateralTypeId = 'REALESTATE'
-            }else if (this.typeData[i].id.includes('MC')) {
-              this.typeData[i].collateralTypeId = 'MACHINE'
-            }else if (this.typeData[i].id.includes('SHIP')) {
-              this.typeData[i].collateralTypeId = 'MACHINE'
-            }else if (this.typeData[i].id.includes('VH')) {
-              this.typeData[i].collateralTypeId = 'VEHICLE'
-            }else if (this.typeData[i].id.includes('GRNT')) {
-              this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE'
-            }else if(this.typeData[i].id.includes('DOC_COLL_OTHER')){
-              this.typeData[i].collateralTypeId = 'OTHER'
-            }else if (this.typeData[i].id.includes('STOCK')) {
-              this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
-            }else if (this.typeData[i].id.includes('PIUTG')) {
-              this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY'
-            }else if (this.typeData[i].id.includes('COR')) {
-              this.typeData[i].collateralTypeId = 'COR'
-            }else if (this.typeData[i].id.includes('IND')) {
-              this.typeData[i].collateralTypeId = 'IND'
+            this.typeData = [...res.body, ...res1.body];
+
+            for (let i = 0; i < this.typeData.length; i++) {
+              if (this.typeData[i].id.includes('DEPO')) {
+                this.typeData[i].collateralTypeId = 'DEPOSIT';
+              } else if (this.typeData[i].id.includes('RE')) {
+                this.typeData[i].collateralTypeId = 'REALESTATE';
+              } else if (this.typeData[i].id.includes('MC')) {
+                this.typeData[i].collateralTypeId = 'MACHINE';
+              } else if (this.typeData[i].id.includes('SHIP')) {
+                this.typeData[i].collateralTypeId = 'MACHINE';
+              } else if (this.typeData[i].id.includes('VH')) {
+                this.typeData[i].collateralTypeId = 'VEHICLE';
+              } else if (this.typeData[i].id.includes('GRNT')) {
+                this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
+              } else if (this.typeData[i].id.includes('DOC_COLL_OTHER')) {
+                this.typeData[i].collateralTypeId = 'OTHER';
+              } else if (this.typeData[i].id.includes('STOCK')) {
+                this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
+              } else if (this.typeData[i].id.includes('PIUTG')) {
+                this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
+              } else if (this.typeData[i].id.includes('COR')) {
+                this.typeData[i].collateralTypeId = 'COR';
+              } else if (this.typeData[i].id.includes('IND')) {
+                this.typeData[i].collateralTypeId = 'IND';
+              }
             }
-          }
 
-          const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(obj => obj.statusCode !== 'CANCEL')
-          const collateralData: IDocumentType[] = this.typeData.filter(obj1 => filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId));
-          const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType)
-          const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING')
-          const OtherDoc: IDocumentType[] = this.typeData.filter(obj => obj.id === "DOC_IDD_OTHER")
-          const result: IDocumentType[] =  [...collateralData, ...INDCORData, ...OtherDoc, ...PengikatKredit]
-          for (let i = 0; i < result.length; i++) {
-            this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
-              result[i].level = re.body;
-      
-              const mergeArray: ILevel[] = result[i].level.map(item1 => {
-                const file = this.file.find(item2 => item2.idFile === item1.id);
-                return { ...item1, ...file };
+            const filterStatus: ICollateral[] = this.partyCif.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
+            const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
+              filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
+            );
+            const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.partyCif.customerType);
+            const PengikatKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_BINDING');
+            const OtherDoc: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+            const result: IDocumentType[] = [...collateralData, ...INDCORData, ...OtherDoc, ...PengikatKredit];
+            for (let i = 0; i < result.length; i++) {
+              this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+                result[i].level = re.body;
+
+                const mergeArray: ILevel[] = result[i].level.map(item1 => {
+                  const file = this.file.find(item2 => item2.idFile === item1.id);
+                  return { ...item1, ...file };
+                });
+
+                const personalCorporate = mergeArray.filter(obj => obj.customerType === this.partyCif.customerType);
+                const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
+
+                result[i].level = [...personalCorporate, ...nullData];
+
+                this.dataArray = result;
               });
-
-            
-              const personalCorporate = mergeArray.filter(obj => obj.customerType === this.partyCif.customerType);
-              const nullData = mergeArray.filter(obj => obj.customerType === 'ALL')
-
-      
-              result[i].level = [...personalCorporate,...nullData];
-              
-              this.dataArray = result
-              
-            })
-          
-          }
-          
-        })
-     
+            }
+          });
         });
       });
     });
@@ -154,8 +150,6 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     predicate.data['item'] = item;
 
     const dialogRef = this.dialog.open(DebtorDataDocumentChecklistDialogComponent, predicate);
-    dialogRef.afterClosed().subscribe((r: any) => {
-    
-    });
+    dialogRef.afterClosed().subscribe((r: any) => {});
   }
 }

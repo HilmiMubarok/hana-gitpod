@@ -8,6 +8,7 @@ import { CollateralPropertyService } from '../collateral-property.service';
 @Component({
   selector: 'jhi-collateral-property-list-machine-template',
   templateUrl: './collateral-property-list-machine-template.component.html',
+  styleUrls: ['./collateral-property-list-expand.scss'],
 })
 export class CollateralPropertyListMachineTemplateComponent implements OnChanges {
   @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();

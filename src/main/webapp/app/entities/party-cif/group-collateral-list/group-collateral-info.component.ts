@@ -31,6 +31,7 @@ import { PartyCifCollateralInfoPropertyGeneralDialogComponent } from '../collate
 @Component({
   selector: 'jhi-group-collateral-info',
   templateUrl: './group-collateral-info.component.html',
+  styleUrls: ['./group-collateral-list.css'],
   animations: [
     trigger('detailExpand', [
       state(

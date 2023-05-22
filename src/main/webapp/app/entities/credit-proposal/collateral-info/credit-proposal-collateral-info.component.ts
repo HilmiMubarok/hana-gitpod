@@ -1,17 +1,18 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import { Router } from '@angular/router';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
 import { CreditProposalCollateralInfoRemarksInformationComponent } from './remarks/credit-proposal-collateral-info-remarks-information.component';
 import { CreditProposalCollateralInfoRemarksChecklistComponent } from './remarks/credit-proposal-collateral-info-remarks-checklist.component';
 import { CreditProposalCollateralInfoChecklistComponent } from './checklist/credit-proposal-collateral-info-checklist.component';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info',
   templateUrl: './credit-proposal-collateral-info.component.html',
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
-export class CreditProposalCollateralInfoComponent implements OnInit {
+export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges {
   public pacth: any;
   public view: boolean;
   public customPath: Boolean = false;
@@ -45,6 +46,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   })
   creditProposalCollateralInfoChecklistComponent: CreditProposalCollateralInfoChecklistComponent;
   private _creditProposal: ICreditProposal;
+  private _collateralProperty: ICollateralProperty[];
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
@@ -63,6 +65,20 @@ export class CreditProposalCollateralInfoComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['collateralProperties']) {
+      console.log('collateralproperties di cp collateral indo ', this.collateralProperties);
+    }
   }
 
   ngOnInit(): void {

@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-organization-management-list',
   templateUrl: './organization-management-list.component.html',
+  styleUrls: ['./organization-management.style.scss'],
 })
 export class OrganizationManagementListComponent
   extends AbstractEntityMaterialComponent<IOrganizationManagement>

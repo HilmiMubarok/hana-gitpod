@@ -90,11 +90,6 @@
             </ngx-dropzone-preview>
           </div>
         </section>
-        <section *jhiMatrixDirIDD="''">
-          <div class="fontsebled row">
-            <div class="col">Drop file here or choose your file</div>
-          </div>
-        </section>
       </div>
       <div class="col-6">
         <div class="row">
@@ -242,9 +237,9 @@
   </mat-dialog-content>
   <section *jhiMatrixDirIDD="'input'">
     <mat-dialog-actions align="center">
-      <button mat-button (click)="save()">Save</button>
+      <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
 
-      <button mat-button mat-dialog-close>Close</button>
+      <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">Close</button>
     </mat-dialog-actions>
   </section>
   <section *jhiMatrixDirIDD="''">
@@ -388,6 +383,6 @@
     </ul>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button (click)="cancel()">Close</button>
+    <button mat-button (click)="cancel()" style="background: rgb(228, 39, 39); color: #ffffff">Close</button>
   </mat-dialog-actions>
 </div>

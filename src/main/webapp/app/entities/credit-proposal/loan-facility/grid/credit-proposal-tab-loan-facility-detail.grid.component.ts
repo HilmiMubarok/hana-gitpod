@@ -22,6 +22,8 @@ import { IProduct } from 'app/entities/product/product.model';
 import { PageEvent } from '@angular/material/paginator';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { GeneralParameter } from 'app/entities/master-parameter/general-parameter/general-parameter.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-detail-grid',
@@ -42,6 +44,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     this._creditProposal = item;
   }
 
+  public interestTypeList = [];
   public dataProduct: IApplicationProduct[];
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
@@ -96,7 +99,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     public dialog: MatDialog,
     public _router: Router,
     private creditProposalService: CreditProposalService,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    protected generalParameterService: GeneralParameterService
   ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
@@ -132,6 +136,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     this.collaterallInfo = this.creditProposal.collaterals;
     this.collateralProductRelations = this.creditProposal.collateralProductRelations;
     this.creditProposaldata = this.creditProposal;
+    this.lovInterestRateTypeList();
   }
   partyCifFunc() {
     if (this.creditProposal.attributes['loanHobbies'] === 'true' || this.creditProposal.attributes['loanHobbies'] === true) {
@@ -473,5 +478,28 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     } else {
       return element.replace('%', '');
     }
+  }
+
+  getRateTypeDesc(element) {
+    if (element) {
+      const typeDesc = this.interestTypeList.find(obj => obj.code === element);
+      return typeDesc.value;
+    }
+    return '';
+  }
+
+  public lovInterestRateTypeList() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTEREST_RATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.interestTypeList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        console.log('interest type', this.interestTypeList);
+      });
   }
 }
