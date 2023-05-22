@@ -105,6 +105,40 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
       }
     });
   }
+
+  public openDialogEdit(element: IGeneralParameter = null, view: string): void {
+    let predicate: IGeneralParameter;
+    predicate = new GeneralParameter();
+    const data = this.generalParameterService.paramTypeId.subscribe((message: any) => {
+      this.typeID = message;
+    });
+    predicate.parameterTypeId = this.typeID;
+
+    if (element) {
+      predicate = element;
+    }
+
+    const dialogRef = this.dialog.open(MasterLovParameterDialogComponent, {
+      width: '100%',
+      data: {
+        generalParameter: predicate,
+        mode: view,
+      },
+    });
+    dialogRef.afterClosed().subscribe((res: IGeneralParameter) => {
+      if (res) {
+        if (res.id) {
+          this.generalParameterService.update(res).subscribe(_res => {
+            this.loadAll();
+          });
+        } else {
+          this.generalParameterService.create(res).subscribe(_res => {
+            this.loadAll();
+          });
+        }
+      }
+    });
+  }
   previousState(): void {
     window.history.back();
   }
