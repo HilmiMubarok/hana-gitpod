@@ -37,7 +37,6 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validLowest = new FormControl('', [Validators.required]);
   public setData: string;
   public currencyName: number;
-  public preCurent = '';
   public logoCcy;
   public conCcy = false;
 
@@ -313,33 +312,24 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;
       this.bankAccAnalyst.convert = res.body[0]?.factor;
-
-      if (this.preCurent === '') {
-        if (value === 'IDR') {
-          this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
-          this.preCurent = 'IDR';
-        } else if (value === 'USD') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'USD';
-        } else if (value === 'EUR') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'EUR';
-        } else if (value === 'KRW') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'KRW';
-        } else if (value === 'CNY') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'CNY';
-        } else if (value === 'CAD') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'CAD';
-        }
+      if (value === 'IDR') {
+        this.conCcy = true;
+        this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
+      } else if (value === 'USD') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'EUR') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'KRW') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'CNY') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'CAD') {
+        this.conCcy = true;
+        this.logoCcy = {};
       }
     });
   }
