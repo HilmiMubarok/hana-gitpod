@@ -14,7 +14,7 @@
       This customer type is<span class="fw-bold"> {{ partyCif.customerPerson ? 'Individu' : 'Badan Usaha' }}</span>
     </div>
     <div class="row mt-5">
-      <div class="col-12">
+      <div class="col-6">
         <div class="form-group">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
@@ -24,11 +24,22 @@
           </section>
           <section *jhiMatrixDirIDD="''">
             <div class="fontsebled row">
-              <div class="col-3">Cif</div>
+              <div class="col">Cif</div>
               <div class="col-md-auto">:</div>
               <div class="col">
                 {{ partyCif.customerNumber }}
               </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col"></div>
+              <div class="col-md-auto"></div>
+              <div class="col"></div>
             </div>
           </section>
         </div>
