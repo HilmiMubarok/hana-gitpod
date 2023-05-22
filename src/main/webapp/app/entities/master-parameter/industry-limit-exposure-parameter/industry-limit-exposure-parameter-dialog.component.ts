@@ -10,6 +10,18 @@ import { IIndustryLimitExposureParameter } from './industry-limit-exposure-param
 export class MasterParameterIndustryLimitExposureDialogComponent {
   public industryLimitExposure: IIndustryLimitExposureParameter;
   public statuses: any;
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {

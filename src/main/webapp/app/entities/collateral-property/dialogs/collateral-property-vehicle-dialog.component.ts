@@ -28,6 +28,7 @@ import { FormControl } from '@angular/forms';
 import { CollateralPropertyService } from '../collateral-property.service';
 import lodash from 'lodash';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-collateral-property-vehicle-dialog',
@@ -108,9 +109,10 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
   constructor(
     private uomService: UomService,
     protected partyCifService: PartyCifService,
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    protected generalParameterService: GeneralParameterService
   ) {
-    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    // this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
@@ -133,9 +135,10 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
     this.collateral.collateralTypeId;
     this.setManagementBrance();
     this.setBranches();
-    this.setCertyficateType();
+    // this.setCertyficateType();
     this.cekDataSource();
     this.cekData();
+    this.lovcertificateType();
   }
 
   private async loadCollateralProperty(collateralId: number): Promise<void> {
@@ -360,7 +363,19 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
       console.log('vrk', this.branchesNames);
     });
   }
-
+  public lovcertificateType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CERTIFICATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.certificateType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
   public setCertyficateType() {
     this.partyCifService.getCertificate().subscribe(res => {
       this.certificateType = res.body;
