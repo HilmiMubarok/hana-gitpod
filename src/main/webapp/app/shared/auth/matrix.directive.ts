@@ -45,17 +45,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.getPositionTypeId();
       });
   }
-  private opinionCheck() {
-    if (!this.router.url.includes('opinion')) {
-      if (this.jhiMatrixDirElementType === 'show-remarks') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    } else if (this.router.url.includes('opinion')) {
-      if (this.jhiMatrixDirElementType === 'hide-remarks') {
-        this.matrixLabelCP();
-      }
-    }
-  }
 
   private getPositionTypeId(): void {
     this.positionService.find(this.getLocStor('POS')).subscribe(res => {
@@ -149,6 +138,26 @@ export class MatrixDirective implements OnInit, OnDestroy {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
           }
+        } else if (this.router.url.includes('opinion')) {
+          if (
+            this.status === 'CP_APPROVAL_SME_HEAD' ||
+            this.status === 'CP_APPROVAL_BM' ||
+            this.status === 'CP_APPROVAL_SDH' ||
+            this.status === 'CP_APPROVAL_DH' ||
+            this.status === 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            this.defaultCpMatrixFull();
+          } else if (
+            this.status !== 'CP_APPROVAL_SME_HEAD' &&
+            this.status !== 'CP_APPROVAL_BM' &&
+            this.status !== 'CP_APPROVAL_SDH' &&
+            this.status !== 'CP_APPROVAL_DH' &&
+            this.status !== 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            if (this.jhiMatrixDirElementType === 'take_out_remark') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
         } else {
           this.defaultCpMatrixFull();
         }
@@ -165,10 +174,11 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
     }
 
-    if (this.router.url.includes('la-distribution')) {
+    if (this.router.url.split('/')[1] === 'la-distribution') {
       if (this.positionTypeId === 'CRA') {
         if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
           if (this.status === 'CP_APPROVE_TO_LA' || this.status === 'CP_RETURN_TO_CR') {
+            console.log('this.jhiMatrixDirElementType', this.jhiMatrixDirElementType);
             if (this.jhiMatrixDirElementType === 'input') {
               this.viewContainerRef.createEmbeddedView(this.templateRef);
             }
@@ -381,7 +391,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
     }
 
-    if (this.router.url.includes('distribution')) {
+    if (this.router.url.split('/')[1] === 'distribution') {
       if (this.positionTypeId === 'CREDIT_LEGAL_LEAD') {
         if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
           if (this.status === 'OL_DISTRIBUTION') {

@@ -15,6 +15,7 @@ export class MasterLovParameterDialogComponent implements OnInit {
   public listGeneralLov: any;
   public generalParameter: IGeneralParameter;
   public view: boolean;
+  public mode: string;
   public statusValue = [
     {
       statusId: 'ACTIVE',
@@ -32,6 +33,7 @@ export class MasterLovParameterDialogComponent implements OnInit {
     public data: {
       generalParameter: IGeneralParameter;
       view: false;
+      mode: string;
     },
     protected messageService: MessageService,
 
@@ -41,6 +43,7 @@ export class MasterLovParameterDialogComponent implements OnInit {
     this.generalParameter = this.data.generalParameter;
     this.statuses = STATUS_LOV_PARAMETER;
     this.view = this.data.view;
+    this.mode = this.data.mode;
   }
   ngOnInit(): void {
     this.getListType();

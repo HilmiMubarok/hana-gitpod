@@ -1,31 +1,32 @@
-<h2 mat-dialog-title>ADD / EDIT List of Value Parameter</h2>
-<mat-dialog-content>
-  <div class="row">
-    <div class="col-12">
-      <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Category List Of Value</mat-label>
-          <mat-select name="type" [(ngModel)]="generalParameter.parameterTypeDescription">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
-              {{ item.description }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
-      <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>CODE</mat-label>
-          <input matInput type="text" required [(ngModel)]="generalParameter.code" />
-        </mat-form-field>
-      </section>
-      <section class="mt-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Description</mat-label>
-          <input matInput type="text" required [(ngModel)]="generalParameter.value" />
-        </mat-form-field>
-      </section>
-      <!-- <section class="mt-2">
+<div *ngIf="mode !== 'edit'">
+  <h2 mat-dialog-title>ADD List of Value Parameter</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Category List Of Value</mat-label>
+            <mat-select name="type" [(ngModel)]="generalParameter.parameterTypeDescription">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
+                {{ item.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>CODE</mat-label>
+            <input matInput type="text" required [(ngModel)]="generalParameter.code" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" required [(ngModel)]="generalParameter.value" />
+          </mat-form-field>
+        </section>
+        <!-- <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Status</mat-label>
           <mat-select name="status" [(ngModel)]="generalParameter.statusId">
@@ -36,21 +37,69 @@
           </mat-select>
         </mat-form-field>
       </section> -->
-      <section class="mt-2">
-        <mat-form-field appearance="outline" class="w-100 pr-1">
-          <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="generalParameter.statusId">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
-              {{ item.statusDescription }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100 pr-1">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="generalParameter.statusId">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                {{ item.statusDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
     </div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions align="center">
-  <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
-  <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
-</mat-dialog-actions>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
+    <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="mode === 'edit'">
+  <h2 mat-dialog-title>EDIT List of Value Parameter</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Category List Of Value</mat-label>
+            <mat-select name="type" [(ngModel)]="generalParameter.parameterTypeId">
+              <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
+                {{ item.description }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>CODE</mat-label>
+            <input matInput type="text" required [(ngModel)]="generalParameter.code" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" required [(ngModel)]="generalParameter.value" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100 pr-1">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="generalParameter.statusId">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                {{ item.statusDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
+    <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  </mat-dialog-actions>
+</div>
