@@ -113,7 +113,7 @@
             <input
               matInput
               type="text"
-              [ngModel]="bankAccAnalyst.convert | number: '1.0-0'"
+              [ngModel]="bankAccAnalyst.convert | number"
               (ngModelChange)="bankAccAnalyst.convert = numberInputChanged($event)"
               required
               disabled

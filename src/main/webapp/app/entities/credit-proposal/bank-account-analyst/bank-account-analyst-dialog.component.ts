@@ -20,7 +20,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public applicationProduct: IApplicationProduct;
   public bankAccAnalyst: IBankAccountAnalyst;
   public view: boolean;
-  public ccy: string[] = ['EUR', 'USD', 'IDR', 'KRW'];
+  public ccy: string[] = ['EUR', 'USD', 'IDR', 'KRW', 'CNY', 'CAD'];
   public curen: string;
 
   public validBankControl = new FormControl('', [Validators.required]);
@@ -37,7 +37,6 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public validLowest = new FormControl('', [Validators.required]);
   public setData: string;
   public currencyName: number;
-  public preCurent = '';
   public logoCcy;
   public conCcy = false;
 
@@ -312,83 +311,25 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     this.setData = new Date().toISOString().split('T')[0];
     this.creditProposalService.getCurrency(value, 'IDR', this.setData.replace(/-/g, '')).subscribe(res => {
       this.currencyName = res.body[0]?.factor;
-      console.log('curren', this.currencyName, value);
-
       this.bankAccAnalyst.convert = res.body[0]?.factor;
-      if (this.preCurent === '') {
-        if (value === 'IDR') {
-          this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR', thousands: ',', decimal: ',', precision: 0 };
-          this.preCurent = 'IDR';
-        } else if (value === 'USD') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'USD';
-        } else if (value === 'EUR') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'EUR';
-        } else if (value === 'KRW') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'KRW';
-        }
-      } else if (this.preCurent === 'IDR') {
-        if (value === '') {
-          this.conCcy = false;
-          this.preCurent = '';
-        } else if (value === 'USD') {
-          this.conCcy = false;
-          this.logoCcy = {};
-          // this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] / this.currencyName;
-          // this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] / this.currencyName;
-          // this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] / this.currencyName;
-          this.preCurent = 'USD';
-        } else if (value === 'EUR') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'EUR';
-        } else if (value === 'KRW') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'KRW';
-        }
-      } else if (this.preCurent === 'USD') {
-        if (value === '') {
-          this.conCcy = false;
-          this.preCurent = '';
-        } else if (value === 'EUR') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'EUR';
-        } else if (value === 'KRW') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'KRW';
-        } else if (value === 'IDR') {
-          this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-          this.getCurs();
-          this.preCurent = 'IDR';
-        }
-      } else if (this.preCurent === 'EUR') {
-        if (value === '') {
-          this.conCcy = false;
-          this.preCurent = '';
-        } else if (value === 'EUR') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'EUR';
-        } else if (value === 'KRW') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'KRW';
-        } else if (value === 'IDR') {
-          this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-          this.getCurs();
-          this.preCurent = 'IDR';
-        }
+      if (value === 'IDR') {
+        this.conCcy = true;
+        this.logoCcy = { prefix: 'IDR', thousands: '.', decimal: ',', precision: 0 };
+      } else if (value === 'USD') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'EUR') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'KRW') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'CNY') {
+        this.conCcy = true;
+        this.logoCcy = {};
+      } else if (value === 'CAD') {
+        this.conCcy = true;
+        this.logoCcy = {};
       }
     });
   }
