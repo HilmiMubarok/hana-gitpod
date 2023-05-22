@@ -45,17 +45,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
         this.getPositionTypeId();
       });
   }
-  private opinionCheck() {
-    if (!this.router.url.includes('opinion')) {
-      if (this.jhiMatrixDirElementType === 'show-remarks') {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
-    } else if (this.router.url.includes('opinion')) {
-      if (this.jhiMatrixDirElementType === 'hide-remarks') {
-        this.matrixLabelCP();
-      }
-    }
-  }
 
   private getPositionTypeId(): void {
     this.positionService.find(this.getLocStor('POS')).subscribe(res => {
@@ -138,6 +127,28 @@ export class MatrixDirective implements OnInit, OnDestroy {
             this.status === 'CP_APPROVAL_DEPTHEAD'
           ) {
             this.defaultCpMatrixFull();
+          } else if (
+            this.status !== 'CP_APPROVAL_SME_HEAD' &&
+            this.status !== 'CP_APPROVAL_BM' &&
+            this.status !== 'CP_APPROVAL_SDH' &&
+            this.status !== 'CP_APPROVAL_DH' &&
+            this.status !== 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+          }
+        } else if (this.router.url.includes('opinion')) {
+          if (
+            this.status === 'CP_APPROVAL_SME_HEAD' ||
+            this.status === 'CP_APPROVAL_BM' ||
+            this.status === 'CP_APPROVAL_SDH' ||
+            this.status === 'CP_APPROVAL_DH' ||
+            this.status === 'CP_APPROVAL_DEPTHEAD'
+          ) {
+            if (this.jhiMatrixDirElementType === 'input') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
           } else if (
             this.status !== 'CP_APPROVAL_SME_HEAD' &&
             this.status !== 'CP_APPROVAL_BM' &&
