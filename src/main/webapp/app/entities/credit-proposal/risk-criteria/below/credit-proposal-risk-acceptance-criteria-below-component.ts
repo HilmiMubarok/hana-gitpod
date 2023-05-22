@@ -660,13 +660,14 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
           const num = i + 1;
           dataGrid[i] = { No: num, parameterBelow: data[i].value, value: '' };
         }
-        this.dataBelowChecklistBF = dataGrid;
+        this.dataBelowChecklistExclusively = dataGrid;
+        console.log('coldplay', this.dataBelowChecklistExclusively);
 
         if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
-          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistBF;
+          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistExclusively;
         } else {
           for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
-            this.dataBelowChecklistBF = this.item.attributes['cpRacBelow'].cpValeuThere;
+            this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuThere;
             this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
           }
         }

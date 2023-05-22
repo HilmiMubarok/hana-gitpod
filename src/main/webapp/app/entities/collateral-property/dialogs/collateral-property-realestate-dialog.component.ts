@@ -426,9 +426,22 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   }
 
   public setManagementBrance() {
-    this.partyCifService.getManagementBranc().subscribe(res => {
-      this.branceManagement = res.body;
-    });
+    // this.partyCifService.getManagementBranc().subscribe(res => {
+    //   this.branceManagement = res.body;
+    //   console.log('x10', this.branceManagement);
+    // });
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'MANAGEMENT_BRANCH',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.branceManagement = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        console.log('x10', this.branceManagement);
+      });
   }
 
   public setBranches() {
