@@ -260,6 +260,7 @@ export class RequestSlikBucketComponent implements OnInit {
   pageIndex;
   pageSize;
   onPageChange(event: PageEvent) {
+    this.isLoading = true;
     this.pageIndex = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.getData(this.pageIndex, this.pageSize, 'id,desc');
