@@ -223,6 +223,10 @@ export class RequestSlikBucketComponent implements OnInit {
     if (this.clickedChip === option) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
+      this.dataSource = new MatTableDataSource();
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.getData();
       // this.loadAll();
       this.isLoading = true;
       this.getData();
@@ -231,8 +235,8 @@ export class RequestSlikBucketComponent implements OnInit {
       this.isLoading = true;
       this.requestSlikService.searchByStatus(option).subscribe({
         next: data => {
-          // console.log('data', data);
-          this.dataSource.data = data;
+          console.log('data', data);
+          this.dataSource.data = data.length === 0 ? [] : data;
         },
         complete: () => {
           this.isLoading = false;

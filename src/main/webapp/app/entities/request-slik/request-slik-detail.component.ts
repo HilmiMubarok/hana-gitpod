@@ -321,24 +321,6 @@ export class RequestSlikDetailComponent implements OnInit {
   // === End Document Editor ===
 
   protected checkStatus(currentStatus: string) {
-    /**
-     *
-     * if (obj.status === 'DRAFT') {
-            return { ...obj, status: 'Draft' };
-          } else if (obj.status === 'APPROVAL_BU') {
-            return { ...obj, status: 'Approval SLIK By BU' };
-          } else if (obj.status === 'APPROVAL_SLIK') {
-            return { ...obj, status: 'Approval SLIK By Team SLIK' };
-          } else if (obj.status === 'CHECKING') {
-            return { ...obj, status: 'Checking In Progress' };
-          } else if (obj.status === 'RETURN_TO_RM') {
-            return { ...obj, status: 'Return To RM' };
-          } else if (obj.status === 'VERIFY') {
-            return { ...obj, status: 'Verify' };
-          } else if (obj.status === 'COMPLETE') {
-            return { ...obj, status: 'Complete' };
-          }
-     */
     if (currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') {
       return {
         status: 'APPROVAL_BU',
