@@ -16,6 +16,7 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 import { IInternal, Internal } from './internal.model';
 import { InternalService } from './internal.service';
 import { IPostalAddress } from '../postal-address/postal-address.model';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-internal-update',
@@ -31,7 +32,8 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
 
   public _primaryAddress: IPostalAddress;
   branchtype: any;
-  superior: IInternal[];
+  // superior: IInternal[];
+  public superior = [];
   superiorTMP: IInternal[];
   public filter: string;
   id: any;
@@ -91,16 +93,18 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
           console.log('res branch type', response1.body);
           this.branchtype = response1.body;
         });
-
       this.internalService
         .query({
           page: 0,
           size: 999,
         })
         .subscribe(response2 => {
-          console.log('superior', response2.body);
-          this.superior = response2.body;
-          this.superiorTMP = response2.body;
+          const superior = response2.body;
+          // this.superior = response2.body;
+          // this.superiorTMP = response2.body;
+          this.superior = lodash.filter(response2.body, function (o) {
+            return o.statusId === 'ACTIVE';
+          });
         });
     });
 

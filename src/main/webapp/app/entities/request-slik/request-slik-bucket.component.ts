@@ -8,6 +8,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
+import { MessageService } from 'primeng/api';
+import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -21,8 +24,13 @@ export class RequestSlikBucketComponent implements OnInit {
   displayedColumns: string[] = ['id', 'requestNumber', 'cif', 'debtorName', 'customerType', 'segment', 'requestDate', 'status', 'action'];
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private requestSlikService: RequestSlikService, private internalService: InternalService) {
+  constructor(
+    private requestSlikService: RequestSlikService,
+    private internalService: InternalService,
+    protected messageService: MessageService
+  ) {
     // this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     this.getStatus();
     this.loadInternalInformationRM();
@@ -106,9 +114,39 @@ export class RequestSlikBucketComponent implements OnInit {
     this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
       next: data => {
         console.log('data', data);
+        // == get segment
+        data.forEach(item => {
+          this.loadInternalById(item.internalId).then((res2: IInternal) => {
+            if (res2.parentId) {
+              this.rmBranch = res2;
+              this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+                this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                  if (res4.parentId) {
+                    this.rmRegional = res4;
+                    this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                      this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                        this.rmSegment = res6;
+                        item.segment = res6.organizationName;
+                      });
+                    });
+                  }
+                });
+              });
+            }
+          });
+        });
+        // == end get segment
         this.dataSource = new MatTableDataSource(data);
         this.totalItemCount = data.length;
         this.dataSource.paginator = this.paginator;
+      },
+      error: err => {
+        console.log('err', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+        setTimeout(() => {
+          this.isLoading = false;
+          this.dataSource = new MatTableDataSource([]);
+        }, 1000);
       },
       complete: () => {
         this.isLoading = false;
@@ -116,8 +154,16 @@ export class RequestSlikBucketComponent implements OnInit {
     });
   }
 
+  private loadSegment(): void {
+    this.internalService.queryFilterBy({ idInternalType: APPLICATION_TYPE.BUSINESS_UNIT, size: 9999, page: 0 }).subscribe(res => {
+      this.segments = res.body;
+    });
+  }
+
   ngOnInit() {
+    this.dataSource = new MatTableDataSource();
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.getData();
   }
 
@@ -214,6 +260,7 @@ export class RequestSlikBucketComponent implements OnInit {
   pageIndex;
   pageSize;
   onPageChange(event: PageEvent) {
+    this.isLoading = true;
     this.pageIndex = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.getData(this.pageIndex, this.pageSize, 'id,desc');
