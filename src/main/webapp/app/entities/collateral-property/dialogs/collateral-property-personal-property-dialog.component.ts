@@ -29,6 +29,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-collateral-property-personal-property-dialog',
@@ -98,9 +100,10 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     private uomService: UomService,
     private stateBoundaryService: StateBoundaryService,
     private partyCifService: PartyCifService,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    protected generalParameterService: GeneralParameterService
   ) {
-    this.certificateType = REALESTATE_CERTIFICATE_TYPE;
+    //  this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
@@ -118,6 +121,7 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
     this.setBranches();
     this.cekDataSource();
     this.cekData();
+    this.lovcertificateType();
   }
 
   public cekData() {
@@ -366,5 +370,19 @@ export class CollateralPropertyPersonalPropertyDialogComponent implements OnInit
   collateralInfoChange() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.collateralValue * this.currency;
     this.collateralProperty.marketValue = this.collateralProperty.attributes.collateralValue * this.currency;
+  }
+
+  public lovcertificateType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'CERTIFICATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.certificateType = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }
