@@ -185,8 +185,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
 
     this.displayedColumns =
       this.requestSlik.status === 'Verify'
-        ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep']
-        : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
+        ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep']
+        : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
@@ -240,7 +240,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
             });
             this.requestSlik.status !== 'Draft'
               ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-                  // console.log('thee data', data);
+                  console.log('thee data', data);
                   this.initDataForMatTable(data, res.headers);
                 })
               : this.initDataForMatTable(res, res.headers);
@@ -273,6 +273,18 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
       });
     } else {
       // ketika uncek
+
+      // get checklist data by requestSlikId
+      this.requestSlikService.getChecklistData(true, this.requestSlikId).subscribe(checklistData => {
+        // get data where partyId === data.idParty
+        const resChecklistData = checklistData.body.data.filter(res => res.idParty === data.idParty);
+
+        resChecklistData.forEach(checklist => {
+          // remove checklist
+          this.requestSlikService.removeChecklist(checklist.id).subscribe();
+        });
+      });
+
       this.checklistData.emit({
         data,
         mode: 'remove',

@@ -5,7 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, merge, Observable, Subscription, switchMap } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import _ from 'lodash';
@@ -43,12 +43,13 @@ export class RequestSlikService extends AbstractEntityService<any> {
       switchMap(data => {
         console.log('BUCKET DATA', data.body.data);
         const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
-        console.log('request', requests);
         return forkJoin([...requests]).pipe(
           map(details =>
             data.body.data.map((user, i) => ({
               ...user,
+              internalId: details[i].body.internalId,
               customerName: details[i].body.name,
+              segment: 'loading...',
               // segment: this.loadInternalById(details[i].body.internalId)
               //   .then((res2: IInternal) => {
               //     if (res2.parentId) {
@@ -249,6 +250,13 @@ export class RequestSlikService extends AbstractEntityService<any> {
           return false;
         }
       }
+    } else if (type === 'debitur') {
+      const find = _.find(details, { idParty: row });
+      if (find) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       const find = _.find(details, { idParty: row.person.id });
       if (find) {
@@ -264,22 +272,25 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   postCBAS(cbasData) {
+    // console.log('CBAS DATA', cbasData);
     const data = {
       id: 0,
       partyId: cbasData.partyId,
       requestSlikId: cbasData.id,
       status: 1,
     };
+    const postOcr = this.http.post(this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/slik/request'), cbasData.ocr, {
+      observe: 'response',
+    });
     const postCbas = this.http.post(this.resourceUrlNew, data, { observe: 'response' });
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + cbasData.id, { status: cbasData.status });
-
-    return forkJoin([postCbas, changeStatus]);
+    return forkJoin([postCbas, postOcr, changeStatus]);
   }
 
   submitDraft(data) {
     const save = this.http.post<object[]>(this.resourceUrl + '/details/all', data.checklists, { observe: 'response' });
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-    return forkJoin([save, changeStatus]);
+    return data.isSaved === true ? forkJoin([changeStatus]) : forkJoin([save, changeStatus]);
   }
 
   pushPartySlik(data) {
@@ -408,6 +419,45 @@ export class RequestSlikService extends AbstractEntityService<any> {
       })
       .pipe(map(res => res.data.content));
   }
+
+  getChecklistData(isByReqSlikId = false, reqslikId = null) {
+    if (isByReqSlikId) {
+      const params = new HttpParams().set('id', reqslikId);
+      return this.http.get<any>(this.resourceUrl + '/details/byrequestslikid', {
+        observe: 'response',
+        params,
+      });
+    } else {
+      const params = new HttpParams().set('page', 1).set('size', 99);
+      return this.http.get<any>(this.resourceUrl + '/details', {
+        observe: 'response',
+        params,
+      });
+    }
+  }
+
+  // remove Checklist
+  removeChecklist(data) {
+    // const params = new HttpParams().set('id', data);
+    return this.http.delete<any>(this.resourceUrl + '/details/' + data, {
+      observe: 'response',
+    });
+
+    // return new Promise((resolve, reject) => {
+    //   let res = false;
+    //   data
+    //     .forEach(element => {
+    //       this.http.delete<any>(this.resourceUrl + '/details/' + element.id, {
+    //         observe: 'response',
+    //       });
+    //     })
+    //     .then(() => {
+    //       res = true;
+    //     });
+    //   resolve(res);
+    // });
+  }
+
   // public onSubmit(id: number, body: any) {
   //   if (body.status === 'Checking') {
   //     return this.postCBAS(id, body);

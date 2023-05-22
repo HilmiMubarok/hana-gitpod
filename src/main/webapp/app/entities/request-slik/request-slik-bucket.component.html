@@ -13,7 +13,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">SLIK Checking</p>
+          <p class="e-card-sub-title">SLIK Checking Request</p>
         </div>
       </div>
     </div>
@@ -84,36 +84,36 @@
       <div class="table-responsive">
         <mat-table [dataSource]="dataSource" matSort *ngIf="!isLoading">
           <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left" style="width: 20px !important">No.</mat-header-cell>
             <mat-cell *matCellDef="let row; let i = index"> {{ i + 1 }}. </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="requestNumber">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Request Number </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> Request Number </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{ row.requestNumber }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="cif">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> CIF </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> CIF </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{ row.cif }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="debtorName">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Debtor Name </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> Debtor Name </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{ row.customerName }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="customerType">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Customer Type </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> Customer Type </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{ row.customerType }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="segment">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Segment </mat-header-cell>
-            <mat-cell *matCellDef="let row"> {{ row.segment | json }} </mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> Segment </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.segment }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="requestDate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Request Date </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> Request Date </mat-header-cell>
             <mat-cell *matCellDef="let row"> {{ row.requestDate | date: 'YYY-MM-dd' }} </mat-cell>
           </ng-container>
           <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header class="text-left"> Status </mat-header-cell>
 
             <mat-cell *matCellDef="let row">
               <mat-chip class="example-box text-capitalize">
@@ -129,6 +129,9 @@
               </a></td
           ></ng-container>
 
+          <tr *matNoDataRow>
+            <td [attr.colspan]="displayedColumns.length">No records found.</td>
+          </tr>
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
         </mat-table>
