@@ -33,15 +33,6 @@ export class RequestSlikDetailComponent implements OnInit {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'request_slik_remarks/' + this.paramsIdGet + '/sfdt';
-      this.getBucket().then(res => {
-        setTimeout(() => {
-          this.getContainer();
-        }, 1000);
-      });
-    });
   }
 
   // ngOnInit(): void {
@@ -205,6 +196,13 @@ export class RequestSlikDetailComponent implements OnInit {
   onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.container.serviceUrl = '/services/los/api/wordeditor/';
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'request_slik_remarks/' + this.paramsIdGet + '/sfdt';
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
+    });
   }
 
   onDocumentChange() {
