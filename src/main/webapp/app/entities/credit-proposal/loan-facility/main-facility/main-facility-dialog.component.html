@@ -15,7 +15,7 @@
           </div>
           <div class="form-group">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Ccy</mat-label>
+              <mat-label>Currency</mat-label>
               <input
                 type="text"
                 matInput
@@ -37,33 +37,14 @@
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
-              <mat-label>?</mat-label>
-              <input matInput type="text" disabled />
+              <mat-label>Kurs</mat-label>
+              <input matInput type="text" [(ngModel)]="mainFacility.kurs" disabled />
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Initial Limit</mat-label>
-              <input matInput type="text" disabled />
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Current maturity Date</mat-label>
-              <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" disabled />
-              <mat-datepicker-toggle matSuffix [for]="currentMaturityDate" disabled> </mat-datepicker-toggle>
-              <mat-datepicker #currentMaturityDate></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Proposed maturity Date</mat-label>
-              <input [matDatepicker]="proposedMaturityDate" matInput type="text" [(ngModel)]="mainFacility.newMaturityDate" />
-              <mat-datepicker-toggle matSuffix [for]="proposedMaturityDate"> </mat-datepicker-toggle>
-              <mat-datepicker #proposedMaturityDate></mat-datepicker>
-              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              <input matInput type="text" [(ngModel)]="mainFacility.mainPlafond" disabled />
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -77,6 +58,51 @@
                 <input matInput type="text" [(ngModel)]="mainFacility.totalPlafond" disabled />
               </mat-form-field>
             </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Current maturity Date</mat-label>
+              <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="currentMaturityDate" disabled> </mat-datepicker-toggle>
+              <mat-datepicker #currentMaturityDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Last Agreement Date</mat-label>
+              <input [matDatepicker]="lastAgremeentDate" matInput type="text" [(ngModel)]="mainFacility.lastAgreementDate" disabled />
+              <mat-datepicker-toggle matSuffix [for]="lastAgremeentDate" disabled> </mat-datepicker-toggle>
+              <mat-datepicker #lastAgremeentDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Proposed maturity Date</mat-label>
+              <input [matDatepicker]="proposedMaturityDate" matInput type="text" [(ngModel)]="mainFacility.newMaturityDate" />
+              <mat-datepicker-toggle matSuffix [for]="proposedMaturityDate"> </mat-datepicker-toggle>
+              <mat-datepicker #proposedMaturityDate></mat-datepicker>
+              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Jangka Waktu Plafond Awal</mat-label>
+              <input [matDatepicker]="jangkaWatkuPlafondAwal" matInput type="text" [(ngModel)]="mainFacility.startPeriodDate" />
+              <mat-datepicker-toggle matSuffix [for]="jangkaWatkuPlafondAwal"> </mat-datepicker-toggle>
+              <mat-datepicker #jangkaWatkuPlafondAwal></mat-datepicker>
+              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Jangka Waktu Plafond Akhir</mat-label>
+              <input [matDatepicker]="jangkaWatkuPlafondAkhir" matInput type="text" [(ngModel)]="mainFacility.endPeriodDate" />
+              <mat-datepicker-toggle matSuffix [for]="jangkaWatkuPlafondAkhir"> </mat-datepicker-toggle>
+              <mat-datepicker #jangkaWatkuPlafondAkhir></mat-datepicker>
+              <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
           </div>
         </div>
       </div>

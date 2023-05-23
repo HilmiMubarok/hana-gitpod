@@ -11,6 +11,10 @@ export interface IMainFacility {
   maturityDate?: Date;
   newMaturityDate?: Date;
   totalPlafond?: number;
+  endPeriodDate?: Date;
+  kurs?: number;
+  lastAgreementDate?: Date;
+  startPeriodDate?: Date;
   categoryListDTO?: ICategoryList[];
 }
 
@@ -28,6 +32,10 @@ export class MainFacility implements IMainFacility {
     public maturityDate?: Date,
     public newMaturityDate?: Date,
     public totalPlafond?: number,
+    public endPeriodDate?: Date,
+    public kurs?: number,
+    public lastAgreementDate?: Date,
+    public startPeriodDate?: Date,
     public categoryListDTO?: ICategoryList[]
   ) {
     this.categoryListDTO = [new CategoryList()];
