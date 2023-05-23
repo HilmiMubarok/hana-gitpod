@@ -115,7 +115,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.managementBranch = MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
     this.guaranteeCoverage = GUARANTEE_COVERAGE;
-    this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
+    // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = GUARANTEE_LETTER_COLLATERAL_DETAIL_TYPE;
     this.guaranteeBisColDetailType = GUARANTEE_BIS_COL_DETAIL_TYPE;
     this.branches = SECURITIES_MANAGEMENT_BRANCH;
@@ -134,6 +134,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.cekDataSource();
     this.cekData();
     this.setData();
+    this.setDebitBlock();
   }
 
   public cekData() {
@@ -418,5 +419,11 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
   public amountChange() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
     this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+  }
+
+  public setDebitBlock() {
+    this.partyCifService.getDebitBlock().subscribe(res => {
+      this.debitBlock = res.body;
+    });
   }
 }
