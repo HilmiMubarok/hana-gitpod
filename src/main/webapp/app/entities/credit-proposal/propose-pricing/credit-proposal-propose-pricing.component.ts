@@ -18,6 +18,7 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 // import { log } from 'console';
 
 export const MY_FORMATS = {
@@ -82,6 +83,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   @Input() saveWordMinio: any;
+  sectorIndustry: any[];
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -110,9 +112,10 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   constructor(
     private actRoute: ActivatedRoute,
-    public listOfIndustryService: ListOfValueIndustryService,
+    // public listOfIndustryService: ListOfValueIndustryService,
     public creditProposalService: CreditProposalService,
-    private http: HttpClient
+    private http: HttpClient,
+    public generalParameterService: GeneralParameterService
   ) {
     this.countOS = 0;
     this.availableLimit = 0;
@@ -131,24 +134,26 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public getListIndustry() {
-    this.listOfIndustryService.query().subscribe((res: any) => {
-      this.listOfIndustry = lodash.filter(res.body, function (o) {
-        return o.statusId === 'ACTIVE';
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'SECTOR_INDUSTRY',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.sectorIndustry = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
       });
-
-      for (let i = 0; i < res.body.length; i++) {
-        this.industryList.push(res.body[i].label);
-      }
-    });
   }
 
-  public selectIndustry(event: any) {
-    const industryCode = this.listOfIndustry.filter(data => data.label === event.itemData.value);
-    this.creditProposal.attributes['purposePricing'] = {
-      industryCode: industryCode[0].id,
-      industry: event.itemData.value,
-    };
-  }
+  // public selectIndustry(event: any) {
+  //   const industryCode = this.listOfIndustry.filter(data => data.label === event.itemData.value);
+  //   this.creditProposal.attributes['purposePricing'] = {
+  //     industryCode: industryCode[0].id,
+  //     industry: event.itemData.value,
+  //   };
+  // }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
     this._creditProposal = creditProposal;
