@@ -481,7 +481,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   }
 
   public getNjopCcy() {
-     this.collateralProperty.marketValueNjopCcy = this.NjopCcy.id;
+    this.collateralProperty.marketValueNjopCcy = this.NjopCcy.id;
   }
 
   filteredNjop() {
