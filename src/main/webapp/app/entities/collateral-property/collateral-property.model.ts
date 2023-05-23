@@ -230,6 +230,7 @@ export interface ICollateralProperty {
   guaranteeIdType?: string;
   guaranteeClass?: string;
   guaranteeCountry?: string;
+  marketValueNjopCcy?: string;
 }
 
 export class CollateralProperty implements ICollateralProperty {
@@ -334,6 +335,7 @@ export class CollateralProperty implements ICollateralProperty {
     public loanCustomerName?: string,
     public guaranteeIdType?: string,
     public guaranteeClass?: string,
-    public guaranteeCountry?: string
+    public guaranteeCountry?: string,
+    public marketValueNjopCcy?: string
   ) {}
 }
