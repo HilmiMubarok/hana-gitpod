@@ -63,7 +63,7 @@
   </mat-card-content>
 </mat-card> -->
 
-<div class="row">
+<div class="row remove-row-scroll">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -85,37 +85,37 @@
     <div class="e-card-content">
       <table mat-table [dataSource]="items" class="mat-table-expand">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">No</th>
           <td mat-cell *matCellDef="let element; let i = index" class="text-center">
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
         <ng-container matColumnDef="industry">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Industry</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Industry</th>
           <td mat-cell *matCellDef="let element" class="text-left text-capitalize">{{ element.industryLabel }}</td>
         </ng-container>
         <ng-container matColumnDef="limitPercentage">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Limit (In % From Total O/S Loan)</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Limit (In % From Total O/S Loan)</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.limitPercentage }}</td>
         </ng-container>
         <ng-container matColumnDef="limitNominal">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Limit (in IDR Million)</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Limit (in IDR Million)</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.limitNominal }}</td>
         </ng-container>
         <ng-container matColumnDef="remainingBalance">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Remaining Balance (in IDR Million)</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Remaining Balance (in IDR Million)</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.remainingBalance }}</td>
         </ng-container>
         <ng-container matColumnDef="industryLimitExposure">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Industry Limit Exposure</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Industry Limit Exposure</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.industryLimitExposure }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Status</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.statusDescription }}</td>
         </ng-container>
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Action</th>
           <td mat-cell *matCellDef="let element" class="text-center">
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>
