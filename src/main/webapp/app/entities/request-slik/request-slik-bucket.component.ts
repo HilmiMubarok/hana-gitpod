@@ -211,11 +211,6 @@ export class RequestSlikBucketComponent implements OnInit {
     });
   }
   public drop(event: CdkDragDrop<string[]>): void {
-    console.log('DROP', {
-      reqstatuscode: this.requestSlikStatusCodes,
-      previdx: event.previousIndex,
-      curr: event.currentIndex,
-    });
     moveItemInArray(this.requestSlikStatusCodes, event.previousIndex, event.currentIndex);
   }
 

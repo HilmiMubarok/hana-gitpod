@@ -168,31 +168,6 @@ export class RequestSlikService extends AbstractEntityService<any> {
     );
   }
 
-  // public searchByStatus(status: string) {
-  //   const options = new HttpParams().set('status', status);
-  //   return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(
-  //     map(data => {
-  //       console.log('DDDDD', data.body.data);
-  //       // return data.body;
-  //       if (data.body.data.length === 0) {
-  //         return [];
-  //       } else {
-  //         const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
-  //         return forkJoin([...requests]).pipe(
-  //           map(details =>
-  //             data.body.data.map((user, i) => ({
-  //               ...user,
-  //               customerName: details[i].body.name,
-  //               customerType: details[i].body.customerType,
-  //             }))
-  //           )
-  //         );
-  //       }
-  //     })
-  //   );
-  //   // return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(map(res => res.body.data));
-  // }
-
   public searchByStatus(status: string) {
     const options = { params: new HttpParams().set('status', status) };
     return this.http.get<any>(`${this.resourceUrl}/bystatus`, options).pipe(
