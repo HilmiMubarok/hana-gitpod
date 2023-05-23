@@ -107,7 +107,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.certificateType = REALESTATE_CERTIFICATE_TYPE;
     this.managementBranch = SECURITIES_MANAGEMENT_BRANCH;
     this.guaranteeType = GUARANTEE_TYPE;
-    this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
+    // this.debitBlock = COLLATERAL_DEPOSIT_DEBIT_BLOCK;
     this.collateralDetailType = SECURITIES_COLLATERAL_DETAIL_TYPE;
   }
 
@@ -122,6 +122,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.cekData();
     this.setBranches();
     this.setData();
+    this.setDebitBlock();
   }
 
   public cekData() {
@@ -399,5 +400,11 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   public amountChange() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
     this.collateralProperty.marketValue = this.collateralProperty.attributes.totalFaceAmount * this.currency;
+  }
+
+  public setDebitBlock() {
+    this.partyCifService.getDebitBlock().subscribe(res => {
+      this.debitBlock = res.body;
+    });
   }
 }
