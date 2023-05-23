@@ -211,6 +211,83 @@
         </div>
       </div>
     </div>
+    <!-- njop -->
+    <div class="row form-group">
+      <div class="col-8">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Market Value NJOP</mat-label>
+            <input
+              currencyMask
+              matInput
+              type="text"
+              [(ngModel)]="collateralProperty.marketValueNjopAmt"
+              [options]="logoCcy"
+              [disabled]="dataSource()"
+            />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Market Value NJOP</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.marketValueNjopAmt }}
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col-4">
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Ccy</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControl]="myControlNjop"
+              [matAutocomplete]="autoOri"
+              [(ngModel)]="NjopCcy"
+              (ngModelChange)="getNjopCcy()"
+            />
+            <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnNjop">
+              <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+                {{ option.abbreviation }} - {{ option.description }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Ccy</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.marketValueOriginalCcy }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!-- end -->
+    <!-- start -->
+    <div class="form-group">
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>NOP</mat-label>
+          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.Nop" />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">NOP</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ collateralProperty.attributes.Nop }}
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
   <!-- RIGHT SIDE -->
   <div class="col-6">
