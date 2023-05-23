@@ -362,7 +362,7 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
         this.filteredMVOri();
         this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
         this.filteredNjop();
-        // this.NjopCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueNjopCcy);
+        this.NjopCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueNjopCcy);
       });
   }
 
@@ -480,9 +480,9 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
     this.collateralProperty.marketValueOriginalCcy = this.MVOriCcy.id;
   }
 
-  // public getNjopCcy() {
-  //   this.collateralProperty.marketValueNjopCcy = this.NjopCcy.id;
-  // }
+  public getNjopCcy() {
+     this.collateralProperty.marketValueNjopCcy = this.NjopCcy.id;
+  }
 
   filteredNjop() {
     this.filteredOptionsMVOri = this.myControlNjop.valueChanges.pipe(
