@@ -171,7 +171,7 @@
         <mat-form-field appearance="fill" class="col-6">
           <mat-label>Request Purpose Type</mat-label>
           <mat-select
-            [disabled]="requestSlik.status !== 'DRAFT'"
+            [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
             (selectionChange)="setPurposeCode($event)"
             [(ngModel)]="requestSlik.purposeCode"
           >
@@ -210,14 +210,30 @@
       <div
         class="d-flex justify-content-center"
         style="margin-top: 30px"
-        *ngIf="requestSlik.status !== 'Complete' && requestSlik.status !== 'Checking'"
+        *ngIf="requestSlik.status !== 'COMPLETE' && requestSlik.status !== 'CHECKING'"
       >
         <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
         <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'DRAFT'" style="margin-right: 10px" (click)="cancel()">
           Cancel
         </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="requestSlik.status === 'APPROVAL_BU' || requestSlik.status === 'APPROVAL_SLIK'"
+          style="margin-right: 10px"
+          (click)="reject()"
+        >
+          Reject
+        </button>
         <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
-        <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'DRAFT'" (click)="save()">Save</button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM'"
+          (click)="save()"
+        >
+          Save
+        </button>
         <!-- <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'Verify'" (click)="hitPartySlik()">Test Hit Party Slik</button> -->
       </div>
     </div>

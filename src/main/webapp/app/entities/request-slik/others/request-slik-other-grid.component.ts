@@ -125,7 +125,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   private defineDisplayedColumns(param: string) {
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumns =
-      this.requestSlik.status === 'Verify'
+      this.requestSlik.status === 'VERIFY'
         ? ['no', 'fullname', 'idCard', 'dob', 'address']
         : ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
@@ -159,7 +159,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
                   });
               });
             });
-            this.requestSlik.status !== 'Draft'
+            this.requestSlik.status !== 'DRAFT'
               ? this.requestSlikService.filterData(res, this.checklists, 'other').then(data => this.initDataForMatTable(data, res.headers))
               : this.initDataForMatTable(res, res.headers);
           },

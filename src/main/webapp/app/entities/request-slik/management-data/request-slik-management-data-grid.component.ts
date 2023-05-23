@@ -184,7 +184,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     // if status === 'Verify' then remove column select
 
     this.displayedColumns =
-      this.requestSlik.status === 'Verify'
+      this.requestSlik.status === 'VERIFY'
         ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep']
         : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
@@ -238,7 +238,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                   });
               });
             });
-            this.requestSlik.status !== 'Draft'
+            this.requestSlik.status !== 'DRAFT'
               ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
                   console.log('thee data', data);
                   this.initDataForMatTable(data, res.headers);
