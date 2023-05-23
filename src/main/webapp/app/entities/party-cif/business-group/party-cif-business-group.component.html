@@ -1,4 +1,12 @@
 <mat-card>
+  <mat-card-content>
+    <div class="col-md-2">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label class="text-capitalize">Business Group Name</mat-label>
+        <input matInput type="text" [(ngModel)]="debtorData.groupCompanyName" disabeld />
+      </mat-form-field>
+    </div>
+  </mat-card-content>
   <mat-card-header>
     <mat-card-subtitle class="label-font-detail">Business Group</mat-card-subtitle>
   </mat-card-header>

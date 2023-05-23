@@ -30,7 +30,6 @@ import lodash from 'lodash';
   styleUrls: ['./css/credit-proposal-basic-information.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
-
 export class CreditProposaTabManagementInfoComponent implements OnChanges, OnInit {
   @ViewChild('document_editor_container')
   public container: DocumentEditorContainerComponent;
@@ -62,6 +61,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   public No: string;
   public indexNum: any;
   public customHeadersJWT: any;
+  public businessGroupName: string;
 
   get item() {
     return this.creditProposalItem;
@@ -118,6 +118,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
     this.getPartyCif();
     this.getPartyCifDate();
     this.lovDebtorPerformance();
+    this.businessGroupName = this.item.debtorData.groupCompanyName;
   }
 
   public lovDebtorPerformance() {

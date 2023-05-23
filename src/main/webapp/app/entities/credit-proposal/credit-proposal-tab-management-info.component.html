@@ -49,6 +49,29 @@
               </section>
             </div>
           </div>
+          <div class="row col-md-6">
+            <div class="col">
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                <ejs-textbox
+                  placeholder="Business Group Name"
+                  [(ngModel)]="businessGroupName"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  disabled
+                >
+                </ejs-textbox>
+              </section>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <div class="fontsebled row py-3">
+                  <div class="col-4">Business Group Name</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col col-lg-2">
+                    {{ businessGroupName }}
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
           <div class="row my-3">
             <jhi-organization-management-list [cif]="item.customerNumber" managementType="MANAGEMENT_DATA" [type]="'approval'">
             </jhi-organization-management-list>
