@@ -79,7 +79,7 @@ export class TypeDialogAppraisalComponent implements OnInit, OnChanges {
     private cashCollateralService: CashCollateralService,
     private generalParameterService: GeneralParameterService
   ) {
-    this.bindingTypes = COLLATERAL_BINDING_TYPE;
+    // this.bindingTypes = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.collateralStatus = STATUS_COLLATERAL;
   }
@@ -96,8 +96,21 @@ export class TypeDialogAppraisalComponent implements OnInit, OnChanges {
     });
     this.loadCollateralType();
     this.loadCollateralGrading();
+    this.lovBindingType();
   }
-
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
   private loadCollateralGrading(): void {
     this.generalParameterService
       .queryFilterBy({

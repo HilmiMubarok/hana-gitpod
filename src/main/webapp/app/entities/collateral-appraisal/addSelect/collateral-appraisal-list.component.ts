@@ -352,14 +352,14 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
             for (let e = 0; e < this.statusChecked.length; e++) {
               this.surveyAppraisalCross = lodash.clone(this.surveyAppraisalTemplate);
-              for (let j = 0; j < this.getsCif.length; j++) {
-                if (this.selectedPartyCif?.partyId === this.dataSelectedCheckbox[i].partyId) {
-                  if (this.selectedPartyCif.customerType === 'PERSONAL') {
-                    this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerPerson.id;
-                  } else {
-                    this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerOrganization.id;
-                  }
+              if (this.selectedPartyCif?.partyId === this.dataSelectedCheckbox[i].partyId) {
+                if (this.selectedPartyCif.customerType === 'PERSONAL') {
+                  this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerPerson.id;
                 } else {
+                  this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerOrganization.id;
+                }
+              } else {
+                for (let j = 0; j < this.getsCif.length; j++) {
                   if (this.dataSelectedCheckbox[i].partyId === this.getsCif[j].customerPartyId) {
                     if (this.getsCif[j].customerType === 'PERSONAL') {
                       this.surveyAppraisalCross.partyId = this.getsCif[j].customerPartyId;
@@ -375,9 +375,9 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
               this.surveyAppraisalCross.applicationId = null;
 
               this.surveyAppraisalCross.apprOfficer = this.InternalExternal[e];
-              this.collateralValidate.push(this.validateAppraisal(this.dataSelectedCheckbox));
             }
           }
+          this.collateralValidate.push(this.validateAppraisal(this.dataSelectedCheckbox));
         }
         Promise.all(this.collateralValidate).then(results => {
           this.router.navigate(['./collateral-appraisal']);
