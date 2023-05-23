@@ -735,6 +735,8 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.saveWord = false;
       }
     });
+
+    this.cekCgpgData();
   }
 
   public save(source: string): void {
@@ -1270,7 +1272,6 @@ export class ProposalBasicInformationComponent implements OnInit {
   public notes: any;
 
   private loadByPartyId(param: string): void {
-    console.log('load by party id jalan');
     this.collateralService
       .queryFilterBy({
         idParty: param,
@@ -1278,7 +1279,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       })
       .subscribe(res => {
         this.collateral = res.body;
-        console.log('collateral in parent ', this.collateral);
         if (this.collateral.length > 0) {
           for (let i = 0; i < this.collateral.length; i++) {
             this.findCollateralProperty(this.collateral[i]);
@@ -1292,8 +1292,20 @@ export class ProposalBasicInformationComponent implements OnInit {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
-        console.log('res body property ', this.collateralProperties);
       });
     }
+  }
+
+  public cekCgpgData() {
+    console.log('save property berjalan');
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      this.saveCollateralProperty(this.collateralProperties[i]);
+    }
+  }
+
+  public saveCollateralProperty(property: ICollateralProperty) {
+    this.collateralPropertyService.save(property).subscribe(res => {
+      console.log('save property berhasil ', res.body);
+    });
   }
 }

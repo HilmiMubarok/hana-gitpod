@@ -253,6 +253,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        collateralProperties: this.collateralProperties,
       },
     };
     const dialogRef = this.dialog.open(CreditProposalCollateralInfoDialogComponent, predicate);

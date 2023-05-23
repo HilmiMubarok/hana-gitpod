@@ -65,6 +65,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this._group = data;
   }
 
+  public collateralProperties: ICollateralProperty[];
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
   public collateralGrading = [];
@@ -133,6 +134,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       matrikBindingType: string;
       isViewMode: boolean;
       group: string;
+      collateralProperties: ICollateralProperty[];
     }
   ) {
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
@@ -156,6 +158,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.dataCertDueDate = data.certDueDate;
     this.dataOwnerShip = data.ownerShip;
     this.isViewMode = data.isViewMode;
+    this.collateralProperties = data.collateralProperties;
   }
 
   ngOnInit(): void {
@@ -310,10 +313,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     return Number(num);
   }
 
-  public print() {
-    console.log('ini collateral', this.collateral, 'ini collateral type', this.collateralTypes);
-  }
-
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposal = creditProposalMappingData;
   }
@@ -343,5 +342,28 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       return 'NO';
     }
     return '';
+  }
+
+  public changeDataMV() {
+    this.internalLV = this.countMV(this.collateral);
+  }
+
+  public countMV(collateral: ICollateral): number {
+    let result: number;
+    let data: ICollateralProperty;
+    let datas: ICollateralProperty[];
+    if (collateral.collateralTypeId) {
+      data = this.collateralProperties.find(
+        obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
+      );
+      if (data !== undefined) {
+        if (data.marketValue === null) {
+          return 0;
+        } else {
+          return data.marketValue;
+        }
+      }
+    }
+    return 0;
   }
 }
