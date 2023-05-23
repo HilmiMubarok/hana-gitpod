@@ -7,6 +7,9 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import lodash, { toUpper } from 'lodash';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { Router } from '@angular/router';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 
 @Component({
   selector: 'jhi-mapping-facility',
@@ -14,6 +17,7 @@ import { Router } from '@angular/router';
 })
 export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges {
   @Output() outputCreditProposalMappingData = new EventEmitter();
+  @Output() changeButtonData = new EventEmitter();
   @Input() creditProposal: ICreditProposal;
   @Input() collateralData: ICollateral;
   @Input() isViewSabled: Boolean = false;
@@ -25,6 +29,9 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
   public checked: boolean;
   public disableField: any;
   public field: boolean;
+  public propertieCGPG: ICollateralProperty[];
+  public collateralCGPG: ICollateral[];
+  public collateralProperties: ICollateralProperty[] = [];
   public displayColumns: string[] = ['no', 'applicationType', 'facilityType', 'subLimit', 'currency', 'bindingValue', 'select'];
 
   public bindingValueHelper: any = [];
@@ -36,13 +43,17 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
       applicationProduct: IApplicationProduct;
       collateral: ICollateral;
       cp: ICreditProposal;
-    }
+      collateralProperties: ICollateralProperty[];
+    },
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService
   ) {
     this.collateralInfo = this.data.collateral;
     this.applicationProductData = this.data.applicationProduct;
     this.creditProposalData = this.data.cp;
     this.setUp();
     this.checked = false;
+    this.collateralProperties = this.data.collateralProperties;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralData']) {
@@ -178,4 +189,65 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
 
     this.outputCreditProposalMappingData.emit(this.creditProposalData);
   }
+
+  public changeButton(idx, event) {
+    if (event.checked === true) {
+      this.mappingStatusHelper[idx] = 'yes';
+    } else if (event.checked === false) {
+      this.mappingStatusHelper[idx] = 'no';
+    }
+
+    let sumTotalPlafond = 0;
+    if (this.collateralData.collateralTypeId === 'CORPORATEPERSONALGUARANTEE') {
+      const filterCgpg: ICollateralProperty[] = this.collateralProperties.filter(obj => obj.collateralId === this.collateralData.id);
+      const findCgpg: ICollateralProperty = filterCgpg.find(obj => obj.external === false);
+      const cgpgIdx = this.collateralProperties.findIndex(x => x.id === findCgpg.id);
+      if (this.applicationProductData.length > 0) {
+        for (let i = 0; i < this.applicationProductData.length; i++) {
+          if (this.mappingStatusHelper[i] === 'yes') {
+            if (this.applicationProductData[i].totalPlafond !== null) {
+              if (this.applicationProductData[i].currencyId !== null) {
+                if (this.applicationProductData[i].currencyId === 'IDR') {
+                  sumTotalPlafond = sumTotalPlafond + Number(this.applicationProductData[i].totalPlafond);
+                } else if (this.applicationProductData[i].currencyId === 'USD') {
+                  sumTotalPlafond =
+                    sumTotalPlafond + Number(this.applicationProductData[i].totalPlafond * this.applicationProductData[i].kurs);
+                }
+              }
+            }
+          }
+        }
+      }
+      this.collateralProperties[cgpgIdx].marketValue = sumTotalPlafond;
+      this.collateralProperties[cgpgIdx].marketValueOriginalAmt = sumTotalPlafond;
+      this.collateralProperties[cgpgIdx].liquidationValue = sumTotalPlafond;
+      this.collateralProperties[cgpgIdx].marketValueOriginalCcy = 'IDR';
+      this.changeButtonData.emit();
+    }
+  }
+
+  // private loadByPartyId(param: string): void {
+  //   this.collateralService
+  //     .queryFilterBy({
+  //       idParty: param,
+  //       isActive: true,
+  //     })
+  //     .subscribe(res => {
+  //       this.collateralCGPG = res.body.filter(obj => obj.collateralTypeId === 'CORPORATEPERSONALGUARANTEE');
+  //       console.log("collateral cgpg ", this.collateralCGPG);
+  //       if(this.collateralCGPG.length > 0){
+  //         for(let i = 0; i < this.collateralCGPG.length; i++){
+  //           this.findCollateralProperty(this.collateralCGPG[i]);
+  //         }
+  //       }
+  //     });
+  // }
+
+  // public findCollateralProperty(collateral: ICollateral): void {
+  //   if (collateral.id) {
+  //     this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+  //       this.collateralProperties = [...this.collateralProperties, ...res.body];
+  //     });
+  //   }
+  // }
 }
