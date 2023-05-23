@@ -31,6 +31,10 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
   private id: string;
+  desc: {
+    id: string;
+    description: string;
+  }[];
 
   post: any = '';
   organizationData: any = '';
@@ -53,6 +57,16 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
 
   ngOnInit(): void {
     this.loadData();
+    this.desc = [
+      {
+        id: 'ACTIVE',
+        description: 'Active',
+      },
+      {
+        id: 'NON_ACTIVE',
+        description: 'Non Active',
+      },
+    ];
   }
 
   loadData(): void {
@@ -72,6 +86,14 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
         summary: 'Success',
         detail: 'Save Success',
       });
+      if (!this.partner.organization.groupName) {
+        this._snackBar.open('Masukan Name terlebih dahulu', null, {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
 
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);

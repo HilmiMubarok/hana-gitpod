@@ -37,13 +37,13 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
+  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'statusDescription', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
   public pageP: number;
   public paginatorLengthP: number;
   public paginatorPageSizeP: number;
-  public searchCif: string
+  public searchCif: string;
 
   clickedChip: { id: string; label: string };
   iconTimeline: any;
@@ -127,6 +127,7 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
+    console.log('data', this.loading);
   }
 
   selectPartner(data, check) {
@@ -146,12 +147,12 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
       }
     }
   }
-  
-  doSearch(event: any){
-    this.surveyAppraisalsService.searchCifDistributionExternalNoBatch(this.searchCif, {page: 0, size: 20}).subscribe(res => {
+
+  doSearch(event: any) {
+    this.surveyAppraisalsService.searchCifDistributionExternalNoBatch(this.searchCif, { page: 0, size: 20 }).subscribe(res => {
       this.items = new MatTableDataSource(this.addIdx(res.body));
-        this.items.paginator = this.paginator;
-    })
+      this.items.paginator = this.paginator;
+    });
   }
 
   initTableFirst(data: any, headers: HttpHeaders): void {
@@ -186,6 +187,12 @@ export class SurveyBatchCreateComponent extends AbstractEntityMaterialComponent<
     }
     this.itemsPartner = new MatTableDataSource(this.addIdx(this.arrayName)); */
     this.itemsPartner = new MatTableDataSource(data.body);
+    // console.log('dataitem',this.itemsPartner)
+    // const itemsdata = new MatTableDataSource(data.body);
+    // console.log( 'data', itemsdata)
+    // this.itemsPartner = lodash.filter(itemsdata, function (o){
+    // });
+
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
     }
