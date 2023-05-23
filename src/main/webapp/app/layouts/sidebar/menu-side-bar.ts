@@ -89,6 +89,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'collateral-parameter',
       },
+      {
+        name: 'Compliance Checklist',
+        iconname: 'minus',
+        route: 'master-compliance-checklist',
+      },
     ],
   },
   {
@@ -456,6 +461,11 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'collateral-parameter',
       },
+      {
+        name: 'Compliance Checklist',
+        iconname: 'minus',
+        route: 'master-compliance-checklist',
+      },
     ],
   },
   {
@@ -813,6 +823,11 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         name: 'Collateral',
         iconname: 'minus',
         route: 'collateral-parameter',
+      },
+      {
+        name: 'Compliance Checklist',
+        iconname: 'minus',
+        route: 'master-compliance-checklist',
       },
     ],
   },
