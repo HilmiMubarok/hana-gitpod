@@ -119,7 +119,7 @@ export class RequestSlikBucketComponent implements OnInit {
         console.log('data', data);
 
         // Modify status label
-        const modifiedData = _.map(data, obj => {
+        let modifiedData = _.map(data, obj => {
           if (obj.status === 'DRAFT') {
             return { ...obj, status: 'Draft' };
           } else if (obj.status === 'APPROVAL_BU') {
@@ -135,8 +135,10 @@ export class RequestSlikBucketComponent implements OnInit {
           } else if (obj.status === 'COMPLETE') {
             return { ...obj, status: 'Complete' };
           }
-          return obj.filter(data2 => data2.status !== 'CANCEL');
+          return obj;
         });
+
+        modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
         // == get segment
         modifiedData.forEach(item => {
@@ -235,8 +237,29 @@ export class RequestSlikBucketComponent implements OnInit {
       this.isLoading = true;
       this.requestSlikService.searchByStatus(option).subscribe({
         next: data => {
-          console.log('data', data);
-          this.dataSource.data = data.length === 0 ? [] : data;
+          // Modify status label
+          let modifiedData = _.map(data, obj => {
+            if (obj.status === 'DRAFT') {
+              return { ...obj, status: 'Draft' };
+            } else if (obj.status === 'APPROVAL_BU') {
+              return { ...obj, status: 'Approval SLIK By BU' };
+            } else if (obj.status === 'APPROVAL_SLIK') {
+              return { ...obj, status: 'Approval SLIK By Team SLIK' };
+            } else if (obj.status === 'CHECKING') {
+              return { ...obj, status: 'Checking In Progress' };
+            } else if (obj.status === 'RETURN_TO_RM') {
+              return { ...obj, status: 'Return To RM' };
+            } else if (obj.status === 'VERIFY') {
+              return { ...obj, status: 'Verify' };
+            } else if (obj.status === 'COMPLETE') {
+              return { ...obj, status: 'Complete' };
+            }
+            return obj;
+          });
+          console.log('data', modifiedData);
+          modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
+
+          this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
         },
         complete: () => {
           this.isLoading = false;

@@ -115,7 +115,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
 
   private defineDisplayedColumns(param: string) {
     this.displayedColumns =
-      this.requestSlik.status === 'Verify'
+      this.requestSlik.status === 'VERIFY'
         ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
         : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'select'];
@@ -150,7 +150,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
                   });
               });
             });
-            this.requestSlik.status !== 'Draft'
+            this.requestSlik.status !== 'DRAFT'
               ? this.requestSlikService
                   .filterData(res, this.checklists, 'shareholder')
                   .then(data => this.initDataForMatTable(data, res.headers))

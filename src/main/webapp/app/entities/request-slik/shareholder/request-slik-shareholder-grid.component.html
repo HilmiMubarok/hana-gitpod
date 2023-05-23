@@ -1,4 +1,4 @@
-<mat-card *ngIf="requestSlik.status !== 'Verify'">
+<mat-card *ngIf="requestSlik.status !== 'VERIFY'">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">shareholder</mat-card-header-subtitle>
   </mat-card-header>
@@ -54,7 +54,7 @@
               (click)="$event.stopPropagation()"
               (change)="updateChecklist(element, c)"
               [checked]="isDetailChecked(element)"
-              [disabled]="requestSlik.status !== 'Draft'"
+              [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
             ></mat-checkbox>
           </td>
         </ng-container>
@@ -81,7 +81,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="requestSlik.status === 'Verify'">
+<mat-card *ngIf="requestSlik.status === 'VERIFY'">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">shareholder</mat-card-header-subtitle>
   </mat-card-header>

@@ -156,7 +156,7 @@ export class RequestSlikDetailComponent implements OnInit {
         this.router.navigate(['/request-slik']);
       },
       error: err => {
-        if (data.status === 'Approval') {
+        if (data.status === 'APPROVAL_BU' || data.status === 'APPROVAL_SLIK') {
           this.router.navigate(['/request-slik']);
         } else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
@@ -192,9 +192,13 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   cancel() {
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(res => {
-      () => this.router.navigate(['/request-slik']);
-    });
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(() => this.router.navigate(['/request-slik']));
+  }
+
+  reject() {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'RETURN_TO_RM').subscribe(() => this.router.navigate(['/request-slik']));
   }
 
   // === Document Editor ===
