@@ -54,7 +54,7 @@
   </mat-card-actions>
 </mat-card> -->
 
-<div class="row">
+<div class="row remove-row-scroll">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -76,25 +76,25 @@
     <div class="e-card-content">
       <table mat-table [dataSource]="items" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">No</th>
           <td mat-cell *matCellDef="let element; let i = index" class="text-center">
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
         <ng-container matColumnDef="code">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Legal Lending Limit Type</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Legal Lending Limit Type</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.code }}</td>
         </ng-container>
         <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Percentage</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Percentage</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.value }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Status</th>
           <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.statusId }}</td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Action</th>
           <td mat-cell *matCellDef="let element" class="text-left text-capitalize">
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>

@@ -5,6 +5,7 @@ const defaultMinWidth = '60px';
 const defaultMaxWidth = '313px';
 const defaultMinFontSize = '18px';
 const defaultMaxFontSize = '16px';
+const defaultLabelDuration = '0.00s';
 
 export function mainContentAnimation(
   animationDuration: string = defaultDuration,
@@ -89,7 +90,10 @@ export function iconAnimation(
   ]);
 }
 
-export function labelAnimation(animationDuration: string = defaultDuration): AnimationTriggerMetadata {
+export function labelAnimation(
+  animationDurationIn: string = defaultLabelDuration,
+  animationDurationOut: string = defaultDuration
+): AnimationTriggerMetadata {
   return trigger('labelAnimation', [
     state(
       'open',
@@ -102,10 +106,11 @@ export function labelAnimation(animationDuration: string = defaultDuration): Ani
       'close',
       style({
         display: 'none',
-        opacity: 0,
+        // opacity: 0,
+        visibility: 'hidden',
       })
     ),
-    transition('close => open', animate(`${animationDuration} ease-in-out`)),
-    transition('open => close', animate(`${animationDuration} ease-in-out`)),
+    transition('close => open', animate(`${animationDurationOut} ease-in-out`)),
+    transition('open => close', animate(`${animationDurationIn} ease-in-out`)),
   ]);
 }

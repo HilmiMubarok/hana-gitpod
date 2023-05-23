@@ -3,6 +3,11 @@
   margin-bottom: 1rem;
 }
 
+.remove-row-scroll {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
   font-family: 'Poppins', sans-serif;
   font-size: 36px;
@@ -107,4 +112,14 @@
   font-size: 15px;
   font-style: normal;
   border-radius: 6px;
+}
+
+.grid-index {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  font-size: 15px;
+}
+
+.grid-index-label {
+  text-align: center;
 }
