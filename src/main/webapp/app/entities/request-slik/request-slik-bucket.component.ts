@@ -211,6 +211,11 @@ export class RequestSlikBucketComponent implements OnInit {
     });
   }
   public drop(event: CdkDragDrop<string[]>): void {
+    console.log('DROP', {
+      reqstatuscode: this.requestSlikStatusCodes,
+      previdx: event.previousIndex,
+      curr: event.currentIndex,
+    });
     moveItemInArray(this.requestSlikStatusCodes, event.previousIndex, event.currentIndex);
   }
 
@@ -220,8 +225,8 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   public chipClick(option): void {
-    console.log(option);
-    // this.page = 0;
+    this.isLoading = true;
+
     if (this.clickedChip === option) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
@@ -229,16 +234,16 @@ export class RequestSlikBucketComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.getData();
-      // this.loadAll();
-      this.isLoading = true;
-      this.getData();
     } else {
       this.clickedChip = option;
-      this.isLoading = true;
+
+      // Get Data By Option
       this.requestSlikService.searchByStatus(option).subscribe({
-        next: data => {
-          // Modify status label
-          let modifiedData = _.map(data, obj => {
+        next: res => {
+          // empty data
+          this.dataSource.data = res.length === 0 && [];
+
+          let modifiedData = _.map(res, obj => {
             if (obj.status === 'DRAFT') {
               return { ...obj, status: 'Draft' };
             } else if (obj.status === 'APPROVAL_BU') {
@@ -256,16 +261,35 @@ export class RequestSlikBucketComponent implements OnInit {
             }
             return obj;
           });
-          console.log('data', modifiedData);
-          modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
+          modifiedData.forEach(item => {
+            this.loadInternalById(item.internalId).then((res2: IInternal) => {
+              if (res2.parentId) {
+                this.rmBranch = res2;
+                this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+                  this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                    if (res4.parentId) {
+                      this.rmRegional = res4;
+                      this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                        this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                          this.rmSegment = res6;
+                          item.segment = res6.organizationName;
+                        });
+                      });
+                    }
+                  });
+                });
+              }
+            });
+          });
+
+          modifiedData = modifiedData.filter(resData => resData.status !== 'CANCEL');
           this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
         },
         complete: () => {
           this.isLoading = false;
         },
       });
-      // this.requestSlikService.searchByStatus(option.id).subscribe(res => console.log(res));
     }
   }
 

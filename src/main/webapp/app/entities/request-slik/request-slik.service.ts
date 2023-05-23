@@ -5,7 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, forkJoin, map, merge, Observable, Subscription, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, merge, Observable, of, Subscription, switchMap } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import _ from 'lodash';
@@ -168,23 +168,53 @@ export class RequestSlikService extends AbstractEntityService<any> {
     );
   }
 
+  // public searchByStatus(status: string) {
+  //   const options = new HttpParams().set('status', status);
+  //   return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(
+  //     map(data => {
+  //       console.log('DDDDD', data.body.data);
+  //       // return data.body;
+  //       if (data.body.data.length === 0) {
+  //         return [];
+  //       } else {
+  //         const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
+  //         return forkJoin([...requests]).pipe(
+  //           map(details =>
+  //             data.body.data.map((user, i) => ({
+  //               ...user,
+  //               customerName: details[i].body.name,
+  //               customerType: details[i].body.customerType,
+  //             }))
+  //           )
+  //         );
+  //       }
+  //     })
+  //   );
+  //   // return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(map(res => res.body.data));
+  // }
+
   public searchByStatus(status: string) {
-    const options = new HttpParams().set('status', status);
-    return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(
+    const options = { params: new HttpParams().set('status', status) };
+    return this.http.get<any>(`${this.resourceUrl}/bystatus`, options).pipe(
       switchMap(data => {
-        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
+        console.log('resposnd', { data });
+        if (data.data.length === 0) {
+          return of([]);
+        }
+        const requests = data.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
         return forkJoin([...requests]).pipe(
           map(details =>
-            data.body.data.map((user, i) => ({
+            data.data.map((user, i) => ({
               ...user,
+              internalId: details[i].body.internalId,
               customerName: details[i].body.name,
+              segment: 'loading...',
               customerType: details[i].body.customerType,
             }))
           )
         );
       })
     );
-    // return this.http.get<any>(this.resourceUrl + '/bystatus', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
   public searchByCif(cif: number) {
