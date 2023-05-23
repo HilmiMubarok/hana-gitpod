@@ -663,12 +663,12 @@ export class CreditProposalRiskAcceptanceCriteriaBelowComponent implements OnIni
         this.dataBelowChecklistExclusively = dataGrid;
         console.log('coldplay', this.dataBelowChecklistExclusively);
 
-        if (this.item.attributes['cpRacBelow'].cpValeuThere.length === 0) {
-          this.item.attributes['cpRacBelow'].cpValeuThere = this.dataBelowChecklistExclusively;
+        if (this.item.attributes['cpRacBelow'].cpValeuFive.length === 0) {
+          this.item.attributes['cpRacBelow'].cpValeuFive = this.dataBelowChecklistExclusively;
         } else {
-          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuThere.length; i++) {
-            this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuThere;
-            this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuThere[i].remarksBf;
+          for (let i = 0; i < this.item.attributes['cpRacBelow'].cpValeuFive.length; i++) {
+            this.dataBelowChecklistExclusively = this.item.attributes['cpRacBelow'].cpValeuFive;
+            this.remarksBf[i] = this.item.attributes['cpRacBelow'].cpValeuFive[i].remarksBf;
           }
         }
       });
