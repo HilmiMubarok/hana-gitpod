@@ -16,7 +16,7 @@ export class PartyCifFindOrCreateCifDialogComponent {
   ) {}
 
   public search(): void {
-    this.partyCifService.findCif(this.cif).subscribe(res => {
+    this.partyCifService.cashFindCif(this.cif, { idPosition: this.getLocStor('POS') }).subscribe(res => {
       if (res.body) {
         this._dialog.close(res.body);
       } else {
@@ -27,5 +27,20 @@ export class PartyCifFindOrCreateCifDialogComponent {
         });
       }
     });
+  }
+
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 }

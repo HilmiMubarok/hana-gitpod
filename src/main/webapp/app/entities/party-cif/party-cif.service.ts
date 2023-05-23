@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { IDebtorData } from '../debtor-data/debtor-data.model';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PartyCifService extends AbstractEntityService<IPartyCif> {
@@ -33,6 +34,14 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
 
   public findCif(cif: string): Observable<HttpResponse<IPartyCif>> {
     return this.http.get<IPartyCif>(`${this.resourceUrl}/cif/find/${cif}`, { observe: 'response' });
+  }
+
+  cashFindCif(cif: any, req?: any): Observable<HttpResponse<IPartyCif[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IPartyCif[]>(MICROSERVICENAME.LOS + '/api/cash-party-cif/cif/find/' + cif, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<IPartyCif[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoadItemArray(res)));
   }
 
   public findCifCash(cif: string): Observable<HttpResponse<IPartyCif>> {
