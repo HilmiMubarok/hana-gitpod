@@ -1,4 +1,4 @@
-import { ICollateral } from "../collateral/collateral.model";
+import { ICollateral } from '../collateral/collateral.model';
 
 export interface IDebtorData {
   id?: number;
@@ -57,8 +57,10 @@ export interface IDebtorData {
   customerType?: string;
   lastSynchDate?: Date;
   lastSynchBy?: string;
-  customerNumber?: string
-  collaterals?: ICollateral[]
+  customerNumber?: string;
+  collaterals?: ICollateral[];
+  econSectorCode?: string;
+  econSectorName?: string;
 }
 
 export class DebtorData implements IDebtorData {
@@ -119,7 +121,9 @@ export class DebtorData implements IDebtorData {
     public lastSynchDate?: Date,
     public lastSynchBy?: string,
     public customerNumber?: string,
-    public collaterals?: ICollateral[]
+    public collaterals?: ICollateral[],
+    public econSectorCode?: string,
+    public econSectorName?: string
   ) {
     this.ownerCitizen = false;
     this.ownerCompany = false;
