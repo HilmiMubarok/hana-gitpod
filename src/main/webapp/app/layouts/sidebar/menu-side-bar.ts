@@ -1160,6 +1160,17 @@ export const APPRAISAL_MENU_CHECKER2: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
@@ -1184,6 +1195,17 @@ export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
 
 export const APPRAISAL_MENU_BUSINESS_DIR: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
     children: [
@@ -1201,6 +1223,17 @@ export const APPRAISAL_MENU_BUSINESS_DIR: ISidebarMenuModel[] = [
   },
 ];
 export const APPRAISAL_MENU_CREDIT_DIR: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
   {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
@@ -1220,6 +1253,17 @@ export const APPRAISAL_MENU_CREDIT_DIR: ISidebarMenuModel[] = [
 ];
 
 export const APPRAISAL_MENU_FINANCE_DIR: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
   {
     name: 'Loan Analysis & Approval',
     iconname: 'paperclip',
@@ -1311,6 +1355,17 @@ export const APPRAISAL_MENU_CC_DIR: ISidebarMenuModel[] = [
 ];
 export const APPRAISAL_MENU_LEGAL_HEAD: ISidebarMenuModel[] = [
   {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
+  {
     name: 'Offering Letter & Legal',
     iconname: 'square-check',
     children: [
@@ -1324,6 +1379,17 @@ export const APPRAISAL_MENU_LEGAL_HEAD: ISidebarMenuModel[] = [
 ];
 
 export const APPRAISAL_MENU_LEGAL_OFFICER: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
   {
     name: 'Offering Letter & Legal',
     iconname: 'square-check',
@@ -1451,6 +1517,17 @@ export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
 export const APPRAISAL_MENU_SIDEBAR_ALL: ISidebarMenuModel[] = [];
 
 export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'Initial Debtor Data',
+        iconname: 'minus',
+        route: 'party-cif',
+      },
+    ],
+  },
   {
     name: 'Offering Letter & Legal',
     iconname: 'square-check',

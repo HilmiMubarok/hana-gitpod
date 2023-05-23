@@ -31,6 +31,10 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
   private id: string;
+  desc: {
+    id: string;
+    description: string;
+  }[];
 
   post: any = '';
   organizationData: any = '';
@@ -53,6 +57,16 @@ export class PartnerKjppViewComponent extends AbstractEntityBaseViewComponent<IP
 
   ngOnInit(): void {
     this.loadData();
+    this.desc = [
+      {
+        id: 'ACTIVE',
+        description: 'Active',
+      },
+      {
+        id: 'NON_ACTIVE',
+        description: 'Non Active',
+      },
+    ];
   }
 
   loadData(): void {

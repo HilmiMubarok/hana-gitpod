@@ -26,6 +26,11 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
   formGroupPartnerOrganization: FormGroup;
   formGroupPartnerContact: FormGroup;
 
+  desc: {
+    id: string;
+    description: string;
+  }[];
+
   post: any = '';
   organizationData: any = '';
 
@@ -43,17 +48,34 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
 
   ngOnInit(): void {
     this.partner = new Partner();
+    this.desc = [
+      {
+        id: 'ACTIVE',
+        description: 'Active',
+      },
+      {
+        id: 'NON_ACTIVE',
+        description: 'Non Active',
+      },
+    ];
   }
 
   public submit() {
     this.partner.surveyProvider = true;
-
     this.partnerService.create(this.partner).subscribe(res => {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
         detail: 'Save Success',
       });
+      if (!this.partner.organization.groupName) {
+        this._snackBar.open('Masukan Name terlebih dahulu', null, {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
 
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);

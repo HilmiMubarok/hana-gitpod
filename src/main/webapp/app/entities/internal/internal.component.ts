@@ -15,6 +15,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { InternalService } from './internal.service';
 import { IInternal } from './internal.model';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-internal',
@@ -26,6 +27,7 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
   public iconTimeline: any;
+  public rawTableData: any;
 
   // constructor(protected activatedRoute: ActivatedRoute, private toastService: MessageService) {}
 
@@ -53,7 +55,23 @@ export class InternalComponent extends AbstractEntityMaterialComponent<IInternal
     // this.activatedRoute.data.subscribe(({ partner }) => (this.partner = partner));
     this.loadAll();
     // console.log("hahah");
+    // this.loadTable();
+    // this.loadTableViewChild();
   }
+
+  // loadTable() {
+  //   if (this.rawTableData) {
+  //     // this variables toggles the ngIf for complete div which includes table and paginator
+  //     this.items = true;
+  //     this.items = new MatTableDataSource(this.rawTableData);
+  //   }
+  // }
+
+  // loadTableViewChild() {
+  //   if (this.rawTableData) {
+  //     this.items.paginator = this.paginator;
+  //   }
+  // }
 
   protected postLoadDataLazy(): void {
     this.loadAll();

@@ -56,6 +56,17 @@
                   <mat-datepicker #pickerThruDate></mat-datepicker>
                 </mat-form-field>
               </div>
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100 pr-1">
+                  <mat-label>Status</mat-label>
+                  <mat-select [(ngModel)]="partner.statusId">
+                    <!-- (selectionChange)="groupSelect($event)" -->
+                    <mat-option *ngFor="let item of desc" [value]="item.id">
+                      {{ item.description }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
           </div>
         </mat-card-content>
