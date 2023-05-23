@@ -91,6 +91,8 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   public optionsMVOri: IUom[];
   public filteredOptionsMVOri: Observable<IUom[]>;
   public MVOriCcy: IUom;
+  public NjopCcy: IUom;
+  public myControlNjop = new FormControl();
 
   moment = _rollupMoment || moment;
   date = new FormControl(moment());
@@ -359,6 +361,8 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
         this.optionsMVOri = res.body;
         this.filteredMVOri();
         this.MVOriCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
+        this.filteredNjop();
+        this.NjopCcy = this.optionsMVOri.find(obj => obj.id === this.collateralProperty.marketValueNjopCcy);
       });
   }
 
@@ -474,5 +478,23 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
 
   public getMVOriCcy() {
     this.collateralProperty.marketValueOriginalCcy = this.MVOriCcy.id;
+  }
+
+  public getNjopCcy() {
+    this.collateralProperty.marketValueNjopCcy = this.NjopCcy.id;
+  }
+
+  filteredNjop() {
+    this.filteredOptionsMVOri = this.myControlNjop.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterMVOri(name as string) : this.optionsMVOri.slice();
+      })
+    );
+  }
+
+  displayFnNjop(curency: IUom): string {
+    return curency && curency.id ? curency.id : '';
   }
 }
