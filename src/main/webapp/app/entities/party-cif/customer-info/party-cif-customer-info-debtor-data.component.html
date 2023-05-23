@@ -440,5 +440,39 @@
         </div>
       </section>
     </div>
+    <div class="form-group">
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Economic Sector Code</mat-label>
+          <input matInput type="text" [(ngModel)]="partyCif.debtorData.econSectorCode" [disabled]="true" />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Economic Sector Code</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyCif.debtorData.econSectorCode }}
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="form-group">
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Economic Sector Desc</mat-label>
+          <input matInput type="text" rows="6" [(ngModel)]="partyCif.debtorData.econSectorName" [disabled]="true" />
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Economic Sector Desc</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ partyCif.debtorData.econSectorName }}
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </div>
