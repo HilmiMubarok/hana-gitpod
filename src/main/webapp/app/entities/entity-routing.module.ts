@@ -538,6 +538,13 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./master-parameter/collateral-parameter/collateral-parameter.module').then(m => m.LosgwCollateralParameterModule),
       },
+      {
+        path: 'master-compliance-checklist',
+        loadChildren: () =>
+          import('./master-parameter/compliance-checklist/master-compliance-checklist.module').then(
+            m => m.LosgwMasterComplianceChecklistModule
+          ),
+      },
       // jhipster-needle-add-entity-route - JHipster will add entity modules routes here
     ]),
   ],

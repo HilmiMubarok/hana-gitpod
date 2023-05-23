@@ -9,7 +9,7 @@ import lodash from 'lodash';
 import { STATUS_LOV_PARAMETER } from 'app/shared/constants/status.constants';
 
 @Component({
-  selector: 'jhi-collateral-parameter',
+  selector: 'jhi-collateral-parameter-dialog',
   templateUrl: './collateral-parameter-dialog.component.html',
 })
 export class CollateralParameterDialogComponent implements OnInit {
