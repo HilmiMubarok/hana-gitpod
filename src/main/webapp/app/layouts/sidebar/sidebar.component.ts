@@ -106,6 +106,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   private setMenuFromPosInt(newPosSet: string): void {
     if (newPosSet !== 'Empty') {
+      console.log('data sidebar', newPosSet);
       this.accountService.identity().subscribe(account => {
         if (lodash.indexOf(account.authorities, Authority.ADMIN) >= 0) {
           this.dataSourceDashboard.data = DASHBOARD;
@@ -140,7 +141,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             this.dataSource.data = APPRAISAL_MENU_CHECKER2;
           } else if (newPosSet === 'LEGAL_TEAM_LEAD') {
             this.dataSource.data = APPRAISAL_MENU_LEGAL_TEAM_LEAD;
-          } else if (newPosSet === 'HCR1' || newPosSet === 'ROLE_HCR2') {
+          } else if (newPosSet === 'HCR1' || newPosSet === 'HCR2') {
             this.dataSource.data = APPRAISAL_MENU_HCR;
           } else if (newPosSet === 'BUSINESS_DIR') {
             this.dataSource.data = APPRAISAL_MENU_BUSINESS_DIR;
