@@ -51,6 +51,7 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
 
   ngOnInit(): void {
     this.selectParentIdValue();
+    this.loadAll();
   }
 
   protected postLoadDataLazy(): void {
@@ -145,17 +146,20 @@ export class DocumentTypeComponent extends AbstractEntityMaterialComponent<IDocu
 
     const dialogRef = this.dialog.open(DocumentTypeDialogComponent, predicate);
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        this.documentTypeService.create(this.documentType).subscribe(_res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Save Success',
-          });
-          this.loadAll();
-        });
-      }
+      this.documentTypeService.create(res).subscribe(_res => {});
+
+      this.loadAll();
+
+      // this.documentTypeService.create(this.documentType).subscribe(_res => {
+      //   this.messageService.add({
+      //     severity: 'success',
+      //     summary: 'Success',
+      //     detail: 'Save Success',
+      //   });
+      //   this.loadAll();
+      // });
     });
+    this.loadAll();
   }
 
   previousState(): void {
