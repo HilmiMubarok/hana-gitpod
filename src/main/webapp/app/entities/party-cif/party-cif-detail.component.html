@@ -100,7 +100,7 @@
 </button> -->
 
 <mat-sidenav-container [hasBackdrop]="true">
-  <div class="row">
+  <div class="row remove-row-scroll">
     <div class="e-card">
       <div class="e-card-header">
         <div class="e-card-header-caption">
@@ -172,7 +172,7 @@
               </button>
               <button
                 mat-raised-button
-                (click)="previousState()"
+                (click)="openCancelDialog()"
                 style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 13px !important; margin-top: 25px !important"
                 *ngIf="clickedMenu !== 'credit-rating'"
               >
@@ -180,7 +180,7 @@
               </button>
               <button
                 mat-raised-button
-                (click)="previousState()"
+                (click)="openCancelDialog()"
                 style="
                   background: rgba(0, 136, 129, 1);
                   color: #ffffff;

@@ -89,6 +89,7 @@ export class DocumentComponent implements OnChanges, OnInit {
   public edit(element: object) {
     const predicate: object = {
       width: '80vw',
+      disableClose: true,
       data: {
         collateral: null,
         appraisal: null,

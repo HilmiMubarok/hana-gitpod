@@ -12,6 +12,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-data-view-upload-slik.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur-view',
@@ -163,5 +164,21 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     };
     const dialogRef = this.dialog.open(DebtorDataViewUploadComponent, predicate);
     dialogRef.afterClosed().subscribe();
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

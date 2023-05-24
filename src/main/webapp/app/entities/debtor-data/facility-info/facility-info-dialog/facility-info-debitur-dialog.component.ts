@@ -7,6 +7,7 @@ import { IDebtorData } from '../../debtor-data.model';
 import { ICPFacilityTable } from 'app/entities/credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { CPFacility, ICPFacility } from 'app/shared/model/cp-facility.models';
 import { IDebtorDataFacility } from '../../debtor-data-facility.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 // import { FacilityInfoDebiturDialogComponent } from './facility-info-dialog/facility-info-debitur-dialog.component';
 
 @Component({
@@ -19,6 +20,7 @@ export class FacilityInfoDebiturDialogComponent implements OnInit {
   public preData: IDebtorDataFacility;
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       debtorData: IDebtorDataFacility;
@@ -36,7 +38,23 @@ export class FacilityInfoDebiturDialogComponent implements OnInit {
   public save(): void {
     this._dialog.close(this.debtorData);
   }
-  public cancel(): void {
-    this._dialog.close();
+  // public cancel(): void {
+  //   this._dialog.close();
+  // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }
