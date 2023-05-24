@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { IDocumentType } from './document-type.model';
 import { DocumentTypeService } from './document-type.service';
 import { MessageService } from 'primeng/api';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-document-type-dialog',
@@ -26,6 +27,7 @@ export class DocumentTypeDialogComponent implements OnInit {
 
   public documentType: IDocumentType;
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       documentType: IDocumentType;
@@ -35,6 +37,7 @@ export class DocumentTypeDialogComponent implements OnInit {
 
     private _dialog: MatDialogRef<DocumentTypeDialogComponent>
   ) {
+    _dialog.disableClose = true;
     this.documentType = this.data.documentType;
     this.documentType.description = '';
     this.documentType.category = '';
@@ -138,6 +141,22 @@ export class DocumentTypeDialogComponent implements OnInit {
   public validate(): Promise<Boolean> {
     return new Promise((resolve, reject) => {
       this.validateDocument().then(() => resolve(true));
+    });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
     });
   }
 }

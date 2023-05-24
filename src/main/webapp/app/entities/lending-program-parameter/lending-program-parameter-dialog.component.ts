@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { STATUS_PARAMETER } from 'app/shared/constants/status.constants';
 import { ILendingProgramParameter } from './lending-program-parameter.model';
 import { FormControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-lending-program-parameter-dialog',
@@ -23,6 +24,7 @@ export class LendingProgramParameterDialogComponent {
   ];
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       lendingProgramParameter: ILendingProgramParameter;
@@ -30,6 +32,7 @@ export class LendingProgramParameterDialogComponent {
     private _dialog: MatDialogRef<LendingProgramParameterDialogComponent>,
     protected messageService: MessageService
   ) {
+    _dialog.disableClose = true;
     this.lendingProgramParameter = this.data.lendingProgramParameter;
   }
 
@@ -43,5 +46,20 @@ export class LendingProgramParameterDialogComponent {
     } else {
       this._dialog.close(this.lendingProgramParameter);
     }
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

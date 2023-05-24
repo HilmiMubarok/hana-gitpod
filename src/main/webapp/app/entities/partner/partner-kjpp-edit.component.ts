@@ -17,6 +17,7 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { IPerson } from '../person/person.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-partner-kjpp-edit',
@@ -103,5 +104,20 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
 
   previousState(): void {
     window.history.back();
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }
