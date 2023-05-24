@@ -132,20 +132,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public getListIndustry() {
     this.listOfIndustryService.query().subscribe((res: any) => {
       this.listOfIndustry = res.body;
-    
-
-      for (let i = 0; i < res.body.length; i++) {
-        this.industryList.push(res.body[i].label);
-      }
     });
-  }
-
-  public selectIndustry(event: any) {
-    const industryCode = this.listOfIndustry.filter(data => data.label === event.itemData.value)
-    this.creditProposal.attributes['purposePricing'] = {
-      industryCode: industryCode[0].id,
-      industry: event.itemData.value,
-    }
   }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
@@ -376,25 +363,18 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.defaultCurrency();
     this.creditRatingCondition();
     this.averagetoIDR();
-
-    this.findIndustryCode()
   }
 
-  private findIndustryCode(){
-      if (this.creditProposal.attributes.purposePricing.industry !== '') {
-        const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.attributes.purposePricing.industry)
-        this.creditProposal.attributes['purposePricing'] = {
-        industryCode: industryCode[0].id,
-        industry: this.creditProposal.attributes.purposePricing.industry,
-      }
-    }
-    
+  public industryLable(code: number) {
+    const industryLable = this.listOfIndustry.filter(data => data.id === code);
+    return industryLable;
   }
+
   public creditRatingCondition() {
     if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
       if (this.creditProposal.attributes['purposePricing'].industry === '') {
-        this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
-        this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
+        const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.creditRatings[0].attributes['industry']);
+        this.creditProposal.attributes['purposePricing'].industryCode = industryCode;
       }
     }
   }
@@ -406,7 +386,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       this.defaultCurrencyData = res.body[0]?.factor;
     });
   }
- 
 
   spreadPerFacilityEvent(event): void {
     if (event) {
