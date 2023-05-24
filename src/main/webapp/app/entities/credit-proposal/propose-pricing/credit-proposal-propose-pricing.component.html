@@ -86,19 +86,28 @@
           </section>
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <ejs-combobox
                 cssClass="e-outline"
                 (change)="selectIndustry($event)"
                 id="dropdownlistdata"
                 #dropdownlistdata
-                [dataSource]="industryList"
+                [dataSource]="sectorIndustry"
                 placeholder="Industry"
                 floatLabelType="Auto"
                 [value]="creditProposal.attributes['purposePricing'].industry"
               >
               </ejs-combobox>
-            </div>
+            </div> -->
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Sector Industry</mat-label>
+              <mat-select name="sectorIndustry" [(ngModel)]="creditProposal.attributes['purposePricing'].industry">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
+                  {{ item.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">

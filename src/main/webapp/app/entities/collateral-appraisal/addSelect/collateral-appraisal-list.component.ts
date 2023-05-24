@@ -80,7 +80,7 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   getsCif: IPartyCif[];
   public createSurveyAppraisalPromises = [];
   // collateralValidate: any;
-  public collateralValidate = [];
+  // public collateralValidate = [];
   constructor(
     public dialog: MatDialog,
     protected router: Router,
@@ -349,8 +349,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           for (let i = 0; i < this.statusChecked.length; i++) {
             this.InternalExternal.push(this.statusChecked[i]);
           }
-          for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-            for (let e = 0; e < this.statusChecked.length; e++) {
+          for (let e = 0; e < this.statusChecked.length; e++) {
+            for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
               this.surveyAppraisalCross = lodash.clone(this.surveyAppraisalTemplate);
               if (this.selectedPartyCif?.partyId === this.dataSelectedCheckbox[i].partyId) {
                 if (this.selectedPartyCif.customerType === 'PERSONAL') {
@@ -369,19 +369,20 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
                   }
                 }
               }
+              this.surveyAppraisalCross.apprOfficer = this.statusChecked[e];
               this.surveyAppraisalCross.collateralId = this.dataSelectedCheckbox[i].id;
               this.surveyAppraisalCross.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
               this.surveyAppraisalCross.internalId = this.internalIdLocStor;
               this.surveyAppraisalCross.applicationId = null;
 
-              this.surveyAppraisalCross.apprOfficer = this.InternalExternal[e];
+              this.validateAppraisal(this.dataSelectedCheckbox);
+              this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
             }
           }
-          this.collateralValidate.push(this.validateAppraisal(this.dataSelectedCheckbox));
+          Promise.all(this.createSurveyAppraisalPromises).then(results => {
+            this.router.navigate(['./collateral-appraisal']);
+          });
         }
-        Promise.all(this.collateralValidate).then(results => {
-          this.router.navigate(['./collateral-appraisal']);
-        });
       }
     }
   }
@@ -395,22 +396,14 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       reject('500 validated');
     });
   }
-  public createAppraisal(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
-      resolve('data 200');
-    });
-  }
-  private validateAppraisal(collateral: ICollateral[]): Promise<Boolean> {
+
+  private validateAppraisal(collateral: ICollateral[]): Promise<void> {
     return new Promise((resolve, reject) => {
       this.collateralAppraisalsAppraiseService.validateAppraise(collateral).subscribe({
         error: (error: HttpErrorResponse) => {
           switch (error.status) {
             case 500:
               this.checkStatus().catch(reject);
-              break;
-            case 200:
-              this.createAppraisal().then(() => resolve(true));
               break;
           }
         },
