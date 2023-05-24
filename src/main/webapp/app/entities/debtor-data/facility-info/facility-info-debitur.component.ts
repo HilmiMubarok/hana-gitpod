@@ -145,6 +145,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
       console.log('debitur ', params);
       const dialogRef = this.dialog.open(FacilityInfoDebiturDialogComponent, {
         width: '80vw',
+        disableClose: true,
         data: {
           debtorData: params,
         },

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DOCUMENT_TYPE_APPRAISAL } from 'app/shared/constants/base.constants';
 import { ICollateralAppraisal } from '../collateral-appraisal/collateral-appraisal.model';
@@ -13,6 +13,7 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 import { IDocumentNode } from '../document-node/document-node.model';
 import lodash from 'lodash';
 import { DocumentTypeService } from '../document-type/document-type.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-document-upload-dialog',
@@ -38,6 +39,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public folder: object;
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       appraisal: ICollateralAppraisal;
@@ -277,4 +279,20 @@ export class DocumentUploadDialogComponent implements OnInit {
   //   }
   //   return false;
   // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
 }

@@ -1,11 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { IOrganizationManagement } from './organization-management.model';
 import lodash from 'lodash';
 import { IPartyGroup } from '../party-group/party-group.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-organization-management-dialog',
@@ -29,6 +31,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public isDisabled = false;
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       organizationManagement: IOrganizationManagement;
@@ -143,5 +146,21 @@ export class OrganizationManagementDialogComponent implements OnInit {
     if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
       this.isDisabled = true;
     }
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

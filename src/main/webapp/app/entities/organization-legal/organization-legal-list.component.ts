@@ -86,6 +86,7 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
 
     const dialogRef = this.dialog.open(OrganizationLegalDialogComponent, {
       width: '80vw',
+      disableClose: true,
       data: {
         organizationLegal: value,
         deedNumber: this.deedNumber,
