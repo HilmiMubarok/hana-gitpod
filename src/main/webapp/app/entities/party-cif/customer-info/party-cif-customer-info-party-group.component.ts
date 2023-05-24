@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
 import { PartyGroup } from 'app/entities/party-group/party-group.model';
 import { IPartyGroup } from 'app/entities/party-group/party-group.model';
@@ -8,9 +8,10 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
   selector: 'jhi-party-cif-customer-info-party-group',
   templateUrl: './party-cif-customer-info-party-group.component.html',
 })
-export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges {
+export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges, OnInit {
   private _partyGroup: IPartyGroup = new PartyGroup();
   private _organization: IOrganizationManagement;
+  private _source: string;
 
   public phoneNumber: any;
 
@@ -32,16 +33,32 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
     this._organization = data;
   }
 
+  @Input()
+  get source() {
+    return this._source;
+  }
+
+  set source(data: string) {
+    this._source = data;
+  }
+
   public countryCode: string;
+  public disabledData;
   constructor() {
     super();
     this.countryCode = '';
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyGroup']) {
-      this.afterChangePartyGroup(this.partyGroup);
-      this.AfterChangePhone();
+    if (changes['source']) {
+      console.log('source ', this.source);
+      if (this.source) {
+        this.disabledData = true;
+      }
     }
+  }
+
+  ngOnInit() {
+    console.log('source ', this.source);
   }
 
   private preSetData(param: IPartyGroup) {
