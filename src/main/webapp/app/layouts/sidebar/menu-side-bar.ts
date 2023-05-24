@@ -89,6 +89,11 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'collateral-parameter',
       },
+      {
+        name: 'Compliance Checklist',
+        iconname: 'minus',
+        route: 'master-compliance-checklist',
+      },
     ],
   },
   {
@@ -456,6 +461,11 @@ export const APPRAISAL_MENU_APPROVAL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'collateral-parameter',
       },
+      {
+        name: 'Compliance Checklist',
+        iconname: 'minus',
+        route: 'master-compliance-checklist',
+      },
     ],
   },
   {
@@ -697,11 +707,11 @@ export const SIDEBAR_MENU_SME_HEAD: ISidebarMenuModel[] = [
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
     children: [
-      // {
-      //   name: 'Credit Proposal',
-      //   iconname: 'minus',
-      //   route: 'credit-proposal-status',
-      // },
+      {
+        name: 'Credit Proposal',
+        iconname: 'minus',
+        route: 'credit-proposal-status',
+      },
       {
         name: 'Credit Proposal Approval',
         iconname: 'minus',
@@ -813,6 +823,11 @@ export const MENU_MASTER: ISidebarMenuModel[] = [
         name: 'Collateral',
         iconname: 'minus',
         route: 'collateral-parameter',
+      },
+      {
+        name: 'Compliance Checklist',
+        iconname: 'minus',
+        route: 'master-compliance-checklist',
       },
     ],
   },

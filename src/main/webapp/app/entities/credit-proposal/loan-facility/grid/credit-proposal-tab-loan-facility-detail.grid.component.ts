@@ -483,7 +483,9 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
   getRateTypeDesc(element) {
     if (element) {
       const typeDesc = this.interestTypeList.find(obj => obj.code === element);
-      return typeDesc.value;
+      if (typeDesc) {
+        return typeDesc.value;
+      }
     }
     return '';
   }

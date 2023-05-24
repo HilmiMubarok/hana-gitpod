@@ -55,6 +55,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
 
   public Managemet: string;
   public value: string;
+  public valueSelect: any;
   public newMessage: string;
   public resourceUrl: string;
   public dataCoBorrower: any = [];
@@ -132,8 +133,24 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
         this.dataAttrMgn = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        console.log('datalog', this.dataAttrMgn);
+        // for (let i = 0; i < this.dataAttrMgn.length; i++) {
+        //   this.dataAttrMgn[i]['indexNum'] = i + 1;
+        // }
+        const dataGrid = [];
         for (let i = 0; i < this.dataAttrMgn.length; i++) {
-          this.dataAttrMgn[i]['indexNum'] = i + 1;
+          const num = i + 1;
+          dataGrid[i] = { indexNum: num, value: this.dataAttrMgn[i].value, valueSelect: '' };
+          console.log('data tabel', dataGrid);
+        }
+        this.dataAttrMgn = dataGrid;
+        if (this.dataItem.attributes['managementInfo'].DebtorPerformentCriteria.length === 0) {
+          this.dataItem.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
+        } else {
+          for (let i = 0; i < this.dataItem.attributes['managementInfo'].DebtorPerformentCriteria.length; i++) {
+            this.dataAttrMgn = this.dataItem.attributes['managementInfo'].DebtorPerformentCriteria;
+            // this.remarks[i] = this.item.attributes['cpRacBack'].topGrid[i].remarks;
+          }
         }
       });
   }
@@ -345,8 +362,9 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   public onSelect(value: string, dataMgn: any) {
-    this.dataAttrMgn[dataMgn.No - 1].value = value;
+    this.dataAttrMgn[dataMgn.indexNum - 1].valueSelect = value;
     this.item.attributes['managementInfo'].DebtorPerformentCriteria = this.dataAttrMgn;
+    console.log('onSelect', value);
   }
 
   matrixRemoveTag() {

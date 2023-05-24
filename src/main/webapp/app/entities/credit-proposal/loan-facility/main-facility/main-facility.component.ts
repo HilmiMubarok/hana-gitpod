@@ -42,6 +42,7 @@ export class MainFacilityComponent implements OnInit, OnChanges {
     'totalPlafond',
     'currentMaturityDate',
     'newMaturityDate',
+    'lastAgrmeentDate',
     'action',
   ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];

@@ -1,0 +1,110 @@
+<div *ngIf="mode !== 'edit'">
+  <h2 mat-dialog-title>ADD List of Value Parameter</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Id</mat-label>
+            <input matInput type="text" [(ngModel)]="complianceChecklistCriteria.regulationId" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Item No</mat-label>
+            <input matInput type="text" [(ngModel)]="complianceChecklistCriteria.itemNo" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Name</mat-label>
+            <input matInput type="text" [(ngModel)]="complianceChecklistCriteria.regulationName" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Criteria</mat-label>
+            <textarea
+              matInput
+              rows="5"
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="complianceChecklistCriteria.criteria"
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100 pr-1">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="complianceChecklistCriteria.statusId">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                {{ item.statusDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
+    <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="mode === 'edit'">
+  <h2 mat-dialog-title>EDIT Criteria Compliance Checklist</h2>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12">
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Id</mat-label>
+            <input matInput type="text" [(ngModel)]="complianceChecklistCriteria.id" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Item No</mat-label>
+            <input matInput type="text" [(ngModel)]="complianceChecklistCriteria.itemNo" [disabled]="true" />
+          </mat-form-field>
+        </section>
+
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Regulation Name</mat-label>
+            <input matInput type="text" [(ngModel)]="complianceChecklistCriteria.regulationName" [disabled]="true" />
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Criteria</mat-label>
+            <textarea
+              matInput
+              rows="5"
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              [(ngModel)]="complianceChecklistCriteria.criteria"
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <section class="mt-2">
+          <mat-form-field appearance="outline" class="w-100 pr-1">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="complianceChecklistCriteria.statusId">
+              <mat-option value="">- Please Select -</mat-option>
+              <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+                {{ item.statusDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
+    <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  </mat-dialog-actions>
+</div>
