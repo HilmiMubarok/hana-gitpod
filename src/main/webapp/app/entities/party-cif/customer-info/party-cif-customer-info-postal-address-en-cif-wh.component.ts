@@ -211,7 +211,7 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
     }
   }
 
-  public initializeCity(): void {
+  public initializeCity(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
@@ -223,10 +223,13 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
         this.optionsCity = res.body;
         this.filteredCity();
         this.cities = this.optionsCity.find(obj => obj.id === this._partyCif.addresses[this.index].address.cityId);
+        if (value === true) {
+          this.myControlCity.enable();
+        }
       });
   }
 
-  public initializeDistrict(): void {
+  public initializeDistrict(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
@@ -238,25 +241,33 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
         this.optionsDistrict = res.body;
         this.filteredDistrict();
         this.districts = this.optionsDistrict.find(obj => obj.id === this._partyCif.addresses[this.index].address.districtId);
+        if (value === true) {
+          this.myControlDistrict.enable();
+        }
       });
   }
 
-  public initializeVillage(): void {
+  public initializeVillage(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
         size: 50,
         idBoundaryType: GEO_BOUNDARY_TYPE['village'],
+        // idParent: this.postalAddress.districtId
         idParent: this._partyCif.addresses[this.index].address.districtId,
       })
       .subscribe(res => {
         this.optionsVillage = res.body;
         this.filteredVillage();
         this.villages = this.optionsVillage.find(obj => obj.id === this._partyCif.addresses[this.index].address.villageId);
+        // this.villages = this.optionsVillage.find(obj => obj.id === this.postalAddress.villageId);
+        if (value === true) {
+          this.myControlVillage.enable();
+        }
       });
   }
 
-  public initializeProvince(): void {
+  public initializeProvince(value = false): void {
     this.stateBoundaryService
       .queryFilterBy({
         page: 0,
@@ -271,6 +282,9 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
           this.province = this.optionsProvince.find(obj => obj.id === this._partyCif.addresses[this.index].address.provinceId);
         } else {
           this.myControlProvince.setValue({ description: 'DI LUAR INDONESIA' });
+        }
+        if (value === true) {
+          this.myControlCity.enable();
         }
       });
   }
@@ -291,6 +305,7 @@ export class PartyCifCustomerInfoPostalAddressEnCifWhComponent implements OnInit
         this.filteredCountry();
         // const indonesia : IStateBoundary = res.body.find(obj => obj.id === 199 )
         // this.optionsCountry = res.body.splice()
+        // this.country = this.optionsCountry.find(obj => obj.id === this.postalAddress.countryId);
         this.country = this.optionsCountry.find(obj => obj.id === this._partyCif.addresses[this.index].address.countryId);
         this.initializeProvince();
       });
