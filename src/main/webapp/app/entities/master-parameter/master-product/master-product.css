@@ -203,6 +203,14 @@ table .mat-table {
   cursor: move;
 }
 
+.example-section {
+  margin: 12px 0;
+}
+
+.example-margin {
+  margin: 0 12px;
+}
+
 /* [mat-dialog-title] {
   margin: -24px -24px 0px -24px !important;
   padding: 10px 24px;

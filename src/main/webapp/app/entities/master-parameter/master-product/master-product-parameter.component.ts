@@ -51,10 +51,6 @@ export class MasterProductParameterComponent extends AbstractEntityMaterialCompo
   }
 
   public onSelect(element: any) {
-    // const paramType = element;
-    // this.productParameterService.setPrameterType(paramType);
-
-    // this.loadAll();
     this.items = [];
     this.page = 0;
     this.typeID = element;
@@ -63,8 +59,6 @@ export class MasterProductParameterComponent extends AbstractEntityMaterialCompo
   }
 
   private loadAll(): void {
-    // const data = this.productParameterService.paramTypeId.subscribe((message: any) => {
-    // this.typeID = message;
     this.productParameterService
       .filterTableData({
         idProductType: this.typeID,
@@ -78,7 +72,6 @@ export class MasterProductParameterComponent extends AbstractEntityMaterialCompo
         },
         error: (res: HttpErrorResponse) => this.onError(res.message),
       });
-    // });
   }
 
   protected postLoadDataLazy(): void {
