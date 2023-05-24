@@ -52,11 +52,11 @@
   </ng-container>
   <ng-container matColumnDef="tenor">
     <th mat-header-cell *matHeaderCellDef class="grid-index">Disbursement Date</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.trxDate }}</td>
+    <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.trxDate.slice(0, 10) }}</td>
   </ng-container>
   <ng-container matColumnDef="lastKol">
     <th mat-header-cell *matHeaderCellDef class="grid-index">MaturityDate</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.maturityDate | date: 'yyyy/MM/dd' }}</td>
+    <td mat-cell *matCellDef="let element" class="grid-index-label">{{ element.maturityDate.slice(0, 10) }}</td>
   </ng-container>
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef class="grid-index">Action</th>

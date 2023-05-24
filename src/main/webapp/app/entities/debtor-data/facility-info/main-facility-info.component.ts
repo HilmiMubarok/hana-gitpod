@@ -36,7 +36,7 @@ export class MainFacilityInfoComponent implements OnInit {
     this.getData(this.partyCif.partyId);
   }
 
-  columnsToDisplay = ['no', 'approvalNo', 'currency', 'mainPlafond', 'maturityDate', 'availableLimit'];
+  columnsToDisplay = ['no', 'approvalNo', 'currency', 'mainPlafond', 'maturityDate', 'availableLimit', 'lastAgreementDate'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
 
   public getData(param: string) {
