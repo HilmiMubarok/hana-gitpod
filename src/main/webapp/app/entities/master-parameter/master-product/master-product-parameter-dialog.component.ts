@@ -129,24 +129,6 @@ export class MasterProductParameterDialogComponent implements OnInit {
     });
   }
 
-  // public openDialogAddCategory(param: IMasterProductParameter): void {
-  //   const dialogRef = this.dialog.open(CategoryProductDialogEditComponent, {
-  //     width: '100%',
-  //     data: {
-  //       productClasification: this.productParameter.id,
-  //     },
-  //   });
-  //   dialogRef.afterClosed().subscribe((res: IProductClassification) => {
-  //     if (res) {
-  //       if (res.id) {
-  //         this.productClasificationService.create(res).subscribe(_res => {
-  //           // this.loadAll();
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
-
   public loadAll() {
     this.getFacilityType();
     this.getProductClasification();
