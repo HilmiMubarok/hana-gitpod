@@ -290,7 +290,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     });
     const postCbas = this.http.post(this.resourceUrlNew, data, { observe: 'response' });
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + cbasData.id, { status: cbasData.status });
-    return forkJoin([postCbas, postOcr, changeStatus]);
+    return forkJoin([postOcr, changeStatus]);
   }
 
   submitDraft(data) {
