@@ -87,15 +87,6 @@ export class PartnerKjppEditComponent extends AbstractEntityBaseViewComponent<IP
         summary: 'Success',
         detail: 'Save Success',
       });
-      if (!this.partner.organization.groupName) {
-        this._snackBar.open('Masukan Name terlebih dahulu', null, {
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-          duration: 3000,
-        });
-        return;
-      }
-
       if (res.body) {
         this.router.navigate(['/partner-kjpp']);
       }

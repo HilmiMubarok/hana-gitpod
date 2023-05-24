@@ -893,6 +893,16 @@ export const SIDEBAR_MENU_APR_DH: ISidebarMenuModel[] = [
     iconname: 'file',
     children: [
       {
+        name: 'Appraisal Distribution External',
+        iconname: 'minus',
+        route: 'batch-apprisal',
+      },
+      {
+        name: 'Appraisal Distribution Internal',
+        iconname: 'minus',
+        route: 'batch-apprisal/internal',
+      },
+      {
         name: 'Appraisal Report Approval',
         iconname: 'minus',
         route: 'batch-apprisal/approval',
