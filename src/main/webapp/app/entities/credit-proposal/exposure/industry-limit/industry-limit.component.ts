@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output,SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { IndustryLimit, IIndustryLimit } from './industry-limit.model';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
@@ -56,8 +56,8 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.applicationOption();
     // this.industryLimit();
-    this.industry()
-    
+    this.industry();
+
     const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
       this.purposeAmmount = message;
       this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
@@ -72,28 +72,20 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
     // this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
-    
-  this.industry()
+    this.industry();
   }
 
-  public industry(){
-    this.listOfValueIndustryService.query().subscribe((response: any) => {
-      for (let i = 0; i < response.body.length; i++) {
-        if (
-          response.body[i].label === this.creditProposal.attributes['purposePricing'].industry
-        ) {
-          this.industryLimitExposureParameterService.find('industry/' + response.body[i].id).subscribe((res: any) => {
-            this.limitPercentage = res.body.limitPercentage;
-            this.remainingBalance = res.body.remainingBalance;
-            this.industryLimitExposure = res.body.industryLimitExposure;
-            this.limitNominal = res.body.limitNominal;
-            // this.totalAmmountFunc(this.remainingBalance);
-          });
-        }
-      }
-    });
+  public industry() {
+    this.industryLimitExposureParameterService
+      .find('industry/' + this.creditProposal.attributes['purposePricing'].industryCode)
+      .subscribe((res: any) => {
+        this.limitPercentage = res.body.limitPercentage;
+        this.remainingBalance = res.body.remainingBalance;
+        this.industryLimitExposure = res.body.industryLimitExposure;
+        this.limitNominal = res.body.limitNominal;
+        // this.totalAmmountFunc(this.remainingBalance);
+      });
   }
   public fungsiSumOS() {
     let result: number;

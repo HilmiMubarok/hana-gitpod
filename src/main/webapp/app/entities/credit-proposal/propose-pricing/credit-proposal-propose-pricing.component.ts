@@ -6,7 +6,6 @@ import { retry, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 
-import { ListOfValueIndustryService } from '../list-of-value-industry.service';
 import { IListOfValueIndustry } from '../list-of-value-industry.model';
 import { CreditProposalService } from '../credit-proposal.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
@@ -19,7 +18,6 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
-// import { log } from 'console';
 
 export const MY_FORMATS = {
   parse: {
@@ -112,7 +110,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   constructor(
     private actRoute: ActivatedRoute,
-    // public listOfIndustryService: ListOfValueIndustryService,
     public creditProposalService: CreditProposalService,
     private http: HttpClient,
     public generalParameterService: GeneralParameterService
@@ -146,14 +143,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         });
       });
   }
-
-  // public selectIndustry(event: any) {
-  //   const industryCode = this.listOfIndustry.filter(data => data.label === event.itemData.value);
-  //   this.creditProposal.attributes['purposePricing'] = {
-  //     industryCode: industryCode[0].id,
-  //     industry: event.itemData.value,
-  //   };
-  // }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
     this._creditProposal = creditProposal;
@@ -286,7 +275,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
     this.proposedRateUSD = this.proposedRateUSDArr.length === 0 ? 0 : this._getAverage(this.proposedRateUSDArr);
 
-    // ? NOTES : Discount Proposal = NormalRate - proposedRate
     this.discountProposalUSD = this.normalRateUSD - this.proposedRateUSD;
   }
 
@@ -373,18 +361,11 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.primaryYAxis2 = {
       labelFormat: '{value}%',
     };
-    /* this.primaryYAxis2 = {
-      minimum: -2,
-      maximum: 8,
-      interval: 2,
-      labelFormat: '{value}%',
-    }; */
 
     this.defaultCurrency();
     this.creditRatingCondition();
     this.averagetoIDR();
-
-    this.findIndustryCode();
+	this.findIndustryCode();
   }
 
   private findIndustryCode() {
@@ -396,11 +377,14 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       };
     }
   }
+  
   public creditRatingCondition() {
     if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
       if (this.creditProposal.attributes['purposePricing'].industry === '') {
-        this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
-        this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
+        const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.creditRatings[0].attributes['industry']);
+		this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
+        this.creditProposal.attributes['purposePricing'].industryCode = industryCode;
+		// this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
       }
     }
   }
