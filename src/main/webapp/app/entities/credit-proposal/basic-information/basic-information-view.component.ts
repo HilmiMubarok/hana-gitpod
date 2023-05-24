@@ -88,13 +88,6 @@ export class ProposalBasicInformationViewComponent implements OnInit {
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
     this.bucket = ' ';
-    this.activatedRoute.params.subscribe(params => {
-      this.paramsIdGet = params['id'];
-      this.getKey = 'credit_proposal/remark/basic-info/' + this.paramsIdGet + '/sfdt';
-      this.getBucket().then(res => {
-        this.getContainer();
-      });
-    });
 
     this.data = this.creditProposal.attributes['basicInformation'].coborowed;
     this.postalAdresss = this.creditProposal.addresses.find(function (e) {
@@ -149,6 +142,15 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   onCreate(): void {
     // this.container.serviceUrl = 'https://ej2services.syncfusion.com/production/web-services/api/documenteditor/';
     this.containers.serviceUrl = '/services/los/api/wordeditor/';
+
+    this.activatedRoute.params.subscribe(params => {
+      this.paramsIdGet = params['id'];
+      this.getKey = 'credit_proposal/remark/basic-info/' + this.paramsIdGet + '/sfdt';
+      this.getBucket().then(res => {
+        this.getContainer();
+      });
+    });
+
   }
 
   public triggeredSave(): void {
