@@ -13,6 +13,7 @@ import { APPLICATION_TYPE } from 'app/shared/constants/base.constants';
 import { MatSort } from '@angular/material/sort';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import _ from 'lodash';
+import { RequestSlikSearchService } from './services/request-slik-search.service';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -32,7 +33,8 @@ export class RequestSlikBucketComponent implements OnInit {
     private requestSlikService: RequestSlikService,
     private internalService: InternalService,
     protected messageService: MessageService,
-    protected lovAndStatusService: RequestSlikStatusService
+    protected lovAndStatusService: RequestSlikStatusService,
+    protected requestSlikSearchService: RequestSlikSearchService
   ) {
     // this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     this.getStatus();
@@ -292,6 +294,61 @@ export class RequestSlikBucketComponent implements OnInit {
     this.searchCif = null;
     this.isLoading = true;
     this.getData();
+  }
+
+  // === SEARCH REQUEST SLIK BUCKET
+  searchReqSlik(data) {
+    return this.requestSlikSearchService.searchRequestSlik(data).subscribe(res => {
+      console.log('SEARCH', res);
+
+      this.dataSource.data = res.length === 0 && [];
+
+      // Modify status label
+      let modifiedData = _.map(res, obj => {
+        if (obj.status === 'DRAFT') {
+          return { ...obj, status: 'Draft' };
+        } else if (obj.status === 'APPROVAL_BU') {
+          return { ...obj, status: 'Approval SLIK By BU' };
+        } else if (obj.status === 'APPROVAL_SLIK') {
+          return { ...obj, status: 'Approval SLIK By Team SLIK' };
+        } else if (obj.status === 'CHECKING') {
+          return { ...obj, status: 'Checking In Progress' };
+        } else if (obj.status === 'RETURN_TO_RM') {
+          return { ...obj, status: 'Return To RM' };
+        } else if (obj.status === 'VERIFY') {
+          return { ...obj, status: 'Verify' };
+        } else if (obj.status === 'COMPLETE') {
+          return { ...obj, status: 'Complete' };
+        }
+        return obj;
+      });
+
+      modifiedData = modifiedData.filter(modified => modified.status !== 'CANCEL');
+
+      // == get segment
+      modifiedData.forEach(item => {
+        this.loadInternalById(item.internalId).then((res2: IInternal) => {
+          if (res2.parentId) {
+            this.rmBranch = res2;
+            this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+              this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                if (res4.parentId) {
+                  this.rmRegional = res4;
+                  this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                    this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                      this.rmSegment = res6;
+                      item.segment = res6.organizationName;
+                    });
+                  });
+                }
+              });
+            });
+          }
+        });
+      });
+      // == end get segment
+      this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
+    });
   }
 
   searchCif: number;

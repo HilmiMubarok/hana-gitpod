@@ -21,8 +21,23 @@ export class RequestSlikSearchService extends AbstractEntityService<any> {
   }
 
   public searchRequestSlik(data: number | string) {
-    // const options = new HttpParams().set('cif', data);
-    // return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).subscribe(res => {
+    const options = new HttpParams().set('query', data).set('page', 0).set('size', 99);
+    return this.http.get<any>(this.resourceUrl + '/byall', { observe: 'response', params: options }).pipe(
+      switchMap(reqSlik => {
+        const requests = reqSlik.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
+        return forkJoin([...requests]).pipe(
+          map(details =>
+            reqSlik.body.data.map((user, i) => ({
+              ...user,
+              customerName: details[i].body.name,
+              internalId: details[i].body.internalId,
+              segment: 'loading...',
+              customerType: details[i].body.customerType,
+            }))
+          )
+        );
+      })
+    );
     // })
   }
 
