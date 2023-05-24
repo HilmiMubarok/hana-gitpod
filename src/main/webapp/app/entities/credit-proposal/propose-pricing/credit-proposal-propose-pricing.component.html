@@ -87,17 +87,17 @@
 
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <div class="form-group">
-            <ejs-combobox
-              cssClass="e-outline"
-              (change)="selectIndustry($event)"
-              id="dropdownlistdata"
-              #dropdownlistdata
-              [dataSource]="industryList"
-              placeholder="Industry"
-              floatLabelType="Auto"
-              [value]="creditProposal.attributes['purposePricing'].industry"
-            >
-            </ejs-combobox>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Pilih Kategori</mat-label>
+              <mat-select [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode">
+                <mat-option value=''>
+                  Pilih Category
+                </mat-option>
+                <mat-option *ngFor="let category of listOfIndustry" [value]="category.id">
+                  {{ category.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </section>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
