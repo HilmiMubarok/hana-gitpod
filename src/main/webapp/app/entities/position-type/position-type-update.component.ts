@@ -15,6 +15,7 @@ import { IPositionType, PositionType } from './position-type.model';
 import { PositionTypeService } from './position-type.service';
 import { InternalTypeService } from '../internal-type/internal-type.service';
 import { IInternalType } from '../internal-type/internal-type.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-position-type-update',
@@ -89,6 +90,22 @@ export class PositionTypeUpdateComponent extends AbstractEntityMaterialComponent
 
       if (res.body) {
         this.router.navigate(['/position-type']);
+      }
+    });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
       }
     });
   }

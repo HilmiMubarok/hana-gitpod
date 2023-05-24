@@ -19,6 +19,7 @@ import { IPostalAddress } from '../postal-address/postal-address.model';
 import { ACTION } from '@syncfusion/ej2-angular-richtexteditor';
 import lodash from 'lodash';
 import { MatSelectChange } from '@angular/material/select';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-internal-create',
@@ -156,5 +157,21 @@ export class InternalCreateComponent extends AbstractEntityMaterialComponent<IIn
 
   previousState(): void {
     window.history.back();
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

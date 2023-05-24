@@ -67,6 +67,7 @@ export class MasterProductParameterDialogComponent implements OnInit {
     protected messageService: MessageService,
     protected dialog: MatDialog
   ) {
+    _dialog.disableClose = true;
     this.productParameter = this.data.productParameter;
 
     this.view = this.data.view;
@@ -249,5 +250,21 @@ export class MasterProductParameterDialogComponent implements OnInit {
 
   public onSave(): void {
     this.validate().then(() => this.save());
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

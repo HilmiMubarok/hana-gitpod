@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
 import { IPosition } from '../position/position.model';
@@ -8,6 +8,7 @@ import { IPositionReportingStructure } from './position-reporting-structure.mode
 import { RelationTypeService } from '../relation-type/relation-type.service';
 import { IRelationType } from '../relation-type/relation-type.model';
 import { firstValueFrom } from 'rxjs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-position-reporting-structure-dialog',
@@ -24,6 +25,7 @@ export class PositionReportingStructureDialogComponent implements OnInit {
   public relationTypes: IRelationType[];
   private LOS_REL = 'LOS_REL';
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       positionReportingStructure: IPositionReportingStructure;
@@ -33,6 +35,7 @@ export class PositionReportingStructureDialogComponent implements OnInit {
     protected positionService: PositionService,
     protected relationTypeService: RelationTypeService
   ) {
+    _dialog.disableClose = true;
     this.positionReportingStructure = this.data.positionReportingStructure;
     this.internalFrom = [];
     this.internalTo = [];
@@ -104,5 +107,23 @@ export class PositionReportingStructureDialogComponent implements OnInit {
       size: 9999,
     };
     this.relationTypes = (await firstValueFrom(this.relationTypeService.queryFilterBy(predicate))).body;
+  }
+  previousState(): void {
+    window.history.back();
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

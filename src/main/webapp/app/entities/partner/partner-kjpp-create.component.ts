@@ -14,6 +14,7 @@ import { map } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Form, FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity-view-page.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-partner-kjpp-create',
@@ -85,5 +86,21 @@ export class PartnerKjppCreateComponent extends AbstractEntityMaterialComponent<
 
   previousState(): void {
     window.history.back();
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }
