@@ -67,6 +67,7 @@ export class MasterProductParameterDialogComponent implements OnInit {
     protected messageService: MessageService,
     protected dialog: MatDialog
   ) {
+    _dialog.disableClose = true;
     this.productParameter = this.data.productParameter;
 
     this.view = this.data.view;
@@ -128,24 +129,6 @@ export class MasterProductParameterDialogComponent implements OnInit {
       }
     });
   }
-
-  // public openDialogAddCategory(param: IMasterProductParameter): void {
-  //   const dialogRef = this.dialog.open(CategoryProductDialogEditComponent, {
-  //     width: '100%',
-  //     data: {
-  //       productClasification: this.productParameter.id,
-  //     },
-  //   });
-  //   dialogRef.afterClosed().subscribe((res: IProductClassification) => {
-  //     if (res) {
-  //       if (res.id) {
-  //         this.productClasificationService.create(res).subscribe(_res => {
-  //           // this.loadAll();
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
 
   public loadAll() {
     this.getFacilityType();
@@ -267,5 +250,21 @@ export class MasterProductParameterDialogComponent implements OnInit {
 
   public onSave(): void {
     this.validate().then(() => this.save());
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

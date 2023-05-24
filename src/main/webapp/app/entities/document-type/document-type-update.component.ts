@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDocumentType, DocumentType } from './document-type.model';
 import { DocumentTypeService } from './document-type.service';
+import { MatDialog } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-document-type-update',
@@ -38,6 +40,7 @@ export class DocumentTypeUpdateComponent extends AbstractEntityBaseViewComponent
   organizationData: any = '';
 
   constructor(
+    private dialog: MatDialog,
     private documentTypeService: DocumentTypeService,
     private formBuilder: FormBuilder,
     protected _snackBar: MatSnackBar,
@@ -150,6 +153,22 @@ export class DocumentTypeUpdateComponent extends AbstractEntityBaseViewComponent
   public validate(): Promise<Boolean> {
     return new Promise((resolve, reject) => {
       this.validateDocument().then(() => resolve(true));
+    });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
     });
   }
 }

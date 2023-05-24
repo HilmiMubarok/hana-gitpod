@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IComplianceChecklistCriteria } from './compliance-checklist-criteria.model';
 import { IMasterComplianceChecklist } from '../master-compliance-checklist.model';
 import { ComplianceChecklistCriteriaService } from './compliance-checklist-criteria.service';
 import { MasterComplianceChecklistService } from '../master-compliance-checklist.service';
 import { MessageService } from 'primeng/api';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-compliance-checklist-criteria-dialog-add',
@@ -32,6 +33,7 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
   ];
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       complianceChecklistCriteria: IComplianceChecklistCriteria;
@@ -44,6 +46,7 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
     protected complianceChecklistCriteriaService: ComplianceChecklistCriteriaService,
     protected messageService: MessageService
   ) {
+    _dialog.disableClose = true;
     this.complianceChecklistCriteria = this.data.complianceChecklistCriteria;
     this.dataRegulationCompliance = this.data.dataRegulationCompliance;
     this.view = this.data.view;
@@ -153,5 +156,20 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
 
   public onSave(): void {
     this.validate().then(() => this.save());
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

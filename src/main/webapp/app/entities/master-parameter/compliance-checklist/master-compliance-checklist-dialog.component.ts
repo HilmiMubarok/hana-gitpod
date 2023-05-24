@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { IMasterComplianceChecklist } from './master-compliance-checklist.model';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { MasterComplianceChecklistService } from './master-compliance-checklist.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-master-compliance-checklist-dialog',
@@ -24,6 +25,7 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
     },
   ];
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       masterComplianceCheklist: IMasterComplianceChecklist;
@@ -32,6 +34,7 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
     protected masterComplianceChecklistService: MasterComplianceChecklistService,
     protected messageService: MessageService
   ) {
+    _dialog.disableClose = true;
     this.masterComplianceCheklist = this.data.masterComplianceCheklist;
   }
   ngOnInit(): void {
@@ -113,6 +116,21 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
   public validate(): Promise<Boolean> {
     return new Promise((resolve, reject) => {
       this.validateMasterCompliance().then(() => resolve(true));
+    });
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
     });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IOrganizationLegal } from './organization-legal.model';
+import { MatDialog } from '@angular/material/dialog';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { default as _rollupMoment } from 'moment';
@@ -8,6 +9,7 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { Input } from '@syncfusion/ej2-angular-inputs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -40,6 +42,7 @@ export class OrganizationLegalDialogComponent {
   date = new FormControl(moment());
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       organizationLegal: IOrganizationLegal;
@@ -64,5 +67,21 @@ export class OrganizationLegalDialogComponent {
 
   public save(): void {
     this._dialog.close(this.organizationLegal);
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

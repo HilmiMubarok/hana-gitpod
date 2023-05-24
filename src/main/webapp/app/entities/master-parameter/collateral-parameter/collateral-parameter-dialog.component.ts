@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ICollateralParameter } from './collateral-parameter.model';
 import { MessageService } from 'primeng/api';
 import { CollateralParameterService } from './collateral-parameter.service';
@@ -7,6 +7,7 @@ import { CollateralTypeService } from 'app/entities/collateral-type/collateral-t
 import { MatSelectChange } from '@angular/material/select';
 import lodash from 'lodash';
 import { STATUS_LOV_PARAMETER } from 'app/shared/constants/status.constants';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-parameter-dialog',
@@ -31,6 +32,7 @@ export class CollateralParameterDialogComponent implements OnInit {
   ];
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralParameter: ICollateralParameter;
@@ -41,6 +43,7 @@ export class CollateralParameterDialogComponent implements OnInit {
     protected collateralTypeService: CollateralTypeService,
     protected messageService: MessageService
   ) {
+    _dialog.disableClose = true;
     this.collateralParameter = this.data.collateralParameter;
     this.view = this.data.view;
   }
@@ -146,6 +149,21 @@ export class CollateralParameterDialogComponent implements OnInit {
   public validate(): Promise<Boolean> {
     return new Promise((resolve, reject) => {
       this.validateMasterCollateral().then(() => resolve(true));
+    });
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
     });
   }
 }

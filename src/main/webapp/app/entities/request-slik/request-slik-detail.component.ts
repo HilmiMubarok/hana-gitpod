@@ -114,19 +114,21 @@ export class RequestSlikDetailComponent implements OnInit {
 
     const ocr = {
       partyId: this.partyCif.partyId,
-      cif: this.requestSlik.cif,
       name:
         this.partyCif.customerType === 'CORPORATE'
           ? this.partyCif.customerOrganization.groupName
           : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
-      dob: this.partyCif.organizationLegal.deedEstablishDate,
+      dob:
+        this.partyCif.customerType === 'CORPORATE'
+          ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
+          : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
       ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
       npwp:
         this.partyCif.customerType === 'CORPORATE'
           ? this.partyCif.customerOrganization.taxIdNumber
           : this.partyCif.customerPerson.taxIdNumber,
-      gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender,
-      custtype: this.partyCif.customerType === 'CORPORATE' ? '1' : '2',
+      gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
+      custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
       product: 'HR',
       channel: 'LOS',
       purposeCode: this.requestSlik.purposeCode,

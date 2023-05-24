@@ -79,8 +79,23 @@
       <br />
 
       <mat-card-actions align="center">
-        <button style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button color="primary">
+        <button
+          class="submit-button"
+          type="submit"
+          style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 13px !important; margin-top: 25px !important"
+          (click)="submit()"
+          mat-raised-button
+          color="primary"
+        >
           Save
+        </button>
+        <button
+          mat-raised-button
+          class="submit-button"
+          (click)="openCancelDialog()"
+          style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 13px !important; margin-top: 25px !important"
+        >
+          Back
         </button>
       </mat-card-actions>
     </div>

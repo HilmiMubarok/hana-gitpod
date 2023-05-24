@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ICollateralProposePricingParam } from './propose-pricing-parameter.model';
 import { MessageService } from 'primeng/api';
 import { CollateralProposePricingParameterService } from './propose-pricing-parameter.service';
 import { CollateralParameterService } from '../collateral-parameter.service';
 import { ICollateralParameter } from '../collateral-parameter.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-propose-pricing-dialog-edit',
@@ -30,6 +31,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
   ];
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralProposePricingParameter: ICollateralProposePricingParam;
@@ -41,6 +43,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
     protected collateralProposePricingService: CollateralProposePricingParameterService,
     protected messageService: MessageService
   ) {
+    _dialog.disableClose = true;
     this.collateralProposePricingParameter = this.data.collateralProposePricingParameter;
     this.dataCollateral = this.data.dataCollateral;
     this.view = this.data.view;
@@ -75,5 +78,20 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
         });
       }
     }
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

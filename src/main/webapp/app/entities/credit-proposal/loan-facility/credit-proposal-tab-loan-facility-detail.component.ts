@@ -151,9 +151,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.triggeredSave();
     }
     if (changes['creditProposal']) {
-      this.fungsiSuminit();
-      this.fungsiSumchange();
-      this.fungsiSumOS();
+      this.fungsiSuminit('IDR');
+      this.fungsiSuminit('USD');
+      this.fungsiSuminit('both');
+      this.fungsiSumchange('IDR');
+      this.fungsiSumchange('USD');
+      this.fungsiSumchange('both');
+      this.fungsiSumOS('IDR');
+      this.fungsiSumOS('USD');
+      this.fungsiSumOS('both');
       this.fungsiSumavailable();
     }
   }
@@ -286,29 +292,52 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     ],
   };
 
-  fungsiSuminit() {
+  fungsiSuminit(value: string) {
     let result: number;
     let dolar: number;
     let hasil: number;
+    let filterUsd = [];
+    let filterIdr = [];
     result = 0;
     dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].initialLimit !== null) {
-            result = result + Number(filterIdr[i].initialLimit);
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].initialLimit !== null) {
+              result = result + Number(filterIdr[i].initialLimit);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].initialLimit !== undefined) {
-            dolar = dolar + Number(filterUsd[i].initialLimit) * Number(filterUsd[i].kurs);
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].initialLimit !== undefined) {
+              dolar = dolar + Number(filterUsd[i].initialLimit);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].initialLimit !== undefined) {
+              dolar = dolar + Number(filterUsd[i].initialLimit) * Number(filterUsd[i].kurs);
+            }
           }
         }
       }
@@ -316,57 +345,104 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     return result + dolar;
   }
 
-  fungsiSumchange() {
+  fungsiSumchange(value: string) {
     let result: number;
     let dolar: number;
+    let filterUsd = [];
+    let filterIdr = [];
     result = 0;
     dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].changes !== null) {
-            result = result + Number(filterIdr[i].changes);
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].changes !== null) {
+              result = result + Number(filterIdr[i].changes);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].changes !== null) {
-            dolar = dolar + Number(filterUsd[i].changes) * Number(filterUsd[i].kurs);
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].changes !== null) {
+              dolar = dolar + Number(filterUsd[i].changes);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].changes !== null) {
+              dolar = dolar + Number(filterUsd[i].changes) * Number(filterUsd[i].kurs);
+            }
           }
         }
       }
     }
+
     return result + dolar;
   }
 
-  public fungsiSumOS() {
+  public fungsiSumOS(value: string) {
     let result: number;
     let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
     result = 0;
     dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].outstanding !== null) {
-            result = result + Number(filterIdr[i].outstanding);
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].outstanding !== null) {
+              result = result + Number(filterIdr[i].outstanding);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].outstanding !== null) {
-            dolar = dolar + Number(filterUsd[i].outstanding) * Number(filterUsd[i].kurs);
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].outstanding !== null) {
+              dolar = dolar + Number(filterUsd[i].outstanding);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].outstanding !== null) {
+              dolar = dolar + Number(filterUsd[i].outstanding) * Number(filterUsd[i].kurs);
+            }
           }
         }
       }
@@ -388,28 +464,51 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
     return result;
   }
 
-  fungsiSumcredit() {
+  fungsiSumcredit(value: string) {
     let result: number;
     let dolar: number;
+    let filterIdr = [];
+    let filterUsd = [];
     result = 0;
     dolar = 0;
 
     const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
 
     if (dataFilter.length > 0) {
-      const filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
-      const filterIdr = dataFilter.filter(obj => obj.currencyId !== 'USD');
-      if (filterIdr.length > 0) {
-        for (let i = 0; i < filterIdr.length; i++) {
-          if (filterIdr[i].totalPlafond !== undefined) {
-            result = result + Number(filterIdr[i].totalPlafond);
+      if (value === 'USD' || value === 'both') {
+        filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+      }
+
+      if (value === 'IDR' || value === 'both') {
+        if (filterIdr.length > 0) {
+          for (let i = 0; i < filterIdr.length; i++) {
+            if (filterIdr[i].totalPlafond !== undefined) {
+              result = result + Number(filterIdr[i].totalPlafond);
+            }
           }
         }
       }
-      if (filterUsd.length > 0) {
-        for (let i = 0; i < filterUsd.length; i++) {
-          if (filterUsd[i].totalPlafond !== undefined) {
-            dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+
+      if (value === 'USD') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond);
+            }
+          }
+        }
+      }
+
+      if (value === 'both') {
+        if (filterUsd.length > 0) {
+          for (let i = 0; i < filterUsd.length; i++) {
+            if (filterUsd[i].totalPlafond !== undefined) {
+              dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+            }
           }
         }
       }

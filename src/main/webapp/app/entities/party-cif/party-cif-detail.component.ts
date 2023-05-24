@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { SUBMENU_PARTY_CIF } from 'app/shared/constants/base.constants';
 import lodash, { update } from 'lodash';
 import { MessageService } from 'primeng/api';
@@ -13,6 +14,7 @@ import { IPerson } from '../person/person.model';
 import { IPersonalCustomer, PersonalCustomer } from '../personal-customer/personal-customer.model';
 import { PersonalCustomerService } from '../personal-customer/personal-customer.service';
 import { PartySlikService } from '../party-slik/party-slik.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 import { IPartyCif } from './party-cif.model';
 import { PartyCifService } from './party-cif.service';
@@ -41,6 +43,7 @@ export class PartyCifDetailComponent implements OnInit {
   public positionTypeId: string;
 
   constructor(
+    private dialog: MatDialog,
     protected messageService: MessageService,
     protected collateralService: CollateralService,
     protected activatedRoute: ActivatedRoute,
@@ -176,5 +179,20 @@ export class PartyCifDetailComponent implements OnInit {
         });
       }
     }
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

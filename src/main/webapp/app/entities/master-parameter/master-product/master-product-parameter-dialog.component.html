@@ -37,8 +37,9 @@
           ></textarea>
         </mat-form-field>
       </section>
-      <section class="example-section mt-2">
+      <section class="mt-2">
         <mat-checkbox class="example-margin" [(ngModel)]="productParameter.revolving"> Revolving</mat-checkbox>
+        <mat-checkbox class="example-margin" [(ngModel)]="productParameter.consumerLoan"> Consumer Loan</mat-checkbox>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
@@ -126,5 +127,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
-  <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
 </mat-dialog-actions>

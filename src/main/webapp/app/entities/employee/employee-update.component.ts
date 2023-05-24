@@ -14,6 +14,7 @@ import { IPerson, Person } from 'app/entities/person/person.model';
 import { PersonService } from 'app/entities/person/person.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
 import { InternalService } from 'app/entities/internal/internal.service';
+import { MatDialog } from '@angular/material/dialog';
 import { IEmploymentType, EmploymentType } from 'app/entities/employment-type/employment-type.model';
 import { EmploymentTypeService } from 'app/entities/employment-type/employment-type.service';
 import { AccountService } from 'app/core/auth/account.service';
@@ -25,6 +26,7 @@ import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-u
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { StrapiService } from 'app/shared/integration/strapi.service';
 import { IButton } from 'app/shared/integration/models/button.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 
@@ -58,6 +60,7 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
   id: string;
   labelStr: string;
   constructor(
+    private dialog: MatDialog,
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
     protected employeeService: EmployeeService,
@@ -162,5 +165,21 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
 
   get employee() {
     return this.item;
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

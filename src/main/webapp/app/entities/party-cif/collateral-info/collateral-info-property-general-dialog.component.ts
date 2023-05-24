@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -7,6 +7,7 @@ import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral
 import lodash from 'lodash';
 import { IPartyCif } from '../party-cif.model';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info-property-general-dialog',
@@ -19,6 +20,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public partyCifData: IPartyCif;
   public branchId: string;
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateral: ICollateral;
@@ -122,5 +124,21 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       return true;
     }
     return false;
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

@@ -17,6 +17,7 @@ import { IInternal, Internal } from './internal.model';
 import { InternalService } from './internal.service';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 import lodash from 'lodash';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-internal-update',
@@ -130,5 +131,21 @@ export class InternalUpdateComponent extends AbstractEntityMaterialComponent<IIn
 
   previousState(): void {
     window.history.back();
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }
