@@ -14,6 +14,12 @@ import { MatSort } from '@angular/material/sort';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import _ from 'lodash';
 import { RequestSlikSearchService } from './services/request-slik-search.service';
+import { ApplicationStateLogService } from '../application-state-log/application-state-log.service';
+import { faTimeline } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dialog.component';
+import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
+import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -29,15 +35,20 @@ export class RequestSlikBucketComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  iconTimeline: any;
+
   constructor(
     private requestSlikService: RequestSlikService,
     private internalService: InternalService,
     protected messageService: MessageService,
     protected lovAndStatusService: RequestSlikStatusService,
-    protected requestSlikSearchService: RequestSlikSearchService
+    protected requestSlikSearchService: RequestSlikSearchService,
+    protected applicationStateLogService: ApplicationStateLogService,
+    public dialog: MatDialog
   ) {
     // this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     this.getStatus();
+    this.iconTimeline = faTimeline;
     this.loadInternalInformationRM();
   }
 
@@ -199,6 +210,34 @@ export class RequestSlikBucketComponent implements OnInit {
   sortData(event: any) {
     const sort = event.active + ',' + event.direction;
     this.getData(1, 10, sort);
+  }
+
+  private convertToTimelineModel(data: IApplicationStateLog[]) {
+    const result: ITimeline[] = [];
+    if (data.length > 0) {
+      let rs: ITimeline;
+      for (let i = 0; i < data.length; i++) {
+        rs = new Timeline();
+        rs.title = data[i].status;
+        rs.date = data[i].createdDate;
+        rs.text = data[i].note;
+        rs.createdBy = data[i].userName;
+
+        result.push(rs);
+      }
+    }
+    return result;
+  }
+
+  public showTimeLine(element: IRequestSlik): void {
+    console.log(element);
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+      const dialogRef = this.dialog.open(TimelineDialogComponent, {
+        width: '80vw',
+        data: { content: this.convertToTimelineModel(res.body) },
+      });
+      dialogRef.afterClosed().subscribe(res2 => {});
+    });
   }
 
   public requestSlikStatusCodes: IOptionNode[] = [];
