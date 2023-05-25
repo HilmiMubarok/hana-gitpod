@@ -62,7 +62,6 @@ export class OrganizationManagementListComponent
   }
   ngOnInit(): void {
     this.removefield();
-    console.log('ini type : ', this.type);
   }
 
   private defineDisplayedColumns(param: string) {
