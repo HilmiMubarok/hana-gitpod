@@ -94,7 +94,7 @@ table {
   th {
     background-color: #008881;
     border: 1px solid #008881;
-    color: #ffff;
+    color: black;
     padding: 8px;
     text-align: center;
   }
@@ -143,5 +143,12 @@ mat-card-subtitle {
     white-space: nowrap;
     overflow: hidden;
     vertical-align: middle;
+  }
+  .grid-index {
+    background: rgba(49, 158, 152, 1) !important;
+    color: #000000 !important;
+    text-align: center !important;
+    font-size: 15px !important;
+    font-size: 15px !important;
   }
 }

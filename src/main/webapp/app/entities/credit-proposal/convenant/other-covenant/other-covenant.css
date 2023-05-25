@@ -1,7 +1,7 @@
 .mat-header-cell {
   font-family: 'Poppins', sans-serif;
   background: #008881;
-  color: #ffff;
+  color: black;
   font-weight: 600;
   font-style: normal;
 }
@@ -164,6 +164,7 @@ th {
   white-space: normal;
   word-wrap: break-word;
   max-width: 200px;
+  color: black;
 }
 
 .mat-header-cell {

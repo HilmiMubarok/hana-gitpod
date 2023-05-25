@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICreditProposal } from '../credit-proposal.model';
 import { BankAccountAnalystDetail, IBankAccountAnalyst, IBankAccountAnalystDetail } from './bank-account-analyst.model';
@@ -7,6 +7,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { CreditProposalService } from '../credit-proposal.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { getCurrencySymbol } from '@angular/common';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
@@ -41,6 +42,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
   public conCcy = false;
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       creditProposal: ICreditProposal;
@@ -51,6 +53,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     private _snackBar: MatSnackBar,
     public creditProposalService: CreditProposalService
   ) {
+    _dialog.disableClose = true;
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     if (this.bankAccAnalyst.detail.length === 0) {
       this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];
@@ -287,8 +290,24 @@ export class CreditProposalBankAccountAnalystDialogComponent {
 
     this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'cencel' });
   }
-  public close() {
-    this._dialog.close({ action: 'cancel' });
+  // public close() {
+  //   this._dialog.close({ action: 'cancel' });
+  // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close({ action: 'cancel' });
+      }
+    });
   }
 
   numberInputChanged(value) {

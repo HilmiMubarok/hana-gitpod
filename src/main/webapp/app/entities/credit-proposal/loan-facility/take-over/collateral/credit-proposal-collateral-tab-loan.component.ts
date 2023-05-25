@@ -26,6 +26,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan',
   templateUrl: './credit-proposal-collateral-tab-loan.component.html',
+  styleUrls: ['./credit-proposal-collateral-tab-loan.style.scss'],
 })
 export class CreditProposalCollateralTabLoanComponent implements OnChanges {
   @Input() isViewMode: Boolean = false;

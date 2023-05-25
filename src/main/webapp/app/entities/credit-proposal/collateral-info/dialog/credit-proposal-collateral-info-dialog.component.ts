@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -22,6 +22,7 @@ import { FormControl } from '@angular/forms';
 import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { Page } from '@syncfusion/ej2-angular-grids';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -111,6 +112,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public collateralGradings: string;
 
   constructor(
+    private dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralTypeService: CollateralTypeService,
     private cashCollateralService: CashCollateralService,
@@ -137,6 +139,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       collateralProperties: ICollateralProperty[];
     }
   ) {
+    _dialog.disableClose = true;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
@@ -289,9 +292,27 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     });
   }
 
-  public cancel() {
-    this._dialog.close({
-      creditProposal: this.creditProposalOpenState,
+  // public cancel() {
+  //   this._dialog.close({
+  //     creditProposal: this.creditProposalOpenState,
+  //   });
+  // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close({
+          creditProposal: this.creditProposalOpenState,
+        });
+      }
     });
   }
 

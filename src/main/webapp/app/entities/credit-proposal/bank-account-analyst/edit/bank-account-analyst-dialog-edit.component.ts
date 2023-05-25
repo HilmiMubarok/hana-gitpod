@@ -1,5 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FormControl, Validators } from '@angular/forms';
@@ -9,6 +9,7 @@ import lodash from 'lodash';
 import * as _moment from 'moment';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { CreditProposalService } from '../../credit-proposal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst-dialog',
@@ -42,11 +43,13 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
   public logoCcy;
   public conCcy = false;
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { creditProposal: ICreditProposal; bankAccountAnalyst: IBankAccountAnalyst; edit: boolean },
     private _dialog: MatDialogRef<CreditProposalBankAccountAnalystDialogEditComponent>,
     private _snackBar: MatSnackBar,
     public creditProposalService: CreditProposalService
   ) {
+    _dialog.disableClose = true;
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     this.bankAccAnalyst1 = lodash.cloneDeep(this.data.bankAccountAnalyst);
     if (this.bankAccAnalyst.detail.length === 0) {
@@ -283,9 +286,9 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     }
     this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst, action: 'save' });
   }
-  public close() {
-    this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst1, action: 'cancel' });
-  }
+  // public close() {
+  //   this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst1, action: 'cancel' });
+  // }
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
@@ -326,6 +329,22 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
       } else if (value === 'CAD') {
         this.conCcy = true;
         this.logoCcy = {};
+      }
+    });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close({ bankAccAnalyst: this.bankAccAnalyst1, action: 'cancel' });
       }
     });
   }

@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { uiUpdate } from '@syncfusion/ej2-angular-grids';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { IApplicationProductTakeOverBank } from '../application-product-take-over-after-bank/application-product-take-over-after-bank.model';
 import * as uuid from 'uuid';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over-after',
@@ -32,6 +33,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   }
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       object: ICreditProposal;
@@ -41,6 +43,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
     public router: Router,
     private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverAfterComponent>
   ) {
+    _dialog.disableClose = true;
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOverAfterBank = this.data.facilityTakeOverAfterBank;
@@ -101,5 +104,21 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
         this.logoCcy = {};
       }
     }
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

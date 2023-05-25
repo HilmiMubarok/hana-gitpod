@@ -1,9 +1,10 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { ICreditProposal } from '../credit-proposal.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-propose-pricing-detail-dialog',
@@ -47,6 +48,7 @@ export class ProposePricingLoanFacilityDetailDialogComponent {
   };
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       object: ICreditProposal;
@@ -56,6 +58,7 @@ export class ProposePricingLoanFacilityDetailDialogComponent {
     },
     private _dialog: MatDialogRef<ProposePricingLoanFacilityDetailDialogComponent>
   ) {
+    _dialog.disableClose = true;
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.aplicationProducts = this.data.aplicationProducts;
@@ -74,9 +77,24 @@ export class ProposePricingLoanFacilityDetailDialogComponent {
   // }
 
   public save(): void {
-    this._dialog.close({dataEdit: this.dataEdit, aplicationProduct: this.aplicationProducts, action: 'cencel' });
+    this._dialog.close({ dataEdit: this.dataEdit, aplicationProduct: this.aplicationProducts, action: 'cencel' });
   }
   // public close() {
   //   this._dialog.close({ action: 'cancel' });
   // }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close({ action: 'cancel' });
+      }
+    });
+  }
 }

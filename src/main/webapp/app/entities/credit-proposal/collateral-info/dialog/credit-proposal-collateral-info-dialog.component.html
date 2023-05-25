@@ -1,5 +1,5 @@
 <div class="style-close">
-  <button class="button-close" mat-button mat-dialog-close (click)="cancel()">X</button>
+  <button class="button-close" mat-button mat-dialog-close (click)="openCancelDialog()">X</button>
 </div>
 <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
 <mat-dialog-content>
@@ -650,10 +650,11 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-    <button mat-button (click)="save()">Save</button>
+    <!-- <button mat-button mat-dialog-close (click)="cancel()">Cancel</button> -->
+    <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
+    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Cancel</button>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+    <button mat-button mat-dialog-close (click)="openCancelDialog()">Cancel</button>
   </section>
 </mat-dialog-actions>
