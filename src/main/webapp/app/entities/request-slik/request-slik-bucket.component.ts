@@ -121,7 +121,7 @@ export class RequestSlikBucketComponent implements OnInit {
         console.log('data', data);
 
         // Modify status label
-        let modifiedData = _.map(data, obj => {
+        const modifiedData = _.map(data, obj => {
           if (obj.status === 'DRAFT') {
             return { ...obj, status: 'Draft' };
           } else if (obj.status === 'APPROVAL_BU') {
@@ -140,7 +140,7 @@ export class RequestSlikBucketComponent implements OnInit {
           return obj;
         });
 
-        modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
+        // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
         // == get segment
         modifiedData.forEach(item => {
@@ -208,7 +208,8 @@ export class RequestSlikBucketComponent implements OnInit {
         'res status',
         res[0].filter(d => d.id !== 'CANCEL')
       );
-      this.requestSlikStatusCodes = res[0].filter(d => d.id !== 'CANCEL');
+      // this.requestSlikStatusCodes = res[0].filter(d => d.id !== 'CANCEL');
+      this.requestSlikStatusCodes = res[0];
       console.log('this.requestSlikStatusCodes', this.requestSlikStatusCodes[0]);
     });
   }
@@ -240,7 +241,7 @@ export class RequestSlikBucketComponent implements OnInit {
           // empty data
           this.dataSource.data = res.length === 0 && [];
 
-          let modifiedData = _.map(res, obj => {
+          const modifiedData = _.map(res, obj => {
             if (obj.status === 'DRAFT') {
               return { ...obj, status: 'Draft' };
             } else if (obj.status === 'APPROVAL_BU') {
@@ -280,7 +281,7 @@ export class RequestSlikBucketComponent implements OnInit {
             });
           });
 
-          modifiedData = modifiedData.filter(resData => resData.status !== 'CANCEL');
+          // modifiedData = modifiedData.filter(resData => resData.status !== 'CANCEL');
           this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
         },
         complete: () => {
@@ -304,7 +305,7 @@ export class RequestSlikBucketComponent implements OnInit {
       this.dataSource.data = res.length === 0 && [];
 
       // Modify status label
-      let modifiedData = _.map(res, obj => {
+      const modifiedData = _.map(res, obj => {
         if (obj.status === 'DRAFT') {
           return { ...obj, status: 'Draft' };
         } else if (obj.status === 'APPROVAL_BU') {
@@ -323,7 +324,7 @@ export class RequestSlikBucketComponent implements OnInit {
         return obj;
       });
 
-      modifiedData = modifiedData.filter(modified => modified.status !== 'CANCEL');
+      // modifiedData = modifiedData.filter(modified => modified.status !== 'CANCEL');
 
       // == get segment
       modifiedData.forEach(item => {

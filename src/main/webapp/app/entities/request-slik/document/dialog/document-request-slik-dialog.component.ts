@@ -4,6 +4,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { map } from 'rxjs';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'jhi-document-request-slik-dialog',
@@ -36,7 +37,8 @@ export class DocumentRequestSlikDialogComponent {
     private storageService: StorageService,
     private _dialog: MatDialogRef<DocumentRequestSlikDialogComponent>,
     private accountService: AccountService,
-    private reportUtilService: ReportUtilService
+    private reportUtilService: ReportUtilService,
+    private messageService: MessageService
   ) {
     this.bucket = this.data.bucket;
     this.mode = this.data.mode;
@@ -76,7 +78,10 @@ export class DocumentRequestSlikDialogComponent {
 
       const formData = new FormData();
       formData.append('file', file);
-      this.storageService.uploadMeta(this.bucket, formData, tags).subscribe(res => this._dialog.close(res));
+      this.storageService.uploadMeta(this.bucket, formData, tags).subscribe({
+        next: res => this._dialog.close(res),
+        error: err => this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message }),
+      });
     });
   }
 

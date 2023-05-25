@@ -28,7 +28,7 @@
             <h4 style="margin: 0 20px 0 0">Debtor Data</h4>
             <section>
               <mat-checkbox
-                [disabled]="requestSlik.status !== 'DRAFT'"
+                [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
                 #c
                 (click)="$event.stopPropagation()"
                 (change)="updateChecklist(element, c)"
@@ -59,7 +59,7 @@
               [disabled]="true"
               matInput
               type="text"
-              [ngModel]="requestSlik.requestDate | date: 'long'"
+              [ngModel]="requestSlik.requestDate | date: 'YYY-MM-dd'"
               (ngModelChange)="requestSlik.requestDate = $event"
             />
           </mat-form-field>
@@ -81,7 +81,7 @@
         <div class="col-6">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Segment</mat-label>
-            <input [disabled]="true" matInput type="text" />
+            <input [disabled]="true" [(ngModel)]="segment" matInput type="text" />
           </mat-form-field>
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>ID/Deed of Establishment Number</mat-label>
@@ -109,7 +109,9 @@
               [disabled]="true"
               matInput
               type="text"
-              [ngModel]="partyCif.customerPerson?.taxIdNumber"
+              [ngModel]="
+                partyCif.customerType === 'CORPORATE' ? partyCif.customerOrganization.taxIdNumber : partyCif.customerPerson?.taxIdNumber
+              "
               (ngModelChange)="partyCif.customerPerson.taxIdNumber = $event"
             />
           </mat-form-field>
@@ -189,16 +191,17 @@
             <ejs-documenteditorcontainer
               #document_editor_container
               [headers]="customHeadersJWT"
-              [enableToolbar]="requestSlik.status === 'DRAFT' ? true : false"
-              [isReadOnly]="requestSlik.status === 'DRAFT' ? false : true"
-              [disabled]="requestSlik.status === 'DRAFT' ? false : true"
-              [enableEditor]="requestSlik.status === 'DRAFT' ? true : false"
+              [enableToolbar]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? true : false"
+              [isReadOnly]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? false : true"
+              [disabled]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? false : true"
+              [enableEditor]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? true : false"
               [enableLocalPaste]="false"
               height="100vh"
               style="display: block"
               [spellcheck]="false"
               [enableSpellCheck]="false"
               (keyDown)="onKeyDown($event)"
+              (documentChange)="onDocumentChange()"
               (created)="onCreate()"
             ></ejs-documenteditorcontainer>
           </mat-conten>
@@ -207,10 +210,17 @@
       <div class="row px-3 pt-5">
         <jhi-document-request-slik [requestSlik]="requestSlik"></jhi-document-request-slik>
       </div>
+      <!-- Getting segment... dont show the buttons, so flow can running properly -->
+      <div class="w-100 text-center my-3" *ngIf="segment === 'loading...'">loading...</div>
       <div
         class="d-flex justify-content-center"
         style="margin-top: 30px"
-        *ngIf="requestSlik.status !== 'COMPLETE' && requestSlik.status !== 'CHECKING'"
+        *ngIf="
+          requestSlik.status !== 'COMPLETE' &&
+          requestSlik.status !== 'CHECKING' &&
+          segment !== 'loading...' &&
+          requestSlik.status !== 'CANCEL'
+        "
       >
         <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button>
         <button mat-raised-button color="primary" *ngIf="requestSlik.status === 'DRAFT'" style="margin-right: 10px" (click)="cancel()">
@@ -223,7 +233,7 @@
           style="margin-right: 10px"
           (click)="reject()"
         >
-          Reject
+          Return to RM
         </button>
         <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
         <button
