@@ -12,7 +12,7 @@
       <ng-container matColumnDef="fullname">
         <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.person.name }}
+          {{ element.person?.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="position">
@@ -24,7 +24,7 @@
       <ng-container matColumnDef="idCard">
         <th mat-header-cell *matHeaderCellDef class="grid-index">ID Card</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.person.personalIdNumber }}
+          {{ element.person?.personalIdNumber }}
         </td>
       </ng-container>
       <ng-container matColumnDef="dob">
@@ -191,13 +191,13 @@
       <ng-container matColumnDef="fullname">
         <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.person.name }}
+          {{ element.person?.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="idCard">
         <th mat-header-cell *matHeaderCellDef class="grid-index">ID Card</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.person.personalIdNumber }}
+          {{ element.person?.personalIdNumber }}
         </td>
       </ng-container>
       <ng-container matColumnDef="dob">

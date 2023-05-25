@@ -50,6 +50,7 @@
     <jhi-party-cif-customer-info-party-group
       *ngIf="partyCif.customerOrganization"
       [partyGroup]="partyCif.customerOrganization"
+      [source]="'customerInfo'"
     ></jhi-party-cif-customer-info-party-group>
     <jhi-party-cif-customer-info-debtor-data [customerType]="partyCif.customerType" [partyCif]="partyCif" mode="edit">
     </jhi-party-cif-customer-info-debtor-data>
