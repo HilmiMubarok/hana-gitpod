@@ -69,6 +69,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public listGeneralLov = [];
   public masterProduct: IMasterProductParameter;
   public listCategoryLov = [];
+  public revolving: Boolean;
 
   @Input()
   get collateral() {
@@ -86,6 +87,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this._creditproposal = param;
   }
 
+  public othersDescStat: Boolean = true;
   public myControl = new FormControl('');
   public filteredOptions: Observable<string[]>;
   public disableButton = false;
@@ -411,9 +413,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     }
   }
 
-  public calTotalPlafond(): number {
-    this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
-    return Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
+  public calTotalPlafond(revolving?: Boolean): number {
+    this.revolving = revolving;
+    if (revolving === true) {
+      return (this.applicationProduct.totalPlafond =
+        Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes));
+    } else if (revolving === false) {
+      return (this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes));
+    }
+    return 0;
   }
 
   public getLovSublimit() {
@@ -696,6 +704,11 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.myControl.enable();
       this.statusFacilityDisabled = false;
     }
+    if (this.statusFacilityValue === 'Others') {
+      this.othersDescStat = false;
+    } else {
+      this.othersDescStat = true;
+    }
   }
 
   cekApplicationType() {
@@ -706,6 +719,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else {
       this.myControl.enable();
       this.statusFacilityDisabled = false;
+    }
+    if (this.applicationProduct.applicationType === 'Others') {
+      this.othersDescStat = false;
     }
   }
 
@@ -785,6 +801,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public getFacilityType() {
     this.productParameterService.getLovFacilityType().subscribe(res => {
       this.listGeneralLov = res.body;
+      console.log('master product ', res.body);
       if (this.masterProduct.productTypeId !== '') {
         for (let i = 0; i < this.listGeneralLov.length; i++) {
           this.masterProduct.productTypeId = this.listGeneralLov[i].id;
@@ -809,6 +826,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         });
       console.log('ini data ', data);
       this.applicationProduct.productId = data.id;
+      this.calTotalPlafond(data.revolving);
     }
   }
 
