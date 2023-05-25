@@ -64,6 +64,14 @@
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Description for Others</mat-label>
+            <input matInput type="text" [(ngModel)]="applicationProduct.attributes['descriptionOthers']" [disabled]="othersDescStat" />
+          </mat-form-field>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Facility Type</mat-label>
             <input
               type="text"
@@ -475,11 +483,11 @@
                 type="text"
                 [(ngModel)]="applicationProduct.totalPlafond"
                 [options]="logoCcy"
-                [value]="calTotalPlafond()"
+                [value]="calTotalPlafond(revolving)"
               />
             </ng-template>
             <ng-template #f>
-              <input matInput type="text" [(ngModel)]="applicationProduct.totalPlafond" [value]="calTotalPlafond()" />
+              <input matInput type="text" [(ngModel)]="applicationProduct.totalPlafond" />
             </ng-template>
           </mat-form-field>
         </div>
@@ -646,6 +654,19 @@
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ applicationProduct.currentInterestRate }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <div class="row">
+            <div class="col-8">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Proposed Rate</mat-label>
+                <input matInput type="number" />
+              </mat-form-field>
+            </div>
+            <div class="col-4"></div>
           </div>
         </div>
       </section>
