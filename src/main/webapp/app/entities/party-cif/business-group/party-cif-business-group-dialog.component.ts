@@ -14,7 +14,12 @@ export class PartyCifBusinessGroupDialogComponent {
   public selectedPartyCif: IPartyCif;
   public cif: string;
   public view: boolean;
-  constructor(private partyCifService: PartyCifService, private _dialog: MatDialogRef<PartyCifBusinessGroupDialogComponent>) {}
+  constructor(private partyCifService: PartyCifService, private _dialog: MatDialogRef<PartyCifBusinessGroupDialogComponent>) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
+  }
 
   public save(): void {
     this._dialog.close(this.selectedPartyCif.debtorData);

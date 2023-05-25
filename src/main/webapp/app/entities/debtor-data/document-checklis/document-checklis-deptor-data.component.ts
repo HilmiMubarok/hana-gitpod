@@ -141,7 +141,7 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   }
 
   public openDialog(element: IDocumentType = null, view: string, item: string): void {
-    const predicate = { width: '80vw', disableClose: true, data: {} };
+    const predicate = { width: '80vw', data: {} };
     predicate.data['partyId'] = this.partyCif.customerNumber;
     predicate.data['bucket'] = this.bucket;
     predicate.data['files'] = element;

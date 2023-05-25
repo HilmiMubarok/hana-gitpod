@@ -47,6 +47,9 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
     protected messageService: MessageService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.complianceChecklistCriteria = this.data.complianceChecklistCriteria;
     this.dataRegulationCompliance = this.data.dataRegulationCompliance;
     this.view = this.data.view;

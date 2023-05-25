@@ -68,6 +68,9 @@ export class MasterProductParameterDialogComponent implements OnInit {
     protected dialog: MatDialog
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.productParameter = this.data.productParameter;
 
     this.view = this.data.view;

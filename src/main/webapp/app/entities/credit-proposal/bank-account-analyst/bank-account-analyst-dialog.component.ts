@@ -54,6 +54,9 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     public creditProposalService: CreditProposalService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.bankAccAnalyst = this.data.bankAccountAnalyst;
     if (this.bankAccAnalyst.detail.length === 0) {
       this.bankAccAnalyst.detail = [...this.bankAccAnalyst.detail, new BankAccountAnalystDetail()];

@@ -25,6 +25,9 @@ export class CreditProposalOtherCovenantEditComponent {
     private _dialog: MatDialogRef<CreditProposalOtherCovenantEditComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.edit = this.data.edit;
     this.otherCovenant = this.data.otherCovenant;
     this.item = this.data.item;

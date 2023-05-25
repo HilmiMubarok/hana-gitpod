@@ -57,6 +57,10 @@ export class DocumentUploadDialogComponent implements OnInit {
     protected partyCifService: PartyCifService,
     protected documentTypeService: DocumentTypeService
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.document = new Document();
     this.file = null;
     this.bucket = this.data.bucket;

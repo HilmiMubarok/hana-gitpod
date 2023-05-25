@@ -43,6 +43,10 @@ export class OrganizationManagementDialogComponent implements OnInit {
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
     this.typeSable = this.data.typeScreen;

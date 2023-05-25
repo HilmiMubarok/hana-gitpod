@@ -27,6 +27,10 @@ export class FacilityInfoDebiturDialogComponent implements OnInit {
     },
     private _dialog: MatDialogRef<FacilityInfoDebiturDialogComponent>
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.debtorData = data.debtorData;
     this.preData = data.debtorData;
   }

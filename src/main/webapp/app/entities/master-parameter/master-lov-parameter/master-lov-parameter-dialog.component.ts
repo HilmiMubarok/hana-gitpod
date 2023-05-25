@@ -43,6 +43,9 @@ export class MasterLovParameterDialogComponent implements OnInit {
     protected generalParameterService: GeneralParameterService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.generalParameter = this.data.generalParameter;
     this.statuses = STATUS_LOV_PARAMETER;
     this.view = this.data.view;

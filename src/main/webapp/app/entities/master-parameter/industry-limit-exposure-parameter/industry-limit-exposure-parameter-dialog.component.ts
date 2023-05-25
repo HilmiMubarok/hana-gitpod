@@ -32,6 +32,9 @@ export class MasterParameterIndustryLimitExposureDialogComponent {
     private _dialog: MatDialogRef<MasterParameterIndustryLimitExposureDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.industryLimitExposure = this.data.industryLimitExposure;
     this.statuses = STATUS_PARAMETER;
   }
