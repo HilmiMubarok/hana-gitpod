@@ -161,8 +161,141 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.fungsiSumOS('USD');
       this.fungsiSumOS('both');
       this.fungsiSumavailable();
+	  this.fungsiSuminitCalculation(changes.creditProposal.currentValue);
+      this.fungsiSumchangeCalculation(changes.creditProposal.currentValue);
+      this.fungsiSumOSCalculation(changes.creditProposal.currentValue);
+      this.fungsiSumcreditCalculation(changes.creditProposal.currentValue);
     }
   }
+
+  public fungsiSuminitCalculation(creditProposal: ICreditProposal) {
+    let result: number;
+    let dolar: number;
+    let hasil: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.initialLimit !== undefined) {
+            result = result + Number(filterIdr[i].attributes.initialLimit);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.initialLimit !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.initialLimit) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+
+    this.creditProposal.attributes['calculationExposure'].initialLimitDebtor = result + dolar;
+  }
+
+  public fungsiSumchangeCalculation(creditProposal: ICreditProposal) {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.changes !== undefined) {
+            result = result + Number(filterIdr[i].attributes.changes);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.changes !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.changes) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+
+    this.creditProposal.attributes['calculationExposure'].totalChangeDebtor = result + dolar;
+  }
+
+  public fungsiSumOSCalculation(creditProposal: ICreditProposal) {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.outstanding !== undefined) {
+            result = result + Number(filterIdr[i].attributes.outstanding);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.outstanding !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.outstanding) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+
+    this.creditProposal.attributes['calculationExposure'].subTotalDebtor = result + dolar;
+  }
+
+  public fungsiSumcreditCalculation(creditProposal: ICreditProposal) {
+    let result: number;
+    let dolar: number;
+    result = 0;
+    dolar = 0;
+
+    const dataFilter = this.creditProposal.products.filter(
+      obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
+    );
+
+    if (dataFilter.length > 0) {
+      const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
+      const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
+      if (filterIdr.length > 0) {
+        for (let i = 0; i < filterIdr.length; i++) {
+          if (filterIdr[i].attributes.totalPlafond !== undefined) {
+            result = result + Number(filterIdr[i].attributes.totalPlafond);
+          }
+        }
+      }
+      if (filterUsd.length > 0) {
+        for (let i = 0; i < filterUsd.length; i++) {
+          if (filterUsd[i].attributes.totalPlafond !== undefined) {
+            dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+          }
+        }
+      }
+    }
+    this.creditProposal.attributes['calculationExposure'].totalPLafondDebtor = result + dolar;
+  }
+
   // WORD
   public getWord() {
     this.storageService.getBucketName().subscribe(val => {
