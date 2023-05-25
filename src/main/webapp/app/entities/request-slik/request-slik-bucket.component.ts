@@ -231,7 +231,7 @@ export class RequestSlikBucketComponent implements OnInit {
 
   public showTimeLine(element: IRequestSlik): void {
     console.log(element);
-    this.applicationStateLogService.findByBusinessKeyAndRefKey('CREDITPROPOSAL', element.id).subscribe(res => {
+    this.applicationStateLogService.findByBusinessKeyAndRefKey('SLIK', element.id).subscribe(res => {
       const dialogRef = this.dialog.open(TimelineDialogComponent, {
         width: '80vw',
         data: { content: this.convertToTimelineModel(res.body) },
