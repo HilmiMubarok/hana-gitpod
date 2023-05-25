@@ -50,7 +50,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     public requestSlikService: RequestSlikService
   ) {
     super(_snackBar, organizationManagementService);
-    this.itemsPerPage = 10;
+    this.itemsPerPage = 99;
     this.page = 0;
     this.displayedColumns = null;
     this.displayedColumnsExpand = null;
@@ -150,11 +150,14 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
                   });
               });
             });
-            this.requestSlik.status !== 'DRAFT'
-              ? this.requestSlikService
-                  .filterData(res, this.checklists, 'shareholder')
-                  .then(data => this.initDataForMatTable(data, res.headers))
+            this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
+              ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+                  console.log('thee data', data);
+                  this.initDataForMatTable(data, res.headers);
+                  // this.organizationManagement = [...(data as IOrganizationManagement[])];
+                })
               : this.initDataForMatTable(res, res.headers);
+            // this.organizationManagement = [...(res.body as IOrganizationManagement[])];
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });

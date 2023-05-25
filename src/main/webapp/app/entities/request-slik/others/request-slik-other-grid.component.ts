@@ -96,7 +96,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     public requestSlikService: RequestSlikService
   ) {
     super(_snackBar, organizationManagementService);
-    this.itemsPerPage = 10;
+    this.itemsPerPage = 99;
     this.page = 0;
     this.displayedColumns = null;
     this.displayedColumnsExpand = null;
@@ -126,8 +126,8 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumns =
       this.requestSlik.status === 'VERIFY'
-        ? ['no', 'fullname', 'idCard', 'dob', 'address']
-        : ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
+        ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
+        : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
@@ -144,24 +144,30 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
-            res.body.forEach(element => {
-              this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
-                // console.log('cbasRes cbas', cbasRes.body.data.content);
-                cbasRes.body.data.content.length > 0 &&
-                  cbasRes.body.data.content.forEach(el => {
-                    this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
-                      // console.log('res filter', resFilter.body.data.content);
-                      // add object key dataExpand on element
-                      Object.assign(element, {
-                        dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
+            res.body.length > 0 &&
+              res.body.forEach(element => {
+                this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
+                  // console.log('cbasRes cbas', cbasRes.body.data.content);
+                  cbasRes.body.data.content.length > 0 &&
+                    cbasRes.body.data.content.forEach(el => {
+                      this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
+                        // console.log('res filter', resFilter.body.data.content);
+                        // add object key dataExpand on element
+                        Object.assign(element, {
+                          dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
+                        });
                       });
                     });
-                  });
+                });
               });
-            });
-            this.requestSlik.status !== 'DRAFT'
-              ? this.requestSlikService.filterData(res, this.checklists, 'other').then(data => this.initDataForMatTable(data, res.headers))
+            this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
+              ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+                  console.log('thee data', data);
+                  this.initDataForMatTable(data, res.headers);
+                  // this.organizationManagement = [...(data as IOrganizationManagement[])];
+                })
               : this.initDataForMatTable(res, res.headers);
+            // (this.organizationManagement = [...(res.body as IOrganizationManagement[])]);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });

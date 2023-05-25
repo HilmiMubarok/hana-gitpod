@@ -35,7 +35,7 @@ export class RequestSlikStatusService extends AbstractEntityService<any> {
   }
 
   public changeReqSlikStatus(reqSlikId, toStatus: string) {
-    return this.http.put<any>(this.resourceUrl + '/status/' + reqSlikId, { status: toStatus });
+    return this.http.put<any>(this.resourceUrl + '/status/' + reqSlikId, { status: toStatus }, { observe: 'response' });
   }
 
   public updateRequestSlik(reqSlik) {

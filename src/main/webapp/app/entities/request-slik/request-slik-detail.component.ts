@@ -19,6 +19,8 @@ import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
+import { IInternal } from '../internal/internal.model';
+import { InternalService } from '../internal/internal.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -66,7 +68,8 @@ export class RequestSlikDetailComponent implements OnInit {
     protected messageService: MessageService,
     protected partySlikService: PartySlikService,
     protected storageService: StorageService,
-    protected lovAndStatus: RequestSlikStatusService
+    protected lovAndStatus: RequestSlikStatusService,
+    protected internalService: InternalService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
@@ -75,6 +78,7 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikDetail();
   }
 
+  segment = 'loading...';
   requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
@@ -87,8 +91,89 @@ export class RequestSlikDetailComponent implements OnInit {
         });
         this.requestSlik = res.slik;
         this.partyCif = res.partyCif;
+
+        this.loadInternalById(this.partyCif.internalId).then((res2: IInternal) => {
+          if (res2.parentId) {
+            this.rmBranch = res2;
+            this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+              this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                if (res4.parentId) {
+                  this.rmRegional = res4;
+                  this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                    this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                      this.rmSegment = res6;
+                      this.segment = res6.organizationName;
+                    });
+                  });
+                }
+              });
+            });
+          }
+        });
+        console.log('RES DETAIL', { res, segment: this.segment });
       },
       complete: () => (this.isLoading = false),
+    });
+  }
+
+  private loadInternalById(internalId: string): Promise<IInternal> {
+    return new Promise<IInternal>((resolve, reject) => {
+      this.internalService.find(internalId).subscribe(res => {
+        if (res.body) {
+          resolve(res.body);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
+  private loadRegional(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.regionals = res.body;
+        resolve();
+      });
+    });
+  }
+
+  private loadBranch(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
+        this.branchs = res.body;
+        resolve();
+      });
+    });
+  }
+
+  branchs;
+  segments;
+  regionals;
+  rmBranch;
+  rmSegment;
+  rmRegional;
+
+  private loadInternalInformationRM(): void {
+    this.branchs = [];
+    this.segments = [];
+    this.regionals = [];
+    this.loadInternalById('1101').then((res2: IInternal) => {
+      if (res2.parentId) {
+        this.rmBranch = res2;
+        this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+          this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+            if (res4.parentId) {
+              this.rmRegional = res4;
+              this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                  this.rmSegment = res6;
+                  console.log('rmSegment', this.rmSegment);
+                });
+              });
+            }
+          });
+        });
+      }
     });
   }
 
@@ -114,6 +199,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
     const ocr = {
       partyId: this.partyCif.partyId,
+      requestSlikId: this.requestSlikId.toString(),
       name:
         this.partyCif.customerType === 'CORPORATE'
           ? this.partyCif.customerOrganization.groupName
@@ -149,6 +235,7 @@ export class RequestSlikDetailComponent implements OnInit {
         this.router.navigate(['/request-slik']);
       },
       error: err => {
+        console.log(err);
         if (data.status === 'APPROVAL_BU' || data.status === 'APPROVAL_SLIK') {
           this.router.navigate(['/request-slik']);
         } else {
@@ -186,12 +273,20 @@ export class RequestSlikDetailComponent implements OnInit {
 
   cancel() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(() => this.router.navigate(['/request-slik']));
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(res => {
+      console.log(res);
+      this.router.navigate(['/request-slik']);
+    });
   }
 
   reject() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'RETURN_TO_RM').subscribe(() => this.router.navigate(['/request-slik']));
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'RETURN_TO_RM').subscribe({
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      next: () => this.router.navigate(['/request-slik']),
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+    });
   }
 
   // === Document Editor ===
@@ -208,7 +303,7 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = true;
+    this.container.restrictEditing = this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM' && true;
   }
 
   private getBucket(): Promise<void> {
@@ -325,9 +420,13 @@ export class RequestSlikDetailComponent implements OnInit {
   // === End Document Editor ===
 
   protected checkStatus(currentStatus: string) {
-    if (currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') {
+    if ((currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') && this.segment === 'Small Medium Enterprise') {
       return {
         status: 'APPROVAL_BU',
+      };
+    } else if ((currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') && this.segment !== 'Small Medium Enterprise') {
+      return {
+        status: 'APPROVAL_SLIK',
       };
     } else if (currentStatus === 'APPROVAL_BU') {
       return {
