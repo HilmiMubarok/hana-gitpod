@@ -117,13 +117,16 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
 
   public setCrossCollateral(index: number) {
     if (this.collateralData) {
-      if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
-        const tempCollateralProductRelationObject = {
-          collateralId: this.collateralInfo.id,
-          bindingValue: this.bindingValueHelper[index],
-          applicationProduct: this.applicationProductData[index],
-        };
-        this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+      if (this.collateralData.collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+        if (this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus === 'Yes') {
+          const tempCollateralProductRelationObject = {
+            collateralId: this.collateralInfo.id,
+            bindingValue: this.bindingValueHelper[index],
+            applicationProduct: this.applicationProductData[index],
+          };
+          console.log('cross jalan');
+          this.creditProposalData.collateralProductRelations.push(tempCollateralProductRelationObject);
+        }
       }
     }
   }
