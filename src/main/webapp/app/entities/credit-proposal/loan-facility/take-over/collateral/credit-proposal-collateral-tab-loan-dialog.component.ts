@@ -36,6 +36,9 @@ export class CreditProposalCollateralTabLoanDialogComponent {
     private _dialog: MatDialogRef<CreditProposalCollateralTabLoanDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.collateralPrevious = this.data.collateralPrevious;

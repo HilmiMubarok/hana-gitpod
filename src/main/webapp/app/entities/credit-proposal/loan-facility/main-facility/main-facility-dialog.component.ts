@@ -32,6 +32,9 @@ export class MainFacilityDialogComponent implements OnInit {
     private _dialog: MatDialogRef<MainFacilityDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.mainFacility = data.mainData;
   }
 

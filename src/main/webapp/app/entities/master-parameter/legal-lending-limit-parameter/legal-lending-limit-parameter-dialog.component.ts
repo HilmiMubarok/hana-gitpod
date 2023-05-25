@@ -20,6 +20,9 @@ export class MasterParameterLegalLendingLimitDialogComponent {
     private _dialog: MatDialogRef<MasterParameterLegalLendingLimitDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.generalParameter = this.data.generalParameter;
     this.statuses = STATUS_PARAMETER;
   }

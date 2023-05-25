@@ -44,6 +44,9 @@ export class CreditProposalRacNilaiPembelianAddComponent {
     private _dialog: MatDialogRef<CreditProposalRacNilaiPembelianAddComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     (this.item = this.data.item), (this.view = this.data.view);
     this.nilaiRac = this.data.lovBelow;
     this.loadCurrencyMeasure();

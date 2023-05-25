@@ -38,6 +38,9 @@ export class DocumentTypeDialogComponent implements OnInit {
     private _dialog: MatDialogRef<DocumentTypeDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.documentType = this.data.documentType;
     this.documentType.description = '';
     this.documentType.category = '';

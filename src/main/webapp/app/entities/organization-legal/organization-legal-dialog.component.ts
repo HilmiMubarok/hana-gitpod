@@ -51,6 +51,10 @@ export class OrganizationLegalDialogComponent {
     },
     private _dialog: MatDialogRef<OrganizationLegalDialogComponent>
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.organizationLegal = this.data.organizationLegal;
     if (this.organizationLegal.deedEstablishNum === '' || this.organizationLegal.deedEstablishNum === undefined) {
       this.organizationLegal.deedEstablishNum = this.data.deedNumber;

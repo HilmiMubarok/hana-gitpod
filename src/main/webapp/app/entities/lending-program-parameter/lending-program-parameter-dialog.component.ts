@@ -33,6 +33,9 @@ export class LendingProgramParameterDialogComponent {
     protected messageService: MessageService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.lendingProgramParameter = this.data.lendingProgramParameter;
   }
 

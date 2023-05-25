@@ -286,6 +286,9 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   ) {
     super(creditProposalService);
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;

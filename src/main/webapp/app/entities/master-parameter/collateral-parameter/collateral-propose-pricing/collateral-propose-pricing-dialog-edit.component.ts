@@ -44,6 +44,9 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
     protected messageService: MessageService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.collateralProposePricingParameter = this.data.collateralProposePricingParameter;
     this.dataCollateral = this.data.dataCollateral;
     this.view = this.data.view;

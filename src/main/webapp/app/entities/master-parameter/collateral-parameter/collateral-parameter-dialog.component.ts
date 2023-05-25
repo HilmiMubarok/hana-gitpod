@@ -44,6 +44,9 @@ export class CollateralParameterDialogComponent implements OnInit {
     protected messageService: MessageService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.collateralParameter = this.data.collateralParameter;
     this.view = this.data.view;
   }

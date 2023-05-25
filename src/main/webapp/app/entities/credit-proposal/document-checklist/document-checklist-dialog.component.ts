@@ -81,6 +81,9 @@ export class DocumentChecklistDialogComponent {
     public reportUtilService: ReportUtilService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
 
     this.view = this.data.view;
 

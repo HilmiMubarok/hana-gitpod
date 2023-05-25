@@ -23,6 +23,10 @@ export class PartyCifCollateralInfoDialogComponent {
     },
     private _dialog: MatDialogRef<PartyCifCollateralInfoDialogComponent>
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.collateral = this.data.collateral;
     this.collateralAppraisal = this.data.collateralAppraisal;
     this.collateralDetails = [];

@@ -144,7 +144,6 @@ export class OrganizationManagementListComponent
     }
     const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
       width: '80vw',
-      disableClose: true,
       data: {
         organizationManagement: orgMgm,
         managementType: this.managementType,

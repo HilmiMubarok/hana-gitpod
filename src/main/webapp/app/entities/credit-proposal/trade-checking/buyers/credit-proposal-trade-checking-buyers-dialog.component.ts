@@ -28,6 +28,9 @@ export class CreditProposalTradeCheckingBuyersDialogComponent {
     private _dialog: MatDialogRef<CreditProposalTradeCheckingBuyersDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.tradeCheckingBuyers = this.data.tradeCheckingBuyers;

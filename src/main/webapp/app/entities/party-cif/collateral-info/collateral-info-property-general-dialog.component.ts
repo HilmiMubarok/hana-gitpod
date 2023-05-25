@@ -31,6 +31,10 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
     private _dialog: MatDialogRef<PartyCifCollateralInfoPropertyGeneralDialogComponent>,
     protected collateralPropertyService: CollateralPropertyService
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.collateral = this.data.collateral;
     this.partyCifData = this.data.partyCif;
     this.collateralProperty = null;

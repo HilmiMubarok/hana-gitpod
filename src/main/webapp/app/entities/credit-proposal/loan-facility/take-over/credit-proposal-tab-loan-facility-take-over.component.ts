@@ -42,6 +42,9 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
     private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOver = this.data.facilityTakeOver;

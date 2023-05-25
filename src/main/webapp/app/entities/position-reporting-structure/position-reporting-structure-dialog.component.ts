@@ -36,6 +36,9 @@ export class PositionReportingStructureDialogComponent implements OnInit {
     protected relationTypeService: RelationTypeService
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.positionReportingStructure = this.data.positionReportingStructure;
     this.internalFrom = [];
     this.internalTo = [];

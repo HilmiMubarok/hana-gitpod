@@ -21,6 +21,9 @@ export class ProductCategoryDialogComponent {
     private _dialog: MatDialogRef<ProductCategoryDialogComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.productParameter = this.data.productParameter;
     this.statuses = STATUS_PARAMETER;
   }

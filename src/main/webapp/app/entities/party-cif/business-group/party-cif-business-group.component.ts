@@ -53,7 +53,6 @@ export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialCompon
   public openDialog(): void {
     const dialogRef = this.dialog.open(PartyCifBusinessGroupDialogComponent, {
       width: '80vw',
-      disableClose: true,
     });
     dialogRef.afterClosed().subscribe((res: IDebtorData) => {
       if (res) {

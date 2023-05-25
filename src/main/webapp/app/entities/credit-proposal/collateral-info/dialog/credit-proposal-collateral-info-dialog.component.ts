@@ -140,6 +140,9 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     }
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);

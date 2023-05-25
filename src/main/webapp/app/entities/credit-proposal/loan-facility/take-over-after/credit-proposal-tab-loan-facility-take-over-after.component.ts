@@ -44,6 +44,9 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
     private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverAfterComponent>
   ) {
     _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOverAfterBank = this.data.facilityTakeOverAfterBank;
