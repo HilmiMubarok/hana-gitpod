@@ -57,15 +57,33 @@ ul.list-image {
   }
 }
 
-.grid-index {
+.grid-index-string {
   background: rgba(49, 158, 152, 1);
   color: #000000;
-  text-align: center;
+  justify-content: flex-start;
   font-size: 15px;
 }
 
-.grid-index-label {
-  text-align: center;
+.grid-index-string-action {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  justify-content: flex-end;
+  font-size: 15px;
+}
+
+.grid-index-number {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  justify-content: flex-end;
+  font-size: 15px;
+}
+
+.grid-index-label-string {
+  text-align: left;
+}
+
+.grid-index-label-number {
+  text-align: right;
 }
 
 .label-font-detail {
