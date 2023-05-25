@@ -52,8 +52,12 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   public _hiddenOpt = true;
   public collateralStatus: any;
   public paripasuStatus: any;
+  public bindingvalue: string;
+  public gradingvalue: string;
+  public facilityTypeValue: string;
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
+  public collateralCodeValue: string;
   @Input()
   get collateral() {
     return this._collateral;
@@ -126,8 +130,30 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         this.bindingTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.bindingTypes) {
+          let element: string;
+          for (let i = 0; i < this.bindingTypes.length; i++) {
+            if (this.collateral.collBindingType === this.bindingTypes[i].code) {
+              element = this.bindingTypes[i].value;
+            }
+          }
+          this.bindingvalue = element;
+        }
       });
   }
+
+  // public test(): void {
+  //   let element: string;
+
+  //   if (this.bindingTypes) {
+  //     for (let i = 0; i < this.bindingTypes.length; i++) {
+  //       if (this.collateral.collBindingType === this.bindingTypes[i].code) {
+  //         element = this.bindingTypes[i].value;
+  //       }
+  //     }
+  //     this.bindingvalue = element;
+  //   }
+  // }
 
   public disabledOccupansy() {
     if (this.type === 'appraisal') {
@@ -153,6 +179,15 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         this.collateralGrading = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.bindingTypes) {
+          let element: string;
+          for (let i = 0; i < this.collateralGrading.length; i++) {
+            if (this.collateral.collateralGrading === this.collateralGrading[i].code) {
+              element = this.collateralGrading[i].value;
+            }
+          }
+          this.gradingvalue = element;
+        }
       });
   }
 
@@ -190,10 +225,10 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       })
       .subscribe(res => {
         // Filter status Active in collateral type
-        const data = lodash.filter(res.body, function (o) {
+        this.collateralCode = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        this.collateralCode = data;
+
         this.collateral.attributes.collateralProposePricing = '';
         this.collateral.attributes.collateralCode = '';
       });
@@ -231,7 +266,18 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         size: 9999,
       })
       .subscribe(res => {
-        this.facilityTypes = res.body;
+        this.facilityTypes = lodash.filter(res.body, function (obj) {
+          return obj.statusId === 'ACTIVE';
+        });
+        if (this.facilityTypes) {
+          let element: string;
+          for (let i = 0; i < this.facilityTypes.length; i++) {
+            if (this.collateral.facilityType === this.facilityTypes[i].code) {
+              element = this.facilityTypes[i].value;
+            }
+          }
+          this.facilityTypeValue = element;
+        }
       });
   }
 
@@ -245,7 +291,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       });
   }
 
-  loadCollateralCode() {
+  public loadCollateralCode() {
     if (this.collateral.collateralTypeId) {
       this.collateralParameterService
         .queryFilterBy({
@@ -253,6 +299,13 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         })
         .subscribe(res => {
           this.collateralCode = res.body;
+          if (this.collateralCode) {
+            for (let i = 0; i < this.collateralCode.length; i++) {
+              if (this.collateral.attributes.collateralCode === this.collateralCode[i].collateralTypeCode) {
+                this.collateralCodeValue = this.collateralCode[i].collateralTypeCodeDescription;
+              }
+            }
+          }
         });
     }
   }
