@@ -438,7 +438,7 @@
         style="margin-right: 25px; background: rgba(0, 136, 129, 1); color: #ffffff"
         mat-raised-button
         *ngFor="let task of tasks"
-        (click)="openCancelDialog(task)"
+        (click)="processTask(task)"
         class="btn-lg text-uppercase"
       >
         {{ task.caption }}
