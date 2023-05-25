@@ -182,7 +182,8 @@
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
               <td mat-cell *matCellDef="let element" class="text-center">
-                <input type="checkbox" (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
+                <input *ngIf="element.surveyBatchId !== null" type="checkbox" disabled (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
+                <input *ngIf="element.surveyBatchId === null" type="checkbox"  (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
               </td>
             </ng-container>
 
