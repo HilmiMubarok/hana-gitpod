@@ -7,6 +7,7 @@ import { UOM_TYPE } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { NilaiRac, INilaiRac } from './nilai-pembelian.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-risk-acceptance-criteria-edit',
@@ -31,6 +32,7 @@ export class CreditProposalRacNilaiPembelianEditComponent {
 
   item: ICreditProposal;
   constructor(
+    private dialog: MatDialog,
     private uomService: UomService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -40,6 +42,7 @@ export class CreditProposalRacNilaiPembelianEditComponent {
     },
     private _dialog: MatDialogRef<CreditProposalRacNilaiPembelianEditComponent>
   ) {
+    _dialog.disableClose = true;
     this.item = this.data.item;
     this.edit = this.data.edit;
     this.nilaiRac = this.data.lovBelow;
@@ -89,4 +92,20 @@ export class CreditProposalRacNilaiPembelianEditComponent {
       });
   }
   public getAmountCcy() {}
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
 }

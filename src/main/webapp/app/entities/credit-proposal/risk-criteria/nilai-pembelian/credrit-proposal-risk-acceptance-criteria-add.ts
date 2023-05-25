@@ -8,6 +8,7 @@ import lodash from 'lodash';
 import { map, Observable, startWith } from 'rxjs';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { INilaiRac } from './nilai-pembelian.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-nilai-pembelian-add',
@@ -32,6 +33,7 @@ export class CreditProposalRacNilaiPembelianAddComponent {
   public optionsCurrency: IUom[];
 
   constructor(
+    private dialog: MatDialog,
     private uomService: UomService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -41,6 +43,7 @@ export class CreditProposalRacNilaiPembelianAddComponent {
     },
     private _dialog: MatDialogRef<CreditProposalRacNilaiPembelianAddComponent>
   ) {
+    _dialog.disableClose = true;
     (this.item = this.data.item), (this.view = this.data.view);
     this.nilaiRac = this.data.lovBelow;
     this.loadCurrencyMeasure();
@@ -85,4 +88,20 @@ export class CreditProposalRacNilaiPembelianAddComponent {
       });
   }
   public getAmountCcy() {}
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
 }

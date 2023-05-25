@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IMainFacility } from 'app/entities/main-facility/main-facility.model';
 import { IUom } from 'app/entities/uom/uom.model';
 import { UomService } from 'app/entities/uom/uom.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
 
@@ -21,6 +22,7 @@ export class MainFacilityDialogComponent implements OnInit {
   public mainFacility: IMainFacility;
 
   constructor(
+    private dialog: MatDialog,
     private uomService: UomService,
 
     @Inject(MAT_DIALOG_DATA)
@@ -29,6 +31,7 @@ export class MainFacilityDialogComponent implements OnInit {
     },
     private _dialog: MatDialogRef<MainFacilityDialogComponent>
   ) {
+    _dialog.disableClose = true;
     this.mainFacility = data.mainData;
   }
 
@@ -77,7 +80,23 @@ export class MainFacilityDialogComponent implements OnInit {
   public save(): void {
     this._dialog.close(this.mainFacility);
   }
-  public cancel(): void {
-    this._dialog.close();
+  // public cancel(): void {
+  //   this._dialog.close();
+  // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

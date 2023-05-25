@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <!-- PART 1 -->
       <div class="e-card">
         <div class="e-card-header">
@@ -425,7 +425,7 @@
 
     <!-- PART ACTION -->
     <div class="e-card-actions mx-auto mb-5 mt-3">
-      <button
+      <!-- <button
         style="margin-right: 25px"
         mat-raised-button
         *ngFor="let task of tasks"
@@ -433,8 +433,24 @@
         class="btn-lg text-uppercase"
       >
         {{ task.caption }}
+      </button> -->
+      <button
+        style="margin-right: 25px; background: rgba(0, 136, 129, 1); color: #ffffff"
+        mat-raised-button
+        *ngFor="let task of tasks"
+        (click)="openCancelDialog(task)"
+        class="btn-lg text-uppercase"
+      >
+        {{ task.caption }}
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="save('default')">Save</button>
+      <button
+        mat-raised-button
+        class="btn-lg text-uppercase"
+        (click)="save('default')"
+        style="background: rgba(0, 136, 129, 1); color: #ffffff"
+      >
+        Save
+      </button>
     </div>
   </div>
 

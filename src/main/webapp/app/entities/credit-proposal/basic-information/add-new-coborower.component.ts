@@ -14,6 +14,7 @@ import { CreditProposalService } from '../credit-proposal.service';
 @Component({
   selector: 'jhi-credit-proposal-coborower',
   templateUrl: './add-new-coborower.component.html',
+  styleUrls: ['../proposal-basic-information.css'],
   animations: [
     trigger('detailExpand', [
       state(

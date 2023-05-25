@@ -48,6 +48,7 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -1307,5 +1308,27 @@ export class ProposalBasicInformationComponent implements OnInit {
     this.collateralPropertyService.save(property).subscribe(res => {
       console.log('save property berhasil ', res.body);
     });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(task): void {
+    if (task) {
+      if (task.caption === 'Cancel') {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          width: '20vw',
+          data: {
+            title: '',
+            message: 'Are you sure to cancel?',
+          },
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (res) {
+            this.previousState();
+          }
+        });
+      } else {
+        this.processTask(task);
+      }
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
@@ -23,6 +23,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 import { MasterProductParameterService } from 'app/entities/master-parameter/master-product/master-product-parameter.service';
 import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
 import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -262,6 +263,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public restructList = [];
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       item: ICreditProposal;
@@ -283,6 +285,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
+    _dialog.disableClose = true;
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
@@ -810,5 +813,20 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (this.applicationProduct.intResetPeriod === 'Month') {
       this.applicationProduct.intResetFrequencyParam = 'M';
     }
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

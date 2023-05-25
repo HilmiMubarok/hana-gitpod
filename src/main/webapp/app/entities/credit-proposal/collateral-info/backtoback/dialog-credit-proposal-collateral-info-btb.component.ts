@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { ICreditProposal } from '../../credit-proposal.model';
@@ -23,6 +23,7 @@ import { CollateralPropertyService } from 'app/entities/collateral-property/coll
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -101,6 +102,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   public jenis: string;
 
   constructor(
+    private dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralPropertyService: CollateralPropertyService,
     private partyCifService: PartyCifService,
@@ -117,6 +119,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       isViewMode: Boolean;
     }
   ) {
+    _dialog.disableClose = true;
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
@@ -409,5 +412,20 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       }
     }
     return 0;
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

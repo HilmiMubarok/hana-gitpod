@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import cloneDeep from 'lodash/cloneDeep';
 import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal.model';
 import { INilaiRac, NilaiRac } from './nilai-pembelian.model';
@@ -84,7 +85,7 @@ export class CreditProposalRacNilaiPembelianComponent {
       predicate.data['lovBelow'] = new NilaiRac();
     }
 
-    const dialogRef = this.dialog.open(CreditProposalRacNilaiPembelianEditComponent, predicate);
+    const dialogRef = this.dialog.open(CreditProposalRacNilaiPembelianEditComponent, cloneDeep(predicate));
     dialogRef.afterClosed().subscribe(res => {
       const lovBelowsIndex: number = lodash.findIndex(this.item.attributes['cpRacBelow']['lovBelow'], function (o: INilaiRac) {
         return o.id === res['id'];

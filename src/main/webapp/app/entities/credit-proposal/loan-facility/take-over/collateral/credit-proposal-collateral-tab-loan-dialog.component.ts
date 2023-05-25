@@ -1,5 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HtmlEditorService, ToolbarService } from '@syncfusion/ej2-angular-richtexteditor';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
@@ -13,6 +13,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 
 import { Observable, of } from 'rxjs';
 import { ICollateralPrevious } from './collateral-previous.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-dialog',
@@ -25,6 +26,7 @@ export class CreditProposalCollateralTabLoanDialogComponent {
   view: boolean;
   collateralPrevious: ICollateralPrevious;
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       object: ICreditProposal;
@@ -33,6 +35,7 @@ export class CreditProposalCollateralTabLoanDialogComponent {
     },
     private _dialog: MatDialogRef<CreditProposalCollateralTabLoanDialogComponent>
   ) {
+    _dialog.disableClose = true;
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.collateralPrevious = this.data.collateralPrevious;
@@ -43,5 +46,20 @@ export class CreditProposalCollateralTabLoanDialogComponent {
   numberInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

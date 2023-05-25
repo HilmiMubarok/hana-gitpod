@@ -1,10 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ILoanApplication } from 'app/entities/loan-application/loan-application.model';
 import { LoanApplicationService } from 'app/entities/loan-application/loan-application.service';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { ITradeCheckingSupplier } from './trade-checking-supplier.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-trade-checking-supplier-dialog',
@@ -17,6 +18,7 @@ export class CreditProposalTradeCheckingSupplierDialogComponent {
   public view: boolean;
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       object: ICreditProposal;
@@ -25,6 +27,7 @@ export class CreditProposalTradeCheckingSupplierDialogComponent {
     },
     private _dialog: MatDialogRef<CreditProposalTradeCheckingSupplierDialogComponent>
   ) {
+    _dialog.disableClose = true;
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.tradeCheckingSupplier = this.data.tradeCheckingSupplier;
@@ -33,8 +36,24 @@ export class CreditProposalTradeCheckingSupplierDialogComponent {
   public save(): void {
     this._dialog.close({ tradeCheckingSupplier: this.tradeCheckingSupplier, action: 'cencel' });
   }
-  public close() {
-    this._dialog.close({ action: 'cancel' });
+  // public close() {
+  //   this._dialog.close({ action: 'cancel' });
+  // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close({ action: 'cancel' });
+      }
+    });
   }
 
   numberInputChanged(value) {

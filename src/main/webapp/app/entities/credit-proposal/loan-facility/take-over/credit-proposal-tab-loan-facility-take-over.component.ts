@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import lodash from 'lodash';
 import { IApplicationProduct } from '../../../application-product/application-product.model';
 import { ICreditProposal } from '../../credit-proposal.model';
 import { IApplicationProductTakeOver } from '../application-product-take-over/application-product-take-over.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over',
@@ -30,6 +31,7 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
   }
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       object: ICreditProposal;
@@ -39,6 +41,7 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
     public router: Router,
     private _dialog: MatDialogRef<CreditProposalTabLoanFacilityTakeOverComponent>
   ) {
+    _dialog.disableClose = true;
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.facilityTakeOver = this.data.facilityTakeOver;
@@ -46,5 +49,20 @@ export class CreditProposalTabLoanFacilityTakeOverComponent {
   }
   public Onsave(): void {
     this._dialog.close(this.facilityTakeOver);
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }
