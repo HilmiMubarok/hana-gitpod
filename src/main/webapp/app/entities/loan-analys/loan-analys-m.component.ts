@@ -131,6 +131,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       query: this.currentSearch,
       size: this.itemsPerPage,
       sort: this.sortData(),
+      idPosition: this.positionIdLocStor,
     };
 
     if (this.activeRoute === 'la-distribution') {
