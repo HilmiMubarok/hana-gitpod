@@ -26,6 +26,36 @@
       </div>
     </div>
   </section>
+  <div class="form-group">
+    <div class="row">
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Category</mat-label>
+            <mat-select name="category" [(ngModel)]="otherCovenant.categoryId" (selectionChange)="onSelect($event.value)" [disabled]="view">
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let category of categorys" [value]="category.parameterTypeId">
+                {{ category.parameterTypeDescription }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sub category</mat-label>
+            <mat-select name="category" [(ngModel)]="otherCovenant.sub_category" [disabled]="view">
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let subCategory of categoryCovenant" [value]="subCategory.value">
+                {{ subCategory.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
   <section *jhiMatrixDir="item.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
     <div class="form-group">
       <div class="col">

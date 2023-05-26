@@ -43,6 +43,14 @@
     <th mat-header-cell *matHeaderCellDef>No</th>
     <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
   </ng-container>
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef>Category</th>
+    <td mat-cell *matCellDef="let element">{{ element.categoryName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="sub_category">
+    <th mat-header-cell *matHeaderCellDef>Sub category</th>
+    <td mat-cell *matCellDef="let element">{{ element.sub_category }}</td>
+  </ng-container>
   <ng-container matColumnDef="covenant">
     <th mat-header-cell *matHeaderCellDef>Covenant</th>
     <td mat-cell *matCellDef="let element">{{ element.covenant }}</td>
