@@ -110,9 +110,7 @@ export class PartyCifCustomerInfoPostalAddressComponent extends AbstractEntityVi
       };
 
       this.stateBoundaryService.queryFilterBy(predicate).subscribe(res => {
-        console.log('dataaa', res);
-
-        // this.provinces = res.body;
+        this.provinces = res.body;
       });
     }
 
