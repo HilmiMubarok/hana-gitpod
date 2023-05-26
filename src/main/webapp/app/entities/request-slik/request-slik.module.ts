@@ -14,6 +14,7 @@ import { RequestSlikOtherGridComponent } from './others/request-slik-other-grid.
 import { RequestSlikBucketComponent } from './request-slik-bucket.component';
 import { RequestSlikManagementDataDialogComponent } from './management-data/dialog/request-slik-management-data-dialog.component';
 import { RequestSlikDebiturGridComponent } from './debitur/request-slik-debitur-grid.component';
+import { RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 // import { RequestSlikShareholderGridExpandComponent } from './shareholder/expand/request-slik-shareholder-grid-expand.component';
 // import { RequestSlikManagementDataGridExpandComponent } from './management-data/expand/request-slik-management-data-grid-expand.component';
 // import { RequestSlikOtherGridExpandComponent } from './others/expand/request-slik-other-grid-expand.component';
@@ -32,6 +33,7 @@ import { RequestSlikDebiturGridComponent } from './debitur/request-slik-debitur-
     RequestSlikBucketComponent,
     RequestSlikManagementDataDialogComponent,
     RequestSlikDebiturGridComponent,
+    RequestSlikPopupComponent,
     // RequestSlikShareholderGridExpandComponent,
     // RequestSlikManagementDataGridExpandComponent,
     // RequestSlikOtherGridExpandComponent,
@@ -48,6 +50,7 @@ import { RequestSlikDebiturGridComponent } from './debitur/request-slik-debitur-
     RequestSlikBucketComponent,
     RequestSlikManagementDataDialogComponent,
     RequestSlikDebiturGridComponent,
+    RequestSlikPopupComponent,
     // RequestSlikShareholderGridExpandComponent,
     // RequestSlikManagementDataGridExpandComponent,
     // RequestSlikOtherGridExpandComponent,
