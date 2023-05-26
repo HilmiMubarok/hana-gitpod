@@ -5,14 +5,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IOfferingLetter } from '../../offering-page.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-signer-page-dialog',
   templateUrl: './signer-page-dialog.component.html',
   styleUrls: ['./signer-dialog.css'],
 })
-export class OfferingLetterSignerPageDialogComponent {
+export class OfferingLetterSignerPageDialogComponent implements OnInit {
   public _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
   public offeringLetter: IOfferingLetter;
@@ -25,6 +25,9 @@ export class OfferingLetterSignerPageDialogComponent {
   public isShow: boolean;
   public debitorNameGroup: any[];
   public getName: any[];
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
+  public disablePosition: boolean;
 
   @Input()
   get creditProposal() {
@@ -42,11 +45,16 @@ export class OfferingLetterSignerPageDialogComponent {
       field: boolean;
     },
     public employeService: EmployeeService,
-    private _dialog: MatDialogRef<OfferingLetterSignerPageDialogComponent>
+    private _dialog: MatDialogRef<OfferingLetterSignerPageDialogComponent>,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {
     this.dataItem = this.data.object;
     this.offeringLetter = this.data.offeringLetter;
     this.field = this.data.field;
+  }
+  ngOnInit(): void {
+    this.disabledPosition();
   }
 
   onChangeValue(value: string) {
@@ -58,7 +66,15 @@ export class OfferingLetterSignerPageDialogComponent {
       this.isShow = false;
     }
   }
+  // Condition Field Position in Offering Letter
 
+  public disabledPosition(): void {
+    if (this.parentPath === 'finalize') {
+      this.disablePosition = false;
+    } else {
+      this.disablePosition = true;
+    }
+  }
   // get Name if debitor == Bank Hana
   // private getDataName(){
   //   this.employeService.queryFilterBy({isAvailable: true, internalId: 10000, page: 0, size: 999}).subscribe(res =>{
