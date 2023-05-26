@@ -24,6 +24,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-above-grid',
   templateUrl: './above-grid.component.html',
@@ -68,6 +69,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public totalPlafond: number;
   public biddingValueSum: number;
   public biddingValueCoverage: number;
+  public insuranceTypes = [];
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -160,7 +162,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -183,6 +186,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     }
     this.setCertyficateType();
     this.totalCoverage();
+    this.getLovInsuranceType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -897,5 +901,30 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     } else {
       return value;
     }
+  }
+
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        console.log('insurance type body ', res.body);
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
 }
