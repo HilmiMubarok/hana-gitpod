@@ -42,7 +42,7 @@ import { LendingProgramParameterService } from '../lending-program-parameter/len
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { StorageService } from '../storage/storage.service';
 import { Subject } from 'rxjs';
-import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
+// import { ProposalBasicInformationViewComponent } from './basic-information/basic-information-view.component';
 import moment from 'moment';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { ICollateral } from '../collateral/collateral.model';
@@ -76,10 +76,10 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   CreditProposalTabSummaryComponent: CreditProposalTabSummaryComponent;
 
-  @ViewChild('proposalBasicInformationViewComponent', {
+  /* @ViewChild('proposalBasicInformationViewComponent', {
     static: false,
   })
-  proposalBasicInformationViewComponent: ProposalBasicInformationViewComponent;
+  proposalBasicInformationViewComponent: ProposalBasicInformationViewComponent; */
 
   @ViewChild('creditProposaTabManagementInfoComponent', {
     static: false,
@@ -255,9 +255,9 @@ export class ProposalBasicInformationComponent implements OnInit {
           this.CreditProposalTabSummaryComponent.triggeredSave();
         }
 
-        if (this.proposalBasicInformationViewComponent) {
+        /* if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
-        }
+        } */
 
         if (this.creditProposaTabManagementInfoComponent) {
           this.creditProposaTabManagementInfoComponent.triggeredSave();
@@ -703,9 +703,9 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-      if (this.proposalBasicInformationViewComponent) {
+      /* if (this.proposalBasicInformationViewComponent) {
         this.proposalBasicInformationViewComponent.triggeredSave();
-      }
+      } */
 
       if (this.creditProposaTabManagementInfoComponent) {
         this.creditProposaTabManagementInfoComponent.triggeredSave();
