@@ -53,6 +53,10 @@ import { HttpClient } from '@angular/common/http';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { formatBytes } from 'app/shared/helper/utils';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
+import { CollateralService } from '../collateral/collateral.service';
+import { ICollateral } from '../collateral/collateral.model';
+import { CollateralProperty, ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -82,7 +86,8 @@ export class LoanAnalysMainComponent implements OnInit {
 
   private id: number;
   public disabledData: Boolean = true;
-
+  public collateral: ICollateral[];
+  public collateralProperties: ICollateralProperty[] = [];
   public url: string;
   public subMenu: object[];
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -149,7 +154,9 @@ export class LoanAnalysMainComponent implements OnInit {
     private storageService: StorageService,
     private http: HttpClient,
     private generalParameterService: GeneralParameterService,
-    private lendingProgramParameterService: LendingProgramParameterService
+    private lendingProgramParameterService: LendingProgramParameterService,
+    private collateralService: CollateralService,
+    private collateralPropertyService: CollateralPropertyService
   ) {
     this.applicationRole = new ApplicationRole();
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
@@ -1556,6 +1563,31 @@ export class LoanAnalysMainComponent implements OnInit {
           }
         }
       });
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+
+  // find collateral property
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
   }
 }
 

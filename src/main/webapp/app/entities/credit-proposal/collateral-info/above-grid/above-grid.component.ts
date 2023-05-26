@@ -70,6 +70,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   public biddingValueSum: number;
   public biddingValueCoverage: number;
   public insuranceTypes = [];
+  public bindingTypesHobies = [];
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -187,6 +188,7 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
+    this.lovBindingType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -834,8 +836,13 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
   }
 
   public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
 
   public getCrossStatus(status: string) {
@@ -926,5 +933,19 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       }
     }
     return '';
+  }
+
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }

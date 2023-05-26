@@ -270,6 +270,7 @@
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
               [creditProposal]="creditProposal"
+              [collateralProperties]="collateralProperties"
               [source]="'summaryAll'"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
@@ -378,6 +379,7 @@
             <jhi-credit-proposal-collateral-info
               #creditProposalCollateralInfoComponent
               [creditProposal]="creditProposal"
+              [collateralProperties]="collateralProperties"
               [parentSource]="'loan-analys'"
               [isViewMode]="true"
             >
@@ -516,7 +518,12 @@
     </div>
 
     <div *ngIf="selectedMenu === 'mapping-facility'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-credit-proposal-collateral-info [isViewMode]="true" [creditProposal]="creditProposal"> </jhi-credit-proposal-collateral-info>
+      <jhi-credit-proposal-collateral-info
+        [isViewMode]="true"
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+      >
+      </jhi-credit-proposal-collateral-info>
     </div>
 
     <!-- Temp -->

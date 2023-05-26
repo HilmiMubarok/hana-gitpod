@@ -62,6 +62,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     this._group = data;
   }
 
+  public bindingTypesHobies = [];
   public insuranceTypes = [];
   private _collateralProperty: ICollateralProperty[];
   public collateralStartState: ICollateral;
@@ -827,8 +828,13 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
   }
 
   public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
 
   public getCrossStatus(status: string) {
@@ -918,5 +924,19 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
       }
     }
     return '';
+  }
+
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }

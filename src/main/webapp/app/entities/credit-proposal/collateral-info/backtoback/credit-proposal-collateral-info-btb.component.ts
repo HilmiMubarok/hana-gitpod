@@ -18,6 +18,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-info-btb',
@@ -49,6 +50,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   private dataFilter: ICollateral[];
+  public bindingTypesHobies = [];
 
   public certificateType: any;
   public dataCertyficate: any;
@@ -88,7 +90,8 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -465,8 +468,13 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
   }
 
   public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+    if (this.bindingTypesHobies) {
+      const data = this.bindingTypesHobies.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
 
   public getExpiry(collateral: ICollateral) {
@@ -594,5 +602,19 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
       }
     }
     return string2;
+  }
+
+  public lovBindingType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COLLATERAL_BINDING_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.bindingTypesHobies = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 }
