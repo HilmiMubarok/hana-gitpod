@@ -129,7 +129,7 @@
       <div class="col">Binding Date</div>
       <div class="col-md-auto">:</div>
       <div class="col">
-        {{ collateral.bindingDate }}
+        {{ collateral.bindingDate | date: 'yyyy/dd/MM' }}
       </div>
     </div>
   </section>
@@ -158,7 +158,7 @@
       <div class="col">Registration Date</div>
       <div class="col-md-auto">:</div>
       <div class="col">
-        {{ collateral.registrationDate }}
+        {{ collateral.registrationDate | formatMediumDate }}
       </div>
     </div>
   </section>
@@ -178,7 +178,7 @@
       <div class="col">Contract Date</div>
       <div class="col-md-auto">:</div>
       <div class="col">
-        {{ collateral.contractDate }}
+        {{ collateral.contractDate | date: 'yyyy/dd/MM' }}
       </div>
     </div>
   </section>
@@ -198,7 +198,7 @@
       <div class="col">Release Date</div>
       <div class="col-md-auto">:</div>
       <div class="col">
-        {{ collateral.releaseDate }}
+        {{ collateral.releaseDate | date: 'yyyy/dd/MM' }}
       </div>
     </div>
   </section>
