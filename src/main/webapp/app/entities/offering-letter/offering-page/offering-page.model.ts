@@ -7,6 +7,7 @@ export interface IOfferingLetter {
   debitorType?: string;
   noLetter?: string;
   dateOffering?: string;
+  position?: string;
 }
 
 export class OfferingLetter implements IOfferingLetter {
@@ -16,7 +17,8 @@ export class OfferingLetter implements IOfferingLetter {
     public dateOffering?: string,
     public debitorNameGroup?: string,
     public debitorNamePerson?: string,
-    public debitorType?: string
+    public debitorType?: string,
+    public position?: string
   ) {
     this.id = uuid.v4();
     this.debitorNameGroup = '';
@@ -24,6 +26,7 @@ export class OfferingLetter implements IOfferingLetter {
     this.debitorType = '';
     this.noLetter = '';
     this.dateOffering = '';
+    this.position = '';
   }
 }
 

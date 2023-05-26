@@ -377,6 +377,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
       query: this.currentSearch,
       size: this.itemsPerPage,
       sort: this.sortData(),
+      idPosition: this.positionIdLocStor,
     };
 
     if (this.activeRoute === 'batch-apprisalprocess') {

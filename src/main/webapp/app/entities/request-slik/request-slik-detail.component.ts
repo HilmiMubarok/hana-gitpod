@@ -17,10 +17,16 @@ import { PartySlikService } from '../party-slik/party-slik.service';
 import { IPDFSlik } from 'app/shared/ocr/pdf-slik.model';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, map, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
+import { IRequestSlikNote, RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
+import { AccountService } from 'app/core/auth/account.service';
+import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -69,13 +75,17 @@ export class RequestSlikDetailComponent implements OnInit {
     protected partySlikService: PartySlikService,
     protected storageService: StorageService,
     protected lovAndStatus: RequestSlikStatusService,
-    protected internalService: InternalService
+    protected internalService: InternalService,
+    public dialog: MatDialog,
+    protected accountService: AccountService,
+    protected requestSlikTimelineService: RequestSlikTimelineService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
     // this.partyCif = PARTY_CIF_EXAMPLE;
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
+    this.getAccountDetail();
   }
 
   segment = 'loading...';
@@ -232,11 +242,13 @@ export class RequestSlikDetailComponent implements OnInit {
 
     this.requestSlikService.onSubmit(data).subscribe({
       next: () => {
+        this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
         this.router.navigate(['/request-slik']);
       },
       error: err => {
         console.log(err);
         if (data.status === 'APPROVAL_BU' || data.status === 'APPROVAL_SLIK') {
+          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
           this.router.navigate(['/request-slik']);
         } else {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
@@ -275,6 +287,7 @@ export class RequestSlikDetailComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'CANCEL').subscribe(res => {
       console.log(res);
+      this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
       this.router.navigate(['/request-slik']);
     });
   }
@@ -283,9 +296,18 @@ export class RequestSlikDetailComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'RETURN_TO_RM').subscribe({
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      next: () => this.router.navigate(['/request-slik']),
+      next: () => {
+        this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+        this.router.navigate(['/request-slik']);
+      },
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+      // error: err => err.status === 200 && this.router.navigate(['/request-slik']),
+      error: err => {
+        if (err.status === 200) {
+          this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
+          this.router.navigate(['/request-slik']);
+        }
+      },
     });
   }
 
@@ -407,9 +429,6 @@ export class RequestSlikDetailComponent implements OnInit {
                 console.log('this container', this.documentEditor);
 
                 const contents: string = e.target.result;
-                console.log('COntents', { docEditor, contents, e });
-                console.log('COntents', contents);
-                console.log('DDSADASD', docEditor);
                 docEditor.open(contents);
               };
               fileReader.readAsText(this.fileGet);
@@ -606,5 +625,42 @@ export class RequestSlikDetailComponent implements OnInit {
     } else {
       this.containsObject(ev.data, this.checklists) && _.remove(this.checklists, { idParty: ev.data.idParty });
     }
+  }
+
+  userName: string;
+  createdBy: string;
+  getAccountDetail() {
+    this.accountService.identity().subscribe(res => {
+      this.createdBy = res.login;
+      this.userName = res.firstName + ' ' + res.lastName;
+    });
+  }
+
+  noteTimeline: IRequestSlikNote;
+  public openSubmitDialog(task): void {
+    const dialogRef = this.dialog.open(RequestSlikPopupComponent, {
+      width: '80vw',
+      data: {
+        status: this.checkStatus(this.requestSlik.status),
+        refKeyId: this.requestSlikId,
+        note: '',
+        userName: this.userName,
+        createdBy: this.createdBy,
+        businessKey: 'SLIK',
+        task,
+      },
+    });
+    dialogRef.afterClosed().subscribe(_res => {
+      if (_res) {
+        this.noteTimeline = _res;
+        if (task === 'cancel') {
+          this.cancel();
+        } else if (task === 'reject') {
+          this.reject();
+        } else {
+          this.submit();
+        }
+      }
+    });
   }
 }

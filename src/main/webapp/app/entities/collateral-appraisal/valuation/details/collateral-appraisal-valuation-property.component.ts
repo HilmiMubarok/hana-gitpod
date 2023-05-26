@@ -218,12 +218,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       width: '80vw',
       data: {
         collateralAppraisal: this.dataCollateralAppraisal,
-        collateralProperty: element,
-
-        landCertificates:
-          typeof this.collateral.attributes['landCertificates'] === 'string'
-            ? JSON.parse(this.collateral.attributes['landCertificates'])
-            : this.collateral.attributes['landCertificates'],
+        collateralProperty: element
       },
     };
 

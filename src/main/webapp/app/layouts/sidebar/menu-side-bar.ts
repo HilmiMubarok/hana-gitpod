@@ -678,6 +678,11 @@ export const SIDEBAR_MENU_BM: ISidebarMenuModel[] = [
     iconname: 'arrow-trend-up',
     children: [
       {
+        name: 'Credit Proposal',
+        iconname: 'minus',
+        route: 'credit-proposal-status',
+      },
+      {
         name: 'Credit Proposal Approval',
         iconname: 'minus',
         route: 'cp-status-approval',
@@ -852,6 +857,11 @@ export const SIDEBAR_MENU_ROLE_SME_HEAD: ISidebarMenuModel[] = [
     name: 'Credit Proposal',
     iconname: 'arrow-trend-up',
     children: [
+      {
+        name: 'Credit Proposal',
+        iconname: 'minus',
+        route: 'credit-proposal-status',
+      },
       {
         name: 'Credit Proposal Approval',
         iconname: 'minus',
