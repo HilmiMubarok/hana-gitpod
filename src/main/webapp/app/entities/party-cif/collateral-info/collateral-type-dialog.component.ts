@@ -142,19 +142,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       });
   }
 
-  // public test(): void {
-  //   let element: string;
-
-  //   if (this.bindingTypes) {
-  //     for (let i = 0; i < this.bindingTypes.length; i++) {
-  //       if (this.collateral.collBindingType === this.bindingTypes[i].code) {
-  //         element = this.bindingTypes[i].value;
-  //       }
-  //     }
-  //     this.bindingvalue = element;
-  //   }
-  // }
-
   public disabledOccupansy() {
     if (this.type === 'appraisal') {
       return true;
@@ -212,7 +199,6 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
   private loadCollateralType(): void {
     this.collateralTypeService.query().subscribe(res => {
       this.collateralTypes = res.body.filter(obj => obj.id !== 'CASH');
-      console.log('collateral types ', this.collateralTypes);
     });
   }
 
@@ -296,6 +282,8 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       this.collateralParameterService
         .queryFilterBy({
           collateralType: this.collateral.collateralTypeId,
+          page: 0,
+          size: 9999,
         })
         .subscribe(res => {
           this.collateralCode = res.body;
