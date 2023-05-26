@@ -50,6 +50,9 @@ export class RequestSlikService extends AbstractEntityService<any> {
               internalId: details[i].body.internalId,
               customerName: details[i].body.name,
               segment: 'loading...',
+              dataExpand:
+                details[i].body.customerType === 'CORPORATE' ? details[i].body.customerOrganization : details[i].body.customerPerson,
+
               // segment: this.loadInternalById(details[i].body.internalId)
               //   .then((res2: IInternal) => {
               //     if (res2.parentId) {

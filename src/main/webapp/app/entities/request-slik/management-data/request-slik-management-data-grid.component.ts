@@ -18,6 +18,7 @@ import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RequestSlikManagementDataDialogComponent } from './dialog/request-slik-management-data-dialog.component';
+import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
 // import { RESULT_DATA } from './result.dummy';
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
@@ -47,7 +48,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
-    public requestSlikService: RequestSlikService
+    public requestSlikService: RequestSlikService,
+    public requestSlikChecklistService: RequestSlikChecklistService
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 99;
@@ -238,14 +240,42 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                   });
               });
             });
-            this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
-              ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-                  console.log('thee data', data);
-                  this.initDataForMatTable(data, res.headers);
-                  // this.organizationManagement = [data as IOrganizationManagement];
-                })
-              : this.initDataForMatTable(res, res.headers);
-            // this.organizationManagement = [...(res.body as IOrganizationManagement[])];
+            // this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
+            //   ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+            //       console.log('thee data', data);
+            //       this.initDataForMatTable(data, res.headers);
+            //     })
+            //   : this.initDataForMatTable(res, res.headers);
+            if (this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM') {
+              this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+                console.log('thee data', data);
+                this.initDataForMatTable(data, res.headers);
+              });
+            } else {
+              console.log('sadkjhgsdjkasjdh', res);
+
+              /**
+               * Get all Checklists -> Bandingkan dengan res, kalau yg ga ada di db jangan emit
+               * kalau db kosong emit semua
+               * */
+
+              // this.requestSlikChecklistService.getAllChecklists().subscribe(sd => console.log('aaaaa', sd['data']));
+
+              // res.body.forEach(element => {
+              //   const data = {
+              //     idParty: null,
+              //     idRequestSlik: null,
+              //   };
+              //   data.idParty = element.person.id;
+              //   data.idRequestSlik = this.requestSlikId;
+
+              //   this.checklistData.emit({
+              //     data,
+              //     mode: 'add',
+              //   });
+              // });
+              this.initDataForMatTable(res, res.headers);
+            }
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
