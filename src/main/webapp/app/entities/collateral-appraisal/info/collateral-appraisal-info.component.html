@@ -92,7 +92,7 @@
         cssClass="e-outline"
         placeholder="Tgl Request"
         floatLabelType="Always"
-        value="{{ surveyAppraisal.createdDate | date: 'yyyy/MM/dd' }}"
+        value="{{ surveyAppraisal.createdDate | date: 'yyyy/dd/MM' }}"
         disabled
       ></ejs-textbox>
     </section>
@@ -101,7 +101,7 @@
         cssClass="e-outline"
         placeholder="Approval Date"
         floatLabelType="Always"
-        value="{{ approvalDate | date: 'yyyy/MM/dd' }}"
+        value="{{ approvalDate | date: 'yyyy/dd/MM' }}"
         disabled
       ></ejs-textbox>
     </section>
@@ -110,7 +110,7 @@
         cssClass="e-outline"
         placeholder="Visited Date"
         floatLabelType="Always"
-        value="{{ visitDate | date: 'yyyy/MM/dd' }}"
+        value="{{ visitDate | date: 'yyyy/dd/MM' }}"
         disabled
       ></ejs-textbox>
     </section>
