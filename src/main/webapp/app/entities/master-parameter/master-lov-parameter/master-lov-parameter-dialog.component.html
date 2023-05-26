@@ -6,7 +6,7 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Category List Of Value</mat-label>
-            <mat-select name="type" [(ngModel)]="generalParameter.parameterTypeDescription">
+            <mat-select name="type" [(ngModel)]="generalParameter.parameterTypeId">
               <mat-option value="">- Please Select -</mat-option>
               <mat-option *ngFor="let item of listGeneralLov" [value]="item.id">
                 {{ item.description }}
