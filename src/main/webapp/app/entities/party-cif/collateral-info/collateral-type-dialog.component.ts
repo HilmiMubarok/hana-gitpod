@@ -229,6 +229,7 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
           return o.statusId === 'ACTIVE';
         });
 
+        console.log('collateral code', this.collateralCode);
         this.collateral.attributes.collateralProposePricing = '';
         this.collateral.attributes.collateralCode = '';
       });
@@ -296,6 +297,8 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
       this.collateralParameterService
         .queryFilterBy({
           collateralType: this.collateral.collateralTypeId,
+          page: 0,
+          size: 9999,
         })
         .subscribe(res => {
           this.collateralCode = res.body;
