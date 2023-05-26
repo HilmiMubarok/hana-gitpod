@@ -45,7 +45,7 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   ];
   public displayedColumnsExpand = [...this.displayedColumns];
 
-  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'action'];
+  public displayedColumnsP: string[] = ['no', 'name', 'roleId', 'statusDescription', 'action'];
   public displayedColumnsExpandP = [...this.displayedColumnsP];
 
   clickedChip: { id: string; label: string };
@@ -268,7 +268,6 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
 
   // ==============table partner=================
   initTable(data: any, headers: HttpHeaders): void {
-
     this.itemsPartner = new MatTableDataSource(this.addIdx(data.body));
     if (!this.itemsPartner) {
       this.itemsPartner.paginator = this.paginator;
