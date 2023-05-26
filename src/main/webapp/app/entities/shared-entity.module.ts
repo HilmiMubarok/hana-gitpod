@@ -370,6 +370,7 @@ import { MainFacilityInfoComponent } from './debtor-data/facility-info/main-faci
 import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main-facility-info-child.component';
 import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
 import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
+import { InsuranceInformationIddComponent } from './party-cif/insurance-information-idd/insurance-information-idd.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -786,6 +787,7 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
         CollateralPropertyPersonalCorporateGuaranteeComponent,
         // cross idd //
         ParipasuCollateralIddComponent,
+
         GroupCollateralInfoComponent,
         GroupCollateralListComponent,
         // cross cp //
@@ -793,6 +795,7 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
         ParipasuCollateralDebiturComponent,
         GroupCollateralListCpComponent,
         SummaryGridComponent,
+        InsuranceInformationIddComponent,
 
                 // cross appraisal //
     GroupCollateralListAppraisalComponent,
@@ -1178,6 +1181,7 @@ import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main
     ParipasuCollateralIddComponent,
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,
+    InsuranceInformationIddComponent,
     // cross cp //
     ParipasuCollateralGroupComponent,
     ParipasuCollateralDebiturComponent,

@@ -97,6 +97,13 @@
   >
   </jhi-collateral-property-personal-corporate-guarantee>
   <jhi-paripasu-collateral-idd [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd>
+  <div
+    *ngIf="
+      collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'MACHINE' || collateral.collateralTypeId === 'VEHICLE'
+    "
+  >
+    <jhi-insurance-information-idd [collateral]="collateral" [partyCif]="partyCifData"></jhi-insurance-information-idd>
+  </div>
   <section *jhiMatrixDirIDD="'input'">
     <mat-dialog-actions align="center">
       <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>

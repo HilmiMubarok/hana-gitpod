@@ -20,6 +20,7 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
     this.resourceSyncHobis = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/party-cifs');
     this.resourceUrlBrance = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/internals');
     this.resourceUrlSegregasi = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-party-cifs');
+    this.insuranceInformationUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/collateral-insurances');
   }
 
   protected isNew(entity: IPartyCif): boolean {
@@ -119,5 +120,9 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
 
   public getListGroupCollateral(cif: string): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceUrl}/list-group-collateral-by-cif/${cif}`, { observe: 'response' });
+  }
+
+  public getListInsuranceInformation(collateralId: any): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.insuranceInformationUrl}/page/${collateralId}`, { observe: 'response' });
   }
 }
