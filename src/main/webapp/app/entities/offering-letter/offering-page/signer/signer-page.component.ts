@@ -29,7 +29,7 @@ export class OfferingLetterSignerPageComponent implements OnInit {
     this._creditProposal = object;
   }
 
-  public displayColumns: string[] = ['no', 'name', 'debtor', 'action'];
+  public displayColumns: string[] = ['no', 'name', 'debtor', 'position', 'action'];
   public loading: boolean;
 
   constructor(
