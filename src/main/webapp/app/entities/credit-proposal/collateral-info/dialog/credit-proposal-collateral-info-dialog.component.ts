@@ -189,6 +189,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
+        console.log('insurance type body ', res.body);
         this.insuranceTypes = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
