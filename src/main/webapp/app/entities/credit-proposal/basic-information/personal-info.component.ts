@@ -122,11 +122,13 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
   }
 
   private loadPositionRM(): void {
-    this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
-      this.positionRM = lodash.filter(res.body, function (o) {
-        return o.partyId !== null;
+    this.positionService
+      .queryFilterBy({ idInternal: this.creditProposal.internalId, idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 })
+      .subscribe(res => {
+        this.positionRM = lodash.filter(res.body, function (o) {
+          return o.partyId !== null;
+        });
       });
-    });
   }
 
   private loadSegment(): void {

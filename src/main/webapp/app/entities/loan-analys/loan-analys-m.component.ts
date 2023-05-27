@@ -655,7 +655,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
         data[i]['proposalType'] = !lodash.has(data[i].attributes, 'proposalType') ? data[i].attributes.proposalType : '';
 
-        data[i]['rmName'] = data[i].rm ? data[i].rm.partyName : '';
+        // data[i]['rmName'] = data[i].rm ? data[i].rm.partyName : '';
+        data[i]['rmName'] = data[i].rm ? data[i].rm.employeeFirstName + data[i].rm.employeeLastName : '';
 
         if (data[i]['prospectPerson'] !== null) {
           data[i]['prospectPerson']['maritalStatus'] = data[i]['prospectPerson']['maritalStatus']
