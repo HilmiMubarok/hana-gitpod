@@ -1,14 +1,17 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IOtherCovenant } from '../other-convenant.model';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { SelectionChange } from '@angular/cdk/collections';
+import lodash from 'lodash';
 
 @Component({
   selector: 'jhi-other-covenant-dialog',
   templateUrl: './credit-proposal-other-covenant-dialog.component.html',
   styleUrls: ['../other-covenant.css'],
 })
-export class CreditProposalOtherCovenantDialogComponent {
+export class CreditProposalOtherCovenantDialogComponent implements OnInit {
   public otherCovenant: IOtherCovenant;
   public view: boolean;
 
@@ -21,14 +24,66 @@ export class CreditProposalOtherCovenantDialogComponent {
       item: ICreditProposal;
       view: boolean;
     },
-    private _dialog: MatDialogRef<CreditProposalOtherCovenantDialogComponent>
+    private _dialog: MatDialogRef<CreditProposalOtherCovenantDialogComponent>,
+    protected generalParameterService: GeneralParameterService
   ) {
     this.view = this.data.view;
     this.otherCovenant = this.data.otherCovenant;
     this.item = this.data.item;
   }
 
+  ngOnInit(): void {
+    this.subCategoryValue(this.data.otherCovenant.categoryId);
+  }
+
+  public categorys = [
+    {
+      parameterTypeId: 'OTHER_COVENANT_CATEGORY_OTHER',
+      parameterTypeDescription: 'Other Covenant',
+    },
+    {
+      parameterTypeId: 'OTHER_COVENANT_CATEGORY_NOTES',
+      parameterTypeDescription: 'Notes',
+    },
+    {
+      parameterTypeId: 'OTHER_COVENANT_CATEGORY_CONDITION',
+      parameterTypeDescription: 'Condition',
+    },
+  ];
+
+  public testLoop(): void {}
+
+  public select: any;
+  public onSelect(element: any): void {
+    this.select = element;
+    if (this.select) {
+      this.subCategoryValue(this.select);
+    }
+  }
+
+  public categoryCovenant = [];
+  public subCategoryValue(id): void {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: id,
+        page: 0,
+        size: 9999,
+        sort: ['code', 'asc'],
+      })
+      .subscribe(res => {
+        this.categoryCovenant = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
   public save(): void {
+    if (this.categorys.length) {
+      for (let i = 0; i < this.categorys.length; i++) {
+        if (this.select === this.categorys[i].parameterTypeId) {
+          this.otherCovenant.categoryName = this.categorys[i].parameterTypeDescription;
+        }
+      }
+    }
     this._dialog.close(this.otherCovenant);
   }
 }
