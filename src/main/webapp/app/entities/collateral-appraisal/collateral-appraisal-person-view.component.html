@@ -51,7 +51,7 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tanggal Lahir</mat-label>
-            <input matInput type="text" [value]="item.customerPerson?.dob | formatMediumDate" disabled />
+            <input matInput type="text" [value]="item.customerPerson?.dob | date: 'yyyy/dd/MM'" disabled />
           </mat-form-field>
         </section>
         <section class="mt-2">
