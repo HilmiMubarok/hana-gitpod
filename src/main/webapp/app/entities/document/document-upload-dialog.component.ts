@@ -14,7 +14,7 @@ import { IDocumentNode } from '../document-node/document-node.model';
 import lodash from 'lodash';
 import { DocumentTypeService } from '../document-type/document-type.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'jhi-document-upload-dialog',
   templateUrl: './document-upload-dialog.component.html',
@@ -29,6 +29,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
   public indeks = 0;
+  public booleanRouter: boolean;
 
   private bucket: string;
   public certiFicateTypeName = [];
@@ -55,7 +56,8 @@ export class DocumentUploadDialogComponent implements OnInit {
     private accountService: AccountService,
     public reportUtilService: ReportUtilService,
     protected partyCifService: PartyCifService,
-    protected documentTypeService: DocumentTypeService
+    protected documentTypeService: DocumentTypeService,
+    private router: Router
   ) {
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
@@ -67,6 +69,7 @@ export class DocumentUploadDialogComponent implements OnInit {
     this.documents = this.data.documents;
     this.view = this.data.view;
     this.folder = this.data.obj;
+    this.booleanRouter = this.router.url.includes('party-cif');
   }
   public collateralOrAppraisal: string;
 
