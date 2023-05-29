@@ -51,7 +51,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
               customerName: details[i].body.name,
               segment: 'loading...',
               dataExpand:
-                details[i].body.customerType === 'CORPORATE' ? details[i].body.customerOrganization : details[i].body.customerPerson,
+                details[i].body.customerType === 'CORPORATE' ? [details[i].body.customerOrganization] : [details[i].body.customerPerson],
 
               // segment: this.loadInternalById(details[i].body.internalId)
               //   .then((res2: IInternal) => {
@@ -321,7 +321,8 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
   public onSubmit(data) {
     if (data.status === 'CHECKING') {
-      return this.postCBAS(data);
+      // return this.postCBAS(data);
+      return this.changeStatusAndRequest(data);
     } else if (data.status === 'APPROVAL_SLIK') {
       return this.submitDraft(data);
     } else if (data.status === 'COMPLETE') {
@@ -376,11 +377,33 @@ export class RequestSlikService extends AbstractEntityService<any> {
     });
   }
 
+  // public changeStatusAndRequest(cbasData: any): Observable<any> {
+  //   return this.http
+  //     .post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, cbasData.ocr, {
+  //       observe: 'response',
+  //     })
+  //     .pipe(switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: 'CHECKING' })));
+  //     // .pipe(switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status })));
+  // }
+
+  public changeStatusAndRequest(cbasData: any): Observable<any> {
+    const ocrRequests = cbasData.ocr.map((ocrItem: any) =>
+      this.http.post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, ocrItem, {
+        observe: 'response',
+      })
+    );
+
+    return forkJoin(ocrRequests).pipe(
+      switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status }))
+    );
+  }
+
   mapSlikResult(data) {
-    // console.log('data ori', {
-    //   data,
-    //   typeResult: typeof data.resultJson,
-    // });
+    console.log('data ori', {
+      data,
+      typeResult: typeof data.resultJson,
+    });
+
     // eslint-disable-next-line no-prototype-builtins
     if (data.hasOwnProperty('resultJson')) {
       try {
@@ -397,8 +420,13 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
     data.resultJson.sliks.forEach(slik => {
       const { nikNpwp, ideb, partySlik } = slik;
-      finalData.push(Object.assign({}, ideb.data.dataPokokDebitur[0], { nikNpwp, partySlik: partySlik[0] }));
+      finalData.push(
+        Object.assign({}, ideb.data.dataPokokDebitur[0], { requestReffId: data.resultJson.requestReffId, nikNpwp, partySlik: partySlik[0] })
+      );
     });
+
+    console.log('finalData', finalData);
+
     return finalData;
   }
 
@@ -411,7 +439,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   getCbasRes(id, partyId) {
-    const params = new HttpParams().set('idParty', partyId).set('idRequestSLik', id).set('page', 1).set('size', 10);
+    const params = new HttpParams().set('idParty', partyId).set('idRequestSLik', id);
 
     return this.http.get<any>(this.resourceUrlNew + '/getIdCbas', {
       observe: 'response',

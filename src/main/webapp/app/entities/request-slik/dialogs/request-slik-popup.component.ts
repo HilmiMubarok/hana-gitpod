@@ -12,6 +12,7 @@ export class RequestSlikPopupComponent {
   public userName: string;
   public note: string;
   public createdBy: string;
+  public task: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: IRequestSlikNote, private _dialog: MatDialogRef<RequestSlikPopupComponent>) {
     this.businessKey = this.data.businessKey;
@@ -20,6 +21,8 @@ export class RequestSlikPopupComponent {
     this.userName = this.data.userName;
     this.note = this.data.note;
     this.createdBy = this.data.createdBy;
+    this.task = this.data.task
+    console.log("dialog data: ", this.data);
   }
 
   public save(): void {
@@ -42,4 +45,5 @@ export interface IRequestSlikNote {
   userName: string;
   note: string;
   createdBy: string;
+  task: string;
 }

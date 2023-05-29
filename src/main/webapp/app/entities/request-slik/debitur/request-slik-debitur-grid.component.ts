@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IOrganizationManagement } from 'app/entities/organization-management/organization-management.model';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { IRequestSlik } from '../request-slik.model';
@@ -11,29 +11,30 @@ import { Router } from '@angular/router';
 import { RequestSlikService } from '../request-slik.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
+import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
 
 @Component({
   selector: 'jhi-request-slik-debitur-grid',
   templateUrl: './request-slik-debitur-grid.component.html',
 })
-export class RequestSlikDebiturGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+export class RequestSlikDebiturGridComponent implements OnInit {
+  dataaa;
+  ngOnInit(): void {
+    // const a = this.requestSlikService.mapSlikResult(this.sampleData);
+    // this.dataaa = this.requestSlikService.mapSlikResult(this.sampleData);
+    // this.dataaa = this.mapCbasResult(this.sampleData);
+    // console.log('asdadasdasd', a);
+    this.loadData();
+  }
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
-    public requestSlikService: RequestSlikService,
-    private partySlikService: PartySlikService
+    public requestSlikService: RequestSlikService
   ) {
-    super(_snackBar, organizationManagementService);
-    this.itemsPerPage = 10;
-    this.page = 0;
-    this.displayedColumns = null;
-    this.displayedColumnsExpand = null;
-    this.predicate = 'id';
-    this.entityKeyName = 'id';
-    this.organizationManagementRes = [];
     this.requestSlikId = Number(this.router.url.split('/')[2]);
+    // this.loadData();
   }
 
   @Input() checklists;
@@ -71,20 +72,28 @@ export class RequestSlikDebiturGridComponent extends AbstractEntityMaterialCompo
     'action',
   ];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['partyCif'] && changes['managementType']) {
-      this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-      this.defineDisplayedColumns(this.managementType);
-    }
-  }
+  // openDialogSlikFile(reqReffId) {
+  //   const predicate: object = {
+  //     width: '90vw',
+  //     data: {
+  //       reqReffId,
+  //     },
+  //   };
 
-  @Input()
-  get organizationManagement() {
-    return this.items;
-  }
+  //   const dialogRef = this.dialog.open(RequestSlikDialogSlikFileComponent, predicate);
+  //   dialogRef.afterClosed().subscribe(() => {});
+  // }
+  openDialogSlikFile(reqReffId, fileName) {
+    const predicate: object = {
+      width: '90vw',
+      data: {
+        reqReffId,
+        fileName,
+      },
+    };
 
-  set organizationManagement(param: IOrganizationManagement[]) {
-    this.items = param;
+    const dialogRef = this.dialog.open(RequestSlikDialogSlikFileComponent, predicate);
+    dialogRef.afterClosed().subscribe(() => {});
   }
 
   @Input()
@@ -95,7 +104,6 @@ export class RequestSlikDebiturGridComponent extends AbstractEntityMaterialCompo
   set partyCif(object: IPartyCif) {
     this.dataPartySlik = object.sliks;
     this._partyCif = object;
-    this.loadDataBy();
   }
 
   @Input()
@@ -107,54 +115,22 @@ export class RequestSlikDebiturGridComponent extends AbstractEntityMaterialCompo
     this._loanStatus = item;
   }
 
-  public loadDataBy(cif: string = null, managementType: string = null): void {
-    if (cif && managementType) {
-      this.organizationManagementService
-        .queryFilterBy({
-          cifNumber: this.cif,
-          organizationManagementType: this.managementType,
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: ['id,desc'],
-        })
-        .subscribe({
-          next: (res: HttpResponse<IOrganizationManagement[]>) => {
-            console.log('res debitur', res.body);
-            res.body.forEach(element => {
-              this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
-                // console.log('cbasRes cbas', cbasRes.body.data.content);
-                cbasRes.body.data.content.length > 0 &&
-                  cbasRes.body.data.content.forEach(el => {
-                    this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
-                      console.log('res filter debitur', resFilter.body.data.content);
-                      // add object key dataExpand on element
-                      Object.assign(element, {
-                        dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
-                      });
-                      // console.log('THEE DATA', element);
-                    });
-                  });
-              });
-            });
-            this.requestSlik.status !== 'Draft'
-              ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-                  // console.log('thee data', data);
-                  this.initDataForMatTable(data, res.headers);
-                })
-              : this.initDataForMatTable(res, res.headers);
-            // this.initDataForMatTable(res, res.headers);
-          },
-          error: (res: HttpErrorResponse) => this.onError(res.message),
+  dataSource = [];
+  reqReffId;
+  loadData() {
+    console.log('THEE DATA DEBITUR partyId', this.partyCif.partyId);
+    this.requestSlikService.getCbasRes(this.requestSlikId, this.partyCif.partyId).subscribe(cbasRes => {
+      console.log('cbasRes cbas', cbasRes.body.data.content);
+      this.reqReffId = cbasRes.body.data.content[0].reqReffId;
+      cbasRes.body.data.content.length > 0 &&
+        cbasRes.body.data.content.forEach(el => {
+          this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
+            this.dataSource = this.mapCbasResult(el, resFilter.body.data.content);
+            this.reqReffId = this.dataSource[0].reqReffId;
+            console.log('THEE DATA DEBITUR', this.dataSource);
+          });
         });
-    }
-  }
-
-  private defineDisplayedColumns(param: string) {
-    this.displayedColumns =
-      this.requestSlik.status === 'Verify'
-        ? ['no', 'bank', 'limit', 'os', 'facilityType', 'rate', 'period', 'collateralValue', 'tenor', 'lastKol', 'worseKol']
-        : ['no', 'bank', 'limit', 'os', 'facilityType', 'rate', 'period', 'collateralValue', 'tenor', 'lastKol', 'worseKol', 'action'];
-    this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
+    });
   }
 
   protected mapCbasResult(dataCbas, dataFilter) {
@@ -165,6 +141,7 @@ export class RequestSlikDebiturGridComponent extends AbstractEntityMaterialCompo
     });
 
     const result = this.finalDataFilter(dataCbas.partyId, dataCbas.requestReffId, finalDataFilter);
+    console.log('CBAS RESULT', result);
 
     return result;
   }

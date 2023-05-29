@@ -6,6 +6,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { map, Observable, Subscription } from 'rxjs';
 import { DocumentRequestSlikDialogComponent } from './dialog/document-request-slik-dialog.component';
+import { RequestSlikValidateService } from '../services/request-slik-validate.service';
 
 @Component({
   selector: 'jhi-document-request-slik',
@@ -27,7 +28,8 @@ export class DocumentRequestSlikComponent {
     private storageService: StorageService,
     private dialog: MatDialog,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private requestSlikValidateService: RequestSlikValidateService
   ) {
     this.id = Number(this.router.url.split('/')[2]);
     this.getFiles(this.id);
@@ -39,7 +41,10 @@ export class DocumentRequestSlikComponent {
       const predicate: Object = {
         key: `/request-slik/${id}/document`,
       };
-      this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(map(res => res.body));
+      this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(map(res => {
+        this.requestSlikValidateService.validateDocument(res.body.length);
+        return res.body
+      }));
     });
   }
 
