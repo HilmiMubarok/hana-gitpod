@@ -39,10 +39,16 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
     this.LovCovenantAbove();
   }
 
+  ngOnInit(): void {
+    this.LovCovenantAbove();
+    // console.log('proposal-type', this.creditProposalItem[])
+  }
+
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGridAbove.length; i++) {
       if (i === Number(data.index)) {
         this.standardDataGridAbove[i].status = input === 'status' ? event.value : this.standardDataGridAbove[i].status;
+        console.log('status', this.standardDataGridAbove[i].status);
         this.standardDataGridAbove[i].deviation = input === 'deviation' ? event.target.value : this.standardDataGridAbove[i].deviation;
         this.standardDataGridAbove[i].justification =
           input === 'justification' ? event.target.value : this.standardDataGridAbove[i].justification;
@@ -55,7 +61,7 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
     this.creditProposalItem.attributes['convenant'].standardDataGridAbove = lodash.clone(this.standardDataGridAbove);
   }
 
-  ngOnInit(): void {
+  public getStandardDataGridAbove() {
     if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
         this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridAbove[i].status;
@@ -69,8 +75,6 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
       }
       this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
     }
-
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 
   public LovCovenantAbove() {
@@ -81,9 +85,31 @@ export class CreditProposalCovenantAboveComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.standardDataGridAbove = lodash.filter(res.body, function (o) {
+        // res.body.forEach(data => {
+        //   this.dataAbove.push(new ConvenantNew(data.id, data.value, 'Applied', '', ''));
+        // });
+
+        // for(let i = 0; i < res.body.length; i++){
+        //   console.log('xxx',res.body[i])
+        // }
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        const gridAbove = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridAbove[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardDataGridAbove = gridAbove;
+        this.getStandardDataGridAbove();
+
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridAbove = this.standardDataGridAbove;
+        } else {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridAbove.length; i++) {
+            this.standardDataGridAbove = this.creditProposalItem.attributes['convenant'].standardDataGridAbove;
+          }
+        }
       });
   }
 }
