@@ -49,11 +49,17 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
 
   private getData(): void {
     this.collateralPropertyService
-      .queryFilterBy({ idCollateral: this.collateralId, page: 0, size: 9999, idPropertyType: CollateralPropertyType.MACHINE })
+      .queryFilterBy({
+        idCollateral: this.collateralId,
+        page: 0,
+        size: 9999,
+        idPropertyType: CollateralPropertyType.MACHINE,
+      })
       .subscribe(res => {
         this.items = res.body;
-        this.collateralAppraisalService.totalDataDetailMachine = res.body;
+        this.collateralAppraisalService.totalDataDetailMachine = this.sortData(res.body);
       });
+    console.log('getDATAaaaaaaaa', this.collateralAppraisalService.totalDataDetailMachine);
   }
 
   public collateralProperties(collateralId: number): void {
@@ -66,6 +72,7 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
           this.collateralAppraisalService.totalDataDetailMachine = res.body;
         });
     }
+    console.log('col propppppppppppp', this.collateralAppraisalService.totalDataDetailMachine);
   }
 
   public openDialog(property: ICollateralProperty = null): void {
@@ -154,5 +161,13 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   }
   public isAdminAppraisal(): any {
     return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
+  }
+
+  public sortData(param: any) {
+    let sortedData: any;
+    if (param) {
+      sortedData = param.reverse();
+    }
+    return sortedData;
   }
 }
