@@ -381,6 +381,11 @@ export const APPRAISAL_MENU_SURVEYOR: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'batch-apprisal/process',
       },
+      {
+        name: 'Appraisal Result Inquiry',
+        iconname: 'minus',
+        route: 'collateral-appraisal-result-inqury',
+      },
     ],
   },
 ];
@@ -917,6 +922,11 @@ export const SIDEBAR_MENU_APR_DH: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'batch-apprisal/approval',
       },
+      {
+        name: 'Appraisal Result Inquiry',
+        iconname: 'minus',
+        route: 'collateral-appraisal-result-inqury',
+      },
     ],
   },
 ];
@@ -1018,6 +1028,11 @@ export const APPRAISAL_MENU_TL: ISidebarMenuModel[] = [
         name: 'Appraisal Report Approval',
         iconname: 'minus',
         route: 'batch-apprisal/approval',
+      },
+      {
+        name: 'Appraisal Result Inquiry',
+        iconname: 'minus',
+        route: 'collateral-appraisal-result-inqury',
       },
     ],
   },
@@ -1509,6 +1524,11 @@ export const APPRAISAL_APR_DEPT_HEAD: ISidebarMenuModel[] = [
         name: 'Appraisal Report Approval',
         iconname: 'minus',
         route: 'batch-apprisal/approval',
+      },
+      {
+        name: 'Appraisal Result Inquiry',
+        iconname: 'minus',
+        route: 'collateral-appraisal-result-inqury',
       },
     ],
   },
