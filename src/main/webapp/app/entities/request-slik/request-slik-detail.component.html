@@ -300,7 +300,6 @@
         </mat-card-header>
         <mat-card-content>
           <div class="page-view" style="padding-bottom: 30px">
-            <!-- {{ requestSlik?.status }} -->
             <!-- <h5 class="page-heading">
               <span jhiTranslate="losgwApp.requestSlik.home.viewLabel">Request Sliks</span>
             </h5> -->
@@ -424,7 +423,7 @@
                 <div class="row px-3 pt-5">
                   <div class="col">
                     <jhi-request-slik-debitur-grid
-                      *ngIf="requestSlik.status === 'Verify'"
+                      *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'"
                       [cif]="partyCif.customerNumber"
                       [partyCif]="partyCif"
                       [checklists]="checklists"
@@ -526,14 +525,7 @@
                   "
                 >
                   <!-- <button mat-raised-button color="primary" style="margin-right: 10px" (click)="submit()">Submit</button> -->
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    style="margin-right: 10px; background: rgba(0, 136, 129, 1); color: #ffffff"
-                    (click)="openSubmitDialog('submit')"
-                  >
-                    Submit
-                  </button>
+                  <button mat-raised-button color="primary" style="margin-right: 10px" (click)="openSubmitDialog('submit')">Submit</button>
                   <button
                     mat-raised-button
                     color="primary"
@@ -555,9 +547,9 @@
                   <!-- <button mat-raised-button color="primary" style="margin-right: 10px">Cancel</button> -->
                   <button
                     mat-raised-button
-                    color="primary"
                     *ngIf="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM'"
                     (click)="save()"
+                    style="background: rgba(0, 136, 129, 1); color: #ffffff"
                   >
                     Save
                   </button>
@@ -587,4 +579,3 @@
     </div>
   </div>
 </div>
-<!-- </div> -->

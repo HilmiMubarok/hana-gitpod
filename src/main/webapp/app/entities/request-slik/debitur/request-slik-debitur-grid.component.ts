@@ -16,6 +16,7 @@ import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dial
 @Component({
   selector: 'jhi-request-slik-debitur-grid',
   templateUrl: './request-slik-debitur-grid.component.html',
+  styleUrls: ['./request-slik-debitur-grid.styles.scss'],
 })
 export class RequestSlikDebiturGridComponent implements OnInit {
   dataaa;
