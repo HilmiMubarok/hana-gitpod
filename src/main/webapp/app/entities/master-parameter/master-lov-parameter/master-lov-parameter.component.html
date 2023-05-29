@@ -147,7 +147,15 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button (click)="openDialog()" SAVE style="background: rgba(0, 136, 129, 1); color: #ffffff">ADD</button>
+        <button
+          mat-raised-button
+          (click)="openDialog()"
+          SAVE
+          style="background: rgba(0, 136, 129, 1); color: #ffffff"
+          [hidden]="conditionButton"
+        >
+          ADD
+        </button>
       </div>
     </div>
   </div>
