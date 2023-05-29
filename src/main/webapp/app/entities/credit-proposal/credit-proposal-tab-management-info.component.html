@@ -216,7 +216,7 @@
                                     value="Yes"
                                     (change)="onSelect('Yes', data)"
                                     [checked]="data.valueSelect == 'Yes'"
-                                    name="{{ data.No }}"
+                                    name="{{ data.indexNum }}"
                                   >
                                   </ejs-radiobutton>
                                 </section>
@@ -226,7 +226,7 @@
                                     value="Yes"
                                     (change)="onSelect('Yes', data)"
                                     [checked]="data.valueSelect == 'Yes'"
-                                    name="{{ data.No }}"
+                                    name="{{ data.indexNum }}"
                                     disabled
                                   >
                                   </ejs-radiobutton>
@@ -239,7 +239,7 @@
                                     value="No"
                                     (change)="onSelect('No', data)"
                                     [checked]="data.valueSelect == 'No'"
-                                    name="{{ data.No }}"
+                                    name="{{ data.indexNum }}"
                                   >
                                   </ejs-radiobutton>
                                 </section>
@@ -249,7 +249,7 @@
                                     value="No"
                                     (change)="onSelect('No', data)"
                                     [checked]="data.valueSelect == 'No'"
-                                    name="{{ data.No }}"
+                                    name="{{ data.indexNum }}"
                                     disabled
                                   >
                                   </ejs-radiobutton>
@@ -262,8 +262,7 @@
                                     value="N/A"
                                     (change)="onSelect('N/A', data)"
                                     [checked]="data.valueSelect == 'N/A'"
-                                    name="state"
-                                    name="{{ data.No }}"
+                                    name="{{ data.indexNum }}"
                                   ></ejs-radiobutton>
                                 </section>
                                 <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
@@ -272,8 +271,7 @@
                                     value="N/A"
                                     (change)="onSelect('N/A', data)"
                                     [checked]="data.valueSelect == 'N/A'"
-                                    name="state"
-                                    name="{{ data.No }}"
+                                    name="{{ data.indexNum }}"
                                     disabled
                                   ></ejs-radiobutton>
                                 </section>
