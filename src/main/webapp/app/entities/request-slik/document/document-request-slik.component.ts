@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Account } from 'app/core/auth/account.model';
@@ -41,10 +41,12 @@ export class DocumentRequestSlikComponent {
       const predicate: Object = {
         key: `/request-slik/${id}/document`,
       };
-      this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(map(res => {
-        this.requestSlikValidateService.validateDocument(res.body.length);
-        return res.body
-      }));
+      this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(
+        map(res => {
+          this.requestSlikValidateService.setDocumentLength(res.body.length);
+          return res.body;
+        })
+      );
     });
   }
 
