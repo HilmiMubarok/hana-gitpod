@@ -1,76 +1,53 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-header-subtitle class="text-capitalize">Debitur</mat-card-header-subtitle>
+      <mat-card-header-subtitle class="text-capitalize">Debitur</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-responsive-material">
-      <table mat-table multiTemplateDataRows class="w-100" [dataSource]="organizationManagement">
+      <table mat-table class="w-100" [dataSource]="dataSource">
+
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No</th>
-          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let i = index"> {{ i + 1 }} </td>
         </ng-container>
-        <ng-container matColumnDef="bank">
-          <th mat-header-cell *matHeaderCellDef>Bank</th>
-          <td mat-cell *matCellDef="let element">{{ element.bank }}</td>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{ element.namaDebitur }} </td>
         </ng-container>
-        <ng-container matColumnDef="limit">
-          <th mat-header-cell *matHeaderCellDef>Limit</th>
-          <td mat-cell *matCellDef="let element">{{ element.limit | number: '1.0-0' }}</td>
+        <ng-container matColumnDef="nikNpwp">
+          <th mat-header-cell *matHeaderCellDef> NIK NPWP </th>
+          <td mat-cell *matCellDef="let element"> {{ element.nikNpwp }} </td>
         </ng-container>
-        <ng-container matColumnDef="os">
-          <th mat-header-cell *matHeaderCellDef>O/S</th>
-          <td mat-cell *matCellDef="let element">{{ element.outstanding | number: '1.0-0' }}</td>
+        <ng-container matColumnDef="noIdentitas">
+          <th mat-header-cell *matHeaderCellDef> No. Identitas </th>
+          <td mat-cell *matCellDef="let element"> {{ element.noIdentitas }} </td>
         </ng-container>
-        <ng-container matColumnDef="facilityType">
-          <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-          <td mat-cell *matCellDef="let element">{{ element.facilityType }}</td>
+        <ng-container matColumnDef="alamat">
+          <th mat-header-cell *matHeaderCellDef> Alamat </th>
+          <td mat-cell *matCellDef="let element"> {{ element.alamat }} </td>
         </ng-container>
-        <ng-container matColumnDef="rate">
-          <th mat-header-cell *matHeaderCellDef>Rate</th>
-          <td mat-cell *matCellDef="let element">{{ element.rate | number: '1.0-0' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="period">
-          <th mat-header-cell *matHeaderCellDef>Period</th>
-          <td mat-cell *matCellDef="let element">{{ element.period }}</td>
-        </ng-container>
-        <ng-container matColumnDef="collateralType">
-          <th mat-header-cell *matHeaderCellDef>Collateral Type</th>
-          <td mat-cell *matCellDef="let element">{{ element.collateralType }}</td>
-        </ng-container>
-        <ng-container matColumnDef="collateralValue">
-          <th mat-header-cell *matHeaderCellDef>Collateral IDR Mio</th>
-          <td mat-cell *matCellDef="let element">{{ element.collateralIdrMio | currency: 'IDR ':'symbol':'1.0' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="tenor">
-          <th mat-header-cell *matHeaderCellDef>Tenor</th>
-          <td mat-cell *matCellDef="let element">{{ element.tenor | number: '1.0-0' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="lastKol">
-          <th mat-header-cell *matHeaderCellDef>Last Collectablility</th>
-          <td mat-cell *matCellDef="let element">{{ element.lastCollectability }}</td>
-        </ng-container>
-        <ng-container matColumnDef="worseKol">
-          <th mat-header-cell *matHeaderCellDef>Worst Collectability</th>
-          <td mat-cell *matCellDef="let element">{{ element.worstCollectability }}</td>
-        </ng-container>
-        <ng-container matColumnDef="restructureWay">
-          <th mat-header-cell *matHeaderCellDef>Restructure Way</th>
-          <td mat-cell *matCellDef="let element">{{ element.restructureFrequency }}</td>
+        <ng-container matColumnDef="jenisKelamin">
+          <th mat-header-cell *matHeaderCellDef> Jenis Kelamin </th>
+          <td mat-cell *matCellDef="let element"> {{ element.jenisKelaminKet }} </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="openDialog(element)">
-              <mat-icon>remove_red_eye</mat-icon>
+        <!-- {{element | json}} -->
+            <mat-radio-group [(ngModel)]="requestReffId">
+              <mat-radio-button [value]="element" (click)="selectRow(element)"></mat-radio-button>
+            </mat-radio-group>
+            <button mat-icon-button matTooltip="Slik File" [matTooltipPosition]="'right'" (click)="openDialogSlikFile(dataSource[0].requestReffId, element.nikNpwp)">
+              <mat-icon>insert_drive_file</mat-icon>
             </button>
           </td>
         </ng-container>
 
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+          <td class="mat-cell" [attr.colspan]="displayedColumnsDetail.length">No records found.</td>
         </tr>
-        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsDetail"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsDetail"></tr>
       </table>
     </div>
   </mat-card-content>

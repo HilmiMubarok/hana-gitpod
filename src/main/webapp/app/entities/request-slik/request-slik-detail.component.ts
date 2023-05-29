@@ -27,6 +27,8 @@ import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comme
 import { IRequestSlikNote, RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
+import { RequestSlikValidateService } from './services/request-slik-validate.service';
+import { PartyCifService } from '../party-cif/party-cif.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -37,10 +39,14 @@ export class RequestSlikDetailComponent implements OnInit {
   customHeadersJWT;
   paramsIdGet;
   getKey;
+  test
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
+
+    // Get isvalidated from validate service
+    // this.test = this.requestSlikValidateService.isValidated$
   }
 
   // ngOnInit(): void {
@@ -78,7 +84,10 @@ export class RequestSlikDetailComponent implements OnInit {
     protected internalService: InternalService,
     public dialog: MatDialog,
     protected accountService: AccountService,
-    protected requestSlikTimelineService: RequestSlikTimelineService
+    protected requestSlikTimelineService: RequestSlikTimelineService,
+    protected requestSlikValidateService: RequestSlikValidateService,
+    protected partyCifService: PartyCifService,
+
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
@@ -86,12 +95,15 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
     this.getAccountDetail();
+    this.requestSlikValidateService.isValidated$.subscribe(res => this.test = res)
   }
 
   segment = 'loading...';
+  partyCifs;
   requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
+        console.log("dddd",res);
         this.checklists = res.details.map(cheklist => {
           const obj = {
             idParty: cheklist.idParty,
@@ -204,31 +216,61 @@ export class RequestSlikDetailComponent implements OnInit {
     });
   }
 
+  ocrData = [];
   submit() {
-    // this.requestSlikService.onSubmit(this.requestSlikId, this.checkStatus(this.requestSlik.status));
+    this.checklists.forEach(checklist => {
+      console.log("CHecklist", checklist);
+      this.ocrData = [
+        ...this.ocrData,
+        {
+          partyId: checklist.idParty,
+          requestSlikId: this.requestSlikId.toString(),
+          name:
+            this.partyCif.customerType === 'CORPORATE'
+              ? this.partyCif.customerOrganization.groupName
+              : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
+          dob:
+            this.partyCif.customerType === 'CORPORATE'
+              ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
+              : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
+          ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
+          npwp:
+            this.partyCif.customerType === 'CORPORATE'
+              ? this.partyCif.customerOrganization.taxIdNumber
+              : this.partyCif.customerPerson.taxIdNumber,
+          gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
+          custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
+          product: 'HR',
+          channel: 'LOS',
+          purposeCode: this.requestSlik.purposeCode,
+        },
+      ];
+    });
 
-    const ocr = {
-      partyId: this.partyCif.partyId,
-      requestSlikId: this.requestSlikId.toString(),
-      name:
-        this.partyCif.customerType === 'CORPORATE'
-          ? this.partyCif.customerOrganization.groupName
-          : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
-      dob:
-        this.partyCif.customerType === 'CORPORATE'
-          ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
-          : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
-      ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
-      npwp:
-        this.partyCif.customerType === 'CORPORATE'
-          ? this.partyCif.customerOrganization.taxIdNumber
-          : this.partyCif.customerPerson.taxIdNumber,
-      gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
-      custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
-      product: 'HR',
-      channel: 'LOS',
-      purposeCode: this.requestSlik.purposeCode,
-    };
+    console.log('dddd newocr', this.ocrData);
+
+    // const ocr = {
+    //   partyId: this.partyCif.partyId,
+    //   requestSlikId: this.requestSlikId.toString(),
+    //   name:
+    //     this.partyCif.customerType === 'CORPORATE'
+    //       ? this.partyCif.customerOrganization.groupName
+    //       : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
+    //   dob:
+    //     this.partyCif.customerType === 'CORPORATE'
+    //       ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
+    //       : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
+    //   ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
+    //   npwp:
+    //     this.partyCif.customerType === 'CORPORATE'
+    //       ? this.partyCif.customerOrganization.taxIdNumber
+    //       : this.partyCif.customerPerson.taxIdNumber,
+    //   gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
+    //   custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
+    //   product: 'HR',
+    //   channel: 'LOS',
+    //   purposeCode: this.requestSlik.purposeCode,
+    // };
 
     const data = {
       id: this.requestSlikId,
@@ -236,18 +278,22 @@ export class RequestSlikDetailComponent implements OnInit {
       checklists: this.checklists,
       partyCif: this.partyCif,
       verifyData: this.verifyData,
-      ocr,
+      ocr: this.ocrData,
       isSaved: this.isSaved,
     };
 
     this.requestSlikService.onSubmit(data).subscribe({
       next: () => {
+        data.status === 'CHECKING' && this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
         this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
         this.router.navigate(['/request-slik']);
       },
       error: err => {
         console.log(err);
-        if (data.status === 'APPROVAL_BU' || data.status === 'APPROVAL_SLIK') {
+        if (data.status === 'APPROVAL_BU' || data.status === 'APPROVAL_SLIK' || (data.status === 'CHECKING' && err.status === 200)) {
+          data.status === 'CHECKING' &&
+            err.status === 200 &&
+            this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
           this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
           this.router.navigate(['/request-slik']);
         } else {

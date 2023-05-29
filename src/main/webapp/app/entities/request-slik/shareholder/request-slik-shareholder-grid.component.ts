@@ -136,7 +136,8 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
             res.body.forEach(element => {
-              this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
+              const partyId = element.person ? element.person.id : element.shareHolderOrg.id;
+              this.requestSlikService.getCbasRes(this.requestSlikId, partyId).subscribe(cbasRes => {
                 // console.log('cbasRes cbas', cbasRes.body.data.content);
                 cbasRes.body.data.content.length > 0 &&
                   cbasRes.body.data.content.forEach(el => {

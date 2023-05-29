@@ -1,5 +1,4 @@
 <div class="page-view" style="padding-bottom: 30px">
-  <!-- {{ requestSlik?.status }} -->
   <!-- <h5 class="page-heading">
     <span jhiTranslate="losgwApp.requestSlik.home.viewLabel">Request Sliks</span>
   </h5> -->
@@ -121,7 +120,7 @@
       <div class="row px-3 pt-5">
         <div class="col">
           <jhi-request-slik-debitur-grid
-            *ngIf="requestSlik.status === 'Verify'"
+            *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'"
             [cif]="partyCif.customerNumber"
             [partyCif]="partyCif"
             [checklists]="checklists"
