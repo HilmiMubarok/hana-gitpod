@@ -11,6 +11,7 @@ import { RequestSlikValidateService } from '../services/request-slik-validate.se
 @Component({
   selector: 'jhi-document-request-slik',
   templateUrl: './document-request-slik.component.html',
+  styleUrls: ['./document-request-slik.styles.scss'],
 })
 export class DocumentRequestSlikComponent {
   _requestSlik;

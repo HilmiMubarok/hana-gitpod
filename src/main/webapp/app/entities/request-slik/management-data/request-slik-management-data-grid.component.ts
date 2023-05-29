@@ -23,6 +23,7 @@ import { RequestSlikChecklistService } from '../services/request-slik-checklist.
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
   templateUrl: './request-slik-management-data-grid.component.html',
+  styleUrls: ['./request-slik-management-data-grid.styles.scss'],
   animations: [
     trigger('detailExpand', [
       state(

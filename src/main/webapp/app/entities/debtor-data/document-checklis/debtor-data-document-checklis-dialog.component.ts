@@ -78,10 +78,12 @@ export class DebtorDataDocumentChecklistDialogComponent {
     public reportUtilService: ReportUtilService
   ) {
     this.view = this.data.view;
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
+    if (this.view !== 'view') {
+      _dialog.disableClose = true;
+      _dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
 
     this.files = this.data.files;
     this.itemData = this.data.item;

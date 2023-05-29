@@ -33,6 +33,7 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 @Component({
   selector: 'jhi-request-slik-detail',
   templateUrl: './request-slik-detail.component.html',
+  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class RequestSlikDetailComponent implements OnInit {
@@ -692,6 +693,21 @@ export class RequestSlikDetailComponent implements OnInit {
         } else {
           this.submit();
         }
+      }
+    });
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
       }
     });
   }

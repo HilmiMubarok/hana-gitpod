@@ -133,3 +133,49 @@
   font-size: 20px;
   color: #008881;
 }
+
+.grid-index-string {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  justify-content: flex-start;
+  font-size: 15px;
+}
+
+.grid-index-string-action {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  justify-content: flex-end;
+  font-size: 15px;
+}
+
+.grid-index-number {
+  background: rgba(49, 158, 152, 1);
+  color: #000000;
+  justify-content: flex-end;
+  font-size: 15px;
+}
+
+.grid-index-label-string {
+  text-align: left;
+}
+
+.grid-index-label-number {
+  text-align: right;
+}
+
+mat-header-cell {
+  background-color: #008881;
+  border: 1px solid #008881;
+  color: black;
+  font-size: 15px;
+}
+
+mat-cell {
+  text-align: left;
+}
+
+mat-header-row {
+  background-color: #008881;
+  border: 1px solid #008881;
+  color: black;
+}
