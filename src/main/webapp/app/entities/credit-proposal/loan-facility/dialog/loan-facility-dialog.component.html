@@ -80,7 +80,7 @@
               matInput
               [formControl]="myControl"
               [matAutocomplete]="auto"
-              [(ngModel)]="applicationProduct.productTypeId"
+              [(ngModel)]="applicationProduct.attributes.facilityType"
               (ngModelChange)="berubah($event)"
             />
             <mat-autocomplete #auto="matAutocomplete">
