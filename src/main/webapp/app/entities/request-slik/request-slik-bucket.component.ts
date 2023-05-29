@@ -21,17 +21,39 @@ import { TimelineDialogComponent } from 'app/layouts/miscellaneous/timeline-dial
 import { IApplicationStateLog } from '../application-state-log/application-state-log.model';
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
   templateUrl: './request-slik-bucket.component.html',
   styleUrls: ['../credit-proposal/credit-proposal-list.css'],
+  animations: [
+    trigger('detailExpand', [
+      state(
+        'collapsed',
+        style({
+          height: '0px',
+          minHeight: '0',
+        })
+      ),
+      state(
+        'expanded',
+        style({
+          height: '*',
+        })
+      ),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class RequestSlikBucketComponent implements OnInit {
   requestSliks$: Observable<IRequestSlik[]>;
   isLoading: Boolean = true;
   items: IRequestSlik[];
   displayedColumns: string[] = ['id', 'requestNumber', 'cif', 'debtorName', 'customerType', 'segment', 'requestDate', 'status', 'action'];
+  displayedColumnsExpand: string[] = [...this.displayedColumns, 'expand'];
+  public displayedColumnsDetail: string[] = ['no'];
+  public expandedElement;
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
