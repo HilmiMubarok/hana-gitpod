@@ -34,15 +34,14 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
-  constructor(private generalParameterService: GeneralParameterService) {
-    this.LovCovenantBtbGeneral();
-  }
+  constructor(private generalParameterService: GeneralParameterService) {}
 
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGridBackToBackGeneral.length; i++) {
       if (i === Number(data.index)) {
         this.standardDataGridBackToBackGeneral[i].status =
           input === 'status' ? event.value : this.standardDataGridBackToBackGeneral[i].status;
+        console.log('sddd', this.standardDataGridBackToBackGeneral);
         this.standardDataGridBackToBackGeneral[i].deviation =
           input === 'deviation' ? event.target.value : this.standardDataGridBackToBackGeneral[i].deviation;
         this.standardDataGridBackToBackGeneral[i].justification =
@@ -59,6 +58,10 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.LovCovenantBtbGeneral();
+  }
+
+  getBackToBackGeneral() {
     if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length; i++) {
         this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral[i].status;
@@ -73,20 +76,34 @@ export class CovenantBackToBackGeneralComponent implements OnInit {
 
       this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = this.standardDataGridBackToBackGeneral;
     }
-
-    // console.log('proposal-type', this.creditProposalItem[])
   }
+
   public LovCovenantBtbGeneral() {
     this.generalParameterService
       .queryFilterBy({
-        idParameterType: 'COVENANT_ABOVE_STANDARD',
+        idParameterType: 'COVENANT_BTB_GENERAL_TIMES_CONDITION',
         page: 0,
         size: 9999,
       })
       .subscribe(res => {
-        this.standardDataGridBackToBackGeneral = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        const gridCondition = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridCondition[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardDataGridBackToBackGeneral = gridCondition;
+        this.getBackToBackGeneral();
+
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral = this.standardDataGridBackToBackGeneral;
+        } else {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral.length; i++) {
+            this.standardDataGridBackToBackGeneral = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackGeneral;
+          }
+        }
       });
   }
 }

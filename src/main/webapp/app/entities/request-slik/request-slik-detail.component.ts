@@ -40,25 +40,11 @@ export class RequestSlikDetailComponent implements OnInit {
   customHeadersJWT;
   paramsIdGet;
   getKey;
-  test;
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
-
-    // Get isvalidated from validate service
-    // this.test = this.requestSlikValidateService.isValidated$
   }
-
-  // ngOnInit(): void {
-  //   console.log({
-  //     activatedRoute: this.activatedRoute.url[0],
-  //     route: this.router.url.split('/'),
-  //     test: requestSlikData.filter(res => res.cif === this.router.url.split('/')[2]),
-  //   });
-  //   this.activatedRoute.data.subscribe(res => (this.requestSlik = res.requestSlik));
-  //   this.activatedRoute.data.subscribe(({ requestSlik }) => (this.requestSlik = requestSlik));
-  // }
 
   // requestSlik$: Observable<IRequestSlik> | null = null;
   requestSlik: IRequestSlik | null = null;
@@ -95,7 +81,6 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
     this.getAccountDetail();
-    this.requestSlikValidateService.isValidated$.subscribe(res => (this.test = res));
   }
 
   segment = 'loading...';
@@ -103,7 +88,6 @@ export class RequestSlikDetailComponent implements OnInit {
   requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
-        console.log('dddd', res);
         this.checklists = res.details.map(cheklist => {
           const obj = {
             idParty: cheklist.idParty,
@@ -684,6 +668,9 @@ export class RequestSlikDetailComponent implements OnInit {
 
   noteTimeline: IRequestSlikNote;
   public openSubmitDialog(task): void {
+    if (!this.requestSlikValidateService.validate()) {
+      return this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Minimum document is 1' });
+    }
     const dialogRef = this.dialog.open(RequestSlikPopupComponent, {
       width: '80vw',
       data: {
