@@ -13,13 +13,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'jhi-paripasu-collateral-idd',
-  templateUrl: './paripasu-collateral-idd.component.html',
-  styleUrls: ['./paripasu-collateral-idd.style.scss'],
+  selector: 'jhi-paripasu-collateral-idd-debtor',
+  templateUrl: './paripasu-collateral-idd-debtor.component.html',
+  styleUrls: ['./paripasu-collateral-idd-debtor.style.scss'],
 })
-export class ParipasuCollateralIddComponent implements OnInit {
+export class ParipasuCollateralIddDebtorComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public _partyCif: IPartyCif;
+  public empty = [];
   @Input()
   get partyCif() {
     return this._partyCif;
