@@ -17,6 +17,7 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   public listGeneralLov;
   public typeID: string;
   private paramType: any;
+  public conditionButton: boolean;
   constructor(protected _snackbar: MatSnackBar, protected generalParameterService: GeneralParameterService, protected dialog: MatDialog) {
     super(_snackbar, generalParameterService);
     this.page = 0;
@@ -29,6 +30,7 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   ngOnInit(): void {
     this.loadAll();
     this.getListType();
+    this.test();
   }
 
   public getListType() {
@@ -49,6 +51,12 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
     this.paramType = element;
     this.loadAll();
     this.paginator.firstPage();
+    // Condition Select Show Button
+    if (this.paramType === 'CREDIT_RATING' || this.paramType === 'PROPOSAL_TYPE') {
+      this.conditionButton = true;
+    } else {
+      this.conditionButton = false;
+    }
   }
 
   private loadAll(): void {
@@ -141,5 +149,10 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   }
   previousState(): void {
     window.history.back();
+  }
+
+  public test() {
+    console.log('zzz', this.listGeneralLov);
+    console.log('parem', this.paramType);
   }
 }
