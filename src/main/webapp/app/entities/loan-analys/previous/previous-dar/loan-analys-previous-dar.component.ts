@@ -4,6 +4,10 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { LoanAnalysService } from '../../loan-analys.service';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 
 @Component({
   selector: 'jhi-loan-analys-previous-dar',
@@ -16,14 +20,23 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
   public menuDeviation = 'DEVIATION';
   public dataToCompare: any;
   public isDataToCompareExist: Boolean = false;
+  public collateral: ICollateral[] = [];
+  public collateralProperties: ICollateralProperty[] = [];
 
   public menuItemsAll: MenuItemModel[] = [{ text: 'PREVIOUS DAR' }, { text: 'PREVIOUS PROPOSAL' }];
   ngOnInit(): void {
     this.selectedMenu = 'PREVIOUS DAR';
     this.selectedMenu === 'PREVIOUS DAR' && this.getDarData();
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
   }
 
-  constructor(private loanAnalysService: LoanAnalysService) {}
+  constructor(
+    private loanAnalysService: LoanAnalysService,
+    private collateralService: CollateralService,
+    private collateralPropertyService: CollateralPropertyService
+  ) {}
 
   public getDarData() {
     this.loanAnalysService
@@ -83,5 +96,30 @@ export class LoanAnalysPreviousDarComponent implements OnInit {
 
   set creditProposal(param: ICreditProposal) {
     this._creditProposal = param;
+  }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+
+  // find collateral property
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
   }
 }

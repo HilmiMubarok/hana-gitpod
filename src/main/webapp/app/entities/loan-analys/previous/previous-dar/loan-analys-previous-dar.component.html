@@ -66,7 +66,12 @@
     <div class="e-card-header-title">CURRENT PROPOSAL</div>
   </div>
   <div>
-    <jhi-credit-proposal-collateral-info [takeOutCompare]="true" [isViewMode]="true" [creditProposal]="creditProposal">
+    <jhi-credit-proposal-collateral-info
+      [collateralProperties]="collateralProperties"
+      [takeOutCompare]="true"
+      [isViewMode]="true"
+      [creditProposal]="creditProposal"
+    >
     </jhi-credit-proposal-collateral-info>
   </div>
 
