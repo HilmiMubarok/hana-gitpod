@@ -107,7 +107,7 @@
 
 <ejs-grid [dataSource]="standardCovenant" allowTextWrap="true" *ngIf="!isViewMode">
   <e-columns>
-    <e-column field="value" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
+    <e-column field="covenant" headerText="Covenant" width="200" textAlign="justify" headerTextAlign="center"> </e-column>
     <e-column headerText="Status" width="150" textAlign="center">
       <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <ng-template #template let-data>

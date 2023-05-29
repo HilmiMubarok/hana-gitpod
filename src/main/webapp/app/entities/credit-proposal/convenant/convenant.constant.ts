@@ -26,10 +26,10 @@ export class Covenant implements ICovenant {
     this.deviation = '';
     this.justification = '';
     (this.status = 'Applied'), (this.otherCovenant = []);
-    this.standardCovenant = dataCovenantBelow;
-    this.standardDataGridAbove = dataCovenantAbove;
-    this.standardDataGridBackToBackDeposit = dataCovenantBackToBackDeposit;
-    this.standardDataGridBackToBackGeneral = dataCovenantBackToBackGeneral;
+    this.standardCovenant = [];
+    this.standardDataGridAbove = [];
+    this.standardDataGridBackToBackDeposit = [];
+    this.standardDataGridBackToBackGeneral = [];
   }
 }
 

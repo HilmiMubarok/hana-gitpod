@@ -39,6 +39,11 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
     this.LovCovenantBelow();
   }
 
+  ngOnInit(): void {
+    this.LovCovenantBelow();
+    // console.log('proposal-type', this.creditProposalItem[])
+  }
+
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardCovenant.length; i++) {
       if (i === Number(data.index)) {
@@ -54,7 +59,7 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
     this.creditProposalItem.attributes['convenant'].standardCovenant = lodash.clone(this.standardCovenant);
   }
 
-  ngOnInit(): void {
+  public getStandardDataGridBelow() {
     if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
         this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
@@ -68,8 +73,6 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
       }
       this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
     }
-
-    // console.log('proposal-type', this.creditProposalItem[])
   }
 
   public LovCovenantBelow() {
@@ -80,9 +83,24 @@ export class CreditProposalCovenantBelowComponent implements OnInit {
         size: 9999,
       })
       .subscribe(res => {
-        this.standardCovenant = lodash.filter(res.body, function (o) {
+        const data = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        const gridBelow = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardCovenant = gridBelow;
+        this.getStandardDataGridBelow();
+
+        if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
+        } else {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
+            this.standardCovenant = this.creditProposalItem.attributes['convenant'].standardCovenant;
+          }
+        }
       });
   }
 }
