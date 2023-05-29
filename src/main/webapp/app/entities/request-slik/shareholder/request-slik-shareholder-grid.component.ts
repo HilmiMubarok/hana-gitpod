@@ -22,6 +22,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 @Component({
   selector: 'jhi-request-slik-shareholder-grid',
   templateUrl: './request-slik-shareholder-grid.component.html',
+  styleUrls: ['./request-slik-shareholder-grid.style.scss'],
   animations: [
     trigger('detailExpand', [
       state(

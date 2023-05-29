@@ -26,6 +26,7 @@ import { IEmployee } from '../employee.model';
 import { PositionTypeService } from 'app/entities/position-type/position-type.service';
 import { Position } from 'app/entities/position/position.model';
 import { InternalService } from 'app/entities/internal/internal.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 // import { ISurveyBatch } from './survey-batch.model';
 
 @Component({
@@ -52,6 +53,7 @@ export class PopupPositionComponent implements OnInit {
   branchtype: any;
 
   constructor(
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { idx: string },
     private positionTypeService: PositionTypeService,
     private internalService: InternalService,
@@ -61,6 +63,10 @@ export class PopupPositionComponent implements OnInit {
     private accountService: AccountService,
     protected http?: HttpClient
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.document = new Document();
     this.file = null;
   }
@@ -141,7 +147,23 @@ export class PopupPositionComponent implements OnInit {
     this._dialog.close(this.postiion);
   }
 
-  public close(): void {
-    this._dialog.close();
+  // public close(): void {
+  //   this._dialog.close();
+  // }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

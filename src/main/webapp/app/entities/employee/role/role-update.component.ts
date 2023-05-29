@@ -29,6 +29,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DocumentUploadDialogSurveyBatchComponent } from 'app/entities/survey-batch/document-upload-dialog-survey-batch.component';
 import { PopupPositionComponent } from './popup-position.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 
@@ -158,13 +159,13 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
 
   submit() {
     this.item.positions = this.arrayName;
-	if (this.item.positions) {
-	  if (this.item.positions.length > 0) {
-		for (let i = 0; i < this.item.positions.length; i++) {
-		  this.item.positions[i]['partyId'] = this.item.partyId;
-		}
-	  }
-	}
+    if (this.item.positions) {
+      if (this.item.positions.length > 0) {
+        for (let i = 0; i < this.item.positions.length; i++) {
+          this.item.positions[i]['partyId'] = this.item.partyId;
+        }
+      }
+    }
     this.employeeService.update(this.item).subscribe(res => {
       this.messageService.add({
         severity: 'success',
@@ -242,6 +243,21 @@ export class RoleUpdateComponent extends AbstractEntityUpdateComponent<IEmployee
         }
 
         this.initTable(this.arrayName);
+      }
+    });
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
       }
     });
   }

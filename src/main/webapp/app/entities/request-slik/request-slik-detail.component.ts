@@ -33,13 +33,14 @@ import { PartyCifService } from '../party-cif/party-cif.service';
 @Component({
   selector: 'jhi-request-slik-detail',
   templateUrl: './request-slik-detail.component.html',
+  styleUrls: ['../credit-proposal/credit-proposal-list.css'],
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class RequestSlikDetailComponent implements OnInit {
   customHeadersJWT;
   paramsIdGet;
   getKey;
-  test
+  test;
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
@@ -86,8 +87,7 @@ export class RequestSlikDetailComponent implements OnInit {
     protected accountService: AccountService,
     protected requestSlikTimelineService: RequestSlikTimelineService,
     protected requestSlikValidateService: RequestSlikValidateService,
-    protected partyCifService: PartyCifService,
-
+    protected partyCifService: PartyCifService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
@@ -95,7 +95,7 @@ export class RequestSlikDetailComponent implements OnInit {
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
     this.getAccountDetail();
-    this.requestSlikValidateService.isValidated$.subscribe(res => this.test = res)
+    this.requestSlikValidateService.isValidated$.subscribe(res => (this.test = res));
   }
 
   segment = 'loading...';
@@ -103,7 +103,7 @@ export class RequestSlikDetailComponent implements OnInit {
   requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
-        console.log("dddd",res);
+        console.log('dddd', res);
         this.checklists = res.details.map(cheklist => {
           const obj = {
             idParty: cheklist.idParty,
@@ -219,7 +219,7 @@ export class RequestSlikDetailComponent implements OnInit {
   ocrData = [];
   submit() {
     this.checklists.forEach(checklist => {
-      console.log("CHecklist", checklist);
+      console.log('CHecklist', checklist);
       this.ocrData = [
         ...this.ocrData,
         {
@@ -706,6 +706,21 @@ export class RequestSlikDetailComponent implements OnInit {
         } else {
           this.submit();
         }
+      }
+    });
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
       }
     });
   }

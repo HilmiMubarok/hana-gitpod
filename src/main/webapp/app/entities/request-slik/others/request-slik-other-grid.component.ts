@@ -22,6 +22,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 @Component({
   selector: 'jhi-request-slik-other-grid',
   templateUrl: './request-slik-other-grid.component.html',
+  styleUrls: ['./request-slik-other-grid.style.scss'],
   animations: [
     trigger('detailExpand', [
       state(

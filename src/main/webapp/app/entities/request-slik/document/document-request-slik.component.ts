@@ -11,6 +11,7 @@ import { RequestSlikValidateService } from '../services/request-slik-validate.se
 @Component({
   selector: 'jhi-document-request-slik',
   templateUrl: './document-request-slik.component.html',
+  styleUrls: ['./document-request-slik.styles.scss'],
 })
 export class DocumentRequestSlikComponent {
   _requestSlik;
@@ -41,10 +42,12 @@ export class DocumentRequestSlikComponent {
       const predicate: Object = {
         key: `/request-slik/${id}/document`,
       };
-      this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(map(res => {
-        this.requestSlikValidateService.validateDocument(res.body.length);
-        return res.body
-      }));
+      this.data$ = this.storageService.getObjects(this.bucket, predicate).pipe(
+        map(res => {
+          this.requestSlikValidateService.validateDocument(res.body.length);
+          return res.body;
+        })
+      );
     });
   }
 

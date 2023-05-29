@@ -237,14 +237,7 @@
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="rebuildIndex()"
-            class="btn-lg w-100"
-            *jhiHasAnyAuthority="['ROLE_ADMIN']"
-            style="background: rgba(0, 136, 129, 1); color: #ffffff"
-          >
+          <button mat-raised-button color="primary" (click)="rebuildIndex()" class="btn-lg w-100" *jhiHasAnyAuthority="['ROLE_ADMIN']">
             REBUILD INDEX
           </button>
         </div>

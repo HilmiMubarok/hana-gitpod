@@ -10,8 +10,8 @@
         </ejs-breadcrumb>
         <div class="header-container">
           <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-            <span class="back-prefix" (click)="previousState()">Back | </span>
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
+            <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
           <p class="e-card-sub-title">Add New Internal</p>
         </div>
@@ -114,14 +114,14 @@
         >
           Save
         </button>
-        <button
+        <!-- <button
           mat-raised-button
           class="submit-button"
           (click)="openCancelDialog()"
           style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 13px !important; margin-top: 25px !important"
         >
           Back
-        </button>
+        </button> -->
       </mat-card-actions>
     </div>
   </div>

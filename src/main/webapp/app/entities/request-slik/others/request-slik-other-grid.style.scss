@@ -1,0 +1,50 @@
+table {
+  border-bottom: 1px solid #008881 !important;
+  width: 100%;
+  th {
+    background-color: #008881;
+    border: 1px solid #008881;
+    color: black;
+    padding: 8px;
+  }
+
+  td {
+    padding: 8px;
+  }
+
+  mat-header-cell {
+    background-color: #008881;
+    border: 1px solid #008881;
+    color: black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  mat-cell {
+    padding: 8px;
+    text-align: left;
+  }
+}
+
+.grid-index-string {
+  justify-content: flex-start;
+  font-size: 15px;
+}
+
+.grid-index-string-action {
+  justify-content: flex-end;
+  font-size: 15px;
+}
+
+.grid-index-number {
+  justify-content: flex-end;
+  font-size: 15px;
+}
+
+.grid-index-label-string {
+  text-align: left;
+}
+
+.grid-index-label-number {
+  text-align: right;
+}

@@ -24,6 +24,7 @@ import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-after',
   templateUrl: './credit-proposal-collateral-tab-loan-after.component.html',
+  styleUrls: ['./credit-proposal-collateral-tab-loan-after.styles.scss'],
 })
 export class CreditProposalCollateralTabLoanAfterComponent implements OnChanges {
   @Input() isViewMode: Boolean = false;
