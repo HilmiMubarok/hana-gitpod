@@ -30,7 +30,6 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   ngOnInit(): void {
     this.loadAll();
     this.getListType();
-    this.test();
   }
 
   public getListType() {
@@ -149,10 +148,5 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
   }
   previousState(): void {
     window.history.back();
-  }
-
-  public test() {
-    console.log('zzz', this.listGeneralLov);
-    console.log('parem', this.paramType);
   }
 }
