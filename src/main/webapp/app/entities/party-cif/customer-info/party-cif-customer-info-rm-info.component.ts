@@ -27,17 +27,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   public rmPosition: IPosition;
   public positionRms1 = 0;
 
-  // private _person: IPerson;
   private _partyCif: IPartyCif;
-
-  // @Input()
-  // get person() {
-  //   return this._person;
-  // }
-
-  // set person(data: IPerson) {
-  //   this._person = data;
-  // }
 
   @Input()
   get partyCif() {
@@ -63,26 +53,15 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
     this.loadPositionRM();
   }
 
-  // protected initialOnChange(changes: SimpleChanges): void {
-  //   if (changes['partyCif']) {
-  //     if (this.partyCif) {
-  //       this.loadInternalInformationRM(this.partyCif.rm.id);
-
-  //     }
-  //     console.log('rm name',   this.partyCif.rm.name);
-
-  //   }
-  // }
-
   private loadPositionRM(): void {
-    const tempName = this.partyCif.rm.firstName;
+    const tempId = this.partyCif.rm.id;
     this.positionService.queryFilterBy({ idPositionType: POSITION_TYPE.RM, size: 9999, page: 0 }).subscribe(res => {
       this.positionRM = lodash.filter(res.body, function (o) {
         return o.partyId !== null;
       });
 
       this.positionRMS = lodash.find(res.body, function (o) {
-        return o.employeeFirstName === tempName;
+        return o.partyId  === tempId;
       });
 
       if (this.positionRMS?.partyId !== undefined || this.positionRMS?.partyId !== null) {
@@ -107,34 +86,6 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
       }
     });
   }
-
-  // private loadInternalInformationRM(partyId: string): void {
-  //   this.branchs = [];
-  //   this.segments = [];
-  //   this.regionals = [];
-  //   this.findPositionByIdParty(partyId).then((res: IPosition) => {
-  //     if (res) {
-  //       this.loadInternalById(res.internalId).then((res2: IInternal) => {
-  //         if (res2.parentId) {
-  //           this.rmBranch = res2;
-  //           this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-  //             this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-  //               if (res4.parentId) {
-  //                 this.rmRegional = res4;
-  //                 this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-  //                   this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-  //                     this.rmSegment = res6;
-  //                     this.loadSegment();
-  //                   });
-  //                 });
-  //               }
-  //             });
-  //           });
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
 
   private loadInternalInformationRM(partyId: string): void {
     this.branchs = [];
@@ -210,6 +161,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
       });
     });
   }
+
   public selectRM(event: any): void {
     const value: string = event['value'];
     if (value) {
@@ -217,7 +169,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
         return o.id === parseInt(value, 10);
       });
       this.partyCif.rm.id = position.partyId;
-      this.loadInternalInformationRM(position.partyId);
+      this.loadInternalInformationRM(this.partyCif.rm.id);
     } else {
       this.partyCif.rm.id = null;
     }

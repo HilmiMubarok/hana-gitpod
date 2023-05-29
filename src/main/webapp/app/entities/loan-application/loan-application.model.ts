@@ -3,6 +3,7 @@ import { IPerson } from '../person/person.model';
 import { IPostalAddress } from '../postal-address/postal-address.model';
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { IPartyGroup } from '../party-group/party-group.model';
+import { IPosition } from '../position/position.model';
 
 export interface ILoanApplication {
   id?: number;
@@ -35,7 +36,8 @@ export interface ILoanApplication {
   statusId?: string;
   statusCode?: string;
   statusDescription?: string;
-  rm?: IApplicationRole;
+  // rm?: IApplicationRole;
+  rm?: IPosition;
   creditFacilityId?: number;
   creditFacilityName?: string;
   products?: IApplicationProduct[];
@@ -72,7 +74,8 @@ export class LoanApplication implements ILoanApplication {
     public roles?: any,
     public attributes?: any,
     public notes?: any[],
-    public rm?: IApplicationRole,
+    // rm?: IApplicationRole;
+    public rm?: IPosition,
     public creditFacilityId?: number,
     public creditFacilityName?: string,
     public products?: IApplicationProduct[],
