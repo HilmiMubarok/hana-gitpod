@@ -45,7 +45,7 @@
             <p class="card-text">File Size: {{ f.size / 1000 }} Kb</p>
             <p class="card-text">File Type: {{ f.metaData['Value'] }}</p>
             <p class="card-text">Uploaded By: {{ f.tags.uploadBy }}</p>
-            <p class="card-text">Modified Date: {{ f.tags.createdDate }}</p>
+            <p class="card-text">Modified Date: {{ f.tags.createdDate | date: 'yyyy/dd/MM' }}</p>
           </ngx-dropzone-label>
         </ngx-dropzone-preview>
       </div>
