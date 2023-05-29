@@ -19,6 +19,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public collateralPropertyExternal: ICollateralProperty;
   public partyCifData: IPartyCif;
   public branchId: string;
+  pariPasu: string;
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -26,6 +27,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       collateral: ICollateral;
       partyCif: IPartyCif;
       rmBranchId: string;
+      pariPasu: string;
     },
     private router: Router,
     private _dialog: MatDialogRef<PartyCifCollateralInfoPropertyGeneralDialogComponent>,
@@ -36,6 +38,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
       this.openCancelDialog();
     });
     this.collateral = this.data.collateral;
+    this.pariPasu = this.data.pariPasu;
     this.partyCifData = this.data.partyCif;
     this.collateralProperty = null;
     this.collateralPropertyExternal = null;

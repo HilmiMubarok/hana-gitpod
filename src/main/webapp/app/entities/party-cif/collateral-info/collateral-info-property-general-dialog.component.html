@@ -96,7 +96,12 @@
     [branchId]="branchId"
   >
   </jhi-collateral-property-personal-corporate-guarantee>
-  <jhi-paripasu-collateral-idd [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-paripasu-collateral-idd [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-paripasu-collateral-idd-debitur [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd-debitur>
+  </div>
   <div
     *ngIf="
       collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'MACHINE' || collateral.collateralTypeId === 'VEHICLE'

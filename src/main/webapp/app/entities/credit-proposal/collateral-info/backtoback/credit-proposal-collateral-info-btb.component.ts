@@ -166,6 +166,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         properties: this.collateralProperties,
         isViewMode: this.isViewMode,
         collateralProperties: this.collateralProperties,
+        group: this.group,
       },
     };
     const dialogRef = this.dialog.open(DialogCreditProposalCollateralInfoDialogBTBComponent, predicate);

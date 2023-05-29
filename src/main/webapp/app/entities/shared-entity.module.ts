@@ -371,6 +371,7 @@ import { MainFacilityInfoChildComponent } from './debtor-data/facility-info/main
 import { MainFacilityComponent } from './credit-proposal/loan-facility/main-facility/main-facility.component';
 import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
 import { InsuranceInformationIddComponent } from './party-cif/insurance-information-idd/insurance-information-idd.component';
+import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -786,6 +787,7 @@ import { InsuranceInformationIddComponent } from './party-cif/insurance-informat
         ApproveFinalComponent,
         CollateralPropertyPersonalCorporateGuaranteeComponent,
         // cross idd //
+        ParipasuCollateralIddDebtorComponent,
         ParipasuCollateralIddComponent,
 
         GroupCollateralInfoComponent,
@@ -1178,6 +1180,7 @@ import { InsuranceInformationIddComponent } from './party-cif/insurance-informat
     RequestSlikViewComponent,
     CollateralPropertyPersonalCorporateGuaranteeComponent,
     // cross idd //
+    ParipasuCollateralIddDebtorComponent,
     ParipasuCollateralIddComponent,
     GroupCollateralInfoComponent,
     GroupCollateralListComponent,

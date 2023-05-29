@@ -14,10 +14,8 @@ import { ICollateral } from 'app/entities/collateral/collateral.model';
 })
 export class ParipasuCollateralGroupComponent implements OnInit {
   private _creditProposal: ICreditProposal;
-  public collateralId: any;
-  public excludeCif: any;
-  dataItem: any;
   @ViewChild('paginator') paginator: MatPaginator;
+  public items: MatTableDataSource<any>;
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -35,21 +33,11 @@ export class ParipasuCollateralGroupComponent implements OnInit {
   }
   public displayedColumns: string[] = ['no', 'cif', 'debtorNames', 'facilityType', 'ccy', 'totalPlafond', 'os'];
   public data = [];
-  constructor(
-    private crossCollateralService: CrossCollateralService,
-    private partyCifService: PartyCifService,
-    private creditProposalService: CreditProposalService
-  ) {}
+  constructor(private crossCollateralService: CrossCollateralService) {}
   ngOnInit(): void {
     this.crossCollateralGrid(this.collateral.id, this.creditProposal.customerNumber);
-    console.log('dataCrossCollateral', this.dataItem);
   }
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['collateral'] && changes['creditProposal']) {
-  //     this.crossCollateralGrid(this.collateral.id, this.creditProposal.customerNumber);
-  //   }
-  //   console.log(changes, 'changesParipasu')
-  // }
+
   public crossCollateralGrid(idCollateral: number, cifNumber: string): void {
     this.crossCollateralService
       .filterTableData({
@@ -59,9 +47,10 @@ export class ParipasuCollateralGroupComponent implements OnInit {
         excludeCif: cifNumber,
       })
       .subscribe(res => {
-        this.data = res.body;
-        this.dataItem = new MatTableDataSource(res.body);
-        this.dataItem.paginator = this.paginator;
+        console.log('data', res.body);
+        const data = res.body || [];
+        this.items = new MatTableDataSource(data);
+        this.items.paginator = this.paginator;
       });
   }
 }
