@@ -22,6 +22,8 @@ import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { IPostalAddress, PostalAddress } from 'app/entities/postal-address/postal-address.model';
 import { PostalAddressService } from 'app/entities/postal-address/postal-address.service';
 import { IInternal } from '../internal.model';
+import { FormControl } from '@angular/forms';
+import { Observable, map, startWith } from 'rxjs';
 
 type SelectableEntity = IContactMechType | IPurposeType | IStateBoundary;
 
@@ -30,32 +32,38 @@ type SelectableEntity = IContactMechType | IPurposeType | IStateBoundary;
   templateUrl: './internal-address-view.component.html',
   styleUrls: ['./internal-address-view.css'],
 })
-export class InternalAddressViewComponent extends AbstractEntityBaseViewComponent<IPostalAddress> implements OnChanges, OnInit {
+export class InternalAddressViewComponent extends AbstractEntityBaseViewComponent<IPostalAddress> implements OnInit, OnChanges {
   private _postalAddress: IPostalAddress;
+
+  public changes = false;
+
+  myControlCountry = new FormControl('');
+  public optionsCountry: IStateBoundary[];
+  public filteredOptionsCountry: Observable<IStateBoundary[]>;
+
+  myControlProvince = new FormControl('');
+  public optionsProvince: IStateBoundary[];
+  public filteredOptionsProvince: Observable<IStateBoundary[]>;
+
+  myControlCity = new FormControl('');
+  public optionsCity: IStateBoundary[] = [];
+  public filteredOptionsCity: Observable<IStateBoundary[]>;
+
+  myControlDistrict = new FormControl('');
+  public optionsDistrict: IStateBoundary[];
+  public filteredOptionsDistrict: Observable<IStateBoundary[]>;
+
+  myControlVillage = new FormControl('');
+  public optionsVillage: IStateBoundary[];
+  public filteredOptionsVillage: Observable<IStateBoundary[]>;
+
   @Input()
   get internalData() {
     return this._postalAddress;
   }
 
-  set internalData(data: IInternal) {
-    console.log('data address anak ', data);
+  set internalData(data: IPostalAddress) {
     this._postalAddress = data;
-    // this.internalData = data;
-    if (this._postalAddress.countryId !== undefined) {
-      this.selectCountryNew(this._postalAddress.countryId);
-    }
-
-    if (this._postalAddress.provinceId !== undefined) {
-      this.selectProvinceNew(this._postalAddress.provinceId);
-    }
-
-    if (this._postalAddress.cityId !== undefined) {
-      this.selectCityNew(this._postalAddress.cityId);
-    }
-
-    if (this._postalAddress.districtId !== undefined) {
-      this.selectDistrictNew(this._postalAddress.districtId);
-    }
   }
 
   @Input() id: number;
@@ -65,12 +73,6 @@ export class InternalAddressViewComponent extends AbstractEntityBaseViewComponen
   public listCountry: DropDownListComponent;
 
   public postalCode: number;
-
-  public country: IStateBoundary[] = new Array<IStateBoundary>();
-  public province: IStateBoundary[] = new Array<IStateBoundary>();
-  public cities: IStateBoundary[] = new Array<IStateBoundary>();
-  public districts: IStateBoundary[] = new Array<IStateBoundary>();
-  public villages: IStateBoundary[] = new Array<IStateBoundary>();
   public stateBoundaryFields: Object = { text: 'description', value: 'id' };
 
   contactmechtypes: IContactMechType[] = [];
@@ -117,234 +119,325 @@ export class InternalAddressViewComponent extends AbstractEntityBaseViewComponen
     this.villageSelect = new StateBoundary();
     this.item = new PostalAddress();
   }
-  selectCountryNew(args: any) {
-    console.log('args', args);
-    const val: number = args;
-    this.postalAddress.countryId = val;
-    this.initializeProvince(val);
-  }
 
-  selectProvinceNew(args: any) {
-    console.log('args', args);
-    const val: number = args;
-    this.postalAddress.provinceId = val;
-    this.initializeCity(val);
-  }
+  public country: IStateBoundary;
+  public province: IStateBoundary;
+  public cities: IStateBoundary;
+  public districts: IStateBoundary;
+  public villages: IStateBoundary;
 
-  selectCityNew(args: any) {
-    console.log('args city', args);
-    const val: number = args;
-    this.postalAddress.cityId = val;
-    this.initializeDistrict(val);
-  }
-
-  selectDistrictNew(args: any) {
-    // const selectedDistrict: IStateBoundary = args;
-    this.postalAddress.districtId = args;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['internalData']) {
+      console.log('internal dayta ', this.internalData);
+    }
   }
 
   ngOnInit(): void {
-    this.item = new PostalAddress();
-
     this.initializeCountry();
+    this.initializeProvince();
+    this.initializeCity();
+    this.initializeDistrict();
+    this.initializeVillage();
+    this.cekDataSource();
+    console.log('postal adress');
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['id']) {
-      if (changes['id'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.id) {
-        this.item = new PostalAddress();
-        this.postalAddressService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
-    }
-
-    if (changes['item']) {
-      if (changes['item'].isFirstChange()) {
-        this.initialize();
-      }
-      if (this.item) {
-        this.prepareView();
-      }
-    }
-
-    if (changes['isSaving'] && this.item.id) {
-      if (this.isSaving) {
-        this.save();
-      }
-    }
+  filteredCountry() {
+    this.filteredOptionsCountry = this.myControlCountry.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterCountry(name as string) : this.optionsCountry.slice();
+      })
+    );
   }
 
-  initialize() {
-    this.contactMechTypeService.loadCacheAll().subscribe((res: IContactMechType[]) => (this.contactmechtypes = res || []));
-
-    this.purposeTypeService.loadCacheAll().subscribe((res: IPurposeType[]) => (this.purposetypes = res || []));
-
-    this.stateBoundaryService.loadCacheAll().subscribe((res: IStateBoundary[]) => (this.stateboundaries = res || []));
+  private _filterCountry(description: string): IStateBoundary[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsCountry.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
-  private initializeCountry(): void {
-    this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['country'] })
-      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
-        this.country = res.body;
-      });
+  displayFnCounrtry(country: IStateBoundary): string {
+    return country && country.description ? country.description : '';
   }
 
-  private initializeProvince(parentId: Number): void {
-    this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['province'], idParent: parentId })
-      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
-        this.province = res.body;
-      });
+  filteredProvince() {
+    this.filteredOptionsProvince = this.myControlProvince.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterProvince(name as string) : this.optionsProvince.slice();
+      })
+    );
   }
 
-  private initializeCity(parentId: Number): void {
-    this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
-      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
-        this.cities = res.body;
-      });
+  private _filterProvince(description: string): IStateBoundary[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsProvince.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
-  private initializeDistrict(parentId: Number): void {
-    this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['district'], idParent: parentId })
-      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
-        this.districts = res.body;
-      });
+  displayFnProvince(province: IStateBoundary): string {
+    return province && province.description ? province.description : '';
   }
 
-  private initializeVillage(parentId: Number): void {
-    this.stateBoundaryService
-      .queryFilterBy({ idBoundaryType: GEO_BOUNDARY_TYPE['city'], idParent: parentId })
-      .subscribe((res: HttpResponse<IStateBoundary[]>) => {
-        this.villages = res.body;
-      });
+  filteredCity() {
+    this.filteredOptionsCity = this.myControlCity.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterCity(name as string) : this.optionsCity.slice();
+      })
+    );
   }
 
-  selectCountry(args: any) {
-    console.log('args', args);
-    const val: number = args['value'];
-    this.postalAddress.countryId = val;
-    this.initializeProvince(val);
+  private _filterCity(description: string): IStateBoundary[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsCity.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
-  selectProvince(args: any) {
-    console.log('args', args);
-    const val: number = args['value'];
-    this.postalAddress.provinceId = val;
-    this.initializeCity(val);
+  displayFnCity(city: IStateBoundary): string {
+    return city && city.description ? city.description : '';
   }
 
-  selectCity(args: any) {
-    console.log('args city', args);
-    const val: number = args['value'];
-    this.postalAddress.cityId = val;
-    this.initializeDistrict(val);
+  filteredDistrict() {
+    this.filteredOptionsDistrict = this.myControlDistrict.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filterDistrict(name as string) : this.optionsDistrict.slice();
+      })
+    );
   }
 
-  selectDistrict(args: any) {
-    const selectedDistrict: IStateBoundary = args['value'];
-    this.postalAddress.districtId = selectedDistrict.id;
+  private _filterDistrict(description: string): IStateBoundary[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsDistrict.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
-  selectVillage(args: any) {
-    const selectedvillage: IStateBoundary = args['itemData'];
-    this.item.villageId = selectedvillage.id;
-    this.initializeVillage(selectedvillage.id);
-  }
-  // ------------------------------------------------------------------------
-  prepareView() {
-    if (this.postalAddress.countryId) {
-      this.initializeProvince(this.postalAddress.countryId);
-    }
-    if (this.postalAddress.provinceId) {
-      this.initializeCity(this.postalAddress.provinceId);
-    }
-    if (this.postalAddress.cityId) {
-      this.initializeDistrict(this.postalAddress.cityId);
-    }
-
-    if (this.postalAddress.villageId) {
-      this.initializeVillage(this.postalAddress.villageId);
-    }
+  displayFnDistrict(district: IStateBoundary): string {
+    return district && district.description ? district.description : '';
   }
 
-  get postalAddress() {
-    return this.item;
+  filteredVillage() {
+    this.filteredOptionsVillage = this.myControlVillage.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.description;
+        return name ? this._filtervillage(name as string) : this.optionsVillage.slice();
+      })
+    );
   }
 
-  set postalAddress(postalAddress: IPostalAddress) {
-    this.item = postalAddress;
+  private _filtervillage(description: string): IStateBoundary[] {
+    const filterValue = description.toLowerCase();
+    return this.optionsVillage.filter(option => option.description.toLowerCase().includes(filterValue));
   }
 
-  trackContactMechTypeById(index: number, item: IContactMechType) {
-    return item.id;
+  displayFnVillage(village: IStateBoundary): string {
+    return village && village.description ? village.description : '';
   }
 
-  trackPurposeTypeById(index: number, item: IPurposeType) {
-    return item.id;
-  }
-
-  searchcountry(event: any) {
-    this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
-      this.countryItems = res.body;
-    });
-  }
-
-  searchprovince(event: any) {
-    this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
-      this.provinceItems = res.body;
-    });
-  }
-
-  // selectprovince(value: any) {
-  //   this.item.provinceId = this.provinceSelect.id;
+  // private prepareView() {
+  //   if (this.postalAddress.countryId) {
+  //     this.initializeProvince();
+  //   }
+  //   if (this.postalAddress.provinceId) {
+  //     this.initializeCity();
+  //   }
+  //   if (this.postalAddress.cityId) {
+  //     this.initializeDistrict();
+  //   }
+  //   if (this.postalAddress.districtId) {
+  //     this.initializeVillage();
+  //   }
   // }
 
-  searchcity(event: any) {
-    this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
-      this.cityItems = res.body;
-    });
-  }
-
-  // selectcity(value: any) {
-  //   this.item.cityId = this.citySelect.id;
-  // }
-
-  searchdistrict(event: any) {
-    this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
-      this.districtItems = res.body;
-    });
-  }
-
-  // selectdistrict(value: any) {
-  //   this.item.districtId = this.districtSelect.id;
-  // }
-
-  searchvillage(event: any) {
-    this.stateBoundaryService.search({ query: event.query + '*' }).subscribe((res: HttpResponse<IStateBoundary[]>) => {
-      this.villageItems = res.body;
-    });
-  }
-
-  itemKey() {
-    return this.item.id;
-  }
-
-  getSelected(selectedVals: IPurposeType[], option: IPurposeType): IPurposeType {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
+  public initializeCity(value = false): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['city'],
+        idParent: this.internalData.provinceId,
+      })
+      .subscribe(res => {
+        this.optionsCity = res.body;
+        this.filteredCity();
+        this.cities = this.optionsCity.find(obj => obj.id === this.internalData.cityId);
+        if (value === true) {
+          this.myControlCity.enable();
         }
-      }
+      });
+  }
+
+  public initializeDistrict(value = false): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['district'],
+        idParent: this.internalData.cityId,
+      })
+      .subscribe(res => {
+        this.optionsDistrict = res.body;
+        this.filteredDistrict();
+        this.districts = this.optionsDistrict.find(obj => obj.id === this.internalData.districtId);
+        if (value === true) {
+          this.myControlDistrict.enable();
+        }
+      });
+  }
+
+  public initializeVillage(value = false): void {
+    this.stateBoundaryService
+      .queryFilterBy({ page: 0, size: 50, idBoundaryType: GEO_BOUNDARY_TYPE['village'], idParent: this.internalData.districtId })
+      .subscribe(res => {
+        this.optionsVillage = res.body;
+        this.filteredVillage();
+        this.villages = this.optionsVillage.find(obj => obj.id === this.internalData.villageId);
+        if (value === true) {
+          this.myControlVillage.enable();
+        }
+      });
+  }
+
+  public initializeProvince(value = false): void {
+    console.log('province ', this.internalData.provinceId);
+    this.stateBoundaryService
+      .queryFilterBy({
+        page: 0,
+        size: 9999,
+        idBoundaryType: GEO_BOUNDARY_TYPE['province'],
+        idParent: this.internalData.countryId,
+      })
+      .subscribe(res => {
+        this.optionsProvince = res.body;
+        this.filteredProvince();
+        if (this.country.id === 199) {
+          this.province = this.optionsProvince.find(obj => obj.id === this.internalData.provinceId);
+        } else {
+          this.myControlProvince.setValue({ description: 'DI LUAR INDONESIA' });
+        }
+        if (value === true) {
+          this.myControlCity.enable();
+        }
+      });
+  }
+
+  public getIdVillage() {
+    this.internalData.villageId = this.villages.id;
+  }
+
+  public initializeCountry(): void {
+    this.stateBoundaryService
+      .queryFilterBy({
+        idBoundaryType: GEO_BOUNDARY_TYPE['country'],
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.optionsCountry = res.body;
+        this.filteredCountry();
+        // const indonesia : IStateBoundary = res.body.find(obj => obj.id === 199 )
+        // this.optionsCountry = res.body.splice()
+        this.country = this.optionsCountry.find(obj => obj.id === this.internalData.countryId);
+        this.initializeProvince();
+      });
+  }
+
+  public getValueCountry() {
+    this.internalData.countryId = this.country.id;
+    this.initializeProvince();
+  }
+
+  public getValueProvince() {
+    this.internalData.provinceId = this.province.id;
+    this.initializeCity();
+  }
+
+  public getValueCity() {
+    this.internalData.cityId = this.cities.id;
+    this.initializeDistrict();
+  }
+
+  public getValueDistrict() {
+    this.internalData.districtId = this.districts.id;
+    this.initializeVillage();
+  }
+
+  public getValueCountryChange() {
+    this.internalData.countryId = this.country.id;
+    this.initializeProvince();
+    this.internalData.cityId = null;
+    this.internalData.districtId = null;
+    this.internalData.villageId = null;
+    this.initializeDistrict();
+    this.initializeCity();
+    this.initializeVillage();
+    this.myControlProvince.enable();
+    this.myControlCity.disable();
+    this.myControlDistrict.disable();
+    this.myControlVillage.disable();
+  }
+
+  public getValueProvinceChange() {
+    this.internalData.provinceId = this.province.id;
+    this.initializeCity(true);
+    this.internalData.cityId = null;
+    this.internalData.districtId = null;
+    this.internalData.villageId = null;
+    if (this.internalData.provinceId) {
+      this.myControlDistrict.disable();
+      this.myControlVillage.disable();
+      this.initializeDistrict();
+      this.initializeVillage();
     }
-    return option;
+  }
+
+  public getValueCityChange() {
+    this.internalData.cityId = this.cities.id;
+    this.initializeDistrict(true);
+    if (this.internalData.cityId) {
+      this.myControlCity.disable();
+    }
+  }
+
+  public getValueDistrictChange() {
+    this.internalData.districtId = this.districts.id;
+    this.initializeVillage(true);
+    if (this.internalData.districtId) {
+      this.myControlDistrict.disable();
+    }
+  }
+
+  // public dataSource() {
+  //   if (this.type === undefined) {
+  //     if (this.collateral?.dataSource === 'h' || this.collateral?.dataSource === 'H') {
+  //       return true;
+  //     }
+  //     if (this.collateralApprAddress === true) {
+  //       return true;
+  //     }
+  //     if (this._organization?.dataSource === 'h' || this._organization?.dataSource === 'H') {
+  //       return true;
+  //     }
+  //   } else if (this.type === 'approval') {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  public cekDataSource() {
+    if (this.internalData.countryId === null) {
+      this.myControlProvince.disable();
+    }
+    this.myControlCity.disable();
+    this.myControlDistrict.disable();
+    this.myControlVillage.disable();
+  }
+
+  public clickedCountry() {
+    this.changes = true;
+    console.log('changes ', this.changes);
   }
 }
