@@ -380,6 +380,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public berubah(event: any): void {
+    this.applicationProduct.productTypeId = this.applicationProduct.attributes.facilityType;
     if (event === 'FN - Syndicate loan / club deal') {
       this.status = true;
     } else {

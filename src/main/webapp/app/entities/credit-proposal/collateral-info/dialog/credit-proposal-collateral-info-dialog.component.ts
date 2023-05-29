@@ -165,6 +165,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.dataOwnerShip = data.ownerShip;
     this.isViewMode = data.isViewMode;
     this.collateralProperties = data.collateralProperties;
+    this.group = data.group;
   }
 
   ngOnInit(): void {

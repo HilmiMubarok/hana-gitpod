@@ -357,7 +357,9 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
           a = lodash.concat(a, this.creditProposal.products[i]);
         }
       }
+      console.log('if jalan');
     } else {
+      console.log('else jalan');
       this.dataSource = this.creditProposal.products;
 
       for (let i = 0; i < this.creditProposal.products.length; i++) {
@@ -698,6 +700,15 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
       return 0;
     } else {
       return element.replace('%', '');
+    }
+  }
+
+  public getFacilityType(element: IApplicationProduct) {
+    if (element.productTypeId !== undefined && element.productTypeId !== null) {
+      return element.productTypeId;
+    } else if (element.attributes.facilityType) {
+      element.productTypeId = element.attributes.facilityType;
+      return element.attributes.facilityType;
     }
   }
 }

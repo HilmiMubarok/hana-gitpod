@@ -258,6 +258,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         applicationProduct: this.creditProposal.products,
         matrikBindingType: this.getBindingType(element.collBindingType),
         isViewMode: this.isViewMode,
+        group: this.group,
         collateralProperties: this.collateralProperties,
       },
     };

@@ -25,6 +25,7 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { IInternal, Internal } from 'app/entities/internal/internal.model';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { MessageService } from 'primeng/api';
+import { IPariPasu } from '../paripasu-collateral-idd/paripasu-collateral-model';
 
 @Component({
   selector: 'jhi-party-cif-collateral-info',
@@ -69,6 +70,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public dataPush: ICollateral;
 
   @Input() public partyId: string;
+  pariPasu: string;
 
   @Input()
   get partyCif() {
@@ -305,7 +307,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public openDialogPropertyGeneral(element: ICollateral): void {
     const dialogRef = this.dialog.open(PartyCifCollateralInfoPropertyGeneralDialogComponent, {
       width: '80vw',
-      data: { collateral: element, partyCif: this.partyCif, rmBranchId: this.rmBranch.id },
+      data: { collateral: element, partyCif: this.partyCif, rmBranchId: this.rmBranch.id, pariPasu: this.pariPasu },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralProperty[]) => {
       if (res && res.length > 0) {

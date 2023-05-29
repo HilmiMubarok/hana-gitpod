@@ -82,6 +82,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   }
 
   ngOnInit(): void {
+    this.selectedMenu = 'INFORMATION';
     // View Sub Menu Collateral Info in Loan And Offering Letter
     if (
       this.router.url.split('/')[1] === 'la-distribution' ||
