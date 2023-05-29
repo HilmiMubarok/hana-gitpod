@@ -504,4 +504,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
         console.log('interest type', this.interestTypeList);
       });
   }
+
+  public getFacilityType(element: IApplicationProduct) {
+    if (element.productTypeId !== undefined && element.productTypeId !== null) {
+      return element.productTypeId;
+    } else if (element.attributes.facilityType) {
+      element.productTypeId = element.attributes.facilityType;
+      return element.attributes.facilityType;
+    }
+  }
 }
