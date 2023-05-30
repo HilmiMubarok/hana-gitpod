@@ -4,10 +4,10 @@
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>RM Name</mat-label>
-          <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="rmPosition.id" disabled>
+          <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="creditProposal.ownerPosition.id" disabled>
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of positionRM" [value]="item.id">
-              {{ item.employeeFirstName }} {{ item.employeeLastName }}
+              {{ item.employeeFirstName}} {{ item.employeeLastName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -18,7 +18,7 @@
           <div class="col-4">RM Name</div>
           <div class="col-md-auto">:</div>
           <div class="col col-lg-4">
-            {{ rmPosition.employeeFirstName + ' ' + rmPosition.employeeLastName }}
+            {{ creditProposal.ownerPosition.employeeFirstName + ' ' + creditProposal.ownerPosition.employeeLastName }}
           </div>
         </div>
       </section>
@@ -26,7 +26,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Branchs</mat-label>
-            <mat-select [(ngModel)]="rmBranch.id" disabled>
+            <mat-select [(ngModel)]="creditProposal.ownerPosition.internalId" disabled>
               <mat-option value="">Please Select</mat-option>
               <mat-option *ngFor="let item of branchs" [value]="item.id">
                 {{ item.organizationName }}
@@ -39,7 +39,7 @@
             <div class="col-4">Branchs</div>
             <div class="col-md-auto">:</div>
             <div class="col col-lg-4">
-              {{ rmBranch.organizationName }}
+              {{ creditProposal.ownerPosition.internalName }}
             </div>
           </div>
         </section>

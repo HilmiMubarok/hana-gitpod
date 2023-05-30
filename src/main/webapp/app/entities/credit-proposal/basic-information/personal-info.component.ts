@@ -44,7 +44,7 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       if (this.creditProposal.rm.partyId) {
-        this.loadInternalInformationRM(this.creditProposal.rm.partyId);
+        this.loadInternalInformationRM(this.creditProposal.ownerPosition.partyId);
       }
     }
   }
@@ -95,10 +95,11 @@ export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
 
   private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
-      if (this.creditProposal.rm.partyId) {
+      if (this.creditProposal.ownerPosition.partyId) {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];
+
             resolve(this.rmPosition);
           } else {
             resolve(null);

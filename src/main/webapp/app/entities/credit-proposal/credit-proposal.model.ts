@@ -20,6 +20,8 @@ import { IManagementInfo } from './credit-proposal-tab-management-info.model';
 import { ICollateralProductRelation } from '../collateral-product-relation/collateral-product-relation.model';
 import { IApplicationProduct } from '../application-product/application-product.model';
 import { IMainFacility } from '../main-facility/main-facility.model';
+import { IPosition } from '@syncfusion/ej2-angular-grids';
+import { IPositions } from 'app/shared/integration/models/positions-page.model';
 
 export interface ICreditProposal extends ILoanApplication {
   credatedBy?: string;
@@ -49,6 +51,7 @@ export interface ICreditProposal extends ILoanApplication {
   groupProducts?: IApplicationProduct[];
   intarnalId?: string;
   mainProducts?: IMainFacility[];
+  ownerPosition?: IPositions;
 }
 
 export class CreditProposal implements ICreditProposal {
