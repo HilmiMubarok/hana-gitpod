@@ -18,6 +18,8 @@ import * as _ from 'lodash';
 import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
+import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
 
 @Component({
   selector: 'jhi-request-slik-shareholder-grid',
@@ -48,7 +50,8 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
-    public requestSlikService: RequestSlikService
+    public requestSlikService: RequestSlikService,
+    public requestSlikChecklistService: RequestSlikChecklistService
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 99;
@@ -123,6 +126,20 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
 
+  openDialogSlikFile(reqReffId, fileName) {
+    const predicate: object = {
+      width: '90vw',
+      data: {
+        reqReffId,
+        fileName,
+      },
+    };
+
+    const dialogRef = this.dialog.open(RequestSlikDialogSlikFileComponent, predicate);
+    dialogRef.afterClosed().subscribe(() => {});
+  }
+
+  @Output() ocrDatas = new EventEmitter<any>();
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
       // this.dataSourceExpand = ELEMENT_DATA;
@@ -155,6 +172,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
             this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
               ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
                   console.log('thee data', data);
+                  this.ocrDatas.emit(data);
                   this.initDataForMatTable(data, res.headers);
                   // this.organizationManagement = [...(data as IOrganizationManagement[])];
                 })
@@ -252,15 +270,22 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   updateChecklist(ev, check) {
+    console.log('SASDASD', ev);
+
     const data = {
       idParty: null,
       idRequestSlik: null,
+      cust: null,
     };
+
+    // Add additional data for ocrData
+    data.cust = ev.person === null ? ev.shareHolderOrg : ev.person;
+
     data.idParty = ev.person !== null ? ev.person.id : ev.shareHolderOrg.id;
     data.idRequestSlik = this.requestSlikId;
     if (check.checked) {
       // ketika cek
-
+      this.requestSlikChecklistService.updateChecklistOcrs(data);
       this.checklistData.emit({
         data,
         mode: 'add',

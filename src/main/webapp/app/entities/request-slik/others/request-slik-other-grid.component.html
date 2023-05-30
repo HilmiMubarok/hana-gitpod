@@ -178,6 +178,10 @@
                     <mat-radio-group [(ngModel)]="element.person.id">
                       <mat-radio-button [value]="tes" (click)="selectRow(tes)"></mat-radio-button>
                     </mat-radio-group>
+                    <button mat-icon-button matTooltip="Slik File" [matTooltipPosition]="'right'"
+                      (click)="openDialogSlikFile(tes.requestReffId, tes.nikNpwp)">
+                      <mat-icon>insert_drive_file</mat-icon>
+                    </button>
                   </mat-cell>
                 </ng-container>
 
