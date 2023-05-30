@@ -618,4 +618,11 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
         });
       });
   }
+
+  public getCcyBinding(element) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
 }

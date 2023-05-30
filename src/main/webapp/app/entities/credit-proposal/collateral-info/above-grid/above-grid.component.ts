@@ -948,4 +948,11 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
         });
       });
   }
+
+  public getCcyBinding(element) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
 }

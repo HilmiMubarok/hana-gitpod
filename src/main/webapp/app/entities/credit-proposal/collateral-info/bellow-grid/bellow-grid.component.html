@@ -115,7 +115,7 @@
           <ng-container matColumnDef="bindingValue">
             <th mat-header-cell *matHeaderCellDef>Binding Value</th>
             <td mat-cell *matCellDef="let element">
-              {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ getCcyBinding(getBinding(element).ccy) + ' ' + getBinding(element).bindingValue }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
               {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
@@ -280,7 +280,7 @@
           <ng-container matColumnDef="bindingValue">
             <th mat-header-cell *matHeaderCellDef>Binding Value</th>
             <td mat-cell *matCellDef="let element">
-              {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ getCcyBinding(getBinding(element).ccy) + ' ' + getBinding(element).bindingValue }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <p>{{ biddingValueSum | currency: 'IDR':'symbol':'1.0-0' }}</p>

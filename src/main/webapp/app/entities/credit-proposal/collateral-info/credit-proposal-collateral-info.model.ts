@@ -5,13 +5,27 @@ export interface ICreditProposalCollateralBinding {
   collateralId?: number;
   bindingType?: string;
   bindingValue?: number;
+  kurs?: number;
+  bindingValueEqIdr?: number;
+  ccy?: string;
 }
 
 export class CreditProposalCollateralBinding {
-  constructor(public id?: string, public collateralId?: number, public bindingType?: string, public bindingValue?: number) {
+  constructor(
+    public id?: string,
+    public collateralId?: number,
+    public bindingType?: string,
+    public bindingValue?: number,
+    public kurs?: number,
+    public bindingValueEqIdr?: number,
+    public ccy?: string
+  ) {
     this.id = uuid.v4();
     this.bindingType = '';
+    this.ccy = '';
     this.bindingValue = 0;
+    this.kurs = 0;
+    this.bindingValueEqIdr = 0;
   }
 }
 
