@@ -4,10 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPositionReportingStructure } from './position-reporting-structure.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import lodash from 'lodash';
-import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
 @Injectable({ providedIn: 'root' })
 export class PositionReportingStructureService extends AbstractEntityService<IPositionReportingStructure> {
@@ -43,29 +40,5 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
     });
   }
 
-  public filteringRelationTypes(params: IPositionReportingStructure[]): IOptionNode[] {
-    console.log('params', params);
-
-    const result: IOptionNode[] = [];
-    if (params.length > 0) {
-      for (let i = 0; i < params.length; i++) {
-        const each: IPositionReportingStructure = params[i];
-        if (
-          each.relationTypeId &&
-          lodash.find(result, function (o) {
-            return o.id === each.relationTypeId;
-          }) === undefined
-        ) {
-          const newOptionNode: IOptionNode = new OptionNode();
-          newOptionNode.id = each.relationTypeId;
-          // newOptionNode.label = '';
-
-          result.push(newOptionNode);
-        }
-      }
-    }
-
-    return result;
-  }
   protected preSave(entity: IPositionReportingStructure) {}
 }
