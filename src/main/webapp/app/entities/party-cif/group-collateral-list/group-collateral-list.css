@@ -57,13 +57,22 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: #008881;
 }
 
-.grid-index {
-  background: rgba(49, 158, 152, 1);
-  color: #000000;
-  text-align: center;
-  font-size: 15px;
+.grid-index-left {
+  justify-content: flex-start;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }
 
-.grid-index-label {
+.grid-index-center {
+  justify-content: center;
   text-align: center;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+th {
+  background-color: #008881;
+  color: black;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+td {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }

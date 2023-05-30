@@ -1335,7 +1335,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY: object[] = [
         text: 'group & guarantor analyst',
       },
       {
-        id: 'slik-summary',
+        id: 'slik-checking',
         text: 'slik checking',
       },
       {
@@ -1408,7 +1408,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW_AND_BTB: object[] = [
         text: 'financial statement',
       },
       {
-        id: 'slik-summary',
+        id: 'slik-checking',
         text: 'slik checking',
       },
       {
@@ -1555,7 +1555,7 @@ export const SUBMENU_LOAN_ANALYS_CP_SUMMARY_BELOW: object[] = [
         text: 'financial statement',
       },
       {
-        id: 'slik-summary',
+        id: 'slik-checking',
         text: 'slik checking',
       },
       {
