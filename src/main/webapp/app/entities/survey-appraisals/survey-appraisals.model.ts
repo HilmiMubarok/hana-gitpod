@@ -6,6 +6,7 @@ import { ApplicationRole, IApplicationRole } from '../application-role/applicati
 // import { scoreCard } from '../collateral-appraisal/negative/score-card.constant';
 import { IPerson } from '../person/person.model';
 import { IPartyGroup } from '../party-group/party-group.model';
+import { IPositions } from 'app/shared/integration/models/positions-page.model';
 
 export interface ISurveyAppraisals {
   createdBy?: string;
@@ -124,6 +125,7 @@ export interface ISurveyAppraisals {
   teamLeadName?: string;
   teamLeadPersonId?: string;
   internalId?: string;
+  ownerPosition?: IPositions;
 }
 
 export class SurveyAppraisals implements ISurveyAppraisals {

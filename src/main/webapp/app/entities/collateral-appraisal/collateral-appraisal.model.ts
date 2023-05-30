@@ -1,5 +1,6 @@
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { ICollateral } from '../collateral/collateral.model';
+import { IPositions } from 'app/shared/integration/models/positions-page.model';
 // import { scoreCard } from './negative/score-card.constant';
 
 export interface ICollateralAppraisal {
@@ -104,6 +105,7 @@ export interface ICollateralAppraisal {
   reportDate?: Date;
   totalMarketValue?: number;
   totalLiquidationValue?: number;
+  ownerPosition?: IPositions;
 }
 
 export class CollateralAppraisal implements ICollateralAppraisal {
