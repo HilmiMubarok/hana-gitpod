@@ -6,12 +6,15 @@ import { IPositionReportingStructure } from './position-reporting-structure.mode
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import lodash from 'lodash';
+import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
 @Injectable({ providedIn: 'root' })
 export class PositionReportingStructureService extends AbstractEntityService<IPositionReportingStructure> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/position-reporting-structures');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position-reporting-structure');
   }
 
   protected isNew(entity: IPositionReportingStructure): boolean {
@@ -34,5 +37,35 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
     return res;
   }
 
+  public findPositionReportingStructure(idAppraisal: number) {
+    return this.http.get<IPositionReportingStructure[]>(`${this.resourceUrlNew}/appraisal/${idAppraisal}/find-base-on-surveyor`, {
+      observe: 'response',
+    });
+  }
+
+  public filteringRelationTypes(params: IPositionReportingStructure[]): IOptionNode[] {
+    console.log('params', params);
+
+    const result: IOptionNode[] = [];
+    if (params.length > 0) {
+      for (let i = 0; i < params.length; i++) {
+        const each: IPositionReportingStructure = params[i];
+        if (
+          each.relationTypeId &&
+          lodash.find(result, function (o) {
+            return o.id === each.relationTypeId;
+          }) === undefined
+        ) {
+          const newOptionNode: IOptionNode = new OptionNode();
+          newOptionNode.id = each.relationTypeId;
+          // newOptionNode.label = '';
+
+          result.push(newOptionNode);
+        }
+      }
+    }
+
+    return result;
+  }
   protected preSave(entity: IPositionReportingStructure) {}
 }
