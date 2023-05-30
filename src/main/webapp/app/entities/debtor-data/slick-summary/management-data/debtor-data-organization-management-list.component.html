@@ -225,19 +225,21 @@
         <ng-container matColumnDef="fullname">
           <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">
-            {{ element.person.name }}
+            <div *ngIf="element.person !== null">{{ element.person?.name }}</div>
+            <div *ngIf="element.person === null">{{ element.shareHolderOrg?.groupName }}</div>
           </td>
         </ng-container>
         <ng-container matColumnDef="idCard">
           <th mat-header-cell *matHeaderCellDef class="grid-index">ID Card</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">
-            {{ element.person.personalIdNumber }}
+            <div *ngIf="element.person !== null">{{ element.person?.personalIdNumber }}</div>
+            <div *ngIf="element.person === null">{{ element.shareHolderOrg?.organizationIdNumber }}</div>
           </td>
         </ng-container>
         <ng-container matColumnDef="dob">
           <th mat-header-cell *matHeaderCellDef class="grid-index">Date of Birth</th>
           <td mat-cell *matCellDef="let element" class="grid-index-label">
-            {{ element.person.dob | formatMediumDate }}
+            {{ element.person?.dob | formatMediumDate }}
           </td>
         </ng-container>
         <ng-container matColumnDef="address">
@@ -276,7 +278,7 @@
                     [partyCif]="partyCif"
                     [mode]="mode"
                     [partySlik]="element['partySliks']"
-                    [partyId]="element.person ? element.person.id : element.organization.id"
+                    [partyId]="element.person ? element.person?.id : element.organization?.id"
                   ></jhi-debtor-data-slik-summary-debitur>
                 </mat-card-content>
               </mat-card>

@@ -30,7 +30,7 @@ import { IPariPasu } from '../paripasu-collateral-idd/paripasu-collateral-model'
 @Component({
   selector: 'jhi-party-cif-collateral-info',
   templateUrl: './collateral-info.component.html',
-  styleUrls: ['./collateral-info.style.css'],
+  styleUrls: ['./collateral-info.style.scss'],
   animations: [
     trigger('detailExpand', [
       state(
