@@ -4,7 +4,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, map } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,15 +17,6 @@ export class RequestSlikChecklistService extends AbstractEntityService<any> {
   ) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
-  }
-
-  checklistOcrs: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  checklistOcrs$ = this.checklistOcrs.asObservable();
-
-  updateChecklistOcrs(data: any) {
-    const currentChecklistOcrs = this.checklistOcrs.getValue();
-    currentChecklistOcrs.push(data);
-    this.checklistOcrs.next(currentChecklistOcrs);
   }
 
   getAllChecklists() {

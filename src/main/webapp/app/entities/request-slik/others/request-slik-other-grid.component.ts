@@ -18,8 +18,6 @@ import * as _ from 'lodash';
 import { IRequestSlik } from '../request-slik.model';
 import { RequestSlikService } from '../request-slik.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
-import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
 
 @Component({
   selector: 'jhi-request-slik-other-grid',
@@ -96,8 +94,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
-    public requestSlikService: RequestSlikService,
-    public requestSlikChecklistService: RequestSlikChecklistService
+    public requestSlikService: RequestSlikService
   ) {
     super(_snackBar, organizationManagementService);
     this.itemsPerPage = 99;
@@ -108,20 +105,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     this.entityKeyName = 'id';
     this.organizationManagementRes = [];
     this.requestSlikId = Number(this.router.url.split('/')[2]);
-  }
-
-  openDialogSlikFile(reqReffId, fileName) {
-    console.log('asd', { reqReffId, fileName });
-    const predicate: object = {
-      width: '90vw',
-      data: {
-        reqReffId,
-        fileName,
-      },
-    };
-
-    const dialogRef = this.dialog.open(RequestSlikDialogSlikFileComponent, predicate);
-    dialogRef.afterClosed().subscribe(() => {});
   }
 
   @Output() selectedVerifyData = new EventEmitter<any>();
@@ -148,8 +131,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
         : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   }
-
-  @Output() ocrDatas = new EventEmitter<any>();
 
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
@@ -183,7 +164,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
             this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
               ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
                   console.log('thee data', data);
-                  this.ocrDatas.emit(data);
                   this.initDataForMatTable(data, res.headers);
                   // this.organizationManagement = [...(data as IOrganizationManagement[])];
                 })
@@ -267,16 +247,11 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     const data = {
       idParty: null,
       idRequestSlik: null,
-      cust: null,
     };
-    // Add additional data for ocrData
-    data.cust = ev.person === null ? ev.shareHolderOrg : ev.person;
-
     data.idParty = ev.person.id;
     data.idRequestSlik = this.requestSlikId;
     if (check.checked) {
       // ketika cek
-      this.requestSlikChecklistService.updateChecklistOcrs(data);
 
       this.checklistData.emit({
         data,
