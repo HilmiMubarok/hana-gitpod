@@ -51,7 +51,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.positionTypeId = newPos.positionTypeId;
-      console.log('okkmm', this.positionTypeId);
+
       this.checkAccess();
     });
   }
