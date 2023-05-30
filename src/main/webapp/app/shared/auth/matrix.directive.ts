@@ -51,6 +51,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.positionTypeId = newPos.positionTypeId;
+
       this.checkAccess();
     });
   }
@@ -669,13 +670,15 @@ export class MatrixDirective implements OnInit, OnDestroy {
 
   private matrixInputCP(): void {
     if (this.positionTypeId === 'RM' || this.positionTypeId === 'DH') {
-      this.roleRMMatrixInput();
+      this.defaultCpMatrixFull();
     } else if (this.positionTypeId === 'DEPT_HEAD' || this.positionTypeId === 'SME_HEAD') {
-      this.roleOtherMatrixInput();
+      if (this.jhiMatrixDirElementType === 'input') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     } else {
-      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
-      // sementara role yang di diskus masih di menu cp
-      this.roleOtherMatrixInput();
+      if (this.jhiMatrixDirElementType === '') {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     }
   }
 
