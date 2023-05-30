@@ -1,3 +1,13 @@
+table {
+  th {
+    background-color: #008881;
+    color: black;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  }
+  td {
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  }
+}
 .e-card {
   padding: 10px;
   margin-bottom: 1rem;
@@ -9,10 +19,10 @@
 }
 
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 36px;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
   font-weight: 1000;
-  color: red;
+  color: rgb(0, 0, 0);
   line-height: 35px;
   margin-left: 10px;
   padding-top: 13px;
@@ -74,16 +84,16 @@
 }
 
 .back-image {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   margin: 1rem;
   cursor: pointer;
 }
 
 .back-prefix {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136);
+  font-size: 14px;
+  color: rgba(136, 136, 136, 1) !important;
   padding-top: 20px;
   cursor: pointer;
 }
@@ -127,18 +137,32 @@
   font-size: 16px;
 }
 
-.grid-index {
-  background: rgba(49, 158, 152, 1);
-  color: #000000;
+.grid-index-left {
+  justify-content: flex-start;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.grid-index-center {
+  justify-content: center;
   text-align: center;
-  font-size: 15px;
-  font-size: 15px;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.e-breadcrumb-text {
+  color: rgba(136, 136, 136, 1) !important;
+}
+.e-breadcrumb-icon.e-icons.e-home {
+  color: rgba(136, 136, 136, 1) !important;
 }
 
 .label-font-detail {
-  font-family: 'Poppins';
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   color: #008881;
+}
+
+.col {
+  padding-bottom: 10px;
 }

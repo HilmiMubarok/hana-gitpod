@@ -7,6 +7,7 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
 @Component({
   selector: 'jhi-party-cif-customer-info-party-group',
   templateUrl: './party-cif-customer-info-party-group.component.html',
+  styleUrls: ['./party-cif-customer-info-party-group.style.scss'],
 })
 export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges, OnInit {
   private _partyGroup: IPartyGroup = new PartyGroup();
