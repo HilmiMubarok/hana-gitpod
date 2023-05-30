@@ -191,13 +191,15 @@
       <ng-container matColumnDef="fullname">
         <th mat-header-cell *matHeaderCellDef class="grid-index">Fullname</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.person?.name }}
+          <div *ngIf="element.person !== null">{{ element.person?.name }}</div>
+          <div *ngIf="element.person === null">{{ element.shareHolderOrg?.groupName }}</div>
         </td>
       </ng-container>
       <ng-container matColumnDef="idCard">
         <th mat-header-cell *matHeaderCellDef class="grid-index">ID Card</th>
         <td mat-cell *matCellDef="let element" class="text-center">
-          {{ element.person?.personalIdNumber }}
+          <div *ngIf="element.person !== null">{{ element.person?.personalIdNumber }}</div>
+          <div *ngIf="element.person === null">{{ element.shareHolderOrg?.organizationIdNumber }}</div>
         </td>
       </ng-container>
       <ng-container matColumnDef="dob">
