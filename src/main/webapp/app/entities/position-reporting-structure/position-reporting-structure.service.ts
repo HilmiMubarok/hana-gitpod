@@ -4,7 +4,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IPositionReportingStructure } from './position-reporting-structure.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
-import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 @Injectable({ providedIn: 'root' })
@@ -12,6 +11,7 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/position-reporting-structures');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position-reporting-structure');
   }
 
   protected isNew(entity: IPositionReportingStructure): boolean {
@@ -32,6 +32,12 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
         positionReportingStructure.thruDate != null ? new Date(positionReportingStructure.thruDate) : null;
     });
     return res;
+  }
+
+  public findPositionReportingStructure(idAppraisal: number) {
+    return this.http.get<IPositionReportingStructure[]>(`${this.resourceUrlNew}/appraisal/${idAppraisal}/find-base-on-surveyor`, {
+      observe: 'response',
+    });
   }
 
   protected preSave(entity: IPositionReportingStructure) {}
