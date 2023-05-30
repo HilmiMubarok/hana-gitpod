@@ -276,7 +276,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   }
 
   initialize() {
-    this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
+    // this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
 
     this.postalAddressService.loadCacheAll().subscribe((res: IPostalAddress[]) => (this.postaladdresses = res || []));
     console.log('console log data', this.item);
