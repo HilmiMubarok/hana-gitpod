@@ -181,7 +181,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
   public year: any;
   getDate() {
     const dataYear = this.partyCif.debtorData.occupiedSince;
-    this.year = dataYear.toString()?.slice(0, 10);
+    this.year = dataYear.toString()?.slice(0, 4);
     const formatDate = this.year.replace(/-/g, '/');
     this.partyCif.debtorData.occupiedSince = formatDate;
   }
