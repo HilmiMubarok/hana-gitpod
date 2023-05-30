@@ -180,9 +180,10 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
 
   public year: any;
   getDate() {
-    this.year = new Date(this.partyCif.debtorData.occupiedSince);
-    const fullYear = this.year.getFullYear();
-    this.partyCif.debtorData.occupiedSince = fullYear;
+    const dataYear = this.partyCif.debtorData.occupiedSince;
+    this.year = dataYear.toString()?.slice(0, 10);
+    const formatDate = this.year.replace(/-/g, '/');
+    this.partyCif.debtorData.occupiedSince = formatDate;
   }
 
   private loadPositionRM(): void {
@@ -304,8 +305,7 @@ export class PartyCifCustomerInfoDebtorDataComponent extends AbstractEntityViewP
           }
         } else if (this.partyCif.debtorData.depositCapital > 5000000000 && this.partyCif.debtorData.depositCapital <= 10000000000) {
           this.partyCif.debtorData.umkmClassification = 'MIDDLE';
-        }
-        else if (this.partyCif.debtorData.depositCapital > 10000000000 && this.partyCif.debtorData.depositCapital < 50000000000) {
+        } else if (this.partyCif.debtorData.depositCapital > 10000000000 && this.partyCif.debtorData.depositCapital < 50000000000) {
           this.partyCif.debtorData.umkmClassification = 'OTHER';
         }
 
