@@ -139,6 +139,7 @@
             managementType="MANAGEMENT_DATA"
             (checklistData)="getChecklistManagementData($event)"
             (selectedVerifyData)="getSelectedVerifyData($event)"
+            (ocrDatas)="getOcrData($event)"
           ></jhi-request-slik-management-data-grid>
           <div class="my-5"></div>
           <jhi-request-slik-shareholder-grid
@@ -150,6 +151,7 @@
             managementType="SHAREHOLDER"
             (checklistData)="getChecklistShareholder($event)"
             (selectedVerifyData)="getSelectedVerifyData($event)"
+            (ocrDatas)="getOcrData($event)"
           ></jhi-request-slik-shareholder-grid>
           <div class="my-5"></div>
           <jhi-request-slik-other-grid
@@ -161,12 +163,13 @@
             managementType="CONTROL_PERSON"
             (checklistData)="getChecklistOther($event)"
             (selectedVerifyData)="getSelectedVerifyData($event)"
-          ></jhi-request-slik-other-grid> -->
-<!-- =============== -->
-<!-- =============== -->
-<!-- =============== -->
-<!-- =============== -->
-<!-- </div>
+            (ocrDatas)="getOcrData($event)"
+          ></jhi-request-slik-other-grid>
+          <!-- =============== -->
+          <!-- =============== -->
+          <!-- =============== -->
+          <!-- =============== -->
+        </div>
       </div>
 
       <div class="row px-3 pt-5">

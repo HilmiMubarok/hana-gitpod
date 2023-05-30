@@ -19,6 +19,7 @@ import { RequestSlikService } from '../request-slik.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RequestSlikManagementDataDialogComponent } from './dialog/request-slik-management-data-dialog.component';
 import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
+import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
 // import { RESULT_DATA } from './result.dummy';
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
@@ -174,7 +175,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     if (expandedEl) {
       const id = expandedEl.person.id;
       this.partyId = id;
-      // console.log(expandedEl);
 
       // this.requestSlikService.getCbasResult(this.requestSlikId, id).subscribe(resss => {
       // const data = this.requestSlikService.parseSlikResult(resss);
@@ -203,6 +203,22 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.selectedVerifyData.emit(el);
   }
 
+  @Output() ocrDatas = new EventEmitter<any>();
+
+  openDialogSlikFile(reqReffId, fileName) {
+    console.log('asd', { reqReffId, fileName });
+    const predicate: object = {
+      width: '90vw',
+      data: {
+        reqReffId,
+        fileName,
+      },
+    };
+
+    const dialogRef = this.dialog.open(RequestSlikDialogSlikFileComponent, predicate);
+    dialogRef.afterClosed().subscribe(() => {});
+  }
+
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
       // this.dataSourceExpand = ELEMENT_DATA;
@@ -218,11 +234,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
-            // console.log('res management data', {
-            //   res: res.body,
-            //   checklists: this.checklists,
-            //   Headers: res.headers,
-            // });
+            console.log('res management data', {
+              res: res.body,
+              checklists: this.checklists,
+            });
             // console.log(this.result);
 
             res.body.forEach(element => {
@@ -249,7 +264,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
             //   : this.initDataForMatTable(res, res.headers);
             if (this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM') {
               this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-                console.log('thee data', data);
+                console.log('thee data manaaa', data);
+                this.ocrDatas.emit(data);
                 this.initDataForMatTable(data, res.headers);
               });
             } else {
@@ -291,14 +307,21 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   updateChecklist(ev, check) {
+    console.log('SASDASD', ev);
     const data = {
       idParty: null,
       idRequestSlik: null,
+      cust: null,
     };
+
+    // Add additional data for ocrData
+    data.cust = ev.person === null ? ev.shareHolderOrg : ev.person;
+
     data.idParty = ev.person.id;
     data.idRequestSlik = this.requestSlikId;
     if (check.checked) {
       // ketika cek
+      this.requestSlikChecklistService.updateChecklistOcrs(data);
       this.checklistData.emit({
         data,
         mode: 'add',
