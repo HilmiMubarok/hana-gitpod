@@ -22,7 +22,7 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   }
 
   set partyGroup(param: IPartyGroup) {
-    this._partyGroup = this.preSetData(param);
+    this._partyGroup = param;
   }
 
   @Input()
@@ -59,7 +59,7 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   }
 
   ngOnInit() {
-    console.log('source ', this.source);
+    console.log('source ', this.partyGroup.officePhone);
   }
 
   private preSetData(param: IPartyGroup) {
@@ -71,9 +71,9 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
     this.countryCode = param.officePhone ? param.officePhone.split('-')[0] : '';
   }
 
-  private AfterChangePhone(): void {
-    this.phoneNumber = this.partyGroup.officePhone.replace(/-/g, '');
-  }
+  // private AfterChangePhone(): void {
+  //   this.phoneNumber = this.partyGroup.officePhone.replace(/-/g, '');
+  // }
 
   public dataSource() {
     if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
