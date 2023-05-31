@@ -119,7 +119,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         this.creditRatings.creditRating === undefined ||
         this.creditRatings.creditRating === null
       ) {
-        this.creditRatings.creditRating = 'B4';
+        // this.creditRatings.creditRating = 'B4';
+        this.creditRatings.creditRating = 'N/A';
       }
       this.industrys = this.partyCif.creditRatings[0].attributes['industry'];
     }
@@ -145,7 +146,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.creditRatingService.creditRetingSync(this.partyCif.customerNumber).subscribe(res => {
       this.cifNumber = res.body.creditRatings[0].creditRating;
       if (this.cifNumber === '' || this.cifNumber === undefined) {
-        this.creditRatings.creditRating = 'B4';
+        // this.creditRatings.creditRating = 'B4';
+        this.creditRatings.creditRating = 'N/A';
       } else {
         this.creditRatings.creditRating = this.cifNumber;
       }
@@ -158,7 +160,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         });
       }
       if (!this.cifNumber) {
-        this.creditRatings.creditRating = 'B4';
+        // this.creditRatings.creditRating = 'B4';
+        this.creditRatings.creditRating = 'N/A';
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
