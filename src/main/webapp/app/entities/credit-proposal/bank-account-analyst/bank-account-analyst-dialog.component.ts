@@ -130,7 +130,10 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.bankAccAnalyst.detail.map(t => t.balance).reduce((acc, value) => acc + value, 0);
+      result = this.bankAccAnalyst.detail
+        .map(t => t.balance)
+        .filter(balance => balance >= 0)
+        .reduce((acc, value) => acc + value, 0);
     }
     return result;
   }
@@ -283,6 +286,7 @@ export class CreditProposalBankAccountAnalystDialogComponent {
 
   public save(): void {
     if (this.bankAccAnalyst.convert <= 0) {
+      console.log('data', this.bankAccAnalyst.convert);
       this._snackBar.open('Value of Exchange Rate Cannot Be 0 or Lower', null, {
         horizontalPosition: 'right',
         verticalPosition: 'top',
