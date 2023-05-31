@@ -1,0 +1,103 @@
+<div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div>
+<h2 mat-dialog-title>ADD DELEGATION APPLICATION</h2>
+<mat-dialog-content>
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Internal To</mat-label>
+        <mat-select (selectionChange)="changeEvent($event)">
+          <mat-option value=""> Pilih Internal </mat-option>
+          <mat-option *ngFor="let item of internalData" [value]="item.id">
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Employee To</mat-label>
+        <mat-select [(ngModel)]="employeeId">
+          <mat-option *ngFor="let item of employeeData" [value]="item.id">
+            {{ item.person.firstName }} - {{ item.person.lastName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Date From</mat-label>
+        <input disabled [(ngModel)]="DelegationApplicationReq.fromDate" [matDatepicker]="documentDateFrom" matInput type="text" />
+        <mat-datepicker-toggle matSuffix [for]="documentDateFrom"></mat-datepicker-toggle>
+        <mat-datepicker #documentDateFrom disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Date To</mat-label>
+        <input disabled [(ngModel)]="DelegationApplicationReq.thruDate" [matDatepicker]="documentDateTo" matInput type="text" />
+        <mat-datepicker-toggle matSuffix [for]="documentDateTo"></mat-datepicker-toggle>
+        <mat-datepicker #documentDateTo disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <textarea placeholder="Reason" style="width: 100%; height: 200px" [(ngModel)]="DelegationApplicationReq.reason"></textarea>
+  </div>
+
+  <table mat-table [dataSource]="dataDelegation" class="mat-table-expand" multiTemplateDataRows>
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+      <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+    </ng-container>
+    <ng-container matColumnDef="proposalNumber">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Number</th>
+      <td mat-cell *matCellDef="let element">{{ element.applicationNumber }}</td>
+    </ng-container>
+    <ng-container matColumnDef="cif">
+      <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+      <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+    </ng-container>
+    <ng-container matColumnDef="customerName">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.prospectPerson ? element.prospectPerson.afiks : '' }}
+        {{ element.prospectOrganization ? element.prospectOrganization.groupName : element.prospectPerson.name }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="customerType">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
+      <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+        {{ element.customerType | lowercase }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="createdDate">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Date</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        {{ element.createdDate | formatMediumDate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        <mat-chip>{{ element.statusDescription }}</mat-chip>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+      <td mat-cell *matCellDef="let element" class="text-center">
+        <mat-checkbox [(ngModel)]="element.attributes.selected" (change)="onCheckboxChange(element)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumnsExpand" class="mat-element-row"></tr>
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button (click)="save()" mat-button>Save</button>
+
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

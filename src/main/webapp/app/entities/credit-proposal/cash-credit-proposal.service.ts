@@ -11,6 +11,7 @@ import { ICollateralProperty } from '../collateral-property/collateral-property.
 import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 import moment from 'moment';
 import { createRequestOption } from 'app/core/request/request-util';
+import { DelegationApplicationRequest } from '../employee/delegationApplicationRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashCreditProposalService extends AbstractEntityService<ICreditProposal> {
@@ -26,6 +27,29 @@ export class CashCreditProposalService extends AbstractEntityService<ICreditProp
     const options = createRequestOption(req);
     return this.http
       .get<ICreditProposal[]>(this.resourceUrl + '/cash-credit-proposals/by-status', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
+  }
+  queryDelegationApplicationFilterBy(req?: any): Observable<HttpResponse<ICreditProposal[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ICreditProposal[]>(this.resourceUrl + '/delegation-application/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
+  }
+  public addDelegation(entity: ICreditProposal, params?: any): Observable<HttpResponse<DelegationApplicationRequest>> {
+    this.preSave(entity);
+    const options = createRequestOption(params);
+    return this.http
+      .post<ICreditProposal>(this.resourceUrl + '/delegation-application', entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<ICreditProposal>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<ICreditProposal>) => this.preLoadItem(res)));
+  }
+
+  cashCreditProposalMyApplication(id: string, req?: any): Observable<HttpResponse<ICreditProposal[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ICreditProposal[]>(this.resourceUrl + '/cash-credit-proposal/my-application/' + id, { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
   }

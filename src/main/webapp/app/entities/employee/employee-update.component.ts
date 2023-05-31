@@ -27,7 +27,8 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { StrapiService } from 'app/shared/integration/strapi.service';
 import { IButton } from 'app/shared/integration/models/button.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-
+import { Router } from '@angular/router';
+import { DELEGATION } from 'app/shared/constants/base.constants';
 type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 
 @Component({
@@ -38,6 +39,7 @@ type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmployee> {
   public label: IEmployeeStrapi;
   public button: IButton;
+  public subMenu: any;
 
   roletypes: IRoleType[] = [];
 
@@ -75,7 +77,8 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
     protected toastService: MessageService,
     protected accountService: AccountService,
     protected reportUtils: ReportUtilService,
-    private strapiService: StrapiService
+    private strapiService: StrapiService,
+    public router: Router
   ) {
     super(dataUtils, employeeService, elementRef, confirmationService, toastService, activatedRoute);
     this.label = new EmployeeStrapi();
@@ -87,6 +90,7 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
   }
 
   initialize() {
+    this.subMenu = DELEGATION;
     this.desc = [
       {
         id: 'ACTIVE',
@@ -131,7 +135,9 @@ export class EmployeeUpdateComponent extends AbstractEntityUpdateComponent<IEmpl
         }
       });
   }
-
+  public routeSubMenu(menu: object): void {
+    this.router.navigate(['./employee/' + this.activatedRoute.snapshot.paramMap.get('id') + '/' + menu['id']]);
+  }
   choosedBranch(data) {
     if (data.parentId !== null) {
       this.getSegment(data.parentId);

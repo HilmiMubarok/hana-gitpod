@@ -15,6 +15,8 @@ import { EmployeeDetailComponent } from './employee-detail.component';
 import { EmployeeUpdateComponent } from './employee-update.component';
 import { RoleComponent } from './role/role.component';
 import { RoleUpdateComponent } from './role/role-update.component';
+import { DelegationAppraisalComponent } from './delegation-appraisal.component';
+import { DelegationApplicationComponent } from './delegation-application.component';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeResolve implements Resolve<IEmployee> {
@@ -125,6 +127,30 @@ export const employeeRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.surveyBatch.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/delegation-appraisal',
+    component: DelegationAppraisalComponent,
+    resolve: {
+      employee: EmployeeResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.employee.home.title',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/delegation-application',
+    component: DelegationApplicationComponent,
+    resolve: {
+      employee: EmployeeResolve,
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'losgwApp.employee.home.title',
     },
     canActivate: [UserRouteAccessService],
   },

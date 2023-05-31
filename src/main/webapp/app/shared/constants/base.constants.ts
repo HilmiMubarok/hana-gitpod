@@ -2643,3 +2643,14 @@ export const EMPLOYEE: object[] = [
     label: 'Position',
   },
 ];
+
+export const DELEGATION: object[] = [
+  {
+    id: 'delegation-appraisal',
+    label: 'Delegation Appraisal',
+  },
+  {
+    id: 'delegation-application',
+    label: 'Delegaition Application',
+  },
+];
