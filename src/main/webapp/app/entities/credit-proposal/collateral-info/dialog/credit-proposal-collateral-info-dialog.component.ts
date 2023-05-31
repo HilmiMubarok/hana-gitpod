@@ -66,6 +66,20 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this._group = data;
   }
 
+  public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+  public cursIdr: number;
+  logoCcy = {};
+  public conCcy = false;
+  public status = false;
+  public unComitted = true;
+  public com = true;
+  public uncom = false;
+  private creditProposalData: ICreditProposal;
+  selection = true;
+  public setDate: string;
+  public preCurent = '';
+  public currencyName: number;
+  public ccy: string;
   public collateralProperties: ICollateralProperty[];
   public collateralTypes: ICollateralType[];
   public collateralCode: any;
@@ -105,6 +119,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     'BELUM DIIKAT',
     'LAINNYA',
   ];
+  public optionCcy: string[] = ['IDR', 'USD'];
   public lovCollateralStatus: any;
   public insuranceTypes = [];
   moment = _rollupMoment || _moment;
@@ -180,6 +195,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.lovBindingType();
     this.lovInsuranceTypes();
     this.addLovRank();
+    this.cekCurrency();
   }
 
   public lovInsuranceTypes() {
@@ -334,11 +350,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.filteredOptionBindingTypes = of(filtered);
   }
 
-  currencyInputChanged(value) {
-    const num = value.replace(/[IDR,]/g, '');
-    return Number(num);
-  }
-
   public getCreditProposalMappingData(creditProposalMappingData: any): void {
     this.creditProposal = creditProposalMappingData;
   }
@@ -391,5 +402,69 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
       }
     }
     return 0;
+  }
+
+  changeCurrency(value: string) {
+    this.ccy = value;
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.binding.kurs = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.binding.bindingValueEqIdr = this.binding.bindingValueEqIdr / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
+  }
+
+  getCurs() {
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.cursIdr = res.body[0]?.factor;
+      this.binding.bindingValueEqIdr = this.binding.bindingValueEqIdr * this.cursIdr;
+    });
+  }
+
+  public calBindingValue() {
+    const calculation = this.binding.bindingValue * this.binding.kurs;
+    this.binding.bindingValueEqIdr = calculation;
+    console.log('ini calculation ', calculation);
+    return calculation;
+  }
+
+  public cekCurrency() {
+    if (this.binding.ccy === 'IDR') {
+      this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+    }
+    if (this.binding.ccy === 'USD') {
+      this.logoCcy = {};
+    }
   }
 }

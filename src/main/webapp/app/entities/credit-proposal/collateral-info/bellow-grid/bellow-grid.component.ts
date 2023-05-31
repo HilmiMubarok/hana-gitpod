@@ -940,4 +940,11 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
         });
       });
   }
+
+  public getCcyBinding(element) {
+    if (element) {
+      return element;
+    }
+    return '';
+  }
 }

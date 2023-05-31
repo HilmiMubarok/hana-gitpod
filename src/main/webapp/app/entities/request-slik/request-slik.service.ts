@@ -38,7 +38,6 @@ export class RequestSlikService extends AbstractEntityService<any> {
   // Get Data with server side pagination
   getDataServerSidePagination(page: number, size: number, sort: string): Observable<any> {
     const url = `?page=${page}&size=${size}&sort=${sort}`;
-    // return this.http.get(url).pipe(map((response: any) => response.data));
     return this.http.get<any>(this.resourceUrl + url, { observe: 'response' }).pipe(
       switchMap(data => {
         console.log('BUCKET DATA', data.body.data);
@@ -52,29 +51,6 @@ export class RequestSlikService extends AbstractEntityService<any> {
               segment: 'loading...',
               dataExpand:
                 details[i].body.customerType === 'CORPORATE' ? [details[i].body.customerOrganization] : [details[i].body.customerPerson],
-
-              // segment: this.loadInternalById(details[i].body.internalId)
-              //   .then((res2: IInternal) => {
-              //     if (res2.parentId) {
-              //       this.rmBranch = res2;
-              //       this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-              //         this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-              //           if (res4.parentId) {
-              //             this.rmRegional = res4;
-              //             this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-              //               this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-              //                 this.rmSegment = res6.organizationName;
-              //                 return res6.organizationName;
-              //               });
-              //             });
-              //           }
-              //         });
-              //       });
-              //     }
-              //   })
-              //   .finally(() => this.rmSegment),
-              // segment: this.loadInternalInformationRM(details[i].body.internalId),
-              // segment: details[i].body.internalId,
               customerType: details[i].body.customerType,
             }))
           )
@@ -83,69 +59,14 @@ export class RequestSlikService extends AbstractEntityService<any> {
     );
   }
 
-  // getSegment = async (internalId: string) => {
-  //   const internal = await this.loadInternalById(internalId);
-  //   if (internal.parentId) {
-  //     const branch = await this.loadBranch(internal.parentId.toString());
-  //     if (branch !== null && (typeof branch?.parentId !== 'undefined' || branch?.parentId !== null)) {
-  //       const regional = await this.loadInternalById(branch.parentId.toString());
-  //       if (regional.parentId) {
-  //         const segment = await this.loadInternalById(regional.parentId.toString());
-  //         return segment.organizationName;
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // };
-  // getSegment = async internalId => {
-  //   const internal = await this.loadInternalById(internalId);
-  //   if (internal.parentId) {
-  //     const branch = this.loadBranch(internal.parentId.toString());
-  //     if (branch!.parentId) {
-  //       const regional = await this.loadInternalById(branch!.parentId.toString());
-  //       if (regional.parentId) {
-  //         const segment = await this.loadInternalById(regional.parentId.toString());
-  //         return segment.organizationName;
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // };
-
-  private loadInternalInformationRM(internalId): void {
-    this.branchs = [];
-    this.segments = [];
-    this.regionals = [];
-    this.loadInternalById(internalId).then((res2: IInternal) => {
-      if (res2.parentId) {
-        this.rmBranch = res2;
-        this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-          this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-            if (res4.parentId) {
-              this.rmRegional = res4;
-              this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                  this.rmSegment = res6.organizationName;
-                  // return res6.organizationName;
-                });
-              });
-            }
-          });
-        });
-      }
-    });
-    // console.log('SAD', this.rmSegment);
-    // return this.rmSegment;
-  }
-
   public filterData(data, checklists, type) {
     return new Promise((resolve, reject) => {
       data.body.forEach(res => {
         if (!this.isDetailChecked(res, checklists, type)) {
           data.body = data.body.filter(item => item.id !== res.id);
         }
-        resolve(data);
       });
+      resolve(data);
     });
   }
 
@@ -212,7 +133,6 @@ export class RequestSlikService extends AbstractEntityService<any> {
         );
       })
     );
-    // return this.http.get<any>(this.resourceUrl + '/bycif', { observe: 'response', params: options }).pipe(map(res => res.body.data));
   }
 
   // Udah dipindah ke status service
@@ -297,6 +217,9 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   submitDraft(data) {
+    // console.log(data);
+    // return new Observable();
+
     const save = this.http.post<object[]>(this.resourceUrl + '/details/all', data.checklists, { observe: 'response' });
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
     return data.isSaved === true ? forkJoin([changeStatus]) : forkJoin([save, changeStatus]);
@@ -326,16 +249,9 @@ export class RequestSlikService extends AbstractEntityService<any> {
     } else if (data.status === 'APPROVAL_SLIK') {
       return this.submitDraft(data);
     } else if (data.status === 'COMPLETE') {
-      // push partyslik data.verifyData
       return this.pushPartySlik(data);
-      // const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-      // return this.partySlikService.saveAll(data.verifyData);
     } else {
       return this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-      // this.saveDetails(data.details)
-      //   .toPromise()
-      //   .then(() => this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status }));
-      // return this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
     }
   }
 
@@ -387,6 +303,8 @@ export class RequestSlikService extends AbstractEntityService<any> {
   // }
 
   public changeStatusAndRequest(cbasData: any): Observable<any> {
+    // console.log('new OCR changestatusandrequest', cbasData.ocr);
+    // return new Observable();
     const ocrRequests = cbasData.ocr.map((ocrItem: any) =>
       this.http.post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, ocrItem, {
         observe: 'response',
@@ -475,42 +393,10 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
   // remove Checklist
   removeChecklist(data) {
-    // const params = new HttpParams().set('id', data);
     return this.http.delete<any>(this.resourceUrl + '/details/' + data, {
       observe: 'response',
     });
-
-    // return new Promise((resolve, reject) => {
-    //   let res = false;
-    //   data
-    //     .forEach(element => {
-    //       this.http.delete<any>(this.resourceUrl + '/details/' + element.id, {
-    //         observe: 'response',
-    //       });
-    //     })
-    //     .then(() => {
-    //       res = true;
-    //     });
-    //   resolve(res);
-    // });
   }
-
-  // public onSubmit(id: number, body: any) {
-  //   if (body.status === 'Checking') {
-  //     return this.postCBAS(id, body);
-  //   } else {
-  //     return this.http.put<any>(this.resourceUrl + '/status/' + id, body);
-  //   }
-  // }
-  // public onSubmit(id: number, body: any): Observable<any> {
-  //   return this.http.put<any>(this.resourceUrl + '/status/' + id, body);
-  // }
-
-  // public createReqSlik(req): Observable<HttpResponse<any>> {
-  //   const options = createRequestOption(req);
-
-  //   return this.http.post<any>(this.resourceUrl, { params: options, observe: 'response' });
-  // }
 
   nikNpwp = new BehaviorSubject<string[]>([]);
   getNikNpwp() {
@@ -522,45 +408,4 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   protected preSave(entity: IRequestSlik) {}
-
-  private loadInternalById(internalId: string): Promise<IInternal> {
-    return new Promise<IInternal>((resolve, reject) => {
-      this.internalService.find(internalId).subscribe(res => {
-        if (res.body) {
-          resolve(res.body);
-        } else {
-          resolve(null);
-        }
-      });
-    });
-  }
-
-  private loadRegional(value: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.regionals = res.body;
-        resolve();
-      });
-    });
-  }
-
-  // private loadBranch(value: string) {
-  //   return this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 });
-  // }
-
-  private loadBranch(value: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.internalService.queryFilterBy({ idParent: value, size: 9999, page: 0 }).subscribe(res => {
-        this.branchs = res.body;
-        resolve();
-      });
-    });
-  }
-
-  branchs;
-  segments;
-  regionals;
-  rmBranch;
-  rmSegment;
-  rmRegional;
 }

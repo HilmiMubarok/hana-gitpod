@@ -58,7 +58,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJJP)</th>
+            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJPP)</th>
             <td mat-cell *matCellDef="let element">{{ countKJJPMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
             <td mat-footer-cell *matFooterCellDef>
               <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
@@ -66,7 +66,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="lValueKjjp">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJJP)</th>
+            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJPP)</th>
             <td mat-cell *matCellDef="let element">{{ countKJJPLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
 
             <td mat-footer-cell *matFooterCellDef>
@@ -115,7 +115,7 @@
           <ng-container matColumnDef="bindingValue">
             <th mat-header-cell *matHeaderCellDef>Binding Value</th>
             <td mat-cell *matCellDef="let element">
-              {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ getCcyBinding(getBinding(element).ccy) + ' ' + getBinding(element).bindingValue }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
               {{ biddingValueSum | currency: 'IDR ':'symbol':'1.0-0' }}
@@ -224,7 +224,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="mValueKjjp">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJJP)</th>
+            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">MV (KJPP)</th>
             <td mat-cell *matCellDef="let element">{{ countKJJPMV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
             <td mat-footer-cell *matFooterCellDef>
               <p>{{ countTotalMVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
@@ -232,7 +232,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="lValueKjjp">
-            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJJP)</th>
+            <th mat-header-cell *matHeaderCellDef style="padding: 0px 50px">LV (KJPP)</th>
             <td mat-cell *matCellDef="let element">{{ countKJJPLV(element) | currency: 'IDR ':'symbol':'1.0-0' }}</td>
             <td mat-footer-cell *matFooterCellDef>
               <p>{{ countTotalLVKJJP() | currency: 'IDR ':'symbol':'1.0-0' }}</p>
@@ -280,7 +280,7 @@
           <ng-container matColumnDef="bindingValue">
             <th mat-header-cell *matHeaderCellDef>Binding Value</th>
             <td mat-cell *matCellDef="let element">
-              {{ getBinding(element).bindingValue | currency: 'IDR ':'symbol':'1.0-0' }}
+              {{ getCcyBinding(getBinding(element).ccy) + ' ' + getBinding(element).bindingValue }}
             </td>
             <td mat-footer-cell *matFooterCellDef>
               <p>{{ biddingValueSum | currency: 'IDR':'symbol':'1.0-0' }}</p>
