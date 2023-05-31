@@ -19,9 +19,9 @@ export class InsuranceInformationIddComponent implements OnInit {
   private _collateral: ICollateral;
   public collateralProperty: ICollateralProperty;
   public collateralPropertyExternal: ICollateralProperty;
-  public dataSource: IInsurance;
   public insuranceList: any;
-  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  public dataSource: MatTableDataSource<any>;
   public _partyCif: IPartyCif;
   @Input()
   get partyCif() {
@@ -58,9 +58,10 @@ export class InsuranceInformationIddComponent implements OnInit {
 
   public listInsuranceInformation(idCollateral: any): void {
     this.partyCifService.getListInsuranceInformation(idCollateral).subscribe(res => {
-      this.data = res.body;
-      this.dataSource = res.body;
-      console.log('cek data', this.dataSource);
+      let data = [];
+      data = res.body;
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
     });
   }
 }
