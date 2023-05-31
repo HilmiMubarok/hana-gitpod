@@ -320,6 +320,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.lovInterestRateTypeList();
     this.lovRestructMethod();
     this.getFacilityType();
+    this.berubah(this.applicationProduct.attributes.facilityType);
   }
 
   public save(): void {
@@ -396,6 +397,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       })
       .subscribe(res => {
         this.listLoanType = res.body;
+        this.getfacilityCategory(this.applicationProduct.productName);
       });
 
     this.disableButtonChange(event);
@@ -813,6 +815,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public getfacilityCategory(event) {
     const data = this.listLoanType.find(obj => obj.name === event);
+
     if (data) {
       this.productClasificationService
         .queryFilterBy({
@@ -822,10 +825,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
           sort: ['asc'],
         })
         .subscribe(res => {
-          console.log('ini catgeory ', res.body);
           this.listCategoryLov = res.body;
         });
-      console.log('ini data ', data);
       this.applicationProduct.productId = data.id;
       this.calTotalPlafond(data.revolving);
     }
