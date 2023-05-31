@@ -152,7 +152,7 @@
           <jhi-party-cif-decision-approval-report [mode]="'edit'" [partyCif]="partyCif" *ngIf="clickedMenu === 'decision-approval-report'">
           </jhi-party-cif-decision-approval-report>
         </div>
-        <mat-card-actions align="center">
+        <mat-card-actions class="align-button-center" align="center">
           <div class="e-card-actions">
             <div class="d-flex justify-content-center mb-3 mt-3">
               <button
@@ -201,7 +201,7 @@
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
     <div class="p-3" style="padding-top: 90px !important">
-      <div style="font-size: 1.5rem; font-weight: 600">Select your destination:</div>
+      <div style="font-size: 1.5rem; font-weight: 400">Select your destination:</div>
 
       <ul class="side-menu">
         <li *ngFor="let item of subMenu">
@@ -214,7 +214,7 @@
             >{{ item.text }}</a
           >
           <!--SUBMENU HAS A CHILD-->
-          <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')">{{ item.text }}</span>
+          <span class="text-capitalize" *ngIf="item.hasOwnProperty('child')" style="font-weight: 400 !important">{{ item.text }}</span>
           <ul *ngIf="item.hasOwnProperty('child')">
             <li *ngFor="let itemChild of item.child">
               <a href="javascript:void(0)" (click)="routeSubMenu(itemChild); drawer.toggle()" class="text-capitalize">{{
