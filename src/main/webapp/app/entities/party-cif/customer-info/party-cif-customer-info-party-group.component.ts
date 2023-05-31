@@ -76,10 +76,6 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
     this.countryCode = param.officePhone ? param.officePhone.split('-')[0] : '';
   }
 
-  // private AfterChangePhone(): void {
-  //   this.phoneNumber = this.partyGroup.officePhone.replace(/-/g, '');
-  // }
-
   public dataSource() {
     if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
       return true;

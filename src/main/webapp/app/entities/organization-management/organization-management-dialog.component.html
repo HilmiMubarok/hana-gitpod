@@ -38,8 +38,6 @@
     </div>
 
     <mat-card-content>
-      <!-- <jhi-party-cif-customer-info-person [organization]="organizationManagement" [person]="organizationManagement.person"  [spouse]="'spouse'" mode="edit">
-      </jhi-party-cif-customer-info-person> -->
       <div *ngIf="customerType === 'individu' || managementType === 'MANAGEMENT_DATA'">
         <div *ngIf="organizationManagement.person">
           <jhi-party-cif-customer-management
@@ -50,8 +48,6 @@
             mode="edit"
           ></jhi-party-cif-customer-management>
         </div>
-        <!-- <ng-container *ngIf="organizationManagement.person"> -->
-        <!-- </ng-container> -->
       </div>
       <div *ngIf="customerType === 'corporate'">
         <div *ngIf="organizationManagement.shareHolderOrg">
@@ -64,8 +60,6 @@
           >
           </jhi-party-cif-customer-info-party-group>
         </div>
-        <!-- <ng-container ng-container *ngIf="!organizationManagement.person" > -->
-        <!-- </ng-container> -->
       </div>
     </mat-card-content>
   </mat-card>
