@@ -36,6 +36,15 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   }
 
   @Input()
+  get managementType() {
+    return this._managementType;
+  }
+
+  set managementType(item: string) {
+    this._managementType = item;
+  }
+
+  @Input()
   get source() {
     return this._source;
   }
@@ -66,10 +75,6 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   private afterChangePartyGroup(param: IPartyGroup): void {
     this.countryCode = param.officePhone ? param.officePhone.split('-')[0] : '';
   }
-
-  // private AfterChangePhone(): void {
-  //   this.phoneNumber = this.partyGroup.officePhone.replace(/-/g, '');
-  // }
 
   public dataSource() {
     if (this.organization.dataSource === 'h' || this.organization.dataSource === 'H') {
