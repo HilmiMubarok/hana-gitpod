@@ -10,6 +10,10 @@ import { SharedLibsModule } from 'app/shared/shared-libs.module';
 import { RoleComponent } from './role/role.component';
 import { RoleUpdateComponent } from './role/role-update.component';
 import { PopupPositionComponent } from './role/popup-position.component';
+import { DelegationAppraisalComponent } from './delegation-appraisal.component';
+import { DelegationApplicationComponent } from './delegation-application.component';
+import { DialogDelegationAppraisalComponent } from './dialog-delegation/dialog-delegation-appraisal.component';
+import { DialogDelegationApplicationComponent } from './dialog-delegation/dialog-delegation-application.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(employeeRoute)],
@@ -18,6 +22,10 @@ import { PopupPositionComponent } from './role/popup-position.component';
     EmployeeDetailComponent,
     EmployeeUpdateComponent,
     RoleComponent,
+    DelegationAppraisalComponent,
+    DelegationApplicationComponent,
+    DialogDelegationAppraisalComponent,
+    DialogDelegationApplicationComponent,
     RoleUpdateComponent,
     PopupPositionComponent,
   ],

@@ -9,6 +9,7 @@ import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { IDelegationAppraisalRequest } from '../employee/delegationApplicationRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAppraisals> {
@@ -52,10 +53,35 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }
 
+  public addDelegation(entity: ISurveyAppraisals, params?: any): Observable<HttpResponse<IDelegationAppraisalRequest>> {
+    this.preSave(entity);
+    const options = createRequestOption(params);
+    return this.http
+      .post<ISurveyAppraisals>(this.resourceUrl + '/delegation-appraisal', entity, { observe: 'response', params: options })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals>) => this.convertDateFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals>) => this.preLoadItem(res)));
+  }
+
+  cashSurveyAppraisalMyApplication(id: string, req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(this.resourceUrl + '/cash-survey-appraisals/my-appraisals/' + id, { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
   public cashSurveyAppraisalQueryFilterByExternal(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
     const options = createRequestOption(req);
     return this.http
       .get<ISurveyAppraisals[]>(this.resourceUrl + '/cash-survey-appraisals/external', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
+  }
+
+  queryDelegationAppraisalFilterBy(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<ISurveyAppraisals[]>(this.resourceUrl + '/delegation-appraisal/filterBy', { params: options, observe: 'response' })
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }
