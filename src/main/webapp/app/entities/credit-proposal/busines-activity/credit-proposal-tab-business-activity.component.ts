@@ -161,8 +161,19 @@ export class CreditProposalTabBusinessActivityComponent implements OnInit {
         this.dataAttrPass = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        const dataGrid = [];
         for (let i = 0; i < this.dataAttrPass.length; i++) {
-          this.dataAttrPass[i]['indexNum'] = i + 1;
+          // this.dataAttrPass[i]['indexNum'] = i + 1;
+          const num = i + 1;
+          dataGrid[i] = { No: num, indicator: this.dataAttrPass[i].value, value: '' };
+        }
+        this.dataAttrPass = dataGrid;
+        if (this.creditProposalItem.attributes['businessActivity'].BusinessAct.length === 0) {
+          this.creditProposalItem.attributes['businessActivity'].BusinessAct = this.dataAttrPass;
+        } else {
+          for (let i = 0; i < this.creditProposalItem.attributes['businessActivity'].BusinessAct.length; i++) {
+            this.dataAttrPass = this.creditProposalItem.attributes['businessActivity'].BusinessAct;
+          }
         }
       });
   }
