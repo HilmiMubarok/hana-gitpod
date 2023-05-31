@@ -172,7 +172,8 @@
               [enableSpellCheck]="false"
               (keyDown)="onKeyDown($event)"
               (created)="onCreate()"
-            ></ejs-documenteditorcontainer>
+            >
+            </ejs-documenteditorcontainer>
           </section>
           <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <ejs-documenteditorcontainer
@@ -216,8 +217,8 @@
 
           <ejs-grid [dataSource]="dataAttrPass" allowTextWrap="true">
             <e-columns>
-              <e-column field="indexNum" headerText="No" textAlign="left" width="10"></e-column>
-              <e-column field="value" headerText="Project Financing Indicator" width="70"> </e-column>
+              <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+              <e-column field="indicator" headerText="Project Financing Indicator" width="70"> </e-column>
               <e-column headerText="Select" textAlign="Select" width="20">
                 <ng-template #template let-data>
                   <div class="d-flex justify-content-around">
@@ -267,6 +268,32 @@
                             name="{{ data.No }}"
                             (change)="onSelect('No', data)"
                             [checked]="data.value === 'No'"
+                            disabled
+                          >
+                          </ejs-radiobutton>
+                        </div>
+                      </section>
+
+                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+                        <div class="mx-2">
+                          <ejs-radiobutton
+                            label="N/A"
+                            value="N/A"
+                            name="{{ data.No }}"
+                            (change)="onSelect('N/A', data)"
+                            [checked]="data.value === 'N/A'"
+                          >
+                          </ejs-radiobutton>
+                        </div>
+                      </section>
+                      <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <div class="mx-2">
+                          <ejs-radiobutton
+                            label="N/A"
+                            value="N/A"
+                            name="{{ data.No }}"
+                            (change)="onSelect('N/A', data)"
+                            [checked]="data.value === 'N/A'"
                             disabled
                           >
                           </ejs-radiobutton>
