@@ -9,10 +9,11 @@ import { AbstractEntityViewPageComponent } from 'app/shared/base/abstract-entity
   templateUrl: './party-cif-customer-info-party-group.component.html',
   styleUrls: ['./party-cif-customer-info-party-group.style.scss'],
 })
-export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges, OnInit {
+export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewPageComponent<IPartyGroup> implements OnChanges {
   private _partyGroup: IPartyGroup = new PartyGroup();
   private _organization: IOrganizationManagement;
   private _source: string;
+  public _managementType: string;
 
   public phoneNumber: any;
 
@@ -51,15 +52,10 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['source']) {
-      console.log('source ', this.source);
       if (this.source) {
         this.disabledData = true;
       }
     }
-  }
-
-  ngOnInit() {
-    console.log('source ', this.partyGroup.officePhone);
   }
 
   private preSetData(param: IPartyGroup) {
