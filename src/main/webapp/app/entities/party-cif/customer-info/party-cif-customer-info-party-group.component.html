@@ -1,7 +1,7 @@
 <div class="row">
   <!-- LEFT SIDE -->
   <div class="col-6">
-    <!-- <div class="form-group" >
+    <div class="form-group" *ngIf="managementType === 'SHAREHOLDER'">
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>CIF Number</mat-label>
@@ -18,7 +18,7 @@
           </div>
         </div>
       </section>
-    </div> -->
+    </div>
     <div class="form-group">
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
@@ -55,7 +55,7 @@
     </div>
     <div class="form-group">
       <div class="row">
-        <!-- <div class="col-4">
+        <div class="col-4">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Country Code</mat-label>
@@ -71,8 +71,8 @@
               </div>
             </div>
           </section>
-        </div> -->
-        <div class="col-12 form-group">
+        </div>
+        <div class="col-8 form-group">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Phone Number 1</mat-label>
@@ -93,7 +93,7 @@
     </div>
     <div class="form-group">
       <div class="row">
-        <!-- <div class="col-4">
+        <div class="col-4">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Country Code</mat-label>
@@ -109,8 +109,8 @@
               </div>
             </div>
           </section>
-        </div> -->
-        <div class="col-12 form-group">
+        </div>
+        <div class="col-8 form-group">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Phone Number 2</mat-label>
@@ -131,7 +131,7 @@
     </div>
     <div class="form-group">
       <div class="row">
-        <!-- <div class="col-4">
+        <div class="col-4">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Country Code</mat-label>
@@ -147,8 +147,8 @@
               </div>
             </div>
           </section>
-        </div> -->
-        <div class="col-12 form-group">
+        </div>
+        <div class="col-8 form-group">
           <section *jhiMatrixDirIDD="'input'">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Phone Number 3</mat-label>
@@ -255,7 +255,7 @@
         </div>
       </section>
     </div>
-    <!-- <div class="form-group" *ngIf="organization.organizationManagementTypeId === 'CONTROL_PERSON'">
+    <div class="form-group" *ngIf="managementType === 'CONTROL_PERSON'">
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Relation With Debtor</mat-label>
@@ -271,6 +271,6 @@
           </div>
         </div>
       </section>
-    </div> -->
+    </div>
   </div>
 </div>

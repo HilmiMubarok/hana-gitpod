@@ -36,6 +36,15 @@ export class PartyCifCustomerInfoPartyGroupComponent extends AbstractEntityViewP
   }
 
   @Input()
+  get managementType() {
+    return this._managementType;
+  }
+
+  set managementType(item: string) {
+    this._managementType = item;
+  }
+
+  @Input()
   get source() {
     return this._source;
   }

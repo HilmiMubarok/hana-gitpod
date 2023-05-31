@@ -117,7 +117,6 @@ export class PartyCifCustomerManagementComponent extends AbstractEntityViewPageC
     this.test();
     this.convrtDate();
     this.hiddenNull();
-    console.log('in type organization management = ', this.type);
   }
   public countAge(): number {
     let age: number;
