@@ -13,7 +13,17 @@
             <div class="col">
               <!-- <div class="form-space"> -->
               <ejs-textbox
+              *ngIf="creditRatings.creditRating !== null"
                 [(ngModel)]="creditRatings.creditRating"
+                placeholder="Credit Rating"
+                floatLabelType="Auto"
+                cssClass="e-outline"
+                disabled="true"
+              >
+              </ejs-textbox>
+              <ejs-textbox
+              *ngIf="creditRatings.creditRating === null"
+                value="N/A"
                 placeholder="Credit Rating"
                 floatLabelType="Auto"
                 cssClass="e-outline"
@@ -304,20 +314,37 @@
             <div class="col">
               <section *jhiMatrixDirIDD="'input'">
                 <ejs-textbox
-                  [(ngModel)]="creditRatings.creditRating"
-                  placeholder="Credit Rating"
-                  floatLabelType="Auto"
-                  cssClass="e-outline"
-                  disabled
-                >
-                </ejs-textbox>
+                  *ngIf="creditRatings.creditRating !== null"
+                    [(ngModel)]="creditRatings.creditRating"
+                    placeholder="Credit Rating"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                    disabled="true"
+                  >
+                  </ejs-textbox>
+                  <ejs-textbox
+                  *ngIf="creditRatings.creditRating === null"
+                    value="N/A"
+                    placeholder="Credit Rating"
+                    floatLabelType="Auto"
+                    cssClass="e-outline"
+                    disabled="true"
+                  >
+                  </ejs-textbox>
               </section>
               <section *jhiMatrixDirIDD="''">
-                <div class="fontsebled row">
+                <div *ngIf="creditRatings.creditRating !== null" class="fontsebled row">
                   <div class="col">Credit Rating</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
                     {{ creditRatings.creditRating }}
+                  </div>
+                </div>
+                <div *ngIf="creditRatings.creditRating === null" class="fontsebled row">
+                  <div class="col">Credit Rating</div>
+                  <div class="col-md-auto">:</div>
+                  <div class="col">
+                    N/A
                   </div>
                 </div>
               </section>
