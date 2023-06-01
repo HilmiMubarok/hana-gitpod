@@ -141,7 +141,12 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         this.sectorIndustry = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        console.log('sector', this.sectorIndustry);
       });
+  }
+
+  public industryLable(industryCode: string) {
+    return this.sectorIndustry.filter(data => data.code === industryCode);
   }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
@@ -365,26 +370,14 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     this.defaultCurrency();
     this.creditRatingCondition();
     this.averagetoIDR();
-	this.findIndustryCode();
   }
 
-  private findIndustryCode() {
-    if (this.creditProposal.attributes.purposePricing.industry !== '') {
-      const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.attributes.purposePricing.industry);
-      this.creditProposal.attributes['purposePricing'] = {
-        industryCode: industryCode[0].id,
-        industry: this.creditProposal.attributes.purposePricing.industry,
-      };
-    }
-  }
-  
   public creditRatingCondition() {
     if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
-      if (this.creditProposal.attributes['purposePricing'].industry === '') {
-        const industryCode = this.listOfIndustry.filter(data => data.label === this.creditProposal.creditRatings[0].attributes['industry']);
-		this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
+      if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+        const industryCode = this.sectorIndustry.filter(data => data.value === this.creditProposal.creditRatings[0].attributes['industry']);
+        this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
         this.creditProposal.attributes['purposePricing'].industryCode = industryCode;
-		// this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
       }
     }
   }
