@@ -198,4 +198,14 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
       this.debtorDataFacility = res.body;
     });
   }
+
+  public getSublimit(element) {
+    if (element === false) {
+      return 'NO';
+    }
+    if (element === true) {
+      return 'YES';
+    }
+    return '';
+  }
 }
