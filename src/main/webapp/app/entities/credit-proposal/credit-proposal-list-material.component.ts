@@ -61,6 +61,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
   public value: string;
   public parentPath = this.router.url.split('/')[1];
   public statusSearch = false;
+  public positionTypeId: string;
   private monthArray = [
     {
       desc: 'Jan',
@@ -140,6 +141,12 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadStatusChip();
     this.loadAll();
     this.checkLogin();
+    this.getPositionTypeId();
+  }
+  private getPositionTypeId(): void {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.positionTypeId = newPos.positionTypeId;
+    });
   }
 
   private loadStatusChip(): void {

@@ -6,6 +6,9 @@ export interface IProductClassification {
   categoryId?: string;
   productName?: string;
   productId?: string;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
 }
 
 export class ProductClassification implements IProductClassification {
@@ -16,6 +19,9 @@ export class ProductClassification implements IProductClassification {
     public categoryDescription?: string,
     public categoryId?: string,
     public productName?: string,
-    public productId?: string
+    public productId?: string,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string
   ) {}
 }

@@ -299,6 +299,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   public save() {
+    console.log('ini insurance ', this.insurance);
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
@@ -455,7 +456,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public calBindingValue() {
     const calculation = this.binding.bindingValue * this.binding.kurs;
     this.binding.bindingValueEqIdr = calculation;
-    console.log('ini calculation ', calculation);
     return calculation;
   }
 

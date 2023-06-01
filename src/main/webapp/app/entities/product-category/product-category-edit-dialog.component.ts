@@ -12,6 +12,18 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 export class ProductCategoryEditDialogComponent {
   public productParameter: IProductCategory;
   public statuses: any;
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -25,7 +37,13 @@ export class ProductCategoryEditDialogComponent {
       this.openCancelDialog();
     });
     this.productParameter = this.data.productParameter;
-    this.statuses = STATUS_PARAMETER;
+    this.setStatus();
+  }
+
+  public setStatus(): void {
+    if (this.productParameter.statusId === '' || this.productParameter.statusId === null) {
+      this.productParameter.statusId = '';
+    }
   }
 
   public save(): void {
