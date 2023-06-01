@@ -13,7 +13,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
   styleUrls: ['./master-product.css'],
 })
 export class MasterProductParameterComponent extends AbstractEntityMaterialComponent<IMasterProductParameter> implements OnInit {
-  public displayColumns: string[] = ['no', 'code', 'description', 'status', 'action'];
+  public displayColumns: string[] = ['no', 'code', 'description', 'action'];
   public displayedColumnsExpand = [...this.displayColumns, 'expand'];
 
   public masterProduct: IMasterProductParameter;

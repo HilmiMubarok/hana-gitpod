@@ -9,9 +9,6 @@ export interface IMasterProductParameter {
   productTypeCash?: boolean;
   revolving?: boolean;
   consumerLoan?: boolean;
-  statusId?: string;
-  statusCode?: string;
-  statusDescription?: string;
 }
 
 export class MasterProductParameter implements IMasterProductParameter {
@@ -25,10 +22,7 @@ export class MasterProductParameter implements IMasterProductParameter {
     public productTypeId?: string,
     public productTypeCash?: boolean,
     public revolving?: boolean,
-    public consumerLoan?: boolean,
-    public statusId?: string,
-    public statusCode?: string,
-    public statusDescription?: string
+    public consumerLoan?: boolean
   ) {
     this.introDate = new Date();
     this.discontinueDate = new Date();

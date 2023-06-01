@@ -27,7 +27,7 @@ import { ProductCategoryEditDialogComponent } from './product-category-edit-dial
 })
 export class ProductCategoryComponent extends AbstractEntityMaterialComponent<IProductCategory> implements OnInit {
   @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
-  public displayColumns: string[] = ['no', 'code', 'description', 'status', 'action'];
+  public displayColumns: string[] = ['no', 'code', 'description', 'action'];
   public displayedColumnsExpand = [...this.displayColumns, 'expand'];
 
   public productCategory: IProductCategory;
@@ -57,6 +57,23 @@ export class ProductCategoryComponent extends AbstractEntityMaterialComponent<IP
     this.entityKeyName = 'id';
     this.items = [];
     this.listProductCategories = [];
+
+    // this.parentRoute = '/product-category';
+    // this.listChangeEventName = 'productCategoryListModification';
+    // this.entityKeyName = 'id';
+
+    // this.routeData = this.activatedRoute.data.subscribe(data => {
+    //   this.page = data.pagingParams.page;
+    //   this.previousPage = data.pagingParams.page;
+    //   this.reverse = data.pagingParams.ascending;
+    //   this.predicate = data.pagingParams.predicate;
+    //   activatedRoute.queryParams.subscribe(params => {
+    //     this.itemsPerPage = params['size'] || ITEMS_PER_PAGE;
+    //     this.first = (this.page - 1) * this.itemsPerPage || 0;
+    //   });
+    // });
+    // this.currentSearch =
+    //   this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ? this.activatedRoute.snapshot.params['search'] : '';
   }
   ngOnInit(): void {
     this.loadAll();
@@ -169,6 +186,22 @@ export class ProductCategoryComponent extends AbstractEntityMaterialComponent<IP
         });
       });
   }
+
+  // onUploadFile(event: any) {
+  //   const files: FileList = event.target.files;
+
+  //   if (files.length > 0) {
+  //     const formData: FormData = new FormData();
+  //     formData.append('file', files[0], files[0].name);
+  //     this.itemService.uploadFile(formData).subscribe(res => {
+  //       this.inputFile.nativeElement.value = null;
+  //       this.itemService.process({ fileName: res.body.fileName }, { processName: 'processUploadFile' }).subscribe(() => {
+  //         this.eventManager.broadcast({ name: this.listChangeEventName, content: 'Completed upload data' });
+  //         this.messageService.add({ severity: 'info', summary: 'Upload Done', detail: 'Upload ' + res.body.fileName + ' done process' });
+  //       });
+  //     });
+  //   }
+  // }
 
   print() {
     this.reportUtils.viewFile('/api/report/ProductCategory/pdf', {});

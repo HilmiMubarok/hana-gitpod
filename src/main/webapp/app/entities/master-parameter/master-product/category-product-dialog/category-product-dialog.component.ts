@@ -28,10 +28,11 @@ export class CategoryProductDialogComponent implements OnInit {
   ) {
     this.productClasification = this.data.productClasification;
   }
-
   ngOnInit(): void {
     this.getIdProduct();
     this.getProductClasification();
+
+    this.getProductCategory();
   }
 
   public getProductClasification() {
@@ -43,20 +44,41 @@ export class CategoryProductDialogComponent implements OnInit {
         sort: ['asc'],
       })
       .subscribe(ress => {
-        ress.body.forEach(e => this.categoryListGrid.push(e.categoryId));
-        this.getProductCategory();
+        const data = ress.body;
+        for (let i = 0; i < data.length; i++) {
+          this.categoryListGrid.push(data[i].categoryId);
+        }
       });
   }
 
   public getProductCategory() {
     this.productCategoryService
       .query({
+        // idProduct: this.productParameter.id,
         page: 0,
         size: 9999,
         sort: ['asc'],
       })
       .subscribe(res => {
-        this.categoryList = res.body.filter(product => !this.categoryListGrid.includes(product.id) && product.statusId === 'ACTIVE');
+        this.categoryList = res.body.filter(
+          (product, index, arr) => !this.categoryListGrid.includes(product.id) && arr.findIndex(p => p.id === product.id) === index
+        );
+        console.log('category List', this.categoryList);
+        // const data = res.body;
+        // if (data.length > 0) {
+        //   for (let i = 0; i < data.length; i++) {
+        //     for (let j = 0; j < this.categoryListGrid.length; j++) {
+        //       if (data[i].id !== this.categoryListGrid[j].categoryId) {
+        //         this.categoryList.push(data[i].id);
+        //       }
+        //     }
+        //   }
+        // }
+        // this.categoryList = res.body.filter(o => {
+        //   o.id !== this.categoryListGrid.forEach(e => e.categoryId);
+        // });
+
+        // this.categoryList = lodash.filter(res.body, o => o.id !== this.categoryListGrid['categoryId']);
       });
   }
 
@@ -65,6 +87,7 @@ export class CategoryProductDialogComponent implements OnInit {
     this.productClasification.productName = this.data.productId.name;
   }
   public save(): void {
+    // console.log('cek save', this.productClasification)
     this._dialog.close(this.productClasification);
   }
 }

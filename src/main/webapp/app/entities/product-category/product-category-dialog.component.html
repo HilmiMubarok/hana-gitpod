@@ -14,17 +14,6 @@
           <input matInput type="text" [(ngModel)]="productParameter.description" />
         </mat-form-field>
       </section>
-      <section class="mt-2">
-        <mat-form-field appearance="outline" class="w-100 pr-1">
-          <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="productParameter.statusId">
-            <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
-              {{ item.statusDescription }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
     </div>
   </div>
 </mat-dialog-content>
