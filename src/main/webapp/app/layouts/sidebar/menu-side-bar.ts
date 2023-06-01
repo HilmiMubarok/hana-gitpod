@@ -11,7 +11,7 @@ export const DASHBOARD: ISidebarMenuModel[] = [
 export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
   {
     name: 'Master',
-    iconname: 'house',
+    iconname: 'database',
     children: [
       {
         name: 'Internal',

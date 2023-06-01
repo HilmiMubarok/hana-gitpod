@@ -23,7 +23,8 @@ export class PartyCifBusinessGroupComponent extends AbstractEntityMaterialCompon
   set debtorData(param: IDebtorData) {
     this._debtorData = param;
   }
-  public displayedColumns: string[] = ['no', 'name', 'cif', 'action'];
+  // public displayedColumns: string[] = ['no', 'name', 'cif', 'action'];
+  public displayedColumns: string[] = ['no', 'name', 'cif'];
   constructor(private dialog: MatDialog, protected _snackBar: MatSnackBar, protected debtorDataService: DebtorDataService) {
     super(_snackBar, debtorDataService);
     this.itemsPerPage = 10;

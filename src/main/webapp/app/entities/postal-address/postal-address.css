@@ -33,3 +33,7 @@
   font-family: 'Poppins';
   src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+.col {
+  padding-bottom: 10px;
+}
