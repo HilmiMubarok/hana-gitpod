@@ -476,12 +476,7 @@
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Insurance Amount</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    [ngModel]="insurance.insuranceAmount | currency: 'IDR ':'symbol':'1.0-0'"
-                    (ngModelChange)="insurance.insuranceAmount = currencyInputChanged($event)"
-                  />
+                  <input currencyMask matInput type="text" [(ngModel)]="insurance.insuranceAmount" [options]="logoIdr" />
                 </mat-form-field>
               </section>
               <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
@@ -609,7 +604,7 @@
                   type="text"
                   [(ngModel)]="binding.bindingValueEqIdr"
                   [value]="calBindingValue()"
-                  [options]="logoCcy"
+                  [options]="logoIdr"
                 />
               </mat-form-field>
             </section>

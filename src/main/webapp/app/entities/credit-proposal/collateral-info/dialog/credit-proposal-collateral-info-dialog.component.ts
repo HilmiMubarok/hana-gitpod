@@ -299,6 +299,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   }
 
   public save() {
+    console.log('ini insurance ', this.insurance);
     if (!this.binding.collateralId) {
       this.binding.collateralId = this.collateral.id;
     }
