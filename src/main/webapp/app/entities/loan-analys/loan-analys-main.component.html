@@ -6,7 +6,7 @@
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"></e-breadcrumb-item>
-            <e-breadcrumb-item
+            <!-- <e-breadcrumb-item
               text="Assign"
               url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}"
             ></e-breadcrumb-item>
@@ -14,7 +14,7 @@
               text="{{ getTextMenu() }} {{ titleMenu }}"
               url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ selectedMenu }}"
             >
-            </e-breadcrumb-item>
+            </e-breadcrumb-item> -->
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -22,7 +22,7 @@
             <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
             <span class="back-prefix" (click)="previousState()">Back | </span>
           </div>
-          <p class="e-card-sub-title">{{ appName }}</p>
+          <p class="e-card-sub-title">{{ getTextMenu() }}</p>
         </div>
       </div>
     </div>

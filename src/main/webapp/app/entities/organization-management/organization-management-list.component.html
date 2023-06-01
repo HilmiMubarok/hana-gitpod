@@ -6,7 +6,7 @@
   <mat-card-content>
     <table mat-table [dataSource]="organizationManagement" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-center">No</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
         <td mat-cell *matCellDef="let i = index" class="grid-index-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
       </ng-container>
       <ng-container matColumnDef="fullname">
@@ -47,7 +47,7 @@
       </ng-container>
 
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-right">Actions</th>
         <td mat-cell *matCellDef="let element" class="grid-index-center">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
@@ -78,9 +78,7 @@
   </mat-card-content>
   <section *jhiMatrixDirIDD="'input'">
     <mat-card-actions align="right" [hidden]="view">
-      <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-        add new management data
-      </button>
+      <button mat-raised-button class="text-uppercase button-styling" (click)="openDialog()">add new management data</button>
     </mat-card-actions>
   </section>
 </mat-card>
@@ -93,7 +91,7 @@
   <mat-card-content>
     <table mat-table [dataSource]="organizationManagement" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-center">No</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
         <td mat-cell *matCellDef="let i = index" class="grid-index-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
       </ng-container>
       <ng-container matColumnDef="fullname">
@@ -139,7 +137,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-right">Actions</th>
         <td mat-cell *matCellDef="let element" class="grid-index-center">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
@@ -170,9 +168,7 @@
   </mat-card-content>
   <section *jhiMatrixDirIDD="'input'">
     <mat-card-actions align="right" [hidden]="view">
-      <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-        add new shareholder
-      </button>
+      <button mat-raised-button class="text-uppercase button-styling" (click)="openDialog()">add new shareholder</button>
     </mat-card-actions>
   </section>
 </mat-card>
@@ -185,7 +181,7 @@
   <mat-card-content>
     <table mat-table [dataSource]="organizationManagement" class="w-100">
       <ng-container matColumnDef="no">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-center">No</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
         <td mat-cell *matCellDef="let i = index" class="grid-index-center">{{ i + 1 + paginator.pageIndex * paginator.pageSize }}.</td>
       </ng-container>
       <ng-container matColumnDef="fullname">
@@ -215,7 +211,7 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef class="grid-index-center">Actions</th>
+        <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-right">Actions</th>
         <td mat-cell *matCellDef="let element" class="grid-index-center">
           <button mat-icon-button (click)="openDialog(element)">
             <mat-icon>edit</mat-icon>
@@ -246,9 +242,7 @@
   </mat-card-content>
   <section *jhiMatrixDirIDD="'input'">
     <mat-card-actions align="right" [hidden]="view">
-      <button mat-raised-button class="text-uppercase" (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-        add new
-      </button>
+      <button mat-raised-button class="text-uppercase button-styling" (click)="openDialog()">add new</button>
     </mat-card-actions>
   </section>
 </mat-card>

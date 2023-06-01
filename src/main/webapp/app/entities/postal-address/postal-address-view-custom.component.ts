@@ -11,6 +11,7 @@ import { IPostalAddress } from './postal-address.model';
 @Component({
   selector: 'jhi-postal-address-view-custom',
   templateUrl: './postal-address-view-custom.component.html',
+  styleUrls: ['./postal-address.css'],
 })
 export class PostalAddressViewCustomComponent implements OnInit {
   public changes = false;

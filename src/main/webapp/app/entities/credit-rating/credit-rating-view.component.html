@@ -13,7 +13,7 @@
             <div class="col">
               <!-- <div class="form-space"> -->
               <ejs-textbox
-              *ngIf="creditRatings.creditRating !== null"
+                *ngIf="creditRatings.creditRating !== null"
                 [(ngModel)]="creditRatings.creditRating"
                 placeholder="Credit Rating"
                 floatLabelType="Auto"
@@ -22,7 +22,7 @@
               >
               </ejs-textbox>
               <ejs-textbox
-              *ngIf="creditRatings.creditRating === null"
+                *ngIf="creditRatings.creditRating === null"
                 value="N/A"
                 placeholder="Credit Rating"
                 floatLabelType="Auto"
@@ -315,22 +315,22 @@
               <section *jhiMatrixDirIDD="'input'">
                 <ejs-textbox
                   *ngIf="creditRatings.creditRating !== null"
-                    [(ngModel)]="creditRatings.creditRating"
-                    placeholder="Credit Rating"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                    disabled="true"
-                  >
-                  </ejs-textbox>
-                  <ejs-textbox
+                  [(ngModel)]="creditRatings.creditRating"
+                  placeholder="Credit Rating"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  disabled="true"
+                >
+                </ejs-textbox>
+                <ejs-textbox
                   *ngIf="creditRatings.creditRating === null"
-                    value="N/A"
-                    placeholder="Credit Rating"
-                    floatLabelType="Auto"
-                    cssClass="e-outline"
-                    disabled="true"
-                  >
-                  </ejs-textbox>
+                  value="N/A"
+                  placeholder="Credit Rating"
+                  floatLabelType="Auto"
+                  cssClass="e-outline"
+                  disabled="true"
+                >
+                </ejs-textbox>
               </section>
               <section *jhiMatrixDirIDD="''">
                 <div *ngIf="creditRatings.creditRating !== null" class="fontsebled row">
@@ -343,9 +343,7 @@
                 <div *ngIf="creditRatings.creditRating === null" class="fontsebled row">
                   <div class="col">Credit Rating</div>
                   <div class="col-md-auto">:</div>
-                  <div class="col">
-                    N/A
-                  </div>
+                  <div class="col">N/A</div>
                 </div>
               </section>
             </div>
@@ -497,16 +495,10 @@
       </div>
       <section *jhiMatrixDirIDD="'input'">
         <div class="e-card-actions mx-auto mb-5 mt-3">
-          <button
-            mat-raised-button
-            [class.spinner]="loading"
-            [disabled]="loading"
-            (click)="syncCreditReting()"
-            style="background: rgba(0, 136, 129, 1); color: #ffffff"
-          >
+          <button mat-raised-button [class.spinner]="loading" [disabled]="loading" (click)="syncCreditReting()" class="button-styling">
             SYNC from HOBIS
           </button>
-          <button mat-raised-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
+          <button mat-raised-button (click)="save()" class="button-styling">Save</button>
         </div>
       </section>
       <section *jhiMatrixDirIDD="''"></section>

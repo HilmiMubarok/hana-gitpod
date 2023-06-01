@@ -1458,6 +1458,7 @@ export class LoanAnalysMainComponent implements OnInit {
       this.titleMenu = 'Trade Checking';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    return this.titleMenu;
   }
 
   getTitleMenu(): void {
