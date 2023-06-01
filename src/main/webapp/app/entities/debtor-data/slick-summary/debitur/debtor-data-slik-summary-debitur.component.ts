@@ -207,6 +207,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       })
       .subscribe({
         next: (res: HttpResponse<IPartyCif[]>) => {
+          console.log('SADHASGDKSAD', res.body);
           this.detailSlik = res.body;
           this.totalLimit = this.countTotalLimit(res.body);
           this.totalOutstanding = this.countTotalOutstanding(res.body);
@@ -324,7 +325,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       for (let i = 0; i < partySlik.length; i++) {
         const regex = /[.,\s]/g;
         if (partySlik[i].plafond) {
-          totalLimit = totalLimit + Number(partySlik[i].plafond.replace(regex, ''));
+          totalLimit = totalLimit + Number(partySlik[i].plafon);
         }
       }
     }
