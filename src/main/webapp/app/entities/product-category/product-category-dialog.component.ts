@@ -12,6 +12,18 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 export class ProductCategoryDialogComponent {
   public productParameter: IProductCategory;
   public statuses: any;
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -26,6 +38,7 @@ export class ProductCategoryDialogComponent {
     });
     this.productParameter = this.data.productParameter;
     this.statuses = STATUS_PARAMETER;
+    this.productParameter.statusId = '';
   }
 
   public save(): void {
