@@ -1,17 +1,27 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
 import { IPosition } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
 import lodash from 'lodash';
 import { CreditProposal, ICreditProposal } from '../../credit-proposal/credit-proposal.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-assign-to',
   templateUrl: './assign-to.component.html',
 })
-export class AssignToComponent {
-  constructor(private router: Router, private positionService: PositionService, public creditProposalService: CreditProposalService) {}
+export class AssignToComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private positionService: PositionService,
+    public creditProposalService: CreditProposalService,
+    private accountService: AccountService
+  ) {}
+  ngOnInit(): void {
+    this.checkLogin();
+  }
 
   public applicationRole;
   public applicationRoleId;
@@ -64,5 +74,24 @@ export class AssignToComponent {
       }
     }
     this.assignTo.emit(this.creditProposal.attributes['dataAssignTo']);
+  }
+
+  public disabledData: boolean;
+  public account: Account;
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+        console.log('account', this.account);
+        if (this.account.authorities.length <= 2) {
+          if (this.account.authorities.includes('ROLE_CRC')) {
+            this.disabledData = true;
+          }
+          if (this.account.authorities.includes('ROLE_HCR1')) {
+            this.disabledData = true;
+          }
+        }
+      }
+    });
   }
 }
