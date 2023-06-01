@@ -32,4 +32,9 @@ export class RequestSlikChecklistService extends AbstractEntityService<any> {
     const params = new HttpParams().set('page', 1).set('size', 99);
     return this.http.get(`${this.resourceUrl}/details`, { observe: 'response', params }).pipe(map(res => res.body));
   }
+
+  getAllChecklistsByRequestSlikId(reqReffId: number) {
+    const params = new HttpParams().set('id', reqReffId);
+    return this.http.get(`${this.resourceUrl}/details/byrequestslikid`, { observe: 'response', params }).pipe(map(res => res.body));
+  }
 }
