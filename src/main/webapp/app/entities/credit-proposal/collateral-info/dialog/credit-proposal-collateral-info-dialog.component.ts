@@ -455,7 +455,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   public calBindingValue() {
     const calculation = this.binding.bindingValue * this.binding.kurs;
     this.binding.bindingValueEqIdr = calculation;
-    console.log('ini calculation ', calculation);
     return calculation;
   }
 

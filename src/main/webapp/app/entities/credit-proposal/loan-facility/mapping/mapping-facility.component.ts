@@ -229,6 +229,16 @@ export class CreditProposalMappingFacilityComponent implements OnInit, OnChanges
     }
   }
 
+  public getSublimit(element) {
+    if (element === false) {
+      return 'NO';
+    }
+    if (element === true) {
+      return 'YES';
+    }
+    return '';
+  }
+
   // private loadByPartyId(param: string): void {
   //   this.collateralService
   //     .queryFilterBy({

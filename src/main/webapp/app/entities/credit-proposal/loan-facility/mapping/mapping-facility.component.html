@@ -13,7 +13,7 @@
   </ng-container>
   <ng-container matColumnDef="subLimit">
     <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
-    <td mat-cell *matCellDef="let element">{{ element.subLimit }}</td>
+    <td mat-cell *matCellDef="let element">{{ getSublimit(element.subLimit) }}</td>
   </ng-container>
   <ng-container matColumnDef="currency">
     <th mat-header-cell *matHeaderCellDef>CCY</th>
