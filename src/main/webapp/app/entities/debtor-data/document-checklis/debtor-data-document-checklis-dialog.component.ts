@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDocumentChecklistDebtorData, DocumentChecklistDebtorData } from './debtor-data-document-checklist';
 import { DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material/core';
@@ -55,6 +56,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public setStatusCurrenValue = [];
   public memoryFiles = [];
   public fileDeleted = [];
+  datePipe: DatePipe = new DatePipe('en-US');
 
   public filesStatus: string;
   public filesdueDate: string;
@@ -298,7 +300,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
   }
 
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.name);
+    this.reportUtilService.downloadFileBYName(event, name.nameFIle);
   }
 
   public handleImage() {
@@ -359,7 +361,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
             remarks: null,
             createdBy: null,
           };
-          const files = new Date() + '-' + this.file[i].name.replace('&', '');
+          const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
           metaData.objectName = `/idd/${this.data.partyId}/document/${this.files.id}/${files}`;
           metaData.entityId = this.data.partyId;
           metaData.id = this.files.id;

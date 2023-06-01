@@ -15,6 +15,7 @@ import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MatSelectChange } from '@angular/material/select';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { DatePipe } from '@angular/common';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -45,6 +46,7 @@ class PickDateAdapter extends NativeDateAdapter {
 })
 export class DocumentChecklistDialogComponent {
   public documentChecklist: IDocumentChecklistDebtorData;
+  datePipe: DatePipe = new DatePipe('en-US');
   public file = [];
   public files: any;
   public key: string;
@@ -347,7 +349,7 @@ export class DocumentChecklistDialogComponent {
   }
 
   public donwload(event: any, name: any) {
-    this.reportUtilService.downloadFileBYName(event, name.name);
+    this.reportUtilService.downloadFileBYName(event, name.nameFIle);
   }
 
   public handleImage() {
@@ -404,7 +406,7 @@ export class DocumentChecklistDialogComponent {
             remarks: null,
             createdBy: null,
           };
-          const files = new Date() + '-' + this.file[i].name.replace('&', '');
+          const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
           metaData.objectName = `/cp/${this.data.cpId}/document/file-cp/${this.files.id}/${files}`;
           metaData.entityId = this.data.cpId;
           metaData.id = this.files.id;
