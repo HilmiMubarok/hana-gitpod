@@ -19,27 +19,29 @@
             [removable]="f.name.indexOf('los_logo.png') > -1 ? false : true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label [hidden]="f.name.indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
+            <ngx-dropzone-label [hidden]="f.name.split('.').indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
                 *ngIf="
-                  f.name.indexOf('png') > -1 || f.name.indexOf('jpg') > -1 || f.name.indexOf('jpeg') > -1 || f.name.indexOf('gif') > -1
+                  f.name.split('.').indexOf('png') > -1 || f.name.split('.').indexOf('jpg') > -1 || f.name.split('.').indexOf('jpeg') > -1 || f.name.split('.').indexOf('gif') > -1
                 "
               ></ngx-dropzone-image-preview>
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label [hidden]="f.name.indexOf('los_logo.png') > -1">
+            <ngx-dropzone-label [hidden]="f.name.split('.').indexOf('los_logo.png') > -1">
+              <div *ngIf="f.url !== undefined">
               <div
                 *ngIf="
-                  (f.url !== undefined && f.name.indexOf('png') > -1) ||
-                  f.name.indexOf('jpg') > -1 ||
-                  f.name.indexOf('jpeg') > -1 ||
-                  f.name.indexOf('gif') > -1
+                  f.name.split('.').indexOf('png') > -1 ||
+                  f.name.split('.').indexOf('jpg') > -1 ||
+                  f.name.split('.').indexOf('jpeg') > -1 ||
+                  f.name.split('.').indexOf('gif') > -1
                 "
               >
                 <img [src]="f.url" width="100%" height="100%" />
               </div>
+            </div>
             </ngx-dropzone-label>
             <ngx-dropzone-label>
               <div *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">

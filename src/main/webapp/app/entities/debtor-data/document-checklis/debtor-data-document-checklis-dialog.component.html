@@ -25,21 +25,21 @@
                   ngProjectAs="ngx-dropzone-image-preview"
                   [file]="f"
                   *ngIf="
-                    f.name.indexOf('png') > -1 || f.name.indexOf('jpg') > -1 || f.name.indexOf('jpeg') > -1 || f.name.indexOf('gif') > -1
+                    f.name.split('.').indexOf('png') > -1 || f.name.split('.').indexOf('jpg') > -1 || f.name.split('.').indexOf('jpeg') > -1 || f.name.split('.').indexOf('gif') > -1
                   "
                 ></ngx-dropzone-image-preview>
               </ngx-dropzone-label>
 
-              <ngx-dropzone-label>
+              <ngx-dropzone-label *ngIf="f.url !== undefined">
                 <div
                   *ngIf="
-                    (f.url !== undefined && f.name.indexOf('png') > -1) ||
-                    f.name.indexOf('jpg') > -1 ||
-                    f.name.indexOf('jpeg') > -1 ||
-                    f.name.indexOf('gif') > -1
+                    f.name.split('.').indexOf('png') > -1 ||
+                    f.name.split('.').indexOf('jpg') > -1 ||
+                    f.name.split('.').indexOf('jpeg') > -1 ||
+                    f.name.split('.').indexOf('gif') > -1
                   "
                 >
-                  <img [hidden]="f.name.indexOf('los_logo.png') > -1" [src]="f.url" width="100%" height="100%" />
+                  <img [hidden]="f.name.split('.').indexOf('los_logo.png') > -1" [src]="f.url" width="100%" height="100%" />
                 </div>
               </ngx-dropzone-label>
               <ngx-dropzone-label>

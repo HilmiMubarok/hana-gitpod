@@ -87,10 +87,10 @@
 
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Sector Industry</mat-label>
-              <mat-select name="sectorIndustry" [(ngModel)]="creditProposal.attributes['purposePricing'].industry">
+              <mat-label>Pilih Sector Industry</mat-label>
+              <mat-select name="sectorIndustry" [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode">
                 <mat-option value="">Please Select</mat-option>
-                <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
+                <mat-option *ngFor="let item of sectorIndustry" [value]="item.code">
                   {{ item.value }}
                 </mat-option>
               </mat-select>
@@ -98,10 +98,10 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-3">Industry</div>
+              <div class="col-3">Sector Industry</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['purposePricing'].industry }}
+                {{ industryLable(creditProposal.attributes['purposePricing'].industryCode) }}
               </div>
             </div>
           </section>
