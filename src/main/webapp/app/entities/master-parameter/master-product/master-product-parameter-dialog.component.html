@@ -57,6 +57,17 @@
           <mat-datepicker #discontinueDate disabled="false"></mat-datepicker>
         </mat-form-field>
       </section>
+      <section class="mt-2">
+        <mat-form-field appearance="outline" class="w-100 pr-1">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="productParameter.statusId">
+            <!-- <mat-option value="">- Please Select -</mat-option> -->
+            <mat-option *ngFor="let item of statusValue" [value]="item.statusId">
+              {{ item.statusDescription }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </section>
       <mat-card>
         <table mat-table [dataSource]="categoryListGrid" class="mat-table-expand mt-3" multiTemplateDataRows>
           <ng-container matColumnDef="no">
