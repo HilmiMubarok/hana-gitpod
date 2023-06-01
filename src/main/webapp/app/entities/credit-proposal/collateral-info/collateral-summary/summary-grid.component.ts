@@ -224,8 +224,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     this.collateralStartState = lodash.cloneDeep(element);
     this.creditProposalStartState = lodash.cloneDeep(this.creditProposal);
     let cp = {};
-    for (let index = 0; index < this.creditProposal.collaterals.length; index++) {
-      if (this.creditProposal.collaterals[index].collateralId === element.collateralId) {
+    for (let index = 0; index < this.dataItem.length; index++) {
+      if (this.dataItem[index].collateralId === element.collateralId) {
         cp = this.creditProposal;
       }
     }
@@ -256,8 +256,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
           return o.id === res['collateral'].id;
         });
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = res['collateral'];
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem[collateralIdx] = res['collateral'];
+          const filter = this.dataItem.filter(obj => obj.statusId !== 'CANCEL');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
@@ -290,8 +290,8 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       } else {
         const collateralIdx: number = lodash.findIndex(this.creditProposal.collaterals, o => o.id === this.collateralStartState.id);
         if (collateralIdx > -1) {
-          this.creditProposal.collaterals[collateralIdx] = this.collateralStartState;
-          const filter = this.creditProposal.collaterals.filter(obj => obj.statusId !== 'CANCEL');
+          this.dataItem[collateralIdx] = this.collateralStartState;
+          const filter = this.dataItem.filter(obj => obj.statusId !== 'CANCEL');
           this.dataItem = new MatTableDataSource(filter);
           this.dataItem.paginator = this.paginator;
         }
