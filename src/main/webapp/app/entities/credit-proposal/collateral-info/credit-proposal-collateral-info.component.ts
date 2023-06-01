@@ -49,6 +49,7 @@ export class CreditProposalCollateralInfoComponent implements OnInit, OnChanges 
   private _collateralProperty: ICollateralProperty[];
 
   public selectedMenu: string;
+  public menuItemx: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'SUMMARY' }];
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }, { text: 'SUMMARY' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
