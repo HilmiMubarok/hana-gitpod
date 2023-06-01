@@ -109,20 +109,22 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     this.getFiles();
   }
 
+  dataSource;
   private getFiles(): void {
     const subFolder = [];
     this.folders = [];
     const predicate: Object = {
-      key: `/party-cif/${this.partyCif.partyId}/document`,
+      key: `/party_slik/${this.partyCif.partyId}`,
     };
     this.storageService.getBucketName().subscribe((response: any) => {
       this.storageService.getObjects(response.body.bucket, predicate).subscribe((res: any) => {
-        for (let i = 0; i < res.body.length; i++) {
-          if (res.body[i].tags.managementType === this.selectedManagementType) {
-            subFolder.push(res.body[i]);
-            this.folders = [...subFolder];
-          }
-        }
+        this.dataSource = res.body;
+        // for (let i = 0; i < res.body.length; i++) {
+        //   if (res.body[i].tags.managementType === this.selectedManagementType) {
+        //     subFolder.push(res.body[i]);
+        //     this.folders = [...subFolder];
+        //   }
+        // }
       });
     });
   }

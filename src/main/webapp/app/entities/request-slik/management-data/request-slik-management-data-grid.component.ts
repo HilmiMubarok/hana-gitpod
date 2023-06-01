@@ -219,6 +219,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     dialogRef.afterClosed().subscribe(() => {});
   }
 
+  @Output() defaultChecklist = new EventEmitter<any>();
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
       // this.dataSourceExpand = ELEMENT_DATA;
@@ -270,6 +271,18 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
               });
             } else {
               console.log('sadkjhgsdjkasjdh', res);
+
+              let checklistsDefault = [];
+              res.body.forEach(checklist => {
+                checklistsDefault = [
+                  ...checklistsDefault,
+                  {
+                    idParty: checklist.person ? checklist.person.id : checklist.shareHolderOrg.id,
+                    idRequestSlik: this.requestSlikId,
+                  },
+                ];
+                this.defaultChecklist.emit(checklistsDefault);
+              });
 
               /**
                * Get all Checklists -> Bandingkan dengan res, kalau yg ga ada di db jangan emit
