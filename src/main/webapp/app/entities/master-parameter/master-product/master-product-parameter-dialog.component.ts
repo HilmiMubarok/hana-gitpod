@@ -48,12 +48,23 @@ export class MasterProductParameterDialogComponent implements OnInit {
   public statuses: any;
   public listGeneralLov: any;
   public productParameter: IMasterProductParameter;
-  // public productClasification: IProductClassification;
   public view: boolean;
   public displayColumns: string[] = ['no', 'productName', 'category', 'action'];
   public displayedColumnsExpand = [...this.displayColumns, 'expand'];
   public productCategoryList = [];
   public categoryListGrid = [];
+  public statusValue = [
+    {
+      statusId: 'ACTIVE',
+      statusDescription: 'Active',
+      statusCode: 'ACTIVE',
+    },
+    {
+      statusId: 'NON_ACTIVE',
+      statusDescription: 'Non Active',
+      statusCode: 'NON_ACTIVE',
+    },
+  ];
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -67,17 +78,18 @@ export class MasterProductParameterDialogComponent implements OnInit {
     protected messageService: MessageService,
     protected dialog: MatDialog
   ) {
+    this.productParameter = this.data.productParameter;
+
+    this.view = this.data.view;
     _dialog.disableClose = true;
     _dialog.backdropClick().subscribe(_ => {
       this.openCancelDialog();
     });
-    this.productParameter = this.data.productParameter;
-
-    this.view = this.data.view;
   }
   ngOnInit(): void {
     this.loadAll();
   }
+
   public getFacilityType() {
     this.productParameterService.getLovFacilityType().subscribe(res => {
       this.listGeneralLov = res.body;
@@ -93,7 +105,6 @@ export class MasterProductParameterDialogComponent implements OnInit {
         sort: ['asc'],
       })
       .subscribe(ress => {
-        // this.productCategoryList = res.body;
         this.categoryListGrid = ress.body;
       });
   }
@@ -102,10 +113,6 @@ export class MasterProductParameterDialogComponent implements OnInit {
   public openDialogCategory(element: IProductClassification = null): void {
     let predicate: IProductClassification;
     predicate = new ProductClassification();
-    // const data = this.productParameterService.paramTypeId.subscribe((message: any) => {
-    //   this.typeID = message;
-    // });
-    // predicate.productTypeId = this.typeID;
 
     if (element) {
       predicate = element;
@@ -244,9 +251,6 @@ export class MasterProductParameterDialogComponent implements OnInit {
         this.productClasificationService.delete(element.id).subscribe(() => {
           this.loadAll();
         });
-        // this.productClasificationService.delete(res.id).subscribe(_res => {
-        //   this.loadAll();
-        // });
       }
     });
   }
