@@ -141,12 +141,19 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         this.sectorIndustry = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('sector', this.sectorIndustry);
       });
   }
 
+  public onSelectionChange(event: any) {
+    this.creditProposal.attributes['purposePricing'].industryCode = event.value;
+  }
+
   public industryLable(industryCode: string) {
-    return this.sectorIndustry.filter(data => data.code === industryCode);
+    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+      return '';
+    } else {
+      return this.sectorIndustry.filter(data => data.code === industryCode)[0].value;
+    }
   }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
