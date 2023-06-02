@@ -5,9 +5,10 @@
       <div style="float: right">
         <mat-form-field appearance="fill">
           <mat-label>Approval Level</mat-label>
-          <mat-select [(value)]="selectedRelationType" (selectionChange)="selectRelationType($event.value)">
-            <mat-option *ngFor="let item of relationTypes" [value]="item.id">
-              {{ item.description }}
+          <mat-select [(value)]="selectedRelationType" (selectionChange)="selRelType($event.value)">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of relType" [value]="item.id">
+              {{ item.label }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -22,13 +23,35 @@
           <th mat-header-cell *matHeaderCellDef>No.</th>
           <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
         </ng-container>
-        <ng-container matColumnDef="approval_name">
-          <th mat-header-cell *matHeaderCellDef>Approval Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.positionToEmployeeName }}</td>
-        </ng-container>
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>Position</th>
-          <td mat-cell *matCellDef="let element">{{ element.positionTypeToDescription }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.roleDescription }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.partyName }}</td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="remarks">
+          <th mat-header-cell *matHeaderCellDef>Remarks</th>
+          <td mat-cell *matCellDef="let element">{{ element.text }}</td>
+        </ng-container>
+        <ng-container matColumnDef="available">
+          <th mat-header-cell *matHeaderCellDef>Available</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.lastModifiedBy }}
+          </td>
+        </ng-container> -->
+        <ng-container matColumnDef="fromDate">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.fromDate | formatMediumDate }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="alternatename">
+          <th mat-header-cell *matHeaderCellDef>Alternative Name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.delegationPartyName }}
+          </td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
