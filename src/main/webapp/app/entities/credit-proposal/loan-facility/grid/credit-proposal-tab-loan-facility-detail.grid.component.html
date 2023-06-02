@@ -163,9 +163,7 @@
     </ng-container>
     <ng-container matColumnDef="totalCreditLimit">
       <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.currencyId + ' ' + (element.totalPlafond | number) }}
-      </td>
+      <td mat-cell *matCellDef="let element">{{ element.currencyId }} {{ printElements(element.totalPlafond | number) }}</td>
     </ng-container>
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest</th>
