@@ -5,16 +5,12 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, catchError, forkJoin, map, merge, mergeMap, Observable, of, Subscription, switchMap, throwError } from 'rxjs';
-import { createRequestOption } from 'app/core/request/request-util';
+import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import _ from 'lodash';
-import { MatTableDataSource } from '@angular/material/table';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { StorageService } from '../storage/storage.service';
-import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
-import lodash from 'lodash';
 import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
@@ -231,34 +227,13 @@ export class RequestSlikService extends AbstractEntityService<any> {
   pushPartySlik(data) {
     console.log(data.verifyData);
     // copas slik file from cbas to $party_id
-    const push = data.verifyData.map(res => this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`));
+    const push = data.verifyData.map(res =>
+      this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`, data.nikNpwp)
+    );
     // return new Observable();
 
     // Remove reqReffId attributes on this.verifyData
     console.log('Elemeeeeeen push party slik data', data);
-    // data.verifyData = data.verifyData.map(res => {
-    //   delete res.attributes['reqReffId'];
-    //   return res;
-    // });
-
-    // const copyVerifyData = lodash.cloneDeep(data.verifyData);
-
-    // copyVerifyData.map(res => {
-    //   console.log('test', res);
-
-    //   res.forEach(element => {
-    //     // add attributes key to res
-    //     console.log('res inside', res);
-    //     element.attributes = element.attributes || [];
-    //     element.attributes['partySlikCollaterals'] = element.partySlikCollaterals;
-
-    //     delete element.partySlikCollaterals;
-
-    //     element.partyId = copyVerifyData[0].partyId;
-    //   });
-
-    //   return res[0];
-    // });
 
     // console.log('Elemeeeeeen push party slik test', copyVerifyData);
     console.log('Elemeeeeeen push party slik', data.verifyData);
@@ -281,7 +256,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     }
   }
 
-  CopasSlikFile(partyId, reqReffId, source, target) {
+  CopasSlikFile(partyId, reqReffId, source, target, nikNpwp) {
     // Get Bucket
     reqReffId = JSON.parse(reqReffId);
     console.log('reqreffid', reqReffId);
@@ -292,44 +267,42 @@ export class RequestSlikService extends AbstractEntityService<any> {
       const predicate: Object = {
         key: `${source}/${reqReffId}`,
       };
-      this.storageService.getObjects(bucketName, predicate).subscribe(objects => {
-        console.log('OBJECTS', objects);
 
-        // convert object to file
-        objects.body.forEach(element => {
-          // Fetch the file from the URL and create a new File object
-          fetch(element['url'])
-            .then(response => response.blob())
-            .then(blob => {
-              const file = new File([blob], element['name'], { type: element['metaData']['Value'], lastModified: element['lastModified'] });
+      this.storageService
+        .getObjects(bucketName, predicate)
+        .pipe(map(res => res.body))
+        .pipe(map(data => data.filter(item => item['name'].includes(nikNpwp))))
+        .subscribe(objects => {
+          objects.forEach(element => {
+            if (element['name'].includes(nikNpwp)) {
+              // Fetch the file from the URL and create a new File object
+              fetch(element['url'])
+                .then(response => response.blob())
+                .then(blob => {
+                  const file = new File([blob], element['name'], {
+                    type: element['metaData']['Value'],
+                    lastModified: element['lastModified'],
+                  });
 
-              const formData = new FormData();
-              formData.append('file', file);
+                  const formData = new FormData();
+                  formData.append('file', file);
 
-              this.storageService
-                .uploadMeta(bucketName, formData, {
-                  objectName: `${target}/${partyId}/${element['name']}`,
+                  this.storageService
+                    .uploadMeta(bucketName, formData, {
+                      objectName: `${target}/${partyId}/${element['name']}`,
+                    })
+                    .subscribe(uploadFile => {
+                      console.log('UPLOAD FILE', uploadFile);
+                    });
                 })
-                .subscribe(uploadFile => {
-                  console.log('UPLOAD FILE', uploadFile);
+                .catch(error => {
+                  console.error('Error fetching the file:', error);
                 });
-            })
-            .catch(error => {
-              console.error('Error fetching the file:', error);
-            });
+            }
+          });
         });
-      });
     });
   }
-
-  // public changeStatusAndRequest(cbasData: any): Observable<any> {
-  //   return this.http
-  //     .post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, cbasData.ocr, {
-  //       observe: 'response',
-  //     })
-  //     .pipe(switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: 'CHECKING' })));
-  //     // .pipe(switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status })));
-  // }
 
   public changeStatusAndRequest(cbasData: any): Observable<any> {
     console.log('new OCR changestatusandrequest', cbasData.ocr);
@@ -343,6 +316,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
         .pipe(
           // eslint-disable-next-line arrow-body-style
           catchError(error => {
+            console.log('ERROR', error);
             // Handle error for each post request
             // ===
             // const resError = JSON.parse(error.error.text + `"}`);
