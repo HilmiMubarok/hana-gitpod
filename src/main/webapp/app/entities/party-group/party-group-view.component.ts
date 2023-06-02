@@ -25,6 +25,10 @@ import { FormControl } from '@angular/forms';
 import { IPartyCif, PartyCif } from '../party-cif/party-cif.model';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
+import { CreditProposalService } from '../credit-proposal/credit-proposal.service';
+import { IApplicationProduct } from '../application-product/application-product.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -54,7 +58,7 @@ type SelectableEntity = IPartyType | IPostalAddress;
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPartyGroup> implements OnChanges {
+export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnChanges {
   public partyGroupModel: IPartyGroup = new PartyGroup();
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
@@ -201,6 +205,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   postalAddressId: number;
 
   constructor(
+    protected productParameterService: MasterProductParameterService,
     protected dataUtils: BaseDataUtils,
     private router: Router,
     protected alertService: AlertService,
@@ -213,9 +218,10 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
     protected translateService: TranslateService,
     protected eventManager: EventManager,
     public account: AccountService,
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    protected creditProposalService: CreditProposalService
   ) {
-    super(partyGroupService, messageService, elementRef, dataUtils, account, eventManager);
+    super(creditProposalService, messageService, elementRef, dataUtils, account, eventManager);
     this.lovCallreport();
     this.getLov();
   }
@@ -225,13 +231,13 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
       if (changes['id'].isFirstChange()) {
         this.initialize();
       }
-      if (this.id) {
-        this.item = new PartyGroup();
-        this.partyGroupService.find(this.id).subscribe(result => {
-          this.item = result.body;
-          this.prepareView();
-        });
-      }
+      // if (this.id) {
+      //   this.item = new PartyGroup();
+      //   this.partyGroupService.find(this.id).subscribe(result => {
+      //     this.item = result.body;
+      //     this.prepareView();
+      //   });
+      // }
     }
 
     if (changes['item']) {
@@ -302,18 +308,18 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
     // this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
 
     this.postalAddressService.loadCacheAll().subscribe((res: IPostalAddress[]) => (this.postaladdresses = res || []));
-    console.log('console log data', this.item);
+    
   }
 
   prepareView() {}
 
-  get partyGroup() {
-    return this.item;
-  }
+  // get partyGroup() {
+  //   return this.item;
+  // }
 
-  set partyGroup(partyGroup: IPartyGroup) {
-    this.item = partyGroup;
-  }
+  // set partyGroup(partyGroup: IPartyGroup) {
+  //   this.item = partyGroup;
+  // }
 
   trackPartyTypeById(index: number, item: IPartyType) {
     return item.id;
@@ -331,7 +337,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   }
 
   printing() {
-    console.log(this.item);
+   
   }
   public remove() {
     this.pacth = this.router.url.split('/')[1];
@@ -343,5 +349,153 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
     ) {
       this.view = true;
     }
+  }
+
+  // umkm
+
+  public mortCode = [];
+  public getProduct(): void {
+    this.productParameterService
+      .filterTableData({
+        idProductType: 'MORT',
+        page: 0,
+        // sort: this.sortData(),
+        size: 9999,
+      })
+      .subscribe(res => {
+        if (res.body.length > 0) {
+          for (let i = 0; i < res.body.length; i++) {
+            this.mortCode.push(res.body[i].code);
+          }
+          this.functionCek();
+        }
+      });
+  }
+
+  public totalPlafond: number;
+  public functionCek() {
+    // const mortCodes = [
+    //   '030300001001',
+    //   '030300001003',
+    //   '030300001002',
+    //   '030100001003',
+    //   '030300001004',
+    //   '030300001005',
+    //   '030300002001',
+    //   '030300002002',
+    //   '030300002003',
+    //   '030300003001',
+    //   '030300004001',
+    //   '030300006001',
+    // ];
+    if (this.item.products.length > 0) {
+      let element: IApplicationProduct[] = [];
+      const jumlahPlafond = [];
+      const data = [];
+
+      element = this.item.products.filter(products => !this.mortCode.includes(products.productCode));
+    
+
+      for (let i = 0; i < element.length; i++) {
+        data.push(element[i].totalPlafond);
+      }
+      this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
+    }
+
+    // if (this.parsedAttr.previousHistory) {
+    // this.cc1 =  this.parsedAttr.previousHistory.products.filter(product => mortCodes.includes(product.productCode));
+    // } else {
+    // this.cc1 =  this.creditProposal.products.filter(product => mortCodes.includes(product.productCode));
+    // }
+  }
+
+  public myFunction() {
+    this.getProduct();
+    if (this.item.applicationTypeId === 'SME') {
+      const totalPlafond = 0;
+      
+
+      if (this.totalPlafond <= 15000000000) {
+        if (this.item.capitalDeposit <= 1000000000) {
+          if (this.item.annualSales <= 2000000000) {
+            this.item.umkmClass = 'MICRO';
+          }
+          if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
+            this.item.umkmClass = 'SMALL';
+          }
+          if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
+            this.item.umkmClass = 'MIDDLE';
+          }
+          if (this.item.annualSales > 50000000000) {
+            this.item.umkmClass = 'Non UMKM';
+          }
+        } else if (this.item.capitalDeposit > 1000000000 && this.item.capitalDeposit <= 5000000000) {
+          if (this.item.annualSales <= 2000000000) {
+            this.item.umkmClass = 'SMALL';
+          }
+          if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
+            this.item.umkmClass = 'SMALL';
+          }
+          if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
+            this.item.umkmClass = 'SMALL';
+          }
+          if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
+            this.item.umkmClass = 'MIDDLE';
+          }
+          if (this.item.annualSales > 50000000000) {
+            this.item.umkmClass = 'Non UMKM';
+          }
+        } else if (this.item.capitalDeposit > 5000000000 && this.item.capitalDeposit <= 10000000000) {
+          if (this.item.annualSales <= 2000000000) {
+            this.item.umkmClass = 'MIDDLE';
+          }
+          if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
+            this.item.umkmClass = 'MIDDLE';
+          }
+          if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
+            this.item.umkmClass = 'MIDDLE';
+          }
+          if (this.item.annualSales > 50000000000) {
+            this.item.umkmClass = 'Non  UMKM';
+          }
+        } else if (this.item.capitalDeposit > 10000000000) {
+          if (this.item.annualSales <= 2000000000) {
+            this.item.umkmClass = 'Non  UMKM';
+          }
+          if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
+            this.item.umkmClass = 'Non  UMKM';
+          }
+          if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
+            this.item.umkmClass = 'Non  UMKM';
+          }
+          if (this.item.annualSales > 50000000000) {
+            this.item.umkmClass = 'Non  UMKM';
+          }
+        }
+      } else {
+        this.item.umkmClass = 'Non UMKM';
+      }
+    } else {
+      this.item.umkmClass = 'Non UMKM';
+    }
+
+    if (this.item.umkmClass !== '' || this.item.umkmClass !== undefined) {
+      if (this.item.umkmClass === 'MICRO') {
+        this.item.debtorCategory = '70';
+      } else if (this.item.umkmClass === 'SMALL') {
+        this.item.debtorCategory = '80';
+      } else if (this.item.umkmClass === 'MIDDLE') {
+        this.item.debtorCategory = '90';
+      } else {
+        this.item.debtorCategory = '99';
+      }
+    } else {
+      this.item.debtorCategory = '';
+    }
+  }
+
+  currencyInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return Number(num);
   }
 }
