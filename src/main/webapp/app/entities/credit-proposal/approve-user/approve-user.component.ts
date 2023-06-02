@@ -10,6 +10,8 @@ import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity
 import { IOptionNode } from 'app/shared/model/option-node.model';
 import lodash from 'lodash';
 import { ICreditProposal } from '../credit-proposal.model';
+import { IPositionReportingStructure } from 'app/entities/position-reporting-structure/position-reporting-structure.model';
+import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
 
 @Component({
   selector: 'jhi-approve-user',
@@ -17,7 +19,7 @@ import { ICreditProposal } from '../credit-proposal.model';
   styleUrls: ['./approve-user.css'],
 })
 export class CreditProposalApproveUserComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
-  public displayColumns: string[] = ['no', 'position', 'name', 'fromDate', 'alternatename'];
+  public displayColumns: string[] = ['no', 'approval_name', 'position'];
   public creditProposalStatusCodes = [
     'DRAFT',
     'RETURN TO CREDIT PROPOSAL (BU)',
@@ -29,14 +31,16 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
     'REJECT',
     'COMPLETE',
   ];
-  public relType: IOptionNode[];
-  public idApp: any;
+
   public position: IPosition[];
-  public applicationRoleId: number;
-  public filteringItems: IApplicationRole[];
-  public selectedRelationType: string;
 
   private _creditProposal: ICreditProposal;
+  public selectedRelationType: string;
+  public filteringItems: IPositionReportingStructure[];
+  public positionIdLocStor: any;
+
+  public relationTypes = [];
+  private LOS_REL = 'LOS_REL';
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -48,51 +52,63 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
   constructor(
     protected snackbar: MatSnackBar,
     protected positionReportingStructureService: PositionReportingStructureService,
-    public applicationRoleService: ApplicationRoleService,
     protected activatedRoute: ActivatedRoute,
-    protected loanAnalysService: LoanAnalysService
+    protected loanAnalysService: LoanAnalysService,
+    protected relationTypeService: RelationTypeService
   ) {
-    super(snackbar, applicationRoleService);
+    super(snackbar, positionReportingStructureService);
+    this.selectedRelationType = 'CREDIT_PROPOSAL';
     this.loading = false;
-    this.idApp = this.activatedRoute.snapshot.paramMap.get('id');
-    this.relType = [];
-    this.filteringItems = [];
-    this.selectedRelationType = '';
   }
 
   ngOnInit(): void {
-    this.getApplicationRoles();
+    this.positionIdLocStor = this.getLocStor('POS');
+    this.getReportingStructureByCP();
+    this.loadRelationType();
   }
 
-  private filteringRelType(params: IApplicationRole[]): void {
-    this.relType = this.applicationRoleService.filteringRelationTypes(params);
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
   }
 
-  public selRelType(value: string): void {
-    this.selectedRelationType = value;
-    if (value !== '') {
-      this.filteringItems = lodash.filter(this.items, function (o: IApplicationRole) {
-        return o.relationTypeId === value;
-      });
-      return;
-    }
-
-    this.filteringItems = [];
+  private getReportingStructureByCP(): void {
+    this.positionReportingStructureService.findPositionReportingStructureCp(this.positionIdLocStor).subscribe(res => {
+      this.filteringItems = res.body;
+    });
   }
 
-  private getApplicationRoles(): void {
-    this.applicationRoleService
+  public selectRelationType(event: any): void {
+    event = this.selectedRelationType;
+    console.log('evt', event);
+
+    this.getReportingStructureByCP();
+  }
+
+  private loadRelationType(): void {
+    this.relationTypeService
       .queryFilterBy({
-        idApplication: this.idApp,
-        isActive: true,
+        idParent: this.LOS_REL,
         page: 0,
         size: 9999,
       })
       .subscribe(res => {
-        this.items = res.body;
-        this.filteringRelType(this.items);
-
-        this.selRelType(this.relType[0].id);
+        this.relationTypes = res.body.filter(o => o.id === 'CREDIT_PROPOSAL');
+        if (this.selectedRelationType === 'CREDIT_PROPOSAL') {
+          this.getReportingStructureByCP();
+        } else {
+          this.items = [];
+        }
       });
   }
 }
