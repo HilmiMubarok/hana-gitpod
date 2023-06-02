@@ -16,10 +16,10 @@
             ngProjectAs="ngx-dropzone-preview"
             style="background-color: white !important; background-image: none !important"
             *ngFor="let f of file"
-            [removable]="f.name.indexOf('los_logo.png') > -1 ? false : true"
+            [removable]="f.name.includes('los_logo.png') ? false : true"
             (removed)="onRemove(f)"
           >
-            <ngx-dropzone-label [hidden]="f.name.split('.').indexOf('los_logo.png') > -1" *ngIf="f.url === undefined">
+            <ngx-dropzone-label [hidden]="f.name.includes('los_logo.png')" *ngIf="f.url === undefined">
               <ngx-dropzone-image-preview
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
@@ -190,7 +190,7 @@
       <tbody>
         <tr>
           <td>{{ convertDan(files.category) }}</td>
-          <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate | date: 'YYYY-MM-dd' }}</td>
+          <td><span *ngIf="files.dueDate !== 'null'">{{ files.dueDate | date: 'YYYY-MM-dd' }}</span></td>
           <td>{{ convertDan(files.remarks) }}</td>
           <td>{{ convertDan(files.status) }}</td>
         </tr>
