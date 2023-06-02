@@ -696,7 +696,7 @@
                           <mat-label>Call Report Category</mat-label>
                           <mat-select
                             name="callReportCategoryData"
-                            [(ngModel)]="partyCif.debtorData.callReportCategory"
+                            [(ngModel)]="item.debtorData.callReportCategory"
                             [disabled]="
                               item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
                             "
@@ -712,7 +712,9 @@
                         <div class="fontsebled row">
                           <div class="col">Call Report Category</div>
                           <div class="col-md-auto">:</div>
-                          <div class="col">{{ partyCif.debtorData.callReportCategory }}</div>
+                          <div class="col">
+                            {{ callReportCategoryValue }}
+                          </div>
                         </div>
                       </section>
                     </section>
@@ -722,7 +724,7 @@
                           <mat-label>Call Report Category</mat-label>
                           <mat-select
                             name="callReportCategoryData"
-                            [(ngModel)]="partyCif.debtorData.callReportCategory"
+                            [(ngModel)]="item.debtorData.callReportCategory"
                             [disabled]="
                               item.statusId !== 'DRAFT' && item.statusId !== 'CP_RETURN_TO_RM' && item.statusId !== 'CP_RETURN_TO_CR'
                             "
@@ -738,7 +740,7 @@
                         <div class="fontsebled row">
                           <div class="col">Call Report Category</div>
                           <div class="col-md-auto">:</div>
-                          <div class="col">{{ partyCif.debtorData.callReportCategory }}</div>
+                          <div class="col">{{ callReportCategoryValue }}</div>
                         </div>
                       </section>
                     </section>
@@ -758,7 +760,7 @@
                               required
                             >
                               <mat-option value="">Please Select</mat-option>
-                              <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.value">
+                              <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
                                 {{ item.value }}
                               </mat-option>
                             </mat-select>
@@ -768,7 +770,9 @@
                           <div class="fontsebled row">
                             <div class="col">IFC & Risk Category</div>
                             <div class="col-md-auto">:</div>
-                            <div class="col">{{ item.debtorData.ifcRiskCategory }}</div>
+                            <div class="col">
+                              {{ ifcRiskCategoryValue }}
+                            </div>
                           </div>
                         </section>
                       </section>
@@ -787,7 +791,7 @@
                               required
                             >
                               <mat-option value="">Please Select</mat-option>
-                              <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.value">
+                              <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
                                 {{ item.value }}
                               </mat-option>
                             </mat-select>
@@ -797,7 +801,9 @@
                           <div class="fontsebled row">
                             <div class="col">IFC & Risk Category</div>
                             <div class="col-md-auto">:</div>
-                            <div class="col">{{ item.debtorData.ifcRiskCategory }}</div>
+                            <div class="col">
+                              {{ ifcRiskCategoryValue }}
+                            </div>
                           </div>
                         </section>
                       </section>
