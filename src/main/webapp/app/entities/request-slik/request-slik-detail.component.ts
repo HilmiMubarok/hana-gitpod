@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik } from './request-slik.model';
@@ -14,16 +14,14 @@ import { RequestSlikService } from './request-slik.service';
 import * as _ from 'lodash';
 import { MessageService } from 'primeng/api';
 import { PartySlikService } from '../party-slik/party-slik.service';
-import { IPDFSlik } from 'app/shared/ocr/pdf-slik.model';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
-import { Subject, map, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { IRequestSlikNote, RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
@@ -111,31 +109,9 @@ export class RequestSlikDetailComponent implements OnInit {
       ];
     });
 
-    // partyId: checklist.idParty,
-    // requestSlikId: this.requestSlikId.toString(),
-    // name:
-    //   this.partyCif.customerType === 'CORPORATE'
-    //     ? this.partyCif.customerOrganization.groupName
-    //     : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
-    // dob:
-    //   this.partyCif.customerType === 'CORPORATE'
-    //     ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
-    //     : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
-    // ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
-    // npwp:
-    //   this.partyCif.customerType === 'CORPORATE'
-    //     ? this.partyCif.customerOrganization.taxIdNumber
-    //     : this.partyCif.customerPerson.taxIdNumber,
-    // gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
-    // custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
-    // product: 'HR',
-    // channel: 'LOS',
-    // purposeCode: this.requestSlik.purposeCode,
-
     console.log('evv spliced', { datas: this.ocrDatas, final: finalOcr });
     this.ocrData = finalOcr;
     return finalOcr;
-    // }, 1000);
   }
 
   // requestSlik$: Observable<IRequestSlik> | null = null;
@@ -336,6 +312,7 @@ export class RequestSlikDetailComponent implements OnInit {
       verifyData: this.verifyData,
       ocr: this.ocrData,
       isSaved: this.isSaved,
+      nikNpwp: this.nikNpwp,
     };
 
     this.requestSlikService.onSubmit(data).subscribe({
@@ -365,7 +342,7 @@ export class RequestSlikDetailComponent implements OnInit {
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      // complete: () => this.router.navigate(['/request-slik']),
+      complete: () => this.router.navigate(['/request-slik']),
     });
   }
 
@@ -653,52 +630,19 @@ export class RequestSlikDetailComponent implements OnInit {
     });
     console.log('TEMP', temp);
 
-    // const partySlik: IPartySlik = new PartySlik();
-    // partySlik.attributes = {
-    //   partySlikCollaterals: item.partySlikCollaterals,
-    //   reqReffId: item.reqReffId,
-    // };
-    // partySlik.partyId = item.partyId;
-    // partySlik.bank = item.bank;
-    // partySlik.limit = item.limit === null ? 0 : Number(item.limit);
-    // partySlik.rate = item.rate == null ? 0 : Number(item.rate.toString().replace(' %', ''));
-    // partySlik.tenor = item.tenor == null ? 0 : Number(item.tenor.toString().replace(' bulan', ''));
-    // partySlik.outstanding = item.outstanding == null ? 0 : Number(item.outstanding.toString().replace(/\./g, ''));
-    // partySlik.collateralIdrMio = item.collateralIdrMio == null ? 0 : Number(item.collateralIdrMio.toString().replace(/\./g, ''));
-    // partySlik.restructureFrequency = item.frekuensiRestrukturasi == null ? 0 : Number(item.frekuensiRestrukturasi);
-    // partySlik.arrearsFrequency = item.frekuensiTunggakan == null ? 0 : Number(item.frekuensiTunggakan);
-    // partySlik.arrearsBase = item.tunggakanPokok == null ? 0 : Number(item.tunggakanPokok);
-    // partySlik.arrearsInterest = item.tunggakanBunga == null ? 0 : Number(item.tunggakanBunga);
-    // partySlik.arrearsReason = item.sebabMacet;
-    // partySlik.lastCollectability = item.kolTerakhir == null ? 0 : Number(item.kolTerakhir.substring(0, 1));
-    // partySlik.worstCollectability = item.kolTerburuk == null ? 0 : Number(item.kolTerburuk.substring(0, 1));
-    // partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
-    // partySlik.facilityType = item.facilityType;
-    // partySlik.period = item.period;
-    // // ! Penambahan Field Party Slilk disini =====
-    // partySlik.debtorName = item.debtorName;
-    // partySlik.bankPelapor = item.bankPelapor;
-    // partySlik.tanggalAkadAwal = item.tanggalAkadAwal;
-    // partySlik.tanggalMulai = item.tanggalMulai;
-    // partySlik.tanggalJatuhTempo = item.tanggalJatuhTempo;
-    // partySlik.kondisi = item.kondisi;
-    // partySlik.totalAgunan = item.totalAgunan;
-    // partySlik.sumCollateralIdrMio = item.sumCollateralIdrMio;
-    // partySlik.typeOfFacility = item.typeOfFacility;
-    // partySlik.plafond = item.plafond;
-
-    // console.log('Mapper', partySlik);
-
     return temp;
   }
 
+  nikNpwp;
   protected getSelectedVerifyData(ev) {
     this.verifyData = [];
+    this.nikNpwp = ev.nikNpwp;
     const partySlikWithPartyId = this.makePartySlikWithPartyId(ev);
     console.log('getSelectedVerifyData', {
       ev,
       partySlikWithPartyId,
       verifyData: this.verifyData,
+      niknpwp: this.nikNpwp,
     });
     // delete this.verifyData[0].partySlikCollaterals;
     // this.verifyData = this.verifyData[0];
@@ -712,33 +656,6 @@ export class RequestSlikDetailComponent implements OnInit {
     });
 
     console.log('verifyData after loop', this.verifyData);
-
-    // Map over verifyData and create new objects with attributes key
-    // this.verifyData = this.verifyData.map(res => {
-    //   // ! add reqreffid disini harusnya
-    //   delete res.partySlikCollaterals;
-    //   console.log('Req reff id', res);
-
-    //   // party_slik / cbas / { reqReffId }-- > source;
-
-    //   // party_slik / partyId / slik_date.pdf-- > target;
-
-    //   // this.requestSlikService.CopasSlikFile(res.partyId, res.reqReffId, `party_slik/cbas`, `party_slik`);
-
-    //   // Destructure res and omit partySlikCollaterals key
-    //   // const finalVerifyData = this.mapperIPDFSlikToPartySlik(res);
-    //   // const { partySlikCollaterals, ...rest } = res;
-
-    //   // Return new object with attributes key
-    //   // return finalVerifyData;
-    //   return res;
-    //   // return {
-    //   //   ...rest,
-    //   //   attributes: {
-    //   //     partySlikCollaterals,
-    //   //   },
-    //   // };
-    // });
 
     this.verifyData = this.mapperIPDFSlikToPartySlik(this.verifyData, ev.requestReffId);
     console.log('FINAL', this.verifyData);
