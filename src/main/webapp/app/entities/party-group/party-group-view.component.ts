@@ -59,6 +59,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   @Input() id: string;
   readonly CODE: typeof CODE = CODE;
   public ifcRiskCategoryData = [];
+  public callReportCategoryData = [];
   public pacth: any;
   public view: boolean;
   public partyCif: IPartyCif = new PartyCif();
@@ -248,6 +249,8 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
       }
     }
   }
+
+  public callReportCategoryValue: string;
   public lovCallreport() {
     this.generalParameterService
       .queryFilterBy({
@@ -259,8 +262,19 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
         this.callReportCategoryData = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.callReportCategoryData) {
+          let element: string;
+          for (let i = 0; i < this.callReportCategoryData.length; i++) {
+            if (this.item['debtorData'].callReportCategory === this.callReportCategoryData[i].code) {
+              element = this.callReportCategoryData[i].value;
+            }
+          }
+          this.callReportCategoryValue = element;
+        }
       });
   }
+
+  public ifcRiskCategoryValue: string;
   public getLov() {
     this.generalParameterService
       .queryFilterBy({
@@ -272,6 +286,15 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
         this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        if (this.ifcRiskCategoryData) {
+          let element: string;
+          for (let i = 0; i < this.ifcRiskCategoryData.length; i++) {
+            if (this.item['debtorData'].ifcRiskCategory === this.ifcRiskCategoryData[i].code) {
+              element = this.ifcRiskCategoryData[i].value;
+            }
+          }
+          this.ifcRiskCategoryValue = element;
+        }
       });
   }
 
@@ -303,7 +326,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<IPa
   public data: string[] = ['Snooker', 'Tennis', 'Cricket', 'Football', 'Rugby'];
 
   public collectabilityStatusData = ['1', '2', '3', '4', '5'];
-  public callReportCategoryData = [];
   itemKey() {
     return this.item.id;
   }

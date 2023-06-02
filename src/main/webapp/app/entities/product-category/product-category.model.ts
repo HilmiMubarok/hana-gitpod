@@ -5,6 +5,9 @@ export interface IProductCategory {
   parentId?: string;
   categoryTypeDescription?: string;
   categoryTypeId?: string;
+  statusId?: string;
+  statusCode?: string;
+  statusDescription?: string;
 }
 
 export class ProductCategory implements IProductCategory {
@@ -14,6 +17,9 @@ export class ProductCategory implements IProductCategory {
     public parentDescription?: string,
     public parentId?: string,
     public categoryTypeDescription?: string,
-    public categoryTypeId?: string
+    public categoryTypeId?: string,
+    public statusId?: string,
+    public statusCode?: string,
+    public statusDescription?: string
   ) {}
 }

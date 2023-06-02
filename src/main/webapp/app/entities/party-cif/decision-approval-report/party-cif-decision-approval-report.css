@@ -143,3 +143,18 @@ td {
   text-align: center;
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }
+
+th {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+td {
+  font-family: 'Poppins', sans-serif;
+}
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}

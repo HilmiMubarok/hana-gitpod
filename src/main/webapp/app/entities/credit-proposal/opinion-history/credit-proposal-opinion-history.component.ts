@@ -175,8 +175,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
   public openDialog(element: INotes = null): void {
     const predicate = {
-      maxWidth: '70vw',
-      maxHeight: '80vh',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
       height: '100%',
       width: '100%',
       data: {

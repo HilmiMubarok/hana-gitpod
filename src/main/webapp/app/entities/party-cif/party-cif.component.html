@@ -247,7 +247,7 @@
       <div class="col-12">
         <table mat-table [dataSource]="partyCifs" class="mat-table-expand" multiTemplateDataRows>
           <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef class="grid-index-center">No</th>
+            <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
             <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-center">
               {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
             </td>
@@ -296,7 +296,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="expand">
-            <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index-center">&nbsp;</th>
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index-center rounding-table-right">&nbsp;</th>
             <td mat-cell *matCellDef="let element" class="grid-index-center">
               <button
                 mat-icon-button
@@ -416,9 +416,7 @@
         </mat-paginator>
       </div>
       <div *ngIf="positionTypeId === 'RM'" class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button (click)="openDialogFindCif()" style="background: rgba(0, 136, 129, 1); color: #ffffff">
-          <mat-icon>search</mat-icon> FIND CIF
-        </button>
+        <button mat-raised-button (click)="openDialogFindCif()" class="button-styling"><mat-icon>search</mat-icon> FIND CIF</button>
       </div>
     </div>
   </div>

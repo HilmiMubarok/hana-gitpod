@@ -64,6 +64,7 @@ export class AddCoborowerComponent {
 
   public create(): void {
     this.currentSearch = '';
+    this.partyCifs = [];
     this.Emiter.emit(this.selection.selected);
   }
 }

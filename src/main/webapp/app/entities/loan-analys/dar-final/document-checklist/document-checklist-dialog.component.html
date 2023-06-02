@@ -15,7 +15,6 @@
             class="col-6"
             ngProjectAs="ngx-dropzone-preview"
             style="background-color: white !important; background-image: none !important"
-            
             *ngFor="let f of file"
             [removable]="f.name.indexOf('los_logo.png') > -1 ? false : true"
             (removed)="onRemove(f)"
@@ -25,37 +24,35 @@
                 ngProjectAs="ngx-dropzone-image-preview"
                 [file]="f"
                 *ngIf="
-                  f.name.split('.').indexOf('png') > -1 || f.name.split('.').indexOf('jpg') > -1 || f.name.split('.').indexOf('jpeg') > -1 || f.name.split('.').indexOf('gif') > -1
+                  f.name.split('.').indexOf('png') > -1 ||
+                  f.name.split('.').indexOf('jpg') > -1 ||
+                  f.name.split('.').indexOf('jpeg') > -1 ||
+                  f.name.split('.').indexOf('gif') > -1
                 "
               ></ngx-dropzone-image-preview>
             </ngx-dropzone-label>
 
             <ngx-dropzone-label [hidden]="f.name.split('.').indexOf('los_logo.png') > -1">
               <div *ngIf="f.url !== undefined">
-              <div
-              *ngIf="f.split('.').name.indexOf('png') > -1 || f.split('.').name.indexOf('jpg') > -1 || f.split('.').name.indexOf('jpeg') > -1 || f.split('.').name.indexOf('gif') > -1"
-              >
-                <img  [src]="f.url" width="100%" height="100%" />
+                <div
+                  *ngIf="
+                    f.split('.').name.indexOf('png') > -1 ||
+                    f.split('.').name.indexOf('jpg') > -1 ||
+                    f.split('.').name.indexOf('jpeg') > -1 ||
+                    f.split('.').name.indexOf('gif') > -1
+                  "
+                >
+                  <img [src]="f.url" width="100%" height="100%" />
+                </div>
               </div>
-            </div>
             </ngx-dropzone-label>
             <ngx-dropzone-label>
-              <div
-                *ngIf="
-                  f.name.split('.').indexOf('xls') > -1 ||
-                  f.name.split('.').indexOf('xlsx') > -1
-                "
-              >
+              <div *ngIf="f.name.split('.').indexOf('xls') > -1 || f.name.split('.').indexOf('xlsx') > -1">
                 <img src="../../../../content/images/excel.png" width="100%" height="100%" />
               </div>
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label
-              *ngIf="
-                f.name.split('.').indexOf('doc') > -1 ||
-                f.name.split('.').indexOf('docx') > -1
-              "
-            >
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('doc') > -1 || f.name.split('.').indexOf('docx') > -1">
               <img src="../../../../content/images/word.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
@@ -75,11 +72,7 @@
               <img src="../../../../content/images/pdf.png" width="100%" height="100%" />
             </ngx-dropzone-label>
 
-            <ngx-dropzone-label
-              *ngIf="
-                f.name.split('.').indexOf('pptx') > -1
-              "
-            >
+            <ngx-dropzone-label *ngIf="f.name.split('.').indexOf('pptx') > -1">
               <img src="../../../../content/images/power-point.jpg" width="100%" height="100%" />
             </ngx-dropzone-label>
 
@@ -192,7 +185,6 @@
     <table class="table">
       <thead>
         <tr>
-
           <th>Category</th>
           <th>Date</th>
           <th>Remarks</th>
@@ -202,7 +194,7 @@
       <tbody>
         <tr>
           <td>{{ convertDan(files.category) }}</td>
-          <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate | date: 'YYYY-MM-dd'}}</td>
+          <td><span *ngIf="files.dueDate !== 'null'"></span>{{ files.dueDate | date: 'YYYY-MM-dd' }}</td>
           <td>{{ convertDan(files.remarks) }}</td>
           <td>{{ convertDan(files.status) }}</td>
         </tr>
@@ -214,9 +206,13 @@
           [hidden]="item.name.indexOf('los_logo.png') > -1"
           style="background-color: #d9d9d9; height: auto; width: 300px; border-radius: 60px"
         >
-
           <div
-            *ngIf="item.name.split('.').indexOf('png') > -1 || item.name.split('.').indexOf('jpg') > -1 || item.name.split('.').indexOf('jpeg') > -1 || item.name.split('.').indexOf('gif') > -1"
+            *ngIf="
+              item.name.split('.').indexOf('png') > -1 ||
+              item.name.split('.').indexOf('jpg') > -1 ||
+              item.name.split('.').indexOf('jpeg') > -1 ||
+              item.name.split('.').indexOf('gif') > -1
+            "
           >
             <img style="width: 300px; border-radius: 20px" [src]="item.url" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -224,24 +220,14 @@
             </div>
           </div>
 
-          <div
-            *ngIf="
-            item.name.split('.').indexOf('xlsx') > -1 ||
-              item.name.split('.').indexOf('xls') > -1
-            "
-            style="width: 300px"
-          >
+          <div *ngIf="item.name.split('.').indexOf('xlsx') > -1 || item.name.split('.').indexOf('xls') > -1" style="width: 300px">
             <img width="300px" src="../../../../content/images/excel.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
             </div>
           </div>
-        
-          <div
-            *ngIf="
-              item.name.split('.').indexOf('doc') > -1 || item.name.split('.').indexOf('docx') > -1
-            "
-          >
+
+          <div *ngIf="item.name.split('.').indexOf('doc') > -1 || item.name.split('.').indexOf('docx') > -1">
             <img width="300px" src="../../../../content/images/word.png" />
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
               <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
@@ -308,11 +294,7 @@
             </div>
           </div>
 
-          <div
-            *ngIf="
-              item.name.split('.').indexOf('pptx') > -1
-            "
-          >
+          <div *ngIf="item.name.split('.').indexOf('pptx') > -1">
             <img width="300px" src="../../../content/images/power-point.jpg" />
 
             <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
@@ -325,11 +307,9 @@
             style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; align-items: center"
           >
             <p style="font-weight: 400; font-size: 15px; font-family: 'Times New Roman', Times, serif; width: 50%">
-              {{item.nameFIle}}
+              {{ item.nameFIle }}
             </p>
-        </div>
-
-     
+          </div>
         </div>
       </li>
     </ul>
