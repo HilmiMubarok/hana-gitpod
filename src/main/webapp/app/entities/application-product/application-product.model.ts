@@ -116,7 +116,7 @@ export interface IApplicationProduct {
   typeReferenceRateFun?: string;
   No?: number;
   expectedLoss?: string;
-  subLimitFun?: string;
+  subLimitFun?: boolean;
   pricingRate?: string;
 
   agreementDate?: Date;
@@ -241,7 +241,7 @@ export class ApplicationProduct implements IApplicationProduct {
     public typeReferenceRateFun?: string,
     public No?: number,
     public expectedLoss?: string,
-    public subLimitFun?: string,
+    public subLimitFun?: boolean,
     public pricingRate?: string,
     public agreementDate?: Date,
     public avgDiscProposalIDR?: string,
