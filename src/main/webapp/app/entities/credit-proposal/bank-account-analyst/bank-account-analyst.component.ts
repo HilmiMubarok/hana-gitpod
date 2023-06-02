@@ -409,13 +409,22 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
   public getBalanceConversion(element: IBankAccountAnalyst): number {
     let result: number;
     result = 0;
-
     const detail = element.detail;
-    if (detail.length > 0) {
-      for (let a = 0; a < detail.length; a++) {
-        result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
+    if (element) {
+      if (detail.length > 0) {
+        for (let a = 0; a < detail.length; a++) {
+          result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
+        }
       }
     }
+    if (result <= 0) {
+      result = 0;
+    }
+    // if (detail.length > 0) {
+    //   for (let a = 0; a < detail.length; a++) {
+    //     result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
+    //   }
+    // }
 
     return result;
   }

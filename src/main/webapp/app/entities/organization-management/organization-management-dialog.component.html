@@ -27,7 +27,7 @@
               name="radioButtons"
               [(ngModel)]="customerType"
               (change)="onChange($event.value)"
-              [disabled]="isDisabled"
+              [disabled]="this.data.organizationManagement.id !== undefined"
             >
               <mat-radio-button [value]="'individu'">Individu</mat-radio-button>
               <mat-radio-button [value]="'corporate'">Corporate</mat-radio-button>
