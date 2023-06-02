@@ -127,7 +127,10 @@ export class CreditProposalBankAccountAnalystDialogEditComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.bankAccAnalyst.detail.map(t => t.balance).reduce((acc, value) => acc + value, 0);
+      result = this.bankAccAnalyst.detail
+        .map(t => t.balance)
+        .filter(balance => balance >= 0)
+        .reduce((acc, value) => acc + value, 0);
     }
     return result;
   }
