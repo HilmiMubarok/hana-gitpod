@@ -42,8 +42,8 @@ export class CreditProposalPersonalInfoAnalystComponent implements OnInit, OnCha
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      if (this.creditProposal.ownerPosition.partyId) {
-        this.loadInternalInformationRM(this.creditProposal.ownerPosition.partyId);
+      if (this.creditProposal.ownerPosition?.partyId) {
+        this.loadInternalInformationRM(this.creditProposal.ownerPosition?.partyId);
       }
     }
   }
@@ -94,7 +94,7 @@ export class CreditProposalPersonalInfoAnalystComponent implements OnInit, OnCha
 
   private findPositionByIdParty(partyId: string): Promise<IPosition> {
     return new Promise<IPosition>((resolve, reject) => {
-      if (this.creditProposal.ownerPosition.partyId) {
+      if (this.creditProposal.ownerPosition?.partyId) {
         this.positionService.queryFilterBy({ idParty: partyId, size: 1, page: 0 }).subscribe(res => {
           if (res.body.length > 0) {
             this.rmPosition = res.body[0];

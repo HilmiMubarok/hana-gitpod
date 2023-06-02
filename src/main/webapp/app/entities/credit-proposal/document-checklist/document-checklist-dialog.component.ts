@@ -411,7 +411,8 @@ export class DocumentChecklistDialogComponent {
           metaData.entityId = this.data.cpId;
           metaData.id = this.files.id;
           metaData.status = this.files.status;
-          metaData.dueDate = this.files.dueDate === undefined ? null : new Date(this.files.dueDate).toISOString();
+          metaData.dueDate =
+            this.files.dueDate === undefined || this.files.dueDate === null ? null : new Date(this.files.dueDate).toISOString();
           metaData.remarks = this.files.remarks.replace('&', 'codeSpecialDan');
 
           const formData = new FormData();
