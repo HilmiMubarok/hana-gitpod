@@ -1,24 +1,29 @@
 <h2 mat-dialog-title>Slik Files</h2>
 <mat-dialog-content>
-
   <mat-progress-spinner *ngIf="!(data$ | async)" color="primary" mode="indeterminate"></mat-progress-spinner>
 
-    <div class="file-grid" *ngIf="!isLoading">
-      <mat-card *ngFor="let file of data$ | async" class="file-card">
-        <mat-card-header>
-          <mat-card-title>{{ file.name }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <img src="../../../../../content/images/pdf.png" alt="PDF Thumbnail" class="thumbnail">
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="downloadFile(file)">Download File</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-
-
+  <div class="file-grid" *ngIf="!isLoading">
+    <ng-container *ngIf="(data$ | async) as files">
+      <ng-container *ngIf="files.length > 0; else noFiles">
+        <mat-card *ngFor="let file of files" class="file-card">
+          <mat-card-header>
+            <mat-card-title>{{ file.name }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <img src="../../../../../content/images/pdf.png" alt="PDF Thumbnail" class="thumbnail" />
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="downloadFile(file)">Download File</button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </ng-container>
+    <ng-template #noFiles>
+      <p class="file-not-found">File not found</p>
+    </ng-template>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
+

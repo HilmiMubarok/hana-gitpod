@@ -256,10 +256,10 @@ export class ProposalBasicInformationComponent implements OnInit {
         }
 
         if (this.parentPath !== 'cp-status-approval') {
-		  if (this.proposalBasicInformationViewComponent) {
-			this.proposalBasicInformationViewComponent.triggeredSave();
-		  }
-		}
+          if (this.proposalBasicInformationViewComponent) {
+            this.proposalBasicInformationViewComponent.triggeredSave();
+          }
+        }
 
         if (this.creditProposaTabManagementInfoComponent) {
           this.creditProposaTabManagementInfoComponent.triggeredSave();
@@ -705,11 +705,11 @@ export class ProposalBasicInformationComponent implements OnInit {
         this.CreditProposalTabSummaryComponent.triggeredSave();
       }
 
-	  if (this.parentPath !== 'cp-status-approval') {
-		if (this.proposalBasicInformationViewComponent) {
+      if (this.parentPath !== 'cp-status-approval') {
+        if (this.proposalBasicInformationViewComponent) {
           this.proposalBasicInformationViewComponent.triggeredSave();
-		}
-	  }
+        }
+      }
 
       if (this.creditProposaTabManagementInfoComponent) {
         this.creditProposaTabManagementInfoComponent.triggeredSave();
@@ -1185,7 +1185,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   getTextMenu() {
     if (this.clickedMenu === 'credit-proposal-approval') {
-      this.titleMenu = 'Credit Proposal Approval';
+      this.titleMenu = 'Credit Proposal Summary';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'basic-information') {
@@ -1256,6 +1256,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       this.titleMenu = 'Repayment Capability';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    return this.titleMenu;
   }
 
   getTitleMenu() {

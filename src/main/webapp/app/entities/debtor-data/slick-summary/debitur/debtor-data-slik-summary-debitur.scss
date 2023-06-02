@@ -8,10 +8,7 @@ table th {
 }
 
 .grid-index {
-  background: rgba(49, 158, 152, 1);
-  color: #000000;
   text-align: center;
-  font-size: 14px;
 }
 
 .grid-index-label {
@@ -23,5 +20,27 @@ table th {
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
-  color: #008881;
+}
+
+table {
+  border: 5px;
+  th {
+    background-color: rgba(147, 201, 199, 1);
+    color: black;
+    font-family: 'Poppins', sans-serif;
+  }
+  td {
+    font-family: 'Poppins', sans-serif;
+  }
+  .rounding-table-left {
+    border-top-left-radius: 15px;
+  }
+  .rounding-table-right {
+    border-top-right-radius: 15px;
+  }
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff;
 }

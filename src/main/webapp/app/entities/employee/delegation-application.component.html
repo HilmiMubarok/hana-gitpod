@@ -7,7 +7,7 @@
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <!-- <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item> -->
             <e-breadcrumb-item text="Employee" url="/employee"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Delegation " url=""></e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="Delegation " url=""></e-breadcrumb-item> -->
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -40,12 +40,12 @@
         <ng-container matColumnDef="dateFrom">
           <th mat-header-cell *matHeaderCellDef class="text-center">Date From</th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.fromDate | date:'yyyy-MM-dd' }}
+            {{ element.fromDate | date: 'yyyy-MM-dd' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="dateTru">
           <th mat-header-cell *matHeaderCellDef class="text-center">Thru Date</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.thruDate | date:'yyyy-MM-dd' }}</td>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.thruDate | date: 'yyyy-MM-dd' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="reason">

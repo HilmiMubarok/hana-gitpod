@@ -5,15 +5,13 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, forkJoin, map, merge, Observable, of, Subscription, switchMap } from 'rxjs';
-import { createRequestOption } from 'app/core/request/request-util';
+import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import _ from 'lodash';
-import { MatTableDataSource } from '@angular/material/table';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { StorageService } from '../storage/storage.service';
-import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
@@ -24,7 +22,8 @@ export class RequestSlikService extends AbstractEntityService<any> {
     protected partyCifService: PartyCifService,
     protected partySlikService: PartySlikService,
     protected storageService: StorageService,
-    protected internalService: InternalService
+    protected internalService: InternalService,
+    protected messageService: MessageService
   ) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
@@ -226,20 +225,22 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   pushPartySlik(data) {
+    console.log(data.verifyData);
     // copas slik file from cbas to $party_id
-    const push = data.verifyData.map(res => this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`));
+    const push = data.verifyData.map(res =>
+      this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`, data.nikNpwp)
+    );
+    // return new Observable();
 
     // Remove reqReffId attributes on this.verifyData
-    data.verifyData = data.verifyData.map(res => {
-      delete res.attributes['reqReffId'];
-      return res;
-    });
+    console.log('Elemeeeeeen push party slik data', data);
 
+    // console.log('Elemeeeeeen push party slik test', copyVerifyData);
+    console.log('Elemeeeeeen push party slik', data.verifyData);
+    // return new Observable();
     const save = this.partySlikService.saveAll(data.verifyData);
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
     return forkJoin([save, changeStatus, push]);
-    // return forkJoin([save, changeStatus, push]);
-    // return this.partySlikService.saveAll(data.verifyData);
   }
 
   public onSubmit(data) {
@@ -255,65 +256,121 @@ export class RequestSlikService extends AbstractEntityService<any> {
     }
   }
 
-  CopasSlikFile(partyId, reqReffId, source, target) {
+  CopasSlikFile(partyId, reqReffId, source, target, nikNpwp) {
     // Get Bucket
+    reqReffId = JSON.parse(reqReffId);
+    console.log('reqreffid', reqReffId);
+    // return new Observable();
     return this.storageService.getBucketName().subscribe(bucket => {
       const bucketName = bucket.body['bucket'];
       // Get Objects
       const predicate: Object = {
         key: `${source}/${reqReffId}`,
       };
-      this.storageService.getObjects(bucketName, predicate).subscribe(objects => {
-        console.log('OBJECTS', objects);
 
-        // convert object to file
-        objects.body.forEach(element => {
-          // Fetch the file from the URL and create a new File object
-          fetch(element['url'])
-            .then(response => response.blob())
-            .then(blob => {
-              const file = new File([blob], element['name'], { type: element['metaData']['Value'], lastModified: element['lastModified'] });
+      this.storageService
+        .getObjects(bucketName, predicate)
+        .pipe(map(res => res.body))
+        .pipe(map(data => data.filter(item => item['name'].includes(nikNpwp))))
+        .subscribe(objects => {
+          objects.forEach(element => {
+            if (element['name'].includes(nikNpwp)) {
+              // Fetch the file from the URL and create a new File object
+              fetch(element['url'])
+                .then(response => response.blob())
+                .then(blob => {
+                  const file = new File([blob], element['name'], {
+                    type: element['metaData']['Value'],
+                    lastModified: element['lastModified'],
+                  });
 
-              const formData = new FormData();
-              formData.append('file', file);
+                  const formData = new FormData();
+                  formData.append('file', file);
 
-              this.storageService
-                .uploadMeta(bucketName, formData, {
-                  objectName: `${target}/${partyId}/${element['name']}`,
+                  this.storageService
+                    .uploadMeta(bucketName, formData, {
+                      objectName: `${target}/${partyId}/${element['name']}`,
+                    })
+                    .subscribe(uploadFile => {
+                      console.log('UPLOAD FILE', uploadFile);
+                    });
                 })
-                .subscribe(uploadFile => {
-                  console.log('UPLOAD FILE', uploadFile);
+                .catch(error => {
+                  console.error('Error fetching the file:', error);
                 });
-            })
-            .catch(error => {
-              console.error('Error fetching the file:', error);
-            });
+            }
+          });
         });
-      });
     });
   }
 
-  // public changeStatusAndRequest(cbasData: any): Observable<any> {
-  //   return this.http
-  //     .post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, cbasData.ocr, {
-  //       observe: 'response',
-  //     })
-  //     .pipe(switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: 'CHECKING' })));
-  //     // .pipe(switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status })));
-  // }
-
   public changeStatusAndRequest(cbasData: any): Observable<any> {
-    // console.log('new OCR changestatusandrequest', cbasData.ocr);
+    console.log('new OCR changestatusandrequest', cbasData.ocr);
     // return new Observable();
+
     const ocrRequests = cbasData.ocr.map((ocrItem: any) =>
-      this.http.post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, ocrItem, {
-        observe: 'response',
-      })
+      this.http
+        .post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, ocrItem, {
+          observe: 'response',
+        })
+        .pipe(
+          // eslint-disable-next-line arrow-body-style
+          catchError(error => {
+            console.log('ERROR', error);
+            // Handle error for each post request
+            // ===
+            // const resError = JSON.parse(error.error.text + `"}`);
+            // console.log('REESSERR', resError);
+            // console.error('Post Request Error:', { error, ocrItem, flag: JSON.parse(error.error.text + `"}`) });
+            // resError.ResultFlag === 'false'
+            //   ? this.messageService.add({
+            //       severity: 'error',
+            //       summary: 'Error',
+            //       detail: ocrItem.name + ' Failed Request. ' + resError.ErrorMsg,
+            //       life: 15000,
+            //     })
+            //   : this.messageService.add({
+            //       severity: 'success',
+            //       summary: 'Success',
+            //       detail: ocrItem.name + ' Request Success',
+            //       life: 15000,
+            //     });
+            // === //
+            // Show error notification
+            return of(null); // Continue the loop even if there's an error
+          })
+        )
     );
 
     return forkJoin(ocrRequests).pipe(
-      switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status }))
+      mergeMap(() =>
+        // Success notification after all post requests are completed
+        // Show success notification
+
+        this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status }).pipe(
+          catchError(error => {
+            // Handle error for put request
+            console.error('Put Request Error:', error);
+            // Show error notification
+            return throwError(error);
+          })
+        )
+      )
     );
+
+    /**
+     * ocr.name
+     * ocr.npwp
+     */
+    // const ocrRequests = cbasData.ocr.map((ocrItem: any) =>
+    //   this.http.post(`${this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR)}/api/slik/request`, ocrItem, {
+    //     observe: 'response',
+    //   })
+    // );
+
+    // return forkJoin(ocrRequests).pipe(
+    //   switchMap(() => this.http.put<any>(`${this.resourceUrl}/status/${cbasData.id}`, { status: cbasData.status }))
+    // );
   }
 
   mapSlikResult(data) {
@@ -339,7 +396,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     data.resultJson.sliks.forEach(slik => {
       const { nikNpwp, ideb, partySlik } = slik;
       finalData.push(
-        Object.assign({}, ideb.data.dataPokokDebitur[0], { requestReffId: data.resultJson.requestReffId, nikNpwp, partySlik: partySlik[0] })
+        Object.assign({}, ideb.data.dataPokokDebitur[0], { requestReffId: data.resultJson.requestReffId, nikNpwp, partySlik })
       );
     });
 

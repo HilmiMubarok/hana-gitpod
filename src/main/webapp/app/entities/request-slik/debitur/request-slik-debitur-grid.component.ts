@@ -12,6 +12,7 @@ import { RequestSlikService } from '../request-slik.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
+import { RequestSlikVerifyService } from '../services/request-slik-verify.service';
 
 @Component({
   selector: 'jhi-request-slik-debitur-grid',
@@ -32,7 +33,8 @@ export class RequestSlikDebiturGridComponent implements OnInit {
     protected _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
-    public requestSlikService: RequestSlikService
+    public requestSlikService: RequestSlikService,
+    public requestSlikVerifyService: RequestSlikVerifyService
   ) {
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     // this.loadData();
@@ -73,17 +75,6 @@ export class RequestSlikDebiturGridComponent implements OnInit {
     'action',
   ];
 
-  // openDialogSlikFile(reqReffId) {
-  //   const predicate: object = {
-  //     width: '90vw',
-  //     data: {
-  //       reqReffId,
-  //     },
-  //   };
-
-  //   const dialogRef = this.dialog.open(RequestSlikDialogSlikFileComponent, predicate);
-  //   dialogRef.afterClosed().subscribe(() => {});
-  // }
   openDialogSlikFile(reqReffId, fileName) {
     const predicate: object = {
       width: '90vw',
@@ -126,8 +117,12 @@ export class RequestSlikDebiturGridComponent implements OnInit {
       cbasRes.body.data.content.length > 0 &&
         cbasRes.body.data.content.forEach(el => {
           this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
+            console.log('Elemeeeeeen resFilter', resFilter);
             this.dataSource = this.mapCbasResult(el, resFilter.body.data.content);
-            this.reqReffId = this.dataSource[0].reqReffId;
+            console.log('Elemeeeeeen dataSource', this.dataSource);
+            this.requestSlikVerifyService.setOriginalVerifyData(this.dataSource);
+            this.reqReffId = this.dataSource[0].requestReffId;
+            console.log('Elemeeeeeen reqreffid', this.reqReffId);
             console.log('THEE DATA DEBITUR', this.dataSource);
           });
         });
@@ -172,6 +167,7 @@ export class RequestSlikDebiturGridComponent implements OnInit {
   }
 
   protected selectRow(el) {
+    console.log('Select row', el);
     this.nikNpwp = el.nikNpwp;
     this.selectedVerifyData.emit(el);
   }

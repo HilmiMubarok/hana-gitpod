@@ -11,7 +11,7 @@ export const DASHBOARD: ISidebarMenuModel[] = [
 export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
   {
     name: 'Master',
-    iconname: 'house',
+    iconname: 'database',
     children: [
       {
         name: 'Internal',
@@ -1615,6 +1615,11 @@ export const APPRAISAL_MENU_ADMIN_APPRAISAL: ISidebarMenuModel[] = [
         name: 'Appraisal Distribution Internal',
         iconname: 'minus',
         route: 'batch-apprisal/internal',
+      },
+      {
+        name: 'Appraisal Result Inquiry',
+        iconname: 'minus',
+        route: 'collateral-appraisal-result-inqury',
       },
     ],
   },

@@ -14,16 +14,14 @@ import { RequestSlikService } from './request-slik.service';
 import * as _ from 'lodash';
 import { MessageService } from 'primeng/api';
 import { PartySlikService } from '../party-slik/party-slik.service';
-import { IPDFSlik } from 'app/shared/ocr/pdf-slik.model';
 import { IPartySlik, PartySlik } from '../party-slik/party-slik.model';
 import { StorageService } from '../storage/storage.service';
-import { Subject, map, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { RequestSlikStatusService } from './services/request-slik-status.service';
 import { IInternal } from '../internal/internal.model';
 import { InternalService } from '../internal/internal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TaskCommentDialogComponent } from 'app/layouts/miscellaneous/task-comment-dialog.component';
 import { IRequestSlikNote, RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
@@ -46,6 +44,29 @@ export class RequestSlikDetailComponent implements OnInit {
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
     // this.getFinalOcrData();
+  }
+
+  /**
+   * this function only called when the request slik status is draft or return to rm.
+   */
+  checkDataChecklist;
+  getAllChecklistsAndPush() {
+    console.log('all checklists', {
+      status: this.requestSlik.status,
+      reqreffid: this.requestSlik.id,
+    });
+    if (this.requestSlik.status === 'DRAFT' || this.requestSlik.status === 'RETURN_TO_RM') {
+      this.requestSlikChecklistService.getAllChecklistsByRequestSlikId(this.requestSlik.id).subscribe(res => {
+        this.checkDataChecklist = res;
+        console.log('all checklists: ', this.checkDataChecklist.data);
+        this.checklists = this.checkDataChecklist.length === 0 && this.checkDataChecklist;
+        console.log('Checklists', this.checklists);
+      });
+    }
+  }
+
+  getAllChecklistData(data) {
+    console.log('all checklist from child', data);
   }
 
   getFinalOcrData() {
@@ -88,31 +109,9 @@ export class RequestSlikDetailComponent implements OnInit {
       ];
     });
 
-    // partyId: checklist.idParty,
-    // requestSlikId: this.requestSlikId.toString(),
-    // name:
-    //   this.partyCif.customerType === 'CORPORATE'
-    //     ? this.partyCif.customerOrganization.groupName
-    //     : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
-    // dob:
-    //   this.partyCif.customerType === 'CORPORATE'
-    //     ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
-    //     : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
-    // ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
-    // npwp:
-    //   this.partyCif.customerType === 'CORPORATE'
-    //     ? this.partyCif.customerOrganization.taxIdNumber
-    //     : this.partyCif.customerPerson.taxIdNumber,
-    // gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
-    // custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
-    // product: 'HR',
-    // channel: 'LOS',
-    // purposeCode: this.requestSlik.purposeCode,
-
     console.log('evv spliced', { datas: this.ocrDatas, final: finalOcr });
     this.ocrData = finalOcr;
     return finalOcr;
-    // }, 1000);
   }
 
   // requestSlik$: Observable<IRequestSlik> | null = null;
@@ -196,7 +195,10 @@ export class RequestSlikDetailComponent implements OnInit {
         });
         console.log('RES DETAIL', { res, segment: this.segment });
       },
-      complete: () => (this.isLoading = false),
+      complete: () => {
+        this.isLoading = false;
+        // this.getAllChecklistsAndPush();
+      },
     });
   }
 
@@ -265,10 +267,6 @@ export class RequestSlikDetailComponent implements OnInit {
     window.history.back();
   }
 
-  // Checklist
-  // saveDetails(data: object[]) {
-  // }
-
   // Get Lov Purpose Type
   purposeType;
   getLovPurposeType() {
@@ -303,34 +301,6 @@ export class RequestSlikDetailComponent implements OnInit {
         purposeCode: this.requestSlik.purposeCode,
       },
     ];
-    // this.checklists.forEach(checklist => {
-    //   console.log('CHecklist', checklist);
-    //   this.ocrData = [
-    //     ...this.ocrData,
-    //     {
-    //       partyId: checklist.idParty,
-    //       requestSlikId: this.requestSlikId.toString(),
-    //       name:
-    //         this.partyCif.customerType === 'CORPORATE'
-    //           ? this.partyCif.customerOrganization.groupName
-    //           : this.partyCif.customerPerson.firstName + ' ' + this.partyCif.customerPerson.lastName,
-    //       dob:
-    //         this.partyCif.customerType === 'CORPORATE'
-    //           ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
-    //           : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
-    //       ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
-    //       npwp:
-    //         this.partyCif.customerType === 'CORPORATE'
-    //           ? this.partyCif.customerOrganization.taxIdNumber
-    //           : this.partyCif.customerPerson.taxIdNumber,
-    //       gender: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.gender === 'L' ? 'M' : 'F',
-    //       custtype: this.partyCif.customerType === 'CORPORATE' ? '2' : '1',
-    //       product: 'HR',
-    //       channel: 'LOS',
-    //       purposeCode: this.requestSlik.purposeCode,
-    //     },
-    //   ];
-    // });
 
     console.log('dddd newocr', this.ocrData);
 
@@ -342,17 +312,26 @@ export class RequestSlikDetailComponent implements OnInit {
       verifyData: this.verifyData,
       ocr: this.ocrData,
       isSaved: this.isSaved,
+      nikNpwp: this.nikNpwp,
     };
 
     this.requestSlikService.onSubmit(data).subscribe({
-      next: () => {
+      // eslint-disable-next-line object-shorthand
+      next: res => {
+        console.log('RES', res);
         data.status === 'CHECKING' && this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
         this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
         this.router.navigate(['/request-slik']);
       },
+      // eslint-disable-next-line object-shorthand
       error: err => {
         console.log(err);
-        if (data.status === 'APPROVAL_BU' || data.status === 'APPROVAL_SLIK' || (data.status === 'CHECKING' && err.status === 200)) {
+        if (
+          data.status === 'APPROVAL_BU' ||
+          data.status === 'APPROVAL_SLIK' ||
+          (data.status === 'CHECKING' && err.status === 200) ||
+          data.status === 'COMPLETE'
+        ) {
           data.status === 'CHECKING' &&
             err.status === 200 &&
             this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
@@ -591,91 +570,95 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   protected makePartySlikWithPartyId(data) {
-    const partySlik = data.partySlik;
-    const partyId = data.partyId;
-    const reqReffId = data.requestReffId;
+    console.log('makePartySlikWithPartyId', data);
+    const partySlik = data.partySlik; // array
+    const partyId = data.partyId; // string
+    const reqReffId = data.requestReffId; // string
 
-    // add partyId to partySlik
-    partySlik.partyId = partyId;
+    partySlik.forEach(party => {
+      party.partyId = partyId;
 
-    // add reqReffId to partySlik
-    partySlik.reqReffId = reqReffId;
+      // add attribute key on party
+      party.attributes = party.attributes || [];
+      party.attributes['partySlikCollaterals'] = JSON.stringify(party.partySlikCollaterals);
 
-    return partySlik;
-  }
-
-  private mapperIPDFSlikToPartySlik(item: any): IPartySlik {
-    const partySlik: IPartySlik = new PartySlik();
-    partySlik.attributes = {
-      partySlikCollaterals: item.partySlikCollaterals,
-      reqReffId: item.reqReffId,
-    };
-    partySlik.partyId = item.partyId;
-    partySlik.bank = item.bank;
-    partySlik.limit = item.limit === null ? 0 : Number(item.limit.toString().replace(/\./g, ''));
-    partySlik.rate = item.rate == null ? 0 : Number(item.rate.toString().replace(' %', ''));
-    partySlik.tenor = item.tenor == null ? 0 : Number(item.tenor.toString().replace(' bulan', ''));
-    partySlik.outstanding = item.outstanding == null ? 0 : Number(item.outstanding.toString().replace(/\./g, ''));
-    partySlik.collateralIdrMio = item.collateralIdrMio == null ? 0 : Number(item.collateralIdrMio.toString().replace(/\./g, ''));
-    partySlik.restructureFrequency = item.frekuensiRestrukturasi == null ? 0 : Number(item.frekuensiRestrukturasi);
-    partySlik.arrearsFrequency = item.frekuensiTunggakan == null ? 0 : Number(item.frekuensiTunggakan);
-    partySlik.arrearsBase = item.tunggakanPokok == null ? 0 : Number(item.tunggakanPokok);
-    partySlik.arrearsInterest = item.tunggakanBunga == null ? 0 : Number(item.tunggakanBunga);
-    partySlik.arrearsReason = item.sebabMacet;
-    partySlik.lastCollectability = item.kolTerakhir == null ? 0 : Number(item.kolTerakhir.substring(0, 1));
-    partySlik.worstCollectability = item.kolTerburuk == null ? 0 : Number(item.kolTerburuk.substring(0, 1));
-    partySlik.collateralType = item.collateralType == null ? '' : item.collateralType;
-    partySlik.facilityType = item.facilityType;
-    partySlik.period = item.period;
-    // ! Penambahan Field Party Slilk disini =====
-    partySlik.debtorName = item.debtorName;
-    partySlik.bankPelapor = item.bankPelapor;
-    partySlik.tanggalAkadAwal = item.tanggalAkadAwal;
-    partySlik.tanggalMulai = item.tanggalMulai;
-    partySlik.tanggalJatuhTempo = item.tanggalJatuhTempo;
-    partySlik.kondisi = item.kondisi;
-    partySlik.totalAgunan = item.totalAgunan;
-    partySlik.sumCollateralIdrMio = item.sumCollateralIdrMio;
-    partySlik.typeOfFacility = item.typeOfFacility;
-    partySlik.plafond = item.plafond;
+      party.requestReffId = reqReffId;
+    });
 
     return partySlik;
   }
 
+  private mapperIPDFSlikToPartySlik(item: any, reqReffId): any {
+    console.log('mapperIPDFSlikToPartySlik', item);
+
+    const temp = [];
+    item[0].forEach(element => {
+      const partySlik: IPartySlik = new PartySlik();
+      partySlik.attributes = {
+        partySlikCollaterals: JSON.stringify(element.partySlikCollaterals),
+        reqReffId: JSON.stringify(reqReffId),
+      };
+      partySlik.partyId = element.partyId;
+      partySlik.bank = element.bank;
+      partySlik.limit = element.limit === null ? 0 : Number(element.limit);
+      partySlik.rate = element.rate == null ? 0 : Number(element.rate.toString().replace(' %', ''));
+      partySlik.tenor = element.tenor == null ? 0 : Number(element.tenor.toString().replace(' bulan', ''));
+      partySlik.outstanding = element.outstanding == null ? 0 : Number(element.outstanding.toString().replace(/\./g, ''));
+      partySlik.collateralIdrMio = element.collateralIdrMio == null ? 0 : Number(element.collateralIdrMio.toString().replace(/\./g, ''));
+      partySlik.restructureFrequency = element.frekuensiRestrukturasi == null ? 0 : Number(element.frekuensiRestrukturasi);
+      partySlik.arrearsFrequency = element.frekuensiTunggakan == null ? 0 : Number(element.frekuensiTunggakan);
+      partySlik.arrearsBase = element.tunggakanPokok == null ? 0 : Number(element.tunggakanPokok);
+      partySlik.arrearsInterest = element.tunggakanBunga == null ? 0 : Number(element.tunggakanBunga);
+      partySlik.arrearsReason = element.sebabMacet;
+      partySlik.lastCollectability = element.kolTerakhir == null ? 0 : Number(element.kolTerakhir.substring(0, 1));
+      partySlik.worstCollectability = element.kolTerburuk == null ? 0 : Number(element.kolTerburuk.substring(0, 1));
+      partySlik.collateralType = element.collateralType == null ? '' : element.collateralType;
+      partySlik.facilityType = element.facilityType;
+      partySlik.period = element.period;
+      // ! Penambahan Field Party Slilk disini =====
+      partySlik.debtorName = element.debtorName;
+      partySlik.bankPelapor = element.bankPelapor;
+      partySlik.tanggalAkadAwal = element.tanggalAkadAwal;
+      partySlik.tanggalMulai = element.tanggalMulai;
+      partySlik.tanggalJatuhTempo = element.tanggalJatuhTempo;
+      partySlik.kondisi = element.kondisi;
+      partySlik.totalAgunan = element.totalAgunan;
+      partySlik.sumCollateralIdrMio = element.sumCollateralIdrMio;
+      partySlik.typeOfFacility = element.typeOfFacility;
+      partySlik.plafond = element.plafond;
+      temp.push(partySlik);
+    });
+    console.log('TEMP', temp);
+
+    return temp;
+  }
+
+  nikNpwp;
   protected getSelectedVerifyData(ev) {
+    this.verifyData = [];
+    this.nikNpwp = ev.nikNpwp;
     const partySlikWithPartyId = this.makePartySlikWithPartyId(ev);
+    console.log('getSelectedVerifyData', {
+      ev,
+      partySlikWithPartyId,
+      verifyData: this.verifyData,
+      niknpwp: this.nikNpwp,
+    });
+    // delete this.verifyData[0].partySlikCollaterals;
+    // this.verifyData = this.verifyData[0];
     // check if ev is already in verifyData based on partyId
     !this.checkDuplicateVerifyData(partySlikWithPartyId, this.verifyData) && this.verifyData.push(partySlikWithPartyId);
 
     // Loop over verifyData and update partySlikCollaterals
+    console.log('verifyData before loop', this.verifyData);
     this.verifyData.forEach(res => {
       res.partySlikCollaterals = JSON.stringify(res.partySlikCollaterals);
     });
 
-    // Map over verifyData and create new objects with attributes key
-    this.verifyData = this.verifyData.map(res => {
-      // ! add reqreffid disini harusnya
-      console.log('Req reff id', res);
+    console.log('verifyData after loop', this.verifyData);
 
-      // party_slik / cbas / { reqReffId }-- > source;
-
-      // party_slik / partyId / slik_date.pdf-- > target;
-
-      // this.requestSlikService.CopasSlikFile(res.partyId, res.reqReffId, `party_slik/cbas`, `party_slik`);
-
-      // Destructure res and omit partySlikCollaterals key
-      const finalVerifyData = this.mapperIPDFSlikToPartySlik(res);
-      // const { partySlikCollaterals, ...rest } = res;
-
-      // Return new object with attributes key
-      return finalVerifyData;
-      // return {
-      //   ...rest,
-      //   attributes: {
-      //     partySlikCollaterals,
-      //   },
-      // };
-    });
+    this.verifyData = this.mapperIPDFSlikToPartySlik(this.verifyData, ev.requestReffId);
+    console.log('FINAL', this.verifyData);
   }
 
   protected getChecklistManagementData(ev) {
@@ -759,7 +742,10 @@ export class RequestSlikDetailComponent implements OnInit {
   public openSubmitDialog(task): void {
     this.getFinalOcrData();
 
-    if (!this.requestSlikValidateService.validate()) {
+    if (
+      !this.requestSlikValidateService.validate() &&
+      (this.requestSlik.status === 'DRAFT' || this.requestSlik.status === 'RETURN_TO_RM')
+    ) {
       return this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Minimum document is 1' });
     }
     const dialogRef = this.dialog.open(RequestSlikPopupComponent, {

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { Observable, Subscription, map } from 'rxjs';
 
 @Component({
@@ -16,7 +17,12 @@ export class RequestSlikDialogSlikFileComponent {
   isLoading = true;
   public requestReffId: string;
   fileName;
-  constructor(private storageService: StorageService, private router: Router, @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(
+    private storageService: StorageService,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private reportUtilService: ReportUtilService
+  ) {
     this.requestReffId = this.data.reqReffId;
     this.fileName = this.data.fileName;
     this.getFiles(this.requestReffId);
@@ -56,9 +62,6 @@ export class RequestSlikDialogSlikFileComponent {
   }
 
   downloadFile(file: any): void {
-    // Implement your file download logic here
-    window.open(file.url, '_blank');
-
-    console.log('Downloading file:', file.name);
+    this.reportUtilService.downloadFileBYName(file.url, file.name);
   }
 }

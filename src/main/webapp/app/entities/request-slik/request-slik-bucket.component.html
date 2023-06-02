@@ -170,50 +170,73 @@
                       >
                     </mat-card-header>
                     <mat-card-content>
-                      <div class="clearfix">
+                      <div class="clearfix" *ngIf="element.customerType === 'PERSONAL'">
                         <div class="float-start fw-bolder">Place, Date of Birth</div>
-                        <div class="float-end">{{ element.customerType === 'PERSONAL' && element.dataExpand.pob | date: 'YYY-MM-dd' }}</div>
+                        <div class="float-end">
+                          {{
+                            element.customerType === 'PERSONAL' &&
+                              element.dataExpand[0].pob + ' ' + (element.dataExpand[0].dob | date: 'YYY-MM-dd')
+                          }}
+                        </div>
                       </div>
-                      <div class="clearfix mt-3">
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'PERSONAL'">
                         <div class="float-start fw-bolder">Marital Status</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.maritalStatus }}
+                          {{ element.dataExpand[0].maritalStatus }}
                         </div>
                       </div>
-                      <div class="clearfix mt-3">
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'PERSONAL'">
                         <div class="float-start fw-bolder">KTP</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.personalIdNumber }}
+                          {{ element.dataExpand[0].personalIdNumber }}
                         </div>
                       </div>
-                      <div class="clearfix mt-3">
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'PERSONAL'">
                         <div class="float-start fw-bolder">KK</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.familyIdNumber }}
+                          {{ element.dataExpand[0].familyIdNumber }}
                         </div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">NPWP</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.taxIdNumber }}
+                          {{ element.dataExpand[0].taxIdNumber }}
                         </div>
                       </div>
                       <div class="clearfix mt-3">
                         <div class="float-start fw-bolder">Email</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.personalEmail }}
+                          {{ element.dataExpand[0].personalEmail ? element.dataExpand[0].personalEmail : element.dataExpand[0].officeMail }}
                         </div>
                       </div>
-                      <div class="clearfix mt-3">
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'PERSONAL'">
                         <div class="float-start fw-bolder">Home Phone</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.homePhone }}
+                          {{ element.dataExpand[0].homePhone }}
                         </div>
                       </div>
                       <div class="clearfix mt-3">
-                        <div class="float-start fw-bolder">CellPhone</div>
+                        <div class="float-start fw-bolder">{{ element.customerType === 'PERSONAL' ? 'Cell Phone' : 'Office Phone' }}</div>
                         <div class="float-end text-capitalize">
-                          {{ element.dataExpand.cellPhone1 }}
+                          {{ element.dataExpand[0].cellPhone1 ? element.dataExpand[0].cellPhone1 : element.dataExpand[0].officePhone }}
+                        </div>
+                      </div>
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'CORPORATE'">
+                        <div class="float-start fw-bolder">Phone 1</div>
+                        <div class="float-end text-capitalize">
+                          {{ element.dataExpand[0].otherPhone1 }}
+                        </div>
+                      </div>
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'CORPORATE'">
+                        <div class="float-start fw-bolder">Phone 2</div>
+                        <div class="float-end text-capitalize">
+                          {{ element.dataExpand[0].otherPhone2 }}
+                        </div>
+                      </div>
+                      <div class="clearfix mt-3" *ngIf="element.customerType === 'CORPORATE'">
+                        <div class="float-start fw-bolder">Fax</div>
+                        <div class="float-end text-capitalize">
+                          {{ element.dataExpand[0].faxOffice }}
                         </div>
                       </div>
                     </mat-card-content>

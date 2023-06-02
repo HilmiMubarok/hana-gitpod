@@ -63,7 +63,13 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Deviation</mat-label>
-          <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.deviation"></textarea>
+          <textarea
+            class="txtHeight"
+            matInput
+            type="text"
+            [(ngModel)]="otherCovenant.deviation"
+            [disabled]="otherCovenant.status === 'Applied'"
+          ></textarea>
         </mat-form-field>
       </div>
     </div>
@@ -73,7 +79,13 @@
       <div class="mb-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Justification</mat-label>
-          <textarea class="txtHeight" matInput type="text" [(ngModel)]="otherCovenant.justification"></textarea>
+          <textarea
+            class="txtHeight"
+            matInput
+            type="text"
+            [(ngModel)]="otherCovenant.justification"
+            [disabled]="otherCovenant.status === 'Applied'"
+          ></textarea>
         </mat-form-field>
       </div>
     </div>

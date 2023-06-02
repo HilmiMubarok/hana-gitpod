@@ -253,7 +253,12 @@
     <!-- ADD CP Hanya Muncul di Credit Proposal Bukan Di CP Approval -> Permintaan DK-->
     <div class="e-card-actions" *ngIf="parentPath === 'credit-proposal-status'">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button *ngIf="positionTypeId === 'RM'" mat-raised-button [routerLink]="['./new']" style="background: rgba(0, 136, 129, 1); color: #ffffff">
+        <button
+          *ngIf="positionTypeId === 'RM'"
+          mat-raised-button
+          [routerLink]="['./new']"
+          style="background: rgba(0, 136, 129, 1); color: #ffffff"
+        >
           ADD CREDIT PROPOSAL
         </button>
       </div>
