@@ -21,7 +21,7 @@ import { DebtorDataFacilityService } from '../debtor-data-facility.service';
   templateUrl: './facility-info-group.component.html',
   styleUrls: ['./main-facility-info.style.css'],
 })
-export class FacilityInfoGroupComponent implements OnInit, OnChanges {
+export class FacilityInfoGroupComponent implements OnChanges {
   public debtorDataFacility: IDebtorDataFacility[];
   public loading: boolean;
   public dataPartySlik: IPartySlik[];
@@ -41,7 +41,7 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
     'bank',
     'limit',
     'loantype',
-    'os',
+    // 'os',
     'facilityType',
     'rate',
     'period',
@@ -102,7 +102,6 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['debtorData']) {
-      console.log('Debtor data nih', this.debtorData);
       this.mapingData();
     }
     if (changes['partyCif']) {
@@ -118,13 +117,8 @@ export class FacilityInfoGroupComponent implements OnInit, OnChanges {
       }
     }
     if (changes['debtorDataGroup']) {
-      console.log('debtor data group', this.debtorDataGroup);
       this.filterBusinessGroupDebtorData(this.debtorDataGroup);
     }
-  }
-
-  ngOnInit(): void {
-    console.log('collateral type', this.dialogType);
   }
 
   private mapingData() {
