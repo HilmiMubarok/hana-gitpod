@@ -21,7 +21,7 @@ import { DebtorDataFacilityService } from '../debtor-data-facility.service';
   templateUrl: './facility-info-debitur.component.html',
   styleUrls: ['./main-facility-info.style.css'],
 })
-export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
+export class FacilityInfoDebiturComponent implements OnChanges {
   public debtorDataFacility: IDebtorDataFacility[];
 
   public loading: boolean;
@@ -42,7 +42,7 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
     'bank',
     'limit',
     'loantype',
-    'os',
+    // 'os',
     'facilityType',
     'rate',
     'period',
@@ -104,12 +104,10 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif']) {
       this.getDebtorData();
-      console.log('ini party cif print');
     }
     if (changes['debtorData']) {
       this.dataFacility = JSON.parse(this.debtorData.attributes['cpFacility']);
       this.mapingData();
-      console.log('ini debtor data ', this.debtorData);
     }
     if (changes['dataGroup']) {
       if (this.dialogType === 'group') {
@@ -117,11 +115,6 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
         // this.mapingData();
       }
     }
-  }
-
-  ngOnInit(): void {
-    console.log('ini data', this.data);
-    console.log('collateral type', this.dialogType);
   }
 
   private mapingData() {
@@ -142,7 +135,6 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
   public openDialog(params: IDebtorDataFacility) {
     const preData = lodash.clone(params);
     if (this.dialogType === 'debitur') {
-      console.log('debitur ', params);
       const dialogRef = this.dialog.open(FacilityInfoDebiturDialogComponent, {
         width: '80vw',
         data: {
@@ -150,30 +142,14 @@ export class FacilityInfoDebiturComponent implements OnInit, OnChanges {
         },
       });
       dialogRef.afterClosed().subscribe((data: IDebtorDataFacility) => {
-        console.log('test');
         if (data) {
           const index = this.debtorDataFacility.findIndex(x => x.id === params.id);
           this.debtorDataFacility[index] = data;
-          this.debtorDataService.update(data).subscribe(res => {
-            console.log('save berhasil');
-          });
+          this.debtorDataService.update(data).subscribe(res => {});
         } else {
           const index = this.debtorDataFacility.findIndex(x => x.id === params.id);
           this.debtorDataFacility[index] = preData;
         }
-        // if (data) {
-        //   const objectCPF: ICPFacility[] = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
-        //   const index = objectCPF.findIndex(x => x.LNB_BASE_AGR_REF_NO === params.LNB_BASE_AGR_REF_NO);
-
-        //   objectCPF[index] = data;
-        //   this.partyCif.debtorData.attributes['cpFacility'] = JSON.stringify(objectCPF);
-        //   console.log(this.partyCif.debtorData);
-        //   this.debtorDataService.update(this.partyCif.debtorData).subscribe(res => {
-        //     console.log('save berhasil');
-        //   });
-        // } else {
-        //   this.dataFacility = JSON.parse(this.partyCif.debtorData.attributes['cpFacility']);
-        // }
       });
     }
   }
