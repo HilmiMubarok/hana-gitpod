@@ -248,7 +248,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
           const each: IApplicationRole = this.items[i];
 		  const validatorApprovalLC = this.creditProposalItem.approvalLc === '' ? this.creditProposalItem.approvalLcDefault : this.creditProposalItem.approvalLc
           // if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase()) {
-		  if (each.relationTypeId && each.relationTypeId.toLowerCase() === validatorApprovalLC) {
+		  if (each.relationTypeId && each.relationTypeId.toLowerCase() === validatorApprovalLC.toLowerCase()) {
             this.approvalUserData.push(each);
           }
         }
