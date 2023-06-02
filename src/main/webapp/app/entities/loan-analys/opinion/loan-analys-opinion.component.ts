@@ -246,7 +246,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
         this.filteringRelType(this.items);
         for (let i = 0; i < this.items.length; i++) {
           const each: IApplicationRole = this.items[i];
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase()) {
+		  const validatorApprovalLC = this.creditProposalItem.approvalLc === '' ? this.creditProposalItem.approvalLcDefault : this.creditProposalItem.approvalLc
+          // if (each.relationTypeId && each.relationTypeId.toLowerCase() === this.relType[0].id.toLowerCase()) {
+		  if (each.relationTypeId && each.relationTypeId.toLowerCase() === validatorApprovalLC) {
             this.approvalUserData.push(each);
           }
         }
