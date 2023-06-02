@@ -100,8 +100,32 @@ export interface IApplicationProduct {
   indexRateStr?: string;
   primeLandingRate?: string;
   intResetPeriod?: string;
-  requiredSpread?: number;
+  requiredSpread?: string;
   intResetFrequencyParam?: string;
+
+  ftp?: string;
+  ckpn?: string;
+  industrySpread?: string;
+  targetMargin?: string;
+  normalRate?: string;
+  proposedRate?: string;
+  cost?: string;
+  roaa?: string;
+
+  referenceRate?: string;
+  typeReferenceRateFun?: string;
+  No?: number;
+  expectedLoss?: string;
+  subLimitFun?: string;
+  pricingRate?: string;
+
+  agreementDate?: Date;
+  avgDiscProposalIDR?: string;
+  avgDiscProposalUSD?: string;
+  avgNormalRateIDR?: string;
+  avgNormalRateUSD?: string;
+  avgProposedRateIDR?: string;
+  avgProposedRateUSD?: string;
 }
 
 export class ApplicationProduct implements IApplicationProduct {
@@ -203,8 +227,29 @@ export class ApplicationProduct implements IApplicationProduct {
     public indexRateStr?: string,
     public primeLandingRate?: string,
     public intResetPeriod?: string,
-    public requiredSpread?: number,
-    public intResetFrequencyParam?: string
+    public requiredSpread?: string,
+    public intResetFrequencyParam?: string,
+    public ftp?: string,
+    public ckpn?: string,
+    public industrySpread?: string,
+    public targetMargin?: string,
+    public normalRate?: string,
+    public proposedRate?: string,
+    public cost?: string,
+    public roaa?: string,
+    public referenceRate?: string,
+    public typeReferenceRateFun?: string,
+    public No?: number,
+    public expectedLoss?: string,
+    public subLimitFun?: string,
+    public pricingRate?: string,
+    public agreementDate?: Date,
+    public avgDiscProposalIDR?: string,
+    public avgDiscProposalUSD?: string,
+    public avgNormalRateIDR?: string,
+    public avgNormalRateUSD?: string,
+    public avgProposedRateIDR?: string,
+    public avgProposedRateUSD?: string
   ) {
     this.uniqueKey = uuid.v4();
     this.applicationType = 'New';

@@ -20,90 +20,90 @@
 
     <ng-container matColumnDef="facilityType">
       <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.facilityType }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.productTypeId }}</td>
     </ng-container>
     <ng-container matColumnDef="tenor">
       <th mat-header-cell *matHeaderCellDef>Tenor</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.attributes.maturity + ' ' + element.attributes.maturityPeriodType }}
+        {{ element.tenor + ' ' + element.periodType }}
       </td>
     </ng-container>
     <ng-container matColumnDef="sublimit">
       <th mat-header-cell *matHeaderCellDef>Sublimit</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="element.attributes.subLimit === 'true' || element.attributes.subLimit === true; else elseBlock">Yes</span>
+        <span *ngIf="element.subLimit === true; else elseBlock">Yes</span>
         <ng-template #elseBlock>No</ng-template>
       </td>
     </ng-container>
     <ng-container matColumnDef="ccy">
       <th mat-header-cell *matHeaderCellDef>CCY</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.currencyId }}</td>
     </ng-container>
     <ng-container matColumnDef="plafond">
       <th mat-header-cell *matHeaderCellDef>Plafond</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.totalPlafond | number }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.totalPlafond | number }}</td>
     </ng-container>
     <ng-container matColumnDef="o/s">
       <th mat-header-cell *matHeaderCellDef>O/S</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.outstanding | number }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.outstanding | number }}</td>
     </ng-container>
     <ng-container matColumnDef="availableLimit">
       <th mat-header-cell *matHeaderCellDef>Available Limit</th>
-      <td mat-cell *matCellDef="let i = index">{{ setAvailableLimit(i) | number }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.availableLimit | number }}</td>
     </ng-container>
     <ng-container matColumnDef="currentInterestRate">
       <th mat-header-cell *matHeaderCellDef>Current Interest Rate</th>
-      <td mat-cell *matCellDef="let i = index">{{ setInterestRate(i) }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.currentInterestRate }}</td>
     </ng-container>
     <ng-container matColumnDef="ftp">
       <th mat-header-cell *matHeaderCellDef>FTP</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.ftp }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.ftp }}</td>
     </ng-container>
     <ng-container matColumnDef="ckpn">
       <th mat-header-cell *matHeaderCellDef>CKPN</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.ckpn }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.ckpn }}</td>
     </ng-container>
     <ng-container matColumnDef="expectedLoss">
       <th mat-header-cell *matHeaderCellDef>Expected Loss</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.expectedLoss }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.expectedLoss }}</td>
     </ng-container>
     <ng-container matColumnDef="industrySpread">
       <th mat-header-cell *matHeaderCellDef>Industry Spread</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.industrySpread }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.industrySpread }}</td>
     </ng-container>
     <ng-container matColumnDef="targetMargin">
       <th mat-header-cell *matHeaderCellDef>Target Margin</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.targetMargin }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.targetMargin }}</td>
     </ng-container>
     <ng-container matColumnDef="normalRate">
       <th mat-header-cell *matHeaderCellDef>Normal Rate</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.normalRate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.normalRate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="discountProposal">
       <th mat-header-cell *matHeaderCellDef>Discount Proposal</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.discountProposal }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.discountProposal }}</td>
     </ng-container>
 
     <ng-container matColumnDef="proposedRate">
       <th mat-header-cell *matHeaderCellDef>Proposed Rate</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.proposedRate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.pricingRate }}</td>
     </ng-container>
     <ng-container matColumnDef="typeReferenceRate">
       <th mat-header-cell *matHeaderCellDef>type Reference Rate</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.typeReferenceRateFun }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.typeReferenceRateFun }}</td>
     </ng-container>
     <ng-container matColumnDef="referenceRate">
       <th mat-header-cell *matHeaderCellDef>Reference Rate</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.referenceRate }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.referenceRate }}</td>
     </ng-container>
     <ng-container matColumnDef="requiredSpread">
       <th mat-header-cell *matHeaderCellDef>Required Spread</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.requiredSpread }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.requiredSpread }}</td>
     </ng-container>
     <ng-container matColumnDef="maturityDate">
       <th mat-header-cell *matHeaderCellDef>Maturity Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'yyyy/MM/dd' }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.maturityDate | date: 'yyyy/MM/dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
