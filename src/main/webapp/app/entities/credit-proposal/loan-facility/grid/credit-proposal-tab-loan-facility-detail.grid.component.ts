@@ -501,4 +501,10 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       return element.attributes.facilityType;
     }
   }
+  public printElements(element) {
+    if (element === null || element === 'null') {
+      return 0;
+    }
+    return element;
+  }
 }
