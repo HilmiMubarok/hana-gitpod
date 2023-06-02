@@ -6,6 +6,7 @@ import { IApplicationProductTakeOverBank } from '../application-product-take-ove
 import * as uuid from 'uuid';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import lodash, { forEach } from 'lodash';
 
 @Component({
   selector: 'jhi-credit-proposal-tab-loan-facility-take-over-after',
@@ -22,6 +23,8 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
 
   public lock: boolean;
   public lihat = true;
+  public idFacilityTakeOver: any = [];
+
   parentPath: any;
   @Input()
   get creditProposal() {
@@ -54,19 +57,43 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   }
 
   ngOnInit(): void {
+    this.getFacilityTypeTakeOver();
+    this.changeLogo(this.facilityTakeOverAfterBank.currency);
+    this.lock = true;
+  }
+
+  public selectFacility(): void {
     if (this.creditProposal.products.length > 0) {
+      const element = [];
       for (let i = 0; i < this.creditProposal.products.length; i++) {
         if (this._creditProposal.products[i].productTypeId !== '') {
-          this.dataFacilityType.push({
+          element.push({
             id: this._creditProposal.products[i].nomorUrutFasilitas,
             label: this._creditProposal.products[i].productTypeId,
           });
         }
+        this.dataFacilityType = element.filter(idFacility => !this.idFacilityTakeOver.includes(idFacility.id));
+        console.log('facility Type', this.dataFacilityType);
       }
     }
+  }
 
-    this.changeLogo(this.facilityTakeOverAfterBank.currency);
-    this.lock = true;
+  public getFacilityTypeTakeOver(): void {
+    const element: any = [];
+    if (
+      this.creditProposal.attributes['facilityTakeOverAfterBank'].length > 0 ||
+      this.creditProposal.attributes['facilityTakeOverAfterBank'] !== null
+    ) {
+      for (let i = 0; i < this.creditProposal.attributes['facilityTakeOverAfterBank'].length; i++) {
+        element.push(this.creditProposal.attributes['facilityTakeOverAfterBank'][i].facilityTypeOverBank['id']);
+        console.log('element', element);
+      }
+
+      this.idFacilityTakeOver = element;
+      console.log('facility Take Over', this.idFacilityTakeOver);
+
+      this.selectFacility();
+    }
   }
 
   public Onsave(): void {
@@ -83,6 +110,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
   public changeFacility(event) {
     if (event !== undefined || event !== '') {
       const result = this._creditProposal.products.find(obj => obj.nomorUrutFasilitas === event.value.id);
+      console.log('xxxx', result);
       if (result !== undefined) {
         this.lock = false;
         this.facilityTakeOverAfterBank.maturityBankOver = result.initialLimit;
