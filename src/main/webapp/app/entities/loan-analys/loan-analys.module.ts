@@ -44,6 +44,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MainFacilityDarComponent } from './dar-final/loan-facility/main-facility/main-facility-dar.component';
 import { MainFacilityChildDarComponent } from './dar-final/loan-facility/main-facility/main-facility-child-dar.component';
 import { MainFacilityDialogDarComponent } from './dar-final/loan-facility/main-facility/main-facility-dialog-dar.component';
+import { CreditProposalPersonalInfoAnalystComponent } from './personal-info.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(LoanAnalysRoute), MatSlideToggleModule],
@@ -51,6 +52,7 @@ import { MainFacilityDialogDarComponent } from './dar-final/loan-facility/main-f
     LoanAnalysComponent,
     LoanAnalysMComponent,
     LoanAnalysMainComponent,
+    CreditProposalPersonalInfoAnalystComponent,
     LoanAnalysBatchBulkAssignComponent,
     LoanAnalysSlikMainComponent,
     LoanFacilityDetailTempComponent,

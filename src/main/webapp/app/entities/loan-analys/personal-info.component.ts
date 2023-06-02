@@ -4,15 +4,14 @@ import { InternalService } from 'app/entities/internal/internal.service';
 import { IPosition, Position } from 'app/entities/position/position.model';
 import { PositionService } from 'app/entities/position/position.service';
 import { APPLICATION_TYPE, POSITION_TYPE } from 'app/shared/constants/base.constants';
-import { ICreditProposal } from '../credit-proposal.model';
+import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
 import lodash from 'lodash';
 
 @Component({
-  selector: 'jhi-credit-proposal-personal-info',
+  selector: 'jhi-credit-proposal-personal-analyst-info',
   templateUrl: './personal-info.component.html',
-  styleUrls: ['../css/credit-proposal-basic-information.css'],
 })
-export class CreditProposalPersonalInfoComponent implements OnInit, OnChanges {
+export class CreditProposalPersonalInfoAnalystComponent implements OnInit, OnChanges {
   public internals: IInternal[];
   public segments: IInternal[];
   public regionals: IInternal[];
