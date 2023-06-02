@@ -394,6 +394,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.productParameterService
       .queryFilterBy({
         idProductType: event,
+        isActive: true,
+        size: 9999,
       })
       .subscribe(res => {
         this.listLoanType = res.body;
@@ -820,6 +822,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.productClasificationService
         .queryFilterBy({
           idProduct: data.id,
+          isActive: true,
           page: 0,
           size: 9999,
           sort: ['asc'],
