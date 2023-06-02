@@ -298,25 +298,8 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
 
   public openDialog(param: IApplicationProduct = null): void {
     if (param) {
+      console.log('open dialog ', param);
       this.applicationProduct = param;
-      if (this.applicationProduct.attributes && typeof this.applicationProduct.attributes !== 'object') {
-        this.applicationProduct.attributes = JSON.parse(this.applicationProduct.attributes);
-      }
-      // if (this.applicationProduct.attributes.commitedLine === 'true') {
-      //   this.applicationProduct.attributes.commitedLine = true;
-      // } else if (this.applicationProduct.attributes.commitedLine === 'false') {
-      //   this.applicationProduct.attributes.commitedLine = false;
-      // }
-      // if (this.applicationProduct.attributes.subLimit === 'true') {
-      //   this.applicationProduct.attributes.subLimit = true;
-      // } else if (this.applicationProduct.attributes.subLimit === 'false') {
-      //   this.applicationProduct.attributes.subLimit = false;
-      // }
-      // if (this.applicationProduct.attributes.restructuredStatus === 'true') {
-      //   this.applicationProduct.attributes.restructuredStatus = true;
-      // } else if (this.applicationProduct.attributes.restructuredStatus === 'false') {
-      //   this.applicationProduct.attributes.restructuredStatus = false;
-      // }
     } else {
       this.applicationProduct = new ApplicationProduct();
       const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
@@ -505,8 +488,13 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
       });
   }
 
-  public getFacilityType(element: IApplicationProduct) {
+  public getFacilityType(element: IApplicationProduct, i) {
     if (element.productTypeId !== undefined && element.productTypeId !== null) {
+      if (element.applicationType === 'Existing') {
+        if (!element.attributes.facilityType) {
+          element.attributes.facilityType = element.productTypeId;
+        }
+      }
       return element.productTypeId;
     } else if (element.attributes.facilityType) {
       element.productTypeId = element.attributes.facilityType;
