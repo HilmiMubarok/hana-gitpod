@@ -95,11 +95,35 @@ export class GroupCollateralListAppraisalComponent implements OnChanges {
     this.statusCheckedGroupEmit = statusCheckedGroup;
     this.outputgroupListselected.emit(this.statusCheckedGroupEmit);
   }
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
+      }
+    });
+
+    return result;
+  }
   public loadDataBy(): void {
-    this.partyCifService.getBusinessGroup(this.cifNumber).subscribe(res => {
-      this.listGroupCollateral = res.body;
-      // this.getAllColGroup();
-      this.outputGetsCifs.emit(this.listGroupCollateral);
+    const predicate = {
+      page: 0,
+      size: 9999,
+      idPosition: this.getLocStor('POS'),
+      sort: ['id', 'desc'],
+    };
+    this.partyCifService.findLikeCifSegregasi(this.cifNumber, predicate).subscribe(res => {
+      if (res.body.length > 0) {
+        this.partyCifService.getBusinessGroup(this.cifNumber).subscribe(ress => {
+          this.listGroupCollateral = ress.body;
+          // this.getAllColGroup();
+          this.outputGetsCifs.emit(this.listGroupCollateral);
+        });
+      }
     });
   }
 }
