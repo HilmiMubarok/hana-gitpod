@@ -23,7 +23,7 @@ export class ApplicationOptionComponent extends AbstractEntityMaterialComponent<
   constructor(protected _snackBar: MatSnackBar, protected applicationOptionService: ApplicationOptionService, protected dialog: MatDialog) {
     super(_snackBar, applicationOptionService);
     this.page = 0;
-    this.itemsPerPage = 10;
+    this.itemsPerPage = 20;
     this.predicate = 'id';
     this.entityKeyName = 'id';
   }
