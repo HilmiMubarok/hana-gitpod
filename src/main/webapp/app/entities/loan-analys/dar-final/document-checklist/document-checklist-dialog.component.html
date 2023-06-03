@@ -125,7 +125,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select (selectionChange)="deleteTBO($event)" [(ngModel)]="filesStatus" name="status">
+                <mat-select  [(ngModel)]="filesStatus" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of status" [value]="item">
                     {{ item }}
