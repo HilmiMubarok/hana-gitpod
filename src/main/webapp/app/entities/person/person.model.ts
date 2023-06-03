@@ -45,7 +45,6 @@ export interface IPerson extends IParty {
   accountNumberIDR?: string;
   accountNumberUSD?: string;
   idExpiryDate?: Date;
-  relationsDebtor?: string;
 }
 
 export class Person implements IPerson {
@@ -95,8 +94,7 @@ export class Person implements IPerson {
     public name?: string,
     public accountNumberIDR?: string,
     public accountNumberUSD?: string,
-    public idExpiryDate?: Date,
-    public relationsDebtor?: string
+    public idExpiryDate?: Date
   ) {
     this.dob = new Date();
     this.gender = null;
