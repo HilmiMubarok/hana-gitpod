@@ -259,7 +259,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Relation With Debtor</mat-label>
-          <input matInput type="text" [(ngModel)]="partyGroup.relationsDebtor" [disabled]="disabledData" />
+          <input matInput type="text" [(ngModel)]="organization.relationWithDebtor" [disabled]="disabledData" />
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
@@ -267,7 +267,7 @@
           <div class="col">Relation With Debtor</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyGroup.relationsDebtor }}
+            {{ organization.relationWithDebtor }}
           </div>
         </div>
       </section>

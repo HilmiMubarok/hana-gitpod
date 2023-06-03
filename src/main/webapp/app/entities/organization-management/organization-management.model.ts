@@ -42,6 +42,7 @@ export interface IOrganizationManagement {
   dataSource?: string;
   jurisdictionCountryId?: string;
   shareHolderOrg?: IPartyGroup;
+  relationWithDebtor?: string;
 }
 
 export class OrganizationManagement implements IOrganizationManagement {
@@ -60,7 +61,8 @@ export class OrganizationManagement implements IOrganizationManagement {
     public partySliks?: IPartySlik[],
     public dataSource?: string,
     public jurisdictionCountryId?: string,
-    public shareHolderOrg?: IPartyGroup
+    public shareHolderOrg?: IPartyGroup,
+    public relationWithDebtor?: string
   ) {
     this.organization = null;
     this.person = new Person();
