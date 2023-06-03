@@ -32,6 +32,8 @@ import { CATEGORY_DEBTOR, COLLECTABILITY_STATUS, RELATION_WITH_HANA, UMKM_CLASSI
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
+import { IApplicationProduct } from '../application-product/application-product.model';
+import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
 
 moment.locale('id');
 
@@ -102,6 +104,7 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   public pep = [];
 
   constructor(
+    protected productParameterService: MasterProductParameterService,
     protected dataUtils: BaseDataUtils,
     protected alertService: AlertService,
     protected personService: PersonService,
@@ -289,6 +292,151 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
   itemKey() {
     return this.item.id;
   }
+
+
+  // umkm
+
+  public mortCode = [];
+  public getProduct(): void {
+    this.productParameterService
+      .filterTableData({
+        idProductType: 'MORT',
+        page: 0,
+        // sort: this.sortData(),
+        size: 9999,
+      })
+      .subscribe(res => {
+        if (res.body.length > 0) {
+          for (let i = 0; i < res.body.length; i++) {
+            this.mortCode.push(res.body[i].code);
+          }
+          this.functionCek();
+        }
+      });
+  }
+
+  public totalPlafond: number;
+  public functionCek() {
+    // const mortCodes = [
+    //   '030300001001',
+    //   '030300001003',
+    //   '030300001002',
+    //   '030100001003',
+    //   '030300001004',
+    //   '030300001005',
+    //   '030300002001',
+    //   '030300002002',
+    //   '030300002003',
+    //   '030300003001',
+    //   '030300004001',
+    //   '030300006001',
+    // ];
+    if (this.deptorData.products.length > 0) {
+      let element: IApplicationProduct[] = [];
+      const jumlahPlafond = [];
+      const data = [];
+
+      element = this.deptorData.products.filter(products => !this.mortCode.includes(products.productCode));
+    
+
+      for (let i = 0; i < element.length; i++) {
+        data.push(element[i].totalPlafond);
+      }
+      this.totalPlafond = data.reduce((acc, curr) => acc + curr, 0);
+    }
+
+    // if (this.parsedAttr.previousHistory) {
+    // this.cc1 =  this.parsedAttr.previousHistory.products.filter(product => mortCodes.includes(product.productCode));
+    // } else {
+    // this.cc1 =  this.creditProposal.products.filter(product => mortCodes.includes(product.productCode));
+    // }
+  }
+
+  public myFunction() {
+    this.getProduct();
+    if (this.deptorData.applicationTypeId === 'SME') {
+      const totalPlafond = 0;
+      
+
+      if (this.totalPlafond <= 15000000000) {
+        if (this.deptorData.capitalDeposit <= 1000000000) {
+          if (this.deptorData.annualSales <= 2000000000) {
+            this.deptorData.umkmClass = 'MICRO';
+          }
+          if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
+            this.deptorData.umkmClass = 'SMALL';
+          }
+          if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
+            this.deptorData.umkmClass = 'MIDDLE';
+          }
+          if (this.deptorData.annualSales > 50000000000) {
+            this.deptorData.umkmClass = 'Non UMKM';
+          }
+        } else if (this.deptorData.capitalDeposit > 1000000000 && this.deptorData.capitalDeposit <= 5000000000) {
+          if (this.deptorData.annualSales <= 2000000000) {
+            this.deptorData.umkmClass = 'SMALL';
+          }
+          if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
+            this.deptorData.umkmClass = 'SMALL';
+          }
+          if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
+            this.deptorData.umkmClass = 'SMALL';
+          }
+          if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
+            this.deptorData.umkmClass = 'MIDDLE';
+          }
+          if (this.deptorData.annualSales > 50000000000) {
+            this.deptorData.umkmClass = 'Non UMKM';
+          }
+        } else if (this.deptorData.capitalDeposit > 5000000000 && this.deptorData.capitalDeposit <= 10000000000) {
+          if (this.deptorData.annualSales <= 2000000000) {
+            this.deptorData.umkmClass = 'MIDDLE';
+          }
+          if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
+            this.deptorData.umkmClass = 'MIDDLE';
+          }
+          if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
+            this.deptorData.umkmClass = 'MIDDLE';
+          }
+          if (this.deptorData.annualSales > 50000000000) {
+            this.deptorData.umkmClass = 'Non  UMKM';
+          }
+        } else if (this.deptorData.capitalDeposit > 10000000000) {
+          if (this.deptorData.annualSales <= 2000000000) {
+            this.deptorData.umkmClass = 'Non  UMKM';
+          }
+          if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
+            this.deptorData.umkmClass = 'Non  UMKM';
+          }
+          if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
+            this.deptorData.umkmClass = 'Non  UMKM';
+          }
+          if (this.deptorData.annualSales > 50000000000) {
+            this.deptorData.umkmClass = 'Non  UMKM';
+          }
+        }
+      } else {
+        this.deptorData.umkmClass = 'Non UMKM';
+      }
+    } else {
+      this.deptorData.umkmClass = 'Non UMKM';
+    }
+
+    if (this.deptorData.umkmClass !== '' || this.deptorData.umkmClass !== undefined) {
+      if (this.deptorData.umkmClass === 'MICRO') {
+        this.deptorData.debtorCategory = '70';
+      } else if (this.deptorData.umkmClass === 'SMALL') {
+        this.deptorData.debtorCategory = '80';
+      } else if (this.deptorData.umkmClass === 'MIDDLE') {
+        this.deptorData.debtorCategory = '90';
+      } else {
+        this.deptorData.debtorCategory = '99';
+      }
+    } else {
+      this.deptorData.debtorCategory = '';
+    }
+  }
+
   currencyInputChanged(value) {
     const num = value.replace(/[IDR,]/g, '');
     return Number(num);
