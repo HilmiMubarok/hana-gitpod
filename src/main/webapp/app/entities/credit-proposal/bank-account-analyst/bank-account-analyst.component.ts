@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-credit-proposal-bank-account-analyst',
   templateUrl: './bank-account-analyst.component.html',
+  styleUrls: ['./bank-account-analyst-dialog.component.css'],
 })
 export class CreditProposalBankAccountAnalystComponent implements OnInit {
   private _creditProposal: ICreditProposal;

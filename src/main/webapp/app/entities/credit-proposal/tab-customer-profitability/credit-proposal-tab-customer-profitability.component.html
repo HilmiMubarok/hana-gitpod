@@ -15,10 +15,10 @@
             <table class="w-100" id="tblPorforma" cellpadding="10">
               <thead>
                 <tr>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Revenue</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Current Year</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">Avarage Loan Ballance 1 Year</th>
-                  <th colspan="1" align="center" style="vertical-align: middle; text-align: center">ROA (%)</th>
+                  <th colspan="1" align="left" class="rounding-table-left" style="vertical-align: middle; text-align: center">Revenue</th>
+                  <th colspan="1" align="right" style="vertical-align: middle; text-align: center">Current Year</th>
+                  <th colspan="1" align="right" style="vertical-align: middle; text-align: center">Avarage Loan Ballance 1 Year</th>
+                  <th colspan="1" align="right" class="rounding-table-right" style="vertical-align: middle; text-align: center">ROA (%)</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -307,7 +307,7 @@
               <div class="grid-table">
                 <ejs-grid [dataSource]="dataAttrPass">
                   <e-columns>
-                    <e-column field="No" headerText="No" textAlign="left" width="10"></e-column>
+                    <e-column field="No" headerText="No" textAlign="left" width="10" class="rounding-table-left"></e-column>
                     <e-column field="Parameter" headerText="Parameter" headerTextAlign="center" textAlign="left" width="30"></e-column>
                     <e-column headerText="Yes" textAlign="Center" width="10">
                       <div class="select">
@@ -375,7 +375,7 @@
                         </ng-template>
                       </div>
                     </e-column>
-                    <e-column headerText="Remarks" textAlign="Center" width="50">
+                    <e-column headerText="Remarks" textAlign="Center" width="50" class="rounding-table-right">
                       <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
                       <ng-template #template let-data>
                         <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">

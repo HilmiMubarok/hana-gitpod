@@ -6,74 +6,74 @@
     <div class="table-responsive-material">
       <table mat-table *ngIf="creditProposal" [dataSource]="creditProposal.attributes['bankAnalyst']" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">No</th>
-          <td mat-cell *matCellDef="let i = index" class="text-center">{{ i + 1 }}.</td>
-          <td mat-footer-cell *matFooterCellDef class="fw-bold">Total</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right rounding-table-left">No</th>
+          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}.</td>
+          <td mat-footer-cell *matFooterCellDef class="fw-bold grid-index-right">Total</td>
         </ng-container>
 
         <ng-container matColumnDef="bank">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Bank</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.bank }}</td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Bank</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.bank }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
         </ng-container>
 
         <ng-container matColumnDef="accNo">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Acc No.</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.accNo }}</td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Acc No.</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.accNo }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
         </ng-container>
 
         <ng-container matColumnDef="ccy">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">CCY</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.ccy }}</td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">CCY</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.ccy }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
         </ng-container>
 
         <ng-container matColumnDef="accName">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Bank Account Name's</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.accName }}</td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Bank Account Name's</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.accName }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-left"></td>
         </ng-container>
 
         <ng-container matColumnDef="debit">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Debit</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Debit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
             {{ getDebitConversion(element) | number: '1.0-0' }}
           </td>
-          <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalDebit() | number: '1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">{{ getTotalDebit() | number: '1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="fqDebit">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Fq. Debit</th>
-          <td mat-cell *matCellDef="let element" class="text-end">{{ getFqDebitAverage(element) | number: '1.0-0' }}</td>
-          <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalFqDebit() | number: '1.0-0' }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Fq. Debit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ getFqDebitAverage(element) | number: '1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">{{ getTotalFqDebit() | number: '1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="credit">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Credit</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Credit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
             {{ getCreditConversion(element) | number: '1.0-0' }}
           </td>
-          <td mat-footer-cell *matFooterCellDef class="text-end">
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
             {{ getTotalCredit() | number: '1.0-0' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="fqCredit">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Fq. Credit</th>
-          <td mat-cell *matCellDef="let element" class="text-end">{{ getFqCreditAverage(element) | number: '1.0-0' }}</td>
-          <td mat-footer-cell *matFooterCellDef class="text-end">{{ getTotalFqCredit() | number: '1.0-0' }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Fq. Credit</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">{{ getFqCreditAverage(element) | number: '1.0-0' }}</td>
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">{{ getTotalFqCredit() | number: '1.0-0' }}</td>
         </ng-container>
         <ng-container matColumnDef="balance">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Average Balance (Debit/Credit)</th>
-          <td mat-cell *matCellDef="let element" class="text-end">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Average Balance (Debit/Credit)</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right">
             {{ getBalanceConversion(element) | number: '1.0-0' }}
           </td>
-          <td mat-footer-cell *matFooterCellDef class="text-end">
+          <td mat-footer-cell *matFooterCellDef class="grid-index-right">
             {{ getTotalBalance() | number: '1.0-0' }}
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Action</th>
+          <th mat-header-cell *matHeaderCellDef class="rounding-table-right grid-index-left">Action</th>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <td mat-cell *matCellDef="let element" class="text-center" class="grid-index-left">
               <button mat-icon-button (click)="edit(element)">
                 <mat-icon>edit</mat-icon>
               </button>
@@ -137,7 +137,7 @@
   </mat-card-content>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
     <mat-card-actions align="right">
-      <button mat-raised-button (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">ADD ACCOUNT</button>
+      <button mat-raised-button (click)="openDialog()" class="button-styling">ADD ACCOUNT</button>
     </mat-card-actions>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">

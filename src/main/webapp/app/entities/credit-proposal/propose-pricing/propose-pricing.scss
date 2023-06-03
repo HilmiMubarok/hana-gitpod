@@ -92,17 +92,42 @@ table {
   border-bottom: 1px solid #008881 !important;
   width: 100%;
   th {
-    background-color: #008881;
-    border: 1px solid #008881;
+    background-color: rgba(147, 201, 199, 1);
     color: black;
-    padding: 8px;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
   }
-
   td {
-    padding: 8px;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
   }
+  .rounding-table-left {
+    border-top-left-radius: 15px;
+  }
+  .rounding-table-right {
+    border-top-right-radius: 15px;
+  }
+}
+
+.grid-index-left {
+  justify-content: flex-start;
+  font-family: 'Poppins', sans-serif;
+}
+
+.grid-index-right {
+  justify-content: flex-end;
+  text-align: right;
+  padding-right: 45px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.grid-index-center {
+  justify-content: center;
+  text-align: center;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff;
 }
 
 mat-card-subtitle {

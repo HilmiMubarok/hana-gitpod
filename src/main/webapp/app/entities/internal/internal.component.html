@@ -17,38 +17,38 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">No</th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="grid-index-right rounding-table-left">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Internal Name</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.name }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Internal Name</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.name }}</td>
         </ng-container>
         <ng-container matColumnDef="officePhone">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Office Phone</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.attributes.officePhone }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Office Phone</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.attributes.officePhone }}</td>
         </ng-container>
 
         <ng-container matColumnDef="address1">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Address</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Address</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             {{ element.postalAddress.address1 }}
           </td>
         </ng-container>
         <ng-container matColumnDef="statusDescription">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Status</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             <mat-chip>{{ element.statusDescription }}</mat-chip>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left" width="15%">Action</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             <a
               href="javascript:void();"
               [routerLink]="['/internal/', element.id, 'view']"
@@ -68,7 +68,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index">&nbsp;</th>
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index-left rounding-table-right">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
             <!-- <button
                 mat-icon-button
@@ -109,7 +109,7 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button [routerLink]="['./new']" style="background: rgba(0, 136, 129, 1); color: #ffffff">ADD INTERNAL</button>
+        <button mat-raised-button [routerLink]="['./new']" class="button-styling">ADD INTERNAL</button>
         <!-- [routerLink]="['./new']" -->
         <!-- <button mat-raised-button style="margin-left: 5px; background: rgba(0, 136, 129, 1); color: #ffffff">UPLOAD</button>
         <button mat-raised-button style="margin-left: 5px; background: rgba(0, 136, 129, 1); color: #ffffff" (click)="generate()">

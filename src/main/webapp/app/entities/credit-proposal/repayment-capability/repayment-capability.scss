@@ -1,27 +1,24 @@
 table#tblProforma {
-  border: 1px solid #008881;
-  border-bottom: 1px solid #008881 !important;
   width: 100%;
 
   th {
-    background-color: #008881;
-    border: 1px solid #008881;
-    color: #ffff;
+    background-color: rgba(147, 201, 199, 1);
+    color: black;
+    font-family: 'Poppins', sans-serif;
   }
 
   td {
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    font-family: 'Poppins', sans-serif;
   }
-
 }
 
 mat-card-subtitle {
   font-size: 24px;
   font-weight: 500;
   color: #008881;
-
 }
 
 .ng-invalid:not(form) {
@@ -33,7 +30,7 @@ mat-card-subtitle {
   color: white;
 }
 
-::ng-deep .mat-form-field-flex>.mat-form-field-infix {
+::ng-deep .mat-form-field-flex > .mat-form-field-infix {
   padding: 0.4em 0px !important;
 }
 
@@ -42,6 +39,13 @@ mat-card-subtitle {
 }
 
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-  transform: translateY(-1.1em) scale(.75);
+  transform: translateY(-1.1em) scale(0.75);
   width: 133.33333%;
+}
+
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
 }
