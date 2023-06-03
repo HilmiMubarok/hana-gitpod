@@ -628,7 +628,7 @@
                 <mat-label>Interest Rate Type</mat-label>
                 <mat-select [(ngModel)]="applicationProduct.rateTypeName" (ngModelChange)="changeIntRateType($event)" [disabled]="status">
                   <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of interestTypeList" [value]="item.code">
+                  <mat-option *ngFor="let item of interestTypeList" [value]="item.value">
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
