@@ -78,37 +78,30 @@
               </div>
             </div>
 
-            <div class="col-12" align="center">
-              <button
-                class="submit-button"
-                style="text-align: center; margin-top: 15px"
-                type="submit"
-                (click)="openDialog({})"
-                mat-raised-button
-                color="primary"
-              >
+            <div class="col-12" align="center" class="button-styling-moz">
+              <button class="button-styling" type="submit" (click)="openDialog({})" mat-raised-button style="margin-bottom: 5px">
                 Add Position
               </button>
               <table mat-table [dataSource]="itemsPartner" class="mat-table-expand" multiTemplateDataRows>
                 <ng-container matColumnDef="no">
-                  <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-                  <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">{{ i + 1 }}.</td>
+                  <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+                  <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">{{ i + 1 }}.</td>
                 </ng-container>
                 <ng-container matColumnDef="positionTypeId">
-                  <th mat-header-cell *matHeaderCellDef class="text-center">Position Type</th>
-                  <td class="text-center" mat-cell *matCellDef="let element">{{ element.positionTypeId }}</td>
+                  <th mat-header-cell *matHeaderCellDef class="grid-index-right">Position Type</th>
+                  <td class="text-center" mat-cell *matCellDef="let element" class="grid-index-left">{{ element.positionTypeId }}</td>
                 </ng-container>
                 <ng-container matColumnDef="internalName">
-                  <th mat-header-cell *matHeaderCellDef class="text-center">Branch</th>
-                  <td class="text-center" mat-cell *matCellDef="let element">{{ element.internalName }}</td>
+                  <th mat-header-cell *matHeaderCellDef class="grid-index-left">Branch</th>
+                  <td class="text-center" mat-cell *matCellDef="let element" class="grid-index-left">{{ element.internalName }}</td>
                 </ng-container>
                 <ng-container matColumnDef="statusDescription">
-                  <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
-                  <td class="text-center" mat-cell *matCellDef="let element">{{ element.statusDescription }}</td>
+                  <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+                  <td class="text-center" mat-cell *matCellDef="let element" class="grid-index-left">{{ element.statusDescription }}</td>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                  <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-                  <td mat-cell *matCellDef="let element" class="text-center">
+                  <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+                  <td mat-cell *matCellDef="let element" class="grid-index-left rounding-table-right">
                     <a href="javascript:void();" mat-icon-button (click)="openDialog(element)">
                       <mat-icon>edit</mat-icon>
                     </a>
@@ -135,15 +128,8 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card-actions align="center">
-        <button
-          class="submit-button"
-          style="text-align: center; margin-top: 15px"
-          type="submit"
-          (click)="submit()"
-          mat-raised-button
-          color="primary"
-        >
+      <mat-card-actions align="center" class="button-styling-moz">
+        <button class="button-styling" style="text-align: center; margin-top: 15px" type="submit" (click)="submit()" mat-raised-button>
           Save
         </button>
       </mat-card-actions>
