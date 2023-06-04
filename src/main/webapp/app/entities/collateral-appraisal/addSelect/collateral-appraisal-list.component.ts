@@ -375,10 +375,10 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
               this.surveyAppraisalCross.internalId = this.internalIdLocStor;
               this.surveyAppraisalCross.applicationId = null;
 
-              this.validateAppraisal(this.dataSelectedCheckbox);
               this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
             }
           }
+          this.validateAppraisal(this.dataSelectedCheckbox);
           Promise.all(this.createSurveyAppraisalPromises).then(results => {
             this.router.navigate(['./collateral-appraisal']);
           });
