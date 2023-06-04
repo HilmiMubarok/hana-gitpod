@@ -74,6 +74,7 @@ export class RequestSlikBucketComponent implements OnInit {
     this.getStatus();
     this.iconTimeline = faTimeline;
     this.loadInternalInformationRM();
+    this.requestSlikService.getDataLength().subscribe(res => (this.totalItemCount = res));
   }
 
   private loadInternalById(internalId: string): Promise<IInternal> {
@@ -150,7 +151,7 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   totalItemCount;
-  getData(page = 1, size = 10, sort = 'dateCreate,desc') {
+  getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc') {
     this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
       next: data => {
         console.log('data', data);
@@ -200,8 +201,8 @@ export class RequestSlikBucketComponent implements OnInit {
         });
         // == end get segment
         this.dataSource = new MatTableDataSource(modifiedData);
-        this.totalItemCount = modifiedData.length;
-        this.dataSource.paginator = this.paginator;
+        this.paginator.length = this.totalItemCount;
+        // this.dataSource.paginator = this.paginator;
       },
       error: err => {
         console.log('err', err);
@@ -226,8 +227,8 @@ export class RequestSlikBucketComponent implements OnInit {
   ngOnInit() {
     this.lovAndStatusService.getLovProposeCode().subscribe(res => console.log('LOV', res));
     this.dataSource = new MatTableDataSource();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
     this.getData();
   }
 
@@ -418,14 +419,16 @@ export class RequestSlikBucketComponent implements OnInit {
   // byrequestnumber
 
   paginate(event: any) {
+    this.isLoading = true;
     const page = event.pageIndex + 1;
     const limit = event.pageSize;
     this.getData(page, limit, 'id,desc');
   }
 
-  pageIndex;
+  pageIndex = 1;
   pageSize;
   onPageChange(event: PageEvent) {
+    console.log('event', event);
     this.isLoading = true;
     this.pageIndex = event.pageIndex + 1;
     this.pageSize = event.pageSize;
