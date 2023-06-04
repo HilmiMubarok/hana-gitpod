@@ -258,13 +258,12 @@ td {
   padding-bottom: 10px;
 }
 
-.mat-flat-button.mat-accent,
-.mat-raised-button.mat-accent,
-.mat-fab.mat-accent,
-.mat-mini-fab.mat-accent {
-  background-color: rgba(200, 53, 78, 1);
+.mat-flat-button.mat-warn,
+.mat-raised-button.mat-warn,
+.mat-fab.mat-warn,
+.mat-mini-fab.mat-warn {
+  background-color: rgba(209, 91, 111, 1);
 }
-
 .button-styling {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;

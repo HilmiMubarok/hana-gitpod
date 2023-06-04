@@ -158,3 +158,8 @@ mat-card-header {
   /* font-weight: 700; */
   color: black;
 }
+
+.mat-raised-button.mat-button-disabled.mat-button-disabled {
+  color: rgba(0, 0, 0, 0.26) !important;
+  background-color: rgba(0, 0, 0, 0.26) !important;
+}

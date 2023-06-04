@@ -88,7 +88,11 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Pilih Sector Industry</mat-label>
-              <mat-select name="sectorIndustry" [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode" (selectionChange)="onSelectionChange($event)">
+              <mat-select
+                name="sectorIndustry"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode"
+                (selectionChange)="onSelectionChange($event)"
+              >
                 <mat-option value="">Please Select</mat-option>
                 <mat-option *ngFor="let item of sectorIndustry" [value]="item.code">
                   {{ item.value }}
@@ -151,7 +155,7 @@
           <div class="card-body">
             <table id="table-propose-pricing">
               <tr>
-                <th colspan="2">IDR</th>
+                <th colspan="2" class="rounding-table-left rounding-table-right">IDR</th>
               </tr>
               <tr>
                 <td>TOTAL PLAFOND</td>
@@ -166,7 +170,7 @@
                 <td>IDR {{ availableLimit | number }}</td>
               </tr>
               <tr>
-                <th colspan="2">USD</th>
+                <th colspan="2" class="rounding-table-left rounding-table-right">USD</th>
               </tr>
               <tr>
                 <td>TOTAL PLAFOND</td>
@@ -190,7 +194,7 @@
           <div class="card-body">
             <table id="table-propose-pricing">
               <tr>
-                <th colspan="2">IDR</th>
+                <th colspan="2" class="rounding-table-left rounding-table-right">IDR</th>
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
@@ -205,7 +209,7 @@
                 <td>{{ avgProposedRateIDR }} %</td>
               </tr>
               <tr>
-                <th colspan="2">USD</th>
+                <th colspan="2" class="rounding-table-left rounding-table-right">USD</th>
               </tr>
               <tr>
                 <td>NORMAL RATE</td>

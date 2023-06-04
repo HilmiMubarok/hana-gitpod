@@ -71,26 +71,26 @@
       <mat-card>
         <table mat-table [dataSource]="categoryListGrid" class="mat-table-expand mt-3" multiTemplateDataRows>
           <ng-container matColumnDef="no">
-            <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+            <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
               {{ i + 1 }}
             </td>
           </ng-container>
           <ng-container matColumnDef="productName">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Product Name</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Product Name</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">
               {{ element.productName }}
             </td>
           </ng-container>
           <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
-            <td mat-cell *matCellDef="let element" class="text-center">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Category</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left">
               {{ element.categoryDescription }}
             </td>
           </ng-container>
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-            <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+            <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+            <td mat-cell *matCellDef="let element" class="grid-index-left text-lowercase">
               <button mat-icon-button (click)="openDialogCategory(element)">
                 <mat-icon>edit</mat-icon>
               </button>
@@ -111,7 +111,7 @@
             </td> -->
           </ng-container>
           <ng-container matColumnDef="expand">
-            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="rounding-table-right">&nbsp;</th>
             <td mat-cell *matCellDef="let element"></td>
           </ng-container>
 
@@ -129,7 +129,7 @@
         </table>
         <div class="e-card-actions">
           <div class="d-flex justify-content-center mb-2 mt-2">
-            <button mat-raised-button (click)="openDialogCategory()">ADD CATEGORY</button>
+            <button mat-raised-button (click)="openDialogCategory()" class="button-styling">ADD CATEGORY</button>
           </div>
         </div>
       </mat-card>

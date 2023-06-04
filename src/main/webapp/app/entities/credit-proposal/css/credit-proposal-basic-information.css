@@ -17,8 +17,6 @@
 }
 
 #table-propose-pricing tr th {
-  color: black;
-  font-weight: bold;
   font-size: 16px;
 }
 
@@ -70,8 +68,9 @@
 
 .e-grid .e-headercell,
 .e-grid .e-detailheadercell {
-  background-color: #008881 !important;
+  background-color: rgba(147, 201, 199, 1) !important;
   color: black;
+  font-family: 'Poppins', sans-serif !important;
   font-weight: 600;
 }
 
@@ -273,4 +272,36 @@ table .mat-table {
   font-size: 12px;
   font-weight: 600;
   color: #0000008a;
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+.rounding-table-left {
+  border-top-left-radius: 15px !important;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px !important;
+}
+
+.grid-index-left {
+  justify-content: flex-start !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.grid-index-right {
+  justify-content: flex-end !important;
+  text-align: right !important;
+  padding-right: 45px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff !important;
 }

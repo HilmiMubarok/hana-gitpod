@@ -1,14 +1,37 @@
 .mat-header-cell {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
   font-family: 'Poppins', sans-serif;
-  background: #008881;
-  color: #ffff;
-  font-weight: 600;
-  font-style: normal;
 }
-table .mat-table {
-  border: 1px #008881 solid !important;
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
 }
 
+.grid-index-left {
+  justify-content: flex-start;
+  font-family: 'Poppins', sans-serif;
+}
+
+.grid-index-right {
+  justify-content: flex-end;
+  text-align: right;
+  padding-right: 45px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.grid-index-center {
+  justify-content: center;
+  text-align: center;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff;
+}
 element.style {
   display: none;
   bottom: 0;

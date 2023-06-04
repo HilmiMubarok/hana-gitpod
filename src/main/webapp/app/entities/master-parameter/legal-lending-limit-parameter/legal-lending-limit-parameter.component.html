@@ -73,29 +73,29 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <table mat-table [dataSource]="items" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">No</th>
-          <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
         <ng-container matColumnDef="code">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Legal Lending Limit Type</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.code }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Legal Lending Limit Type</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.code }}</td>
         </ng-container>
         <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Percentage</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.value }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Percentage</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-right text-capitalize">{{ element.value }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Status</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">{{ element.statusId }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">{{ element.statusId }}</td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-left text-capitalize">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Action</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left text-capitalize">
             <button mat-icon-button (click)="openDialog(element)">
               <mat-icon>edit</mat-icon>
             </button>
@@ -122,7 +122,7 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button mat-raised-button (click)="openDialog()" style="background: rgba(0, 136, 129, 1); color: #ffffff">ADD</button>
+        <button mat-raised-button (click)="openDialog()" class="button-styling">ADD</button>
       </div>
     </div>
   </div>

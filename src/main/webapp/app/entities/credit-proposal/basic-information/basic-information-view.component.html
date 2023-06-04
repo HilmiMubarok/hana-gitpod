@@ -265,8 +265,8 @@
       <div class="e-card-content">
         <ejs-grid [dataSource]="gridCreditProposal" [allowPaging]="true">
           <e-columns>
-            <e-column field="customerCIF" headerText="Cif" width="90" id="getCif"></e-column>
-            <e-column field="customerName" headerText="Company Name" width="120"></e-column>
+            <e-column field="customerCIF" headerText="Cif" width="90" id="getCif" class="rounding-table-left"></e-column>
+            <e-column field="customerName" headerText="Company Name" width="120" class="rounding-table-right"></e-column>
             <!-- <e-column field="addressPrimary" headerText="Location" width="120"></e-column>
               <e-column field="prospectPerson.taxIdNumber" headerText="NPWP" format="yMd" width="120"></e-column> -->
           </e-columns>
@@ -286,27 +286,27 @@
     <mat-card-content>
       <table mat-table [dataSource]="data" class="w-100">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No</th>
-          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
         </ng-container>
         <ng-container matColumnDef="customerNumber">
-          <th mat-header-cell *matHeaderCellDef>CIF</th>
-          <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">CIF</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.customerNumber }}</td>
         </ng-container>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Company Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Company Name</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.name }}</td>
         </ng-container>
         <ng-container matColumnDef="taxIdNumber">
-          <th mat-header-cell *matHeaderCellDef>NPWP</th>
-          <td mat-cell *matCellDef="let element">{{ element.taxIdNumber }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">NPWP</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.taxIdNumber }}</td>
         </ng-container>
         <ng-container matColumnDef="address">
-          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Address</th>
           <td mat-cell *matCellDef="let element">{{ element.address }}</td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <th mat-header-cell *matHeaderCellDef class="rounding-table-right grid-index-left">Action</th>
           <td mat-cell *matCellDef="let element">
             <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
               <button mat-icon-button (click)="onDelete(element)">
@@ -327,12 +327,12 @@
     </mat-card-content>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button (click)="onOpenDialog($event)" class="btn btn-info">Add</button>
+        <button (click)="onOpenDialog($event)" class="btn btn-info button-styling">Add</button>
       </div>
     </section>
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button (click)="onOpenDialog($event)" class="btn btn-info" hidden>Add</button>
+        <button (click)="onOpenDialog($event)" class="btn btn-info button-styling" hidden>Add</button>
       </div>
     </section>
   </mat-card>

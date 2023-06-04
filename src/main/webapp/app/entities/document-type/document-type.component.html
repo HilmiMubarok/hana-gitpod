@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <mat-card class="mt-3">
         <mat-card-content>
           <div class="row">
@@ -52,28 +52,28 @@
 
       <table mat-table [dataSource]="items" class="mat-table-expand mt-3" multiTemplateDataRows>
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Document Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Document Name</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.description }}</td>
         </ng-container>
         <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Category</th>
-          <td mat-cell *matCellDef="let element" class="text-center">{{ element.category }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Category</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.category }}</td>
         </ng-container>
         <ng-container matColumnDef="statusDescription">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Status</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             <mat-chip>{{ element.statusDescription }}</mat-chip>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left text-lowercase">
             <a
               href="javascript:void();"
               [routerLink]="['/document-type/', element.id, 'view']"
@@ -93,7 +93,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="rounding-table-right">&nbsp;</th>
           <td mat-cell *matCellDef="let element"></td>
         </ng-container>
 
@@ -131,13 +131,7 @@
           ADD NEW DOCUMENT TYPE
         </button> -->
         <button *ngIf="isView === true" mat-raised-button (click)="openDialog()" [disabled]="isView">ADD NEW DOCUMENT TYPE</button>
-        <button
-          *ngIf="isView === false"
-          mat-raised-button
-          (click)="openDialog()"
-          [disabled]="isView"
-          style="background: rgba(0, 136, 129, 1); color: #ffffff"
-        >
+        <button *ngIf="isView === false" mat-raised-button (click)="openDialog()" [disabled]="isView" class="button-styling">
           ADD NEW DOCUMENT TYPE
         </button>
       </div>

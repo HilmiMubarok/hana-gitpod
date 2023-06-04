@@ -17,23 +17,23 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">No</th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let element; let i = dataIndex" class="grid-index-right">
             {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
           </td>
         </ng-container>
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Position Type Id</th>
-          <td mat-cell *matCellDef="let element" class="string-output">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Position Type Id</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             {{ element.id }}
           </td>
         </ng-container>
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Position Name</th>
-          <td mat-cell *matCellDef="let element" class="string-output">{{ element.description }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Position Name</th>
+          <td mat-cell *matCellDef="let element" class="string-output grid-index-left">{{ element.description }}</td>
         </ng-container>
 
         <!-- <ng-container matColumnDef="title">
@@ -43,8 +43,8 @@
           </td>
         </ng-container> -->
         <ng-container matColumnDef="numOfPosition">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Num Of Position</th>
-          <td mat-cell *matCellDef="let element" class="number-output grid-index-label">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right">Num Of Position</th>
+          <td mat-cell *matCellDef="let element" class="number-output grid-index-right">
             {{ element.numOfPosition }}
           </td>
         </ng-container>
@@ -55,14 +55,14 @@
           </td>
         </ng-container> -->
         <ng-container matColumnDef="internalTypeDescription">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Internal</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Internal</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             {{ element.internalTypeDescription }}
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center grid-index">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-lowercase">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Action</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">
             <a
               href="javascript:void();"
               [routerLink]="['/position-type', element.id, 'view']"
@@ -83,7 +83,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="grid-index">&nbsp;</th>
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions" class="rounding-table-right grid-index-right">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
             <!-- <button
                   mat-icon-button

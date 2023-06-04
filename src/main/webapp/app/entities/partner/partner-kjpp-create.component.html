@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <mat-card>
         <mat-card-header>
           <mat-card-subtitle class="fw-bold">Partner</mat-card-subtitle>
@@ -78,17 +78,8 @@
 
       <br />
 
-      <mat-card-actions align="center">
-        <button
-          class="submit-button"
-          type="submit"
-          style="background: rgba(0, 136, 129, 1); color: #ffffff; margin-left: 13px !important; margin-top: 25px !important"
-          (click)="submit()"
-          mat-raised-button
-          color="primary"
-        >
-          Save
-        </button>
+      <mat-card-actions align="center" class="button-styling-moz">
+        <button class="button-styling" type="submit" (click)="submit()" mat-raised-button>Save</button>
         <!-- <button
           mat-raised-button
           class="submit-button"

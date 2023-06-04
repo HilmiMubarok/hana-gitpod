@@ -25,7 +25,10 @@
                   ngProjectAs="ngx-dropzone-image-preview"
                   [file]="f"
                   *ngIf="
-                    f.name.split('.').indexOf('png') > -1 || f.name.split('.').indexOf('jpg') > -1 || f.name.split('.').indexOf('jpeg') > -1 || f.name.split('.').indexOf('gif') > -1
+                    f.name.split('.').indexOf('png') > -1 ||
+                    f.name.split('.').indexOf('jpg') > -1 ||
+                    f.name.split('.').indexOf('jpeg') > -1 ||
+                    f.name.split('.').indexOf('gif') > -1
                   "
                 ></ngx-dropzone-image-preview>
               </ngx-dropzone-label>
@@ -253,10 +256,10 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Category</th>
+          <th class="rounding-table-left">Category</th>
           <th>Date</th>
           <th>Remarks</th>
-          <th>Status</th>
+          <th class="rounding-table-right">Status</th>
         </tr>
       </thead>
       <tbody>

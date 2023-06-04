@@ -29,7 +29,7 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="e-card-header-title">Credit Proposal</div>
+            <div class="label-font-detail">Credit Proposal</div>
           </div>
         </div>
         <div class="e-card-content">
@@ -437,22 +437,15 @@
         {{ task.caption }}
       </button> -->
       <button
-        style="margin-right: 25px; background: rgba(0, 136, 129, 1); color: #ffffff"
         mat-raised-button
         *ngFor="let task of tasks"
         (click)="processTask(task)"
-        class="btn-lg text-uppercase"
+        class="btn-lg text-uppercase button-styling"
+        style="margin-left: 5px"
       >
         {{ task.caption }}
       </button>
-      <button
-        mat-raised-button
-        class="btn-lg text-uppercase"
-        (click)="save('default')"
-        style="background: rgba(0, 136, 129, 1); color: #ffffff"
-      >
-        Save
-      </button>
+      <button mat-raised-button class="btn-lg text-uppercase button-styling" (click)="save('default')">Save</button>
     </div>
   </div>
 

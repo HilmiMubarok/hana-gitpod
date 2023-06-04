@@ -19,16 +19,16 @@
     <div class="table-responsive-material">
       <table mat-table class="w-100" appearance="outline" [dataSource]="filteringItems">
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+          <th mat-header-cell *matHeaderCellDef width="5%" class="rounding-table-left grid-index-right">No</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="grid-index-right">{{ i + 1 }}</td>
         </ng-container>
         <ng-container matColumnDef="approval_name">
           <th mat-header-cell *matHeaderCellDef>Approval Name</th>
           <td mat-cell *matCellDef="let element">{{ element.positionToEmployeeName }}</td>
         </ng-container>
         <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef>Position</th>
-          <td mat-cell *matCellDef="let element">{{ element.positionTypeToDescription }}</td>
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left rounding-table-right">Position</th>
+          <td mat-cell *matCellDef="let element" lass="grid-index-left">{{ element.positionTypeToDescription }}</td>
         </ng-container>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
