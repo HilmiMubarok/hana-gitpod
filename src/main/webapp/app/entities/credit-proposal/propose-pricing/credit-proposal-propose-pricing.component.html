@@ -88,7 +88,7 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Pilih Sector Industry</mat-label>
-              <mat-select name="sectorIndustry" [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode">
+              <mat-select name="sectorIndustry" [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode" (selectionChange)="onSelectionChange($event)">
                 <mat-option value="">Please Select</mat-option>
                 <mat-option *ngFor="let item of sectorIndustry" [value]="item.code">
                   {{ item.value }}

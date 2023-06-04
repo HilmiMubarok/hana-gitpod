@@ -18,7 +18,7 @@
     </ng-container>
     <ng-container matColumnDef="facilityType">
       <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-      <td mat-cell *matCellDef="let element">{{ getFacilityType(element) }}</td>
+      <td mat-cell *matCellDef="let element; let i = index">{{ getFacilityType(element, i) }}</td>
     </ng-container>
     <ng-container matColumnDef="subLimit">
       <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
@@ -85,7 +85,7 @@
       <th mat-header-cell *matHeaderCellDef>FirstDisbursement Date</th>
       <td mat-cell *matCellDef="let element">
         <span *ngIf="element.firstDisbursementDate === undefined">0</span>
-        <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate | date: 'yyyy/MM/dd' }}</span>
+        <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate }}</span>
       </td>
     </ng-container>
     <ng-container matColumnDef="action">
@@ -163,9 +163,7 @@
     </ng-container>
     <ng-container matColumnDef="totalCreditLimit">
       <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.currencyId + ' ' + (element.totalPlafond | number) }}
-      </td>
+      <td mat-cell *matCellDef="let element">{{ element.currencyId }} {{ printElements(element.totalPlafond | number) }}</td>
     </ng-container>
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest</th>
@@ -175,7 +173,7 @@
         </div>
         <div *ngIf="element.applicationType !== 'Existing'">
           {{
-            getRateTypeDesc(element.rateTypeName) +
+            element.rateTypeName +
               ' ' +
               element.intResetFrequency +
               ' ' +

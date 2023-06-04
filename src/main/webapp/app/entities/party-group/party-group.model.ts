@@ -74,7 +74,6 @@ export interface IPartyGroup {
   annualSales?: string;
   organizationIdNumber?: string;
   organizationIdType?: string;
-  relationsDebtor?: string;
 }
 
 export class PartyGroup implements IPartyGroup {
@@ -152,8 +151,7 @@ export class PartyGroup implements IPartyGroup {
     public custInfoSystemCode?: string,
     public annualSales?: string,
     public organizationIdNumber?: string,
-    public organizationIdType?: string,
-    public relationsDebtor?: string
+    public organizationIdType?: string
   ) {
     this.establishDate = new Date();
   }

@@ -301,6 +301,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   ngOnInit(): void {
+    // this.applicationProduct.attributes['loanPurposeLegal']  = this.applicationProduct.attributes['loanPurpose'] ;
     console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();
@@ -394,6 +395,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.productParameterService
       .queryFilterBy({
         idProductType: event,
+        isActive: true,
+        size: 9999,
       })
       .subscribe(res => {
         this.listLoanType = res.body;
@@ -700,7 +703,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   public applicationTypeChange(event: any) {
     this.statusFacilityValue = event.value;
-    if (this.statusFacilityValue === 'Existing' || this.statusFacilityValue === 'Renewal' || this.statusFacilityValue === 'Renewal') {
+    if (this.statusFacilityValue === 'Existing') {
       this.myControl.disable();
       this.statusFacilityDisabled = true;
     } else {
@@ -820,6 +823,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
       this.productClasificationService
         .queryFilterBy({
           idProduct: data.id,
+          isActive: true,
           page: 0,
           size: 9999,
           sort: ['asc'],

@@ -47,6 +47,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public file = [];
   public files: any;
   public key: string;
+  public fileTbo = [];
   public view: string;
   public typeData: IDocumentType;
   public categoryType = [];
@@ -85,6 +86,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
       _dialog.backdropClick().subscribe(_ => {
         this.openCancelDialog();
       });
+      this.isTBO();
     }
 
     this.files = this.data.files;
@@ -156,69 +158,79 @@ export class DebtorDataDocumentChecklistDialogComponent {
     }
   }
 
-  public deleteTBO(status) {
-    this.setStatusCurrenValue.push(status.value);
-    if (this.setStatusCurrenValue.length > 2) {
-      this.setStatusCurrenValue.shift();
-    }
-    if (this.setStatusCurrenValue[0] === 'Available' && this.setStatusCurrenValue[1] === 'TBO') {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Available') {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === 'Available') {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'Available' && this.setStatusCurrenValue[1] === 'Waived') {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === undefined) {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === undefined) {
-      this.handleImage();
-    } else if (this.filesStatus === 'Available') {
-      this.handleImage();
-    } else if (this.filesStatus === 'Not Available') {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'TBO' && this.setStatusCurrenValue[1] === 'Waived') {
-      this.handleImage();
-    } else if (this.setStatusCurrenValue[0] === 'Waived' && this.setStatusCurrenValue[1] === 'TBO') {
-      this.handleImage();
-    }
-
-    if (status.value === 'TBO' || status.value === 'Waived') {
-      if (this.file.length === 0) {
-        this.isTBO();
-      }
-    }
-  }
-
   public save(): void {
-    this.files.status = this.filesStatus;
-    this.files.dueDate = this.filesdueDate;
-    this.files.remarks = this.filesRemarks;
-    this.files.description = this.filesDescription;
-    const deleteData = this.file.length - this.fileDeleted.length;
-    this.approvedDeleted().then(() => {
-      if (deleteData > 0) {
-        this.preSave().then((res: any) => {
-          if (this.fileDeleted.length > 0) {
-            if (this.file.length === this.fileDeleted.length) {
-              this._dialog.close();
-            }
-          } else {
+    if (this.files.category === 'C') {
+      if (this.file.length > 0) {
+        this.files.status = this.filesStatus;
+        this.files.dueDate = this.filesdueDate;
+        this.files.remarks = this.filesRemarks;
+        this.files.description = this.filesDescription;
+
+        this.approvedDeleted().then(() => {
+          this.preSave().then(() => {
             this._dialog.close();
-          }
+          });
+          this.preUpdate().then(() => {
+            this._dialog.close();
+          });
         });
       } else {
-        this.messageService.add({
-          severity: 'info',
-          summary: 'Info',
-          detail: 'File kosong tidak di perbolehkan jika available',
+        this.file = this.fileTbo;
+        this.files.status = this.filesStatus;
+        this.files.dueDate = this.filesdueDate;
+        this.files.remarks = this.filesRemarks;
+        this.files.description = this.filesDescription;
+
+        this.approvedDeleted().then(() => {
+          this.preSave().then(() => {
+            this._dialog.close();
+          });
+          this.preUpdate().then(() => {
+            this._dialog.close();
+          });
         });
       }
-    });
-    if (deleteData > 0) {
-      this.preUpdate().then(() => {
-        this._dialog.close();
-      });
+    } else {
+      if (this.file.length < 1) {
+        if (this.filesStatus === 'TBO' || this.filesStatus === 'Waived') {
+          this.file = this.fileTbo;
+          this.files.status = this.filesStatus;
+          this.files.dueDate = this.filesdueDate;
+          this.files.remarks = this.filesRemarks;
+          this.files.description = this.filesDescription;
+
+          this.approvedDeleted().then(() => {
+            this.preSave().then(() => {
+              this._dialog.close();
+            });
+            this.preUpdate().then(() => {
+              this._dialog.close();
+            });
+          });
+        } else {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Info',
+            detail: 'Data Selain Waived dan TBO tidak boleh kosong',
+          });
+        }
+      } else {
+        this.files.status = this.filesStatus;
+        this.files.dueDate = this.filesdueDate;
+        this.files.remarks = this.filesRemarks;
+        this.files.description = this.filesDescription;
+
+        this.approvedDeleted().then(() => {
+          this.approvedDeleted().then(() => {
+            this.preSave().then(() => {
+              this._dialog.close();
+            });
+            this.preUpdate().then(() => {
+              this._dialog.close();
+            });
+          });
+        });
+      }
     }
   }
 
@@ -258,11 +270,10 @@ export class DebtorDataDocumentChecklistDialogComponent {
             this.storageService.getObjects(this.bucket, predicate).subscribe((rep: any) => {
               this.lengthMinIO = rep.body;
             });
+            resolve();
           });
         }
       }
-
-      resolve();
     });
   }
 
@@ -317,9 +328,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
         }
       }
     }
-    if (this.filesStatus === 'TBO' || this.filesStatus === 'Waived') {
-      this.isTBO();
-    }
   }
 
   private isTBO(): Promise<void> {
@@ -334,11 +342,10 @@ export class DebtorDataDocumentChecklistDialogComponent {
         ctx.drawImage(img, 0, 0);
         canvas.toBlob(blob => {
           const file = new File([blob], 'los_logo.png', { type: 'image/png' });
-          this.file.push(file);
+          this.fileTbo.push(file);
         }, 'image/png');
-        if (this.file.length > 0) {
-          resolve();
-        }
+
+        resolve();
       };
     });
   }
@@ -362,22 +369,31 @@ export class DebtorDataDocumentChecklistDialogComponent {
             createdBy: null,
           };
           const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.file[i].name.replace('&', '');
-          metaData.objectName = `/idd/${this.data.partyId}/document/${this.files.id}/${files}`;
-          metaData.entityId = this.data.partyId;
-          metaData.id = this.files.id;
-          metaData.status = this.files.status;
-          metaData.dueDate = this.files.dueDate === undefined ? null : new Date(this.files.dueDate).toISOString();
-          metaData.remarks = this.files.remarks.replace('&', 'codeSpecialDan');
+          if (files.split('').length > 254) {
+            this.messageService.add({
+              severity: 'info',
+              summary: 'Info',
+              detail: 'Nama file tidak boleh lebih dari 255 karakter',
+            });
+          } else {
+            metaData.objectName = `/idd/${this.data.partyId}/document/${this.files.id}/${files}`;
+            metaData.entityId = this.data.partyId;
+            metaData.id = this.files.id;
+            metaData.status = this.files.status;
+            metaData.dueDate =
+              this.files.dueDate === undefined || this.files.dueDate === null ? null : new Date(this.files.dueDate).toISOString();
+            metaData.remarks = this.files.remarks.replace('&', 'codeSpecialDan');
 
-          const formData = new FormData();
-          formData.append('file', this.file[i]);
-          this.accountService.identity().subscribe(resAccount => {
-            metaData.createdBy = resAccount.login;
-            this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe({});
-          });
+            const formData = new FormData();
+            formData.append('file', this.file[i]);
+            this.accountService.identity().subscribe(resAccount => {
+              metaData.createdBy = resAccount.login;
+              this.storageService.uploadMeta(this.bucket, formData, metaData).subscribe({});
+              resolve();
+            });
+          }
         }
       }
-      resolve();
     });
   }
 

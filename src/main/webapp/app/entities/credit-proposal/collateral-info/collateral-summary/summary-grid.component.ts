@@ -25,6 +25,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { ApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 @Component({
   selector: 'jhi-summary-grid',
   templateUrl: './summary-grid.component.html',
@@ -148,14 +149,15 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   }
 
   @Input() isViewMode;
-
+  public insuranceTypes = [];
   constructor(
     protected _snackbar: MatSnackBar,
     private collateralPropertyService: CollateralPropertyService,
     public dialog: MatDialog,
     private creditProposalService: CreditProposalService,
     private collateralService: CollateralService,
-    private partyCifService: PartyCifService
+    private partyCifService: PartyCifService,
+    private generalParameterService: GeneralParameterService
   ) {
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
@@ -179,6 +181,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     }
     this.setCertyficateType();
     this.totalCoverage();
+    this.getLovInsuranceType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;
@@ -371,6 +374,30 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
       }
     }
     return 'N/A';
+  }
+  getLovInsuranceType() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INSURANCE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        console.log('insurance type body ', res.body);
+        this.insuranceTypes = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
+  }
+
+  public getInsuranceType(value) {
+    if (this.insuranceTypes) {
+      const data = this.insuranceTypes.find(obj => obj.code === value);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
   }
 
   private getInsurance(element: ICollateral): ICreditProposalCollateralInsurance {

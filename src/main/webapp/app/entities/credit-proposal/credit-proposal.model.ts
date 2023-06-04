@@ -52,10 +52,18 @@ export interface ICreditProposal extends ILoanApplication {
   intarnalId?: string;
   mainProducts?: IMainFacility[];
   ownerPosition?: IPositions;
+  umkmClass?: string;
+  annualSales?: number;
+  capitalDeposit?: number;
+  debtorCategory?: string;
 }
 
 export class CreditProposal implements ICreditProposal {
   constructor(
+    public debtorCategory?: string,
+    public umkmClass?: string,
+    public annualSales?: number,
+    public capitalDeposit?: number,
     public credatedBy?: string,
     public credatedDate?: Date,
     public lastModifiedBy?: string,

@@ -141,12 +141,19 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         this.sectorIndustry = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('sector', this.sectorIndustry);
       });
   }
 
+  public onSelectionChange(event: any) {
+    this.creditProposal.attributes['purposePricing'].industryCode = event.value;
+  }
+
   public industryLable(industryCode: string) {
-    return this.sectorIndustry.filter(data => data.code === industryCode);
+    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+      return '';
+    } else {
+      return this.sectorIndustry.filter(data => data.code === industryCode)[0].value;
+    }
   }
 
   public onGetCreditProposal(creditProposal: ICreditProposal): void {
@@ -422,17 +429,13 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public averagetoIDR() {
     this.http.get('/services/report/api/report/propose_pricing/xls/' + this.creditProposal.id).subscribe(res => {
       for (let i = 0; i < this.creditProposal.products.length; i++) {
-        this.avgNormalRateIDR = this.aplicationProducts[i].attributes['avgNormalRateIDR'] = res['proposePricing'][i]['avgNormalRateIDR'];
-        this.avgProposedRateIDR = this.aplicationProducts[i].attributes['avgProposedRateIDR'] =
-          res['proposePricing'][i]['avgProposedRateIDR'];
-        this.avgDiscProposalIDR = this.aplicationProducts[i].attributes['avgDiscProposalIDR'] =
-          res['proposePricing'][i]['avgDiscProposalIDR'];
+        this.avgNormalRateIDR = this.aplicationProducts[i].avgNormalRateIDR = res['proposePricing'][i]['avgNormalRateIDR'];
+        this.avgProposedRateIDR = this.aplicationProducts[i].avgProposedRateIDR = res['proposePricing'][i]['avgProposedRateIDR'];
+        this.avgDiscProposalIDR = this.aplicationProducts[i].avgDiscProposalIDR = res['proposePricing'][i]['avgDiscProposalIDR'];
 
-        this.avgProposedRateUSD = this.aplicationProducts[i].attributes['avgProposedRateUSD'] =
-          res['proposePricing'][i]['avgProposedRateUSD'];
-        this.avgNormalRateUSD = this.aplicationProducts[i].attributes['avgNormalRateUSD'] = res['proposePricing'][i]['avgNormalRateUSD'];
-        this.avgDiscProposalUSD = this.aplicationProducts[i].attributes['avgDiscProposalUSD'] =
-          res['proposePricing'][i]['avgDiscProposalUSD'];
+        this.avgProposedRateUSD = this.aplicationProducts[i].avgProposedRateUSD = res['proposePricing'][i]['avgProposedRateUSD'];
+        this.avgNormalRateUSD = this.aplicationProducts[i].avgNormalRateUSD = res['proposePricing'][i]['avgNormalRateUSD'];
+        this.avgDiscProposalUSD = this.aplicationProducts[i].avgDiscProposalUSD = res['proposePricing'][i]['avgDiscProposalUSD'];
       }
     });
   }

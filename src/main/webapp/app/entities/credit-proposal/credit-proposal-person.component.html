@@ -751,21 +751,31 @@
                       <input
                         matInput
                         type="text"
-                        disabled
-                        [ngModel]="deptorData.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
-                        (ngModelChange)="deptorData.debtorData.annualSales = currencyInputChanged($event)"
+                        (focusout)="myFunction()"
+                        [ngModel]="deptorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
+                        (ngModelChange)="deptorData.annualSales = currencyInputChanged($event)"
                       />
                     </mat-form-field>
+
+                    <!-- <ejs-numerictextbox
+                      disabled
+                      [(ngModel)]="creditProposal.annualSales"
+                      placeholder="Penjualan Tahunan"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                      format="IDR 0,"
+                      min="0"
+                    >
+                    </ejs-numerictextbox> -->
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Penjualan Tahunan</div>
+                      <div class="col">Penjualan Tahunan</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0' }}
-                      </div>
+                      <div class="col">{{ deptorData.annualSales | currency: 'IDR ':'symbol':'1.0-0' }}</div>
                     </div>
                   </section>
+                  <!-- </div> -->
                 </div>
                 <div class="col">
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -795,19 +805,22 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Klasifikasi UMKM</mat-label>
-                      <mat-select [(ngModel)]="deptorData.debtorData.umkmClassification" [disabled]="true">
-                        <mat-option value="">Please Select</mat-option>
-                        <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
-                      </mat-select>
+                      <input matInput type="text" [(ngModel)]="deptorData.umkmClass" [disabled]="true" />
                     </mat-form-field>
+                    <!-- <ejs-textbox
+                      disabled
+                      [(ngModel)]="creditProposal.umkmClass"
+                      placeholder="Klasifikasi UMKM"
+                      floatLabelType="Auto"
+                      cssClass="e-outline"
+                    >
+                    </ejs-textbox> -->
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Klasifikiasi UMKM</div>
+                      <div class="col">Klasifikasi UMKM</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.debtorData.umkmClassification }}
-                      </div>
+                      <div class="col">{{ deptorData.umkmClass }}</div>
                     </div>
                   </section>
                 </div>
@@ -841,20 +854,18 @@
                       <mat-label>Modal Disetor</mat-label>
                       <input
                         matInput
-                        disabled
                         type="text"
-                        [ngModel]="deptorData.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
-                        (ngModelChange)="deptorData.debtorData.depositCapital = currencyInputChanged($event)"
+                        (focusout)="myFunction()"
+                        [ngModel]="deptorData.capitalDeposit | currency: 'IDR ':'symbol':'1.0-0'"
+                        (ngModelChange)="deptorData.capitalDeposit = currencyInputChanged($event)"
                       />
                     </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Modal Disetor</div>
+                      <div class="col">Modal Disetor</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0' }}
-                      </div>
+                      <div class="col">{{ deptorData.capitalDeposit | currency: 'IDR ':'symbol':'1.0-0' }}</div>
                     </div>
                   </section>
                 </div>
@@ -894,19 +905,14 @@
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <mat-form-field class="w-100" appearance="outline">
                       <mat-label>Category Debitur</mat-label>
-                      <mat-select [(ngModel)]="deptorData.debtorData.umkmCategory" [disabled]="true">
-                        <mat-option value="">Please Select</mat-option>
-                        <mat-option *ngFor="let item of categoryDebtor | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
-                      </mat-select>
+                      <input matInput type="text" [(ngModel)]="deptorData.debtorCategory" [disabled]="true" />
                     </mat-form-field>
                   </section>
                   <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <div class="fontsebled row">
-                      <div class="col-4">Category Debitur</div>
+                      <div class="col">Category Debitur</div>
                       <div class="col-md-auto">:</div>
-                      <div class="col col-lg-4">
-                        {{ deptorData.debtorData.umkmCategory }}
-                      </div>
+                      <div class="col">{{ deptorData.debtorCategory }}</div>
                     </div>
                   </section>
                 </div>
