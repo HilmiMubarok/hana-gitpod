@@ -111,6 +111,10 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['checklists']) {
+      this.checklists = changes['checklists'].currentValue;
+    }
+
     if (changes['partyCif'] && changes['managementType']) {
       this.loadDataBy(this.partyCif.customerNumber, this.managementType);
       this.defineDisplayedColumns(this.managementType);
@@ -139,6 +143,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     dialogRef.afterClosed().subscribe(() => {});
   }
 
+  @Output() defaultChecklist = new EventEmitter<any>();
   @Output() ocrDatas = new EventEmitter<any>();
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
@@ -169,15 +174,36 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
                   });
               });
             });
-            this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
-              ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-                  console.log('thee data', data);
-                  this.ocrDatas.emit(data);
-                  this.initDataForMatTable(data, res.headers);
-                  // this.organizationManagement = [...(data as IOrganizationManagement[])];
-                })
-              : this.initDataForMatTable(res, res.headers);
-            // this.organizationManagement = [...(res.body as IOrganizationManagement[])];
+            // this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
+            //   ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+            //       console.log('thee data', data);
+            //       this.ocrDatas.emit(data);
+            //       this.initDataForMatTable(data, res.headers);
+            //     })
+            //   : this.initDataForMatTable(res, res.headers);
+            if (this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM') {
+              this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
+                console.log('thee data', data);
+                this.ocrDatas.emit(data);
+                this.initDataForMatTable(data, res.headers);
+              });
+            } else {
+              console.log('sadkjhgsdjkasjdh', res);
+
+              let checklistsDefault = [];
+              res.body.forEach(checklist => {
+                checklistsDefault = [
+                  ...checklistsDefault,
+                  {
+                    idParty: checklist.person ? checklist.person.id : checklist.shareHolderOrg.id,
+                    idRequestSlik: this.requestSlikId,
+                    cust: checklist.person ? checklist.person : checklist.shareHolderOrg,
+                  },
+                ];
+                this.defaultChecklist.emit(checklistsDefault);
+              });
+              this.initDataForMatTable(res, res.headers);
+            }
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
@@ -243,6 +269,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
     // console.log('select row', el);
     this.nikNpwp = el.nikNpwp;
 
+    delete el.partySlik.partySlikCollaterals;
     // Emit selectedVerifyData to parent
     this.selectedVerifyData.emit(el);
   }

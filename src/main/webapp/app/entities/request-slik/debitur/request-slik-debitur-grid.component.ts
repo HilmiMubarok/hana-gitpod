@@ -167,7 +167,8 @@ export class RequestSlikDebiturGridComponent implements OnInit {
   }
 
   protected selectRow(el) {
-    console.log('Select row', el);
+    console.log('Select row el', el);
+    delete el.partySlik.partySlikCollaterals;
     this.nikNpwp = el.nikNpwp;
     this.selectedVerifyData.emit(el);
   }
