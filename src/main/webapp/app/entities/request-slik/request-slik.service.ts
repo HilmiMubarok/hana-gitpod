@@ -34,6 +34,15 @@ export class RequestSlikService extends AbstractEntityService<any> {
     return entity.id === undefined || entity.id === null;
   }
 
+  getDataLength() {
+    return this.http
+      .get<any>(this.resourceUrl, {
+        params: new HttpParams().set('size', 99999),
+        observe: 'response',
+      })
+      .pipe(map(res => res.body.data.length));
+  }
+
   // Get Data with server side pagination
   getDataServerSidePagination(page: number, size: number, sort: string): Observable<any> {
     const url = `?page=${page}&size=${size}&sort=${sort}`;
