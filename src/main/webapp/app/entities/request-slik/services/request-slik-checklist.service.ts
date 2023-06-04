@@ -4,6 +4,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import _ from 'lodash';
 import { BehaviorSubject, map } from 'rxjs';
 
 @Injectable({
@@ -22,10 +23,31 @@ export class RequestSlikChecklistService extends AbstractEntityService<any> {
   checklistOcrs: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   checklistOcrs$ = this.checklistOcrs.asObservable();
 
+  // Default Checklist on DRAFT
+  defaultChecklists: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  defaultChecklists$ = this.defaultChecklists.asObservable();
+
   updateChecklistOcrs(data: any) {
     const currentChecklistOcrs = this.checklistOcrs.getValue();
     currentChecklistOcrs.push(data);
     this.checklistOcrs.next(currentChecklistOcrs);
+  }
+
+  updateDefaultChecklists(data: any) {
+    const currentDefaultChecklists = this.defaultChecklists.getValue();
+    currentDefaultChecklists.push(data);
+    this.defaultChecklists.next(currentDefaultChecklists);
+  }
+
+  removeDuplicate(data) {
+    return _.uniq(data);
+  }
+
+  protected containsObject(obj, list) {
+    const res = _.find(list, function (val) {
+      return _.isEqual(obj, val);
+    });
+    return _.isObject(res) ? true : false;
   }
 
   getAllChecklists() {

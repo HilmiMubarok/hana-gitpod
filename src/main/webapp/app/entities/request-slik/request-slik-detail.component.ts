@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik } from './request-slik.model';
@@ -43,7 +43,22 @@ export class RequestSlikDetailComponent implements OnInit {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
+
     // this.getFinalOcrData();
+
+    // Test change checklist
+    // setTimeout(() => {
+    //   const data = {
+    //     idParty: null,
+    //     idRequestSlik: null,
+    //     cust: null,
+    //   };
+    //   data.cust = this.partyCif.customerPerson === null ? this.partyCif.customerOrganization : this.partyCif.customerPerson;
+    //   data.idParty = this.partyCif.partyId;
+    //   data.idRequestSlik = this.requestSlikId;
+
+    //   this.checklists.push(data);
+    // }, 2000);
   }
 
   /**
@@ -66,11 +81,43 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   getAllChecklistData(data) {
-    console.log('all checklist from child', data);
+    console.log('all checklist from child', { data, checklists: this.checklists });
+    // this.checklists.push(data);
+
+    data.forEach(element => {
+      // !this.containsObject(element, this.checkDataChecklist) && this.checkDataChecklist.push(element);
+      !this.containsObject(element, this.requestSlikChecklistService.defaultChecklists.getValue()) &&
+        this.requestSlikChecklistService.updateDefaultChecklists(element);
+      // !this.containsObject(element, this.checklists) && this.checklists.push(element);
+    });
+    // this.requestSlikChecklistService.updateDefaultChecklists(data);
+    console.log('all checklist from child cheeckdaadsdalsdj', this.requestSlikChecklistService.defaultChecklists.getValue());
+
+    console.log('AFTER VIEW INIT', {
+      details: this.details,
+      default: this.requestSlikChecklistService.removeDuplicate(this.requestSlikChecklistService.defaultChecklists.getValue()),
+    });
+
+    if (this.details.length === 0 && !this.isLoading) {
+      this.checklists = this.requestSlikChecklistService.removeDuplicate(this.requestSlikChecklistService.defaultChecklists.getValue());
+      const debiturChecklist = {
+        idParty: null,
+        idRequestSlik: null,
+        cust: null,
+      };
+      debiturChecklist.cust = this.partyCif.customerPerson === null ? this.partyCif.customerOrganization : this.partyCif.customerPerson;
+
+      debiturChecklist.idParty = this.partyCif.partyId;
+      debiturChecklist.idRequestSlik = this.requestSlikId;
+      this.checklists.push(debiturChecklist);
+
+      console.log('AFTER VIEW INIT FINAL', this.checklists);
+    } else {
+      this.checklists = this.details;
+    }
   }
 
   getFinalOcrData() {
-    // setTimeout(() => {
     console.log('evv final data', this.ocrDatas);
     const splicedData = [];
     this.ocrDatas.forEach(data => {
@@ -97,7 +144,7 @@ export class RequestSlikDetailComponent implements OnInit {
           partyId: ocrData.id,
           requestSlikId: this.requestSlikId.toString(),
           name: ocrData.name !== null ? ocrData.name : ocrData.groupName,
-          dob: ocrData.dob,
+          dob: new Date(ocrData.dob).toISOString().slice(0, 10),
           ktp: ocrData.personalIdNumber !== null ? ocrData.personalIdNumber : '',
           npwp: ocrData.taxIdNumber,
           gender: ocrData.gender === null ? '' : ocrData.gender === 'L' ? 'M' : 'F',
@@ -160,10 +207,12 @@ export class RequestSlikDetailComponent implements OnInit {
     ev.body.map(data => this.ocrDatas.push(data));
   }
 
+  details = [];
   partyCifs;
   requestSlikDetail() {
     this.requestSlikService.getDetail(this.requestSlikId).subscribe({
       next: res => {
+        this.details = res.details;
         console.log('RESSSSSSS', res);
         this.checklists = res.details.map(cheklist => {
           const obj = {
@@ -581,6 +630,7 @@ export class RequestSlikDetailComponent implements OnInit {
       // add attribute key on party
       party.attributes = party.attributes || [];
       party.attributes['partySlikCollaterals'] = JSON.stringify(party.partySlikCollaterals);
+      party.attributes['reqReffId'] = JSON.stringify(reqReffId);
 
       party.requestReffId = reqReffId;
     });
@@ -588,16 +638,19 @@ export class RequestSlikDetailComponent implements OnInit {
     return partySlik;
   }
 
-  private mapperIPDFSlikToPartySlik(item: any, reqReffId): any {
+  private mapperIPDFSlikToPartySlik(item: any): any {
     console.log('mapperIPDFSlikToPartySlik', item);
 
     const temp = [];
-    item[0].forEach(element => {
+    item.forEach(element => {
+      console.log('element', element);
       const partySlik: IPartySlik = new PartySlik();
-      partySlik.attributes = {
-        partySlikCollaterals: JSON.stringify(element.partySlikCollaterals),
-        reqReffId: JSON.stringify(reqReffId),
-      };
+      partySlik.attributes = element.attributes;
+      // partySlik.attributes = {
+      //   partySlikCollaterals: JSON.stringify(element.partySlikCollaterals),
+      //   reqReffId: JSON.stringify(element.requestReffId),
+      // };
+      // partySlik.attributes['reqReffId'] = JSON.stringify(element.requestReffId);
       partySlik.partyId = element.partyId;
       partySlik.bank = element.bank;
       partySlik.limit = element.limit === null ? 0 : Number(element.limit);
@@ -634,31 +687,48 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   nikNpwp;
+  tempData = [];
   protected getSelectedVerifyData(ev) {
-    this.verifyData = [];
+    this.tempData = [];
     this.nikNpwp = ev.nikNpwp;
+
+    // const partySlik = ev.partySlik;
+
     const partySlikWithPartyId = this.makePartySlikWithPartyId(ev);
-    console.log('getSelectedVerifyData', {
-      ev,
-      partySlikWithPartyId,
-      verifyData: this.verifyData,
-      niknpwp: this.nikNpwp,
-    });
-    // delete this.verifyData[0].partySlikCollaterals;
-    // this.verifyData = this.verifyData[0];
-    // check if ev is already in verifyData based on partyId
-    !this.checkDuplicateVerifyData(partySlikWithPartyId, this.verifyData) && this.verifyData.push(partySlikWithPartyId);
 
-    // Loop over verifyData and update partySlikCollaterals
-    console.log('verifyData before loop', this.verifyData);
-    this.verifyData.forEach(res => {
-      res.partySlikCollaterals = JSON.stringify(res.partySlikCollaterals);
+    partySlikWithPartyId.forEach(element => {
+      this.tempData.push(element);
     });
 
-    console.log('verifyData after loop', this.verifyData);
+    this.tempData.forEach(el => {
+      this.verifyData.push(el);
+    });
 
-    this.verifyData = this.mapperIPDFSlikToPartySlik(this.verifyData, ev.requestReffId);
-    console.log('FINAL', this.verifyData);
+    // this.tempData = this.mapperIPDFSlikToPartySlik(this.tempData);
+    this.verifyData = this.mapperIPDFSlikToPartySlik(this.verifyData);
+
+    // const updatedFinal = _.differenceWith(this.verifyData, this.tempData, _.isEqual);
+
+    // const updatedVerifyData = this.verifyData.filter(verifyObj => {
+    //   const hasMatchingPartyId = this.tempData.some(tempObj => tempObj.partyId === verifyObj.partyId);
+    //   console.log('FINAL HAS MATCHING PARTY ID', hasMatchingPartyId);
+    //   // this.verifyData = hasMatchingPartyId
+    //   //   ? this.tempData
+    //   //   : !hasMatchingPartyId || !updatedFinal.some(finalObj => finalObj.partyId === verifyObj.partyId);
+    //   // return !hasMatchingPartyId || !updatedFinal.some(finalObj => finalObj.partyId === verifyObj.partyId);
+    //   if (hasMatchingPartyId) {
+    //     this.verifyData = this.tempData;
+    //     return this.verifyData;
+    //   } else {
+    //     return !updatedFinal.some(finalObj => finalObj.partyId === verifyObj.partyId);
+    //   }
+    // });
+
+    // console.log('FINAL', {
+    //   tempData: this.tempData,
+    //   finalData: this.verifyData,
+    //   updatedFinal,
+    // });
   }
 
   protected getChecklistManagementData(ev) {
