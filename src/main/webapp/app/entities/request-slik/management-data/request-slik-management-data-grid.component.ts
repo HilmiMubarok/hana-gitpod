@@ -118,6 +118,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('ini changes', { changes, checklist: this.checklists });
+    if (changes['checklists']) {
+      this.checklists = changes['checklists'].currentValue;
+    }
     if (changes['partyCif'] && changes['managementType']) {
       this.loadDataBy(this.partyCif.customerNumber, this.managementType);
       this.defineDisplayedColumns(this.managementType);
@@ -199,6 +203,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     // console.log('select row', el);
     this.nikNpwp = el.nikNpwp;
 
+    delete el.partySlik.partySlikCollaterals;
+
     // Emit selectedVerifyData to parent
     this.selectedVerifyData.emit(el);
   }
@@ -279,6 +285,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                   {
                     idParty: checklist.person ? checklist.person.id : checklist.shareHolderOrg.id,
                     idRequestSlik: this.requestSlikId,
+                    cust: checklist.person ? checklist.person : checklist.shareHolderOrg,
                   },
                 ];
                 this.defaultChecklist.emit(checklistsDefault);

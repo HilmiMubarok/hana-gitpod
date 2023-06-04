@@ -7,6 +7,10 @@
   color: white;
 }
 
+.form-group {
+  margin-top: 12px;
+}
+
 /* .ng-valid[required],
 .ng-valid.required {
     border-left: none;

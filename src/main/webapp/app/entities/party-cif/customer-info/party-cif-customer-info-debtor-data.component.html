@@ -271,6 +271,7 @@
             type="text"
             [ngModel]="partyCif.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
             (ngModelChange)="partyCif.debtorData.depositCapital = currencyInputChanged($event)"
+            [disabled]="true"
           />
         </mat-form-field>
       </section>
@@ -293,6 +294,7 @@
             type="text"
             [ngModel]="partyCif.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
             (ngModelChange)="partyCif.debtorData.annualSales = currencyInputChanged($event)"
+            [disabled]="true"
           />
         </mat-form-field>
       </section>
