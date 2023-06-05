@@ -15,6 +15,7 @@ import lodash from 'lodash';
 import { DocumentTypeService } from '../document-type/document-type.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-document-upload-dialog',
   templateUrl: './document-upload-dialog.component.html',
@@ -30,7 +31,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public multiple: Boolean = false;
   public indeks = 0;
   public booleanRouter: boolean;
-
+  datePipe: DatePipe = new DatePipe('en-US');
   private bucket: string;
   public certiFicateTypeName = [];
   public collateralView: boolean;
@@ -146,9 +147,7 @@ export class DocumentUploadDialogComponent implements OnInit {
       const promises: Array<any> = new Array<any>();
       for (let i = 0; i < this.files.length; i++) {
         const metaData = new DocumentMetaData();
-        const files = new Date() + '-' + this.files[i].name.replace('&', '');
-
-        const currentDate = moment().format('YYYYMMDDHHMMSSMS');
+        const files = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + this.files[i].name.replace('&', '');
         metaData.folder = this.document.documentNumber.replace('&', 'codeSpecialDan');
         metaData.docDate = this.document.documentDate;
         metaData.docNo = this.document.documentNumber.replace('&', 'codeSpecialDan');
@@ -162,17 +161,17 @@ export class DocumentUploadDialogComponent implements OnInit {
           metaData.objectName = `/collateral/${this.data.collateral.id}/document/${this.document.documentNumber.replace(
             '&',
             'codeSpecialDan'
-          )}/${currentDate}-${files}`;
+          )}/${files}`;
           metaData.entityId = this.data.collateral.id;
         }
 
         if (this.data.appraisal) {
           if (this.documents === 'document-lainnya') {
-            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-lainnya/${this.document.documentNumber}/${currentDate}-${files}`;
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-lainnya/${this.document.documentNumber}/${files}`;
             metaData.entityId = this.data.appraisal.id;
           }
           if (this.documents === 'document-collateral') {
-            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-colateral/${this.document.documentNumber}/${currentDate}-${files}`;
+            metaData.objectName = `/appraisals/${this.data.appraisal.id}/document-colateral/${this.document.documentNumber}/${files}`;
             metaData.entityId = this.data.appraisal.id;
           }
         }
