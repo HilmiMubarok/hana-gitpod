@@ -301,7 +301,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   ngOnInit(): void {
-    // this.applicationProduct.attributes['loanPurposeLegal']  = this.applicationProduct.attributes['loanPurpose'] ;
+    this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
     console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();

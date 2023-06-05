@@ -136,7 +136,7 @@
             <div class="row px-3 pt-5">
               <div class="col">
                 <jhi-request-slik-debitur-grid
-                  *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'"
+                  *ngIf="requestSlik.status === 'VERIFY'"
                   [cif]="partyCif.customerNumber"
                   [partyCif]="partyCif"
                   [checklists]="checklists"
