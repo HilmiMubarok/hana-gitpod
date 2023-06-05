@@ -133,7 +133,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
     }
     this.getWord();
     this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
-    this.previousBank = this.parsedAttribute.previousHistory.facilityDetail.previousBank;
+    this.previousBank = this.parsedAttribute.previousHistory?.facilityDetail.previousBank;
     this.removeTagRemaks();
     this.setCurrency();
   }
@@ -337,7 +337,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         ? this.parsedAttribute?.previousReturn?.products?.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
-        : this.parsedAttribute.previousHistory.products.filter(
+        : this.parsedAttribute.previousHistory?.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           );
 
@@ -372,7 +372,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         ? this.parsedAttribute?.previousReturn?.products?.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
-        : this.parsedAttribute.previousHistory.products.filter(
+        : this.parsedAttribute.previousHistory?.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           );
 
@@ -407,7 +407,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         ? this.parsedAttribute?.previousReturn?.products?.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
-        : this.parsedAttribute.previousHistory.products.filter(
+        : this.parsedAttribute.previousHistory?.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           );
 
@@ -457,7 +457,7 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         ? this.parsedAttribute?.previousReturn?.products?.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           )
-        : this.parsedAttribute.previousHistory.products.filter(
+        : this.parsedAttribute.previousHistory?.products.filter(
             obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
           );
 
