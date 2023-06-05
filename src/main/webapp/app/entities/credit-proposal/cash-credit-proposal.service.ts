@@ -37,6 +37,14 @@ export class CashCreditProposalService extends AbstractEntityService<ICreditProp
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.convertDateArrayFromServer(res)))
       .pipe(map((res: HttpResponse<ICreditProposal[]>) => this.preLoadItemArray(res)));
   }
+
+  queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(this.resourceUrl + '/app-menu-status-item/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
   public addDelegation(entity: ICreditProposal, params?: any): Observable<HttpResponse<DelegationApplicationRequest>> {
     this.preSave(entity);
     const options = createRequestOption(params);
