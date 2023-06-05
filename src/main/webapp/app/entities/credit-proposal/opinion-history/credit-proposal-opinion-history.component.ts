@@ -151,6 +151,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
 
     this.getWord();
     this.filterPositionLogin();
+    this.checkLogin();
   }
 
   private getToken(cookieName: string) {
@@ -578,5 +579,75 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         }
       }
     });
+  }
+
+  public onDocumentChange() {
+    this.container.restrictEditing = true;
+  }
+
+  public onDocumentChanges() {
+    this.container_condition.restrictEditing = true;
+  }
+
+  public disabledData: boolean;
+  public account: Account;
+  public isRoleBM: any;
+  public isRoleSMEHead: any;
+  public isRoleSDH: any;
+  public isRoleDH: any;
+  public isRoleDeptHead: any;
+
+  private checkLogin() {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.account = account;
+        if (this.account.authorities.length <= 2) {
+          this.isRoleBM = this.account.authorities.includes('ROLE_BM');
+          this.isRoleDH = this.account.authorities.includes('ROLE_DH');
+          this.isRoleSDH = this.account.authorities.includes('ROLE_SDH');
+          this.isRoleSMEHead = this.account.authorities.includes('ROLE_SME_HEAD');
+          this.isRoleDeptHead = this.account.authorities.includes('ROLE_DEPT_HEAD');
+        }
+      }
+    });
+    this.disabledReccomendationByLogin();
+  }
+
+  public disabledReccomendationByLogin(): void {
+    if (this.isRoleBM) {
+      if (this.creditProposalItem.statusId === 'CP_APPROVAL_BM') {
+        this.disabledData = false;
+      } else {
+        this.disabledData = true;
+      }
+    }
+    if (this.isRoleDH) {
+      if (this.creditProposalItem.statusId === 'CP_APPROVAL_DH') {
+        this.disabledData = false;
+      } else {
+        this.disabledData = true;
+      }
+    }
+    if (this.isRoleSDH) {
+      if (this.creditProposalItem.statusId === 'CP_APPROVAL_SDH') {
+        this.disabledData = false;
+      } else {
+        this.disabledData = true;
+      }
+    }
+    if (this.isRoleSMEHead) {
+      if (this.creditProposalItem.statusId === 'CP_APPROVAL_SME_HEAD') {
+        this.disabledData = false;
+      } else {
+        this.disabledData = true;
+      }
+    }
+    if (this.isRoleSMEHead) {
+      if (this.creditProposalItem.statusId === 'CP_APPROVAL_DEPTHEAD') {
+        this.disabledData = false;
+      } else {
+        this.disabledData = true;
+      }
+    }
   }
 }
