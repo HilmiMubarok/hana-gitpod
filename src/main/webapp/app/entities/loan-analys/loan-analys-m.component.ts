@@ -250,11 +250,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     } else {
       if (this.activeRoute === 'la-distribution') {
         this.getStatusListView('LOAN_ANALYSIS_DISTRIBUTION');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDistribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -280,11 +280,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'la-analyst') {
         this.getStatusListView('LOAN_ANALYSIS');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisys({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -310,11 +310,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'la-SME-CRC') {
         this.getStatusListView('LOAN_ANALYSIS_SME_CREDIT_REVIEW_CHECKER');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysSMECRC({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -340,11 +340,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'la-approval') {
         this.getStatusListView('LOAN_APPROVAL');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -370,11 +370,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'la-approval-inquiry') {
         this.getStatusListView('LOAN_APPROVAL_INQUIRY');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysInquiry({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -400,11 +400,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'dar-final') {
         this.getStatusListView('DAR_FINALIZATION');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarfinal({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -430,11 +430,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'loan-committee-approval') {
         this.getStatusListView('LOAN_KOMITE_APPROVAL');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarLoanKomiteApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -460,11 +460,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'dar-notif') {
         this.getStatusListView('DAR_NOTIFICATION');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarNotif({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -490,11 +490,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'cc-distribution') {
         this.getStatusListView('COMPLIANCE_CHECKING_DISTRIBUTION');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCDistribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -520,11 +520,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'cc-checking') {
         this.getStatusListView('COMPLIANCE_CHECKING');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCChecking({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -550,11 +550,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'cc-inquiry') {
         this.getStatusListView('COMPLIANCE_CHECKING_INQUIRY');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCInquiry({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -580,11 +580,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'cc-review') {
         this.getStatusListView('COMPLIANCE_CHECKING_REVIEW');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCRevew({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -610,11 +610,11 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
         }
       } else if (this.activeRoute === 'dar-checker') {
         this.getStatusListView('FINAL_DAR_CHECKER');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarChecker({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
