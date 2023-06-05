@@ -2,14 +2,16 @@
   <span>
     <img src="../../../content/images/cash_logo.png" style="max-width: 200px; width: 100%" />
   </span>
-  <button style="margin-left: 50px" mat-icon-button *ngIf="isLogin" (click)="toggleSidebar()">
+  <button style="margin-left: 50px; color: #ff55bb" mat-icon-button *ngIf="isLogin" (click)="toggleSidebar()">
     <mat-icon>dehaze</mat-icon>
   </button>
 
   <span class="spacer"></span>
 
   <section *ngIf="isLogin">
-    <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'">Administration</button>
+    <button mat-button [matMenuTriggerFor]="adminsitration" *jhiHasAnyAuthority="'ROLE_ADMIN'" style="color: #002b5b">
+      Administration
+    </button>
     <section *ngIf="isAdministrator">
       <span style="font-size: 14px; line-height: 0.9cm">Last Login : {{ lastLogin }}</span>
     </section>

@@ -1,19 +1,19 @@
-.mat-header-cell {
+/* .mat-header-cell {
   font-family: 'Poppins', sans-serif;
   background: #008881;
   color: #ffff;
   font-weight: 600;
   font-style: normal;
   text-align: center;
-}
+} */
 
-table .mat-table {
+/* table .mat-table {
   border: 1px #008881 solid !important;
 }
 
 td.mat-cell {
   text-align: center;
-}
+} */
 
 element.style {
   display: none;

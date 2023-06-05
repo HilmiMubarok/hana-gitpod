@@ -11,3 +11,43 @@
   font-size: 20px;
   color: #008881;
 }
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+td {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1);
+  color: #ffffff;
+}
+
+.mat-column-no {
+  width: 5%;
+  border-top-left-radius: 15px;
+}
+
+.mat-header-cell:last-child {
+  width: 5%;
+  border-top-left-radius: 15px;
+}
+
+.mat-header-cell:last-child {
+  width: 10%;
+  border-top-right-radius: 15px;
+}
+
+.mat-header-cell {
+  font-weight: 100 !important;
+  font-size: 12px;
+}
