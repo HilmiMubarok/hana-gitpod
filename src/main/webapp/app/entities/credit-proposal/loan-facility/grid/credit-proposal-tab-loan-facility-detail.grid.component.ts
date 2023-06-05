@@ -507,4 +507,11 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     }
     return element;
   }
+
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
 }
