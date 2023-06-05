@@ -6,15 +6,6 @@
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
             <e-breadcrumb-item text="{{ appName }}" url="{{ parentPath }}/{{ getText(value) }}"></e-breadcrumb-item>
-            <!-- <e-breadcrumb-item
-              text="Assign"
-              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}"
-            ></e-breadcrumb-item>
-            <e-breadcrumb-item
-              text="{{ getTextMenu() }} {{ titleMenu }}"
-              url="{{ parentPath }}/{{ getText(value) }}{{ creditProposal.id }}/{{ titleUrl }}/{{ selectedMenu }}"
-            >
-            </e-breadcrumb-item> -->
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
@@ -167,7 +158,6 @@
                 <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal" [isViewLoan]="true">
                 </jhi-credit-proposal-booking-branch>
                 <div class="form-group">
-                  <!-- <section class="mt-2"> -->
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                     <mat-form-field appearance="outline" class="w-100">
                       <mat-label>Lending Program</mat-label>
@@ -188,7 +178,6 @@
                       </div>
                     </div>
                   </section>
-                  <!-- </section> -->
                 </div>
               </div>
             </div>
@@ -207,7 +196,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- cust info -->
+        <!-- Cust info -->
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header">Customer Info</div>
@@ -231,7 +220,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- postal address -->
+        <!-- Postal address -->
         <div class="e-card-header">
           <div class="e-card-header-caption">
             <div class="e-card-header">Address</div>
@@ -249,7 +238,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- loan facility -->
+        <!-- Loan facility -->
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-loan-facility-detail [isViewMode]="false" [creditProposal]="creditProposal">
@@ -257,14 +246,14 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- tab Exposure -->
+        <!-- Tab Exposure -->
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-exposure [creditProposal]="creditProposal"></jhi-credit-proposal-tab-exposure>
           </mat-card-content>
         </mat-card>
 
-        <!-- collateral info -->
+        <!-- Collateral info -->
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-collateral-info
@@ -279,7 +268,7 @@
           </mat-card-content>
         </mat-card>
 
-        <!-- document: summary gabung -->
+        <!-- Document: summary gabung -->
         <mat-card class="mb-3">
           <mat-card-content>
             <jhi-credit-proposal-tab-summary
@@ -297,7 +286,7 @@
           <jhi-approve-final [creditProposal]="creditProposal"> </jhi-approve-final>
         </div>
 
-        <!-- assign to -->
+        <!-- Assign to -->
         <!-- ? Component assign to akan muncul ketika status == CP_APPROVE_TO_LA di halaman la-distribution -->
         <jhi-assign-to
           (assignTo)="onAssignTo($event)"
@@ -459,13 +448,13 @@
         <jhi-credit-proposal-tab-summary [item]="creditProposal" [sourceComponent]="'loan'"> </jhi-credit-proposal-tab-summary>
       </div>
 
-      <!-- group guarantor analysis -->
+      <!-- Group Guarantor Analysis -->
       <div *ngIf="selectedMenu === 'group-guarantor-analyst'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-group-guarantor-analysis [saveWordMinio]="saveWord" [creditProposalItem]="creditProposal">
         </jhi-loan-analys-group-guarantor-analysis>
       </div>
 
-      <!-- slik checking in credit proposal -->
+      <!-- Slik Checking in Credit Proposal -->
       <div *ngIf="selectedMenu === 'slik-summary'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-slik-summary [creditProposal]="creditProposal"></jhi-loan-analys-slik-summary>
       </div>
@@ -474,12 +463,12 @@
         <jhi-loan-analys-slik-summary [source]="sourceSlikChecking" [creditProposal]="creditProposal"> </jhi-loan-analys-slik-summary>
       </div>
 
-      <!-- credit rating -->
+      <!-- Credit Rating -->
       <div *ngIf="selectedMenu === 'credit-rating'">
         <jhi-loan-analys-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"> </jhi-loan-analys-credit-rating-view>
       </div>
 
-      <!-- opinion -->
+      <!-- Opinion -->
       <div *ngIf="selectedMenu === 'opinion'" class="e-sample-resize-container e-card-resize-container">
         <jhi-loan-analys-opinion
           #loanAnalysOpinionComponent
@@ -557,11 +546,9 @@
     </div>
     <!-- Repayment Capability  -->
 
-    <!-- <div *ngIf="parentPath === 'la-analyst' || parentPath === 'la-approval'"> -->
     <div *ngIf="selectedMenu === 'repayment-capability'">
       <jhi-credit-proposal-repayment-capability [creditProposal]="creditProposal"> </jhi-credit-proposal-repayment-capability>
     </div>
-    <!-- </div> -->
 
     <div class="e-card-actions mx-auto mb-5 mt-3">
       <!-- Generate Compliance -->

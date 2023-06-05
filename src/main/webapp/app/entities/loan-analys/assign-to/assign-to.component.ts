@@ -19,10 +19,13 @@ export class AssignToComponent implements OnInit {
     public creditProposalService: CreditProposalService,
     private accountService: AccountService
   ) {}
+
   ngOnInit(): void {
     this.checkLogin();
   }
 
+  public disabledData: boolean;
+  public account: Account;
   public applicationRole;
   public applicationRoleId;
   public position: IPosition[];
@@ -65,19 +68,27 @@ export class AssignToComponent implements OnInit {
   public onSelectAssignTo(event: any) {
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
-        this.creditProposal.attributes['dataAssignTo'].id = event.value;
-        this.creditProposal.attributes['dataAssignTo'].applicationId = this.creditProposal.id;
-        this.creditProposal.attributes['dataAssignTo'].partyId = this.position[i].partyId;
-        this.creditProposal.attributes['dataAssignTo'].partyName = this.position[i].employeeFirstName;
-        this.creditProposal.attributes['dataAssignTo'].roleId = this.position[i].positionTypeId;
-        this.creditProposal.attributes['dataAssignTo'].roleDescription = this.position[i].positionTypeDescription;
+		let dynAttr = 'dataAssignTo';
+
+		if (url === 'la-distribution') {
+		  dynAttr = 'dataAssignToCRO';
+		} else if (url === 'cc-distribution') {
+		  dynAttr = 'dataAssignToCCAdmin';
+		} else if (url === 'cc-distribution') {
+		  dynAttr = 'dataAssignToLegalOfficer';
+		}
+
+        this.creditProposal.attributes[dynAttr].id = event.value;
+        this.creditProposal.attributes[dynAttr].applicationId = this.creditProposal.id;
+        this.creditProposal.attributes[dynAttr].partyId = this.position[i].partyId;
+        this.creditProposal.attributes[dynAttr].partyName = this.position[i].employeeFirstName;
+        this.creditProposal.attributes[dynAttr].roleId = this.position[i].positionTypeId;
+        this.creditProposal.attributes[dynAttr].roleDescription = this.position[i].positionTypeDescription;
       }
     }
     this.assignTo.emit(this.creditProposal.attributes['dataAssignTo']);
   }
 
-  public disabledData: boolean;
-  public account: Account;
   private checkLogin() {
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -94,4 +105,5 @@ export class AssignToComponent implements OnInit {
       }
     });
   }
+
 }

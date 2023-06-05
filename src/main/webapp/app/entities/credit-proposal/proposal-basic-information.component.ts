@@ -1133,6 +1133,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
+	copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+	copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+	copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
@@ -1293,7 +1296,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       });
   }
 
-  // find collateral property
   public findCollateralProperty(collateral: ICollateral): void {
     if (collateral.id) {
       this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
@@ -1315,25 +1317,4 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
   }
 
-  // cancel confrimation dialog
-  // public openCancelDialog(task): void {
-  //   if (task) {
-  //     if (task.caption === 'Cancel') {
-  //       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-  //         width: '20vw',
-  //         data: {
-  //           title: '',
-  //           message: 'Are you sure to cancel?',
-  //         },
-  //       });
-  //       dialogRef.afterClosed().subscribe(res => {
-  //         if (res) {
-  //           this.previousState();
-  //         }
-  //       });
-  //     } else {
-  //       this.processTask(task);
-  //     }
-  //   }
-  // }
 }
