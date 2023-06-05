@@ -70,11 +70,11 @@ export class AssignToComponent implements OnInit {
       if (event.value === this.position[i].id) {
 		let dynAttr = 'dataAssignTo';
 
-		if (url === 'la-distribution') {
+		if (this.router.url.split('/')[1] === 'la-distribution') {
 		  dynAttr = 'dataAssignToCRO';
-		} else if (url === 'cc-distribution') {
+		} else if (this.router.url.split('/')[1] === 'cc-distribution') {
 		  dynAttr = 'dataAssignToCCAdmin';
-		} else if (url === 'cc-distribution') {
+		} else if (this.router.url.split('/')[1] === 'cc-distribution') {
 		  dynAttr = 'dataAssignToLegalOfficer';
 		}
 
