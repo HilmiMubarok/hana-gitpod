@@ -395,6 +395,10 @@
                 <jhi-credit-rating-view [mode]="'view'" [creditProposalItem]="creditProposal"></jhi-credit-rating-view>
               </div>
 
+              <div *ngIf="clickedMenu === 'memo-banding'">
+                <jhi-credit-proposal-memo-banding [creditProposal]="creditProposal"></jhi-credit-proposal-memo-banding>
+              </div>
+
               <jhi-credit-proposal-repayment-capability
                 *ngIf="clickedMenu === 'repayment-capability'"
                 [creditProposal]="creditProposal"

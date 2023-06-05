@@ -27,6 +27,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
   styleUrls: ['./loan.scss'],
 })
 export class LoanFacilityDetailGridHistoryComponent implements OnInit {
+  @Input() isOnMemo: Boolean = false;
   @Output() newItemEvent = new EventEmitter<any[]>();
   public dataParty = [];
   @Input() isViewMode: Boolean = false;
@@ -90,10 +91,11 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     // this.isViewMode && this.displayColumns.pop();
   }
   partyCifFunc() {
-    const previous =
-      this.parsedAttribute['previousReturn'] && this.isOnCompareData
-        ? this.parsedAttribute['previousReturn']
-        : this.parsedAttribute['previousHistory'];
+    const previous = this.isOnMemo
+      ? this.creditProposal
+      : this.parsedAttribute['previousReturn'] && this.isOnCompareData
+      ? this.parsedAttribute['previousReturn']
+      : this.parsedAttribute['previousHistory'];
     for (let i = 0; i < previous.products.length; i++) {
       this.dataParty.push(previous.products[i]);
     }

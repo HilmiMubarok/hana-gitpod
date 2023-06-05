@@ -1,0 +1,40 @@
+Memo Banding Component <br />
+<!-- <jhi-loan-analys-previous-dar [creditProposal]="creditProposal"></jhi-loan-analys-previous-dar> -->
+
+<!-- Loan Facility Detail -->
+Before <br />
+<jhi-credit-proposal-tab-loan-facility-detail-grid [isViewMode]="true" [isOnMemo]="true" [creditProposal]="creditProposal">
+</jhi-credit-proposal-tab-loan-facility-detail-grid>
+<div class="row w-100">
+  <div class="col-6">total plafond : IDR. {{ fungsiSumcredit() | number }} custody fee: IDR</div>
+  <div class="col-6">
+    {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}
+  </div>
+</div>
+
+<br />
+After <br />
+<jhi-loan-facility-detail-grid-history
+  [isOnMemo]="true"
+  [isViewMode]="true"
+  [creditProposal]="creditProposal"
+></jhi-loan-facility-detail-grid-history>
+<div class="row w-100">
+  <div class="col-6">total plafond : IDR. {{ fungsiSumcredit() | number }} custody fee: IDR</div>
+  <div class="col-6">
+    {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}
+  </div>
+</div>
+<!-- Collateral Info -->
+<!-- <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
+  <jhi-above-grid [isViewMode]="true" [isOnMemo]="true" [creditProposal]="creditProposal"></jhi-above-grid>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'">
+  <jhi-bellow-grid [isViewMode]="true" [isOnMemo]="true" [creditProposal]="creditProposal"></jhi-bellow-grid>
+</div>
+
+<div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure Back to Back'">
+  <jhi-credit-proposal-collateral-info-btb [isViewMode]="true" [isOnMemo]="true" [creditProposal]="creditProposal">
+  </jhi-credit-proposal-collateral-info-btb>
+</div> -->

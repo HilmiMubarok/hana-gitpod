@@ -86,11 +86,14 @@
       <td mat-cell *matCellDef="let element">{{ element.attributes.maturityDate | date: 'yyyy/MM/dd' }}</td>
     </ng-container>
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <th mat-header-cell *matHeaderCellDef>{{ isOnMemo ? 'Status' : 'Action' }}</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="openDialog(element)">
-          <mat-icon>edit</mat-icon>
-        </button>
+        <div *ngIf="isOnMemo">Not changed</div>
+        <div *ngIf="!isOnMemo">
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
       </td>
     </ng-container>
 
