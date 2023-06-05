@@ -36,7 +36,7 @@
           <ngx-dropzone-label>
             <div style="width: 200px">
               <img width="200px" *ngIf="f.metaData['Value'] === 'application/pdf'" src="../../../../content/images/pdf.png" />
-              <img width="200px" [src]="f.url" *ngIf="f.metaData['Value'] !== 'application/pdf'" />
+              <img width="200px" height="200px" [src]="f.url" *ngIf="f.metaData['Value'] !== 'application/pdf'" />
               <div style="width: 200px; position: sticky; margin-top: -150px; margin-bottom: 140px; display: flex; justify-content: center">
                 <button mat-raised-button (click)="donwload(f.url, f.name)"><mat-icon>get_app</mat-icon></button>
               </div>
@@ -87,7 +87,7 @@
             <img width="300px" src="../../../../content/images/pdf.png" />
           </ngx-dropzone-label>
           <ngx-dropzone-label *ngIf="f.metaData['Value'] !== 'application/pdf'">
-            <img [src]="f.url" />
+            <img [src]="f.url" height="200px" />
           </ngx-dropzone-label>
         </ngx-dropzone-preview>
       </div>
