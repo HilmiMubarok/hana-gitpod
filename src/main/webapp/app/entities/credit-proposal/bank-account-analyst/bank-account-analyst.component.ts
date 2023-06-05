@@ -34,6 +34,8 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
   ngOnInit(): void {
     const data = this.creditProposal.attributes['bankAnalyst'];
     data.length > 0 ? this.getTotal(data) : null;
+
+    console.log('bankAnalyst', this.creditProposal.attributes['bankAnalyst']);
   }
   public getTotal(data) {
     data.filter(item => item.convert > 0).map(item => (this.totalData = [...this.totalData, item.average_other]));
@@ -397,13 +399,12 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     let result: number;
     result = 0;
 
-    const detail = element.detail;
-    if (detail.length > 0) {
-      for (let a = 0; a < detail.length; a++) {
-        result = this.getBalance(element) / detail.length;
+    if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
+      const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
+      for (let i = 0; i < bankAnalyst.length; i++) {
+        result = result + bankAnalyst[i].average.balance;
       }
     }
-
     return result;
   }
 
@@ -412,10 +413,13 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     result = 0;
 
     const detail = element.detail;
+    // if (detail.length > 0) {
+    //   for (let a = 0; a < detail.length; a++) {
+    //     result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
+    //   }
     if (detail.length > 0) {
-      for (let a = 0; a < detail.length; a++) {
-        result = this.getBalanceAverage(element) * (element.convert ? element.convert : 1);
-      }
+      const jumlah = detail.map(t => t.balance).filter(balance => balance >= 0);
+      result = this.getBalanceAverage(element) / jumlah.length;
     }
 
     return result;
@@ -428,7 +432,7 @@ export class CreditProposalBankAccountAnalystComponent implements OnInit {
     if (this.creditProposal.attributes['bankAnalyst'].length > 0) {
       const bankAnalyst: IBankAccountAnalyst[] = this.creditProposal.attributes['bankAnalyst'];
       for (let i = 0; i < bankAnalyst.length; i++) {
-        result = result + this.getBalanceConversion(bankAnalyst[i]);
+        result = result + this.getBalanceAverage(bankAnalyst[i]);
       }
     }
 
