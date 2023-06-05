@@ -332,10 +332,8 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Klasifikasi UMKM</mat-label>
-          <mat-select [(ngModel)]="partyCif.debtorData.umkmClassification" [disabled]="true">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option>
-          </mat-select>
+          <input matInput [(ngModel)]="partyCif.debtorData.umkmClassification" [disabled]="true"/>
+            <!-- <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option> -->
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
