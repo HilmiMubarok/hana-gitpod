@@ -94,8 +94,10 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       this.parsedAttribute['previousReturn'] && this.isOnCompareData
         ? this.parsedAttribute['previousReturn']
         : this.parsedAttribute['previousHistory'];
-    for (let i = 0; i < previous.products.length; i++) {
-      this.dataParty.push(previous.products[i]);
+    if (previous.products) {
+      for (let i = 0; i < previous.products.length; i++) {
+        this.dataParty.push(previous.products[i]);
+      }
     }
   }
   public getCurrency(element: IApplicationProduct) {
