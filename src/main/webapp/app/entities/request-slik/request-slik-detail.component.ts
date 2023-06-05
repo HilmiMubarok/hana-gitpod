@@ -646,11 +646,6 @@ export class RequestSlikDetailComponent implements OnInit {
       console.log('element', element);
       const partySlik: IPartySlik = new PartySlik();
       partySlik.attributes = element.attributes;
-      // partySlik.attributes = {
-      //   partySlikCollaterals: JSON.stringify(element.partySlikCollaterals),
-      //   reqReffId: JSON.stringify(element.requestReffId),
-      // };
-      // partySlik.attributes['reqReffId'] = JSON.stringify(element.requestReffId);
       partySlik.partyId = element.partyId;
       partySlik.bank = element.bank;
       partySlik.limit = element.limit === null ? 0 : Number(element.limit);
@@ -697,38 +692,27 @@ export class RequestSlikDetailComponent implements OnInit {
     const partySlikWithPartyId = this.makePartySlikWithPartyId(ev);
 
     partySlikWithPartyId.forEach(element => {
-      this.tempData.push(element);
+      // Check if element exist in verifyData, if exist then dont push to tempData
+      const isExist = _.find(this.verifyData, function (val) {
+        return _.isEqual(element.partyId, val.partyId);
+      });
+
+      if (!_.isObject(isExist)) {
+        this.tempData.push(element);
+      } else {
+        // remove element from verifyData with same partyId on element
+        this.verifyData = this.verifyData.filter(verifyObj => verifyObj.partyId !== element.partyId);
+
+        // push element to tempData
+        this.tempData.push(element);
+      }
     });
 
     this.tempData.forEach(el => {
       this.verifyData.push(el);
     });
 
-    // this.tempData = this.mapperIPDFSlikToPartySlik(this.tempData);
     this.verifyData = this.mapperIPDFSlikToPartySlik(this.verifyData);
-
-    // const updatedFinal = _.differenceWith(this.verifyData, this.tempData, _.isEqual);
-
-    // const updatedVerifyData = this.verifyData.filter(verifyObj => {
-    //   const hasMatchingPartyId = this.tempData.some(tempObj => tempObj.partyId === verifyObj.partyId);
-    //   console.log('FINAL HAS MATCHING PARTY ID', hasMatchingPartyId);
-    //   // this.verifyData = hasMatchingPartyId
-    //   //   ? this.tempData
-    //   //   : !hasMatchingPartyId || !updatedFinal.some(finalObj => finalObj.partyId === verifyObj.partyId);
-    //   // return !hasMatchingPartyId || !updatedFinal.some(finalObj => finalObj.partyId === verifyObj.partyId);
-    //   if (hasMatchingPartyId) {
-    //     this.verifyData = this.tempData;
-    //     return this.verifyData;
-    //   } else {
-    //     return !updatedFinal.some(finalObj => finalObj.partyId === verifyObj.partyId);
-    //   }
-    // });
-
-    // console.log('FINAL', {
-    //   tempData: this.tempData,
-    //   finalData: this.verifyData,
-    //   updatedFinal,
-    // });
   }
 
   protected getChecklistManagementData(ev) {
