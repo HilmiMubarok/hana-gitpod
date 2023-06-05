@@ -937,6 +937,36 @@
           </div>
         </div>
       </section>
+      <div class="mb-2">
+        <div [hidden]="textBoxHidden">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>loan purpose (For Legal)</mat-label>
+            <textarea
+              matInput
+              type="multiline"
+              style="height: 100px"
+              [disabled]="status"
+              [(ngModel)]="applicationProduct.attributes['loanPurposeLegal']"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="mb-2">
+        <div [hidden]="textBoxHidden">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Grace period since</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.attributes['gracePeriodSince']" type="text" [disabled]="status" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="mb-2">
+        <div [hidden]="textBoxHidden">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Availability period since</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.attributes['availabPeriodSince']" type="text" [disabled]="status" />
+          </mat-form-field>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -948,13 +978,7 @@
           <div class="col-md-auto">:</div>
           <div class="col">
             <mat-form-field class="w-100" appearance="outline">
-              <input
-                matInput
-                type="number"
-                class="example-right-align"
-                [(ngModel)]="applicationProduct.latePaymentFee"
-                [disabled]="status"
-              />
+              <input matInput type="text" class="example-right-align" [(ngModel)]="applicationProduct.latePaymentFee" [disabled]="status" />
               <div matSuffix>&nbsp;%</div>
             </mat-form-field>
           </div>
