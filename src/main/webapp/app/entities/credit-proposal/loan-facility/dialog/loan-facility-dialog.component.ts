@@ -87,6 +87,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this._creditproposal = param;
   }
 
+  public logoIdr = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
   public othersDescStat: Boolean = true;
   public myControl = new FormControl('');
   public filteredOptions: Observable<string[]>;

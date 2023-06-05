@@ -357,7 +357,7 @@
         <div class="mb-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Kurs</mat-label>
-            <input matInput type="number" [value]="currencyName" readonly />
+            <input currencyMask matInput type="text" [value]="currencyName" [options]="logoIdr" readonly />
           </mat-form-field>
         </div>
       </section>
