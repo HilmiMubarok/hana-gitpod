@@ -68,189 +68,38 @@
       <div class="e-card-content mt-5">
         <div class="form-group">
           <p class="e-card-sub-title">Opinion</p>
-          <!-- Role BM -->
-          <section *ngIf="isRoleBM">
-            <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_BM'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="true"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-            <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_BM'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="false"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-                [isReadOnly]="true"
-                (documentChange)="onDocumentChange()"
-                [enableEditor]="false"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
+          <section *ngIf="!disabledData">
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [headers]="customHeadersJWT"
+              [enableToolbar]="true"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
+            >
+            </ejs-documenteditorcontainer>
           </section>
-
-          <!-- Role  DH-->
-          <section *ngIf="isRoleDH">
-            <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_DH'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="true"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-            <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_DH'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="false"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-                [isReadOnly]="true"
-                (documentChange)="onDocumentChange()"
-                [enableEditor]="false"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-          </section>
-
-          <!-- Role  DH-->
-          <section *ngIf="isRoleSDH">
-            <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_SDH'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="true"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-            <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_SDH'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="false"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-                [isReadOnly]="true"
-                (documentChange)="onDocumentChange()"
-                [enableEditor]="false"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-          </section>
-
-          <!-- Is Role SME HEAD -->
-          <section *ngIf="isRoleSMEHead">
-            <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_SME_HEAD'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="true"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-            <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_SME_HEAD'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="false"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-                [isReadOnly]="true"
-                (documentChange)="onDocumentChange()"
-                [enableEditor]="false"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-          </section>
-
-          <!-- Is Role DEPT HEAD -->
-          <section *ngIf="isRoleDeptHead">
-            <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_DEPTHEAD'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="true"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
-            <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_DEPTHEAD'">
-              <ejs-documenteditorcontainer
-                #document_editor_container
-                [headers]="customHeadersJWT"
-                [enableToolbar]="false"
-                [enableLocalPaste]="false"
-                height="100vh"
-                style="display: block"
-                [spellcheck]="false"
-                [enableSpellCheck]="false"
-                (keyDown)="onKeyDown($event)"
-                (created)="onCreate()"
-                [isReadOnly]="true"
-                (documentChange)="onDocumentChange()"
-                [enableEditor]="false"
-              >
-              </ejs-documenteditorcontainer>
-            </div>
+          <section *ngIf="disabledData">
+            <ejs-documenteditorcontainer
+              #document_editor_container
+              [headers]="customHeadersJWT"
+              [enableToolbar]="false"
+              [enableLocalPaste]="false"
+              height="100vh"
+              style="display: block"
+              [spellcheck]="false"
+              [enableSpellCheck]="false"
+              (keyDown)="onKeyDown($event)"
+              (created)="onCreate()"
+              [isReadOnly]="true"
+              (documentChange)="onDocumentChange()"
+              [enableEditor]="false"
+            >
+            </ejs-documenteditorcontainer>
           </section>
         </div>
       </div>
@@ -309,188 +158,38 @@
     <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
       <div class="form-group">
         <p class="e-card-sub-title">Condition</p>
-        <section *ngIf="isRoleBM">
-          <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_BM'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-          <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_BM'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="false"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-              (documentChange)="onDocumentChanges()"
-              [enableEditor]="false"
-              [isReadOnly]="true"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
+        <section *ngIf="!disabledData">
+          <ejs-documenteditorcontainer
+            #document_editor_container_condition
+            [headers]="customHeadersJWT"
+            [enableToolbar]="true"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDownCondition($event)"
+            (created)="onCreateCondition()"
+          >
+          </ejs-documenteditorcontainer>
         </section>
-
-        <!-- Is Role DH -->
-        <section *ngIf="isRoleDH">
-          <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_DH'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-          <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_DH'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="false"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-              (documentChange)="onDocumentChanges()"
-              [enableEditor]="false"
-              [isReadOnly]="true"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-        </section>
-
-        <!-- Is Role SDH -->
-        <section *ngIf="isRoleSDH">
-          <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_SDH'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-          <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_SDH'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="false"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-              (documentChange)="onDocumentChanges()"
-              [enableEditor]="false"
-              [isReadOnly]="true"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-        </section>
-
-        <!-- Is Role SME HEAD -->
-        <section *ngIf="isRoleSMEHead">
-          <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_SME_HEAD'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-          <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_SME_HEAD'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="false"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-              (documentChange)="onDocumentChanges()"
-              [enableEditor]="false"
-              [isReadOnly]="true"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-        </section>
-
-        <!-- Is Role DEPT HEAD -->
-        <section *ngIf="isRoleDeptHead">
-          <div *ngIf="creditProposalItem.statusId === 'CP_APPROVAL_DEPTHEAD'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="true"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
-          <div *ngIf="creditProposalItem.statusId !== 'CP_APPROVAL_DEPTHEAD'">
-            <ejs-documenteditorcontainer
-              #document_editor_container_condition
-              [headers]="customHeadersJWT"
-              [enableToolbar]="false"
-              [enableLocalPaste]="false"
-              height="100vh"
-              style="display: block"
-              [spellcheck]="false"
-              [enableSpellCheck]="false"
-              (keyDown)="onKeyDownCondition($event)"
-              (created)="onCreateCondition()"
-              (documentChange)="onDocumentChanges()"
-              [enableEditor]="false"
-              [isReadOnly]="true"
-            >
-            </ejs-documenteditorcontainer>
-          </div>
+        <section *ngIf="disabledData">
+          <ejs-documenteditorcontainer
+            #document_editor_container_condition
+            [headers]="customHeadersJWT"
+            [enableToolbar]="false"
+            [enableLocalPaste]="false"
+            height="100vh"
+            style="display: block"
+            [spellcheck]="false"
+            [enableSpellCheck]="false"
+            (keyDown)="onKeyDownCondition($event)"
+            (created)="onCreateCondition()"
+            (documentChange)="onDocumentChanges()"
+            [enableEditor]="false"
+            [isReadOnly]="true"
+          >
+          </ejs-documenteditorcontainer>
         </section>
       </div>
     </section>
