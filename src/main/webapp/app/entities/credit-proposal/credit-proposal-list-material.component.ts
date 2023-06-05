@@ -138,7 +138,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
 
   ngOnInit(): void {
     this.positionIdLocStor = this.getLocStor('POS');
-    this.loadStatusChip();
+
     this.loadAll();
     this.checkLogin();
     this.getPositionTypeId();
@@ -149,17 +149,17 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     });
   }
 
-  private loadStatusChip(): void {
-    this.creditProposalService.getStatus(this.activeRoute).subscribe(res => {
-      for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesData.push(res.body[i]);
-
-        // special condition : rename label
-        if (res.body[i].id === 'CP_RETURN_TO_RM') {
-          this.statusCodesData[i]['label'] = 'Return To Credit Proposal (BU)';
-        }
-      }
-    });
+  public getStatusListView(appMenu: string) {
+    this.cashCreditProposalService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['DESC'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.statusCodesData = res.body;
+      });
   }
 
   public doSearch(): void {
@@ -221,16 +221,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       this.clickedChip = option;
     }
     this.loadAll();
-  }
-
-  private convertStatusActivateRoute(activeRoute: string): string {
-    let activeRouteHelper = activeRoute;
-    if (activeRoute === 'cp-status-approval') {
-      activeRouteHelper = 'cp-status-approval';
-    } else if (activeRoute === 'credit-proposal-status') {
-      activeRouteHelper = 'by-status';
-    }
-    return activeRouteHelper;
   }
 
   protected postLoadDataLazy(): void {
@@ -301,11 +291,12 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
       this.router.navigate(['']);
     } else {
       if (this.router.url !== '/cp-status-approval') {
+        this.getStatusListView('CREDIT_PROPOSAL');
         if (this.clickedChip['id'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
@@ -331,6 +322,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
             });
         }
       } else {
+        this.getStatusListView('CREDIT_PROPOSAL_APPROVAL');
         if (this.clickedChip['id'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApproval({
