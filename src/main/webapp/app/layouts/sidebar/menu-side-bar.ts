@@ -984,6 +984,11 @@ export const SIDEBAR_MENU_DH: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'la-approval',
       },
+      {
+        name: 'Loan Approval Inquiry',
+        iconname: 'minus',
+        route: 'la-approval-inquiry',
+      },
       // {
       //   name: 'Compliance Checking Distribution',
       //   iconname: 'minus',
@@ -1079,6 +1084,11 @@ export const APPRAISAL_MENU_CHECKER: ISidebarMenuModel[] = [
     iconname: 'paperclip',
     children: [
       {
+        name: 'Loan Analysis',
+        iconname: 'minus',
+        route: 'la-analyst',
+      },
+      {
         name: 'Loan Analysis Distribution',
         iconname: 'minus',
         route: 'la-distribution',
@@ -1097,6 +1107,11 @@ export const APPRAISAL_MENU_CHECKER: ISidebarMenuModel[] = [
         name: 'Loan Approval Inquiry',
         iconname: 'minus',
         route: 'la-approval-inquiry',
+      },
+      {
+        name: 'Final DAR - Checker',
+        iconname: 'minus',
+        route: 'dar-checker',
       },
     ],
   },
@@ -1225,6 +1240,11 @@ export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
     iconname: 'paperclip',
     children: [
       {
+        name: 'Loan Analysis',
+        iconname: 'minus',
+        route: 'la-analyst',
+      },
+      {
         name: 'Loan Analysis Distribution',
         iconname: 'minus',
         route: 'la-distribution',
@@ -1233,6 +1253,11 @@ export const APPRAISAL_MENU_HCR: ISidebarMenuModel[] = [
         name: 'Loan Approval',
         iconname: 'minus',
         route: 'la-approval',
+      },
+      {
+        name: 'Loan Approval Inquiry',
+        iconname: 'minus',
+        route: 'la-approval-inquiry',
       },
       {
         name: 'Final DAR - Checker',
@@ -1567,6 +1592,22 @@ export const APPRAISAL_DEPT_HEAD: ISidebarMenuModel[] = [
       },
     ],
   },
+  {
+    name: 'Loan Analysis & Approval',
+    iconname: 'paperclip',
+    children: [
+      {
+        name: 'Loan Approval',
+        iconname: 'minus',
+        route: 'la-approval',
+      },
+      {
+        name: 'Loan Approval Inquiry',
+        iconname: 'minus',
+        route: 'la-approval-inquiry',
+      },
+    ],
+  },
 ];
 
 export const APPRAISAL_MENU_SIDEBAR_ALL: ISidebarMenuModel[] = [];
@@ -1587,11 +1628,6 @@ export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
     name: 'Offering Letter & Legal',
     iconname: 'square-check',
     children: [
-      {
-        name: 'Distribution Offering Letter',
-        iconname: 'minus',
-        route: 'distribution',
-      },
       {
         name: 'Offering Letter Review',
         iconname: 'minus',
