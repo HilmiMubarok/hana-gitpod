@@ -292,7 +292,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     } else {
       if (this.router.url !== '/cp-status-approval') {
         this.getStatusListView('CREDIT_PROPOSAL');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
@@ -323,11 +323,11 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
         }
       } else {
         this.getStatusListView('CREDIT_PROPOSAL_APPROVAL');
-        if (this.clickedChip['id'] !== '') {
+        if (this.clickedChip['statusId'] !== '') {
           this.cashCreditProposalService
             .cashCreditProposalApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],

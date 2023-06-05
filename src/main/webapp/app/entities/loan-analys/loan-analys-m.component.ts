@@ -97,21 +97,21 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
-  private loadStatusChip(): void {
-    this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
-      for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesData.push(res.body[i]);
-        this.isShow = true;
-      }
-      if (res.body.length === 0) {
-        this.isShow = false;
-      }
-    });
+  public getStatusListView(appMenu: string) {
+    this.cashCreditProposalService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['DESC'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.statusCodesData = res.body;
+      });
   }
 
   ngOnInit(): void {
     this.positionIdLocStor = this.getLocStor('POS');
-    this.loadStatusChip();
     this.loadAll();
   }
 
@@ -249,11 +249,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       this.router.navigate(['']);
     } else {
       if (this.activeRoute === 'la-distribution') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('LOAN_ANALYSIS_DISTRIBUTION');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDistribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -278,11 +279,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-analyst') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('LOAN_ANALYSIS');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisys({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -307,11 +309,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-SME-CRC') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('LOAN_ANALYSIS_SME_CREDIT_REVIEW_CHECKER');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysSMECRC({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -336,11 +339,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-approval') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('LOAN_APPROVAL');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -365,11 +369,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-approval-inquiry') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('LOAN_APPROVAL_INQUIRY');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysInquiry({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -394,11 +399,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'dar-final') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('DAR_FINALIZATION');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarfinal({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -423,11 +429,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'loan-committee-approval') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('LOAN_KOMITE_APPROVAL');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarLoanKomiteApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -452,11 +459,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'dar-notif') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('DAR_NOTIFICATION');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarNotif({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -481,11 +489,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-distribution') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('COMPLIANCE_CHECKING_DISTRIBUTION');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCDistribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -510,11 +519,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-checking') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('COMPLIANCE_CHECKING');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCChecking({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -539,11 +549,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-inquiry') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('COMPLIANCE_CHECKING_INQUIRY');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCInquiry({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -568,11 +579,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-review') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('COMPLIANCE_CHECKING_REVIEW');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCRevew({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -597,11 +609,12 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'dar-checker') {
-        if (this.clickedChip['id'] !== '') {
+        this.getStatusListView('FINAL_DAR_CHECKER');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarChecker({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
