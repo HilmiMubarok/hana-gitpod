@@ -151,6 +151,7 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.triggeredSave();
     }
     if (changes['creditProposal']) {
+      console.log('cp berubah');
       this.fungsiSuminit('IDR');
       this.fungsiSuminit('USD');
       this.fungsiSuminit('both');
@@ -160,8 +161,11 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
       this.fungsiSumOS('IDR');
       this.fungsiSumOS('USD');
       this.fungsiSumOS('both');
+      this.fungsiSumcredit('IDR');
+      this.fungsiSumcredit('USD');
+      this.fungsiSumcredit('both');
       this.fungsiSumavailable();
-	  this.fungsiSuminitCalculation(changes.creditProposal.currentValue);
+      this.fungsiSuminitCalculation(changes.creditProposal.currentValue);
       this.fungsiSumchangeCalculation(changes.creditProposal.currentValue);
       this.fungsiSumOSCalculation(changes.creditProposal.currentValue);
       this.fungsiSumcreditCalculation(changes.creditProposal.currentValue);
@@ -475,6 +479,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
         }
       }
     }
+    if (value === 'both') {
+      this.creditProposal.attributes['facilityDetail'].totalInitialLimit = result + dolar;
+    }
+    if (value === 'USD') {
+      this.creditProposal.attributes['facilityDetail'].totalInitialLimitUsd = result + dolar;
+    }
+    if (value === 'IDR') {
+      this.creditProposal.attributes['facilityDetail'].totalInitialLimitIdr = result + dolar;
+    }
     return result + dolar;
   }
 
@@ -527,7 +540,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
         }
       }
     }
-
+    if (value === 'both') {
+      this.creditProposal.attributes['facilityDetail'].totalChanges = result + dolar;
+    }
+    if (value === 'USD') {
+      this.creditProposal.attributes['facilityDetail'].totalChangesUsd = result + dolar;
+    }
+    if (value === 'IDR') {
+      this.creditProposal.attributes['facilityDetail'].totalChangesIdr = result + dolar;
+    }
     return result + dolar;
   }
 
@@ -579,6 +600,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
           }
         }
       }
+    }
+    if (value === 'both') {
+      this.creditProposal.attributes['facilityDetail'].totalOs = result + dolar;
+    }
+    if (value === 'USD') {
+      this.creditProposal.attributes['facilityDetail'].totalOsUsd = result + dolar;
+    }
+    if (value === 'IDR') {
+      this.creditProposal.attributes['facilityDetail'].totalOsIdr = result + dolar;
     }
     return result + dolar;
   }
@@ -645,6 +675,15 @@ export class CreditProposalTabLoanFacilityDetailComponent implements OnChanges, 
           }
         }
       }
+    }
+    if (value === 'both') {
+      this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
+    }
+    if (value === 'USD') {
+      this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
+    }
+    if (value === 'IDR') {
+      this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
     }
     return result + dolar;
   }
