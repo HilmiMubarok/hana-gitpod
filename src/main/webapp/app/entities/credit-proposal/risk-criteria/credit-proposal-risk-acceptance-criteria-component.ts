@@ -213,6 +213,7 @@ export class CreditProposalRiskAcceptanceCriteriaComponent implements OnInit {
         idParameterType: 'RAC_ABOVE_GENERAL',
         page: 0,
         size: 9999,
+        sort: ['id', 'desc'],
       })
       // .subscribe(res => {
       //   this.data = lodash.filter(res.body, function (o) {
