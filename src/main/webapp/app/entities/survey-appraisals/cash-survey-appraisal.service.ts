@@ -45,6 +45,14 @@ export class CashSurveyAppraisalsService extends AbstractEntityService<ISurveyAp
       .pipe(map((res: HttpResponse<ISurveyAppraisals[]>) => this.preLoadItemArray(res)));
   }
 
+  queryListOfViewStatusFilterBy(req?: any): Observable<HttpResponse<any[]>> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<any[]>(this.resourceUrl + '/app-menu-status-item/filterBy', { params: options, observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
+
   public cashSurveyAppraisalQueryFilterByInquiry(req?: any): Observable<HttpResponse<ISurveyAppraisals[]>> {
     const options = createRequestOption(req);
     return this.http
