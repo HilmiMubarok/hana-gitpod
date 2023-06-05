@@ -97,21 +97,21 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.activeRoute = this.router.url.replace(/\//g, '');
   }
 
-  private loadStatusChip(): void {
-    this.loanAnalysService.getStatus(this.activeRoute).subscribe(res => {
-      for (let i = 0; i < res.body.length; i++) {
-        this.statusCodesData.push(res.body[i]);
-        this.isShow = true;
-      }
-      if (res.body.length === 0) {
-        this.isShow = false;
-      }
-    });
+  public getStatusListView(appMenu: string) {
+    this.cashCreditProposalService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['DESC'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.statusCodesData = res.body;
+      });
   }
 
   ngOnInit(): void {
     this.positionIdLocStor = this.getLocStor('POS');
-    this.loadStatusChip();
     this.loadAll();
   }
 
@@ -249,6 +249,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       this.router.navigate(['']);
     } else {
       if (this.activeRoute === 'la-distribution') {
+        this.getStatusListView('LOAN_ANALYSIS_DISTRIBUTION');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDistribution({
@@ -278,6 +279,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-analyst') {
+        this.getStatusListView('LOAN_ANALYSIS');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisys({
@@ -307,6 +309,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-SME-CRC') {
+        this.getStatusListView('LOAN_ANALYSIS_SME_CREDIT_REVIEW_CHECKER');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysSMECRC({
@@ -336,6 +339,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-approval') {
+        this.getStatusListView('LOAN_APPROVAL');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysApproval({
@@ -365,6 +369,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'la-approval-inquiry') {
+        this.getStatusListView('LOAN_APPROVAL_INQUIRY');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysInquiry({
@@ -394,6 +399,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'dar-final') {
+        this.getStatusListView('DAR_FINALIZATION');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarfinal({
@@ -423,6 +429,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'loan-committee-approval') {
+        this.getStatusListView('LOAN_KOMITE_APPROVAL');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarLoanKomiteApproval({
@@ -452,6 +459,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'dar-notif') {
+        this.getStatusListView('DAR_NOTIFICATION');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarNotif({
@@ -481,6 +489,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-distribution') {
+        this.getStatusListView('COMPLIANCE_CHECKING_DISTRIBUTION');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCDistribution({
@@ -510,6 +519,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-checking') {
+        this.getStatusListView('COMPLIANCE_CHECKING');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCChecking({
@@ -539,6 +549,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-inquiry') {
+        this.getStatusListView('COMPLIANCE_CHECKING_INQUIRY');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCInquiry({
@@ -568,6 +579,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'cc-review') {
+        this.getStatusListView('COMPLIANCE_CHECKING_REVIEW');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysCCRevew({
@@ -597,6 +609,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
             });
         }
       } else if (this.activeRoute === 'dar-checker') {
+        this.getStatusListView('FINAL_DAR_CHECKER');
         if (this.clickedChip['id'] !== '') {
           this.cashLoanAnalysService
             .loanAnalisysDarChecker({

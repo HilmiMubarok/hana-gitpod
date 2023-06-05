@@ -703,6 +703,20 @@ export class TotalExposureComponent extends AbstractEntityMaterialComponent<IPar
     }
   }
 
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
+
+  public printElements(element) {
+    if (element === null || element === 'null') {
+      return 0;
+    }
+    return element;
+  }
+
   public getFacilityType(element: IApplicationProduct) {
     if (element.productTypeId !== undefined && element.productTypeId !== null) {
       return element.productTypeId;
