@@ -108,26 +108,44 @@ export class CreditProposalNewComponent {
             creditProposal.setCompliance = null;
             creditProposal.internalId = this.getLocStor('INT');
 
-            this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(res3 => {
-              console.log('res 3 person', res3);
-              if (res3.body) {
-                this.router.navigate([this.router.url.split('/')[1]]);
+            this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(
+              res3 => {
+                if (res3.body) {
+                  this.router.navigate([this.router.url.split('/')[1]]);
+                }
+              },
+              error => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: error.error.detail,
+                });
+                // Tindakan lain yang ingin Anda lakukan saat terjadi error dari backend
               }
-            });
+            );
           });
         } else {
           this.creditProposalService.findPartyGroupTemplate(res.customerNumber).subscribe(res2 => {
-            console.log('res 2 group', res2);
             const creditProposal: ICreditProposal = res2.body;
             creditProposal.collaterals = res.collaterals;
             creditProposal.debtorData = res.debtorData;
 
-            this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(res3 => {
-              console.log('res 3 group', res3);
-              if (res3.body) {
-                this.router.navigate([this.router.url.split('/')[1]]);
+            this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(
+              res3 => {
+                console.log('res 3 person', res3);
+                if (res3.body) {
+                  this.router.navigate([this.router.url.split('/')[1]]);
+                }
+              },
+              error => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: error.error.detail,
+                });
+                // Tindakan lain yang ingin Anda lakukan saat terjadi error dari backend
               }
-            });
+            );
           });
         }
       } else {

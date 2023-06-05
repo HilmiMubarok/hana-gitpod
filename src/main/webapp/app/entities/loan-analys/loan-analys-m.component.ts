@@ -65,7 +65,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
-  public statusCodesData: any[];
+  public statusCodesData: Object[] = [];
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
@@ -95,19 +95,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     };
     this.iconTimeline = faTimeline;
     this.activeRoute = this.router.url.replace(/\//g, '');
-  }
-
-  public getStatusListView(appMenu: string) {
-    this.cashCreditProposalService
-      .queryListOfViewStatusFilterBy({
-        page: 0,
-        size: 9999,
-        sort: ['DESC'],
-        appMenuId: appMenu,
-      })
-      .subscribe((res: any) => {
-        this.statusCodesData = res.body;
-      });
   }
 
   ngOnInit(): void {
@@ -738,6 +725,18 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       }
     }
     return result;
+  }
+  public getStatusListView(appMenu: string) {
+    this.cashCreditProposalService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['DESC'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.statusCodesData = res.body;
+      });
   }
 
   public showTimeLine(element: ICreditProposal): void {
