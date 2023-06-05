@@ -129,8 +129,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = {
-      id: '',
-      label: '',
+      statusId: '',
+      statusDescription: '',
     };
     this.iconTimeline = faTimeline;
     this.activeRoute = this.router.url.replace(/\//g, '');

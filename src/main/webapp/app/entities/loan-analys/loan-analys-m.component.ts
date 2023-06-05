@@ -65,7 +65,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
   public clickedChip: Object;
-  public statusCodesData: Object[] = [];
+  public statusCodesData: any[];
   public iconTimeline: any;
   public isShow: boolean;
   public title: string;
@@ -90,8 +90,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = {
-      id: '',
-      label: '',
+      statusId: '',
+      statusDescription: '',
     };
     this.iconTimeline = faTimeline;
     this.activeRoute = this.router.url.replace(/\//g, '');
@@ -191,8 +191,8 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     this.page = 0;
     if (this.clickedChip === option) {
       this.clickedChip = {
-        id: '',
-        label: '',
+        statusId: '',
+        statusDescription: '',
       };
     } else {
       this.clickedChip = option;
