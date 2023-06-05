@@ -214,8 +214,8 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.page = 0;
     if (this.clickedChip === option) {
       this.clickedChip = {
-        id: '',
-        label: '',
+        statusId: '',
+        statusDescription: '',
       };
     } else {
       this.clickedChip = option;
