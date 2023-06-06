@@ -202,7 +202,8 @@ export class CreditProposalBankAccountAnalystDialogComponent {
     let result: number;
     result = 0;
     if (this.bankAccAnalyst.detail.length > 0) {
-      result = this.getTotalBalance() / this.bankAccAnalyst.detail.length;
+      const jumlah = this.bankAccAnalyst.detail.map(t => t.balance).filter(balance => balance >= 0);
+      result = this.getTotalBalance() / jumlah.length;
     }
     this.bankAccAnalyst.average.balance = result;
     return result;

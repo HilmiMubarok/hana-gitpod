@@ -308,6 +308,27 @@ export class LoanAnalysResolve implements Resolve<ICreditProposal> {
               creditProposal.body.attributes['dataAssignTo'] = JSON.parse(creditProposal.body.attributes['dataAssignTo']);
             }
 
+			if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCRO')) {
+              creditProposal.body.attributes['dataAssignToCRO'] = [];
+              creditProposal.body.attributes['dataAssignToCRO'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToCRO'] = JSON.parse(creditProposal.body.attributes['dataAssignToCRO']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'dataAssignToCCAdmin')) {
+              creditProposal.body.attributes['dataAssignToCCAdmin'] = [];
+              creditProposal.body.attributes['dataAssignToCCAdmin'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToCCAdmin'] = JSON.parse(creditProposal.body.attributes['dataAssignToCCAdmin']);
+            }
+
+			if (!lodash.has(creditProposal.body.attributes, 'dataAssignToLegalOfficer')) {
+              creditProposal.body.attributes['dataAssignToLegalOfficer'] = [];
+              creditProposal.body.attributes['dataAssignToLegalOfficer'].push(new DocumentData());
+            } else {
+              creditProposal.body.attributes['dataAssignToLegalOfficer'] = JSON.parse(creditProposal.body.attributes['dataAssignToLegalOfficer']);
+            }
+
             if (creditProposal.body.prospectOrganization) {
               creditProposal.body.prospectOrganization.cif = creditProposal.body.prospectOrganization.attributes['cif'];
               creditProposal.body.prospectOrganization.businessTypeId =

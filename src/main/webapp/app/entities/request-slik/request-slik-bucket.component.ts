@@ -22,6 +22,7 @@ import { IApplicationStateLog } from '../application-state-log/application-state
 import { ITimeline, Timeline } from 'app/layouts/miscellaneous/timeline.model';
 import { RequestSlikTimelineService } from './services/request-slik-timeline.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RequestSlikBucketService } from './services/request-slik-bucket.service';
 
 @Component({
   selector: 'jhi-request-slik-bucket',
@@ -68,13 +69,13 @@ export class RequestSlikBucketComponent implements OnInit {
     protected requestSlikSearchService: RequestSlikSearchService,
     protected applicationStateLogService: ApplicationStateLogService,
     public dialog: MatDialog,
-    protected requestSlikTimelineService: RequestSlikTimelineService
+    protected requestSlikTimelineService: RequestSlikTimelineService,
+    public requestSlikBucketService: RequestSlikBucketService
   ) {
     // this.requestSliks$ = this.requestSlikService.getData().pipe(finalize(() => (this.isLoading = false)));
     this.getStatus();
     this.iconTimeline = faTimeline;
     this.loadInternalInformationRM();
-    this.requestSlikService.getDataLength().subscribe(res => (this.totalItemCount = res));
   }
 
   private loadInternalById(internalId: string): Promise<IInternal> {
@@ -152,29 +153,13 @@ export class RequestSlikBucketComponent implements OnInit {
 
   totalItemCount;
   getData(page = this.pageIndex, size = 10, sort = 'dateCreate,desc') {
-    this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
+    // this.requestSlikService.getDataServerSidePagination(page, size, sort).subscribe({
+    this.requestSlikBucketService.getAllData(page, size, sort).subscribe({
       next: data => {
         console.log('data', data);
 
         // Modify status label
-        const modifiedData = _.map(data, obj => {
-          if (obj.status === 'DRAFT') {
-            return { ...obj, status: 'Draft' };
-          } else if (obj.status === 'APPROVAL_BU') {
-            return { ...obj, status: 'Approval SLIK By BU' };
-          } else if (obj.status === 'APPROVAL_SLIK') {
-            return { ...obj, status: 'Approval SLIK By Team SLIK' };
-          } else if (obj.status === 'CHECKING') {
-            return { ...obj, status: 'Checking In Progress' };
-          } else if (obj.status === 'RETURN_TO_RM') {
-            return { ...obj, status: 'Return To RM' };
-          } else if (obj.status === 'VERIFY') {
-            return { ...obj, status: 'Verify' };
-          } else if (obj.status === 'COMPLETE') {
-            return { ...obj, status: 'Complete' };
-          }
-          return obj;
-        });
+        const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
 
         // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
@@ -201,26 +186,17 @@ export class RequestSlikBucketComponent implements OnInit {
         });
         // == end get segment
         this.dataSource = new MatTableDataSource(modifiedData);
-        this.paginator.length = this.totalItemCount;
-        // this.dataSource.paginator = this.paginator;
+        this.paginator.length = data.pageable.totalElements;
       },
       error: err => {
         console.log('err', err);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
-        setTimeout(() => {
-          this.isLoading = false;
-          this.dataSource = new MatTableDataSource([]);
-        }, 1000);
+        this.isLoading = false;
+        this.dataSource = new MatTableDataSource([]);
       },
       complete: () => {
         this.isLoading = false;
       },
-    });
-  }
-
-  private loadSegment(): void {
-    this.internalService.queryFilterBy({ idInternalType: APPLICATION_TYPE.BUSINESS_UNIT, size: 9999, page: 0 }).subscribe(res => {
-      this.segments = res.body;
     });
   }
 
@@ -232,10 +208,10 @@ export class RequestSlikBucketComponent implements OnInit {
     this.getData();
   }
 
-  sortData(event: any) {
-    const sort = event.active + ',' + event.direction;
-    this.getData(1, 10, sort);
-  }
+  // sortData(event: any) {
+  //   const sort = event.active + ',' + event.direction;
+  //   this.getData(1, 10, sort);
+  // }
 
   public showTimeLine(element: IRequestSlik): void {
     console.log(element);
@@ -275,7 +251,7 @@ export class RequestSlikBucketComponent implements OnInit {
     if (this.clickedChip === option) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
-      this.dataSource = new MatTableDataSource();
+      this.dataSource = new MatTableDataSource([]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.getData();
@@ -283,30 +259,16 @@ export class RequestSlikBucketComponent implements OnInit {
       this.clickedChip = option;
 
       // Get Data By Option
-      this.requestSlikService.searchByStatus(option).subscribe({
-        next: res => {
-          // empty data
-          this.dataSource.data = res.length === 0 && [];
+      this.requestSlikBucketService.searchRequestSlikByStatus(option).subscribe({
+        next: data => {
+          console.log('data', data);
 
-          const modifiedData = _.map(res, obj => {
-            if (obj.status === 'DRAFT') {
-              return { ...obj, status: 'Draft' };
-            } else if (obj.status === 'APPROVAL_BU') {
-              return { ...obj, status: 'Approval SLIK By BU' };
-            } else if (obj.status === 'APPROVAL_SLIK') {
-              return { ...obj, status: 'Approval SLIK By Team SLIK' };
-            } else if (obj.status === 'CHECKING') {
-              return { ...obj, status: 'Checking In Progress' };
-            } else if (obj.status === 'RETURN_TO_RM') {
-              return { ...obj, status: 'Return To RM' };
-            } else if (obj.status === 'VERIFY') {
-              return { ...obj, status: 'Verify' };
-            } else if (obj.status === 'COMPLETE') {
-              return { ...obj, status: 'Complete' };
-            }
-            return obj;
-          });
+          // Modify status label
+          const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
 
+          // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
+
+          // == get segment
           modifiedData.forEach(item => {
             this.loadInternalById(item.internalId).then((res2: IInternal) => {
               if (res2.parentId) {
@@ -327,9 +289,15 @@ export class RequestSlikBucketComponent implements OnInit {
               }
             });
           });
-
-          // modifiedData = modifiedData.filter(resData => resData.status !== 'CANCEL');
-          this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
+          // == end get segment
+          this.dataSource = new MatTableDataSource(modifiedData);
+          this.paginator.length = data.pageable.totalElements;
+        },
+        error: err => {
+          console.log('err', err);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+          this.isLoading = false;
+          this.dataSource = new MatTableDataSource([]);
         },
         complete: () => {
           this.isLoading = false;
@@ -339,67 +307,115 @@ export class RequestSlikBucketComponent implements OnInit {
   }
 
   clearSearch() {
-    this.searchCif = null;
+    this.searchCif = '';
     this.isLoading = true;
-    this.getData();
+    this.getData(0);
   }
 
   // === SEARCH REQUEST SLIK BUCKET
-  searchReqSlik(data) {
-    return this.requestSlikSearchService.searchRequestSlik(data).subscribe(res => {
-      console.log('SEARCH', res);
+  searchReqSlik(query) {
+    this.requestSlikBucketService.searchRequestSlik(query, this.pageIndex).subscribe({
+      next: data => {
+        console.log('data search', { data, paginate: this.paginator });
+        this.isLoading = true;
 
-      this.dataSource.data = res.length === 0 && [];
+        // Modify status label
+        const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
 
-      // Modify status label
-      const modifiedData = _.map(res, obj => {
-        if (obj.status === 'DRAFT') {
-          return { ...obj, status: 'Draft' };
-        } else if (obj.status === 'APPROVAL_BU') {
-          return { ...obj, status: 'Approval SLIK By BU' };
-        } else if (obj.status === 'APPROVAL_SLIK') {
-          return { ...obj, status: 'Approval SLIK By Team SLIK' };
-        } else if (obj.status === 'CHECKING') {
-          return { ...obj, status: 'Checking In Progress' };
-        } else if (obj.status === 'RETURN_TO_RM') {
-          return { ...obj, status: 'Return To RM' };
-        } else if (obj.status === 'VERIFY') {
-          return { ...obj, status: 'Verify' };
-        } else if (obj.status === 'COMPLETE') {
-          return { ...obj, status: 'Complete' };
-        }
-        return obj;
-      });
+        // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
-      // modifiedData = modifiedData.filter(modified => modified.status !== 'CANCEL');
-
-      // == get segment
-      modifiedData.forEach(item => {
-        this.loadInternalById(item.internalId).then((res2: IInternal) => {
-          if (res2.parentId) {
-            this.rmBranch = res2;
-            this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-              this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-                if (res4.parentId) {
-                  this.rmRegional = res4;
-                  this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                    this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                      this.rmSegment = res6;
-                      item.segment = res6.organizationName;
+        // == get segment
+        modifiedData.forEach(item => {
+          this.loadInternalById(item.internalId).then((res2: IInternal) => {
+            if (res2.parentId) {
+              this.rmBranch = res2;
+              this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+                this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                  if (res4.parentId) {
+                    this.rmRegional = res4;
+                    this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                      this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                        this.rmSegment = res6;
+                        item.segment = res6.organizationName;
+                      });
                     });
-                  });
-                }
+                  }
+                });
               });
-            });
-          }
+            }
+          });
         });
-      });
-      // == end get segment
-      this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
+        // == end get segment
+        this.dataSource = new MatTableDataSource(modifiedData);
+        this.paginator.length = data.pageable.totalElements ? data.pageable.totalElements : 0;
+      },
+      error: err => {
+        console.log('err', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+        this.isLoading = false;
+        this.dataSource = new MatTableDataSource([]);
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
+    // return this.requestSlikSearchService.searchRequestSlik(data).subscribe(res => {
+    //   console.log('SEARCH', res);
+
+    //   this.dataSource.data = res.length === 0 && [];
+
+    //   // Modify status label
+    //   const modifiedData = _.map(res, obj => {
+    //     if (obj.status === 'DRAFT') {
+    //       return { ...obj, status: 'Draft' };
+    //     } else if (obj.status === 'APPROVAL_BU') {
+    //       return { ...obj, status: 'Approval SLIK By BU' };
+    //     } else if (obj.status === 'APPROVAL_SLIK') {
+    //       return { ...obj, status: 'Approval SLIK By Team SLIK' };
+    //     } else if (obj.status === 'CHECKING') {
+    //       return { ...obj, status: 'Checking In Progress' };
+    //     } else if (obj.status === 'RETURN_TO_RM') {
+    //       return { ...obj, status: 'Return To RM' };
+    //     } else if (obj.status === 'VERIFY') {
+    //       return { ...obj, status: 'Verify' };
+    //     } else if (obj.status === 'COMPLETE') {
+    //       return { ...obj, status: 'Complete' };
+    //     }
+    //     return obj;
+    //   });
+
+    //   // modifiedData = modifiedData.filter(modified => modified.status !== 'CANCEL');
+
+    //   // == get segment
+    //   modifiedData.forEach(item => {
+    //     this.loadInternalById(item.internalId).then((res2: IInternal) => {
+    //       if (res2.parentId) {
+    //         this.rmBranch = res2;
+    //         this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+    //           this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+    //             if (res4.parentId) {
+    //               this.rmRegional = res4;
+    //               this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+    //                 this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+    //                   this.rmSegment = res6;
+    //                   item.segment = res6.organizationName;
+    //                 });
+    //               });
+    //             }
+    //           });
+    //         });
+    //       }
+    //     });
+    //   });
+    //   // == end get segment
+    //   this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
+    // });
   }
 
-  searchCif: number;
+  // searchCif: string | number;
+  // create variable searchCif with type string or number
+  searchCif: string | number = '';
+
   searchByCif(cif) {
     this.isLoading = true;
     this.requestSlikService.searchByCif(cif).subscribe({
@@ -419,19 +435,23 @@ export class RequestSlikBucketComponent implements OnInit {
   // byrequestnumber
 
   paginate(event: any) {
-    this.isLoading = true;
-    const page = event.pageIndex + 1;
-    const limit = event.pageSize;
-    this.getData(page, limit, 'id,desc');
-  }
-
-  pageIndex = 1;
-  pageSize;
-  onPageChange(event: PageEvent) {
     console.log('event', event);
     this.isLoading = true;
-    this.pageIndex = event.pageIndex + 1;
-    this.pageSize = event.pageSize;
-    this.getData(this.pageIndex, this.pageSize, 'id,desc');
+    const page = event.pageIndex;
+    this.searchCif !== ''
+      ? this.searchReqSlik(this.searchCif)
+      : this.clickedChip !== ''
+      ? this.chipClick(this.clickedChip)
+      : this.getData(page);
   }
+
+  pageIndex = 0;
+  pageSize;
+  // onPageChange(event: PageEvent) {
+  //   console.log('event', event);
+  //   this.isLoading = true;
+  //   this.pageIndex = event.pageIndex + 1;
+  //   this.pageSize = event.pageSize;
+  //   this.getData(this.pageIndex, '', this.pageSize, 'id,desc');
+  // }
 }

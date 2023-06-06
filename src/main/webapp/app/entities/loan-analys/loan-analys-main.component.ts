@@ -608,9 +608,20 @@ export class LoanAnalysMainComponent implements OnInit {
   }
 
   public onAssignTo(ev: any): void {
+    let dynAttr = 'dataAssignTo';
+
+    if (this.url === 'la-distribution') {
+      dynAttr = 'dataAssignToCRO';
+    } else if (this.url === 'cc-distribution') {
+      dynAttr = 'dataAssignToCCAdmin';
+      // eslint-disable-next-line no-dupe-else-if
+    } else if (this.url === 'cc-distribution') {
+      dynAttr = 'dataAssignToLegalOfficer';
+    }
+
     this.isAssignedTo = ev && true;
     this.applicationRole = ev;
-    this.creditProposal.attributes['dataAssignTo'] = ev;
+    this.creditProposal.attributes[dynAttr] = ev;
   }
 
   public validate() {
@@ -837,6 +848,9 @@ export class LoanAnalysMainComponent implements OnInit {
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(applicationRolePreSave);
+    copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(applicationRolePreSave);
+    copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(applicationRolePreSave);
+    copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(applicationRolePreSave);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 

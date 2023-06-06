@@ -35,7 +35,6 @@
               format="IDR 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalInitialLimitIdr"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -58,7 +57,7 @@
                 [value]="fungsiSumchange('IDR').toString().replace('-', '')"
                 format="IDR -0,"
                 readonly="true"
-                [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalChangesIdr"
+                [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesIdr"
               ></ejs-numerictextbox>
 
               <ejs-numerictextbox
@@ -69,7 +68,7 @@
                 [value]="fungsiSumchange('IDR').toString().replace('-', '')"
                 format="IDR 0,"
                 readonly="true"
-                [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalChangesIdr"
+                [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesIdr"
               ></ejs-numerictextbox>
             </div>
           </div>
@@ -91,7 +90,6 @@
               format="IDR 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalOsIdr"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -113,7 +111,6 @@
               format="IDR 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafondIdr"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -138,7 +135,6 @@
               format="USD 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalInitialLimitUsd"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -161,7 +157,7 @@
                 [value]="fungsiSumchange('USD').toString().replace('-', '')"
                 format="USD -0,"
                 readonly="true"
-                [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalChangesUsd"
+                [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesUsd"
               ></ejs-numerictextbox>
 
               <ejs-numerictextbox
@@ -172,7 +168,7 @@
                 [value]="fungsiSumchange('USD').toString().replace('-', '')"
                 format="USD 0,"
                 readonly="true"
-                [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalChangesUsd"
+                [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChangesUsd"
               ></ejs-numerictextbox>
             </div>
           </div>
@@ -194,7 +190,6 @@
               format="USD 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalOsUsd"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -216,7 +211,6 @@
               format="USD 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafondUsd"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -241,7 +235,6 @@
               format="IDR 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalInitialLimit"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -264,7 +257,7 @@
                 [value]="fungsiSumchange('both').toString().replace('-', '')"
                 format="IDR -0,"
                 readonly="true"
-                [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalChanges"
+                [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChanges"
               ></ejs-numerictextbox>
 
               <ejs-numerictextbox
@@ -275,7 +268,7 @@
                 [value]="fungsiSumchange('both').toString().replace('-', '')"
                 format="IDR 0,"
                 readonly="true"
-                [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalChanges"
+                [(ngModel)]="creditProposal.attributes['facilityDetail'].totalChanges"
               ></ejs-numerictextbox>
             </div>
           </div>
@@ -297,7 +290,6 @@
               format="IDR 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalOs"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -319,7 +311,6 @@
               format="IDR 0,"
               min="0"
               readonly="true"
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].totalPlafond"
             ></ejs-numerictextbox>
           </div>
         </section>
@@ -339,7 +330,7 @@
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
-              [(ngModel)]="_creditProposal.attributes['facilityDetail'].custodianFee"
+              [(ngModel)]="creditProposal.attributes['facilityDetail'].custodianFee"
               cssClass="e-outline"
               placeholder="Custody Fee"
               floatLabelType="auto"
@@ -353,7 +344,7 @@
           <div class="fontsebled row">
             <div class="col-5">Custody Fee</div>
             <div class="col-md-auto">:</div>
-            <div class="col">IDR {{ _creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
+            <div class="col">IDR {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}</div>
           </div>
         </section>
       </div>
@@ -422,7 +413,7 @@
       <div class="col-6">
         <mat-label>Previous Bank</mat-label>
         <mat-form-field class="w-100" appearance="outline">
-          <input matInput type="text" [(ngModel)]="_creditProposal.attributes['facilityDetail'].previousBank" />
+          <input matInput type="text" [(ngModel)]="creditProposal.attributes['facilityDetail'].previousBank" />
         </mat-form-field>
       </div>
     </section>
@@ -431,7 +422,7 @@
         <div class="col-2">Previous Bank</div>
         <div class="col-md-auto">:</div>
         <div class="col">
-          {{ _creditProposal.attributes['facilityDetail'].previousBank }}
+          {{ creditProposal.attributes['facilityDetail'].previousBank }}
         </div>
       </div>
     </section>
