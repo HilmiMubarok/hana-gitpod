@@ -70,6 +70,7 @@ export class MainFacilityComponent implements OnInit, OnChanges {
       width: '80vw',
       data: {
         mainData: params,
+        creditProposal: this.creditProposal,
       },
     });
     dialogRef.afterClosed().subscribe((data: IMainFacility) => {
