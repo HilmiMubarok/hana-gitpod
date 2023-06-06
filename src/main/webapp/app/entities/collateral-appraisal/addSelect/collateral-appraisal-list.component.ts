@@ -374,25 +374,25 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
               this.surveyAppraisalCross.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
               this.surveyAppraisalCross.internalId = this.internalIdLocStor;
               this.surveyAppraisalCross.applicationId = null;
-              this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
-                error: (error: HttpErrorResponse) => {
-                  if (error.status === 500) {
-                    this.messageService.add({
-                      severity: 'error',
-                      summary: 'Error',
-                      detail: 'Collateral masih dalam proses appraisal.',
-                      life: 3000,
-                    });
-                  } else {
-                    this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
-                    Promise.all(this.createSurveyAppraisalPromises).then(results => {
-                      this.router.navigate(['./collateral-appraisal']);
-                    });
-                  }
-                },
-              });
+              this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
             }
           }
+          this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
+            error: (error: HttpErrorResponse) => {
+              if (error.status === 500) {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Error',
+                  detail: 'Collateral masih dalam proses appraisal.',
+                  life: 3000,
+                });
+              } else {
+                Promise.all(this.createSurveyAppraisalPromises).then(results => {
+                  this.router.navigate(['./collateral-appraisal']);
+                });
+              }
+            },
+          });
         }
       }
     }
