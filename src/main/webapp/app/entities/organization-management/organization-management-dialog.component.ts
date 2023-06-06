@@ -142,13 +142,26 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.organizationManagement.attributes['customerType'] = event;
   }
 
+  // public setRadioButton() {
+  //   this.customerType = this.organizationManagement.attributes['customerType'];
+  //   if (this.organizationManagement.person.partyTypeId === 'PERSON' && this.customerType) {
+  //     this.isDisabled = true;
+  //   }
+  //   if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
+  //     this.isDisabled = true;
+  //   }
+  // }
+
   public setRadioButton() {
-    this.customerType = this.organizationManagement.attributes['customerType'];
-    if (this.organizationManagement.person.partyTypeId === 'PERSON' && this.customerType) {
-      this.isDisabled = true;
-    }
-    if (this.organizationManagement.shareHolderOrg.partyTypeId === 'PARTY_GROUP' || this.customerType) {
-      this.isDisabled = true;
+    this.isDisabled = true;
+    if (this.organizationManagement.person !== null) {
+      this.customerType = 'individu';
+      const setRadioActive = document.getElementById('individu') as HTMLInputElement;
+      setRadioActive.checked = true;
+    } else {
+      this.customerType = 'corporate';
+      const setRadioActive = document.getElementById('corporate') as HTMLInputElement;
+      setRadioActive.checked = true;
     }
   }
 

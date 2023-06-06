@@ -1,17 +1,17 @@
 .grid-index-left {
   justify-content: flex-start;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 .grid-index-right {
   justify-content: flex-end;
   text-align: right;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .grid-index-center {
   justify-content: center;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .label-font-detail {
@@ -25,10 +25,10 @@
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 td {
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 .rounding-table-left {
   border-top-left-radius: 15px;
@@ -41,10 +41,13 @@ td {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
 }
+.mat-column {
+  font-weight: 100 !important;
+}
 .mat-column-no {
   width: 5%;
   justify-content: flex-end;
-  border-top-left-radius: 15px;
+  padding-right: 30px;
 }
 .mat-header-cell:first-child {
   width: 5%;

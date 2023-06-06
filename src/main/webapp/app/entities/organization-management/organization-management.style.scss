@@ -46,23 +46,23 @@
 
 .grid-index-left {
   justify-content: flex-start;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .grid-index-center {
   justify-content: center;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 table {
   th {
     background-color: rgba(147, 201, 199, 1);
     color: black;
-    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
   td {
-    font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
 }
 
