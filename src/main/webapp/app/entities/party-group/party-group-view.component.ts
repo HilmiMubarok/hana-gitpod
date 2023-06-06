@@ -268,15 +268,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
         this.callReportCategoryData = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        if (this.callReportCategoryData) {
-          let element: string;
-          for (let i = 0; i < this.callReportCategoryData.length; i++) {
-            if (this.item['debtorData'].callReportCategory === this.callReportCategoryData[i].code) {
-              element = this.callReportCategoryData[i].value;
-            }
-          }
-          this.callReportCategoryValue = element;
-        }
       });
   }
 
@@ -292,15 +283,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
         this.ifcRiskCategoryData = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        if (this.ifcRiskCategoryData) {
-          let element: string;
-          for (let i = 0; i < this.ifcRiskCategoryData.length; i++) {
-            if (this.item['debtorData'].ifcRiskCategory === this.ifcRiskCategoryData[i].code) {
-              element = this.ifcRiskCategoryData[i].value;
-            }
-          }
-          this.ifcRiskCategoryValue = element;
-        }
       });
   }
 
@@ -308,7 +290,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     // this.partyTypeService.loadCacheAll().subscribe((res: IPartyType[]) => (this.partytypes = res || []));
 
     this.postalAddressService.loadCacheAll().subscribe((res: IPostalAddress[]) => (this.postaladdresses = res || []));
-    
   }
 
   prepareView() {}
@@ -336,9 +317,7 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     return this.item.id;
   }
 
-  printing() {
-   
-  }
+  printing() {}
   public remove() {
     this.pacth = this.router.url.split('/')[1];
     if (
@@ -394,7 +373,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
       const data = [];
 
       element = this.item.products.filter(products => !this.mortCode.includes(products.productCode));
-    
 
       for (let i = 0; i < element.length; i++) {
         data.push(element[i].totalPlafond);
@@ -413,7 +391,6 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     this.getProduct();
     if (this.item.applicationTypeId === 'SME') {
       const totalPlafond = 0;
-      
 
       if (this.totalPlafond <= 15000000000) {
         if (this.item.capitalDeposit <= 1000000000) {
