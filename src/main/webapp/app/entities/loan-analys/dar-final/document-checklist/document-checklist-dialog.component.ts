@@ -93,7 +93,7 @@ export class DocumentChecklistDialogTempComponent {
 
     this.filesStatus = this.files.status;
     this.filesdueDate = this.files.dueDate;
-    this.filesRemarks = this.files.remarks;
+    this.filesRemarks = this.files.remarks === null ? '' : this.files.remarks;
     this.filesDescription = this.files.description;
     this.isTBO();
   }

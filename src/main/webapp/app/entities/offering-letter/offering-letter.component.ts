@@ -118,7 +118,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
-        sort: ['ASC'],
+        sort: ['id', 'asc'],
         appMenuId: appMenu,
       })
       .subscribe((res: any) => {
