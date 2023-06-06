@@ -34,25 +34,16 @@ export class RequestSlikService extends AbstractEntityService<any> {
     return entity.id === undefined || entity.id === null;
   }
 
-  getDataLength() {
-    return this.http
-      .get<any>(this.resourceUrl, {
-        params: new HttpParams().set('size', 99999),
-        observe: 'response',
-      })
-      .pipe(map(res => res.body.data.length));
-  }
-
   // Get Data with server side pagination
   getDataServerSidePagination(page: number, size: number, sort: string): Observable<any> {
     const url = `?page=${page}&size=${size}&sort=${sort}`;
     return this.http.get<any>(this.resourceUrl + url, { observe: 'response' }).pipe(
       switchMap(data => {
         console.log('BUCKET DATA', data.body.data);
-        const requests = data.body.data.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
+        const requests = data.body.data.content.map((item: { cif: string }) => this.partyCifService.findCifCash(item.cif));
         return forkJoin([...requests]).pipe(
           map(details =>
-            data.body.data.map((user, i) => ({
+            data.body.data.content.map((user, i) => ({
               ...user,
               internalId: details[i].body.internalId,
               customerName: details[i].body.name,
