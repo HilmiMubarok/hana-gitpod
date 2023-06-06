@@ -49,6 +49,8 @@ import { ICollateral } from '../collateral/collateral.model';
 import { CollateralService } from '../collateral/collateral.service';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { ProductClassificationService } from '../product-classification/product-classification.service';
+import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
 
 @Component({
   selector: 'jhi-credit-proposal-basic',
@@ -91,6 +93,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   })
   remaksComponent: RemarskComponent;
 
+  public listLoanType: any;
   private collateralProperties: ICollateralProperty[] = [];
   private collateral: ICollateral[] = [];
   private id: number;
@@ -158,7 +161,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     public generalParameterService: GeneralParameterService,
     private storageService: StorageService,
     protected collateralService: CollateralService,
-    protected collateralPropertyService: CollateralPropertyService
+    protected collateralPropertyService: CollateralPropertyService,
+    protected productClasificationService: ProductClassificationService,
+    protected productParameterService: MasterProductParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -183,6 +188,7 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
     });
     this.isHistoryExist = this.creditProposal.attributes.previousHistory ? true : false;
+    this.setTotalPlafond();
   }
 
   private getLocStor(cookieName: string) {
@@ -696,10 +702,10 @@ export class ProposalBasicInformationComponent implements OnInit {
       }
 
       /* if (this.creditProposalOpinionHistoryComponent) {
-		this.creditProposalOpinionHistoryComponent.triggeredSave();
-		this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
-		this.creditProposalOpinionHistoryComponent.refresh();
-	  } */
+    this.creditProposalOpinionHistoryComponent.triggeredSave();
+    this.creditProposalOpinionHistoryComponent.triggeredSaveCondition();
+    this.creditProposalOpinionHistoryComponent.refresh();
+    } */
 
       if (this.CreditProposalTabSummaryComponent) {
         this.CreditProposalTabSummaryComponent.triggeredSave();
@@ -770,16 +776,16 @@ export class ProposalBasicInformationComponent implements OnInit {
                 fileReader.onload = (e: any) => {
                   const testSfdtFile = JSON.parse(fileReader.result as string);
                   /* if (testSfdtFile.sections[0].blocks) {
-					if (testSfdtFile.sections[0].blocks.length > 0) {
-					  ++countValidate;
-					} else {
-					  // toast opinion empty
-					  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					}
-				  } else {
-					// toast opinion empty
-					this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-				  } */
+          if (testSfdtFile.sections[0].blocks.length > 0) {
+            ++countValidate;
+          } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          }
+          } else {
+          // toast opinion empty
+          this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+          } */
 
                   if (testSfdtFile.sections[0].blocks[0].inlines || testSfdtFile.sections[0].blocks[0].columnCount) {
                     if (testSfdtFile.sections[0].blocks[0].columnCount) {
@@ -815,11 +821,11 @@ export class ProposalBasicInformationComponent implements OnInit {
                       }
 
                       /* if (testSfdtFile.sections[0].blocks[0].inlines.length > 0) {
-						++countValidate;
-					  } else {
-						// toast opinion empty
-						this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
-					  } */
+            ++countValidate;
+            } else {
+            // toast opinion empty
+            this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Opinion Empty! All data will be save except data at tab opinion' });
+            } */
                     }
                   } else {
                     // toast opinion empty
@@ -838,16 +844,16 @@ export class ProposalBasicInformationComponent implements OnInit {
                         fileReaderCondition.onload = (eCondition: any) => {
                           const testSfdtFileCondition = JSON.parse(fileReaderCondition.result as string);
                           /* if (testSfdtFileCondition.sections[0].blocks) {
-							if (testSfdtFileCondition.sections[0].blocks.length > 0) {
-							  ++countValidate;
-							} else {
-							  // toast condition empty
-							  this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							}
-						  } else {
-							// toast condition empty
-							this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-						  } */
+              if (testSfdtFileCondition.sections[0].blocks.length > 0) {
+                ++countValidate;
+              } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              }
+              } else {
+              // toast condition empty
+              this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+              } */
 
                           if (
                             testSfdtFileCondition.sections[0].blocks[0].inlines ||
@@ -886,11 +892,11 @@ export class ProposalBasicInformationComponent implements OnInit {
                               }
 
                               /* if (testSfdtFileCondition.sections[0].blocks[0].inlines.length > 0) {
-								++countValidate;
-							  } else {
-								// toast condition empty
-								this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
-							  } */
+                ++countValidate;
+                } else {
+                // toast condition empty
+                this.messageService.add({ severity: 'info', summary: 'Warning', detail: 'Condition Empty! All data will be save except data at tab opinion' });
+                } */
                             }
                           } else {
                             // toast condition empty
@@ -1133,9 +1139,9 @@ export class ProposalBasicInformationComponent implements OnInit {
     copyCreditProposal.groupProducts = [];
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
     copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
-	copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-	copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-	copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+    copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+    copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+    copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
 
@@ -1305,16 +1311,71 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   public cekCgpgData() {
-    console.log('save property berjalan');
     for (let i = 0; i < this.collateralProperties.length; i++) {
       this.saveCollateralProperty(this.collateralProperties[i]);
     }
   }
 
   public saveCollateralProperty(property: ICollateralProperty) {
-    this.collateralPropertyService.save(property).subscribe(res => {
-      console.log('save property berhasil ', res.body);
-    });
+    this.collateralPropertyService.save(property).subscribe(res => {});
   }
 
+  public setTotalPlafond() {
+    if (this.creditProposal.products.length > 0) {
+      for (let i = 0; i < this.creditProposal.products.length; i++) {
+        if (this.creditProposal.products[i].hobis === true) {
+          if (this.creditProposal.products[i].totalPlafond === null) {
+            if (this.creditProposal.products[i].productName !== '') {
+              this.getLoanType(this.creditProposal.products[i].productTypeId, i);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  public getLoanType(event, index) {
+    this.productParameterService
+      .queryFilterBy({
+        idProductType: event,
+        isActive: true,
+        size: 9999,
+      })
+      .subscribe(res => {
+        if (res.body) {
+          const data = res.body.find(obj => obj.name === this.creditProposal.products[index].productName);
+          if (data) {
+            if (data.revolving === true) {
+              this.creditProposal.products[index].totalPlafond =
+                Number(this.creditProposal.products[index].initialLimit) + Number(this.creditProposal.products[index].changes);
+            } else if (data.revolving === false) {
+              this.creditProposal.products[index].totalPlafond =
+                Number(this.creditProposal.products[index].outstanding) + Number(this.creditProposal.products[index].changes);
+            }
+          }
+        }
+      });
+  }
+
+  // cancel confrimation dialog
+  // public openCancelDialog(task): void {
+  //   if (task) {
+  //     if (task.caption === 'Cancel') {
+  //       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //         width: '20vw',
+  //         data: {
+  //           title: '',
+  //           message: 'Are you sure to cancel?',
+  //         },
+  //       });
+  //       dialogRef.afterClosed().subscribe(res => {
+  //         if (res) {
+  //           this.previousState();
+  //         }
+  //       });
+  //     } else {
+  //       this.processTask(task);
+  //     }
+  //   }
+  // }
 }
