@@ -184,17 +184,6 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     }
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'OL_DISTRIBUTION') {
-      _status = status;
-    } else {
-      _status = status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   private getLocStor(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
@@ -223,7 +212,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .distribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -253,7 +242,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .finalize({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -283,7 +272,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .review({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -313,7 +302,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
           this.cashOfferingLetterService
             .confirmation({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),

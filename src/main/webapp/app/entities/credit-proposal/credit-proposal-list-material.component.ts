@@ -199,17 +199,6 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'DRAFT') {
-      _status = status;
-    } else {
-      _status = status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
@@ -296,7 +285,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
           this.cashCreditProposalService
             .cashCreditProposalApprovalByStatus({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
@@ -327,7 +316,7 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
           this.cashCreditProposalService
             .cashCreditProposalApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.positionIdLocStor,
               size: this.itemsPerPage,
               sort: ['id,desc'],
