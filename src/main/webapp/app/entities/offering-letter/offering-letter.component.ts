@@ -92,8 +92,8 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.predicate = 'createdDate';
     this.entityKeyName = 'createdDate';
     this.clickedChip = {
-      id: '',
-      label: '',
+      statusId: '',
+      statusDescription: '',
     };
     this.iconTimeline = faTimeline;
     this.activeRoute = this.router.url.replace(/\//g, '');
@@ -111,6 +111,19 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     this.positionIdLocStor = this.getLocStor('POS');
     this.loadStatusChip();
     this.loadAll();
+  }
+
+  public queryListOfViewStatusFilterBy(appMenu: string) {
+    this.cashCreditProposalService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['ASC'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.statusCodesData = res.body;
+      });
   }
 
   public closeSearch() {
@@ -158,13 +171,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     if (this.clickedChip === option) {
       this.clickedChip = '';
     } else {
-      if (option['id'] === 'OL_DISTRIBUTION') {
-        this.clickedChip = { id: 'OL_DISTRIBUTION', label: 'Distribution' };
-      } else if (option['id'] === 'OL_COMPETE') {
-        this.clickedChip = { id: 'OL_COMPETE', label: 'Complete' };
-      } else {
-        this.clickedChip = option;
-      }
+      this.clickedChip = option;
     }
     this.loadAll();
   }
@@ -211,11 +218,12 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
       this.router.navigate(['']);
     } else {
       if (this.activeRoute === 'distribution') {
-        if (this.clickedChip['id'] !== '') {
+        this.queryListOfViewStatusFilterBy('DISTRIBUTION_OFFERING_LETTER');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashOfferingLetterService
             .distribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -240,11 +248,12 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             });
         }
       } else if (this.activeRoute === 'finalize') {
-        if (this.clickedChip['id'] !== '') {
+        this.queryListOfViewStatusFilterBy('FINALIZE_OFFERING_LETTER');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashOfferingLetterService
             .finalize({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -269,11 +278,12 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             });
         }
       } else if (this.activeRoute === 'review') {
-        if (this.clickedChip['id'] !== '') {
+        this.queryListOfViewStatusFilterBy('OFFERING_LETTER_REVIEW');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashOfferingLetterService
             .review({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -298,11 +308,12 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
             });
         }
       } else if (this.activeRoute === 'confirmation') {
-        if (this.clickedChip['id'] !== '') {
+        this.queryListOfViewStatusFilterBy('OFFERING_LETTER_CONFIRMATION');
+        if (this.clickedChip['statusId'] !== '') {
           this.cashOfferingLetterService
             .confirmation({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['id']),
+              idStatus: this.convertStatus(this.clickedChip['statusId']),
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),

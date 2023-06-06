@@ -132,7 +132,6 @@ export class CreditProposalNewComponent {
 
             this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(
               res3 => {
-                console.log('res 3 person', res3);
                 if (res3.body) {
                   this.router.navigate([this.router.url.split('/')[1]]);
                 }

@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="e-card-content">
-      <mat-card [hidden]="urlReportInqury">
+      <mat-card>
         <mat-card-header>
           <mat-card-subtitle>Status Options</mat-card-subtitle>
         </mat-card-header>
@@ -40,7 +40,7 @@
               cdkDrag
               *ngFor="let item of collateralAppraisalStatusCodes"
             >
-              {{ item.label }}
+              {{ item.statusDescription }}
             </mat-chip>
           </mat-chip-list>
         </mat-card-content>
