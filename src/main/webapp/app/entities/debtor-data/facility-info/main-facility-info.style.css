@@ -58,10 +58,10 @@ tr.example-element-row:not(.example-expanded-row):active {
 th {
   background-color: rgba(147, 201, 199, 1);
   color: black;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 td {
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .rounding-table-left {
@@ -73,15 +73,60 @@ td {
 
 .grid-index-left {
   justify-content: flex-start;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .grid-index-center {
   justify-content: center;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
+}
+
+.mat-column-no {
+  width: 5%;
+}
+.mat-column-action {
+  width: 10%;
+}
+
+.mat-column-appraisalNo {
+  text-align: left;
+}
+
+.mat-column-facilityCategory {
+  text-align: left;
+}
+.mat-column-bank {
+  text-align: left;
+}
+.mat-column-limit {
+  text-align: left;
+}
+.mat-column-loantype {
+  text-align: left;
+}
+.mat-column-facilityType {
+  text-align: right;
+}
+.mat-column-rate {
+  text-align: left;
+}
+.mat-column-period {
+  text-align: right;
+}
+.mat-column-collateralType {
+  text-align: right;
+}
+.mat-column-collateralValue {
+  text-align: left;
+}
+.mat-column-Disbursement {
+  text-align: right;
+}
+.mat-column-MaturityDate {
+  text-align: right;
 }
