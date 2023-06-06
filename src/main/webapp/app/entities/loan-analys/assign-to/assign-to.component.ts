@@ -66,16 +66,14 @@ export class AssignToComponent implements OnInit {
   }
 
   public onSelectAssignTo(event: any) {
+	let dynAttr = 'dataAssignTo';
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
-        let dynAttr = 'dataAssignTo';
-
         if (this.router.url.split('/')[1] === 'la-distribution') {
           dynAttr = 'dataAssignToCRO';
         } else if (this.router.url.split('/')[1] === 'cc-distribution') {
           dynAttr = 'dataAssignToCCAdmin';
-          // eslint-disable-next-line no-dupe-else-if
-        } else if (this.router.url.split('/')[1] === 'cc-distribution') {
+        } else if (this.router.url.split('/')[1] === 'distribution') {
           dynAttr = 'dataAssignToLegalOfficer';
         }
 
@@ -87,7 +85,7 @@ export class AssignToComponent implements OnInit {
         this.creditProposal.attributes[dynAttr].roleDescription = this.position[i].positionTypeDescription;
       }
     }
-    this.assignTo.emit(this.creditProposal.attributes['dataAssignTo']);
+    this.assignTo.emit(this.creditProposal.attributes[dynAttr]);
   }
 
   private checkLogin() {
