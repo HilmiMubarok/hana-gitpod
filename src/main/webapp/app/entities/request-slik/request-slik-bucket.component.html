@@ -305,7 +305,7 @@
         (page)="onPageChange($event)"
       ></mat-paginator> -->
 
-      <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="pageSize" (page)="paginate($event)"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons [pageSize]="pageSize" (page)="paginate($event)"></mat-paginator>
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
