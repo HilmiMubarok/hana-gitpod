@@ -731,7 +731,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
-        sort: ['ASC'],
+        sort: ['id','asc'],
         appMenuId: appMenu,
       })
       .subscribe((res: any) => {
