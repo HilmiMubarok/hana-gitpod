@@ -68,15 +68,16 @@ export class AssignToComponent implements OnInit {
   public onSelectAssignTo(event: any) {
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
-		let dynAttr = 'dataAssignTo';
+        let dynAttr = 'dataAssignTo';
 
-		if (this.router.url.split('/')[1] === 'la-distribution') {
-		  dynAttr = 'dataAssignToCRO';
-		} else if (this.router.url.split('/')[1] === 'cc-distribution') {
-		  dynAttr = 'dataAssignToCCAdmin';
-		} else if (this.router.url.split('/')[1] === 'cc-distribution') {
-		  dynAttr = 'dataAssignToLegalOfficer';
-		}
+        if (this.router.url.split('/')[1] === 'la-distribution') {
+          dynAttr = 'dataAssignToCRO';
+        } else if (this.router.url.split('/')[1] === 'cc-distribution') {
+          dynAttr = 'dataAssignToCCAdmin';
+          // eslint-disable-next-line no-dupe-else-if
+        } else if (this.router.url.split('/')[1] === 'cc-distribution') {
+          dynAttr = 'dataAssignToLegalOfficer';
+        }
 
         this.creditProposal.attributes[dynAttr].id = event.value;
         this.creditProposal.attributes[dynAttr].applicationId = this.creditProposal.id;
@@ -105,5 +106,4 @@ export class AssignToComponent implements OnInit {
       }
     });
   }
-
 }
