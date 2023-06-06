@@ -312,6 +312,7 @@ export class ApplicationProduct implements IApplicationProduct {
     this.intResetFrequency = 0;
     this.intResetPeriod = 'Month';
     this.intResetFrequencyParam = 'M';
+    this.tenor = 0;
   }
 }
 

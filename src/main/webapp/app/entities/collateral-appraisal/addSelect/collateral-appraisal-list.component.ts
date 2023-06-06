@@ -374,41 +374,28 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
               this.surveyAppraisalCross.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
               this.surveyAppraisalCross.internalId = this.internalIdLocStor;
               this.surveyAppraisalCross.applicationId = null;
-
-              this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
+              this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
+                error: (error: HttpErrorResponse) => {
+                  if (error.status === 500) {
+                    this.messageService.add({
+                      severity: 'error',
+                      summary: 'Error',
+                      detail: 'Collateral masih dalam proses appraisal.',
+                      life: 3000,
+                    });
+                  } else {
+                    this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
+                    Promise.all(this.createSurveyAppraisalPromises).then(results => {
+                      this.router.navigate(['./collateral-appraisal']);
+                    });
+                  }
+                },
+              });
             }
           }
-          this.validateAppraisal(this.dataSelectedCheckbox);
-          Promise.all(this.createSurveyAppraisalPromises).then(results => {
-            this.router.navigate(['./collateral-appraisal']);
-          });
         }
       }
     }
-  }
-  public checkStatus(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Collateral masih dalam proses appraisal.',
-      });
-      reject('500 validated');
-    });
-  }
-
-  private validateAppraisal(collateral: ICollateral[]): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.collateralAppraisalsAppraiseService.validateAppraise(collateral).subscribe({
-        error: (error: HttpErrorResponse) => {
-          switch (error.status) {
-            case 500:
-              this.checkStatus().catch(reject);
-              break;
-          }
-        },
-      });
-    });
   }
 
   private logout(): void {

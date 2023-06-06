@@ -170,3 +170,9 @@ td {
     vertical-align: middle;
   }
 }
+
+.mat-column-no {
+  width: 5%;
+  justify-content: flex-start;
+  border-top-left-radius: 15px;
+}

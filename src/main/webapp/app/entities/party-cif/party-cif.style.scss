@@ -2,22 +2,71 @@ ul.side-menu li a {
   font-weight: 400 !important;
 }
 
-table {
-  th {
-    background-color: rgba(147, 201, 199, 1);
-    color: black;
-    font-family: 'Poppins', sans-serif;
-  }
-  td {
-    font-family: 'Poppins', sans-serif;
-  }
-  .rounding-table-left {
-    border-top-left-radius: 15px;
-  }
-  .rounding-table-right {
-    border-top-right-radius: 15px;
-  }
+// table {
+//   th {
+//     background-color: rgba(147, 201, 199, 1);
+//     color: black;
+//     font-family: 'Poppins', sans-serif;
+//   }
+//   td {
+//     font-family: 'Poppins', sans-serif;
+//   }
+//   .rounding-table-left {
+//     border-top-left-radius: 15px;
+//   }
+//   .rounding-table-right {
+//     border-top-right-radius: 15px;
+//   }
+// }
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  // text-align: center !important;
+  // justify-content: center !important;
 }
+td {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+}
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1);
+  color: #ffffff;
+}
+
+.mat-header-cell:first-child {
+  width: 5%;
+  border-top-left-radius: 15px;
+}
+
+.mat-header-cell:last-child {
+  width: 10%;
+  border-top-right-radius: 15px;
+}
+
+.mat-header-cell {
+  font-weight: 100 !important;
+  font-size: 12px;
+}
+
+.td-no {
+  text-align: center;
+}
+.mat-column-action {
+  text-align: center !important;
+}
+
+.mat-column-hobis {
+  text-align: center !important;
+}
+
 .e-card {
   padding: 10px;
   margin-bottom: 1rem;
@@ -194,4 +243,9 @@ table {
     text-align: center;
     vertical-align: middle;
   }
+}
+
+.align-right-grid {
+  justify-content: flex-end;
+  text-align: right;
 }

@@ -1,3 +1,6 @@
+<div class="style-close">
+  <button class="button-close" mat-button (click)="openCancelDialog()">X</button>
+</div>
 <h2 mat-dialog-title>ADD BANK ACCOUNT ANALYST</h2>
 <mat-dialog-content>
   <div class="row">
@@ -616,6 +619,6 @@
     <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <button mat-button (click)="close()">Close</button>
+    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
   </section>
 </mat-dialog-actions>

@@ -8,7 +8,7 @@
   overflow-x: hidden;
 }
 
-/* .e-card .e-card-header .e-card-header-caption .e-card-header-title {
+.e-card .e-card-header .e-card-header-caption .e-card-header-title {
   font-family: 'Poppins', sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -27,7 +27,7 @@
   line-height: 35px;
   margin-left: 10px;
   padding-top: 13px;
-} */
+}
 
 .e-card-content {
   border: 1px solid #008881;
@@ -237,6 +237,10 @@ td {
   justify-content: center;
   text-align: center;
   font-family: 'Poppins', sans-serif;
+}
+
+.mat-column-NilaiPembelian {
+  width: 20%;
 }
 
 .e-breadcrumb-text {

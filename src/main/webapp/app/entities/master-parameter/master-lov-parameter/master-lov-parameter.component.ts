@@ -51,7 +51,12 @@ export class MasterLovParameterComponent extends AbstractEntityMaterialComponent
     this.loadAll();
     this.paginator.firstPage();
     // Condition Select Show Button
-    if (this.paramType === 'CREDIT_RATING' || this.paramType === 'PROPOSAL_TYPE') {
+    if (
+      this.paramType === 'CREDIT_RATING' ||
+      this.paramType === 'PROPOSAL_TYPE' ||
+      this.paramType === 'PEP_STATUS' ||
+      this.paramType === 'RANK'
+    ) {
       this.conditionButton = true;
     } else {
       this.conditionButton = false;
