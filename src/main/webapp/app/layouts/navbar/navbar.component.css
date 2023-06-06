@@ -2,7 +2,7 @@
 .mat-toolbar-row,
 .mat-toolbar-single-row {
   /* background-color: white; */
-  background-color: #aee2ff !important;
+  background-color: rgba(98, 180, 175, 1) !important;
   color: #fff;
 }
 
@@ -23,6 +23,6 @@
   cursor: pointer;
 }
 
-span {
+/* span {
   color: #002b5b;
-}
+} */
