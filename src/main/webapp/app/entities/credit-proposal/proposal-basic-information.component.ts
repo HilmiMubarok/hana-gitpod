@@ -1322,14 +1322,15 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   public setTotalPlafond() {
     if (this.creditProposal.products.length > 0) {
-      for (let i = 0; i < this.creditProposal.products.length; i++) {
-        if (this.creditProposal.products[i].hobis === true) {
-          if (this.creditProposal.products[i].totalPlafond === null) {
+      if (!this.creditProposal.attributes['syncronHobisData']) {
+        for (let i = 0; i < this.creditProposal.products.length; i++) {
+          if (this.creditProposal.products[i].hobis === true) {
             if (this.creditProposal.products[i].productName !== '') {
               this.getLoanType(this.creditProposal.products[i].productTypeId, i);
             }
           }
         }
+        this.creditProposal.attributes['syncronHobisData'] = 'syncroned';
       }
     }
   }

@@ -148,7 +148,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
-        sort: ['id','asc'],
+        sort: ['id', 'asc'],
         appMenuId: appMenu,
       })
       .subscribe((res: any) => {
