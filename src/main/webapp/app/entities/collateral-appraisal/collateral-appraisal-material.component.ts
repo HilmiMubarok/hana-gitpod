@@ -66,52 +66,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
   }[] = [];
   public globalSearchValModel: string;
   private positionIdLocStor: string;
-  public collateralAppraisalStatusCodes: IOptionNode[] = [
-    {
-      id: 'DRAFT',
-      label: 'Draft',
-    },
-    {
-      id: 'RETURN_TO_RM',
-      label: 'Return To RM',
-    },
-    {
-      id: 'ASSIGNMENT',
-      label: ' Assignment',
-    },
-    {
-      id: 'RETURN_TO_ADMIN',
-      label: 'Return To Admin',
-    },
-    {
-      id: 'ASSIGNED',
-      label: 'Assigned',
-    },
-    {
-      id: 'VISITED',
-      label: 'Visited',
-    },
-    {
-      id: 'REPORTED',
-      label: 'Reported',
-    },
-    {
-      id: 'RETURN_TO_OFFICER',
-      label: 'Return To Officer',
-    },
-    {
-      id: 'APPROVAL',
-      label: 'Approval',
-    },
-    {
-      id: 'APPEAL',
-      label: 'Appeal',
-    },
-    {
-      id: 'APPROVE',
-      label: 'Approve',
-    },
-  ];
+  public collateralAppraisalStatusCodes: any[] = [];
 
   public urlReportInqury: boolean;
   public urlReportApproval: boolean;
@@ -188,54 +143,22 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     this.loadAll();
   }
 
+  public queryListOfViewStatusFilterBy(appMenu: string) {
+    this.cashSurveyAppraisalsService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['ASC'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.collateralAppraisalStatusCodes = res.body;
+      });
+  }
+
   public filterStatusCode() {
     if (this.urlRequestAppraisal) {
-      this.collateralAppraisalStatusCodes = [
-        {
-          id: 'DRAFT',
-          label: 'Draft',
-        },
-        {
-          id: 'RETURN_TO_RM',
-          label: 'Return To RM',
-        },
-        {
-          id: 'ASSIGNMENT',
-          label: ' Assignment',
-        },
-        {
-          id: 'RETURN_TO_ADMIN',
-          label: 'Return To Admin',
-        },
-        {
-          id: 'ASSIGNED',
-          label: 'Assigned',
-        },
-        {
-          id: 'VISITED',
-          label: 'Visited',
-        },
-        {
-          id: 'RETURN_TO_OFFICER',
-          label: 'Return To Officer',
-        },
-        {
-          id: 'APPROVAL_TL',
-          label: 'Approval Team Leader',
-        },
-        {
-          id: 'APPROVAL_DEPT_HEAD',
-          label: 'Approval Dept Head',
-        },
-        {
-          id: 'APPROVAL_DH',
-          label: 'Approval Div Head',
-        },
-        {
-          id: 'APPROVED',
-          label: 'Approve',
-        },
-      ];
+      this.queryListOfViewStatusFilterBy('REQUEST_APPRAISAL');
     } else if (this.urlAppraisalInternal) {
       this.collateralAppraisalStatusCodes = [
         {
@@ -420,6 +343,20 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
               error: (res: HttpErrorResponse) => this.onError(res.message),
             });
           return;
+        } else if (this.urlReportInqury) {
+          this.queryListOfViewStatusFilterBy('APPRAISAL_RESULT_INQUIRY');
+          this.cashSurveyAppraisalsService
+            .cashSurveyAppraisalQueryFilterByInquiry({
+              page: this.page,
+              idStatus: this.clickedChip,
+              size: this.itemsPerPage,
+              idPosition: this.positionIdLocStor,
+              sort: ['id,desc'],
+            })
+            .subscribe({
+              next: (res: HttpResponse<ISurveyAppraisals[]>) => this.initDataForMatTableCustom(res, res.headers),
+              error: (res: HttpErrorResponse) => this.onError(res.message),
+            });
         } else {
           this.cashSurveyAppraisalsService
             .cashSurveyAppraisalQueryFilterBy({
@@ -513,6 +450,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
             error: (res: HttpErrorResponse) => this.onError(res.message),
           });
       } else if (this.urlReportInqury) {
+        this.queryListOfViewStatusFilterBy('APPRAISAL_RESULT_INQUIRY');
         this.cashSurveyAppraisalsService
           .cashSurveyAppraisalQueryFilterByInquiry({
             page: this.page,
@@ -645,13 +583,13 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
     moveItemInArray(this.collateralAppraisalStatusCodes, event.previousIndex, event.currentIndex);
   }
 
-  public chipClick(option: IOptionNode): void {
+  public chipClick(option: any): void {
     this.page = 0;
     if (this.clickedChip === option.id) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
     } else {
-      this.clickedChip = option.id;
+      this.clickedChip = option.statusId;
     }
     this.loadAll();
   }
