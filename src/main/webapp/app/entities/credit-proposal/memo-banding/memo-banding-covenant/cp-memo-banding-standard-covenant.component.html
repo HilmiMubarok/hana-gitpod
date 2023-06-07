@@ -1,0 +1,21 @@
+<!-- {{
+  creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'
+    ? 'Above'
+    : creditProposal.attributes['proposalType'] === 'Total Exposure <= IDR 15 Bio'
+    ? 'Below'
+    : 'Back to back'
+}} -->
+
+<div class="e-card">
+  <div class="e-card-header">
+    <div class="e-card-header-caption">
+      <div class="e-card-header-title">Standard Covenant</div>
+      <div class="e-card-sub-title"></div>
+    </div>
+  </div>
+  <div class="e-card-content">
+    <jhi-cp-memo-banding-covenant-above
+      *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'"
+    ></jhi-cp-memo-banding-covenant-above>
+  </div>
+</div>

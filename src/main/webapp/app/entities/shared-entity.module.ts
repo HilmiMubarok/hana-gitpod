@@ -375,6 +375,8 @@ import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-colla
 import { CpMemoBandingLoanFacilityComponent } from './credit-proposal/memo-banding/memo-banding-loan-facility/cp-memo-banding-loan-facility.component';
 import { CpMemoBandingCollateralComponent } from './credit-proposal/memo-banding/memo-banding-collateral/cp-memo-banding-collateral.component';
 import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-banding/memo-banding-collateral/above/cp-memo-banding-collateral-above.component';
+import { CPMemoBandingStandardCovenantComponent } from './credit-proposal/memo-banding/memo-banding-covenant/cp-memo-banding-standard-covenant.component';
+import { CPMemoBandingCovenantAboveComponent } from './credit-proposal/memo-banding/memo-banding-covenant/above/cp-memo-banding-covenant-above.component';
 
 // import { LoanAfterDialogComponent } from './loan-analys/dar-final/loan-facility/take-over-after/collateral/loan-collateral-tab-loan-after-dialog.component';
 
@@ -812,7 +814,9 @@ import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-ba
         MainFacilityChildComponent,
         CpMemoBandingLoanFacilityComponent,
         CpMemoBandingCollateralComponent,
-        CpMemoBandingCollateralAboveComponent
+        CpMemoBandingCollateralAboveComponent,
+        CPMemoBandingStandardCovenantComponent,
+        CPMemoBandingCovenantAboveComponent
   ],
   exports: [
     ...entityDialogModule,
@@ -1207,6 +1211,8 @@ import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-ba
     CpMemoBandingLoanFacilityComponent,
     CpMemoBandingCollateralComponent,
     CpMemoBandingCollateralAboveComponent,
+    CPMemoBandingStandardCovenantComponent,
+    CPMemoBandingCovenantAboveComponent,
   ],
   /* jhipster-needle-as-list-export-shared-module - JHipster will add entity exports imports here */
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
