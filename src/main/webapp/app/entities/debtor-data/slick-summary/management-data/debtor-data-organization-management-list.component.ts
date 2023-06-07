@@ -178,4 +178,14 @@ export class DebtorDataOrganizationManagementListComponent
       }
     });
   }
+
+  slikChek(data: any) {
+    if (data.person !== null) {
+      sessionStorage.setItem('idParty', data.person.id);
+      this.organizationManagementService.addPartyId(data.person.id);
+    } else if (data.shareHolderOrg !== null) {
+      sessionStorage.setItem('idParty', data.shareHolderOrg.id);
+      this.organizationManagementService.addPartyId(data.shareHolderOrg.id);
+    }
+  }
 }
