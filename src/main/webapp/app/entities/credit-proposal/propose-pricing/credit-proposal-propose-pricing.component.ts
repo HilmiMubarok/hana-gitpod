@@ -141,6 +141,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         this.sectorIndustry = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        this.creditRatingCondition();
       });
   }
 
@@ -375,17 +376,13 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     };
 
     this.defaultCurrency();
-    this.creditRatingCondition();
+
     this.averagetoIDR();
   }
 
   public creditRatingCondition() {
-    if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
-      if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
-        const industryCode = this.sectorIndustry.filter(data => data.value === this.creditProposal.creditRatings[0].attributes['industry']);
-        this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
-        this.creditProposal.attributes['purposePricing'].industryCode = industryCode;
-      }
+    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+      this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
     }
   }
   public defaultCurrencyData: string;
