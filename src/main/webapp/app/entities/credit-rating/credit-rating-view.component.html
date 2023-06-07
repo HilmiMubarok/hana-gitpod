@@ -474,8 +474,8 @@
                   <mat-label>Sector Industry</mat-label>
                   <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industry']">
                     <mat-option value="">Please Select</mat-option>
-                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
-                      {{ item.value }}
+                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.industryLabel">
+                      {{ item.industryLabel }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
