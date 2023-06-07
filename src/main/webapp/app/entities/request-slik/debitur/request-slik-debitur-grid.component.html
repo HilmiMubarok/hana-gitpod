@@ -1,43 +1,47 @@
 <mat-card>
   <mat-card-header>
-      <mat-card-header-subtitle class="text-capitalize">Debitur</mat-card-header-subtitle>
+    <mat-card-header-subtitle class="text-capitalize">Debitur</mat-card-header-subtitle>
   </mat-card-header>
   <mat-card-content>
     <div class="table-responsive-material">
       <table mat-table class="w-100" [dataSource]="dataSource">
-
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let i = index"> {{ i + 1 }} </td>
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
         </ng-container>
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{ element.namaDebitur }} </td>
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.namaDebitur }}</td>
         </ng-container>
         <ng-container matColumnDef="nikNpwp">
-          <th mat-header-cell *matHeaderCellDef> NIK NPWP </th>
-          <td mat-cell *matCellDef="let element"> {{ element.nikNpwp }} </td>
+          <th mat-header-cell *matHeaderCellDef>NIK NPWP</th>
+          <td mat-cell *matCellDef="let element">{{ element.nikNpwp }}</td>
         </ng-container>
         <ng-container matColumnDef="noIdentitas">
-          <th mat-header-cell *matHeaderCellDef> No. Identitas </th>
-          <td mat-cell *matCellDef="let element"> {{ element.noIdentitas }} </td>
+          <th mat-header-cell *matHeaderCellDef>No. Identitas</th>
+          <td mat-cell *matCellDef="let element">{{ element.noIdentitas }}</td>
         </ng-container>
         <ng-container matColumnDef="alamat">
-          <th mat-header-cell *matHeaderCellDef> Alamat </th>
-          <td mat-cell *matCellDef="let element"> {{ element.alamat }} </td>
+          <th mat-header-cell *matHeaderCellDef>Alamat</th>
+          <td mat-cell *matCellDef="let element">{{ element.alamat }}</td>
         </ng-container>
         <ng-container matColumnDef="jenisKelamin">
-          <th mat-header-cell *matHeaderCellDef> Jenis Kelamin </th>
-          <td mat-cell *matCellDef="let element"> {{ element.jenisKelaminKet }} </td>
+          <th mat-header-cell *matHeaderCellDef>Jenis Kelamin</th>
+          <td mat-cell *matCellDef="let element">{{ element.jenisKelaminKet }}</td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-        <!-- {{element | json}} -->
-            <mat-radio-group [(ngModel)]="requestReffId">
+            <!-- {{element | json}} -->
+            <mat-radio-group [(ngModel)]="requestReffId" *ngIf="requestSlik.status === 'VERIFY'">
               <mat-radio-button [value]="element" (click)="selectRow(element)"></mat-radio-button>
             </mat-radio-group>
-            <button mat-icon-button matTooltip="Slik File" [matTooltipPosition]="'right'" (click)="openDialogSlikFile(dataSource[0].requestReffId, element.nikNpwp)">
+            <button
+              mat-icon-button
+              matTooltip="Slik File"
+              [matTooltipPosition]="'right'"
+              (click)="openDialogSlikFile(dataSource[0].requestReffId, element.nikNpwp)"
+            >
               <mat-icon>insert_drive_file</mat-icon>
             </button>
           </td>
