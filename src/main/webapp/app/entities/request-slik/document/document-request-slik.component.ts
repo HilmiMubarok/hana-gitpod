@@ -10,6 +10,7 @@ import { RequestSlikValidateService } from '../services/request-slik-validate.se
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-document-request-slik',
@@ -94,34 +95,40 @@ export class DocumentRequestSlikComponent {
 
   downloadAllLabel = 'Download All';
   downloadAll() {
-    if (this.data$) {
-      const result = confirm('Are you sure want to download all files?');
-      if (!result) {
-        return;
-      }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '40vw',
+      data: {
+        title: 'Delete All Files',
+        message: `Are you sure want to download all files?. This action cannot be undone.`,
+      },
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        if (this.data$) {
+          this.downloadAllLabel = 'Downloading...';
 
-      this.downloadAllLabel = 'Downloading...';
+          this.data$.subscribe(
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            async res => {
+              this.downloadAllLabel = `Downloading... ${res.length} files`;
 
-      this.data$.subscribe(
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async res => {
-          this.downloadAllLabel = `Downloading... ${res.length} files`;
+              let downlaodedFiles = 1;
+              const promises = res.map(async element => {
+                const response = await this.http.get(element['url'], { responseType: 'blob' }).toPromise();
+                saveAs(response, element['name']);
+                this.downloadAllLabel = `Downloading... ${downlaodedFiles++}/${res.length}`;
+              });
 
-          let downlaodedFiles = 1;
-          const promises = res.map(async element => {
-            const response = await this.http.get(element['url'], { responseType: 'blob' }).toPromise();
-            saveAs(response, element['name']);
-            this.downloadAllLabel = `Downloading... ${downlaodedFiles++}/${res.length}`;
-          });
+              await Promise.all(promises);
 
-          await Promise.all(promises);
-
-          this.downloadAllLabel = 'Download All';
-        },
-        () => {
-          this.downloadAllLabel = 'Download All';
+              this.downloadAllLabel = 'Download All';
+            },
+            () => {
+              this.downloadAllLabel = 'Download All';
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
 }
