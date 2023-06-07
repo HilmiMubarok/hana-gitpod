@@ -51,7 +51,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.positionTypeId = newPos.positionTypeId;
-
+      console.log('ffddd', this.positionTypeId);
       this.checkAccess();
     });
   }
@@ -74,7 +74,19 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('la-analyst') &&
         !this.router.url.includes('confirmation')
       ) {
-        this.defaultCpMatrixFull();
+        if (
+          this.positionTypeId === 'SME_HEAD' ||
+          this.positionTypeId === 'DEPT_HEAD' ||
+          this.positionTypeId === 'SDH' ||
+          this.positionTypeId === 'DH' ||
+          this.positionTypeId === 'BM'
+        ) {
+          if (this.jhiMatrixDirElementType === '') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+          }
+        } else {
+          this.defaultCpMatrixFull();
+        }
       }
 
       if (this.router.url.includes('la-analyst')) {
