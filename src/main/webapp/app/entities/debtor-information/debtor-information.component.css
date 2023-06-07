@@ -1,0 +1,13 @@
+button:disabled {
+  background-color: 0 !important;
+  color: 0 !important;
+}
+
+.mat-raised-button.mat-button-disabled.mat-button-disabled {
+  background-color: rgba(163, 164, 164, 0.253) !important;
+  color: black !important;
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}

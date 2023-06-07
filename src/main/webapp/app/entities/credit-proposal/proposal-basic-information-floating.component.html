@@ -25,6 +25,12 @@
       </div>
     </div>
     <div style="margin: 1rem">
+      <div style="margin-bottom: 1rem">
+        <jhi-debtor-information
+          [cifNumber]="creditProposal.customerNumber"
+          [customerName]="creditProposal.cif.name"
+        ></jhi-debtor-information>
+      </div>
       <!-- PART 1 -->
       <div class="e-card">
         <div class="e-card-header">
@@ -32,7 +38,7 @@
             <div class="label-font-detail">Credit Proposal</div>
           </div>
         </div>
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
               <div class="form-group">
@@ -228,7 +234,7 @@
 
       <!-- PART 2 -->
       <div class="e-card">
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div class="row">
             <div class="col-12">
               <!-- Ketika Ke proposal Type -->

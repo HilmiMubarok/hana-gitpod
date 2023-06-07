@@ -116,8 +116,16 @@ table {
 .grid-index-right {
   justify-content: flex-end !important;
   text-align: right !important;
-  padding-right: 45px !important;
+  padding-right: 25px !important;
   font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-column:first-child {
+  border-top-left-radius: 15px !important;
+}
+
+.mat-column:last-child {
+  border-top-right-radius: 15px !important;
 }
 
 .button-styling {
@@ -171,4 +179,51 @@ mat-card-subtitle {
     font-size: 15px !important;
     font-size: 15px !important;
   }
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+
+.grid-index-left {
+  justify-content: flex-start;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.grid-index-center {
+  justify-content: center;
+  text-align: center;
+  font-family: 'Poppins', sans-serif !important;
+}
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff;
+}
+
+.mat-column-facilityCategory {
+  text-align: left !important;
+}
+
+.mat-column-mainPlafond {
+  text-align: rigth !important;
+}
+
+.mat-column-outstanding {
+  text-align: rigth !important;
 }

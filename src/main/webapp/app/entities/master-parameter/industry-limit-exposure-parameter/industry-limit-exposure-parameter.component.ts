@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import lodash from 'lodash';
-import { IIndustryLimitExposureParameter } from './industry-limit-exposure-parameter.model';
+import lodash, { size } from 'lodash';
+import { IIndustryLimitExposureParameter, IndustryLimitExposureParameter } from './industry-limit-exposure-parameter.model';
 import { IndustryLimitExposureParameterService } from './industry-limit-exposure-parameter.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MasterParameterIndustryLimitExposureDialogComponent } from './industry-limit-exposure-parameter-dialog.component';
@@ -18,6 +18,7 @@ export class MasterParameterIndustryLimitExposureComponent
 {
   public displayColumns: string[] = [
     'no',
+    'industryCode',
     'industry',
     'limitPercentage',
     'limitNominal',
@@ -26,6 +27,7 @@ export class MasterParameterIndustryLimitExposureComponent
     'status',
     'actions',
   ];
+
   constructor(
     protected _snackBar: MatSnackBar,
     protected industryLimitExposureParameterService: IndustryLimitExposureParameterService,
@@ -54,19 +56,35 @@ export class MasterParameterIndustryLimitExposureComponent
       });
   }
 
-  public openDialog(element: IIndustryLimitExposureParameter): void {
+  public openDialog(element: IIndustryLimitExposureParameter = new IndustryLimitExposureParameter()): void {
+    let predicate: IIndustryLimitExposureParameter;
+    // predicate = new IndustryLimitExposureParameter();
+
+    if (element) {
+      predicate = element;
+    }
+
     const dialogRef = this.dialog.open(MasterParameterIndustryLimitExposureDialogComponent, {
       width: '100%',
       data: {
         industryLimitExposure: element,
       },
     });
+
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.industryLimitExposureParameterService.update(res).subscribe(_res => {
-          this.page = 0;
-          this.loadAll();
-        });
+        if (res.id) {
+          console.log('edit', res);
+          this.industryLimitExposureParameterService.update(res).subscribe(_res => {
+            this.page = 0;
+            this.loadAll();
+          });
+        } else {
+          console.log('create', res);
+          this.industryLimitExposureParameterService.create(res).subscribe(_res => {
+            this.loadAll();
+          });
+        }
       }
     });
   }
