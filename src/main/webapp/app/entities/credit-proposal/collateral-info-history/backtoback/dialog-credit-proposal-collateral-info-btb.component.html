@@ -6,13 +6,6 @@
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
               <div class="form-group">
-                <!-- <ejs-textbox
-                  disabled
-                  [(ngModel)]="collateralProperty.attributes.branch"
-                  placeholder="Management Branch"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                ></ejs-textbox> -->
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Management Branch</mat-label>
@@ -44,15 +37,6 @@
                 </mat-form-field>
               </div>
 
-              <!-- <div class="form-group">
-                <ejs-textbox
-                  disabled
-                  [(ngModel)]="collateralProperty.marketValue"
-                  placeholder="Collateral Value"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                ></ejs-textbox>
-              </div> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Value</mat-label>
                 <input matInput type="text" [value]="getCurrency() + ' ' + (countMVOriginal() | number)" disabled />
@@ -100,12 +84,12 @@
                 </mat-form-field>
                 <mat-form-field class="w-100" appearance="outline" *ngIf="collateral.collateralTypeId !== 'LETTER_OF_GUARANTY'">
                   <mat-label>Sifat Jaminan</mat-label>
-                  <input matInput type="text" [(ngModel)]="empty.sifatJaminan" />
+                  <input matInput type="text" [(ngModel)]="empty.sifatJaminan" disabled />
                 </mat-form-field>
               </div>
 
               <div class="form-group">
-                <ejs-textbox placeholder="Periode Jaminan" cssClass="e-outline" floatLabelType="Always" [(ngModel)]="empty.periodeJaminan">
+                <ejs-textbox placeholder="Periode Jaminan" cssClass="e-outline" floatLabelType="Always" [(ngModel)]="empty.periodeJaminan" disabled>
                 </ejs-textbox>
               </div>
             </div>
@@ -144,15 +128,6 @@
                   ></ejs-textbox>
                 </section>
               </div>
-
-              <!-- <div class="form-group">
-                <ejs-textbox
-                  [(ngModel)]="collateral.statusCode"
-                  placeholder="Collateral Status"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                ></ejs-textbox>
-              </div> -->
 
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -214,16 +189,6 @@
                     />
                     <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="isViewMode === true"></mat-datepicker-toggle>
                     <mat-datepicker #bindingDate [disabled]="isViewMode === true"></mat-datepicker>
-                    <!-- <input
-                      [disabled]="isViewMode === true"
-                      [matDatepicker]="bindingDate"
-                      [formControl]="date"
-                      matInput
-                      type="text"
-                      [(ngModel)]="collateral.bindingDate"
-                    />
-                    <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
-                    <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker> -->
                   </section>
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                     <input
@@ -243,7 +208,7 @@
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Status</mat-label>
-                  <mat-select name="status" [(ngModel)]="collateral.statusId">
+                  <mat-select name="status" [(ngModel)]="collateral.statusId" disabled>
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of collateralStatus | keyvalue" [value]="item.key">
                       {{ item.value }}
