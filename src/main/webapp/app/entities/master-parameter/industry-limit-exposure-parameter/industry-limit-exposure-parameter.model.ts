@@ -1,13 +1,12 @@
 import { IMasterParameter } from '../master-parameter.model';
 
-export interface IIndustryLimitExposureParameter {
+export interface IIndustryLimitExposureParameter extends IMasterParameter {
   industry?: string;
   industryLabel?: string;
   limitPercentage?: number;
   limitNominal?: number;
   remainingBalance?: number;
   industryLimitExposure?: number;
-  statusId?: string;
 }
 
 export class IndustryLimitExposureParameter implements IIndustryLimitExposureParameter {
@@ -23,7 +22,6 @@ export class IndustryLimitExposureParameter implements IIndustryLimitExposurePar
     public limitPercentage?: number,
     public limitNominal?: number,
     public remainingBalance?: number,
-    public industryLimitExposure?: number,
-    public statusId?: string
+    public industryLimitExposure?: number
   ) {}
 }

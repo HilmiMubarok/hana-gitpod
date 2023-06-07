@@ -94,8 +94,8 @@
                 (selectionChange)="onSelectionChange($event)"
               >
                 <mat-option value="">Please Select</mat-option>
-                <mat-option *ngFor="let item of sectorIndustry" [value]="item.code">
-                  {{ item.value }}
+                <mat-option *ngFor="let item of sectorIndustry" [value]="item.industry">
+                  {{ item.industryLabel }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
