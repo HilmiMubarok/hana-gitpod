@@ -40,8 +40,6 @@ export class MainFacilityDialogComponent implements OnInit {
     });
     this.mainFacility = data.mainData;
     this.dataItem = data.creditProposal;
-    console.log('data-inan', this.dataItem);
-    console.log('data-outan', this.mainFacility);
   }
 
   ngOnInit(): void {
