@@ -114,6 +114,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.creditRatingCondition();
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
