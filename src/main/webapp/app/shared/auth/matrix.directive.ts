@@ -51,7 +51,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.positionTypeId = newPos.positionTypeId;
-      console.log('ffddd', this.positionTypeId);
       this.checkAccess();
     });
   }
@@ -494,24 +493,16 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private cpAndMemoInput() {
-    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
-      this.roleRMCpAndMemoMatrixInput();
-    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
-      this.roleOtherMatrixInput();
+    if (this.positionTypeId === 'RM') {
+      this.roleRMMatrixInput();
     } else {
-      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
-      // sementara role yang di diskus masih di menu cp
       this.roleOtherMatrixInput();
     }
   }
   private cpAndMemoLabel() {
-    if (lodash.indexOf(this.authorities, 'ROLE_RM') >= 0 || lodash.indexOf(this.authorities, 'ROLE_DH') >= 0) {
-      this.roleRMCpAndMemoMatrixLabel();
-    } else if (lodash.indexOf(this.authorities, 'ROLE_DEPT_HEAD') >= 0 || lodash.indexOf(this.authorities, 'ROLE_SME_HEAD') >= 0) {
-      this.roleOtherMatrixLabel();
+    if (this.positionTypeId === 'RM') {
+      this.roleRMMatrixLabel();
     } else {
-      // note saya gunakan else sementara supaya tidak terjadi masalah di karenakan role yang lain belum di diskusikan
-      // sementara role yang di diskus masih di menu cp
       this.roleOtherMatrixLabel();
     }
   }
@@ -596,32 +587,26 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private roleRMCpAndMemoMatrixInput(): void {
-    if (this.jhiMatrixDirSubMenu !== 'summary') {
-      if (
-        this.status === 'DRAFT' ||
-        this.status === 'CP_RETURN_TO_RM' ||
-        this.status === 'CP_RETURN_TO_CR' ||
-        // Dar appeal
-        this.status === 'OL_APPEAL'
-      ) {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
+    if (
+      this.status === 'DRAFT' ||
+      this.status === 'CP_RETURN_TO_RM' ||
+      this.status === 'CP_RETURN_TO_CR' ||
+      this.status === 'RETURN_TO_RM_CRA' ||
+      this.status === 'OL_APPEAL'
+    ) {
+      this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
 
   private roleRMCpAndMemoMatrixLabel(): void {
-    if (this.jhiMatrixDirSubMenu === 'summary') {
+    if (
+      this.status !== 'DRAFT' &&
+      this.status !== 'CP_RETURN_TO_RM' &&
+      this.status !== 'CP_RETURN_TO_CR' &&
+      this.status !== 'RETURN_TO_RM_CRA' &&
+      this.status !== 'OL_APPEAL'
+    ) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
-    } else {
-      if (
-        this.status !== 'DRAFT' &&
-        this.status !== 'CP_RETURN_TO_RM' &&
-        this.status !== 'CP_RETURN_TO_CR' &&
-        // Dar appeal
-        this.status !== 'OL_APPEAL'
-      ) {
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      }
     }
   }
 
