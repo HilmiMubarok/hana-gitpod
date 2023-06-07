@@ -50,5 +50,13 @@
     >
       <mat-icon>add</mat-icon> UPLOAD
     </button>
+    <button mat-raised-button color="primary" (click)="downloadAll()" [disabled]="downloadAllLabel !== 'Download All'">
+      <mat-icon *ngIf="downloadAllLabel === 'Download All'">get_app</mat-icon>
+
+      <!-- add spinner when downloading -->
+      <mat-spinner *ngIf="downloadAllLabel !== 'Download All'" diameter="20" style="display: inline-block"></mat-spinner>
+
+      {{ downloadAllLabel }}
+    </button>
   </mat-card-actions>
 </mat-card>
