@@ -239,7 +239,7 @@
 </button> -->
 
 <mat-sidenav-container [hasBackdrop]="true">
-  <jhi-debtor-information [cifNumber]="partyCif.customerPerson ? partyCif.customerPerson.id : partyCif.customerOrganization.id" [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"></jhi-debtor-information>
+  <!-- <jhi-debtor-information [cifNumber]="partyCif.customerPerson ? partyCif.customerPerson.id : partyCif.customerOrganization.id" [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"></jhi-debtor-information> -->
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
@@ -259,6 +259,12 @@
       </div>
     </div>
     <div style="margin: 1rem">
+      <div style="margin-bottom: 1rem">
+        <jhi-debtor-information
+          [cifNumber]="partyCif.customerPerson ? partyCif.customerPerson.id : partyCif.customerOrganization.id"
+          [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"
+        ></jhi-debtor-information>
+      </div>
       <div>
         <jhi-party-cif-customer-info *ngIf="clickedMenu === 'customer-info'" [partyCif]="partyCif"> </jhi-party-cif-customer-info>
         <jhi-party-cif-organization-legal [partyCif]="partyCif" *ngIf="clickedMenu === 'organization-legal'">

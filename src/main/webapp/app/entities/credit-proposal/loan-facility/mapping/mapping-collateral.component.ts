@@ -14,6 +14,7 @@ import { COLLATERAL_TYPE } from 'app/shared/constants/base.constants';
 @Component({
   selector: 'jhi-mapping-collateral',
   templateUrl: './mapping-collateral.component.html',
+  styleUrls: ['../grid/loan.scss'],
 })
 export class CreditProposalMappingCollateralComponent implements OnInit {
   @Output() outputCreditProposalMappingData = new EventEmitter();

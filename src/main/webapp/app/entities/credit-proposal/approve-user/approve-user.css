@@ -124,6 +124,10 @@ mat-card-header {
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+.mat-column-no {
+  width: 5%;
+}
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,
 .e-menu-container .e-menu .e-menu-item.e-selected {

@@ -174,5 +174,12 @@ td {
 .mat-column-no {
   width: 5%;
   justify-content: flex-start;
+}
+
+.mat-column:first-child {
   border-top-left-radius: 15px;
+}
+
+.mat-column:last-child {
+  border-top-right-radius: 15px;
 }
