@@ -133,10 +133,10 @@ span.e-icons.e-check {
   margin-left: 10px;
 }
 
-.e-grid {
+/* .e-grid {
   border-color: #008881;
   border-radius: 5px;
-}
+} */
 
 .e-grid .e-headercell {
   background-color: #008881;
@@ -258,9 +258,9 @@ span.e-icons.e-check {
   justify-content: center !important;
 }
 
-table .mat-table {
+/* table .mat-table {
   border: 1px #008881 solid !important;
-}
+} */
 @font-face {
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype');
@@ -273,12 +273,23 @@ table .mat-table {
   font-weight: 600;
   color: #0000008a;
 }
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}
 
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
   font-family: 'Poppins', sans-serif !important;
 }
+
+th:first-child {
+  border-top-left-radius: 15px !important;
+}
+th:last-child {
+  border-top-right-radius: 15px !important;
+}
+
 td {
   font-family: 'Poppins', sans-serif !important;
 }
@@ -315,4 +326,8 @@ td {
 .mat-column:last-child {
   border-top-right-radius: 15px !important;
   width: 10% !important;
+}
+
+table {
+  border-color: #ffffff !important;
 }
