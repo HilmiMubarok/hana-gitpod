@@ -446,7 +446,7 @@
       >
         {{ task.caption }}
       </button>
-      <button mat-raised-button class="btn-lg text-uppercase button-styling" (click)="save('default')">Save</button>
+      <button *ngIf="positionTypeId === 'RM'" mat-raised-button class="btn-lg text-uppercase button-styling" (click)="save('default')">Save</button>
     </div>
   </div>
 

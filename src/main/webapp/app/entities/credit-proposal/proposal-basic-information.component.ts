@@ -51,7 +51,7 @@ import { CollateralPropertyService } from '../collateral-property/collateral-pro
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { ProductClassificationService } from '../product-classification/product-classification.service';
 import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
-
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -143,6 +143,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public opinionFileWord: File;
   public conditionFileSfdt: File;
   public conditionFileWord: File;
+  public positionTypeId: string;
 
   private saveState: string;
   public parentSubject: Subject<any> = new Subject();
@@ -163,7 +164,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService,
     protected productClasificationService: ProductClassificationService,
-    protected productParameterService: MasterProductParameterService
+    protected productParameterService: MasterProductParameterService,
+    public templateService: TemplateService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -204,6 +206,12 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
 
     return result;
+  }
+
+  private getPositionTypeId(): void {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.positionTypeId = newPos.positionTypeId;
+    });
   }
 
   private getBucketNameSummary() {
@@ -309,6 +317,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
   ngOnInit() {
     this.lendingProgramParameter();
+    this.getPositionTypeId();
     this.getTitle();
     this.lovProposalType();
     this.getBucketNameSummary();
