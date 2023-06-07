@@ -239,6 +239,7 @@
 </button> -->
 
 <mat-sidenav-container [hasBackdrop]="true">
+  <jhi-debtor-information [cifNumber]="partyCif.customerPerson ? partyCif.customerPerson.id : partyCif.customerOrganization.id" [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"></jhi-debtor-information>
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
