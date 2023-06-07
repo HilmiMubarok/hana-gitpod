@@ -363,7 +363,7 @@ export class ProposalBasicInformationComponent implements OnInit {
 
           // if status dar appeal, then add memo banding screen
           this.subMenu =
-            this.creditProposal.statusId === 'CP_APPROVAL_BM'
+            this.creditProposal.statusId === 'CP_APPROVAL_DH'
               ? [
                   ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
                   {
@@ -390,7 +390,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           // this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
           // if status dar appeal, then add memo banding screen
           this.subMenu =
-            this.creditProposal.statusId === 'CP_APPROVAL_BM'
+            this.creditProposal.statusId === 'CP_APPROVAL_DH'
               ? [
                   ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
                   {
@@ -417,7 +417,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           // this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
           // if status dar appeal, then add memo banding screen
           this.subMenu =
-            this.creditProposal.statusId === 'CP_APPROVAL_BM'
+            this.creditProposal.statusId === 'CP_APPROVAL_DH'
               ? [
                   ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
                   {
@@ -499,7 +499,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         // this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
         // if status dar appeal, then add memo banding screen
         this.subMenu =
-          this.creditProposal.statusId === 'CP_APPROVAL_BM'
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
             ? [
                 ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
                 {
@@ -515,7 +515,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         // this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
         // if status dar appeal, then add memo banding screen
         this.subMenu =
-          this.creditProposal.statusId === 'CP_APPROVAL_BM'
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
             ? [
                 ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
                 {
@@ -531,7 +531,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         // this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
         // if status dar appeal, then add memo banding screen
         this.subMenu =
-          this.creditProposal.statusId === 'CP_APPROVAL_BM'
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
             ? [
                 ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
                 {
@@ -557,7 +557,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         // this.subMenu = SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN;
         // if status dar appeal, then add memo banding screen
         this.subMenu =
-          this.creditProposal.statusId === 'CP_APPROVAL_BM'
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
             ? [
                 ...SUBMENU_CREDITPROPOSAL_GREATER_FIFTEEN,
                 {
@@ -586,7 +586,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         // this.subMenu = SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN;
         // if status dar appeal, then add memo banding screen
         this.subMenu =
-          this.creditProposal.statusId === 'CP_APPROVAL_BM'
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
             ? [
                 ...SUBMENU_CREDITPROPOSAL_LOWER_EQUAL_FIFTEEN,
                 {
@@ -615,7 +615,7 @@ export class ProposalBasicInformationComponent implements OnInit {
         // this.subMenu = SUBMENU_CREDITPROPOSAL_BACK_TO_BACK;
         // if status dar appeal, then add memo banding screen
         this.subMenu =
-          this.creditProposal.statusId === 'CP_APPROVAL_BM'
+          this.creditProposal.statusId === 'CP_APPROVAL_DH'
             ? [
                 ...SUBMENU_CREDITPROPOSAL_BACK_TO_BACK,
                 {

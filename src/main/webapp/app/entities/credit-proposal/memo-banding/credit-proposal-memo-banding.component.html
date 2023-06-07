@@ -1,8 +1,10 @@
-Memo Banding Component <br />
 <!-- <jhi-loan-analys-previous-dar [creditProposal]="creditProposal"></jhi-loan-analys-previous-dar> -->
 
+<jhi-cp-memo-banding-loan-facility [creditProposal]="creditProposal"></jhi-cp-memo-banding-loan-facility>
+<jhi-cp-memo-banding-collateral [creditProposal]="creditProposal"></jhi-cp-memo-banding-collateral>
+
 <!-- Loan Facility Detail -->
-Before <br />
+<!-- Before <br />
 <jhi-credit-proposal-tab-loan-facility-detail-grid [isViewMode]="true" [isOnMemo]="true" [creditProposal]="creditProposal">
 </jhi-credit-proposal-tab-loan-facility-detail-grid>
 <div class="row w-100">
@@ -24,7 +26,8 @@ After <br />
   <div class="col-6">
     {{ creditProposal.attributes['facilityDetail'].custodianFee | number }}
   </div>
-</div>
+</div> -->
+<!-- === -->
 <!-- Collateral Info -->
 <!-- <div *ngIf="creditProposal.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
   <jhi-above-grid [isViewMode]="true" [isOnMemo]="true" [creditProposal]="creditProposal"></jhi-above-grid>
