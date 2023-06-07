@@ -114,6 +114,7 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.creditRatingCondition();
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
@@ -186,6 +187,12 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
       this.item.attributes['calculationExposure'].subTotalDebtor = this.fungsiSumOS();
       this.item.attributes['calculationExposure'].totalPLafondDebtor = this.fungsiSumcredit();
     });
+  }
+
+  public creditRatingCondition() {
+    if (this.item.attributes['purposePricing'].industryCode === '') {
+      this.item.attributes['purposePricing'].industryCode = this.item.creditRatings[0].attributes['industryCode'];
+    }
   }
 
   private getToken(cookieName: string) {

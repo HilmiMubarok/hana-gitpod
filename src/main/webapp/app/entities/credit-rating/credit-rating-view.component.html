@@ -472,10 +472,10 @@
               <section *jhiMatrixDirIDD="'input'">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Sector Industry</mat-label>
-                  <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industry']">
+                  <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industryCode']">
                     <mat-option value="">Please Select</mat-option>
-                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.industryLabel">
-                      {{ item.industryLabel }}
+                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.code">
+                      {{ item.value }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
