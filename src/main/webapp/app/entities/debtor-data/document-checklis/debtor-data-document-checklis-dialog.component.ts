@@ -96,7 +96,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.getMinIOData();
     this.filesStatus = this.files.status;
     this.filesdueDate = this.files.dueDate;
-    this.filesRemarks = this.files.remarks === null ? '' : this.files.remarks;
+    this.files.remarks === null || this.files.remarks === 'null' ? '' : this.files.remarks;
 
     this.filesDescription = this.files.description;
   }
