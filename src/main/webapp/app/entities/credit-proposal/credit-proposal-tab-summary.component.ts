@@ -188,6 +188,12 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
     });
   }
 
+  public creditRatingCondition() {
+    if (this.item.attributes['purposePricing'].industryCode === '') {
+      this.item.attributes['purposePricing'].industryCode = this.item.creditRatings[0].attributes['industryCode'];
+    }
+  }
+
   private getToken(cookieName: string) {
     let result = null;
     const cookies: string[] = document.cookie.split(';');
