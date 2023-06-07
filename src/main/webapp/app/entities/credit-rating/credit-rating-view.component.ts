@@ -24,7 +24,7 @@ import { ListOfValueIndustryService } from '../credit-proposal/list-of-value-ind
 import { IListOfValueIndustry } from '../../../../../../src/main/webapp/app/entities/credit-proposal/list-of-value-industry.model';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
-
+import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 @Component({
   selector: 'jhi-credit-rating-view',
   templateUrl: './credit-rating-view.component.html',
@@ -75,7 +75,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     public account: AccountService,
     protected applicationOptionService: ApplicationOptionService,
     public listOfIndustryService: ListOfValueIndustryService, // private _ngxSpinner: NgxSpinnerService
-    protected generalParameterService: GeneralParameterService
+    protected generalParameterService: GeneralParameterService,
+    protected industryLimitExposureParameterService: IndustryLimitExposureParameterService
   ) {
     super(creditRatingService, messageService, elementRef, dataUtils, account, eventManager);
     this.item = new CreditRating();
@@ -212,9 +213,8 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     //   }
     // });
 
-    this.generalParameterService
-      .queryFilterBy({
-        idParameterType: 'SECTOR_INDUSTRY',
+    this.industryLimitExposureParameterService
+      .query({
         page: 0,
         size: 9999,
       })

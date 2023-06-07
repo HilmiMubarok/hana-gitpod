@@ -18,6 +18,7 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { IndustryLimitExposureParameterService } from 'app/entities/master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -112,7 +113,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     private actRoute: ActivatedRoute,
     public creditProposalService: CreditProposalService,
     private http: HttpClient,
-    public generalParameterService: GeneralParameterService
+    public generalParameterService: GeneralParameterService,
+    public industryLimitExposureParameterService: IndustryLimitExposureParameterService
   ) {
     this.countOS = 0;
     this.availableLimit = 0;
@@ -131,9 +133,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public getListIndustry() {
-    this.generalParameterService
-      .queryFilterBy({
-        idParameterType: 'SECTOR_INDUSTRY',
+    this.industryLimitExposureParameterService
+      .query({
         page: 0,
         size: 9999,
       })
