@@ -147,7 +147,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   private defineDisplayedColumns(param: string) {
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumns =
-      this.requestSlik.status === 'VERIFY'
+      this.requestSlik.status === 'VERIFY' || this.requestSlik.status === 'COMPLETE'
         ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
         : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];

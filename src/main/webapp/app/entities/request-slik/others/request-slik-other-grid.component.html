@@ -1,4 +1,4 @@
-<mat-card *ngIf="requestSlik.status !== 'VERIFY'">
+<mat-card *ngIf="requestSlik.status !== 'VERIFY' && requestSlik.status !== 'COMPLETE'">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">Others (group, guarantor, etc)</mat-card-header-subtitle>
   </mat-card-header>
@@ -72,7 +72,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="requestSlik.status === 'VERIFY'">
+<mat-card *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">Others (group, guarantor, etc)</mat-card-header-subtitle>
   </mat-card-header>
@@ -175,11 +175,15 @@
                 <ng-container matColumnDef="action">
                   <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
                   <mat-cell *matCellDef="let tes">
-                    <mat-radio-group [(ngModel)]="element.person.id">
+                    <mat-radio-group [(ngModel)]="element.person.id" *ngIf="requestSlik.status === 'VERIFY'">
                       <mat-radio-button [value]="tes" (click)="selectRow(tes)"></mat-radio-button>
                     </mat-radio-group>
-                    <button mat-icon-button matTooltip="Slik File" [matTooltipPosition]="'right'"
-                      (click)="openDialogSlikFile(tes.requestReffId, tes.nikNpwp)">
+                    <button
+                      mat-icon-button
+                      matTooltip="Slik File"
+                      [matTooltipPosition]="'right'"
+                      (click)="openDialogSlikFile(tes.requestReffId, tes.nikNpwp)"
+                    >
                       <mat-icon>insert_drive_file</mat-icon>
                     </button>
                   </mat-cell>
