@@ -13,6 +13,7 @@ import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { OrganizationManagementService } from 'app/entities/organization-management/organization-management.service';
 
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur-view',
@@ -92,7 +93,8 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     public TransferService: DebtorDataSlikTransferService,
     private storageService: StorageService,
     private router: Router,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    protected organizationManagementService: OrganizationManagementService
   ) {
     super(_snackBar, partySlikService);
     this.loading = false;
@@ -107,24 +109,35 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
       this.selectedManagementType = event.managementType;
     });
     this.getFiles();
+    this.setViewDocument();
+  }
+
+  public setPartyId: any;
+  setViewDocument() {
+    this.organizationManagementService.idPartySlik.subscribe((message: any) => {
+      this.setPartyId = message;
+    });
   }
 
   dataSource;
   private getFiles(): void {
-    const subFolder = [];
-    this.folders = [];
-    const predicate: Object = {
-      key: `/party_slik/${this.partyCif.partyId}`,
-    };
-    this.storageService.getBucketName().subscribe((response: any) => {
-      this.storageService.getObjects(response.body.bucket, predicate).subscribe((res: any) => {
-        this.dataSource = res.body;
-        // for (let i = 0; i < res.body.length; i++) {
-        //   if (res.body[i].tags.managementType === this.selectedManagementType) {
-        //     subFolder.push(res.body[i]);
-        //     this.folders = [...subFolder];
-        //   }
-        // }
+    const dataData = this.organizationManagementService.idPartySlik.subscribe((message: any) => {
+      const partyIdSlik = message;
+      const subFolder = [];
+      this.folders = [];
+      const predicate: Object = {
+        key: `/party_slik/${partyIdSlik}`,
+      };
+      this.storageService.getBucketName().subscribe((response: any) => {
+        this.storageService.getObjects(response.body.bucket, predicate).subscribe((res: any) => {
+          this.dataSource = res.body;
+          // for (let i = 0; i < res.body.length; i++) {
+          //   if (res.body[i].tags.managementType === this.selectedManagementType) {
+          //     subFolder.push(res.body[i]);
+          //     this.folders = [...subFolder];
+          //   }
+          // }
+        });
       });
     });
   }
