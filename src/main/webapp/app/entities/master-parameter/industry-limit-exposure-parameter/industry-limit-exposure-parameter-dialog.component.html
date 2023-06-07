@@ -1,8 +1,16 @@
-<h2 mat-dialog-title>EDIT INDUSTRY LIMIT EXPOSURE PARAMETER</h2>
+<h2 mat-dialog-title>ADD / EDIT INDUSTRY LIMIT EXPOSURE PARAMETER</h2>
 <mat-dialog-content>
   <div class="row">
     <div class="col-12">
       <section class="mt-2">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Industry</mat-label>
+          <input matInput type="text" [(ngModel)]="industryLimitExposure.industry" />
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Industry Label</mat-label>
+          <input matInput type="text" [(ngModel)]="industryLimitExposure.industryLabel" />
+        </mat-form-field>
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Limit (In % From Total O/S Loan)</mat-label>
           <input matInput type="number" [(ngModel)]="industryLimitExposure.limitPercentage" />
