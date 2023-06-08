@@ -1,4 +1,5 @@
 import {
+  faExclamationTriangle,
   faArrowCircleLeft,
   faArrowLeft,
   faAsterisk,
@@ -73,6 +74,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontAwesomeIcons = [
+  faExclamationTriangle,
   faArrowCircleLeft,
   faArrowLeft,
   faAsterisk,

@@ -1,10 +1,12 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
+<!-- <h2 mat-dialog-title>{{ data.title }}</h2> -->
 <mat-dialog-content>
-  <div class="text-center p-5 alert-warning">
-    {{ data.message }}
+  <fa-icon icon="exclamation-triangle" class="fa-icon"></fa-icon>
+  <div class="text-center p-5">
+    <label> {{ data.message }}</label>
   </div>
 </mat-dialog-content>
+<!-- <a style="justify-content:flex-start;">Yes</a> <a style="justify-content:flex-end;">No</a> -->
 <mat-dialog-actions align="center">
-  <button mat-button (click)="submit()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Yes</button>
-  <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">No</button>
+  <button mat-raised-button class="confirm-button-no" mat-dialog-close>No</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="submit()">Yes</button>
 </mat-dialog-actions>

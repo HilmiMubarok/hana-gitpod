@@ -15,6 +15,7 @@ import { EventManager } from 'app/core/util/event-manager.service';
 @Component({
   selector: 'jhi-organization-legal',
   templateUrl: './organization-legal.component.html',
+  styleUrls: ['../organization-management/organization-management.style.scss'],
 })
 export class OrganizationLegalComponent extends AbstractEntityComponent<IOrganizationLegal> {
   constructor(

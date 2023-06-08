@@ -240,13 +240,12 @@
   </mat-dialog-content>
   <section *jhiMatrixDirIDD="'input'">
     <mat-dialog-actions align="center">
-      <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-
-      <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff">Close</button>
+      <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
+      <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
     </mat-dialog-actions>
   </section>
   <section *jhiMatrixDirIDD="''">
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button>
   </section>
 </div>
 
@@ -390,6 +389,6 @@
     </ul>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button mat-dialog-close style="background: rgb(228, 39, 39); color: #ffffff">Close</button>
+    <button mat-raised-button class="confirm-button-no" mat-dialog-close>Close</button>
   </mat-dialog-actions>
 </div>

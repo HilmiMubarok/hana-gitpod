@@ -12,6 +12,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-party-cif-collateral-info-property-general-dialog',
   templateUrl: './collateral-info-property-general-dialog.component.html',
+  styleUrls: ['./collateral-info.style.scss'],
 })
 export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnInit {
   public collateral: ICollateral;

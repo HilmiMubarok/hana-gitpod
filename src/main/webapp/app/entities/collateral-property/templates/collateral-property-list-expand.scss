@@ -20,9 +20,7 @@ th {
 td {
   font-family: 'Poppins', sans-serif !important;
 }
-.rounding-table-left {
-  border-top-left-radius: 15px;
-}
+
 .rounding-table-right {
   border-top-right-radius: 15px;
 }
@@ -34,7 +32,6 @@ td {
 
 .mat-column-no {
   width: 5%;
-  border-top-left-radius: 15px;
 }
 
 .mat-header-cell:last-child {

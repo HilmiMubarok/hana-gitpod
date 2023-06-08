@@ -66,6 +66,7 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
         title: 'Confirmation Delete Organization Legal',
         message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

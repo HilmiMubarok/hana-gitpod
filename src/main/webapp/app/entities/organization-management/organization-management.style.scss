@@ -80,3 +80,67 @@ table {
 .mat-header-cell {
   font-weight: 100 !important;
 }
+
+::ng-deep .custom-dialog-container-delete {
+  .mat-dialog-container {
+    background-image: url('../../../content/images/dialog_background.svg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-position-y: -90px;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+::ng-deep .custom-dialog-container-cancel {
+  .mat-dialog-container {
+    background-image: url('../../../content/images/dialog_background.svg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-position-y: 0px;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+.confirm-button-yes {
+  /* .mat-raised-button { */
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  /* } */
+}
+
+.confirm-button-no {
+  /* .mat-raised-button { */
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  /* } */
+}
+.confirm-button-no:hover {
+  /* .mat-raised-button:hover { */
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  /* } */
+}
+.confirm-button-yes:hover {
+  /* .mat-raised-button:hover { */
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  /* } */
+}

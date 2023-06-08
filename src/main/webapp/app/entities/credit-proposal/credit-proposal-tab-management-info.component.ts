@@ -383,7 +383,7 @@ export class CreditProposaTabManagementInfoComponent implements OnChanges, OnIni
   }
 
   public openDialog(element: any): void {
-    const predicate = { width: '120vw', data: { item: element, cp: this.creditProposalItem }, panelClass: 'custom-dialog-container' };
+    const predicate = { width: '120vw', data: { item: element, cp: this.creditProposalItem } };
 
     const dialogRef = this.dialog.open(DialogBorrowerComponent, predicate);
     dialogRef.afterClosed().subscribe(() => {});

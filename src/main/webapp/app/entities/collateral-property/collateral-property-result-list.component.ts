@@ -11,6 +11,7 @@ import { PartnerService } from '../partner/partner.service';
 @Component({
   selector: 'jhi-collateral-property-result-list',
   templateUrl: './collateral-property-result-list.component.html',
+  styleUrls: ['./collateral-property.style.scss'],
 })
 export class CollateralPropertyResultListComponent implements OnInit {
   public penampung: ICollateralAppraisal[];
