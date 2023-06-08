@@ -114,7 +114,7 @@ export class CreditProposalTabLoanFacilityTakeOverAfterComponent implements OnIn
       if (result !== undefined) {
         this.lock = false;
         this.facilityTakeOverAfterBank.maturityBankOver = result.initialLimit;
-        this.facilityTakeOverAfterBank.initialLimitBankOver = result.maturity;
+        this.facilityTakeOverAfterBank.initialLimitBankOver = result.tenor;
         this.facilityTakeOverAfterBank.outstandingBankOver = result.outstanding;
         this.facilityTakeOverAfterBank.maturityPeriodType = result.periodType;
         this.facilityTakeOverAfterBank.changes = result.changes;
