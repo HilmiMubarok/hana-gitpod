@@ -261,8 +261,8 @@
     <div style="margin: 1rem">
       <div style="margin-bottom: 1rem">
         <jhi-debtor-information
-          [cifNumber]="partyCif.customerPerson ? partyCif.customerPerson.id : partyCif.customerOrganization.id"
-          [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"
+        [cifNumber]="partyCif.customerPerson ? partyCif.customerNumber : partyCif.customerNumber"
+        [customerName]="partyCif.customerPerson ? partyCif.customerPerson.name : partyCif.customerOrganization.name"
         ></jhi-debtor-information>
       </div>
       <div>
