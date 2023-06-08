@@ -245,7 +245,7 @@ export class MatrixDirective implements OnInit, OnDestroy {
         }
       }
 
-      if (this.router.url.includes('la-approval')) {
+      if (this.router.url.split('/')[1] === 'la-approval') {
         if (
           this.positionTypeId === 'DH' ||
           this.positionTypeId === 'BUSINESS_DIR' ||
