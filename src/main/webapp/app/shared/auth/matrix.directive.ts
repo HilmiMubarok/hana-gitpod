@@ -137,23 +137,63 @@ export class MatrixDirective implements OnInit, OnDestroy {
               }
             }
           } else if (this.router.url.includes('opinion')) {
-            if (
-              this.status === 'CP_APPROVAL_SME_HEAD' ||
-              this.status === 'CP_APPROVAL_BM' ||
-              this.status === 'CP_APPROVAL_SDH' ||
-              this.status === 'CP_APPROVAL_DH' ||
-              this.status === 'CP_APPROVAL_DEPTHEAD'
-            ) {
-              this.defaultCpMatrixFull();
-            } else if (
-              this.status !== 'CP_APPROVAL_SME_HEAD' &&
-              this.status !== 'CP_APPROVAL_BM' &&
-              this.status !== 'CP_APPROVAL_SDH' &&
-              this.status !== 'CP_APPROVAL_DH' &&
-              this.status !== 'CP_APPROVAL_DEPTHEAD'
-            ) {
-              if (this.jhiMatrixDirElementType === 'take_out_remark') {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
+            if (this.positionTypeId === 'SME_HEAD') {
+              if (this.status === 'CP_APPROVAL_SME_HEAD') {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              }
+            }
+
+            if (this.positionTypeId === 'BM') {
+              if (this.status === 'CP_APPROVAL_BM') {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              }
+            }
+
+            if (this.positionTypeId === 'DEPT_HEAD') {
+              if (this.status === 'CP_APPROVAL_DEPTHEAD') {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              }
+            }
+
+            if (this.positionTypeId === 'SDH') {
+              if (this.status === 'CP_APPROVAL_SME_HEAD') {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              }
+            }
+
+            if (this.positionTypeId === 'DH') {
+              if (this.status === 'CP_APPROVAL_DH') {
+                if (this.jhiMatrixDirElementType === 'input') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
+              } else {
+                if (this.jhiMatrixDirElementType === '') {
+                  this.viewContainerRef.createEmbeddedView(this.templateRef);
+                }
               }
             }
           } else {

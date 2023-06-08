@@ -452,7 +452,10 @@
       >
         {{ task.caption }}
       </button>
-      <button *ngIf="positionTypeId === 'RM'" mat-raised-button class="btn-lg text-uppercase button-styling" (click)="save('default')">Save</button>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <button  mat-raised-button class="btn-lg text-uppercase button-styling" (click)="save('default')">Save</button>
+      </section>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"></section>
     </div>
   </div>
 
