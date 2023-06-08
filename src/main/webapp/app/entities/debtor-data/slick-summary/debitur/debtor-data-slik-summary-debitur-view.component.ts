@@ -105,8 +105,6 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.partyId = this.activatedRoute.snapshot.paramMap.get('managementType');
-
-    console.log('SNAPSHOT', this.activatedRoute.snapshot);
     // this.selectedManagementType = this.activatedRoute.snapshot.data.selectedManagementType;
   }
   ngOnInit(): void {
