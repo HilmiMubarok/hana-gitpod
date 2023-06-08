@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-facility-info-debitur-dialog',
   templateUrl: './facility-info-debitur-dialog.component.html',
+  styleUrls: ['../main-facility-info-child.style.css'],
 })
 export class FacilityInfoDebiturDialogComponent implements OnInit {
   public availablelimit: string;
@@ -54,6 +55,7 @@ export class FacilityInfoDebiturDialogComponent implements OnInit {
         title: '',
         message: 'Are you sure to cancel?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

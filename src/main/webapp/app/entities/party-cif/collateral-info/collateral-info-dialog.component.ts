@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-party-cif-collateral-info-dialog',
   templateUrl: './collateral-info-dialog.component.html',
+  styleUrls: ['./collateral-info.style.scss'],
 })
 export class PartyCifCollateralInfoDialogComponent {
   public collateral: ICollateral;
@@ -47,6 +48,7 @@ export class PartyCifCollateralInfoDialogComponent {
         title: '',
         message: 'Are you sure to cancel?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

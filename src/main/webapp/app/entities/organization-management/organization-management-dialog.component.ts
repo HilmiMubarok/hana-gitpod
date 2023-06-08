@@ -173,6 +173,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
         title: '',
         message: 'Are you sure to cancel?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

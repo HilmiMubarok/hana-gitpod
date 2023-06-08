@@ -25,6 +25,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'jhi-organization-legal-dialog',
   templateUrl: './organization-legal-dialog.component.html',
+  styleUrls: ['../party-cif/party-cif.style.scss'],
   providers: [
     {
       provide: DateAdapter,
@@ -80,7 +81,9 @@ export class OrganizationLegalDialogComponent {
       data: {
         title: '',
         message: 'Are you sure to cancel?',
+        panelClass: 'my-dialog-container-class',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
