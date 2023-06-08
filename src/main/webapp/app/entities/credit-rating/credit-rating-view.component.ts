@@ -180,6 +180,10 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     });
   }
 
+  public industryLable(industry: string) {
+    return this.sectorIndustry.filter(data => data.industry === industry)[0].industryLabel;
+  }
+
   public equityPosition: any;
   public equityPositionDate: any;
 
