@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="view === 'add'">
-  <h2 mat-dialog-title>ADD DOCUMENT CHECKLIST</h2>
+  <h2 mat-dialog-title>ADD DOCUMENT CHECKLIST123</h2>
   <mat-dialog-content>
     <div class="row">
       <div class="col-6">
@@ -125,7 +125,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select  [(ngModel)]="filesStatus" name="status">
+                <mat-select [(ngModel)]="filesStatus" name="status">
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of status" [value]="item">
                     {{ item }}
@@ -194,8 +194,12 @@
       <tbody>
         <tr>
           <td>{{ convertDan(files.category) }}</td>
-          <td><span *ngIf="files.dueDate !== 'null'">{{ files.dueDate | date: 'YYYY-MM-dd' }}</span></td>
-          <td><span *ngIf="files.remarks !== 'null'">{{ convertDan(files.remarks) }}</span></td>
+          <td>
+            <span *ngIf="files.dueDate !== 'null'">{{ files.dueDate | date: 'YYYY-MM-dd' }}</span>
+          </td>
+          <td>
+            <span *ngIf="files.remarks !== 'null'">{{ convertDan(files.remarks) }}</span>
+          </td>
           <td>{{ convertDan(files.status) }}</td>
         </tr>
       </tbody>
@@ -215,9 +219,9 @@
             "
           >
             <img style="width: 300px; border-radius: 20px" [src]="item.url" />
-            <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px">
-              <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
-            </div>
+            <!-- <div style="width: 300px; position: sticky; margin-top: -150px; margin-bottom: 140px"> -->
+            <button mat-raised-button (click)="donwload(item.url, item)"><mat-icon>get_app</mat-icon></button>
+            <!-- </div> -->
           </div>
 
           <div *ngIf="item.name.split('.').indexOf('xlsx') > -1 || item.name.split('.').indexOf('xls') > -1" style="width: 300px">
