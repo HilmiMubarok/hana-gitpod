@@ -437,4 +437,15 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       }
     });
   }
+
+  public getCorporateGurante() {
+    if (
+      this.creditProposal.attributes['creditRatingPricing'] === undefined ||
+      this.creditProposal.attributes['creditRatingPricing'] === null
+    ) {
+      return 'N/A';
+    } else {
+      return this.creditProposal.attributes['creditRatingPricing'];
+    }
+  }
 }
