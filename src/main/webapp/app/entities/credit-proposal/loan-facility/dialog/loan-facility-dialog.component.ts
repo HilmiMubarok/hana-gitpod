@@ -70,6 +70,8 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public masterProduct: IMasterProductParameter;
   public listCategoryLov = [];
   public revolving: Boolean;
+  public logoProvisonFee = {};
+  public logoAdminFee = {};
 
   @Input()
   get collateral() {
@@ -323,6 +325,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.lovRestructMethod();
     this.getFacilityType();
     this.berubah(this.applicationProduct.attributes.facilityType);
+    this.cekData();
+  }
+
+  public cekData() {
+    this.changeAmountType(this.applicationProduct.adminFeeType, 'admin');
+    this.changeAmountType(this.applicationProduct.provisionFeeType, 'provision');
   }
 
   public save(): void {
@@ -856,5 +864,36 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this._dialog.close();
       }
     });
+  }
+
+  public changeAmountType(event, type) {
+    if (type === 'provision') {
+      if (event === '%p.a') {
+        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+      }
+      if (event === 'Amount IDR') {
+        this.logoProvisonFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === 'Amount USD') {
+        this.logoProvisonFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === '') {
+        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+      }
+    }
+    if (type === 'admin') {
+      if (event === '%p.a') {
+        this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+      }
+      if (event === 'Amount IDR') {
+        this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === 'Amount USD') {
+        this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === '') {
+        this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+      }
+    }
   }
 }

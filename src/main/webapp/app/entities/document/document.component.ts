@@ -11,6 +11,7 @@ import { STATUS } from 'app/shared/constants/status.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-document',
@@ -28,6 +29,7 @@ export class DocumentComponent implements OnChanges, OnInit {
 
   @Input()
   public status: string;
+
   public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
   public files: Object[];
   public documents: string;
@@ -35,11 +37,14 @@ export class DocumentComponent implements OnChanges, OnInit {
   public folders: Object[];
   private bucket: string;
   public IfRmEnable: boolean;
+  public showButton: boolean;
   constructor(
     private storageService: StorageService,
     private dialog: MatDialog,
     private collateralAppraisalService: CollateralAppraisalService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {
     this.files = [];
     this.folders = [];
@@ -47,6 +52,7 @@ export class DocumentComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.checkLogin();
     this.setMatrixInput();
+    this.showButtonInApproval();
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateral']) {
@@ -170,27 +176,6 @@ export class DocumentComponent implements OnChanges, OnInit {
       }
     });
   }
-  // public delete(element): void {
-  //   for (let i = 0; i < element.files.length; i++) {
-  //     if (this.collateral) {
-  //       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-  //         this.getBucket().then(() => {
-  //           this.getFiles('collateral', this.collateral.id);
-  //         });
-  //       });
-  //       this.dataKey = element;
-  //     }
-
-  //     if (this.appraisal) {
-  //       this.storageService.deleteFile(this.bucket, element.files[i].key).subscribe(data => {
-  //         this.getBucket().then(() => {
-  //           this.getFiles('appraisal', this.appraisal.id);
-  //         });
-  //       });
-  //       this.dataKey = element;
-  //     }
-  //   }
-  // }
 
   public openDialog(): void {
     const predicate: object = {
@@ -336,6 +321,10 @@ export class DocumentComponent implements OnChanges, OnInit {
   public isRm(): any {
     return this.account.authorities.includes('ROLE_RM');
   }
+  public isDeptHead(): any {
+    return this.account.authorities.includes('ROLE_APR_DEPT_HEAD');
+  }
+
   private setMatrixInput() {
     if (this.isRm()) {
       if (this.account.authorities.length <= 2) {
@@ -350,6 +339,110 @@ export class DocumentComponent implements OnChanges, OnInit {
         this.IfRmEnable = true;
       } else {
         this.IfRmEnable = false;
+      }
+    }
+  }
+
+  public getAuthority() {
+    if (this.account.authorities.includes('ROLE_SURVEYOR')) {
+      console.log('User has ROLE_SURVEYOR authority');
+    } else {
+      console.log('User does not have ROLE_SURVEYOR authority');
+    }
+  }
+
+  public showButtonInApproval(): void {
+    const route = this.router.url.split('/')[3].slice(0, 13).split('?');
+    if (route[0] === 'edit-external') {
+      if (this.account.authorities.includes('ROLE_APR_DEPT_HEAD')) {
+        if (
+          this.status === STATUS.ASSIGNMENT ||
+          this.status === STATUS.RETURNTOADMIN ||
+          this.status === STATUS.APPROVAL_TL ||
+          this.status === STATUS.APPROVE
+        ) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+      }
+      if (this.account.authorities.includes('ROLE_TL')) {
+        if (
+          this.status === STATUS.ASSIGNMENT ||
+          this.status === STATUS.RETURNTOADMIN ||
+          this.status === STATUS.APPROVAL_TL ||
+          this.status === STATUS.APPROVE
+        ) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+      }
+      if (this.account.authorities.includes('ROLE_APR_DH')) {
+        if (
+          this.status === STATUS.ASSIGNMENT ||
+          this.status === STATUS.RETURNTOADMIN ||
+          this.status === STATUS.APPROVAL_TL ||
+          this.status === STATUS.APPROVE
+        ) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+      }
+    }
+
+    if (route[0] === 'edit-internal') {
+      if (this.account.authorities.includes('ROLE_APR_DEPT_HEAD')) {
+        if (
+          this.status === STATUS.ASSIGNMENT ||
+          this.status === STATUS.ASSIGNED ||
+          this.status === STATUS.VISITED ||
+          this.status === STATUS.RETURN_TO_OFFICER ||
+          this.status === STATUS.RETURNTOADMIN ||
+          this.status === STATUS.APPROVAL_TL ||
+          this.status === STATUS.APPROVAL_DEPT_HEAD ||
+          this.status === STATUS.APPROVAL_DH ||
+          this.status === STATUS.APPROVE
+        ) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+      }
+      if (this.account.authorities.includes('ROLE_TL')) {
+        if (
+          this.status === STATUS.ASSIGNMENT ||
+          this.status === STATUS.ASSIGNED ||
+          this.status === STATUS.VISITED ||
+          this.status === STATUS.RETURN_TO_OFFICER ||
+          this.status === STATUS.RETURNTOADMIN ||
+          this.status === STATUS.APPROVAL_TL ||
+          this.status === STATUS.APPROVAL_DEPT_HEAD ||
+          this.status === STATUS.APPROVAL_DH ||
+          this.status === STATUS.APPROVE
+        ) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+      }
+      if (this.account.authorities.includes('ROLE_APR_DH')) {
+        if (
+          this.status === STATUS.ASSIGNMENT ||
+          this.status === STATUS.ASSIGNED ||
+          this.status === STATUS.VISITED ||
+          this.status === STATUS.RETURN_TO_OFFICER ||
+          this.status === STATUS.RETURNTOADMIN ||
+          this.status === STATUS.APPROVAL_TL ||
+          this.status === STATUS.APPROVAL_DEPT_HEAD ||
+          this.status === STATUS.APPROVAL_DH ||
+          this.status === STATUS.APPROVE
+        ) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
       }
     }
   }
