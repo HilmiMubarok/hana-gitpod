@@ -15,6 +15,7 @@ import { CreditProposalService } from '../../credit-proposal.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { CreditProposalLoanFacilityDialogComponent } from '../../loan-facility/dialog/loan-facility-dialog.component';
+import { CpMemoBandingService } from '../services/cp-memo-banding.service';
 
 @Component({
   selector: 'jhi-cp-memo-banding-loan-facility',
@@ -55,6 +56,9 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   disabled = false;
 
   pageEvent: PageEvent;
+
+  totalPlafondCompared;
+  custodyFeeCompared;
 
   public getCurrencyType(element) {
     if (element !== null) {
@@ -98,6 +102,7 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     public _router: Router,
     private creditProposalService: CreditProposalService,
+    private cpMemoBandingservice: CpMemoBandingService,
     protected generalParameterService: GeneralParameterService
   ) {
     this.applicationProduct = new ApplicationProduct();
@@ -108,8 +113,12 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
-      console.log('new cp', this.creditProposal);
-      this.dataProduct = this.creditProposal.products;
+      this.dataProduct = this.cpMemoBandingservice.compareDeepData(this.creditProposal.products, this.creditProposal.products);
+
+      this.cpMemoBandingservice.compareSingleObject(
+        { totalPlafond: Number(this.fungsiSumcredit('both')) },
+        { totalPlafond: Number(this.fungsiSumcredit('both')) }
+      );
     }
   }
 
@@ -127,7 +136,6 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log('ini credit proposal loan ', this.dataProduct);
     this.currency();
     // this.partyCifFunc();
     this.numericFormatOptions = { format: 'N' };
@@ -342,7 +350,6 @@ export class CpMemoBandingLoanFacilityComponent implements OnInit, OnChanges {
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('interest type', this.interestTypeList);
       });
   }
 
