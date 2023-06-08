@@ -25,7 +25,7 @@
 .grid-index-center {
   justify-content: center;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .button-styling {
@@ -123,6 +123,10 @@ mat-card-header {
 @font-face {
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+.mat-column-no {
+  width: 5%;
 }
 /* STYLE MENU ITEM */
 /* .e-menu-wrapper .e-menu .e-menu-item.e-selected,

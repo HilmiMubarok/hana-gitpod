@@ -7,10 +7,14 @@
         <ejs-grid [dataSource]="dataCompliance" allowTextWrap="true">
           <e-columns>
             <e-column field="No" headerText="No" textAlign="center" width="50"></e-column>
-            <e-column field="regulation" headerText="Regulation" textAlign="left" headerTextAlign="left" width="200"> </e-column>
+            <e-column field="regulation" headerText="Regulation" textAlign="left" headerTextAlign="left" width="200">
+              <ng-template #template let-data>
+                <div *ngIf="data.rowSpan === 1" [innerText]="data.regulation"></div>
+              </ng-template>
+            </e-column>
             <e-column headerText="Criteria Of Review" textAlign="left" headerTextAlign="left" width="350">
-              <ng-template #template let-dataCompliance>
-                <div [innerText]="dataCompliance.criteria"></div>
+              <ng-template #template let-data>
+                <div>{{ data.criteria }}</div>
               </ng-template>
             </e-column>
             <e-column headerText="Select" textAlign="left" headerTextAlign="center" width="200">
@@ -84,7 +88,8 @@
               [enableSpellCheck]="false"
               (keyDown)="onKeyDown($event)"
               (created)="onCreate()"
-            ></ejs-documenteditorcontainer>
+            >
+            </ejs-documenteditorcontainer>
           </div>
         </div>
         <div *ngIf="!isShowOpinionFieldInput" class="e-card-header">

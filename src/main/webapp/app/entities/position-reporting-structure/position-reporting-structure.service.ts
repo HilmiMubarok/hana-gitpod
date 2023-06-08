@@ -40,10 +40,13 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
     });
   }
 
-  public findPositionReportingStructureCp(idPosition: number) {
-    return this.http.get<IPositionReportingStructure[]>(`${this.resourceUrlNew}/from/${idPosition}/relation-type/CREDIT_PROPOSAL`, {
-      observe: 'response',
-    });
+  public findPositionReportingStructureCp(idApplication: number) {
+    return this.http.get<IPositionReportingStructure[]>(
+      `${this.resourceUrlNew}/application/${idApplication}/find-base-on-owner/relation-type/CREDIT_PROPOSAL`,
+      {
+        observe: 'response',
+      }
+    );
   }
 
   protected preSave(entity: IPositionReportingStructure) {}

@@ -637,7 +637,7 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Current Interest Rate</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.currentInterestRate" disabled />
+                <input matInput type="text" [ngModel]="applicationProduct.currentInterestRate" disabled />
               </mat-form-field>
             </div>
           </div>
@@ -663,7 +663,7 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Proposed Rate</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.proposedRate" />
+                <input matInput type="number" [(ngModel)]="applicationProduct.pricingRate" />
               </mat-form-field>
             </div>
             <div class="col-4"></div>
@@ -721,21 +721,11 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Provision Fee</mat-label>
                 <input
-                  *ngIf="applicationProduct.provisionFeeType !== '%p.a'"
                   matInput
                   currencyMask
                   type="text"
                   [(ngModel)]="applicationProduct.provisionFeeAmount"
-                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-                  [disabled]="status"
-                  id="fee"
-                />
-
-                <input
-                  *ngIf="applicationProduct.provisionFeeType === '%p.a'"
-                  matInput
-                  type="text"
-                  [(ngModel)]="applicationProduct.provisionFeeAmount"
+                  [options]="logoProvisonFee"
                   [disabled]="status"
                   id="fee"
                 />
@@ -744,7 +734,11 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Rate / Amount Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.provisionFeeType" [disabled]="status">
+                <mat-select
+                  [(ngModel)]="applicationProduct.provisionFeeType"
+                  [disabled]="status"
+                  (selectionChange)="changeAmountType($event.value, 'provision')"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
                     {{ item }}
@@ -776,21 +770,11 @@
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Admin Fee</mat-label>
                 <input
-                  *ngIf="applicationProduct.adminFeeType !== '%p.a'"
                   matInput
                   currencyMask
                   type="text"
                   [(ngModel)]="applicationProduct.adminFeeAmount"
-                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
-                  [disabled]="status"
-                  id="fee"
-                />
-
-                <input
-                  *ngIf="applicationProduct.adminFeeType === '%p.a'"
-                  matInput
-                  type="text"
-                  [(ngModel)]="applicationProduct.adminFeeAmount"
+                  [options]="logoAdminFee"
                   [disabled]="status"
                   id="fee"
                 />
@@ -799,7 +783,11 @@
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Rate / Amount Type</mat-label>
-                <mat-select [(ngModel)]="applicationProduct.adminFeeType" [disabled]="status">
+                <mat-select
+                  [(ngModel)]="applicationProduct.adminFeeType"
+                  [disabled]="status"
+                  (selectionChange)="changeAmountType($event.value, 'admin')"
+                >
                   <mat-option value="">- Please Select -</mat-option>
                   <mat-option *ngFor="let item of listOfValue.rateAmountTypeList" [value]="item">
                     {{ item }}

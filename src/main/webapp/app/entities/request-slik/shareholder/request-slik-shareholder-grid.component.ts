@@ -123,7 +123,7 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
 
   private defineDisplayedColumns(param: string) {
     this.displayedColumns =
-      this.requestSlik.status === 'VERIFY'
+      this.requestSlik.status === 'VERIFY' || this.requestSlik.status === 'COMPLETE'
         ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
         : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'ownership', 'address', 'pep', 'select'];

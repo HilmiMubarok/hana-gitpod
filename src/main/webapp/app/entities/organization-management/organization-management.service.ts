@@ -6,6 +6,7 @@ import { IOrganizationManagement } from './organization-management.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class OrganizationManagementService extends AbstractEntityService<IOrganizationManagement> {
@@ -33,4 +34,10 @@ export class OrganizationManagementService extends AbstractEntityService<IOrgani
   }
 
   protected preSave(entity: IOrganizationManagement) {}
+
+  public idPartySlik: Subject<any> = new Subject();
+
+  public addPartyId(message: any) {
+    this.idPartySlik.next(message);
+  }
 }

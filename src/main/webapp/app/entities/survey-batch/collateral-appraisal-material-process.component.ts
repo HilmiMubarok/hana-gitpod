@@ -78,32 +78,7 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
   public positionIdLocStor: string;
   public subMenu: object[];
   public globalSearchValModel: string;
-  public collateralAppraisalStatusCodes: IOptionNode[] = [
-    {
-      id: 'DRAFT',
-      label: 'Draft',
-    },
-    {
-      id: 'RETURN_TO_RM',
-      label: 'Return To RM',
-    },
-    {
-      id: 'ASSIGNMENT',
-      label: ' Assignment',
-    },
-    {
-      id: 'RETURN_TO_ADMIN',
-      label: 'Return To Admin',
-    },
-    {
-      id: 'APPROVAL_TL',
-      label: 'Approval Team Leader',
-    },
-    {
-      id: 'APPROVE',
-      label: 'Approve',
-    },
-  ];
+  public collateralAppraisalStatusCodes: any[] = [];
   constructor(
     protected _snackBar: MatSnackBar,
     protected stateBoundaryService: StateBoundaryService,
@@ -139,38 +114,22 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
 
   public urlAppraisalProcess = this.router.url === '/batch-apprisal/process';
 
+  public queryListOfViewStatusFilterBy(appMenu: string) {
+    this.cashSurveyAppraisalsService
+      .queryListOfViewStatusFilterBy({
+        page: 0,
+        size: 9999,
+        sort: ['id', 'asc'],
+        appMenuId: appMenu,
+      })
+      .subscribe((res: any) => {
+        this.collateralAppraisalStatusCodes = res.body;
+      });
+  }
+
   public filterStatusCode() {
     if (this.urlAppraisalProcess) {
-      this.collateralAppraisalStatusCodes = [
-        {
-          id: 'ASSIGNED',
-          label: 'Assigned',
-        },
-        {
-          id: 'VISITED',
-          label: 'Visited',
-        },
-        {
-          id: 'RETURN_TO_OFFICER',
-          label: 'Return To Officer',
-        },
-        {
-          id: 'APPROVAL_TL',
-          label: 'Approval Team Leader',
-        },
-        {
-          id: 'APPROVAL_DEPT_HEAD',
-          label: 'Approval Dept Head',
-        },
-        {
-          id: 'APPROVAL_DH',
-          label: 'Approval Div Head',
-        },
-        {
-          id: 'APPROVED',
-          label: 'Approve',
-        },
-      ];
+      this.queryListOfViewStatusFilterBy('APPRAISAL_PROCESS');
     }
   }
   public findCreditProposalBySurveyAppraisal(params: ISurveyAppraisals): void {
@@ -358,13 +317,13 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     moveItemInArray(this.collateralAppraisalStatusCodes, event.previousIndex, event.currentIndex);
   }
 
-  public chipClick(option: IOptionNode): void {
+  public chipClick(option: any): void {
     this.page = 0;
-    if (this.clickedChip === option.id) {
+    if (this.clickedChip === option.stautsId) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
     } else {
-      this.clickedChip = option.id;
+      this.clickedChip = option.statusId;
     }
 
     this.loadAll();

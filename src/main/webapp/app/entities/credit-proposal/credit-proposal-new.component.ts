@@ -115,11 +115,23 @@ export class CreditProposalNewComponent {
                 }
               },
               error => {
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error',
-                  detail: error.error.detail,
-                });
+                if (error.error.detail.includes('have an active credit proposal')) {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail:
+                      'Currently, credit proposal on behalf of CIF ' +
+                      this.currentSearch +
+                      ' is still on process (incomplete), please complete your current credit proposal process first.',
+                  });
+                } else {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: error.error.detail,
+                  });
+                }
+
                 // Tindakan lain yang ingin Anda lakukan saat terjadi error dari backend
               }
             );
@@ -132,17 +144,27 @@ export class CreditProposalNewComponent {
 
             this.creditProposalService.create(creditProposal, { idPosition: this.getLocStor('POS') }).subscribe(
               res3 => {
-                console.log('res 3 person', res3);
                 if (res3.body) {
                   this.router.navigate([this.router.url.split('/')[1]]);
                 }
               },
               error => {
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Error',
-                  detail: error.error.detail,
-                });
+                if (error.error.detail.includes('have an active credit proposal')) {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail:
+                      'Currently, credit proposal on behalf of CIF ' +
+                      this.currentSearch +
+                      ' is still on process (incomplete), please complete your current credit proposal process first.',
+                  });
+                } else {
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: error.error.detail,
+                  });
+                }
                 // Tindakan lain yang ingin Anda lakukan saat terjadi error dari backend
               }
             );

@@ -94,8 +94,8 @@
                 (selectionChange)="onSelectionChange($event)"
               >
                 <mat-option value="">Please Select</mat-option>
-                <mat-option *ngFor="let item of sectorIndustry" [value]="item.code">
-                  {{ item.value }}
+                <mat-option *ngFor="let item of sectorIndustry" [value]="item.industry">
+                  {{ item.industryLabel }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -115,7 +115,7 @@
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Rating Corporate Guarantee</mat-label>
-                <input matInput type="text" [(ngModel)]="creditProposal.attributes['creditRatingPricing']" disabled />
+                <input matInput type="text" [value]="getCorporateGurante()" disabled />
               </mat-form-field>
             </div>
           </section>
@@ -124,7 +124,7 @@
               <div class="col-3">Rating Corporate Guarantee</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
-                {{ creditProposal.attributes['creditRatingPricing'] }}
+                {{ getCorporateGurante() }}
               </div>
             </div>
           </section>

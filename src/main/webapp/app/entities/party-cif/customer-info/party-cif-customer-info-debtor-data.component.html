@@ -246,7 +246,7 @@
           <mat-label>Call Report Category</mat-label>
           <mat-select name="callReportCategoryData" [(ngModel)]="partyCif.debtorData.callReportCategory">
             <mat-option value="">- Please Select -</mat-option>
-            <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
+            <mat-option *ngFor="let item of callReportCategoryData" [value]="item.value">
               {{ item.value }}
             </mat-option>
           </mat-select>
@@ -266,13 +266,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Modal Disetor</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partyCif.debtorData.depositCapital | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="partyCif.debtorData.depositCapital = currencyInputChanged($event)"
-            [disabled]="true"
-          />
+          <input matInput type="text" [ngModel]="partyCif.debtorData.equityName" [disabled]="true" />
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
@@ -280,7 +274,7 @@
           <div class="col">Modal Disetor</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyCif.debtorData.depositCapital }}
+            {{ partyCif.debtorData.equityName }}
           </div>
         </div>
       </section>
@@ -289,13 +283,7 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Penjualan Tahunan</mat-label>
-          <input
-            matInput
-            type="text"
-            [ngModel]="partyCif.debtorData.annualSales | currency: 'IDR ':'symbol':'1.0-0'"
-            (ngModelChange)="partyCif.debtorData.annualSales = currencyInputChanged($event)"
-            [disabled]="true"
-          />
+          <input matInput type="text" [ngModel]="partyCif.debtorData.annualSalesName" [disabled]="true" />
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
@@ -303,7 +291,7 @@
           <div class="col">Penjualan Tahunan</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyCif.debtorData.annualSales }}
+            {{ partyCif.debtorData.annualSalesName }}
           </div>
         </div>
       </section>
@@ -312,18 +300,23 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Category Debitur</mat-label>
+          <input matInput [(ngModel)]="partyCif.debtorData.categoryDebtorCode" [disabled]="true" />
+          <!-- <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option> -->
+        </mat-form-field>
+        <!-- <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Category Debitur</mat-label>
           <mat-select [(ngModel)]="partyCif.debtorData.umkmCategory" [disabled]="true">
             <mat-option value="">Please Select</mat-option>
             <mat-option *ngFor="let item of categoryDebtor | keyvalue" [value]="item.key">{{ item.value }}</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
       </section>
       <section *jhiMatrixDirIDD="''">
         <div class="fontsebled row">
           <div class="col">Category Debitur</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ partyCif.debtorData.umkmCategory }}
+            {{ partyCif.debtorData.categoryDebtorCode }}
           </div>
         </div>
       </section>
@@ -332,8 +325,8 @@
       <section *jhiMatrixDirIDD="'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Klasifikasi UMKM</mat-label>
-          <input matInput [(ngModel)]="partyCif.debtorData.umkmClassification" [disabled]="true"/>
-            <!-- <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option> -->
+          <input matInput [(ngModel)]="partyCif.debtorData.umkmClassification" [disabled]="true" />
+          <!-- <mat-option *ngFor="let item of umkmClassification | keyvalue" [value]="item.key">{{ item.value }} </mat-option> -->
         </mat-form-field>
       </section>
       <section *jhiMatrixDirIDD="''">
@@ -353,7 +346,7 @@
             <mat-label>IFC & Risk Category</mat-label>
             <mat-select name="riskCategory" [(ngModel)]="partyCif.debtorData.ifcRiskCategory">
               <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.code">
+              <mat-option *ngFor="let item of ifcRiskCategoryData" [value]="item.value">
                 {{ item.value }}
               </mat-option>
             </mat-select>

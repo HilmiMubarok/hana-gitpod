@@ -51,6 +51,16 @@ td.mat-footer-cell:first-of-type {
   padding-left: 84px;
 }
 
+.mat-header-cell:first-child {
+  width: 5%;
+  border-top-left-radius: 15px;
+}
+
+.mat-header-cell:last-child {
+  width: 10%;
+  border-top-right-radius: 15px;
+}
+
 th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {
@@ -73,4 +83,51 @@ element.style {
   background: rgba(49, 158, 152, 1);
   color: #000000;
   font-size: 15px;
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+
+.grid-index-left {
+  justify-content: flex-start;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.grid-index-center {
+  justify-content: center;
+  text-align: center;
+  font-family: 'Poppins', sans-serif !important;
+}
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff;
+}
+
+.mat-column-facilityCategory {
+  text-align: left !important;
+}
+
+.mat-column-mainPlafond {
+  text-align: rigth !important;
+}
+
+.mat-column-outstanding {
+  text-align: rigth !important;
 }

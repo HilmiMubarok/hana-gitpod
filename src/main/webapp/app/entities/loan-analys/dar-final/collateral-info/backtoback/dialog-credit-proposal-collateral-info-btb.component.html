@@ -6,13 +6,6 @@
           <div class="row">
             <div class="col-md-6" style="padding: 10px">
               <div class="form-group">
-                <!-- <ejs-textbox
-                  disabled
-                  [(ngModel)]="collateralProperty.attributes.branch"
-                  placeholder="Management Branch"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                ></ejs-textbox> -->
                 <div class="form-group">
                   <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Management Branch</mat-label>
@@ -44,15 +37,6 @@
                 </mat-form-field>
               </div>
 
-              <!-- <div class="form-group">
-                <ejs-textbox
-                  disabled
-                  [(ngModel)]="collateralProperty.marketValue"
-                  placeholder="Collateral Value"
-                  cssClass="e-outline"
-                  floatLabelType="Always"
-                ></ejs-textbox>
-              </div> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral Value</mat-label>
                 <input matInput type="text" [value]="getCurrency() + ' ' + (countMVOriginal() | number)" disabled />
@@ -145,15 +129,6 @@
                 </section>
               </div>
 
-              <!-- <div class="form-group">
-                <ejs-textbox
-                  [(ngModel)]="collateral.statusCode"
-                  placeholder="Collateral Status"
-                  cssClass="e-outline"
-                  floatLabelType="Auto"
-                ></ejs-textbox>
-              </div> -->
-
               <div class="form-group">
                 <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
                   <ejs-textbox
@@ -214,16 +189,6 @@
                     />
                     <mat-datepicker-toggle matSuffix [for]="bindingDate" [disabled]="isViewMode === true"></mat-datepicker-toggle>
                     <mat-datepicker #bindingDate [disabled]="isViewMode === true"></mat-datepicker>
-                    <!-- <input
-                      [disabled]="isViewMode === true"
-                      [matDatepicker]="bindingDate"
-                      [formControl]="date"
-                      matInput
-                      type="text"
-                      [(ngModel)]="collateral.bindingDate"
-                    />
-                    <mat-datepicker-toggle matSuffix [disabled]="isViewMode === true" [for]="bindingDate"></mat-datepicker-toggle>
-                    <mat-datepicker [disabled]="isViewMode === true" #bindingDate></mat-datepicker> -->
                   </section>
                   <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
                     <input

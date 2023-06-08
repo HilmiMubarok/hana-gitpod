@@ -13,6 +13,7 @@ import { DebtorDataViewUploadComponent } from './debtor-data-silk-upload/debtor-
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { OrganizationManagementService } from 'app/entities/organization-management/organization-management.service';
 
 @Component({
   selector: 'jhi-debtor-data-slik-summary-debitur-view',
@@ -25,6 +26,7 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
   public bucket: string;
   public parentPath = this.router.url.split('/')[1];
   public isCpApproval: boolean;
+  partyId;
 
   public bulan: any = [
     {
@@ -92,7 +94,8 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     public TransferService: DebtorDataSlikTransferService,
     private storageService: StorageService,
     private router: Router,
-    public creditProposalService: CreditProposalService
+    public creditProposalService: CreditProposalService,
+    protected organizationManagementService: OrganizationManagementService
   ) {
     super(_snackBar, partySlikService);
     this.loading = false;
@@ -100,6 +103,8 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.partyCifStartState = this.activatedRoute.snapshot.data['content'];
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.partyId = this.activatedRoute.snapshot.paramMap.get('managementType');
     // this.selectedManagementType = this.activatedRoute.snapshot.data.selectedManagementType;
   }
   ngOnInit(): void {
@@ -109,22 +114,19 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     this.getFiles();
   }
 
+  public setPartyId: any;
+
   dataSource;
   private getFiles(): void {
+    const idPartySlik = sessionStorage.getItem('idParty');
     const subFolder = [];
     this.folders = [];
     const predicate: Object = {
-      key: `/party_slik/${this.partyCif.partyId}`,
+      key: `/party_slik/${this.partyId}`,
     };
     this.storageService.getBucketName().subscribe((response: any) => {
       this.storageService.getObjects(response.body.bucket, predicate).subscribe((res: any) => {
         this.dataSource = res.body;
-        // for (let i = 0; i < res.body.length; i++) {
-        //   if (res.body[i].tags.managementType === this.selectedManagementType) {
-        //     subFolder.push(res.body[i]);
-        //     this.folders = [...subFolder];
-        //   }
-        // }
       });
     });
   }

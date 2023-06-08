@@ -363,7 +363,7 @@
                 </mat-form-field> -->
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal Maksimum LLL (%)</mat-label>
-                  <input matInput type="text" [(ngModel)]="creditRatings.internalMaxLLL" />
+                  <input matInput type="number" [(ngModel)]="creditRatings.internalMaxLLL" />
                 </mat-form-field>
               </section>
               <section *jhiMatrixDirIDD="''">
@@ -472,10 +472,11 @@
               <section *jhiMatrixDirIDD="'input'">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Sector Industry</mat-label>
-                  <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industry']">
+                  <mat-select name="sectorIndustry" [(ngModel)]="partyCif.creditRatings[0].attributes['industryCode']">
                     <mat-option value="">Please Select</mat-option>
-                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.value">
-                      {{ item.value }}
+                    <mat-option *ngFor="let item of sectorIndustry" [value]="item.industry">
+                      {{ item.industryLabel }}
+
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -485,7 +486,7 @@
                   <div class="col">Sector Industry</div>
                   <div class="col-md-auto">:</div>
                   <div class="col">
-                    {{ partyCif.creditRatings[0].attributes['industry'] }}
+                    {{ industryLable(partyCif.creditRatings[0].attributes['industryCode']) }}
                   </div>
                 </div>
               </section>

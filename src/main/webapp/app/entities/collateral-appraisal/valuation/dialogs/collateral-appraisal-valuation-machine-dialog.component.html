@@ -43,40 +43,33 @@
           <!-- LEFT SIDE -->
           <div class="col-6">
             <section class="mt-2">
-              <ejs-numerictextbox
-                cssClass="e-outline"
-                [(ngModel)]="collateralProp.machineMarketValue"
-                placeholder="Market Value"
-                floatLabelType="auto"
-                format="IDR 0,"
-                min="0"
-                required
-                [disabled]="hideordisable()"
-              >
-              </ejs-numerictextbox>
-              <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Market Value</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProp.machineMarketValue" />
-            </mat-form-field> -->
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Market Value</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="collateralProp.machineMarketValue"
+                  [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="hideordisable()"
+                />
+              </mat-form-field>
             </section>
           </div>
           <!-- RIGHT SIDE -->
           <div class="col-6">
             <section class="mt-2">
-              <ejs-textbox
-                cssClass="e-outline"
-                type="number"
-                [(ngModel)]="collateralProp.machinePercentage"
-                placeholder="Percentage"
-                floatLabelType="auto"
-                required
-                [disabled]="hideordisable()"
-              >
-              </ejs-textbox>
-              <!-- <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Percentage</mat-label>
-              <input matInput type="number" [(ngModel)]="collateralProp.machinePercentage" />
-            </mat-form-field> -->
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Percentage</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="collateralProp.machinePercentage"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  [disabled]="hideordisable()"
+                />
+              </mat-form-field>
             </section>
           </div>
         </div>
@@ -133,38 +126,33 @@
           <!-- LEFT SIDE -->
           <div class="col-6">
             <section class="mt-2">
-              <ejs-numerictextbox
-                cssClass="e-outline"
-                [(ngModel)]="collateralProp.machineMarketValue"
-                placeholder="Market Value"
-                floatLabelType="auto"
-                format="IDR 0,"
-                min="0"
-                disabled
-              >
-              </ejs-numerictextbox>
-              <!-- <mat-form-field class="w-100" appearance="outline">
+              <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Market Value</mat-label>
-                <input matInput type="number" [(ngModel)]="collateralProp.machineMarketValue" />
-              </mat-form-field> -->
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="collateralProp.machineMarketValue"
+                  [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                  disabled
+                />
+              </mat-form-field>
             </section>
           </div>
           <!-- RIGHT SIDE -->
           <div class="col-6">
             <section class="mt-2">
-              <ejs-textbox
-                cssClass="e-outline"
-                type="number"
-                [(ngModel)]="collateralProp.machinePercentage"
-                placeholder="Percentage"
-                floatLabelType="auto"
-                disabled
-              >
-              </ejs-textbox>
-              <!-- <mat-form-field class="w-100" appearance="outline">
+              <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Percentage</mat-label>
-                <input matInput type="number" [(ngModel)]="collateralProp.machinePercentage" />
-              </mat-form-field> -->
+                <input
+                  matInput
+                  currencyMask
+                  type="text"
+                  [(ngModel)]="collateralProp.machinePercentage"
+                  [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
+                  disabled
+                />
+              </mat-form-field>
             </section>
           </div>
         </div>

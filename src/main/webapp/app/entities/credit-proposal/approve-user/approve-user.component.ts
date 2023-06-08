@@ -83,7 +83,7 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
   }
 
   private getReportingStructureByCP(): void {
-    this.positionReportingStructureService.findPositionReportingStructureCp(this.positionIdLocStor).subscribe(res => {
+    this.positionReportingStructureService.findPositionReportingStructureCp(this.creditProposal.id).subscribe(res => {
       this.filteringItems = res.body;
     });
   }

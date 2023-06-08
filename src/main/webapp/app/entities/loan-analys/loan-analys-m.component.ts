@@ -163,17 +163,6 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     return;
   }
 
-  private convertStatus(status: string) {
-    let _status: string;
-    _status = '';
-    if (status === 'DRAFT') {
-      _status = status;
-    } else {
-      _status = 'CP_' + status.replace(/ /g, '_');
-    }
-    return _status;
-  }
-
   public chipClick(option: object): void {
     this.page = 0;
     if (this.clickedChip === option) {
@@ -241,7 +230,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysDistribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -271,7 +260,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisys({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -301,7 +290,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysSMECRC({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -331,7 +320,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -361,7 +350,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysInquiry({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -391,7 +380,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysDarfinal({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -421,7 +410,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysDarLoanKomiteApproval({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -451,7 +440,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysDarNotif({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -481,7 +470,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysCCDistribution({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -511,7 +500,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysCCChecking({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -541,7 +530,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysCCInquiry({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -571,7 +560,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysCCRevew({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -601,7 +590,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
           this.cashLoanAnalysService
             .loanAnalisysDarChecker({
               page: this.page,
-              idStatus: this.convertStatus(this.clickedChip['statusId']),
+              idStatus: this.clickedChip['statusId'],
               idPosition: this.getLocStor('POS'),
               size: this.itemsPerPage,
               sort: this.sortData(),
@@ -731,7 +720,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
       .queryListOfViewStatusFilterBy({
         page: 0,
         size: 9999,
-        sort: ['DESC'],
+        sort: ['id', 'asc'],
         appMenuId: appMenu,
       })
       .subscribe((res: any) => {

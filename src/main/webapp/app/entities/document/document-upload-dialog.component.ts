@@ -135,7 +135,7 @@ export class DocumentUploadDialogComponent implements OnInit {
     }
 
     if (!this.document.documentNumber) {
-      this._snackBar.open('Masukan nomor dokumen', null, {
+      this._snackBar.open('Masukan nama dokumen', null, {
         horizontalPosition: 'right',
         verticalPosition: 'top',
         duration: 3000,

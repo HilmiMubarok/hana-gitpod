@@ -1629,6 +1629,11 @@ export const APPRAISAL_DEPT_CREDIT_LEGAL_LEAD: ISidebarMenuModel[] = [
     iconname: 'square-check',
     children: [
       {
+        name: 'Distribution Offering Letter',
+        iconname: 'minus',
+        route: 'distribution',
+      },
+      {
         name: 'Offering Letter Review',
         iconname: 'minus',
         route: 'review',

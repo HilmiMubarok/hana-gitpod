@@ -14,6 +14,8 @@ import { PositionService } from 'app/entities/position/position.service';
 import { IComplienceReccomendation } from './complience.model';
 import { StorageService } from 'app/entities/storage/storage.service';
 import { takeUntil, Subject } from 'rxjs';
+import { MasterComplianceChecklistService } from 'app/entities/master-parameter/compliance-checklist/master-compliance-checklist.service';
+import { ComplianceChecklistCriteriaService } from 'app/entities/master-parameter/compliance-checklist/compliance-checklist-criteria/compliance-checklist-criteria.service';
 @Component({
   selector: 'jhi-loan-analys-compliance',
   templateUrl: './loan-analys-compliance.component.html',
@@ -25,9 +27,7 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
   public container: DocumentEditorContainerComponent;
   @ViewChild('document_editor')
   public documentEditor: DocumentEditorComponent;
-  public regulation: string;
   public value: string;
-  public criteria: string;
   public remarks?: any = [];
   public attributes: any;
   public _creditProposal: ICreditProposal;
@@ -65,7 +65,9 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     protected positionService: PositionService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    public storageService: StorageService
+    public storageService: StorageService,
+    protected masterComplianceChecklistService: MasterComplianceChecklistService,
+    protected complianceChecklistCriteriaService: ComplianceChecklistCriteriaService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['loanAnalys'];
     this.activatedRoute.params.subscribe(params => {
@@ -102,359 +104,75 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     this.creditProposal.attributes['complienceReccomendation'].remarks = this.dataCompliance;
   }
 
-  // for grid one
-  public dataCompliance = [
-    {
-      No: 1,
-      regulation: 'Ketersediaan Laporan keuangan',
-      criteria: 'Audited (asset/sales ≥ Rp 50 bio atau merupakan perusahaan terbuka)',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 2,
-      regulation: '',
-      criteria: 'Inhouse Long Form (Rp 25 bio ≤ asset/sales < Rp 50 bio)',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 3,
-      regulation: '',
-      criteria: 'Inhouse Short Form (asset/sales < Rp 25 bio)',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 4,
-      regulation: '',
-      criteria: 'Khusus debitur Yayasan Audited (asset/kekayaan di luar harta wakaf ≥ Rp 20 bio)',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 5,
-      regulation: 'Batas Maksimum Pemberian Kredit (BMPK)',
-      criteria:
-        'Pihak Terkait BMPK sebesar 10% dari Total Modal Bank Terdapat Persetujuan Dewan Komisaris Bank (Khusus untuk penyediaan dana kepada Pihak Terkait) ',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 6,
-      regulation: '',
-      criteria: 'Pihak Tidak Terkait - Individu BMPK sebesar 25% dari Modal Inti Bank',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 7,
-      regulation: '',
-      criteria: 'Pihak Tidak Terkait - Group BMPK sebesar 25% dari Modal Inti Bank',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 8,
-      regulation: '',
-      criteria: 'BUMN BMPK sebesar 30% dari Total Modal Bank',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 9,
-      regulation: '',
-      criteria: 'Jaminan',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 10,
-      regulation: 'Tujuan Penggunaan Kredit',
-      criteria:
-        'Bukan untuk jual beli saham kepada orang perorang atau perusahaan yang bukan perusahaan efek ' +
-        'dan tidak melampaui persentasi jumlah pemberian kredit sebagaimana ketentuan POJK No.40/POJK.03/2017 tentang ' +
-        'Kredit atau Pembiayaan kepada Perusahaan Efek dan Kredit atau Pembiayaan dengan Agunan Saham',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 11,
-      regulation: '',
-      criteria: 'Bukan untuk pemberian kredit kepada Pihak Asing',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 12,
-      regulation: '',
-      criteria: 'Bukan Termasuk kredit Negatif/Macet',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 13,
-      regulation: '',
-      criteria: 'Bukan untuk transaksi derivatif',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 14,
-      regulation: '',
-      criteria: 'Bukan untuk membiayai margin deposit',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 15,
-      regulation: '',
-      criteria:
-        'Bukan untuk pengadaan dan/atau pengolahan tanah kepada pengembang baik langsung maupun tidak langsung, ' +
-        'pengecualian berlaku hanya sebagaimana ketentuan POJK No.44/POJK.03/2017 tentang Pembatasan Pemberian Kredit ' +
-        'atau Pembiayaan oleh Bank Umum untuk Pengadaan tanah dan/atau Pengolahan Tanah dan perubahannya',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 16,
-      regulation: '',
-      criteria:
-        'Bukan pemberian kredit untuk penyelesaian kredit bermasalah dengan cara menambahkan plafond kredit atau tunggakan-tunggakan bunga dan mengkapitalisasi tunggakan bunga (plafondering) sebagaimana dilarang dalam POJK No. 42/POJK.03/2017 tentang Kewajiban Penyusunan dan Pelaksanaan Kebijakan Perkreditan atau Pembiayaan Bank bagi Bank Umum.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 17,
-      regulation: '',
-      criteria:
-        'Memiliki izin lingkungan berupa AMDAL (Analisis Mengenai Dampak Lingkungan) dan/atau UKL UPL (Upaya Pengelolaan Lingkungan Hidup dan Upaya Pemantauan Lingkungan Hidup).',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 18,
-      regulation: 'Khusus untuk perusahaan pembiayaan',
-      criteria: 'Jangka waktu pengembalian pinjaman paling singkat 1 tahun.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 19,
-      regulation: '',
-      criteria: 'Dituangkan dalam bentuk perjanjian akta notaril.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 20,
-      regulation: '',
-      criteria: 'Tidak dapat diperpanjang secara otomatis (automatic roll over)',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 21,
-      regulation: '',
-      criteria: 'Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 22,
-      regulation: '',
-      criteria: 'Memiliki tingkat kesehatan keuangan dengan kondisi minimum sehat.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 23,
-      regulation: '',
-      criteria: 'Memiliki tingkat risiko perusahaan dengan kondisi minimum sedang rendah.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 24,
-      regulation: 'Khusus untuk Bank Perkreditan Rakyat',
-      criteria: 'Wajib memiliki izin OJK.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 25,
-      regulation: '',
-      criteria: 'Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 26,
-      regulation: '',
-      criteria: 'Memiliki tingkat kesehatan keuangan dengan kondisi minimum peringkat komposit 3 (tiga).',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 27,
-      regulation: '',
-      criteria: 'Gearing ratio paling sedikit 5% (lima persen).',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 28,
-      regulation: 'Khusus untuk Perusahaan Modal Ventura',
-      criteria: 'Wajib memiliki izin OJK.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 29,
-      regulation: '',
-      criteria:
-        'Wajib memiliki penyertaan saham dan/atau penyertaan melalui pembelian obligasi konversi paling rendah sebesar 15% (lima belas persen) dari total kegiatan usaha.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 30,
-      regulation: '',
-      criteria: 'Memiliki tingkat kesehatan keuangan dengan kondisi minimum sehat.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 31,
-      regulation: '',
-      criteria: 'Memiliki Ekuitas paling sedikit Rp50.000.000.000,00 (lima puluh miliar rupiah).',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 32,
-      regulation: '',
-      criteria: 'Gearing ratio paling rendah 0 (nol) dan paling tinggi 10 (sepuluh) kali.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 33,
-      regulation: 'Khusus untuk debitur yayasan',
-      criteria: 'Tujuan pendirian yayasan bukan untuk kegiatan usaha atau bisnis keluarga.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 34,
-      regulation: '',
-      criteria: 'Masa jabatan pengurus/pembina tidak melebihi jangka waktu 5 tahun dan dapat diangkat kembali untuk 1 kali masa jabatan.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 35,
-      regulation: '',
-      criteria:
-        'Pendapatan yayasan tidak dapat dijadikan analisa kemampuan membayar debitur yang tercatat sebagai pembina/pengurus/pengawas yayasan.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 36,
-      regulation: 'Khusus Perusahaan Sekuritas/LKNB',
-      criteria:
-        'Bank dilarang memberikan kredit atau pembiayaan untuk jual beli saham kepada orang  perseorangan atau perusahaan yang bukan Perusahaan Efek.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 37,
-      regulation: '',
-      criteria:
-        'Bank  hanya  dapat  memberikan  kredit  atau  pembiayaan kepada  suatu  Perusahaan  Efek  masing-masing paling tinggi  sebesar  jumlah  yang  terkecil  antara  25% dari  modal  Perusahaan  Efek  yang bersangkutan  atau 15%  dari  modal Bank',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 38,
-      regulation: '',
-      criteria: 'Kredit kepada seluruh Perusahaan Efek paling tinggi sebesar 30% dari modal Bank',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 39,
-      regulation: 'Khusus Pemberian Kredit Sindikasi',
-      criteria:
-        'Dalam pemberian Kredit atau Pembiayaan sindikasi, analisis Kredit atau Pembiayaan bagi Bank yang merupakan anggota sindikasi harus meliputi pula penilaian terhadap Bank yang bertindak sebagai bank induk',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 40,
-      regulation: 'Khusus Untuk Restrukturisasi',
-      criteria: 'Debitur mengalami kesulitan pembayaran pokok dan/atau bunga Kredit',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 41,
-      regulation: '',
-      criteria: 'Debitur masih memiliki prospek usaha yang baik dan dinilai mampu memenuhi kewajiban setelah Kredit direstrukturisasi',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 42,
-      regulation: '',
-      criteria: 'Restrukturisasi Kredit tidak bertujuan untuk memperbaiki kualitas Kredit',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 43,
-      regulation: '',
-      criteria: 'Restrukturisasi Kredit tidak bertujuan untuk menghindari peningkatan pembentukan PPKA',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 44,
-      regulation: '',
-      criteria:
-        'Apabila kredit yang akan direstrukturisasi merupakan Kredit kepada Pihak Terkait maka wajib dianalisis oleh konsultan keuangan independen yang memiliki izin usaha dan reputasi yang baik.',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 45,
-      regulation: '',
-      criteria:
-        'Restrukturisasi Kredit dilakukan antara lain dengan cara: Penurunan suku bunga Kredit; Perpanjangan jangka waktu Kredit; Pengurangan tunggakan pokok Kredit; Pengurangan tunggakan bunga Kredit; Penambahan fasilitas Kredit; Konversi Kredit menjadi Penyertaan Modal Sementara; dan/atau Upaya Perbaikan Lainnya',
-      value: '',
-      remarks: '',
-    },
-    {
-      No: 46,
-      regulation: '',
-      criteria:
-        'Khusus untuk restrukturisasi Covid – 19, Bank wajib memastikan bahwa debitur mampu terus bertahan dari dampak COVID-19 dan masih memiliki potensi kemampuan pembayaran pasca pandemi.',
-      value: '',
-      remarks: '',
-    },
-  ];
+  public dataCompliance = [];
+
+  public getCriteriaCompliance(): void {
+    this.complianceChecklistCriteriaService
+      .filterTableData({
+        isActive: true,
+        page: 0,
+        size: 9999,
+        sort: ['itemNo', 'asc'], // Sort berdasarkan itemNo
+      })
+      .subscribe(res => {
+        if (res.body.length > 0) {
+          const sortedData = res.body.sort((a, b) => {
+            if (a.regulationName < b.regulationName) {
+              return -1;
+            } else if (a.regulationName > b.regulationName) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }); // Mengurutkan data berdasarkan regulationName
+          const data = [];
+          let prevRegulation = '';
+          let rowSpanCount = 0;
+          for (let i = 0; i < sortedData.length; i++) {
+            const currentRegulation = sortedData[i].regulationName;
+            if (prevRegulation === currentRegulation) {
+              rowSpanCount++;
+            } else {
+              rowSpanCount = 1;
+              prevRegulation = currentRegulation;
+            }
+            const num = i + 1;
+            data.push({
+              No: num,
+              regulation: prevRegulation,
+              criteria: sortedData[i].criteria,
+              value: '',
+              remarks: '',
+              rowSpan: rowSpanCount === 1 ? rowSpanCount : -1, // Mengatur rowSpan hanya pada baris pertama regulasi
+            });
+          }
+          this.dataCompliance = data;
+          if (this.creditProposal.attributes['complienceReccomendation'].complienceRec.length === 0) {
+            this.creditProposal.attributes['complienceReccomendation'].complienceRec = this.dataCompliance;
+          } else {
+            for (let i = 0; i < this.creditProposal.attributes['complienceReccomendation'].complienceRec.length; i++) {
+              this.dataCompliance = this.creditProposal.attributes['complienceReccomendation'].complienceRec;
+              // this.remarks[i] = this.item.attributes['cpRacBelow'].cpValueBot[i].remarks;
+              this.remarks[i] = this.creditProposal.attributes['complienceReccomendation'].complienceRec[i].remarks;
+            }
+          }
+        }
+      });
+  }
 
   ngOnInit(): void {
+    this.getCriteriaCompliance();
+
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
 
-    if (this.creditProposal.attributes['complienceReccomendation'].complienceRec.length !== 0) {
-      for (let i = 0; i < this.creditProposal.attributes['complienceReccomendation'].complienceRec.length; i++) {
-        this.dataCompliance = this.creditProposal.attributes['complienceReccomendation'].complienceRec;
-        this.remarks[i] = this.creditProposal.attributes['complienceReccomendation'].complienceRec[i].remarks;
-      }
-    }
+    // if (this.creditProposal.attributes['complienceReccomendation'].complienceRec.length !== 0) {
+    //   for (let i = 0; i < this.creditProposal.attributes['complienceReccomendation'].complienceRec.length; i++) {
+    //     this.dataCompliance = this.creditProposal.attributes['complienceReccomendation'].complienceRec;
+    //     this.remarks[i] = this.creditProposal.attributes['complienceReccomendation'].complienceRec[i].remarks;
+    //   }
+    // }
+
     this.remaksCondition();
     this.conditionDisableCompliance();
 
@@ -476,7 +194,6 @@ export class LoanAnalysComplianceComponent implements OnInit, OnChanges {
     return result;
   }
 
-  public test() {}
   public tools: object = {
     items: [
       'FontName',

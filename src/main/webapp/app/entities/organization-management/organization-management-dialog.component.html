@@ -22,15 +22,13 @@
       <section class="py-3 mb-4">
         <div class="row">
           <div class="row">
-            <mat-radio-group
-              aria-label="Customer Type"
-              name="radioButtons"
-              [(ngModel)]="customerType"
-              (change)="onChange($event.value)"
-              [disabled]="this.data.organizationManagement.id !== undefined"
-            >
-              <mat-radio-button [value]="'individu'">Individu</mat-radio-button>
-              <mat-radio-button [value]="'corporate'">Corporate</mat-radio-button>
+            <mat-radio-group aria-label="Customer Type" name="radioButtons" [(ngModel)]="customerType" (change)="onChange($event.value)">
+              <mat-radio-button [value]="'individu'" [disabled]="this.data.organizationManagement.id !== undefined"
+                >Individu</mat-radio-button
+              >
+              <mat-radio-button [value]="'corporate'" [disabled]="this.data.organizationManagement.id !== undefined"
+                >Corporate</mat-radio-button
+              >
             </mat-radio-group>
           </div>
         </div>

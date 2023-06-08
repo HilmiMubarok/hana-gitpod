@@ -18,6 +18,7 @@ import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import lodash from 'lodash';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { IndustryLimitExposureParameterService } from 'app/entities/master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -112,7 +113,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     private actRoute: ActivatedRoute,
     public creditProposalService: CreditProposalService,
     private http: HttpClient,
-    public generalParameterService: GeneralParameterService
+    public generalParameterService: GeneralParameterService,
+    public industryLimitExposureParameterService: IndustryLimitExposureParameterService
   ) {
     this.countOS = 0;
     this.availableLimit = 0;
@@ -131,9 +133,8 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public getListIndustry() {
-    this.generalParameterService
-      .queryFilterBy({
-        idParameterType: 'SECTOR_INDUSTRY',
+    this.industryLimitExposureParameterService
+      .query({
         page: 0,
         size: 9999,
       })
@@ -141,6 +142,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         this.sectorIndustry = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        this.creditRatingCondition();
       });
   }
 
@@ -152,7 +154,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
       return '';
     } else {
-      return this.sectorIndustry.filter(data => data.code === industryCode)[0].value;
+      return this.sectorIndustry.filter(data => data.industry === industryCode)[0].industryLabel;
     }
   }
 
@@ -375,17 +377,13 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     };
 
     this.defaultCurrency();
-    this.creditRatingCondition();
+
     this.averagetoIDR();
   }
 
   public creditRatingCondition() {
-    if (this.creditProposal.creditRatings[0].attributes['industry'] !== undefined) {
-      if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
-        const industryCode = this.sectorIndustry.filter(data => data.value === this.creditProposal.creditRatings[0].attributes['industry']);
-        this.creditProposal.attributes['purposePricing'].industry = this.creditProposal.creditRatings[0].attributes['industry'];
-        this.creditProposal.attributes['purposePricing'].industryCode = industryCode;
-      }
+    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+      this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
     }
   }
   public defaultCurrencyData: string;
@@ -438,5 +436,16 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         this.avgDiscProposalUSD = this.aplicationProducts[i].avgDiscProposalUSD = res['proposePricing'][i]['avgDiscProposalUSD'];
       }
     });
+  }
+
+  public getCorporateGurante() {
+    if (
+      this.creditProposal.attributes['creditRatingPricing'] === undefined ||
+      this.creditProposal.attributes['creditRatingPricing'] === null
+    ) {
+      return 'N/A';
+    } else {
+      return this.creditProposal.attributes['creditRatingPricing'];
+    }
   }
 }

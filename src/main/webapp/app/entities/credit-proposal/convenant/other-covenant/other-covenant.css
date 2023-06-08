@@ -205,10 +205,18 @@ td {
 .grid-index-center {
   justify-content: center;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
+}
+
+.mat-column-no {
+  width: 5%;
+}
+
+.mat-column-action {
+  width: 10%;
 }

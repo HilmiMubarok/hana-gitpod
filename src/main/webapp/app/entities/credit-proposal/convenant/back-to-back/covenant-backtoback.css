@@ -89,13 +89,21 @@ th {
 td {
   font-family: 'Poppins', sans-serif;
 }
+.html * {
+  font-family: 'Poppins', sans-serif !important;
+}
 .rounding-table-left {
   border-top-left-radius: 15px;
 }
 .rounding-table-right {
   border-top-right-radius: 15px;
 }
-
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
 .grid-index-left {
   justify-content: flex-start;
   font-family: 'Poppins', sans-serif;
@@ -111,7 +119,7 @@ td {
 .grid-index-center {
   justify-content: center;
   text-align: center;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .button-styling {

@@ -372,6 +372,7 @@ import { MainFacilityComponent } from './credit-proposal/loan-facility/main-faci
 import { MainFacilityChildComponent } from './credit-proposal/loan-facility/main-facility/main-facility-child.component';
 import { InsuranceInformationIddComponent } from './party-cif/insurance-information-idd/insurance-information-idd.component';
 import { ParipasuCollateralIddDebtorComponent } from './party-cif/paripasu-collateral-idd-debtor/paripasu-collateral-idd-debtor.component';
+import { DebtorInformationComponent } from './debtor-information/debtor-information.component';
 import { CpMemoBandingLoanFacilityComponent } from './credit-proposal/memo-banding/memo-banding-loan-facility/cp-memo-banding-loan-facility.component';
 import { CpMemoBandingCollateralComponent } from './credit-proposal/memo-banding/memo-banding-collateral/cp-memo-banding-collateral.component';
 import { CpMemoBandingCollateralAboveComponent } from './credit-proposal/memo-banding/memo-banding-collateral/above/cp-memo-banding-collateral-above.component';
@@ -813,6 +814,7 @@ import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-band
         MainFacilityInfoChildComponent,
         MainFacilityComponent,
         MainFacilityChildComponent,
+        DebtorInformationComponent,
         CpMemoBandingLoanFacilityComponent,
         CpMemoBandingCollateralComponent,
         CpMemoBandingCollateralAboveComponent,
@@ -1210,6 +1212,7 @@ import { CpMemoBandingOtherCovenantComponent } from './credit-proposal/memo-band
     MainFacilityInfoComponent,
     MainFacilityComponent,
     MainFacilityChildComponent,
+    DebtorInformationComponent,
     CpMemoBandingLoanFacilityComponent,
     CpMemoBandingCollateralComponent,
     CpMemoBandingCollateralAboveComponent,

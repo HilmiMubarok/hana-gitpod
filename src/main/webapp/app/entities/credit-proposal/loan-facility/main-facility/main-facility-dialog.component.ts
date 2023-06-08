@@ -7,6 +7,7 @@ import { UomService } from 'app/entities/uom/uom.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { UOM_TYPE } from 'app/shared/constants/base.constants';
 import { map, Observable, startWith } from 'rxjs';
+import { ICreditProposal } from '../../credit-proposal.model';
 
 @Component({
   selector: 'jhi-main-facility-dialog',
@@ -20,6 +21,7 @@ export class MainFacilityDialogComponent implements OnInit {
   public filteredOptionsCurrency: Observable<IUom[]>;
   public amountCcy: IUom;
   public mainFacility: IMainFacility;
+  public dataItem: ICreditProposal;
 
   constructor(
     private dialog: MatDialog,
@@ -28,6 +30,7 @@ export class MainFacilityDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       mainData: IMainFacility;
+      creditProposal: ICreditProposal;
     },
     private _dialog: MatDialogRef<MainFacilityDialogComponent>
   ) {
@@ -36,6 +39,7 @@ export class MainFacilityDialogComponent implements OnInit {
       this.openCancelDialog();
     });
     this.mainFacility = data.mainData;
+    this.dataItem = data.creditProposal;
   }
 
   ngOnInit(): void {
