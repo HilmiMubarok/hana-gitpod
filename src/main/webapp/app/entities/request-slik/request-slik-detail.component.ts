@@ -628,7 +628,7 @@ export class RequestSlikDetailComponent implements OnInit {
       party.partyId = partyId;
 
       // add attribute key on party
-      party.attributes = party.attributes || [];
+      party.attributes = party.attributes || {};
       party.attributes['partySlikCollaterals'] = JSON.stringify(party.partySlikCollaterals);
       party.attributes['reqReffId'] = JSON.stringify(reqReffId);
 
