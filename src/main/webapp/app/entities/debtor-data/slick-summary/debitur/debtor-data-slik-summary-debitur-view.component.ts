@@ -26,6 +26,7 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
   public bucket: string;
   public parentPath = this.router.url.split('/')[1];
   public isCpApproval: boolean;
+  partyId;
 
   public bulan: any = [
     {
@@ -102,6 +103,8 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     this.partyCif = this.activatedRoute.snapshot.data['content'];
     this.partyCifStartState = this.activatedRoute.snapshot.data['content'];
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.partyId = this.activatedRoute.snapshot.paramMap.get('managementType');
     // this.selectedManagementType = this.activatedRoute.snapshot.data.selectedManagementType;
   }
   ngOnInit(): void {
@@ -119,7 +122,7 @@ export class DebtorDataSlikSummaryDebiturViewComponent extends AbstractEntityMat
     const subFolder = [];
     this.folders = [];
     const predicate: Object = {
-      key: `/party_slik/${idPartySlik}`,
+      key: `/party_slik/${this.partyId}`,
     };
     this.storageService.getBucketName().subscribe((response: any) => {
       this.storageService.getObjects(response.body.bucket, predicate).subscribe((res: any) => {
