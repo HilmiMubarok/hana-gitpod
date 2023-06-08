@@ -38,23 +38,45 @@
         appraisal.statusDescription === 'Approve'
       "
     >
-      <ejs-textbox
-        [(ngModel)]="collateral.picName"
-        name="picName"
-        placeholder="PIC Debtor"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        disabled
-      ></ejs-textbox>
+      <section *jhiMatrixDirIDD="'input'">
+        <ejs-textbox
+          [(ngModel)]="collateral.picName"
+          name="picName"
+          placeholder="PIC Debtor"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          disabled
+        ></ejs-textbox>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">PIC Debtor</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ collateral.picName }}
+          </div>
+        </div>
+      </section>
     </div>
     <div *ngIf="appraisal.statusDescription === 'Return To RM' || appraisal.statusDescription === 'Draft'">
-      <ejs-textbox
-        [(ngModel)]="collateral.picPhone"
-        name="picPhone"
-        placeholder="PIC Phone"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-      ></ejs-textbox>
+      <section *jhiMatrixDirIDD="'input'">
+        <ejs-textbox
+          [(ngModel)]="collateral.picPhone"
+          name="picPhone"
+          placeholder="PIC Phone"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+        ></ejs-textbox>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">PIC Phone</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ collateral.picPhone }}
+          </div>
+        </div>
+      </section>
     </div>
     <div
       *ngIf="
@@ -69,14 +91,25 @@
         appraisal.statusDescription === 'Approve'
       "
     >
-      <ejs-textbox
-        [(ngModel)]="collateral.picPhone"
-        name="picPhone"
-        placeholder="PIC Phone"
-        cssClass="e-outline"
-        floatLabelType="Auto"
-        disabled
-      ></ejs-textbox>
+      <section *jhiMatrixDirIDD="'input'">
+        <ejs-textbox
+          [(ngModel)]="collateral.picPhone"
+          name="picPhone"
+          placeholder="PIC Phone"
+          cssClass="e-outline"
+          floatLabelType="Auto"
+          disabled
+        ></ejs-textbox>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">PIC Phone</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ collateral.picPhone }}
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>

@@ -298,4 +298,14 @@ export class CollateralTypeDialogComponent implements OnInit, OnChanges {
         });
     }
   }
+
+  public getParipasuStatus(element: string) {
+    if (element === 'N') {
+      return 'NO';
+    }
+    if (element === 'Y') {
+      return 'YES';
+    }
+    return element;
+  }
 }
