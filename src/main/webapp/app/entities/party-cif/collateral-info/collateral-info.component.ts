@@ -68,6 +68,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public rmPosition: IPosition;
   public positionRms1 = 0;
   public dataPush: ICollateral;
+  public groupHidden: Boolean = false;
 
   @Input() public partyId: string;
   pariPasu: string;
@@ -270,6 +271,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 
   public openDocument(element: any) {
     this.collateral = element;
+    this.groupHidden = true
   }
 
   public expandData(element: ICollateral): void {
