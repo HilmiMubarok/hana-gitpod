@@ -334,21 +334,6 @@
         </mat-card>
       </div>
 
-      <div *ngIf="selectedMenu === 'collateral-info-finalize'" class="e-sample-resize-container e-card-resize-container">
-        <mat-card class="mb-3">
-          <mat-card-content>
-            <jhi-credit-proposal-collateral-info
-              #creditProposalCollateralInfoComponent
-              [creditProposal]="creditProposal"
-              [source]="'summaryAll'"
-              [parentSource]="'loan-analys'"
-              [isViewMode]="true"
-            >
-            </jhi-credit-proposal-collateral-info>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
       <!-- Exposure -->
       <div *ngIf="selectedMenu === 'exposure'" class="e-sample-resize-container e-card-resize-container">
         <mat-card class="mb-3">
