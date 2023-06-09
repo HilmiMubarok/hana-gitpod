@@ -181,7 +181,12 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
 
   public industryLable(industry: string) {
-    return this.sectorIndustry.filter(data => data.industry === industry)[0].industryLabel;
+    const sector = this.sectorIndustry.filter(data => data.industry === industry);
+    if (sector.length > 0) {
+      return sector[0].industryLabel;
+    } else {
+      return '';
+    }
   }
 
   public equityPosition: any;
