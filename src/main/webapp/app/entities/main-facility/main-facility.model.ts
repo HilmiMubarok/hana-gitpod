@@ -38,6 +38,12 @@ export class MainFacility implements IMainFacility {
     public startPeriodDate?: Date,
     public categoryListDTO?: ICategoryList[]
   ) {
+    this.changes = 0;
+    this.mainPlafond = 0;
+    this.outstanding = 0;
+    this.availableLimit = 0;
+    this.totalPlafond = 0;
+    this.kurs = 0;
     this.categoryListDTO = [new CategoryList()];
   }
 }
@@ -60,7 +66,10 @@ export class CategoryList implements ICategoryList {
     public outsanding?: number,
     public totalPlafond?: number
   ) {
-    (this.plafond = 0), (this.outsanding = 0), (this.changes = 0), (this.totalPlafond = 0);
+    this.plafond = 0;
+    this.outsanding = 0;
+    this.changes = 0;
+    this.totalPlafond = 0;
     this.mainPlafond = 0;
   }
 }
