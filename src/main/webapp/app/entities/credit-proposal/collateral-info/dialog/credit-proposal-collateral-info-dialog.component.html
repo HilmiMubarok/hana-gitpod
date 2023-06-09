@@ -662,9 +662,29 @@
                 </div>
               </div>
             </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+              <div [hidden]="textBoxHidden">
+                <div class="form-group">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Informasi Tambahan</mat-label>
+                    <input matInput type="text" [value]="collateral.attributes['informasiTambahan']" />
+                  </mat-form-field>
+                </div>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-4">Informasi Tambahan</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateral.attributes['informasiTambahan'] }}
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </div>
+
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>REMARKS</mat-label>
