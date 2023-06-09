@@ -80,7 +80,7 @@
             <div class="fontsebled row py-1">
               <div class="col-3">Initial Limit</div>
               <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.mainPlafond }}</div>
+              <div class="col">{{ mainFacility.mainPlafond | currency: ' ':'symbol':'1.0-0' }}</div>
             </div>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -95,7 +95,7 @@
             <div class="fontsebled row py-1">
               <div class="col-3">Changes</div>
               <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.changes }}</div>
+              <div class="col">{{ mainFacility.changes | currency: ' ':'symbol':'1.0-0' }}</div>
             </div>
           </section>
           <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
@@ -110,7 +110,7 @@
             <div class="fontsebled row py-1">
               <div class="col-3">Total Plafond</div>
               <div class="col-md-auto">:</div>
-              <div class="col">{{ mainFacility.totalPlafond }}</div>
+              <div class="col">{{ mainFacility.totalPlafond | currency: ' ':'symbol':'1.0-0' }}</div>
             </div>
           </section>
         </div>
