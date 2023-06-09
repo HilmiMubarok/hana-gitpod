@@ -142,7 +142,7 @@ export class OrganizationManagementListComponent
       orgMgm = param;
     }
     const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
-      width: '25vw',
+      width: '80vw',
       data: {
         organizationManagement: orgMgm,
         managementType: this.managementType,
