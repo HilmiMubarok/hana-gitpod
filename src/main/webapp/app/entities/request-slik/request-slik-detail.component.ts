@@ -629,8 +629,10 @@ export class RequestSlikDetailComponent implements OnInit {
 
       // add attribute key on party
       party.attributes = party.attributes || {};
-      party.attributes['partySlikCollaterals'] = JSON.stringify(party.partySlikCollaterals);
+      party.attributes['partySlikCollaterals'] =
+        typeof party.partySlikCollaterals === 'object' ? JSON.stringify(party.partySlikCollaterals) : party.partySlikCollaterals;
       party.attributes['reqReffId'] = JSON.stringify(reqReffId);
+      party.attributes['nikNpwp'] = JSON.stringify(data.nikNpwp);
 
       party.requestReffId = reqReffId;
     });
