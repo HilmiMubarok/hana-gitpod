@@ -51,6 +51,9 @@ import {
   ToolbarService,
 } from '@syncfusion/ej2-angular-richtexteditor';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
+import { IInternal } from 'app/entities/internal/internal.model';
+import { EmploymentType } from 'app/entities/employment-type/employment-type.model';
+import { InternalType } from 'app/entities/internal-type/internal-type.model';
 
 export const MY_FORMATS = {
   parse: {
@@ -136,6 +139,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   private _collateral: ICollateral;
   guaranteeType: any;
   debitBlock: any;
+  public branchs: IInternal[];
   public branchesNames: any;
   public logoCcy = { prefix: '', thousands: ',', decimal: '.', precision: 0 };
 
@@ -204,6 +208,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   public villages: IStateBoundary[];
   public detailType: any;
   public branceManagement: any;
+  public managemetBranch: string;
   public certypicateTypeLov: any;
 
   public guarantorName: string;
@@ -246,6 +251,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     this.getLovManagementBranch();
     this.getLovCertificateType();
     this.cekRemark();
+    this.getBranchs();
     console.log('collateral ', this.collateralProperty.marketValue);
   }
 
@@ -340,6 +346,23 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     return data;
   }
 
+  public getBranchs(): void {
+    const branch = [];
+    this.internalService
+      .query({
+        size: 9999,
+        page: 0,
+      })
+      .subscribe(res => {
+        for (let i = 0; i < res.body.length; i++) {
+          if (res.body[i].internalTypeId === 'BRANCH') {
+            branch.push(res.body[i]);
+          }
+        }
+        this.branchs = branch;
+      });
+  }
+
   private loadCurrencyMeasure(): void {
     this.uomService
       .queryFilterBy({
@@ -370,7 +393,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   public setBranches() {
     this.partyCifService.geBranches().subscribe(res => {
       this.branchesNames = res.body;
-      console.log('branch ', this.branchesNames);
     });
   }
 
@@ -382,7 +404,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       .subscribe(res => {
         if (res.body[0]?.factor !== undefined) {
           this.currency = Number(res.body[0]?.factor);
-          console.log('currency ', this.currency);
           this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
           this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
         } else {
@@ -399,7 +420,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   }
 
   public amountChange() {
-    console.log('change');
     this.collateralProperty.liquidationValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
     this.collateralProperty.marketValue = this.collateralProperty.marketValueOriginalAmt * this.currency;
   }
@@ -408,15 +428,18 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
     console.log('cif ', this.collateralProperty.guarantorCif);
     if (this.collateralProperty.guarantorCif !== null) {
       this.partyCifService.findCifCash(this.collateralProperty.guarantorCif).subscribe(res => {
-        console.log('res body ', res.body);
         this.partyCif = res.body;
         if (this.partyCif) {
           this.guarantorName = this.partyCif.name;
-          this.creditRating = this.partyCif.creditRatings[0].creditRating;
+          if (this.partyCif.creditRatings.length > 0) {
+            this.creditRating = this.partyCif.creditRatings[0].creditRating;
+          } else {
+            this.creditRating = null;
+          }
+
           this.creditRatingDate = this.partyCif.creditRatings[0].ratingDate;
           this.adress = this.partyCif.addresses.find(obj => obj.purposeTypeId === 'PRIMARY_LOCATION');
           if (this.adress) {
-            console.log('adress ', this.adress);
             this.findCountryName(this.adress.address.countryId);
           }
         }
@@ -440,8 +463,6 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
   public findCountryName(id: number) {
     if (this.optionsCountry) {
       this.optionsCountrySelected = this.optionsCountry.find(obj => obj.id === id);
-      console.log('option country ', this.optionsCountry);
-      console.log('country ', id);
       if (this.optionsCountrySelected) {
         this.guarantorCountryId = this.optionsCountrySelected.description;
       }
@@ -476,6 +497,7 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         });
       });
   }
+  public managementBranch1: number;
 
   public getLovManagementBranch() {
     this.generalParameterService
@@ -485,10 +507,10 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         size: 9999,
       })
       .subscribe(res => {
-        console.log('ini res ', res);
         this.managementBranchLov = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
+        this.managementBranch = Number(this.collateralProperty.attributes.managementBranch);
       });
   }
 
@@ -500,16 +522,14 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
         size: 9999,
       })
       .subscribe(res => {
-        console.log('ini res certificate type', res.body);
-        console.log('ini id certificate type ', this.collateralProperty.attributes.certificateType);
         this.certypicateTypeLov = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
       });
   }
 
-  print() {
-    console.log('collateral property', this.collateralProperty);
+  public onSelectionChange(event: any) {
+    this.collateralProperty.attributes.managementBranch = event.value;
   }
 
   cekRemark() {

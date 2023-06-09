@@ -133,7 +133,12 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <mat-form-field class="w-100" appearance="outline">
+      <mat-form-field *ngIf="creditRating === null" class="w-100" appearance="outline">
+        <mat-label>Credit Rating</mat-label>
+        <input matInput type="text" value="N/A" disabled />
+        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+      </mat-form-field>
+      <mat-form-field *ngIf="creditRating !== null" class="w-100" appearance="outline">
         <mat-label>Credit Rating</mat-label>
         <input matInput type="text" [(ngModel)]="creditRating" disabled />
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
@@ -153,7 +158,7 @@
         <mat-label>Branch</mat-label>
         <mat-select [(ngModel)]="collateralProperty.attributes.branch">
           <mat-option value="">Please Select</mat-option>
-          <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+          <mat-option *ngFor="let item of branchs" [value]="item.id"> {{ item.name }} </mat-option>
         </mat-select>
         <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
       </mat-form-field>
@@ -161,7 +166,7 @@
     <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Management Branch</mat-label>
-        <mat-select [(ngModel)]="collateralProperty.attributes.managementBranch">
+        <mat-select (selectionChange)="onSelectionChange($event)" [(ngModel)]="managementBranch">
           <mat-option value="">Please Select</mat-option>
           <mat-option *ngFor="let item of managementBranchLov" [value]="item.id"> {{ item.value }} </mat-option>
         </mat-select>
