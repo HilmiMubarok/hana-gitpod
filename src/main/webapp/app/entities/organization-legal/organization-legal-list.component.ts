@@ -61,7 +61,7 @@ export class OrganizationLegalListComponent extends AbstractEntityMaterialCompon
 
   public openDialogDelete(param: IOrganizationLegal): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '30vw',
+      width: '25vw',
       data: {
         title: 'Confirmation Delete Organization Legal',
         message: 'Are you sure to delete this data?',

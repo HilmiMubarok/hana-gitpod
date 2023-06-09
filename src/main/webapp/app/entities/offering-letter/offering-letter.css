@@ -6,7 +6,7 @@
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
   font-family: 'Poppins', sans-serif;
   font-size: 20px;
-  font-weight: 1000;
+  font-weight: 600;
   color: red;
   line-height: 35px;
   margin-left: 10px;
@@ -24,6 +24,10 @@
 
 .e-multi-select-wrapper .e-chips {
   background-color: rgba(0, 136, 129, 0.8);
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .e-toolbar {
