@@ -63,6 +63,8 @@ export interface ICreditProposalCollateralCoverage {
   lvInternal?: number;
   mvKjjpCoverage?: number;
   lvKjjpCoverage?: number;
+  biddingValueSum?: number;
+  biddingValueCoverage?: number;
 }
 
 //
@@ -76,7 +78,9 @@ export class CoverageTotal implements ICreditProposalCollateralCoverage {
     public countTotalLV?: number,
     public countTotalMVKJJP?: number,
     public countTotalLVKJJP?: number,
-    public creditLimit?: number
+    public creditLimit?: number,
+    public biddingValueSum?: number,
+    public biddingValueCoverage?: number
   ) {
     this.mvInternalCoverage = 0;
     this.lvInternalCoverage = 0;
@@ -87,5 +91,7 @@ export class CoverageTotal implements ICreditProposalCollateralCoverage {
     this.countTotalMVKJJP = 0;
     this.countTotalLVKJJP = 0;
     this.creditLimit = 0;
+    this.biddingValueSum = 0;
+    this.biddingValueCoverage = 0;
   }
 }

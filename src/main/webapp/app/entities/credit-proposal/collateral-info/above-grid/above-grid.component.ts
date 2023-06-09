@@ -928,6 +928,8 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this.fungsiSumcredit('IDR').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
         this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
+        this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
       });
     });
   }

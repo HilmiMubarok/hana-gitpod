@@ -71,7 +71,8 @@ export class MatrixDirective implements OnInit, OnDestroy {
         !this.router.url.includes('dar-notif') &&
         !this.router.url.includes('loan-committee-approval') &&
         !this.router.url.includes('la-analyst') &&
-        !this.router.url.includes('confirmation')
+        !this.router.url.includes('confirmation') &&
+        !this.router.url.includes('finalize')
       ) {
         if (
           this.positionTypeId === 'SME_HEAD' ||
@@ -633,18 +634,6 @@ export class MatrixDirective implements OnInit, OnDestroy {
       this.status !== 'CP_RETURN_TO_CR' &&
       this.status !== 'RETURN_TO_RM_CRA' &&
       this.status !== 'OL_APPEAL'
-    ) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
-  }
-
-  private roleRMCpAndMemoMatrixInput(): void {
-    if (
-      this.status === 'DRAFT' ||
-      this.status === 'CP_RETURN_TO_RM' ||
-      this.status === 'CP_RETURN_TO_CR' ||
-      this.status === 'RETURN_TO_RM_CRA' ||
-      this.status === 'OL_APPEAL'
     ) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
