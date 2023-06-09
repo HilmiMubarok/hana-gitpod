@@ -493,7 +493,19 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
     }
     if (this.jhiMatrixDirMenu === 'cp-and-memo') {
-      this.checkOnCpAndMemo();
+      if (
+        this.positionTypeId === 'SME_HEAD' ||
+        this.positionTypeId === 'DEPT_HEAD' ||
+        this.positionTypeId === 'SDH' ||
+        this.positionTypeId === 'DH' ||
+        this.positionTypeId === 'BM'
+      ) {
+        if (this.jhiMatrixDirElementType === '') {
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        }
+      } else {
+        this.checkOnCpAndMemo();
+      }
     }
 
     if (this.jhiMatrixDirMenu === '/collateral-appraisal') {
