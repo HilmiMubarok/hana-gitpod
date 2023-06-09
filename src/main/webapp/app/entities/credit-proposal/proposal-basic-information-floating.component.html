@@ -40,7 +40,7 @@
         </div>
         <div style="margin: 1rem">
           <div class="row">
-            <div class="col-md-6" style="padding: 10px">
+            <div class="col-md-6">
               <div class="form-group">
                 <jhi-credit-proposal-booking-branch [creditProposal]="creditProposal"> </jhi-credit-proposal-booking-branch>
               </div>
@@ -443,25 +443,26 @@
       >
         {{ task.caption }}
       </button> -->
-      <div style="display: flex;">
-      <button
-     
-        mat-raised-button
-        *ngFor="let task of tasks"
-        (click)="processTask(task)"
-        class="btn-lg text-uppercase button-styling"
-        style="margin-left: 5px"
-      >
-        {{ task.caption }}
-      </button>
-  
-      <section style="margin-left: 5px;" *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <button class="btn-lg text-uppercase button-styling" mat-raised-button  (click)="save('default')">Save</button>
-      </section>
-     </div>
+      <div style="display: flex">
+        <button
+          mat-raised-button
+          *ngFor="let task of tasks"
+          (click)="processTask(task)"
+          class="btn-lg text-uppercase button-styling"
+          style="margin-left: 5px"
+        >
+          {{ task.caption }}
+        </button>
+
+        <section
+          style="margin-left: 5px"
+          *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"
+        >
+          <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        </section>
+      </div>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"></section>
-   
-  </div>
+    </div>
   </div>
 
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
