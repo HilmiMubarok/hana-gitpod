@@ -2529,6 +2529,11 @@ export const SUBMENU_OFFERING_LETTER_FINALIZE: object[] = [
         id: 'finalize-convenant',
         text: 'Covenant & Document Checklist',
       },
+      {
+        id: 'collateral-info-finalize',
+        text: 'Collateral Info',
+      },
+
       // {
       //   id: 'collateral-facility-mapping',
       //   text: 'Collateral Facility Mapping',
