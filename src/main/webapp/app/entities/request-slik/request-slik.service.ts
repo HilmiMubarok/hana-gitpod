@@ -225,20 +225,55 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   pushPartySlik(data) {
-    console.log(data.verifyData);
+    const copyVerifyData = data.verifyData;
+
+    // remove duplicate party id on copyVerifyData
+    const removeDuplicate = _.uniqBy(copyVerifyData, 'partyId');
+
+    // map removeDuplicate and parse removeDuplicate.attributes's all key
+    const withParsedAttr = removeDuplicate.map(res => {
+      const attributes = res['attributes'];
+
+      // JSON.parse all attributes key
+      attributes['reqReffId'] = JSON.parse(attributes['reqReffId']);
+      attributes['nikNpwp'] = JSON.parse(attributes['nikNpwp']);
+      attributes['partySlikCollaterals'] = JSON.parse(attributes['partySlikCollaterals']);
+
+      res['attributes'] = attributes;
+
+      return res;
+    });
+
+    console.log(' party slik remove duplicate', { removeDuplicate, withParsedAttr });
+
     // copas slik file from cbas to $party_id
-    const push = data.verifyData.map(res =>
-      this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`, data.nikNpwp)
-    );
-    // return new Observable();
-
-    // Remove reqReffId attributes on this.verifyData
-    console.log('Elemeeeeeen push party slik data', data);
-
-    // console.log('Elemeeeeeen push party slik test', copyVerifyData);
+    // const push = data.verifyData.map(res =>
+    //   this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`, data.nikNpwp)
+    // );
+    const push = withParsedAttr.map(res => {
+      console.log('MAP', res);
+      this.CopasSlikFile(res['partyId'], res['attributes'].reqReffId, `party_slik/cbas`, `party_slik`, res['attributes'].nikNpwp);
+    });
     console.log('Elemeeeeeen push party slik', data.verifyData);
+
+    const checkVerifyData = data.verifyData.map(res => {
+      // check if any attributes key is object, if true then stringify it
+      const attributes = res['attributes'];
+      attributes['reqReffId'] =
+        typeof attributes['reqReffId'] === 'object' ? JSON.stringify(attributes['reqReffId']) : attributes['reqReffId'];
+      attributes['nikNpwp'] = typeof attributes['nikNpwp'] === 'object' ? JSON.stringify(attributes['nikNpwp']) : attributes['nikNpwp'];
+      attributes['partySlikCollaterals'] =
+        typeof attributes['partySlikCollaterals'] === 'object'
+          ? JSON.stringify(attributes['partySlikCollaterals'])
+          : attributes['partySlikCollaterals'];
+
+      res['attributes'] = attributes;
+
+      return res;
+    });
+
     // return new Observable();
-    const save = this.partySlikService.saveAll(data.verifyData);
+    const save = this.partySlikService.saveAll(checkVerifyData);
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
     return forkJoin([save, changeStatus, push]);
   }
@@ -258,8 +293,9 @@ export class RequestSlikService extends AbstractEntityService<any> {
 
   CopasSlikFile(partyId, reqReffId, source, target, nikNpwp) {
     // Get Bucket
-    reqReffId = JSON.parse(reqReffId);
+    // reqReffId = JSON.parse(reqReffId);
     console.log('reqreffid', reqReffId);
+
     // return new Observable();
     return this.storageService.getBucketName().subscribe(bucket => {
       const bucketName = bucket.body['bucket'];
