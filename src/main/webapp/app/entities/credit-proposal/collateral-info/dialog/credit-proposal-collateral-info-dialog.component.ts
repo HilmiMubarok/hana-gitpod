@@ -23,7 +23,6 @@ import { PARIPASU_STATUS, STATUS_COLLATERAL } from 'app/shared/constants/status.
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { Page } from '@syncfusion/ej2-angular-grids';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
-import { ActivatedRoute, Router } from '@angular/router/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -126,9 +125,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
   public collateralGradings: string;
-  textBoxHidden: boolean;
-  public parentPath = this.router.url.split('/')[1];
-  public selectedMenu: string;
 
   constructor(
     private dialog: MatDialog,
@@ -137,8 +133,7 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     private cashCollateralService: CashCollateralService,
     protected generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<CreditProposalCollateralInfoDialogComponent>,
-    protected activatedRoute: ActivatedRoute,
-    private router: Router,
+
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
@@ -201,27 +196,6 @@ export class CreditProposalCollateralInfoDialogComponent implements OnInit {
     this.lovInsuranceTypes();
     this.addLovRank();
     this.cekCurrency();
-    this.conditionFieldInOfferingLetter();
-  }
-  public conditionFieldInOfferingLetter() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const subRoute = params['subroute'];
-      if (subRoute) {
-        this.selectedMenu = subRoute;
-      }
-    });
-    // Condition Offering Letter in Route Finalize
-    if (this.parentPath === 'finalize') {
-      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
-      if (this.selectedMenu === 'collateral-info-finalize') {
-        this.textBoxHidden = false;
-        // If the Menu Compare Approval Report field can be displayed and cannot be changed
-      } else if (this.selectedMenu === 'compare-approval-report') {
-        this.textBoxHidden = false;
-      } else {
-        this.textBoxHidden = true;
-      }
-    }
   }
 
   public lovInsuranceTypes() {
