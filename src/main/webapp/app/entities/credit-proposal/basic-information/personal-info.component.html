@@ -1,18 +1,19 @@
 <div class="e-card-content">
   <div class="row">
     <div class="col-md-6">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>RM Name</mat-label>
-          <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="creditProposal.ownerPosition.id" disabled>
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of positionRM" [value]="item.id">
-              {{ item.employeeFirstName}} {{ item.employeeLastName}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </section>
-
+      <div class="form-group">
+        <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>RM Name</mat-label>
+            <mat-select (selectionChange)="selectRM($event)" [(ngModel)]="creditProposal.ownerPosition.id" disabled>
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of positionRM" [value]="item.id">
+                {{ item.employeeFirstName }} {{ item.employeeLastName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+      </div>
       <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <div class="fontsebled row">
           <div class="col-4">RM Name</div>

@@ -13,6 +13,7 @@ import { CollateralPropertyVehicleDialogComponent } from '../dialogs/collateral-
 @Component({
   selector: 'jhi-collateral-property-list-vehicle-template',
   templateUrl: './collateral-property-list-vehicle-template.component.html',
+  styleUrls: ['../collateral-property.style.scss'],
 })
 export class CollateralPropertyListVehicleTemplateComponent implements OnInit, OnChanges {
   @Output() openDialogEvent = new EventEmitter<ICollateralProperty>();

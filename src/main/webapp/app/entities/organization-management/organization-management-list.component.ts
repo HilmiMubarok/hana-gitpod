@@ -168,7 +168,7 @@ export class OrganizationManagementListComponent
   // Delete Confirm
   public deleteData(element: IOrganizationManagement): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '30vw',
+      width: '25vw',
       data: {
         title: 'Delete Management / Shareholder',
         message: 'Are you sure to delete ' + element.person?.name || element.shareHolderOrg?.name + ' ?',

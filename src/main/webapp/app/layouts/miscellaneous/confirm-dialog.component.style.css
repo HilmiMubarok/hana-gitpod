@@ -50,7 +50,7 @@ label {
   margin-left: -2px !important;
   /* margin-left: 50%; */
 }
-* {
+.html * {
   font-family: 'Poppins', sans-serif !important;
 }
 .mat-raised-button-focus-overlay {
