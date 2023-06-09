@@ -122,7 +122,7 @@ export class LoanAnalysMainComponent implements OnInit {
   public opinionType = '';
   public isAssignedTo: Boolean = false;
 
-  public resAttr: any;
+  public resAttr: IProcessTask;
   public sourceSlikChecking: String;
 
   private BUCKET: string;
