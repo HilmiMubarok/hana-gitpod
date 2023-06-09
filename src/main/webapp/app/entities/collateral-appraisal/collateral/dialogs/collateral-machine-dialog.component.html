@@ -98,10 +98,10 @@
             </mat-form-field> -->
           </section>
           <section class="mt-2">
-            <ejs-numerictextbox
+            <!-- <ejs-numerictextbox
               cssClass="e-outline"
               type="text"
-              placeholder="Amount"
+              placeholder="Amounts"
               floatLabelType="Always"
               [(ngModel)]="collateralProp.machineAmount"
               format="IDR 0,"
@@ -110,11 +110,20 @@
               [disabled]="hideordisable()"
               [disabled]="hiddenRmAdmin"
             >
-            </ejs-numerictextbox>
-            <!-- <mat-form-field class="w-100" appearance="outline">
+            </ejs-numerictextbox> -->
+            <mat-form-field class="w-100" appearance="outline">
               <mat-label>Amount</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralProp.machineAmount" required/>
-            </mat-form-field> -->
+              <input
+                [disabled]="hideordisable()"
+                [disabled]="hiddenRmAdmin"
+                matInput
+                type="text"
+                [(ngModel)]="collateralProp.machineAmount"
+                currencyMask
+                [options]="{ prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 }"
+                required
+              />
+            </mat-form-field>
           </section>
         </div>
       </div>
