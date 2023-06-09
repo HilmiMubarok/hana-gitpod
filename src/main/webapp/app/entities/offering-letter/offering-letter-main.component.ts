@@ -30,6 +30,10 @@ import { StorageService } from '../storage/storage.service';
 import { formatBytes } from 'app/shared/helper/utils';
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import { LendingProgramParameterService } from '../lending-program-parameter/lending-program-parameter.service';
+import { CollateralService } from '../collateral/collateral.service';
+import { ICollateral } from '../collateral/collateral.model';
+import { ICollateralProperty } from '../collateral-property/collateral-property.model';
+import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -42,7 +46,8 @@ export class OfferingLetterMainComponent implements OnInit {
   })
   creditProposalCollateralInfoComponent: CreditProposalCollateralInfoComponent;
   private id: number;
-
+  public collateral: ICollateral[];
+  public collateralProperties: ICollateralProperty[] = [];
   public url: string;
   public subMenu: object[];
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -95,7 +100,9 @@ export class OfferingLetterMainComponent implements OnInit {
     private storageService: StorageService,
     private http: HttpClient,
     private generalParameterService: GeneralParameterService,
-    private lendingProgramParameterService: LendingProgramParameterService
+    private lendingProgramParameterService: LendingProgramParameterService,
+    protected collateralService: CollateralService,
+    protected collateralPropertyService: CollateralPropertyService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['offeringLetter'];
     this.activatedRoute.params.subscribe(params => {
@@ -224,6 +231,10 @@ export class OfferingLetterMainComponent implements OnInit {
     this.getTitle();
     this.getTitleMenu();
     this.getBucketNameSummary();
+
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
   }
 
   private getTasks(): void {
@@ -290,7 +301,7 @@ export class OfferingLetterMainComponent implements OnInit {
     applicationRolePreSave.applicationId = Number(this.applicationRole.applicationId);
     applicationRolePreSave.partyId = this.applicationRole.partyId;
     applicationRolePreSave.partyName = this.applicationRole.partyName;
-	applicationRolePreSave.roleId = this.applicationRole.roleId;
+    applicationRolePreSave.roleId = this.applicationRole.roleId;
     applicationRolePreSave.roleDescription = this.applicationRole.roleDescription;
 
     copyCreditProposal.attributes['businessGroup'] = JSON.stringify(copyCreditProposal.attributes['businessGroup']);
@@ -341,25 +352,25 @@ export class OfferingLetterMainComponent implements OnInit {
     copyCreditProposal.attributes['legalLendingLimit'] = JSON.stringify(copyCreditProposal.attributes['legalLendingLimit']);
     copyCreditProposal.attributes['calculationExposure'] = JSON.stringify(copyCreditProposal.attributes['calculationExposure']);
     copyCreditProposal.attributes['approvalStatus'] = JSON.stringify(copyCreditProposal.attributes['approvalStatus']);
-	copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
+    copyCreditProposal.attributes['dataAssignTo'] = JSON.stringify(copyCreditProposal.attributes['dataAssignTo']);
 
-	if (this.url === 'la-distribution') {
+    if (this.url === 'la-distribution') {
       copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(applicationRolePreSave);
-	  copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-	  copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else if (this.url === 'cc-distribution') {
-	  copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
       copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(applicationRolePreSave);
-	  copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
     } else if (this.url === 'distribution') {
-	  copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-	  copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
       copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(applicationRolePreSave);
     } else {
-	  copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
-	  copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
-	  copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
-	}
+      copyCreditProposal.attributes['dataAssignToCRO'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCRO']);
+      copyCreditProposal.attributes['dataAssignToCCAdmin'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToCCAdmin']);
+      copyCreditProposal.attributes['dataAssignToLegalOfficer'] = JSON.stringify(copyCreditProposal.attributes['dataAssignToLegalOfficer']);
+    }
 
     copyCreditProposal.attributes['coverageTotal'] = JSON.stringify(copyCreditProposal.attributes['coverageTotal']);
     copyCreditProposal.attributes['lendingProgramParameter'] = JSON.stringify(copyCreditProposal.attributes['lendingProgramParameter']);
@@ -578,6 +589,36 @@ export class OfferingLetterMainComponent implements OnInit {
         }
       });
   }
+
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
+  }
+
+  // public cekCgpgData() {
+  //   for (let i = 0; i < this.collateralProperties.length; i++) {
+  //     this.saveCollateralProperty(this.collateralProperties[i]);
+  //   }
+  // }
 }
 interface IObj {
   key?: string;
