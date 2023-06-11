@@ -56,10 +56,8 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.applicationOption();
     // this.industryLimit();
-    this.industry();
-
-    const total = this.creditProposalService.totalChanges.subscribe((message: any) => {
-      this.purposeAmmount = message;
+    this.industry().then(() => {
+      this.purposeAmmount = 0;
       this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
       this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
       if (this.remainingAfterCp > 0) {
@@ -67,6 +65,17 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
       } else {
         this.status = 'Breach The Limit';
       }
+
+      this.creditProposalService.totalChanges.subscribe((message: any) => {
+        this.purposeAmmount = message;
+        this.remainingAfterCp = Number(this.remainingBalance) - Number(this.purposeAmmount);
+        this.remainingAfterCpMinus = Math.round(Number(this.purposeAmmount) - Number(this.remainingBalance));
+        if (this.remainingAfterCp > 0) {
+          this.status = 'Comply';
+        } else {
+          this.status = 'Breach The Limit';
+        }
+      });
     });
 
     // this.purposeAmmount = this.creditProposal.attributes['facilityDetail'].totalPlafond;
@@ -76,16 +85,19 @@ export class IndustryLimitComponent implements OnInit, OnChanges {
     this.industry();
   }
 
-  public industry() {
-    this.industryLimitExposureParameterService
-      .find('industry/' + this.creditProposal.attributes['purposePricing'].industryCode)
-      .subscribe((res: any) => {
-        this.limitPercentage = res.body.limitPercentage;
-        this.remainingBalance = res.body.remainingBalance;
-        this.industryLimitExposure = res.body.industryLimitExposure;
-        this.limitNominal = res.body.limitNominal;
-        // this.totalAmmountFunc(this.remainingBalance);
-      });
+  public industry(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.industryLimitExposureParameterService
+        .find('industry/' + this.creditProposal.attributes['purposePricing'].industryCode)
+        .subscribe((res: any) => {
+          this.limitPercentage = res.body.limitPercentage;
+          this.remainingBalance = res.body.remainingBalance;
+          this.industryLimitExposure = res.body.industryLimitExposure;
+          this.limitNominal = res.body.limitNominal;
+          // this.totalAmmountFunc(this.remainingBalance);
+          resolve(res);
+        });
+    });
   }
   public fungsiSumOS() {
     let result: number;
