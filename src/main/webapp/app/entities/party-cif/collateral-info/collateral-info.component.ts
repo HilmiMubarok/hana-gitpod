@@ -71,7 +71,14 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public groupHidden: Boolean = false;
 
   @Input() public partyId: string;
-  pariPasu: string;
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
 
   @Input()
   get partyCif() {
@@ -271,7 +278,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
 
   public openDocument(element: any) {
     this.collateral = element;
-    this.groupHidden = true
+    this.groupHidden = true;
   }
 
   public expandData(element: ICollateral): void {
@@ -309,7 +316,7 @@ export class PartyCifCollateralInfoComponent extends AbstractEntityMaterialCompo
   public openDialogPropertyGeneral(element: ICollateral): void {
     const dialogRef = this.dialog.open(PartyCifCollateralInfoPropertyGeneralDialogComponent, {
       width: '80vw',
-      data: { collateral: element, partyCif: this.partyCif, rmBranchId: this.rmBranch.id, pariPasu: this.pariPasu },
+      data: { collateral: element, partyCif: this.partyCif, rmBranchId: this.rmBranch.id },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralProperty[]) => {
       if (res && res.length > 0) {
