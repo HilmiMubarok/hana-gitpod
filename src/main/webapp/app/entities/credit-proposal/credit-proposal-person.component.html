@@ -731,7 +731,7 @@
                       <mat-label>Call Report Category</mat-label>
                       <mat-select name="callReportCategoryData" [(ngModel)]="deptorData.debtorData.callReportCategory">
                         <mat-option value="">- Please Select -</mat-option>
-                        <mat-option *ngFor="let item of callReportCategoryData" [value]="item.code">
+                        <mat-option *ngFor="let item of callReportCategoryData" [value]="item.value">
                           {{ item.value }}
                         </mat-option>
                       </mat-select>
