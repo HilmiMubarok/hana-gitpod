@@ -443,7 +443,7 @@
       >
         {{ task.caption }}
       </button> -->
-      <div style="display: flex">
+      <div>
         <button
           mat-raised-button
           *ngFor="let task of tasks"
@@ -454,14 +454,11 @@
           {{ task.caption }}
         </button>
 
-        <section
-          style="margin-left: 5px"
-          *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"
-        >
-          <button class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
-        </section>
+    
+          <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
+        
       </div>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''"></section>
+     
     </div>
   </div>
 
