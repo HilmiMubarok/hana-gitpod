@@ -19,6 +19,8 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CollateralService } from 'app/entities/collateral/collateral.service';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'jhi-group-collateral-list-cp',
@@ -43,7 +45,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
     ]),
   ],
 })
-export class GroupCollateralListCpComponent implements OnInit, OnChanges {
+export class GroupCollateralListCpComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnInit, OnChanges {
   @Input() public cif: string;
 
   public listGroupCollateral: any;
@@ -76,8 +78,17 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
   constructor(
     protected partyCifService: PartyCifService,
     protected collateralService: CollateralService,
-    protected creditProposalService: CreditProposalService
-  ) {}
+    protected creditProposalService: CreditProposalService,
+    protected _snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
+    super(_snackBar, partyCifService);
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.displayedColumns = null;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
+  }
 
   ngOnInit(): void {
     this.creditProposalService.triggerChanggedColRelByCPObservable.subscribe(updatedCP => {
@@ -88,7 +99,16 @@ export class GroupCollateralListCpComponent implements OnInit, OnChanges {
       }
     });
   }
+  loadDataLazy(event?: PageEvent) {
+    this.items = null;
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.postLoadDataLazy();
+  }
 
+  protected postLoadDataLazy(): void {
+    this.loadDataBy();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['creditProposal']) {
       if (this.creditProposal.customerNumber) {
