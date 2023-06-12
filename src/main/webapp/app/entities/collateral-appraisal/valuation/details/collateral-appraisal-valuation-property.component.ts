@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
 import { ICollateral, ICollateralLandAttribute } from 'app/entities/collateral/collateral.model';
 import lodash from 'lodash';
@@ -13,12 +13,12 @@ import { STATUS } from 'app/shared/constants/status.constants';
 @Component({
   selector: 'jhi-collateral-appraisal-valuation-property',
   templateUrl: './collateral-appraisal-valuation-property.component.html',
+
   styleUrls: ['../collateral-appraisal-valuation.scss'],
 })
-export class CollateralAppraisalValuationPropertyComponent implements OnChanges {
+export class CollateralAppraisalValuationPropertyComponent implements OnChanges, OnInit {
   @Input() collateral: ICollateral;
   @Input() collateralAppraisal: ICollateralAppraisal;
-
   public dataCollateralAppraisal: ICollateralAppraisal;
   public totalLandArea: number;
   public totalMarketValueIMB: number;
@@ -31,16 +31,13 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
   public totalLiquidTataKota: number;
   public totalLiquidBuilding: number;
   public collateralProperties: ICollateralProperty[];
+  private _collateralProp: ICollateralProperty;
+
   public collateralPropertiesLand: ICollateralProperty[];
   private displayBasicColumns: string[] = ['marketValueArea', 'marketValue', 'percentage', 'liquidVal'];
   public displayedColumnsLand: string[] = [
     'no',
     'objectName',
-
-    // 'certificateName',
-    // 'issueDate',
-    // 'dueDate',
-    // 'suratUkurNum',
     'area',
     'marketValueArea',
     'marketValue',
@@ -49,6 +46,16 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     'action',
   ];
   public displayedColumns: string[] = ['no', 'collateralObject', 'area', ...this.displayBasicColumns, 'action'];
+  @Input()
+  get collateralProp() {
+    return this._collateralProp;
+  }
+  set collateralProp(param: ICollateralProperty) {
+    this._collateralProp = param;
+  }
+
+  public marketValueLandRound: number;
+  public marketValueBuildingRound: number;
 
   constructor(
     public dialog: MatDialog,
@@ -71,7 +78,16 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
 
     this.totalMarketValueTataKota = 0;
     this.totalLiquidTataKota = 0;
+    this.marketValueLandRound = 0;
     this.dataCollateralAppraisal = new CollateralAppraisal();
+    this.collateralProp = new CollateralProperty();
+  }
+  ngOnInit(): void {
+    this.loadPropertiesExternal(this.collateral);
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.updateMarketValueLandRound();
+      this.updateMarketValueBuildingRound();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -186,6 +202,20 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
     this.totalLandArea = total;
   }
 
+  // Land
+  public updateMarketValueLandRound() {
+    if (this.collateralProp) {
+      this.collateralProp.attributes.marketValueLandRound = this.roundHundred(this.fnCountTotalMV(this.collateralPropertiesLand));
+    }
+  }
+
+  // Building
+  public updateMarketValueBuildingRound() {
+    if (this.collateralProp) {
+      this.collateralProp.attributes.marketValueBuildingRound = this.roundHundred(this.fnCountTotalMVbuil(this.collateralProperties));
+    }
+  }
+
   public countTotalArea(element: ICollateralProperty): number {
     let total: number;
     total = 0;
@@ -218,7 +248,7 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       width: '80vw',
       data: {
         collateralAppraisal: this.dataCollateralAppraisal,
-        collateralProperty: element
+        collateralProperty: element,
       },
     };
 
@@ -434,5 +464,28 @@ export class CollateralAppraisalValuationPropertyComponent implements OnChanges 
       return true;
     }
     return false;
+  }
+
+  attributes: any;
+  public loadPropertiesExternal(param: ICollateral) {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: param.id,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralProp = lodash.find(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
+        });
+      });
+    if (this.collateralAppraisal.statusId === STATUS.APPROVE || this.collateralAppraisal.statusId === STATUS.COMPLETE) {
+      this.updateMarketValueLandRound();
+      this.updateMarketValueBuildingRound();
+    }
+  }
+
+  numberInputChanged(value) {
+    const num = value.replace(/[IDR,]/g, '');
+    return Number(num);
   }
 }
