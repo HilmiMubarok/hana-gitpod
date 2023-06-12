@@ -371,7 +371,7 @@ export class RepaymentSpreadsheetComponent implements OnInit, OnDestroy, OnChang
   }
 
   public selectedMenu: string;
-  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'RETRIEVE' }, { text: 'FINANCIAL ANALYSIS' }];
+  public menuItems: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'FINANCIAL ANALYSIS' }];
   public menuItemsLainnya: MenuItemModel[] = [{ text: 'UPLOAD' }, { text: 'FINANCIAL ANALYSIS' }];
 
   selectMenuItem(args: MenuEventArgs): void {

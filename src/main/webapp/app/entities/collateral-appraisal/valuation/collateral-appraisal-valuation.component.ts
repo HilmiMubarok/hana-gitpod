@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -13,6 +13,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 export class CollateralAppraisalValuationComponent {
   private _collateral: ICollateral;
   private _collateralAppraisal: ICollateralAppraisal;
+  private _collateralProp: ICollateralProperty;
   @Input()
   get collateral() {
     return this._collateral;
@@ -29,6 +30,13 @@ export class CollateralAppraisalValuationComponent {
     this._collateralAppraisal = param;
   }
 
+  @Input()
+  get collateralProp() {
+    return this._collateralProp;
+  }
+  set collateralProp(param: ICollateralProperty) {
+    this._collateralProp = param;
+  }
   public collateralProperties: ICollateralProperty[];
   constructor() {}
 }

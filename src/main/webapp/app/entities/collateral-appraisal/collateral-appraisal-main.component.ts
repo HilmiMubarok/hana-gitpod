@@ -101,6 +101,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private resProcess: any;
   private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
+
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -147,6 +148,15 @@ export class CollateralAppraisalMainComponent implements OnInit {
     this.collateralAppraisalDetailProcessUnitConditionComponent.getCollateralPropertyByCollateralId(item.collateralId);
     this.collateralAppraisalDetailProcessMesinComponent.collateralProperties(item.collateralId);
   }
+
+  // get collateralProp() {
+  //   return this._collateralProp;
+  // }
+
+  // set collateralProp(item: ICollateralProperty) {
+  //   this._collateralProp = item;
+  // }
+
   public collateralProp: ICollateralProperty;
   private id: number;
   public tasks: IProcessTask[] = new Array<IProcessTask>();
@@ -266,6 +276,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
   public cif?: ICif = new Cif();
   public collateralType: string;
   public collateral: ICollateral = new Collateral();
+
   public collateralProperty: ICollateralProperty[];
   public tipeOfficerAppraisal?: string;
 
@@ -325,10 +336,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
           }
         }
       });
+      this.loadProperty(this.collateral);
     });
     this.getTasks();
-
     this.timeLine();
+    // console.log('prop', this.collateralProp);
   }
 
   public timeLine() {
@@ -390,6 +402,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
         this.collateral = this.surveyAppraisal.collateral;
         this.collateralType = this.collateral.collateralTypeId;
         this.onValTipeOfficerAppraisalChanged(this.surveyAppraisal.apprOfficer);
+        this.loadProperty(this.surveyAppraisal.collateral);
         resolve();
       });
     });
@@ -430,7 +443,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
     dialogRef.afterClosed().subscribe(_res => {
       if (_res) {
         this.resProcess = _res;
-		this.resProcess.attr.idPosition = this.getLocStor('POS');
+        this.resProcess.attr.idPosition = this.getLocStor('POS');
         this.taskProcess = task;
         if (_res.name === 'return' || _res.name === 'cancel') {
           this.saveProcess();
@@ -500,10 +513,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
 
     if (copySurveyAppraisal.id) {
       this.surveyAppraisalsService.update(copySurveyAppraisal).subscribe(res => {
-		this.surveyAppraisal.surveyorId = res.body.surveyorId;
-		this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
-		this.collateralAppraisal.surveyorId = res.body.surveyorId;
-		this.collateralAppraisal.surveyorPersonId = res.body.surveyorPersonId;
+        this.surveyAppraisal.surveyorId = res.body.surveyorId;
+        this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
+        this.collateralAppraisal.surveyorId = res.body.surveyorId;
+        this.collateralAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         if (source === 'process') {
           this.saveProcess();
           if (this.collateralAppraisalSummaryComponent) {
@@ -520,10 +533,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
     } else {
       this.surveyAppraisalsService.create(copySurveyAppraisal).subscribe(res => {
-		this.surveyAppraisal.surveyorId = res.body.surveyorId;
-		this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
-		this.collateralAppraisal.surveyorId = res.body.surveyorId;
-		this.collateralAppraisal.surveyorPersonId = res.body.surveyorPersonId;
+        this.surveyAppraisal.surveyorId = res.body.surveyorId;
+        this.surveyAppraisal.surveyorPersonId = res.body.surveyorPersonId;
+        this.collateralAppraisal.surveyorId = res.body.surveyorId;
+        this.collateralAppraisal.surveyorPersonId = res.body.surveyorPersonId;
         if (source === 'process') {
           if (this.collateralAppraisalSummaryComponent) {
             this.collateralAppraisalSummaryComponent.triggeredSave();
@@ -545,8 +558,10 @@ export class CollateralAppraisalMainComponent implements OnInit {
     if (source === 'process') {
       // validate
       this.validateAppraisal().then(() => this.mainSave(source));
+      this.cekValuation();
     } else {
       this.mainSave(source);
+      this.cekValuation();
     }
   }
 
@@ -1016,7 +1031,7 @@ export class CollateralAppraisalMainComponent implements OnInit {
       machineMarketValue: true,
       precentage: true,
       keterangan: true,
-      marketability: true
+      marketability: true,
     };
 
     const landCertificate =
@@ -1126,5 +1141,35 @@ export class CollateralAppraisalMainComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.checkMustValidatedOnVisited() && resolve('Visited Validated');
     });
+  }
+
+  public loadProperty(collateral: ICollateral): void {
+    this.collateralPropertyService
+      .queryFilterBy({
+        idCollateral: collateral.id,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.collateralProp = lodash.find(res.body, function (o) {
+          return o.propertyType === CollateralPropertyType.GENERAL && o.external === false;
+        });
+        console.log('collateral Property Main', this.collateralProp);
+      });
+  }
+
+  public cekValuation() {
+    this.saveCollateralProperty(this.collateralProp);
+  }
+  public marketValueLandRound: number;
+  public saveCollateralProperty(property: ICollateralProperty) {
+    if (this.collateralProp) {
+      console.log('save prop', property.attributes.marketValueLandRound);
+      // if (this.collateral.id) {
+      this.collateralPropertyService.save(property).subscribe(res => {
+        console.log('res', res.body);
+        console.log('save prop test', property.attributes.marketValueLandRound);
+      });
+      // }
+    }
   }
 }

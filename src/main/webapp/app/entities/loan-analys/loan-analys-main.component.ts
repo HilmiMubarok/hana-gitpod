@@ -566,7 +566,7 @@ export class LoanAnalysMainComponent implements OnInit {
             detail: 'Please press button approval status!',
             life: 3000,
           });
-        } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && _res.caption === 'Submit') {
           this.validate()
             .then(() => {
               this.onSave('process');

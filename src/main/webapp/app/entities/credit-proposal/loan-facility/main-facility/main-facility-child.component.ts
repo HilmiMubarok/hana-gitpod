@@ -27,4 +27,17 @@ export class MainFacilityChildComponent implements OnChanges {
       this.dataSource = this.mainData.categoryListDTO;
     }
   }
+  public printElements(element) {
+    if (element === null || element === 'null') {
+      return 0;
+    }
+    return element;
+  }
+
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
 }
