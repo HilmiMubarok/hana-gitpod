@@ -681,16 +681,16 @@ export const SUBMENU_PARTY_CIF: object[] = [
   {
     id: 'financial-info',
     text: 'financial info',
-    child: [
-      {
-        id: 'financial-info',
-        text: 'upload',
-      },
-      {
-        id: 'retrive-info',
-        text: 'retrieve',
-      },
-    ],
+    // child: [
+    //   {
+    //     id: 'financial-info',
+    //     text: 'upload',
+    //   },
+    // {
+    //   id: 'retrive-info',
+    //   text: 'retrieve',
+    // },
+    // ],
   },
   {
     id: 'credit-rating',
