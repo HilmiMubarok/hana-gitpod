@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { IApplicationProduct } from 'app/entities/application-product/application-product.model';
 import { Collateral, CollateralAttribute, ICollateral } from 'app/entities/collateral/collateral.model';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
@@ -12,6 +12,15 @@ import { ICreditProposal } from '../../credit-proposal.model';
 import { CreditProposalService } from '../../credit-proposal.service';
 import { IndexRateService } from '../../index-rate.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { IMasterProductParameter } from 'app/entities/master-parameter/master-product/master-product-parameter.model';
+import moment from 'moment';
+import { ApplicationOptionService } from 'app/entities/application-option/application-option.service';
+import { MasterProductParameterService } from 'app/entities/master-parameter/master-product/master-product-parameter.service';
+import { ProductClassificationService } from 'app/entities/product-classification/product-classification.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { default as _rollupMoment } from 'moment';
+import * as _moment from 'moment';
 
 @Component({
   selector: 'jhi-loan-facility-dialog-history',
@@ -19,6 +28,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
   styleUrls: ['./dialog-facility.css'],
 })
 export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEntityBaseViewComponent<ICreditProposal> implements OnInit {
+  public othersDescStat: Boolean = true;
   private _collateral: ICollateral;
   private _creditproposal: ICreditProposal;
   public dataItem: ICreditProposal;
@@ -42,6 +52,19 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   set creditProposal(param: ICreditProposal) {
     this._creditproposal = param;
   }
+
+  public statusFacilityValue: string;
+  public statusFacilityDisabled: boolean;
+  moment = _rollupMoment || _moment;
+  date = new FormControl(moment());
+  private listFacicility: any;
+  private listLoanType: any;
+  public listGeneralLov = [];
+  public masterProduct: IMasterProductParameter;
+  public listCategoryLov = [];
+  public revolving: Boolean;
+  public logoProvisonFee = {};
+  public logoAdminFee = {};
 
   public myControl = new FormControl('');
   public filteredOptions: Observable<string[]>;
@@ -202,12 +225,20 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
       collateralProductRelations: any;
       creditProposaldata: ICreditProposal;
     },
+    private dialog: MatDialog,
     public indexRateService: IndexRateService,
     public creditProposalService: CreditProposalService,
 
     // Code Lov get General Parameter  List Of Value Improvement Phase 1
     public generalParameterService: GeneralParameterService,
-    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogHistoryComponent>
+    private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogHistoryComponent>,
+
+    protected applicationOptionService: ApplicationOptionService,
+
+    private router: Router,
+    protected activatedRoute: ActivatedRoute,
+    protected productParameterService: MasterProductParameterService,
+    protected productClasificationService: ProductClassificationService
   ) {
     super(creditProposalService);
     this.dataItem = this.data.item;
@@ -264,6 +295,9 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
   }
 
   indexRateServiceFun() {
+    if (!this.rateType) {
+      this.rateType = '';
+    }
     if (this.rateType === 'FIXED') {
       if (this.ccy !== '') {
         this.indexRateService.find('get?&ccy=' + this.ccy + '&rateType=FIXED').subscribe((res: any) => {
@@ -277,13 +311,14 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
     } else {
       const dateNew = new Date().toISOString().split('T')[0];
       if (this.rateType !== '' && this.ccy !== '' && dateNew) {
+        console.log('ini rate type ', this.rateType);
         this.indexRateService
-          .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
+          .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
           .subscribe((res: any) => {
             for (let i = 1; i < 13; i++) {
               if (i === this.dateIndex) {
                 this.indexRate = res.body['rate' + i + 'M'] + '%';
-                this.applicationProduct.attributes.indexRate = this.indexRate;
+                this.applicationProduct.indexRateStr = this.indexRate;
               }
             }
           });
@@ -342,42 +377,6 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
       }
     } else {
       this.disableButton = false;
-    }
-  }
-
-  public calTotalPlafond(): number {
-    this.applicationProduct.attributes.totalPlafond =
-      Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
-    return Number(this.applicationProduct.attributes.initialLimit) + Number(this.applicationProduct.attributes.changes);
-  }
-
-  public getLovSublimit() {
-    for (let i = 0; i < this.creditProposalData.products.length; i++) {
-      if (this.creditProposalData.products[i].attributes.facilityType !== '') {
-        this.lovSublimit.push({
-          label: this.creditProposalData.products[i].attributes.facilityType,
-          index: this.creditProposalData.products[i].attributes.nomorUrutFasilitas,
-        });
-        const result = this.labelSublimit.find(obj => obj === this.creditProposalData.products[i].attributes.facilityType);
-        if (result === undefined) {
-          this.labelSublimit.push(this.creditProposalData.products[i].attributes.facilityType);
-        }
-      }
-    }
-    if (this.lovSublimit.length > 0) {
-      this.disButtonSub = false;
-    }
-  }
-
-  public changeSublimit(event) {
-    this.lovIndex = this.lovSublimit.filter(obj => obj.label === event);
-    this.applicationProduct.attributes['indexFacilityMain'] = this.lovIndex[0].index;
-  }
-
-  public changeSublimitCheck() {
-    if (this.applicationProduct.attributes['subLimit'] === false) {
-      this.applicationProduct.attributes['sublimitFromExistingFacility'] = '';
-      this.applicationProduct.attributes['indexFacilityMain'] = '';
     }
   }
 
@@ -451,57 +450,6 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
 
   public cursIdr: number;
 
-  getCurs() {
-    this.setDate = new Date().toISOString().split('T')[0];
-    this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
-      this.cursIdr = res.body[0]?.factor;
-      this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] * this.cursIdr;
-      this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] * this.cursIdr;
-      this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] * this.cursIdr;
-    });
-  }
-
-  chnageCurrency(value: string) {
-    this.ccy = value;
-    this.indexRateServiceFun();
-    this.setDate = new Date().toISOString().split('T')[0];
-    this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
-      this.currencyName = res.body[0]?.factor;
-      if (this.preCurent === '') {
-        if (value === 'IDR') {
-          this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-          this.preCurent = 'IDR';
-        } else if (value === 'USD') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.preCurent = 'USD';
-        }
-      } else if (this.preCurent === 'IDR') {
-        if (value === '') {
-          this.conCcy = false;
-          this.preCurent = '';
-        } else if (value === 'USD') {
-          this.conCcy = true;
-          this.logoCcy = {};
-          this.applicationProduct.attributes['initialLimit'] = this.applicationProduct.attributes['initialLimit'] / this.currencyName;
-          this.applicationProduct.attributes['outstanding'] = this.applicationProduct.attributes['outstanding'] / this.currencyName;
-          this.applicationProduct.attributes['changes'] = this.applicationProduct.attributes['changes'] / this.currencyName;
-          this.preCurent = 'USD';
-        }
-      } else if (this.preCurent === 'USD') {
-        if (value === '') {
-          this.conCcy = false;
-          this.preCurent = '';
-        } else if (value === 'IDR') {
-          this.conCcy = true;
-          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-          this.getCurs();
-          this.preCurent = 'IDR';
-        }
-      }
-    });
-  }
   public fee: any;
   // remove mask
   removeSymbolCcy(node) {
@@ -555,5 +503,401 @@ export class CreditProposalLoanFacilityDialogHistoryComponent extends AbstractEn
         });
         console.log('restruct', this.restructList);
       });
+  }
+
+  public cekData() {
+    this.changeAmountType(this.applicationProduct.adminFeeType, 'admin');
+    this.changeAmountType(this.applicationProduct.provisionFeeType, 'provision');
+  }
+
+  public calTotalPlafond(revolving?: Boolean): number {
+    this.revolving = revolving;
+    if (revolving === true) {
+      return (this.applicationProduct.totalPlafond =
+        Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes));
+    } else if (revolving === false) {
+      return (this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes));
+    }
+    return 0;
+  }
+
+  public getLovSublimit() {
+    for (let i = 0; i < this.creditProposalData.products.length; i++) {
+      if (this.creditProposalData.products[i].productTypeId !== '') {
+        this.lovSublimit.push({
+          label: this.creditProposalData.products[i].productTypeId,
+          index: this.creditProposalData.products[i].nomorUrutFasilitas,
+        });
+        const result = this.labelSublimit.find(obj => obj === this.creditProposalData.products[i].productTypeId);
+        if (result === undefined) {
+          this.labelSublimit.push(this.creditProposalData.products[i].productTypeId);
+        }
+      }
+    }
+    if (this.lovSublimit.length > 0) {
+      this.disButtonSub = false;
+    }
+  }
+
+  public changeSublimit(event) {
+    this.lovIndex = this.lovSublimit.filter(obj => obj.label === event);
+    this.applicationProduct.indexFacilityMain = this.lovIndex[0].index;
+  }
+
+  public changeSublimitCheck() {
+    if (this.applicationProduct.subLimit === false) {
+      this.applicationProduct.sublimitFromExistingFacility = '';
+      this.applicationProduct.indexFacilityMain = '';
+    }
+  }
+
+  getCurs() {
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency('USD', 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.cursIdr = res.body[0]?.factor;
+      this.applicationProduct.initialLimit = this.applicationProduct.initialLimit * this.cursIdr;
+      this.applicationProduct.outstanding = this.applicationProduct.outstanding * this.cursIdr;
+      this.applicationProduct.changes = this.applicationProduct.changes * this.cursIdr;
+    });
+  }
+
+  chnageCurrency(value: string) {
+    this.ccy = value;
+    this.indexRateServiceFun();
+    this.setDate = new Date().toISOString().split('T')[0];
+    this.creditProposalService.getCurrency(value, 'IDR', this.setDate.replace(/-/g, '')).subscribe(res => {
+      this.currencyName = res.body[0]?.factor;
+      this.applicationProduct.kurs = res.body[0]?.factor;
+      if (this.preCurent === '') {
+        if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.preCurent = 'IDR';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'IDR') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'USD') {
+          this.conCcy = true;
+          this.logoCcy = {};
+          this.applicationProduct.initialLimit = this.applicationProduct.initialLimit / this.currencyName;
+          this.applicationProduct.outstanding = this.applicationProduct.outstanding / this.currencyName;
+          this.applicationProduct.changes = this.applicationProduct.changes / this.currencyName;
+          this.preCurent = 'USD';
+        }
+      } else if (this.preCurent === 'USD') {
+        if (value === '') {
+          this.conCcy = false;
+          this.preCurent = '';
+        } else if (value === 'IDR') {
+          this.conCcy = true;
+          this.logoCcy = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+          this.getCurs();
+          this.preCurent = 'IDR';
+        }
+      }
+    });
+  }
+
+  textBoxHidden: boolean;
+  paymentIDR: boolean;
+  public parentPath = this.router.url.split('/')[1];
+  public selectedMenu: string;
+
+  // Condition Field in Offering Letter
+  public conditionFieldInOfferingLetter() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const subRoute = params['subroute'];
+      if (subRoute) {
+        this.selectedMenu = subRoute;
+      }
+    });
+    console.log('in the menu : ', this.selectedMenu);
+    // Condition Offering Letter in Route Finalize
+    if (this.parentPath === 'finalize') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        this.textBoxHidden = false;
+        this.status = false;
+        this.paymentIDR = true;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+
+      // Condition Offering Letter in Route Distribution
+    } else if (this.parentPath === 'distribution') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        if (this.dataItem.statusId === 'OL_ASSIGNED') {
+          this.textBoxHidden = false;
+          this.status = false;
+        } else {
+          this.textBoxHidden = false;
+          this.status = true;
+        }
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+
+      // Condition Offering Letter in Route Review
+    } else if (this.parentPath === 'review') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        this.textBoxHidden = false;
+        this.status = true;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+
+      // Condition Offering Letter in Route Confirmation
+    } else if (this.parentPath === 'confirmation') {
+      // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and cannot be changed
+      if (this.selectedMenu === 'loan-facility-detail') {
+        this.textBoxHidden = false;
+        this.status = true;
+        // If the Menu Compare Approval Report field can be displayed and cannot be changed
+      } else if (this.selectedMenu === 'compare-approval-report') {
+        this.textBoxHidden = false;
+        this.status = true;
+      } else {
+        this.textBoxHidden = true;
+      }
+    } else {
+      // other than in the offering letter field cannot be displayed and changed
+      this.textBoxHidden = true;
+    }
+  }
+
+  public latePaymentFeeUSD: any;
+  public latePaymentFeeIDR: any;
+  public paymentObligationNonAngsuran: any;
+  public paymentObligationAngsuran: any;
+
+  public datacoba = '';
+  public getApplicationOption() {
+    this.applicationOptionService.query().subscribe(res => {
+      for (let i = 0; i < res.body.length; i++) {
+        if (res.body[i].id === 'LATE_PAYMENT_FEE_USD') {
+          if (this.applicationProduct.latePaymentFee === '' || this.applicationProduct.latePaymentFee === undefined) {
+            if (this.applicationProduct.currencyId === 'USD') {
+              this.applicationProduct.latePaymentFee = res.body[i].value;
+            }
+          }
+        }
+        if (res.body[i].id === 'LATE_PAYMENT_FEE_IDR') {
+          if (this.applicationProduct.latePaymentFee === '' || this.applicationProduct.latePaymentFee === undefined) {
+            if (this.applicationProduct.currencyId === 'IDR') {
+              this.applicationProduct.latePaymentFee = res.body[i].value;
+            }
+          }
+        }
+        if (res.body[i].id === 'PAYMENT_OBLIGATION_NON_ANGSURAN_REMARK') {
+          if (
+            this.applicationProduct.attributes['paymentObligation'] === '' ||
+            this.applicationProduct.attributes['paymentObligation'] === undefined
+          ) {
+            if (this.applicationProduct.productTypeId === 'BG' || this.applicationProduct.productTypeId === 'LC') {
+              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+            }
+          }
+        }
+        if (res.body[i].id === 'PAYMENT_OBLIGATION_ANGSURAN_REMARK') {
+          if (
+            this.applicationProduct.attributes['paymentObligation'] === '' ||
+            this.applicationProduct.attributes['paymentObligation'] === undefined
+          ) {
+            if (
+              this.applicationProduct.productTypeId === 'DL' ||
+              this.applicationProduct.productTypeId === 'MML' ||
+              this.applicationProduct.productTypeId === 'FL' ||
+              this.applicationProduct.productTypeId === 'IL' ||
+              this.applicationProduct.productTypeId === 'OD'
+            ) {
+              this.applicationProduct.attributes['paymentObligation'] = res.body[i].value;
+            }
+          }
+        }
+      }
+    });
+  }
+
+  public obligationCashLoan: number;
+  public obligationNonCashLoan: number;
+
+  public getObligation() {
+    this.obligationCashLoan = 3;
+    this.obligationNonCashLoan = 2;
+
+    if (this.applicationProduct.earlyRepaymentPenalty === null) {
+      if (
+        this.applicationProduct.productTypeId === 'DL' ||
+        this.applicationProduct.productTypeId === 'MML' ||
+        this.applicationProduct.productTypeId === 'FL' ||
+        this.applicationProduct.productTypeId === 'IL' ||
+        this.applicationProduct.productTypeId === 'OD'
+      ) {
+        this.applicationProduct.earlyRepaymentPenalty = this.obligationCashLoan;
+      }
+      if (this.applicationProduct.productTypeId === 'BG' || this.applicationProduct.productTypeId === 'LC') {
+        this.applicationProduct.earlyRepaymentPenalty = this.obligationNonCashLoan;
+      }
+    }
+  }
+
+  public applicationTypeChange(event: any) {
+    this.statusFacilityValue = event.value;
+    if (this.statusFacilityValue === 'Existing') {
+      this.myControl.disable();
+      this.statusFacilityDisabled = true;
+    } else {
+      this.myControl.enable();
+      this.statusFacilityDisabled = false;
+    }
+    if (this.statusFacilityValue === 'Others') {
+      this.othersDescStat = false;
+    } else {
+      this.othersDescStat = true;
+    }
+  }
+
+  cekApplicationType() {
+    if (this.applicationProduct.applicationType === 'Existing') {
+      // this.getObligation();
+      this.myControl.disable();
+      this.statusFacilityDisabled = true;
+    } else {
+      this.myControl.enable();
+      this.statusFacilityDisabled = false;
+    }
+    if (this.applicationProduct.applicationType === 'Others') {
+      this.othersDescStat = false;
+    }
+  }
+
+  setFacilityType() {
+    this.creditProposalService.getFacilityTypeProduct().subscribe(res => {
+      this.listFacicility = res.body;
+      const dataData = Object.entries(
+        this.listFacicility.reduce((acc, { id, label }) => {
+          if (!acc[label]) {
+            acc[label] = [];
+          }
+          acc[label].push(id);
+
+          return acc;
+        }, {})
+      ).map(([label, id]) => ({ label, id }));
+      this.listFacicility = dataData;
+    });
+  }
+
+  public loaddata() {
+    const dateNew = new Date().toISOString().split('T')[0];
+    this.indexRateService
+      .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
+      .subscribe((res: any) => {
+        this.applicationProduct.indexRateStr = res.body['rate' + this.dateIndex + 'M'] + '%';
+      });
+  }
+
+  public getFacilityType() {
+    this.productParameterService.getLovFacilityType().subscribe(res => {
+      this.listGeneralLov = res.body;
+      console.log('master product ', res.body);
+      if (this.masterProduct.productTypeId !== '') {
+        for (let i = 0; i < this.listGeneralLov.length; i++) {
+          this.masterProduct.productTypeId = this.listGeneralLov[i].id;
+        }
+      }
+    });
+  }
+
+  public getfacilityCategory(event) {
+    const data = this.listLoanType.find(obj => obj.name === event);
+
+    if (data) {
+      this.productClasificationService
+        .queryFilterBy({
+          idProduct: data.id,
+          isActive: true,
+          page: 0,
+          size: 9999,
+          sort: ['asc'],
+        })
+        .subscribe(res => {
+          this.listCategoryLov = res.body;
+        });
+      this.applicationProduct.productId = data.id;
+      this.calTotalPlafond(data.revolving);
+    }
+  }
+
+  public setPeriodeType() {
+    if (this.applicationProduct.intResetPeriod === 'Month') {
+      this.applicationProduct.intResetFrequencyParam = 'M';
+    }
+  }
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '20vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
+  }
+
+  public changeAmountType(event, type) {
+    if (type === 'provision') {
+      if (event === '%p.a') {
+        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+      }
+      if (event === 'Amount IDR') {
+        this.logoProvisonFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === 'Amount USD') {
+        this.logoProvisonFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === '') {
+        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+      }
+    }
+    if (type === 'admin') {
+      if (event === '%p.a') {
+        this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+      }
+      if (event === 'Amount IDR') {
+        this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === 'Amount USD') {
+        this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+      }
+      if (event === '') {
+        this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+      }
+    }
   }
 }
