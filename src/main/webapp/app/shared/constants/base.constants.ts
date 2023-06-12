@@ -529,26 +529,26 @@ export const SUBMENU_COLLATERAL_APPRAISAL_REALESTATE: IOptionNode[] = [
     id: 'collateral-info',
     label: 'collateral info',
   },
-  {
-    id: 'valuation',
-    label: 'valuation',
-  },
-  {
-    id: 'negative-collateral',
-    label: 'negative collateral',
-  },
-  {
-    id: 'comparison-data',
-    label: 'comparison data',
-  },
-  {
-    id: 'foto-object-jaminan',
-    label: 'foto object jaminan',
-  },
-  {
-    id: 'summary',
-    label: 'summary',
-  },
+  // {
+  //   id: 'valuation',
+  //   label: 'valuation',
+  // },
+  // {
+  //   id: 'negative-collateral',
+  //   label: 'negative collateral',
+  // },
+  // {
+  //   id: 'comparison-data',
+  //   label: 'comparison data',
+  // },
+  // {
+  //   id: 'foto-object-jaminan',
+  //   label: 'foto object jaminan',
+  // },
+  // {
+  //   id: 'summary',
+  //   label: 'summary',
+  // },
 ];
 
 export const SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL: IOptionNode[] = [
@@ -1805,7 +1805,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_FINAL_ABOVE: object[] = [
         text: 'Collateral Info',
       },
       {
-        id: 'slik-summary',
+        id: 'slik-checking',
         text: 'slik checking',
       },
       {
@@ -1922,7 +1922,7 @@ export const SUBMENU_LOAN_ANALYS_DAR_NOTIF_ABOVE: object[] = [
         text: 'Collateral Info',
       },
       {
-        id: 'slik-summary',
+        id: 'slik-checking',
         text: 'slik checking',
       },
       {
