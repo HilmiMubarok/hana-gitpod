@@ -879,12 +879,14 @@
         </div>
       </section>
 
-      <div class="mb-2">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Index Rate</mat-label>
-          <input matInput [(ngModel)]="applicationProduct.indexRateStr" type="text" disabled />
-        </mat-form-field>
-      </div>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+        <div class="mb-2">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Index Rate</mat-label>
+            <input matInput [(ngModel)]="applicationProduct.indexRateStr" type="text" disabled />
+          </mat-form-field>
+        </div>
+      </section>
       <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
         <div class="fontsebled row py-1">
           <div class="col-3">Available Period</div>
@@ -896,6 +898,15 @@
           <div class="col-md-auto">:</div>
           <div class="col">
             {{ applicationProduct.availablePeriodType }}
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Index Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ applicationProduct.indexRateStr }}
           </div>
         </div>
       </section>
