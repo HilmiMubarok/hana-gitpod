@@ -13,23 +13,36 @@
             <!-- <ejs-combobox cssClass="e-outline" onselect="" placeholder="Proposal Type" [ngModel]="getUpdatekey"
               [dataSource]="proposalType" required>
             </ejs-combobox> -->
-
-            <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" [(ngModel)]="tempKey"> </ejs-combobox>
-            <button class="btn-info" ejs-button (click)="generate()">generate</button>
+            <section *jhiMatrixDirIDD="'input'">
+              <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" [(ngModel)]="tempKey"> </ejs-combobox>
+              <div class="mt-3">
+                <button class="btn-info" ejs-button (click)="generate()">generate</button>
+              </div>
+            </section>
+            <section *jhiMatrixDirIDD="''">
+              <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" [(ngModel)]="tempKey" [disabled]="true"> </ejs-combobox>
+              <div class="mt-2">
+                <button class="btn-info" ejs-button (click)="generate()" [disabled]="true">generate</button>
+              </div>
+            </section>
+            <!-- <ejs-combobox cssClass="e-outline" [dataSource]="proposalType" [(ngModel)]="tempKey"> </ejs-combobox>
+            <button class="btn-info" ejs-button (click)="generate()">generate</button> -->
 
             <!-- <button class="e-btn" (click)="onclick()">Sync</button> -->
-            <ejs-spreadsheet
-              #spreadsheet
-              (created)="created()"
-              (beforeOpen)="beforeOpen($event)"
-              (beforeSave)="beforeSave($event)"
-              openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
-              saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
-              allowSave="true"
-              [allowEditing]="true"
-              [height]="700"
-            >
-            </ejs-spreadsheet>
+            <div class="mt-2">
+              <ejs-spreadsheet
+                #spreadsheet
+                (created)="created()"
+                (beforeOpen)="beforeOpen($event)"
+                (beforeSave)="beforeSave($event)"
+                openUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/open"
+                saveUrl="https://ej2services.syncfusion.com/production/web-services/api/spreadsheet/save"
+                allowSave="true"
+                [allowEditing]="true"
+                [height]="700"
+              >
+              </ejs-spreadsheet>
+            </div>
           </div>
         </div>
       </div>

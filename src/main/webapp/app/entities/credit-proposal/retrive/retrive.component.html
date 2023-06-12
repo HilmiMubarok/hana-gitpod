@@ -3,7 +3,14 @@
     <div class="e-card-header-caption">
       <div class="e-card-header-title header-retrive">Retrieve</div>
       <div class="mb-6">
-        <button mat-raised-button class="button-retrive button-styling" (click)="generateRetrive()">SYNC Retrive From HOBIS</button>
+        <section *jhiMatrixDirIDD="'input'">
+          <button mat-raised-button class="button-retrive button-styling" (click)="generateRetrive()">SYNC Retrive From HOBIS</button>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <button mat-raised-button class="button-retrive button-styling" (click)="generateRetrive()" [hidden]="true">
+            SYNC Retrive From HOBIS
+          </button>
+        </section>
       </div>
     </div>
   </div>
