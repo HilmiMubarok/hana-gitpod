@@ -390,7 +390,8 @@ export class DocumentChecklistDialogTempComponent {
             metaData.status = this.files.status;
             metaData.dueDate =
               this.files.dueDate === undefined || this.files.dueDate === null ? null : new Date(this.files.dueDate).toISOString();
-            metaData.remarks = this.files.remarks.replace('&', 'codeSpecialDan');
+            metaData.remarks =
+              this.files.remarks === null || this.files.remarks === undefined ? null : this.files.remarks.replace('&', 'codeSpecialDan');
 
             const formData = new FormData();
             formData.append('file', this.file[i]);
