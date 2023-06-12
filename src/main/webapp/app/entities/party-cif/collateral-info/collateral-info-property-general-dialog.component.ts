@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -20,7 +20,14 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   public collateralPropertyExternal: ICollateralProperty;
   public partyCifData: IPartyCif;
   public branchId: string;
-  pariPasu: string;
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   constructor(
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
@@ -49,6 +56,7 @@ export class PartyCifCollateralInfoPropertyGeneralDialogComponent implements OnI
   ngOnInit(): void {
     this.loadByCollateral(this.collateral.id);
     console.log('collateral type ', this.collateral.collateralTypeId);
+    console.log('pariPasu', this.pariPasu);
   }
 
   private loadByCollateral(collateralId: number): void {

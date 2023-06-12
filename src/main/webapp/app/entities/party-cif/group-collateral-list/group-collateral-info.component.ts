@@ -96,6 +96,14 @@ export class GroupCollateralInfoComponent extends AbstractEntityMaterialComponen
   set dataSource(param: any) {
     this.items = param;
   }
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
 
   public displayedColumns: string[] = ['no', 'collateralInfo', 'collateralType', 'address', 'status', 'actions'];
 
@@ -306,7 +314,7 @@ export class GroupCollateralInfoComponent extends AbstractEntityMaterialComponen
   public openDialogPropertyGeneral(element: ICollateral): void {
     const dialogRef = this.dialog.open(PartyCifCollateralInfoPropertyGeneralDialogComponent, {
       width: '80vw',
-      data: { collateral: element, partyCif: this.partyCif, rmBranchId: this.rmBranch.id },
+      data: { collateral: element, partyCif: this.partyCif, rmBranchId: this.rmBranch.id, pariPasu: this.pariPasu },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralProperty[]) => {
       if (res && res.length > 0) {
