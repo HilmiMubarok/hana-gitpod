@@ -343,14 +343,11 @@
         <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
         <mat-dialog-actions align="center">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-            <!-- <button mat-button mat-dialog-close (click)="cancel()">Cancel</button> -->
-            <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-            <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">
-              Cancel
-            </button>
+            <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+            <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-            <button mat-button mat-dialog-close (click)="openCancelDialog()">Cancel</button>
+            <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
           </section>
         </mat-dialog-actions>
       </div>

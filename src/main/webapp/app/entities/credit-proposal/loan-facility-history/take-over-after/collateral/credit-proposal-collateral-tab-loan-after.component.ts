@@ -24,6 +24,7 @@ import { CollateralTabLoanAfterDialogHistoryComponent } from './credit-proposal-
 @Component({
   selector: 'jhi-collateral-tab-loan-after-history',
   templateUrl: './credit-proposal-collateral-tab-loan-after.component.html',
+  styleUrls: ['./collateral-info-dialog.css'],
 })
 export class CollateralTabLoanAfterHistoryComponent implements OnChanges {
   @Input() isViewMode: Boolean = false;

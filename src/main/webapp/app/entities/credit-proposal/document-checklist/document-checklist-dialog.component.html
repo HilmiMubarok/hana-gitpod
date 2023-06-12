@@ -169,8 +169,8 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
-    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
+    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Close</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
   </mat-dialog-actions>
 </div>
 
@@ -314,6 +314,6 @@
     </ul>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-button (click)="cancel()" style="background: rgb(228, 39, 39); color: #ffffff">Close</button>
+    <button mat-raised-button class="confirm-button-no" (click)="cancel()">Close</button>
   </mat-dialog-actions>
 </div>

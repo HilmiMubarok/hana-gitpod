@@ -81,7 +81,6 @@ export class OrganizationLegalDialogComponent {
       data: {
         title: '',
         message: 'Are you sure to cancel this data?',
-        panelClass: 'my-dialog-container-class',
       },
       panelClass: 'custom-dialog-container-cancel',
     });

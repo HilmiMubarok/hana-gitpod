@@ -101,11 +101,12 @@ export class CreditProposalTabLoanFacilityTakeOverGridComponent implements OnCha
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Take Over Previous Data',
-        message: 'Are you sure to delete ' + element.facilityTypeBank + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

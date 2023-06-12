@@ -119,14 +119,14 @@
     </div>
   </section>
   <mat-dialog-actions align="center">
+    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()" style="margin-right: 15px">Close</button>
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-      <button mat-button *ngIf="!view" (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
+      <button mat-raised-button class="confirm-button-yes" *ngIf="!view" (click)="save()">Save</button>
     </section>
-    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">Close</button>
   </mat-dialog-actions>
   <mat-dialog-actions align="center">
     <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-      <button mat-button *ngIf="!view" (click)="save()" hidden>Save</button>
+      <button mat-raised-button class="confirm-button-yes" *ngIf="!view" (click)="save()" hidden>Save</button>
     </section>
   </mat-dialog-actions>
 </mat-dialog-content>

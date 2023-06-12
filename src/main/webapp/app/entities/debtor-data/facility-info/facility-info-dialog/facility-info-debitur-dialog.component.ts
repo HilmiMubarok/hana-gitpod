@@ -50,7 +50,7 @@ export class FacilityInfoDebiturDialogComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
         message: 'Are you sure to cancel?',

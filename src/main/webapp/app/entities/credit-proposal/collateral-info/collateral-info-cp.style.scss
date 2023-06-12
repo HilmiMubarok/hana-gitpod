@@ -124,3 +124,16 @@ td {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
 }
+.mat-column-no {
+  width: 5%;
+}
+.mat-column-action {
+  width: 10%;
+}
+.mat-column:first-child {
+  border-top-left-radius: 15px;
+}
+
+.mat-column:last-child {
+  border-top-right-radius: 15px;
+}
