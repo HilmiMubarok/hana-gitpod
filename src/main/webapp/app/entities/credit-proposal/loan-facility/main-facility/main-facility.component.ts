@@ -77,4 +77,17 @@ export class MainFacilityComponent implements OnInit, OnChanges {
       console.log(data);
     });
   }
+  public printElements(element) {
+    if (element === null || element === 'null') {
+      return 0;
+    }
+    return element;
+  }
+
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
 }
