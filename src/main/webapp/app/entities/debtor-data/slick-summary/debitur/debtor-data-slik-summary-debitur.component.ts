@@ -409,12 +409,12 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
   // Delete Confirmation
   public openRemoveDebtorData(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '30vw',
+      width: '25vw',
       data: {
         title: 'Delete Debtor Data',
         message: 'Are you sure to delete this data?',
       },
-      panelClass: '.custom-dialog-container-delete',
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

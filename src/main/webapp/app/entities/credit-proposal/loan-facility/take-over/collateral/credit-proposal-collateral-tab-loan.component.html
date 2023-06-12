@@ -1,8 +1,9 @@
 <section *ngIf="isViewMode === false">
   <mat-card>
-    <mat-card-header>
-      <mat-card-subtitle>Collateral Info</mat-card-subtitle>
-    </mat-card-header>
+    <!-- <mat-card-header> -->
+    <!-- <mat-card-subtitle>Collateral Info</mat-card-subtitle> -->
+    <mat-label>Collateral Info</mat-label>
+    <!-- </mat-card-header> -->
     <mat-card-content>
       <div class="table-responsive-material">
         <table mat-table *ngIf="creditProposal && !loading" class="w-100" [dataSource]="creditProposal.attributes['collateralPrevious']">
@@ -74,9 +75,10 @@
 </section>
 <section *ngIf="isViewMode === true">
   <mat-card>
-    <mat-card-header>
-      <mat-card-subtitle>Collateral Info</mat-card-subtitle>
-    </mat-card-header>
+    <!-- <mat-card-header> -->
+    <!-- <mat-card-subtitle>Collateral Info</mat-card-subtitle> -->
+    <mat-label>Collateral Info</mat-label>
+    <!-- </mat-card-header> -->
     <mat-card-content>
       <div class="table-responsive-material">
         <table mat-table *ngIf="creditProposal && !loading" class="w-100" [dataSource]="creditProposal.attributes['collateralPrevious']">

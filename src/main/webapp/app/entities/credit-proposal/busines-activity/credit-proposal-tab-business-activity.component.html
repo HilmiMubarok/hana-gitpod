@@ -10,7 +10,7 @@
 <div class="e-card mb-3">
   <div [hidden]="selectedMenu !== 'BUSINESS ACTIVITY'">
     <div class="e-card-content">
-      <div class="e-card-header-title">BUSINESS ACTIVITY</div>
+      <div class="e-card-header-title">Business Activity</div>
       <div class="form-space">
         <div class="row my-3">
           <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -158,7 +158,7 @@
   <div *ngIf="selectedMenu === 'PROJECT ANALYSIS'">
     <div *ngIf="creditProposalItem.attributes['proposalType'] === 'Total Exposure > IDR 15 Bio'">
       <div class="e-card-content">
-        <div class="e-card-header-title">PROJECT ANALYSIS</div>
+        <div class="e-card-header-title">Project Analysis</div>
         <div class="form-space">
           <section *jhiMatrixDir="_item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <ejs-documenteditorcontainer

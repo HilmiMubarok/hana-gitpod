@@ -100,11 +100,12 @@ export class CollateralAppraisalDetailProcessMesinComponent implements OnChanges
   // Delete Confirmation
   public deleteMchine(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Machine',
-        message: 'Are you sure to delete ' + element.machineName + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

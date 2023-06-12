@@ -24,7 +24,7 @@
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-4">
-        <label class="labelTotal">TOTAL IN IDR</label>
+        <label class="labelTotal">Total In IDR</label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
@@ -124,7 +124,7 @@
       </div>
 
       <div class="col-4">
-        <label class="labelTotal">TOTAL IN USD</label>
+        <label class="labelTotal">Total In USD</label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
@@ -224,7 +224,7 @@
       </div>
 
       <div class="col-4">
-        <label class="labelTotal">TOTAL Eq to IDR</label>
+        <label class="labelTotal">Total Eq to IDR</label>
         <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
           <div class="mb-2">
             <ejs-numerictextbox
@@ -411,7 +411,8 @@
   <div class="row">
     <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
       <div class="col-6">
-        <mat-label>Previous Bank</mat-label>
+        <mat-header></mat-header>
+        <mat-label style="margin-left: 13px">Previous Bank</mat-label>
         <mat-form-field class="w-100" appearance="outline">
           <input matInput type="text" [(ngModel)]="creditProposal.attributes['facilityDetail'].previousBank" />
         </mat-form-field>
@@ -431,7 +432,7 @@
   <div class="row col-12">
     <div class="col-md-6">
       <div class="mb-2">
-        <mat-label>Previous Bank</mat-label>
+        <mat-label style="margin-left: 16px">Previous Bank</mat-label>
         <jhi-credit-proposal-tab-loan-facility-take-over-grid [creditProposal]="creditProposal" [isViewMode]="isViewMode">
         </jhi-credit-proposal-tab-loan-facility-take-over-grid>
       </div>
@@ -439,7 +440,7 @@
 
     <div class="col-md-6">
       <div class="mb-2">
-        <mat-label>After Bank</mat-label>
+        <mat-label style="margin-left: 28px">After Bank</mat-label>
         <jhi-credit-proposal-tab-loan-facility-take-over-after-grid [creditProposal]="creditProposal" [isViewMode]="true">
         </jhi-credit-proposal-tab-loan-facility-take-over-after-grid>
       </div>

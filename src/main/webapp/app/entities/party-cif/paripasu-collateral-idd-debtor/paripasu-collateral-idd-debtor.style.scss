@@ -88,12 +88,12 @@ td, th {
 } */
 
 table {
-  border-bottom: 1px solid #008881 !important;
+  // border-bottom: 1px solid #008881 !important;
   width: 100%;
   th {
-    background-color: #008881;
-    border: 1px solid #008881;
-    color: #ffff;
+    background-color: rgba(147, 201, 199, 1) !important;
+    color: black;
+    font-family: 'Poppins', sans-serif !important;
     padding: 8px;
     text-align: center;
   }
@@ -101,9 +101,15 @@ table {
   td {
     padding: 8px;
     text-align: center;
+    font-family: 'Poppins', sans-serif !important;
   }
 }
-
+th:first-child {
+  border-top-left-radius: 15px !important;
+}
+th:last-child {
+  border-top-right-radius: 15px !important;
+}
 mat-card-subtitle {
   font-size: 24px;
   font-weight: 500;

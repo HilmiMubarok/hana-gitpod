@@ -86,3 +86,18 @@
   font-family: 'Poppins';
   src: local(''), url('../../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}

@@ -13,6 +13,7 @@ import { IPartyCif } from '../party-cif.model';
 @Component({
   selector: 'jhi-party-cif-customer-info-rm-info',
   templateUrl: './party-cif-customer-info-rm-info.component.html',
+  styleUrls: ['./party-cif-customer-info-rm-info.style.scss'],
 })
 export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
   public segments: IInternal[];
@@ -61,7 +62,7 @@ export class PartyCifCustomerInfoRMInfoComponent implements OnInit {
       });
 
       this.positionRMS = lodash.find(res.body, function (o) {
-        return o.partyId  === tempId;
+        return o.partyId === tempId;
       });
 
       if (this.positionRMS?.partyId !== undefined || this.positionRMS?.partyId !== null) {

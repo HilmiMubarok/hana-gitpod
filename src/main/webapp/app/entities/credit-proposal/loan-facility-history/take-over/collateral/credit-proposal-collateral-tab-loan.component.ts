@@ -25,6 +25,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-collateral-tab-loan-history',
   templateUrl: './credit-proposal-collateral-tab-loan.component.html',
+  styleUrls: ['./collateral-info-dialog.css'],
 })
 export class CollateralTabLoanHistoryComponent implements OnChanges {
   public displayedColumns: string[] = ['no', 'collateralType', 'marketValue', 'liquidValue', 'action'];
@@ -81,11 +82,12 @@ export class CollateralTabLoanHistoryComponent implements OnChanges {
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Collateral Info',
-        message: 'Are you sure to delete ' + element.collateralType + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

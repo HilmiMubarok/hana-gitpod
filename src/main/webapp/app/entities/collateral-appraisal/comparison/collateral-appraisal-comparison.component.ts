@@ -71,11 +71,12 @@ export class CollateralAppraisalComparisonComponent implements OnChanges {
   // Delete Confirmation
   public deleteCpRealEstate(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Comparison Data',
-        message: 'Are you sure to delete ' + element.attributes.comparison.nameFile + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

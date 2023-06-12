@@ -196,11 +196,12 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
   // Delete Confirmation
   public deleteBuilding(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Building Info',
-        message: 'Are you sure to delete ' + element.buildingSpec + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

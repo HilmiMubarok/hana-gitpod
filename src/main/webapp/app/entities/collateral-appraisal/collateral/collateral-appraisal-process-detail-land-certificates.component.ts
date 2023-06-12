@@ -166,16 +166,12 @@ export class CollateralAppraisalDetailProcessLandCertificatesComponent implement
   // Delete Confirmation
   public delete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Certificate',
-        message:
-          'Are you sure to delete the certificate in the name of ' +
-          element.certName +
-          ' with certificate number ' +
-          element.certNumber +
-          '?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

@@ -107,8 +107,9 @@ export class LoanFacilityTakeOverAfterGridHistoryComponent implements OnChanges,
       width: '40vw',
       data: {
         title: 'Delete Facility Takeover After',
-        message: 'Are you sure to delete ' + element.facilityTypeOverBank.label + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

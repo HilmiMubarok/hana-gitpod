@@ -1,9 +1,9 @@
 <mat-card-actions align="right" [hidden]="viewes">
-  <button mat-button mat-dialog-close>X</button>
+  <button mat-button mat-dialog-close class="confirm-button-x">X</button>
 </mat-card-actions>
 
-<h2 *ngIf="this.data.organizationManagement.id === undefined" mat-dialog-title>ADD ORGANIZATION MANAGEMENT</h2>
-<h2 *ngIf="this.data.organizationManagement.id !== undefined" mat-dialog-title>EDIT ORGANIZATION MANAGEMENT</h2>
+<h2 *ngIf="this.data.organizationManagement.id === undefined" mat-dialog-title>Add Organization Management</h2>
+<h2 *ngIf="this.data.organizationManagement.id !== undefined" mat-dialog-title>Edit Organization Management</h2>
 <mat-dialog-content>
   <mat-card-header>
     <div>
