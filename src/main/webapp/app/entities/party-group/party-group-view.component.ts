@@ -395,42 +395,42 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
       if (this.totalPlafond <= 15000000000) {
         if (this.item.capitalDeposit <= 1000000000) {
           if (this.item.annualSales <= 2000000000) {
-            this.item.umkmClass = 'MICRO';
+            this.item.umkmClass = 'Mikro';
           }
           if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
-            this.item.umkmClass = 'SMALL';
+            this.item.umkmClass = 'Kecil';
           }
           if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
-            this.item.umkmClass = 'MIDDLE';
+            this.item.umkmClass = 'Menengah';
           }
           if (this.item.annualSales > 50000000000) {
             this.item.umkmClass = 'Non UMKM';
           }
         } else if (this.item.capitalDeposit > 1000000000 && this.item.capitalDeposit <= 5000000000) {
           if (this.item.annualSales <= 2000000000) {
-            this.item.umkmClass = 'SMALL';
+            this.item.umkmClass = 'Kecil';
           }
           if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
-            this.item.umkmClass = 'SMALL';
+            this.item.umkmClass = 'Kecil';
           }
           if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
-            this.item.umkmClass = 'SMALL';
+            this.item.umkmClass = 'Kecil';
           }
           if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
-            this.item.umkmClass = 'MIDDLE';
+            this.item.umkmClass = 'Menengah';
           }
           if (this.item.annualSales > 50000000000) {
             this.item.umkmClass = 'Non UMKM';
           }
         } else if (this.item.capitalDeposit > 5000000000 && this.item.capitalDeposit <= 10000000000) {
           if (this.item.annualSales <= 2000000000) {
-            this.item.umkmClass = 'MIDDLE';
+            this.item.umkmClass = 'Menengah';
           }
           if (this.item.annualSales > 2000000000 && this.item.annualSales <= 15000000000) {
-            this.item.umkmClass = 'MIDDLE';
+            this.item.umkmClass = 'Menengah';
           }
           if (this.item.annualSales > 15000000000 && this.item.annualSales <= 50000000000) {
-            this.item.umkmClass = 'MIDDLE';
+            this.item.umkmClass = 'Menengah';
           }
           if (this.item.annualSales > 50000000000) {
             this.item.umkmClass = 'Non  UMKM';
@@ -457,11 +457,11 @@ export class PartyGroupViewComponent extends AbstractEntityBaseViewComponent<ICr
     }
 
     if (this.item.umkmClass !== '' || this.item.umkmClass !== undefined) {
-      if (this.item.umkmClass === 'MICRO') {
+      if (this.item.umkmClass === 'Mikro') {
         this.item.debtorCategory = '70';
-      } else if (this.item.umkmClass === 'SMALL') {
+      } else if (this.item.umkmClass === 'Kecil') {
         this.item.debtorCategory = '80';
-      } else if (this.item.umkmClass === 'MIDDLE') {
+      } else if (this.item.umkmClass === 'Menengah') {
         this.item.debtorCategory = '90';
       } else {
         this.item.debtorCategory = '99';
