@@ -141,6 +141,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
     'limit',
     'os',
     'facilityType',
+    'typeOfFacility',
     'rate',
     'period',
     'collateralValue',
@@ -325,7 +326,7 @@ export class DeborDataSlikSummaryDebiturComponent extends AbstractEntityMaterial
       for (let i = 0; i < partySlik.length; i++) {
         const regex = /[.,\s]/g;
         if (partySlik[i].plafond) {
-          totalLimit = totalLimit + Number(partySlik[i].plafon);
+          totalLimit = totalLimit + Number(partySlik[i].limit);
         }
       }
     }
