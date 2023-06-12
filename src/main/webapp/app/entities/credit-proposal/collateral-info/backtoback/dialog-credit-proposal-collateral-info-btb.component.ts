@@ -269,8 +269,15 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
   }
 
   public getBindingType(element: string) {
-    const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
-    return this.bindingTypeVal[keyy];
+    if (this.bindingTypeVal) {
+      const data = this.bindingTypeVal.find(obj => obj.code === element);
+      if (data) {
+        return data.value;
+      }
+    }
+    return '';
+    // const keyy = Object.keys(this.bindingTypeVal).find(item => item === element);
+    // return this.bindingTypeVal[keyy];
   }
 
   public print() {
