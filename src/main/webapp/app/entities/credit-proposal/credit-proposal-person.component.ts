@@ -356,47 +356,46 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     this.getProduct();
     if (this.deptorData.applicationTypeId === 'SME') {
       const totalPlafond = 0;
-      
 
       if (this.totalPlafond <= 15000000000) {
         if (this.deptorData.capitalDeposit <= 1000000000) {
           if (this.deptorData.annualSales <= 2000000000) {
-            this.deptorData.umkmClass = 'MICRO';
+            this.deptorData.umkmClass = 'Mikro';
           }
           if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
-            this.deptorData.umkmClass = 'SMALL';
+            this.deptorData.umkmClass = 'Kecil';
           }
           if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
-            this.deptorData.umkmClass = 'MIDDLE';
+            this.deptorData.umkmClass = 'Menengah';
           }
           if (this.deptorData.annualSales > 50000000000) {
             this.deptorData.umkmClass = 'Non UMKM';
           }
         } else if (this.deptorData.capitalDeposit > 1000000000 && this.deptorData.capitalDeposit <= 5000000000) {
           if (this.deptorData.annualSales <= 2000000000) {
-            this.deptorData.umkmClass = 'SMALL';
+            this.deptorData.umkmClass = 'Kecil';
           }
           if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
-            this.deptorData.umkmClass = 'SMALL';
+            this.deptorData.umkmClass = 'Kecil';
           }
           if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
-            this.deptorData.umkmClass = 'SMALL';
+            this.deptorData.umkmClass = 'Kecil';
           }
           if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
-            this.deptorData.umkmClass = 'MIDDLE';
+            this.deptorData.umkmClass = 'Menengah';
           }
           if (this.deptorData.annualSales > 50000000000) {
             this.deptorData.umkmClass = 'Non UMKM';
           }
         } else if (this.deptorData.capitalDeposit > 5000000000 && this.deptorData.capitalDeposit <= 10000000000) {
           if (this.deptorData.annualSales <= 2000000000) {
-            this.deptorData.umkmClass = 'MIDDLE';
+            this.deptorData.umkmClass = 'Menengah';
           }
           if (this.deptorData.annualSales > 2000000000 && this.deptorData.annualSales <= 15000000000) {
-            this.deptorData.umkmClass = 'MIDDLE';
+            this.deptorData.umkmClass = 'Menengah';
           }
           if (this.deptorData.annualSales > 15000000000 && this.deptorData.annualSales <= 50000000000) {
-            this.deptorData.umkmClass = 'MIDDLE';
+            this.deptorData.umkmClass = 'Menengah';
           }
           if (this.deptorData.annualSales > 50000000000) {
             this.deptorData.umkmClass = 'Non  UMKM';
@@ -423,11 +422,11 @@ export class CreditProposalPersonComponent extends AbstractEntityBaseViewCompone
     }
 
     if (this.deptorData.umkmClass !== '' || this.deptorData.umkmClass !== undefined) {
-      if (this.deptorData.umkmClass === 'MICRO') {
+      if (this.deptorData.umkmClass === 'Mikro') {
         this.deptorData.debtorCategory = '70';
-      } else if (this.deptorData.umkmClass === 'SMALL') {
+      } else if (this.deptorData.umkmClass === 'Kecil') {
         this.deptorData.debtorCategory = '80';
-      } else if (this.deptorData.umkmClass === 'MIDDLE') {
+      } else if (this.deptorData.umkmClass === 'Menengah') {
         this.deptorData.debtorCategory = '90';
       } else {
         this.deptorData.debtorCategory = '99';
