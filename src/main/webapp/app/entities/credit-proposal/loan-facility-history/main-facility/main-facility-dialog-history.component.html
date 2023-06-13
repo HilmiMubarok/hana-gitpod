@@ -1,0 +1,224 @@
+<!-- <div class="style-close">
+  <button class="button-close" mat-button mat-dialog-close>X</button>
+</div> -->
+<h2 mat-dialog-title class="header-title">Main Facility</h2>
+<mat-dialog-content>
+  <mat-card>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-6">
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Approval No</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.approvalNumber" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Approval No</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.approvalNumber }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Currency</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  [formControl]="myControlCurrency"
+                  [matAutocomplete]="auto"
+                  [(ngModel)]="mainCcy"
+                  (ngModelChange)="getMainCcy()"
+                />
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
+                  <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option">
+                    {{ option.abbreviation }} - {{ option.description }}
+                  </mat-option>
+                </mat-autocomplete>
+                <!-- <mat-select [(ngModel)]="collateralProperty.attributes.amountCcy" [disabled]="dataSource()">
+                                <mat-option value="">Please Select</mat-option>
+                                <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+                              </mat-select> -->
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Currency</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.currency }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Kurs</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.kurs" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Kurs</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.kurs }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Initial Limit</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.mainPlafond" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Initial Limit</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.mainPlafond | currency: ' ':'symbol':'1.0-0' }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Changes</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.changes" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Changes</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.changes | currency: ' ':'symbol':'1.0-0' }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Total Plafond</mat-label>
+                <input matInput type="text" [(ngModel)]="mainFacility.totalPlafond" disabled />
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Total Plafond</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.totalPlafond | currency: ' ':'symbol':'1.0-0' }}</div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-6">
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Current maturity Date</mat-label>
+                <input [matDatepicker]="currentMaturityDate" matInput type="text" [(ngModel)]="mainFacility.maturityDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="currentMaturityDate" disabled> </mat-datepicker-toggle>
+                <mat-datepicker #currentMaturityDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Current maturity Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.maturityDate | date: 'yyyy/MM/dd' }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Last Agreement Date</mat-label>
+                <input [matDatepicker]="lastAgremeentDate" matInput type="text" [(ngModel)]="mainFacility.lastAgreementDate" disabled />
+                <mat-datepicker-toggle matSuffix [for]="lastAgremeentDate" disabled> </mat-datepicker-toggle>
+                <mat-datepicker #lastAgremeentDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Last Agreement Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.lastAgreementDate | date: 'yyyy/MM/dd' }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Proposed maturity Date</mat-label>
+                <input [matDatepicker]="proposedMaturityDate" matInput type="text" [(ngModel)]="mainFacility.newMaturityDate" />
+                <mat-datepicker-toggle matSuffix [for]="proposedMaturityDate"> </mat-datepicker-toggle>
+                <mat-datepicker #proposedMaturityDate></mat-datepicker>
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Proposed maturity Date</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.newMaturityDate }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Jangka Waktu Plafond Awal</mat-label>
+                <input [matDatepicker]="jangkaWatkuPlafondAwal" matInput type="text" [(ngModel)]="mainFacility.startPeriodDate" />
+                <mat-datepicker-toggle matSuffix [for]="jangkaWatkuPlafondAwal"> </mat-datepicker-toggle>
+                <mat-datepicker #jangkaWatkuPlafondAwal></mat-datepicker>
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Jangka Waktu Plafond Awal</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.startPeriodDate }}</div>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+            <div class="form-group">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Jangka Waktu Plafond Akhir</mat-label>
+                <input [matDatepicker]="jangkaWatkuPlafondAkhir" matInput type="text" [(ngModel)]="mainFacility.endPeriodDate" />
+                <mat-datepicker-toggle matSuffix [for]="jangkaWatkuPlafondAkhir"> </mat-datepicker-toggle>
+                <mat-datepicker #jangkaWatkuPlafondAkhir></mat-datepicker>
+                <mat-hint align="end">*) Disabled, Data From HOBIS</mat-hint>
+              </mat-form-field>
+            </div>
+          </section>
+          <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row py-1">
+              <div class="col-3">Jangka Waktu Plafond Akhir</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">{{ mainFacility.endPeriodDate }}</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+    <div class="mt-3 text-center">
+      <button mat-raised-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">Save</button>
+    </div>
+  </section>
+
+  <div class="mt-3 text-center py-3">
+    <button mat-raised-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px">
+      Cancel
+    </button>
+  </div>
+</mat-dialog-actions>
