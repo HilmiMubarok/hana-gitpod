@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-lending-program-parameter-dialog',
   templateUrl: './lending-program-parameter-dialog.component.html',
+  styleUrls: ['./lending-program-parameter.css'],
 })
 export class LendingProgramParameterDialogComponent {
   public lendingProgramParameter: ILendingProgramParameter;

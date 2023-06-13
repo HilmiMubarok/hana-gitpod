@@ -1,73 +1,75 @@
-<table mat-table [dataSource]="debtorDataFacility" class="w-100">
-  <ng-container matColumnDef="no">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
-    <td mat-cell *matCellDef="let i = index" class="grid-index-center">{{ i + 1 }}</td>
-  </ng-container>
-  <ng-container matColumnDef="appraisalNo">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Approval No</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.approvalNumber }}</td>
-  </ng-container>
-  <ng-container matColumnDef="facilityCategory">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Facility Category</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.categoryId }}</td>
-  </ng-container>
-  <ng-container matColumnDef="bank">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Loan Account</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.agreementNumber }}</td>
-  </ng-container>
-  <ng-container matColumnDef="limit">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center" style="width: 150px">Facility Type</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.productTypeId }}</td>
-  </ng-container>
-  <ng-container matColumnDef="loantype">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center" style="width: 150px">Loan Type</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.productName }}</td>
-  </ng-container>
-  <!-- <ng-container matColumnDef="os">
+<div class="table-responsive">
+  <table mat-table [dataSource]="debtorDataFacility" class="w-100">
+    <ng-container matColumnDef="no">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-left">No</th>
+      <td mat-cell *matCellDef="let i = index" class="grid-index-center">{{ i + 1 }}</td>
+    </ng-container>
+    <ng-container matColumnDef="appraisalNo">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Approval No</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.approvalNumber }}</td>
+    </ng-container>
+    <ng-container matColumnDef="facilityCategory">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Facility Category</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.categoryId }}</td>
+    </ng-container>
+    <ng-container matColumnDef="bank">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Loan Account</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.agreementNumber }}</td>
+    </ng-container>
+    <ng-container matColumnDef="limit">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center" style="width: 150px">Facility Type</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.productTypeId }}</td>
+    </ng-container>
+    <ng-container matColumnDef="loantype">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center" style="width: 150px">Loan Type</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.productName }}</td>
+    </ng-container>
+    <!-- <ng-container matColumnDef="os">
     <th mat-header-cell *matHeaderCellDef class="grid-index-center">Sub Limit</th>
     <td mat-cell *matCellDef="let element" class="grid-index-center">{{ getSublimit(element.subLimit) }}</td>
   </ng-container> -->
-  <ng-container matColumnDef="facilityType">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Available Limit</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.availalbleLimit }}</td>
-  </ng-container>
-  <ng-container matColumnDef="rate">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">CCY</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center" style="width: 20px">{{ element.baseCurrency }}</td>
-  </ng-container>
-  <ng-container matColumnDef="period">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Credit Limit</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.contractAmount | number: '1.0-0' }}</td>
-  </ng-container>
-  <ng-container matColumnDef="collateralType">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">O/S</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.outstanding | number: '1.2-2' }}</td>
-  </ng-container>
-  <ng-container matColumnDef="collateralValue">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Interest Rate</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">
-      {{ element.intResetFrequency }}{{ element.intResetFrequencyParam }} {{ element.rateTypeName }}
-      {{ element.spreadRate }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="tenor">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center">Disbursement Date</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.trxDate.slice(0, 10) }}</td>
-  </ng-container>
-  <ng-container matColumnDef="lastKol">
-    <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-right">MaturityDate</th>
-    <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.maturityDate.slice(0, 10) }}</td>
-  </ng-container>
+    <ng-container matColumnDef="facilityType">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Available Limit</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.availalbleLimit }}</td>
+    </ng-container>
+    <ng-container matColumnDef="rate">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">CCY</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center" style="width: 20px">{{ element.baseCurrency }}</td>
+    </ng-container>
+    <ng-container matColumnDef="period">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Credit Limit</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.contractAmount | number: '1.0-0' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="collateralType">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">O/S</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.outstanding | number: '1.2-2' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="collateralValue">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Interest Rate</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">
+        {{ element.intResetFrequency }}{{ element.intResetFrequencyParam }} {{ element.rateTypeName }}
+        {{ element.spreadRate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="tenor">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center">Disbursement Date</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.trxDate.slice(0, 10) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="lastKol">
+      <th mat-header-cell *matHeaderCellDef class="grid-index-center rounding-table-right">MaturityDate</th>
+      <td mat-cell *matCellDef="let element" class="grid-index-center">{{ element.maturityDate.slice(0, 10) }}</td>
+    </ng-container>
 
-  <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
-  <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+    <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
+    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
 
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
-  </tr>
-  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-</table>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
+    </tr>
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+  </table>
+</div>
 <mat-card *ngIf="loading" id="material-loading-bar">
   <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
 </mat-card>

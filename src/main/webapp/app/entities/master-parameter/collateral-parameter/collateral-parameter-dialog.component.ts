@@ -9,6 +9,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-collateral-parameter-dialog',
   templateUrl: './collateral-parameter-dialog.component.html',
+  styleUrls: ['./master-collateral.css'],
 })
 export class CollateralParameterDialogComponent implements OnInit {
   public listCollateralType: any;

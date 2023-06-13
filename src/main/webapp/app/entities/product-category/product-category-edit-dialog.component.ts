@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-product-category-edit-dialog',
   templateUrl: './product-category-edit-dialog.component.html',
+  styleUrls: ['../master-parameter/master-product/master-product.css'],
 })
 export class ProductCategoryEditDialogComponent {
   public productParameter: IProductCategory;

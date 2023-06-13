@@ -120,3 +120,6 @@
 .e-float-input.e-input-group.e-control-wrapper.e-disabled {
   font-family: 'Poppins', sans-serif !important;
 }
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}

@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-industry-limit-exposure-parameter-dialog',
   templateUrl: './industry-limit-exposure-parameter-dialog.component.html',
+  styleUrls: ['./industry-limit-exposure-parameter.css'],
 })
 export class MasterParameterIndustryLimitExposureDialogComponent {
   public industryLimitExposure: IIndustryLimitExposureParameter;

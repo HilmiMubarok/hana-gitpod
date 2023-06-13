@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-position-reporting-structure-dialog',
   templateUrl: './position-reporting-structure-dialog.component.html',
+  styleUrls: ['./position-reporting-structure.css'],
 })
 export class PositionReportingStructureDialogComponent implements OnInit {
   public positionReportingStructure: IPositionReportingStructure;

@@ -138,10 +138,10 @@ th {
 td {
   font-family: 'Poppins', sans-serif !important;
 }
-.rounding-table-left {
+th:first-child {
   border-top-left-radius: 15px;
 }
-.rounding-table-right {
+th:last-child {
   border-top-right-radius: 15px;
 }
 

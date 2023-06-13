@@ -26,6 +26,7 @@ type SelectableEntity = IRoleType | IPerson | IInternal | IEmploymentType;
 @Component({
   selector: 'jhi-employee-view',
   templateUrl: './employee-view.component.html',
+  styleUrls: ['./employee.css'],
 })
 export class EmployeeViewComponent extends AbstractEntityBaseViewComponent<IEmployee> implements OnChanges {
   @Input() id: number;
