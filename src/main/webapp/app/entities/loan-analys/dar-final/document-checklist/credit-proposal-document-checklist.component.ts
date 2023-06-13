@@ -19,6 +19,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-document-checklist-temp',
   templateUrl: './credit-proposal-document-checklist.component.html',
+  styleUrls: ['./document.scss'],
 })
 export class DocumentChecklistTempComponent implements OnInit {
   public files: any[];
