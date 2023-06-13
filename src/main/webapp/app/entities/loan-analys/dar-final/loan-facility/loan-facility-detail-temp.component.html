@@ -19,7 +19,7 @@
 
   <div class="e-card-content">
     <div class="row mb-3 mt-3">
-      <jhi-loan-facility-detail-grid-temp [creditProposal]="creditProposal"> </jhi-loan-facility-detail-grid-temp>
+      <jhi-loan-facility-detail-grid-temp [creditProposal]="creditProposal" [isViewMode]="true"> </jhi-loan-facility-detail-grid-temp>
     </div>
     <div class="row mb-3 mt-3">
       <div class="col-4">
@@ -386,7 +386,7 @@
   </div>
   <div class="e-card-content">
     <div class="row">
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
         <div class="col-6">
           <mat-label>Previous Bank</mat-label>
           <mat-form-field class="w-100" appearance="outline">
@@ -415,7 +415,7 @@
   </div>
   <div class="row">
     <div class="col-6">
-      <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal" [darView]="false">
+      <jhi-credit-proposal-collateral-tab-loan [creditProposal]="creditProposal" [isViewMode]="true">
       </jhi-credit-proposal-collateral-tab-loan>
     </div>
     <div class="col-6">
