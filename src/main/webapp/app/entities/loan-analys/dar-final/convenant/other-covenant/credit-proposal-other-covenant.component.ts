@@ -39,7 +39,7 @@ export class OtherCovenantTempComponent implements OnInit {
     this.isOtherDeviation && this.filterDeviation();
   }
 
-  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification', 'action'];
+  public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification', 'action'];
 
   constructor(public dialog: MatDialog, public storageService: StorageService) {
     this.loading = false;
