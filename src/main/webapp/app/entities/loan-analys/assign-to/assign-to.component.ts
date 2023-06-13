@@ -59,14 +59,22 @@ export class AssignToComponent implements OnInit {
         return o.partyId !== null;
       });
 
-      tempDataAssignTo = this._creditProposal.attributes['dataAssignTo'];
+      if (this.router.url.split('/')[1] === 'la-distribution') {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignToCRO'];
+      } else if (this.router.url.split('/')[1] === 'cc-distribution') {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignToCCAdmin'];
+      } else if (this.router.url.split('/')[1] === 'distribution') {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignToLegalOfficer'];
+      } else {
+        tempDataAssignTo = this._creditProposal.attributes['dataAssignTo'];
+      }
 
       this.applicationRoleId = tempDataAssignTo['id'];
     });
   }
 
   public onSelectAssignTo(event: any) {
-	let dynAttr = 'dataAssignTo';
+    let dynAttr = 'dataAssignTo';
     for (let i = 0; i < this.position.length; i++) {
       if (event.value === this.position[i].id) {
         if (this.router.url.split('/')[1] === 'la-distribution') {
