@@ -668,7 +668,7 @@
                         </section>
                         <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
                           <div class="fontsebled row">
-                            <div class="col">New</div>
+                            <div class="col"></div>
                             <div class="col-md-auto">:</div>
                             <div class="col">{{ item.attributes['basicInformation'].customerStatus }}</div>
                           </div>
@@ -687,13 +687,6 @@
                             name="customer"
                             label="Existing"
                           ></ejs-radiobutton>
-                        </section>
-                        <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                          <div class="fontsebled row">
-                            <div class="col">Existing</div>
-                            <div class="col-md-auto">:</div>
-                            <div class="col">{{ item.attributes['basicInformation'].customerStatus }}</div>
-                          </div>
                         </section>
                       </section>
                     </div>
