@@ -13,6 +13,8 @@ import lodash from 'lodash';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { ICreditProposal } from '../credit-proposal.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import * as JSZip from 'jszip';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-credit-proposal-document-checklist',
   templateUrl: './credit-proposal-document-checklist.component.html',
@@ -30,7 +32,9 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
   public file = [];
   public file1 = [];
   public file2 = [];
+  public fileUrl = [];
   public dataArray: IDocumentType[];
+  datePipe: DatePipe = new DatePipe('en-US');
   constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
   get creditProposal() {
@@ -135,6 +139,46 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
     }
   }
 
+  public donwload() {
+    this.getBucket().then(() => {
+      this.getFiles(String(this.creditProposal.id)).then(() => {
+        const zip = new JSZip.default();
+        async function downloadFile(url: string): Promise<ArrayBuffer> {
+          const response = await fetch(url);
+          const buffer = await response.arrayBuffer();
+          return buffer;
+        }
+        const downloadPromises = this.fileUrl.map(async (file, index) => {
+          try {
+            const nameFile = file.name.split('/').length === 5 ? file.name.split('/')[4] : file.name.split('/')[5];
+            const fileContent = await downloadFile(file.url);
+            zip.file(nameFile, fileContent);
+          } catch (error) {
+            console.error(`Error downloading file ${file.name}:`, error);
+          }
+        });
+
+        Promise.all(downloadPromises).then(() => {
+          zip.generateAsync({ type: 'blob' }).then(content => {
+            // Membuat objek URL untuk file zip
+            const url = URL.createObjectURL(content);
+
+            // Membuat elemen <a> untuk mengunduh file
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + 'file-donwload.zip';
+
+            // Simulasikan klik pada elemen <a> untuk mengunduh file
+            link.click();
+
+            // Hapus objek URL setelah selesai mengunduh
+            URL.revokeObjectURL(url);
+          });
+        });
+      });
+    });
+  }
+
   public openDialog(element: IDocumentType = null, view: string, item: string): void {
     const predicate = { width: '80vw', data: {} };
     predicate.data['cpId'] = this.creditProposal.id;
@@ -195,6 +239,8 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
             }
 
             this.file = [...this.file1, ...this.file2];
+            this.fileUrl = this.file;
+
             resolve();
           });
         } else {
@@ -228,6 +274,8 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
                 ];
               }
               this.file = [...this.file1, ...this.file2];
+              this.fileUrl = this.file;
+
               resolve();
             });
           });

@@ -1,4 +1,8 @@
-<div *ngFor="let item of dataArray">
+
+<div style="justify-content: flex-end; display: flex;">
+  <button style="float: right;" mat-raised-button class="confirm-button-yes" (click)="donwload()">Download All File</button>
+  </div>
+  <div *ngFor="let item of dataArray">
   <mat-card *ngIf="item.statusId === 'ACTIVE'" style="margin-top: 12px">
     <mat-card-header>
       <mat-card-subtitle class="label-font-detail">{{ item.description }}</mat-card-subtitle>
@@ -50,4 +54,5 @@
       </table>
     </mat-card-content>
   </mat-card>
+
 </div>
