@@ -63,7 +63,7 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     'action',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  public clickedChip: Object;
+  public clickedChip: any;
   public statusCodesData: Object[] = [];
   public iconTimeline: any;
   public activeRoute: string;
@@ -166,10 +166,13 @@ export class OfferingLetterComponent extends AbstractEntityMaterialComponent<ICr
     return;
   }
 
-  public chipClick(option: Object): void {
+  public chipClick(option: any): void {
     this.page = 0;
-    if (this.clickedChip === option) {
-      this.clickedChip = '';
+    if (this.clickedChip.statusId === option.statusId) {
+      this.clickedChip = {
+        statusId: '',
+        statusDescription: '',
+      };
     } else {
       this.clickedChip = option;
     }

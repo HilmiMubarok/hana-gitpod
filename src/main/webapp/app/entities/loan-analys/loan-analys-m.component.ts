@@ -64,7 +64,7 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     'action',
   ];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  public clickedChip: Object;
+  public clickedChip: any;
   public statusCodesData: Object[] = [];
   public iconTimeline: any;
   public isShow: boolean;
@@ -163,9 +163,9 @@ export class LoanAnalysMComponent extends AbstractEntityMaterialComponent<ICredi
     return;
   }
 
-  public chipClick(option: object): void {
+  public chipClick(option: any): void {
     this.page = 0;
-    if (this.clickedChip === option) {
+    if (this.clickedChip.statusId === option.statusId) {
       this.clickedChip = {
         statusId: '',
         statusDescription: '',
