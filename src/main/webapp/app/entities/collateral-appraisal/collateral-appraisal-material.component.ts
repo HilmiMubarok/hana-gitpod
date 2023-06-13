@@ -585,7 +585,7 @@ export class CollateralAppraisalMaterialComponent extends AbstractEntityMaterial
 
   public chipClick(option: any): void {
     this.page = 0;
-    if (this.clickedChip === option.id) {
+    if (this.clickedChip === option.statusId) {
       document.getElementById('statusOption').style.backgroundColor = 'whitesmoke';
       this.clickedChip = '';
     } else {
