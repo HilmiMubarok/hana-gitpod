@@ -925,9 +925,11 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
     array1.filter(({ id: value1 }) => {
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
       getBindingCalculateValue = data.filter(item => item !== undefined);
-      this.fungsiSumcredit('IDR').then(() => {
+      this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+
+        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
         this.creditProposal.attributes['coverageTotal'].biddingValueSum = this.biddingValueSum;
         this.creditProposal.attributes['coverageTotal'].biddingValueCoverage = this.biddingValueCoverage;
       });
