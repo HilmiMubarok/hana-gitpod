@@ -39,14 +39,7 @@ import { CollateralProposePricingDialogEditComponent } from './collateral-propos
 })
 export class CollateralParameterComponent extends AbstractEntityMaterialComponent<ICollateralParameter> implements OnInit {
   public displayedColumns: string[] = ['no', 'collateralDescription', 'collateralDetail', 'status', 'action'];
-  public displayColumns: string[] = [
-    'no',
-    'proposePricingCode',
-    'proposePricing',
-    // 'collateralParameterId',
-    'collateralParameterDetailType',
-    'action',
-  ];
+  public displayColumns: string[] = ['no', 'proposePricingCode', 'proposePricing', 'collateralParameterDetailType', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
 
   public listCollateralType = [];

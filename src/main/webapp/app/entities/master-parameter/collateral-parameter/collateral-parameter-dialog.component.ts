@@ -4,9 +4,6 @@ import { ICollateralParameter } from './collateral-parameter.model';
 import { MessageService } from 'primeng/api';
 import { CollateralParameterService } from './collateral-parameter.service';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
-import { MatSelectChange } from '@angular/material/select';
-import lodash from 'lodash';
-import { STATUS_LOV_PARAMETER } from 'app/shared/constants/status.constants';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
@@ -52,7 +49,6 @@ export class CollateralParameterDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCollateralType();
-    // this.getchangeTypeCollateral();
   }
   public getCollateralType() {
     this.collateralTypeService.query().subscribe(res => {
@@ -134,11 +130,6 @@ export class CollateralParameterDialogComponent implements OnInit {
       this._showNotification('error', 'Masukkan Collateral Detail Code terlebih dahulu');
       mustValidate.collateralDetailTypeDescription = false;
     }
-
-    // if (!this.generalParameter.value) {
-    //   this._showNotification('error', 'Masukkan Description terlebih dahulu');
-    //   mustValidate.value = false;
-    // }
 
     return this._validateProcess(mustValidate);
   }
