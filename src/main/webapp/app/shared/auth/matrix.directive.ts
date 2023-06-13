@@ -306,11 +306,14 @@ export class MatrixDirective implements OnInit, OnDestroy {
       }
 
       if (this.router.url.includes('loan-committee-approval')) {
+        console.log('kfffff', this.positionTypeId);
         if (this.positionTypeId === 'CRO') {
           if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
             this.defaultCpMatrixFull();
           } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
-            this.defaultCpMatrixFull();
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
           }
         } else {
           if (this.jhiMatrixDirElementType === '') {
@@ -338,7 +341,9 @@ export class MatrixDirective implements OnInit, OnDestroy {
           if (this.router.url.includes('credit-proposal-summary') || this.router.url.split('?')[1] === undefined) {
             this.defaultCpMatrixFull();
           } else if (!this.router.url.includes('credit-proposal-summary') && this.router.url.split('?')[1] !== undefined) {
-            this.defaultCpMatrixFull();
+            if (this.jhiMatrixDirElementType === '') {
+              this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
           }
         } else {
           if (this.jhiMatrixDirElementType === '') {
@@ -616,62 +621,52 @@ export class MatrixDirective implements OnInit, OnDestroy {
   }
 
   private roleRMMatrixInput(): void {
-    if (
-      this.status === 'DRAFT' ||
-      this.status === 'CP_RETURN_TO_RM' ||
-      this.status === 'CP_RETURN_TO_CR' ||
-      this.status === 'RETURN_TO_RM_CRA' ||
-      this.status === 'OL_APPEAL'
-    ) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    if (this.jhiMatrixDirSubMenu !== 'summary') {
+      if (
+        this.status === 'DRAFT' ||
+        this.status === 'CP_RETURN_TO_RM' ||
+        this.status === 'CP_RETURN_TO_CR' ||
+        this.status === 'RETURN_TO_RM_CRA' ||
+        this.status === 'OL_APPEAL'
+      ) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     }
   }
 
   private roleRMMatrixLabel(): void {
-    if (
-      this.status !== 'DRAFT' &&
-      this.status !== 'CP_RETURN_TO_RM' &&
-      this.status !== 'CP_RETURN_TO_CR' &&
-      this.status !== 'RETURN_TO_RM_CRA' &&
-      this.status !== 'OL_APPEAL'
-    ) {
+    if (this.jhiMatrixDirSubMenu === 'summary') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
-    }
-  }
-
-  private roleRMCpAndMemoMatrixLabel(): void {
-    if (
-      this.status !== 'DRAFT' &&
-      this.status !== 'CP_RETURN_TO_RM' &&
-      this.status !== 'CP_RETURN_TO_CR' &&
-      this.status !== 'RETURN_TO_RM_CRA' &&
-      this.status !== 'OL_APPEAL'
-    ) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    } else {
+      if (
+        this.status !== 'DRAFT' &&
+        this.status !== 'CP_RETURN_TO_RM' &&
+        this.status !== 'CP_RETURN_TO_CR' &&
+        this.status !== 'RETURN_TO_RM_CRA' &&
+        this.status !== 'OL_APPEAL'
+      ) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     }
   }
 
   private roleOtherMatrixInput(): void {
-    if (
-      this.status === 'DRAFT' ||
-      this.status === 'CP_RETURN_TO_RM' ||
-      this.status === 'CP_RETURN_TO_CR' ||
-      this.status === 'RETURN_TO_RM_CRA' ||
-      this.status === 'OL_APPEAL'
-    ) {
+    if (this.jhiMatrixDirSubMenu === 'summary') {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     }
   }
 
   private roleOtherMatrixLabel(): void {
-    if (
-      this.status !== 'DRAFT' &&
-      this.status !== 'CP_RETURN_TO_RM' &&
-      this.status !== 'CP_RETURN_TO_CR' &&
-      this.status !== 'RETURN_TO_RM_CRA' &&
-      this.status !== 'OL_APPEAL'
-    ) {
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
+    if (this.jhiMatrixDirSubMenu !== 'summary') {
+      if (
+        this.status !== 'DRAFT' &&
+        this.status !== 'CP_RETURN_TO_RM' &&
+        this.status !== 'CP_RETURN_TO_CR' &&
+        this.status !== 'RETURN_TO_RM_CRA' &&
+        this.status !== 'OL_APPEAL'
+      ) {
+        this.viewContainerRef.createEmbeddedView(this.templateRef);
+      }
     }
   }
 
