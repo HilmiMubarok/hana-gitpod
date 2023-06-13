@@ -53,6 +53,11 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
   }
   ngOnInit(): void {
     this.collateralProposePricingParameter.collateralParameterId = this.dataCollateral.id;
+    this.collateralProposePricingParameter.collateralParameterDetailType = this.dataCollateral.collateralDetailTypeDescription;
+  }
+
+  public onSave(): void {
+    this.validate().then(() => this.save());
   }
 
   public save() {
@@ -82,6 +87,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
       }
     }
   }
+
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -96,6 +102,57 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
       if (res) {
         this._dialog.close();
       }
+    });
+  }
+
+  // Validation
+  private _validateProcess(toValidate: object) {
+    let isAllTrue = true;
+    for (const key in toValidate) {
+      if (Object.prototype.hasOwnProperty.call(toValidate, key)) {
+        if (toValidate[key] === false) {
+          isAllTrue = false;
+          break;
+        }
+      }
+    }
+
+    return isAllTrue;
+  }
+
+  private _showNotification(severity: string, message: string): void {
+    const severityCaptitalized = severity.charAt(0).toUpperCase() + severity.slice(1);
+    this.messageService.add({ severity, summary: severityCaptitalized, detail: message, life: 3000 });
+  }
+
+  public checkMustValidated() {
+    const mustValidate = {
+      proposePricingCode: true,
+      proposePricing: true,
+    };
+
+    if (!this.collateralProposePricingParameter.proposePricingCode) {
+      this._showNotification('error', 'Masukkan Propose Pricing Code terlebih dahulu');
+      mustValidate.proposePricingCode = false;
+    }
+
+    if (!this.collateralProposePricingParameter.proposePricing) {
+      this._showNotification('error', 'Masukkan Propose Pricing Description terlebih dahulu');
+      mustValidate.proposePricing = false;
+    }
+
+    return this._validateProcess(mustValidate);
+  }
+
+  public validateMasterProposePricing(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.checkMustValidated() && resolve('Master Propose Pricing Validated');
+    });
+  }
+
+  public validate(): Promise<Boolean> {
+    return new Promise((resolve, reject) => {
+      this.validateMasterProposePricing().then(() => resolve(true));
     });
   }
 }
