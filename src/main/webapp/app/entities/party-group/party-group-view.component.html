@@ -28,21 +28,38 @@
                     <ejs-radiobutton disabled label="Badan Usaha" [(ngModel)]="item.customerType" checked="true"> </ejs-radiobutton>
                   </section>
                 </div>
-                <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-                  <div class="fontsebled row">
-                    <div class="col">Customer Type</div>
-                    <div class="col-md-auto">:</div>
-                    <div class="col">{{ item.customerType }}</div>
-                  </div>
-                </section>
+                <!-- empty column -->
+                <div class="col-sm-6">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col" style="color: white">whitespace</div>
+                      <div class="col-md-auto" style="color: white">whitespace</div>
+                      <div class="col" style="color: white">whitespace</div>
+                    </div>
+                  </section>
+                </div>
+                <!-- empty column -->
+                <div class="col-sm-6">
+                  <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col">Customer Type</div>
+                      <div class="col-md-auto" style="margin-left: -13px">:</div>
+                      <div class="col">{{ item.customerType }}</div>
+                    </div>
+                  </section>
+                </div>
+
                 <div class="row my-3">
                   <!-- Lefth Side -->
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-sm-6">
                       <jhi-credit-proposal-branch [creditProposal]="item"></jhi-credit-proposal-branch>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-sm-6">
+                    <div class="my-3">
+                      <jhi-credit-proposal-branch [creditProposal]="item"></jhi-credit-proposal-branch>
+                    </div>
                     <div class="my-3">
                       <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                         <ejs-textbox
@@ -166,6 +183,18 @@
                   </div>
                   <!-- Right Side -->
                   <div class="col-sm-6">
+                    <!-- empty column -->
+                    <div class="my-3">
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"></section>
+                      <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                        <div class="fontsebled row">
+                          <div class="col" style="color: white">whitespace</div>
+                          <div class="col-md-auto" style="color: white">whitespace</div>
+                          <div class="col" style="color: white">whitespace</div>
+                        </div>
+                      </section>
+                    </div>
+                    <!-- empty column -->
                     <div class="my-3">
                       <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                         <ejs-textbox

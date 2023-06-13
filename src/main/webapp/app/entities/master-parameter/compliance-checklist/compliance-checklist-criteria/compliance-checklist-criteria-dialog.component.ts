@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-compliance-checklist-criteria-dialog-add',
   templateUrl: './compliance-checklist-criteria-dialog.component.html',
+  styleUrls: ['../master-compliance-checklist.css'],
 })
 export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;

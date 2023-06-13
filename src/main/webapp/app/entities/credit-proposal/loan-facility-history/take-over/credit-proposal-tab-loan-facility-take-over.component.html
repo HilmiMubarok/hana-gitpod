@@ -89,8 +89,8 @@
         </div>
       </div>
       <mat-dialog-actions align="center ">
-        <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button *ngIf="view !== true" (click)="Onsave()">Save</button>
+        <button mat-raised-button mat-dialog-close class="confirm-button-no">Cancel</button>
+        <button mat-raised-button *ngIf="view !== true" class="confirm-button-yes" (click)="Onsave()">Save</button>
       </mat-dialog-actions>
     </div>
   </div>

@@ -35,10 +35,10 @@ export class MainFacilityDialogHistoryComponent implements OnInit {
     },
     private _dialog: MatDialogRef<MainFacilityDialogComponent>
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
+    // _dialog.disableClose = true;
+    // _dialog.backdropClick().subscribe(_ => {
+    //   this.openCancelDialog();
+    // });
     this.mainFacility = data.mainData;
     this.dataItem = data.creditProposal;
   }

@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-collateral-propose-pricing-dialog-edit',
   templateUrl: './collateral-propose-pricing-dialog-edit.component.html',
+  styleUrls: ['../master-collateral.css'],
 })
 export class CollateralProposePricingDialogEditComponent implements OnInit {
   public collateralProposePricingParameter: ICollateralProposePricingParam;
