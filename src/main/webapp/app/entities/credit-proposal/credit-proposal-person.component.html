@@ -38,10 +38,27 @@
                   <!-- </div> -->
                 </div>
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-6">
                   <jhi-credit-proposal-branch [creditProposal]="deptorData"></jhi-credit-proposal-branch>
                 </div>
+              </div> -->
+              <div class="row my-3">
+                <div class="col"><jhi-credit-proposal-branch [creditProposal]="deptorData"></jhi-credit-proposal-branch></div>
+                <!-- empty column -->
+                <div class="col">
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"></section>
+                  <section *jhiMatrixDir="deptorData.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                    <div class="fontsebled row">
+                      <div class="col-4" style="color: white">whitespace</div>
+                      <div class="col-md-auto" style="color: white">:</div>
+                      <div class="col col-lg-4" style="color: white">
+                        {{ deptorData.cif.customerId }}
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <!-- empty column -->
               </div>
               <div class="row my-3">
                 <div class="col">
