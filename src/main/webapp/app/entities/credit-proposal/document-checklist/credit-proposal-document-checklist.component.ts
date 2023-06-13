@@ -151,8 +151,10 @@ export class CreditProposalDocumentChecklistComponent implements OnInit {
         const downloadPromises = this.fileUrl.map(async (file, index) => {
           try {
             const nameFile = file.name.split('/').length === 5 ? file.name.split('/')[4] : file.name.split('/')[5];
-            const fileContent = await downloadFile(file.url);
-            zip.file(nameFile, fileContent);
+            if (!nameFile.includes('los_logo.png')) {
+              const fileContent = await downloadFile(file.url);
+              zip.file(nameFile, fileContent);
+            }
           } catch (error) {
             console.error(`Error downloading file ${file.name}:`, error);
           }

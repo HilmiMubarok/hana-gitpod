@@ -164,15 +164,22 @@ export class DocumentChecklistTempComponent implements OnInit {
         const downloadPromises = this.fileUrl.map(async (file, index) => {
           try {
             const nameFile = file.name;
+
             if (nameFile.split('/').length === 5) {
-              const fileContent = await downloadFile(file.url);
-              zip.file(nameFile.split('/')[4], fileContent);
+              if (!nameFile.includes('los_logo.png')) {
+                const fileContent = await downloadFile(file.url);
+                zip.file(nameFile.split('/')[4], fileContent);
+              }
             } else if (nameFile.split('/').length === 4) {
-              const fileContent = await downloadFile(file.url);
-              zip.file(nameFile.split('/')[3], fileContent);
+              if (!nameFile.includes('los_logo.png')) {
+                const fileContent = await downloadFile(file.url);
+                zip.file(nameFile.split('/')[3], fileContent);
+              }
             } else {
-              const fileContent = await downloadFile(file.url);
-              zip.file(nameFile.split('/')[5], fileContent);
+              if (!nameFile.includes('los_logo.png')) {
+                const fileContent = await downloadFile(file.url);
+                zip.file(nameFile.split('/')[5], fileContent);
+              }
             }
           } catch (error) {
             console.error(`Error downloading file ${file.name}:`, error);
@@ -239,6 +246,7 @@ export class DocumentChecklistTempComponent implements OnInit {
             }
 
             this.file = [...this.file1, ...this.file2];
+            this.fileUrl = this.file;
             resolve();
           });
         } else {
@@ -272,6 +280,7 @@ export class DocumentChecklistTempComponent implements OnInit {
                 ];
               }
               this.file = [...this.file1, ...this.file2];
+              this.fileUrl = this.file;
               resolve();
             });
           });
