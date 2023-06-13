@@ -248,7 +248,6 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   private getPositionTypeId(): void {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.positionTypeId = newPos.positionTypeId;
-      console.log('offf', this.positionTypeId);
     });
   }
 
@@ -658,7 +657,12 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     this.currentAccount = await firstValueFrom(this.accountService.identity());
     this.accountAuthorities = this.currentAccount.authorities;
-    if (this.positionTypeId === 'TL' || this.positionTypeId === 'APR_DEPT_HEAD' || this.positionTypeId === 'APR_DH') {
+    if (
+      this.positionTypeId === 'TL' ||
+      this.positionTypeId === 'APR_DEPT_HEAD' ||
+      this.positionTypeId === 'APR_DH' ||
+      this.positionTypeId === 'ADMIN_APPRAISER'
+    ) {
       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
     } else {
       this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
