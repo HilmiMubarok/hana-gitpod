@@ -557,7 +557,7 @@
       <button
         mat-raised-button
         *ngIf="parentPath === 'cc-inquiry'"
-        class="btn-lg text-uppercase"
+        class="btn-lg text-uppercase button-styling"
         style="margin-right: 25px"
         (click)="generate()"
       >
@@ -568,14 +568,20 @@
       <button
         mat-raised-button
         *ngIf="parentPath === 'loan-committee-approval' || parentPath === 'dar-final'"
-        class="btn-lg text-uppercase"
+        class="btn-lg text-uppercase button-styling"
         style="margin-right: 25px"
         (click)="generate()"
       >
         Generate DAR
       </button>
 
-      <button *ngIf="darRouter === true" style="margin-right: 18px" mat-raised-button class="btn-lg text-uppercase" (click)="sendEmail()">
+      <button
+        *ngIf="darRouter === true"
+        style="margin-right: 18px"
+        mat-raised-button
+        class="btn-lg text-uppercase button-styling"
+        (click)="sendEmail()"
+      >
         Send Email
       </button>
       <button
@@ -583,12 +589,12 @@
         mat-raised-button
         *ngFor="let task of tasks"
         (click)="processTask(task)"
-        class="btn-lg text-uppercase"
+        class="btn-lg text-uppercase button-styling"
       >
         {{ task.caption }}
       </button>
 
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave('default')">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase button-styling" (click)="onSave('default')">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">

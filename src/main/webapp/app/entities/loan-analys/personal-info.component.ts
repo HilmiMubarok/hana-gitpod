@@ -10,6 +10,7 @@ import lodash from 'lodash';
 @Component({
   selector: 'jhi-credit-proposal-personal-analyst-info',
   templateUrl: './personal-info.component.html',
+  styleUrls: ['./personal-info.style.scss'],
 })
 export class CreditProposalPersonalInfoAnalystComponent implements OnInit, OnChanges {
   public internals: IInternal[];

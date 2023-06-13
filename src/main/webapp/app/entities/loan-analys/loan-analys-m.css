@@ -73,16 +73,16 @@
 }
 
 .back-image {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   margin: 1rem;
   cursor: pointer;
 }
 
 .back-prefix {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136);
+  font-size: 14px;
+  color: rgba(136, 136, 136, 1) !important;
   padding-top: 20px;
   cursor: pointer;
 }
@@ -174,4 +174,19 @@ th:last-child {
 
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
+}
+
+.remove-row-scroll {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.e-card .e-card-header .e-card-header-caption .e-card-sub-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(158, 138, 113, 1);
+  line-height: 35px;
+  margin-left: 10px;
+  padding-top: 13px;
 }

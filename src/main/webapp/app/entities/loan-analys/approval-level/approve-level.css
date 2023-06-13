@@ -140,6 +140,9 @@ th {
   color: black !important;
   font-family: 'Poppins', sans-serif !important;
 }
+th {
+  font-weight: 500px;
+}
 td {
   font-family: 'Poppins', sans-serif !important;
 }
