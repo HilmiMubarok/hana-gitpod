@@ -123,8 +123,10 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
         }
         const downloadPromises = this.fileUrl.map(async (file, index) => {
           try {
-            const fileContent = await downloadFile(file.url);
-            zip.file(file.name, fileContent);
+            if (!file.name.includes('los_logo.png')) {
+              const fileContent = await downloadFile(file.url);
+              zip.file(file.name, fileContent);
+            }
           } catch (error) {
             console.error(`Error downloading file ${file.name}:`, error);
           }
