@@ -42,6 +42,7 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this._creditProposal = item;
   }
 
+  public view: boolean;
   public interestTypeList = [];
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
@@ -306,5 +307,15 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       return element;
     }
     return '';
+  }
+
+  public hiddenButton(element: IApplicationProduct) {
+    if (element.hobis === true) {
+      return true;
+    } else if (this.view) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
