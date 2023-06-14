@@ -340,7 +340,9 @@
           >
           </jhi-mapping-facility>
         </div>
-        <jhi-paripasu-collateral [creditProposal]="creditProposal"></jhi-paripasu-collateral>
+        <div>
+          <jhi-paripasu-collateral-group [creditProposal]="creditProposal" [collateral]="collateral"></jhi-paripasu-collateral-group>
+        </div>
         <mat-dialog-actions align="center">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
