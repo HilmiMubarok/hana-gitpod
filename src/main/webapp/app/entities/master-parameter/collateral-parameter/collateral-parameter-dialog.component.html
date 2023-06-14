@@ -52,6 +52,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="onSave()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
-  <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="onSave()">SAVE</button>
 </mat-dialog-actions>

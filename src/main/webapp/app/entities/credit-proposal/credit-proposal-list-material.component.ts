@@ -49,7 +49,7 @@ import { TemplateService } from 'app/layouts/template/template.service';
 export class CreditProposalListMaterialComponent extends AbstractEntityMaterialComponent<ICreditProposal> implements OnInit {
   public displayedColumns: string[] = ['no', 'proposalNumber', 'cif', 'customerName', 'customerType', 'createdDate', 'status', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns, 'expand'];
-  public clickedChip: Object;
+  public clickedChip: any;
   public iconTimeline: any;
   public statusCodesData: Object[] = [];
   public statusCodesDataRes: Object[] = [];
@@ -199,9 +199,9 @@ export class CreditProposalListMaterialComponent extends AbstractEntityMaterialC
     this.loadAll();
   }
 
-  public chipClick(option: object): void {
+  public chipClick(option: any): void {
     this.page = 0;
-    if (this.clickedChip === option) {
+    if (this.clickedChip.statusId === option.statusId) {
       this.clickedChip = {
         statusId: '',
         statusDescription: '',

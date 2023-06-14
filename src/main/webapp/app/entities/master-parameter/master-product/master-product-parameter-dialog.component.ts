@@ -240,11 +240,12 @@ export class MasterProductParameterDialogComponent implements OnInit {
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Category',
-        message: 'Are you sure to delete ' + element.categoryDescription,
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -262,11 +263,12 @@ export class MasterProductParameterDialogComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

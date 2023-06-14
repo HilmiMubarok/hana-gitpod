@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-master-lov-parameter-dialog',
   templateUrl: './master-lov-parameter-dialog.component.html',
+  styleUrls: ['./master-lov-parameter.css'],
 })
 export class MasterLovParameterDialogComponent implements OnInit {
   public statuses: any;
@@ -154,11 +155,12 @@ export class MasterLovParameterDialogComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

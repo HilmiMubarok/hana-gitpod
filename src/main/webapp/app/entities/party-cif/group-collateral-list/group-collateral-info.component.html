@@ -56,19 +56,19 @@
       </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <mat-card *ngIf="loading" id="material-loading-bar">
-        <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
-      </mat-card>
-      <mat-paginator
-        showFirstLastButtons
-        ngClass="transparant"
-        [length]="paginatorLength"
-        [pageSize]="paginatorPageSize"
-        [pageSizeOptions]="paginatorPageSizeOption"
-        (page)="loadDataLazy($event)"
-      >
-      </mat-paginator>
     </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
   </mat-card-content>
 </mat-card>
 

@@ -35,7 +35,7 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <div class="label-font-detail">Credit Proposal</div>
+            <div class="e-card-header-title">Credit Proposal</div>
           </div>
         </div>
         <div style="margin: 1rem">
@@ -454,11 +454,8 @@
           {{ task.caption }}
         </button>
 
-    
-          <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
-        
+        <button *ngIf="conditionSave" class="btn-lg text-uppercase button-styling" mat-raised-button (click)="save('default')">Save</button>
       </div>
-     
     </div>
   </div>
 

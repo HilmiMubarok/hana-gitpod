@@ -9,6 +9,8 @@ import { DocumentTypeService } from 'app/entities/document-type/document-type.se
 import lodash from 'lodash';
 import { IDocumentType, ILevel } from 'app/entities/document-type/document-type.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
+import * as JSZip from 'jszip';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-deptor-data-document-checklist',
   templateUrl: './document-checklis-deptor-data.component.html',
@@ -24,6 +26,8 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
   public typeData: IDocumentType[];
   public type2: IDocumentType[];
   public file = [];
+  public fileUrl = [];
+  datePipe: DatePipe = new DatePipe('en-US');
   public dataArray: IDocumentType[];
   constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
   @Input()
@@ -108,12 +112,55 @@ export class DeptorDataDocumentChecklistComponent implements OnInit {
     });
   }
 
+  public donwload() {
+    this.getBucket().then(() => {
+      this.getFiles(this.partyCif.customerNumber).then(() => {
+        const zip = new JSZip.default();
+        async function downloadFile(url: string): Promise<ArrayBuffer> {
+          const response = await fetch(url);
+          const buffer = await response.arrayBuffer();
+          return buffer;
+        }
+        const downloadPromises = this.fileUrl.map(async (file, index) => {
+          try {
+            if (!file.name.includes('los_logo.png')) {
+              const fileContent = await downloadFile(file.url);
+              zip.file(file.name, fileContent);
+            }
+          } catch (error) {
+            console.error(`Error downloading file ${file.name}:`, error);
+          }
+        });
+
+        Promise.all(downloadPromises).then(() => {
+          zip.generateAsync({ type: 'blob' }).then(content => {
+            // Membuat objek URL untuk file zip
+            const url = URL.createObjectURL(content);
+
+            // Membuat elemen <a> untuk mengunduh file
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + 'file-donwload.zip';
+
+            // Simulasikan klik pada elemen <a> untuk mengunduh file
+            link.click();
+
+            // Hapus objek URL setelah selesai mengunduh
+            URL.revokeObjectURL(url);
+          });
+        });
+      });
+    });
+  }
+
   private getFiles(id: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const predicate: Object = {
         key: `/idd/${id}/document/`,
       };
       this.storageService.getObjects(this.bucket, predicate).subscribe((res: any) => {
+        console.log('ompu', res);
+        this.fileUrl = res.body;
         for (let index = 0; index < res.body.length; index++) {
           this.file = [
             ...this.file,

@@ -39,7 +39,7 @@ export class OtherCovenantTempComponent implements OnInit {
     this.isOtherDeviation && this.filterDeviation();
   }
 
-  public displayColumns: string[] = ['no', 'covenant', 'status', 'deviation', 'justification', 'action'];
+  public displayColumns: string[] = ['no', 'category', 'sub_category', 'covenant', 'status', 'deviation', 'justification', 'action'];
 
   constructor(public dialog: MatDialog, public storageService: StorageService) {
     this.loading = false;
@@ -175,11 +175,12 @@ export class OtherCovenantTempComponent implements OnInit {
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Covenant',
-        message: 'Are you sure to delete ' + element.covenant + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

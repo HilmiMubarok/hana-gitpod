@@ -14,6 +14,7 @@ import { CreditProposalService } from 'app/entities/credit-proposal/credit-propo
 import { Observable, of } from 'rxjs';
 import { ICollateralPrevious } from './collateral-previous.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-credit-proposal-collateral-tab-loan-dialog',
@@ -24,9 +25,11 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 export class CreditProposalCollateralTabLoanDialogComponent {
   public creditProposal: ICreditProposal;
   view: boolean;
+  parentPath: any;
   collateralPrevious: ICollateralPrevious;
   constructor(
     private dialog: MatDialog,
+    public router: Router,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       object: ICreditProposal;
@@ -42,6 +45,7 @@ export class CreditProposalCollateralTabLoanDialogComponent {
     this.creditProposal = this.data.object;
     this.view = this.data.view;
     this.collateralPrevious = this.data.collateralPrevious;
+    this.parentPath = this.router.url.split('/')[1];
   }
   public save(): void {
     this._dialog.close(this.collateralPrevious);
@@ -53,11 +57,12 @@ export class CreditProposalCollateralTabLoanDialogComponent {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-product-category-edit-dialog',
   templateUrl: './product-category-edit-dialog.component.html',
+  styleUrls: ['../master-parameter/master-product/master-product.css'],
 })
 export class ProductCategoryEditDialogComponent {
   public productParameter: IProductCategory;
@@ -53,11 +54,12 @@ export class ProductCategoryEditDialogComponent {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

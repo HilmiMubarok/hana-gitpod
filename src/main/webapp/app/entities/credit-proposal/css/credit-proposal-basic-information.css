@@ -21,6 +21,7 @@
 }
 
 .e-card {
+  font-family: 'Poppins', sans-serif !important;
   border: 1px solid #b8b8b8;
   border-radius: 10px;
   padding-top: 26px;
@@ -29,11 +30,19 @@
   padding-bottom: 16px;
   width: 100%;
   height: 100%;
-  margin-top: 30px;
+  /* margin-top: 30px; */
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .e-card .e-card-header .e-card-header-caption .e-card-header-title {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   font-size: 24px;
   font-weight: 600;
   color: #008881;
@@ -46,7 +55,7 @@
 }
 
 .e-card-header-title {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   font-size: 24px;
   font-weight: 600;
   color: #008881;
@@ -77,6 +86,19 @@
 .card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-header-title,
 .card-control-section.basic_card_layout .e-card .e-card-header-caption .e-card-sub-title {
   color: white;
+}
+
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.e-radio + label .e-label {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .btn-info {
@@ -330,4 +352,43 @@ td {
 
 table {
   border-color: #ffffff !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
 }

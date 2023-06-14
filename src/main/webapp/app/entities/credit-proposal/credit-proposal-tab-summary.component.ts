@@ -673,11 +673,12 @@ export class CreditProposalTabSummaryComponent implements OnInit, OnChanges {
   // Delete Confirmation
   public onDelete(data): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Document',
-        message: 'Are you sure to delete ' + data.fileName + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(respond => {
       if (respond) {

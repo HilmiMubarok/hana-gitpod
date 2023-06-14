@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-subtitle>OPINION HISTORY</mat-card-subtitle>
+    <mat-card-subtitle class="mat-card-header-text">Opinion History</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <table mat-table [dataSource]="notes" class="w-100">
@@ -99,7 +99,7 @@
           </section>
         </div>
 
-		<!-- <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE' && creditProposalItem.statusId !== 'CP_LOAN_APPROVAL'"> -->
+        <!-- <section *ngIf="creditProposalItem.statusId !== 'CP_LOAN_COMMITTEE' && creditProposalItem.statusId !== 'CP_LOAN_APPROVAL'"> -->
         <section *ngIf="tempRouter === 'la-analyst' || tempRouter === 'la-SME-CRC'">
           <div class="form-group">
             <p class="e-card-sub-title">Recomendation</p>
@@ -132,7 +132,7 @@
           </div>
         </section>
 
-		<!-- <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' || creditProposalItem.statusId === 'CP_LOAN_APPROVAL'"> -->
+        <!-- <section *ngIf="creditProposalItem.statusId === 'CP_LOAN_COMMITTEE' || creditProposalItem.statusId === 'CP_LOAN_APPROVAL'"> -->
         <section *ngIf="tempRouter === 'la-approval' || tempRouter === 'loan-committee-approval'">
           <div class="form-group">
             <p class="e-card-sub-title">Approved Status</p>

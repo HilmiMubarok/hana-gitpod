@@ -290,10 +290,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
+    // _dialog.disableClose = true;
+    // _dialog.backdropClick().subscribe(_ => {
+    //   this.openCancelDialog();
+    // });
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
@@ -853,11 +853,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

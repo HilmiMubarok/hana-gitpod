@@ -20,6 +20,7 @@ import {
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { parsePreviousAtrribute } from 'app/shared/helper/utils';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-loan-facility-detail-grid-history',
@@ -41,6 +42,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     this._creditProposal = item;
   }
 
+  public view: boolean;
+  public interestTypeList = [];
   public visibleDialog: boolean;
   public applicationProduct: IApplicationProduct;
   public collaterallInfo: any;
@@ -49,6 +52,8 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
 
   public displayColumns: string[] = [
     'no',
+    'approvalNo',
+    'facilityCategory',
     'applicationType',
     'facilityType',
     'subLimit',
@@ -58,10 +63,11 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
     'changes',
     'totalCreditLimit',
     'interestrate',
+    'proposeRate',
     'provisionAmount',
-    'provisionCcy',
     'tenor',
     'maturityDate',
+    'firstDisbursementDate',
     'action',
   ];
 
@@ -72,7 +78,12 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
   public cloneData: any;
   public parsedAttribute = {};
 
-  constructor(public partyCifService: PartyCifService, public dialog: MatDialog, public _router: Router) {
+  constructor(
+    public partyCifService: PartyCifService,
+    public dialog: MatDialog,
+    public _router: Router,
+    protected generalParameterService: GeneralParameterService
+  ) {
     this.applicationProduct = new ApplicationProduct();
     this.applicationProduct.attributes = new ApplicationProductAttribute();
 
@@ -100,19 +111,20 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       }
     }
   }
+
   public getCurrency(element: IApplicationProduct) {
-    if (element.attributes.provitionFeeRateAmountType === 'Amount IDR') {
+    if (element.provisionFeeType === 'Amount IDR') {
       return 'IDR';
     }
 
-    if (element.attributes.provitionFeeRateAmountType === 'Amount USD') {
+    if (element.provisionFeeType === 'Amount USD') {
       return 'USD';
     }
     return '';
   }
 
   public getCurrency2(element: IApplicationProduct) {
-    if (element.attributes.provitionFeeRateAmountType === '%p.a') {
+    if (element.provisionFeeType === '%p.a') {
       return '%p.a';
     }
     return '';
@@ -190,14 +202,16 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       this.dataParty[idx] = appProduct;
     }
   }
+
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Facility Detail Data',
         message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
@@ -240,6 +254,68 @@ export class LoanFacilityDetailGridHistoryComponent implements OnInit {
       return 0;
     } else {
       return element.replace('%', '');
+    }
+  }
+
+  getRateTypeDesc(element) {
+    if (element) {
+      const typeDesc = this.interestTypeList.find(obj => obj.code === element);
+      if (typeDesc) {
+        return typeDesc.value;
+      }
+    }
+    return '';
+  }
+
+  public lovInterestRateTypeList() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'INTEREST_RATE_TYPE',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.interestTypeList = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        console.log('interest type', this.interestTypeList);
+      });
+  }
+
+  public getFacilityType(element: IApplicationProduct, i) {
+    if (element.productTypeId !== undefined && element.productTypeId !== null) {
+      if (element.applicationType === 'Existing') {
+        if (!element.attributes.facilityType) {
+          element.attributes.facilityType = element.productTypeId;
+        }
+      }
+      return element.productTypeId;
+    } else if (element.attributes.facilityType) {
+      element.productTypeId = element.attributes.facilityType;
+      return element.attributes.facilityType;
+    }
+  }
+  public printElements(element) {
+    if (element === null || element === 'null') {
+      return 0;
+    }
+    return element;
+  }
+
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
+
+  public hiddenButton(element: IApplicationProduct) {
+    if (element.hobis === true) {
+      return true;
+    } else if (this.view) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

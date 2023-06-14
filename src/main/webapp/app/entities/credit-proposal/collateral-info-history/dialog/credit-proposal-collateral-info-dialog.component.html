@@ -662,10 +662,10 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
-    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
-    <button mat-button (click)="save()">Save</button>
+    <button mat-raised-button mat-dialog-close class="confirm-button-no" (click)="cancel()">Cancel</button>
+    <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
   </section>
   <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-    <button mat-button mat-dialog-close (click)="cancel()">Cancel</button>
+    <button mat-raised-button mat-dialog-close class="confirm-button-no" (click)="cancel()">Cancel</button>
   </section>
 </mat-dialog-actions>

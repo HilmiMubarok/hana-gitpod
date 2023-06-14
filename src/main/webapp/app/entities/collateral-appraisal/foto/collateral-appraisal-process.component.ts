@@ -208,11 +208,12 @@ export class CollateralAppraisalProcessComponent implements OnInit, OnChanges {
   // Delete Confirmation
   public onRemove(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Image',
-        message: 'Are you sure to delete ' + element.name + ' this image?',
+        message: 'Are you sure to delete this image?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(respond => {
       if (respond) {

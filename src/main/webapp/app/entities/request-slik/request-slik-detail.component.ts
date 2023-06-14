@@ -672,6 +672,12 @@ export class RequestSlikDetailComponent implements OnInit {
       partySlik.collateralType = element.collateralType == null ? '' : element.collateralType;
       partySlik.facilityType = element.facilityType;
       partySlik.period = element.period;
+
+      partySlik.restructureType = element.caraRestrukturasi;
+      partySlik.description = element.keterangan;
+      partySlik.arrearsDate = element.tanggalMacet;
+      partySlik.fee = element.denda;
+      partySlik.restructureDateThru = element.tanggalRestrukturasiAkhir;
       // ! Penambahan Field Party Slilk disini =====
       partySlik.debtorName = element.debtorName;
       partySlik.bankPelapor = element.bankPelapor;
@@ -839,11 +845,12 @@ export class RequestSlikDetailComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

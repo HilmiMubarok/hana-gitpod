@@ -77,11 +77,12 @@ export class CollateralAppraisalValuationMachineComponent implements OnChanges {
   // Delete Confirmation
   public deleteMechine(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
         title: 'Delete Collateral Object',
-        message: 'Are you sure to delete ' + element.machineName + ' this data?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

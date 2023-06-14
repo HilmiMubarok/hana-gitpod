@@ -1,0 +1,264 @@
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.grid-index {
+  text-align: center;
+  font-size: 15px;
+}
+
+.grid-index-label {
+  text-align: center;
+}
+/* Table */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0, 24px, 0, 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1);
+  color: black;
+  font-family: 'Poppins', sans-serif !important;
+  text-align: left;
+}
+
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* table */
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff;
+}
+
+.mat-column-no {
+  width: 5%;
+  text-align: center;
+  padding-right: 25px;
+}
+.mat-column-action {
+  width: 10%;
+  text-align: center;
+}
+/* Facility info Debitur */
+.mat-column-facilityCategory {
+  text-align: left;
+}
+.mat-column-bank {
+  text-align: left;
+}
+.mat-column-limit {
+  text-align: left;
+}
+.mat-column-loantype {
+  text-align: left;
+}
+.mat-column-facilityType {
+  text-align: right;
+  padding-right: 40px;
+}
+.mat-column-rate {
+  text-align: left;
+}
+.mat-column-period {
+  text-align: right;
+  padding-right: 40px;
+}
+.mat-column-collateralType {
+  text-align: left;
+}
+.mat-column-collateralValue {
+  text-align: right;
+  padding-right: 40px;
+}
+.mat-column-Disbursement {
+  text-align: right;
+}
+.mat-column-MaturityDate {
+  text-align: right;
+}
+/* Facility info Debitur */
+
+::ng-deep .custom-dialog-container-delete {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+::ng-deep .custom-dialog-container-cancel {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}

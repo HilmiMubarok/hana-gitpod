@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-industry-limit-exposure-parameter-dialog',
   templateUrl: './industry-limit-exposure-parameter-dialog.component.html',
+  styleUrls: ['./industry-limit-exposure-parameter.css'],
 })
 export class MasterParameterIndustryLimitExposureDialogComponent {
   public industryLimitExposure: IIndustryLimitExposureParameter;
@@ -46,11 +47,12 @@ export class MasterParameterIndustryLimitExposureDialogComponent {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

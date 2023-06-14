@@ -93,8 +93,8 @@
             <span *ngIf="countTotalArea(element) && element.propertyMarketValuePerMeter">
               {{ countTotalArea(element) * element.propertyMarketValuePerMeter | currency: 'IDR ':'symbol':'1.0-0' }}
             </span>
-          </td></ng-container
-        >
+          </td>
+        </ng-container>
 
         <ng-container matColumnDef="percentage">
           <th mat-header-cell *matHeaderCellDef>Percentage</th>
@@ -143,13 +143,26 @@
             <input matInput type="text" [value]="fnCountTotalMV(collateralPropertiesLand) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
           </mat-form-field>
         </section>
+        <!-- This is manipulation Value Land-->
+        <section [hidden]="true">
+          <mat-form-field class="w-100" appearance="outline">
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="collateralProp.attributes.marketValueLandRound"
+              [value]="updateMarketValueLandRound() | currency: 'IDR':'symbol':'1.0-0'"
+              disabled
+            />
+          </mat-form-field>
+        </section>
+        <!-- End Manipulation Total Market Value Land -->
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Total Market Value (MV) Rounding</mat-label>
             <input
               matInput
-              type="string"
-              [value]="roundHundred(fnCountTotalMV(collateralPropertiesLand)) | currency: 'IDR ':'symbol':'1.0-0'"
+              type="text"
+              [value]="roundHundred(fnCountTotalMV(this.collateralPropertiesLand)) | currency: 'IDR':'symbol':'1.0-0'"
               disabled
             />
           </mat-form-field>
@@ -278,9 +291,22 @@
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Total Market Value (MV)</mat-label>
-            <input matInput type="text" [value]="fnCountTotalMVbuil(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
+            <input matInput type="number" [value]="fnCountTotalMVbuil(collateralProperties) | currency: 'IDR ':'symbol':'1.0-0'" disabled />
           </mat-form-field>
         </section>
+        <!-- Manipulation Value In Building -->
+        <section [hidden]="true">
+          <mat-form-field class="w-100" appearance="outline">
+            <input
+              matInput
+              type="number"
+              [(ngModel)]="collateralProp.attributes.marketValueBuildingRound"
+              [value]="updateMarketValueBuildingRound()"
+              disabled
+            />
+          </mat-form-field>
+        </section>
+        <!-- End Manipulation Value Building -->
         <section class="mt-2">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Total Market Value (MV) Rounding</mat-label>

@@ -78,8 +78,8 @@
 }
 
 .back-image {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   margin: 1rem;
   cursor: pointer;
 }
@@ -91,6 +91,7 @@
   padding-top: 20px;
   cursor: pointer;
 }
+
 .header-container {
   display: flex;
   margin-top: 20px;
@@ -130,6 +131,49 @@
   font-size: 16px;
 }
 
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+table {
+  border-bottom: 1px solid #008881 !important;
+  width: 100%;
+}
+
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
@@ -138,34 +182,15 @@ th {
 td {
   font-family: 'Poppins', sans-serif !important;
 }
-.rounding-table-left {
+th:first-child {
   border-top-left-radius: 15px;
 }
-.rounding-table-right {
+th:last-child {
   border-top-right-radius: 15px;
 }
 
-.grid-index-left {
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif;
-}
-
-.grid-index-right {
-  justify-content: flex-end;
-  text-align: right;
-  padding-right: 45px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.grid-index-center {
-  justify-content: center;
-  text-align: center;
+.mat-card {
   font-family: 'Poppins', sans-serif !important;
-}
-
-.button-styling {
-  background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
 }
 
 @-moz-document url-prefix() {

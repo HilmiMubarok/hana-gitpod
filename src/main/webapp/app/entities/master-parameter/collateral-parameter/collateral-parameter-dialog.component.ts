@@ -4,14 +4,12 @@ import { ICollateralParameter } from './collateral-parameter.model';
 import { MessageService } from 'primeng/api';
 import { CollateralParameterService } from './collateral-parameter.service';
 import { CollateralTypeService } from 'app/entities/collateral-type/collateral-type.service';
-import { MatSelectChange } from '@angular/material/select';
-import lodash from 'lodash';
-import { STATUS_LOV_PARAMETER } from 'app/shared/constants/status.constants';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-parameter-dialog',
   templateUrl: './collateral-parameter-dialog.component.html',
+  styleUrls: ['./master-collateral.css'],
 })
 export class CollateralParameterDialogComponent implements OnInit {
   public listCollateralType: any;
@@ -52,7 +50,6 @@ export class CollateralParameterDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCollateralType();
-    // this.getchangeTypeCollateral();
   }
   public getCollateralType() {
     this.collateralTypeService.query().subscribe(res => {
@@ -135,11 +132,6 @@ export class CollateralParameterDialogComponent implements OnInit {
       mustValidate.collateralDetailTypeDescription = false;
     }
 
-    // if (!this.generalParameter.value) {
-    //   this._showNotification('error', 'Masukkan Description terlebih dahulu');
-    //   mustValidate.value = false;
-    // }
-
     return this._validateProcess(mustValidate);
   }
 
@@ -157,11 +149,12 @@ export class CollateralParameterDialogComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

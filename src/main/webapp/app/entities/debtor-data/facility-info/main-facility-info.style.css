@@ -1,7 +1,3 @@
-table {
-  width: 100%;
-}
-
 tr.example-detail-row {
   height: 0;
 }
@@ -54,33 +50,54 @@ tr.example-element-row:not(.example-expanded-row):active {
 .grid-index-label {
   text-align: center;
 }
+/* Table */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
 
 th {
   background-color: rgba(147, 201, 199, 1);
   color: black;
   font-family: 'Poppins', sans-serif !important;
+  text-align: left;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
 }
 td {
   font-family: 'Poppins', sans-serif !important;
 }
 
-.rounding-table-left {
-  border-top-left-radius: 15px;
-}
-.rounding-table-right {
-  border-top-right-radius: 15px;
-}
+/* table */
 
-.grid-index-left {
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.grid-index-center {
-  justify-content: center;
-  text-align: center;
-  font-family: 'Poppins', sans-serif !important;
-}
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
@@ -88,15 +105,39 @@ td {
 
 .mat-column-no {
   width: 5%;
+  text-align: center;
 }
 .mat-column-action {
   width: 10%;
+  text-align: center;
 }
-
-.mat-column-appraisalNo {
+/* main facility IDD */
+.mat-column-approvalNo {
+  width: 15%;
   text-align: left;
 }
-
+.mat-column-currency {
+  text-align: center;
+}
+.mat-column-mainPlafond {
+  text-align: right;
+  padding-right: 50px;
+}
+.mat-column-maturityDate {
+  text-align: right;
+}
+.mat-column-availableLimit {
+  text-align: right;
+}
+.mat-column-lastAgreementDate {
+  text-align: right;
+}
+.mat-column-expand {
+  width: 10%;
+  text-align: center;
+}
+/* main facility IDD */
+/* Facility info Debitur */
 .mat-column-facilityCategory {
   text-align: left;
 }
@@ -130,6 +171,7 @@ td {
 .mat-column-MaturityDate {
   text-align: right;
 }
+/* Facility info Debitur */
 
 ::ng-deep .custom-dialog-container-delete {
   .mat-dialog-container {
@@ -164,37 +206,80 @@ td {
 }
 
 .confirm-button-yes {
-  /* .mat-raised-button { */
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
   background-color: rgba(224, 223, 223, 1);
   font-weight: bold;
-  /* } */
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .confirm-button-no {
-  /* .mat-raised-button { */
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
   background-color: rgba(224, 223, 223, 1);
   font-weight: bold;
-  /* } */
+  font-family: 'Poppins', sans-serif !important;
 }
 .confirm-button-no:hover {
-  /* .mat-raised-button:hover { */
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
   background-color: #f44336;
   color: #ffff;
   font-weight: bold;
-  /* } */
+  font-family: 'Poppins', sans-serif !important;
 }
-.confirm-button-yes:hover {
-  /* .mat-raised-button:hover { */
+.confirm-button-yes:active:hover:not([disabled]) {
   padding: 3px 43px 3px 43px;
   border-radius: 10px;
   background-color: rgba(157, 157, 157, 1);
   color: #ffff;
   font-weight: bold;
-  /* } */
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
 }

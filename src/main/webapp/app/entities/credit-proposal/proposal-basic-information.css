@@ -7,6 +7,18 @@
   font-family: 'Poppins', sans-serif !important;
 }
 
+body {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
 .remove-row-scroll {
   max-width: 100%;
   overflow-x: hidden;
@@ -14,7 +26,7 @@
 
 .e-card .e-card-header .e-card-header-caption .e-card-header-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   color: #008881;
   font-style: normal;
@@ -72,6 +84,10 @@
   font-size: 15px;
   font-style: normal;
   border-radius: 6px;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .form-group {
@@ -277,4 +293,158 @@ html * {
 .button-styling {
   background-color: rgba(49, 158, 152, 1);
   color: #ffffff;
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1);
+  color: #ffffff;
+}
+.mat-column {
+  font-weight: 100 !important;
+}
+.mat-column-no {
+  width: 5%;
+  justify-content: flex-end;
+  padding-right: 30px;
+}
+.mat-header-cell:first-child {
+  width: 5%;
+  justify-content: flex-end;
+  border-top-left-radius: 15px;
+}
+.mat-header-cell:last-child {
+  width: 10%;
+  align-items: flex-start;
+  border-top-right-radius: 15px;
+}
+
+.mat-header-cell {
+  font-weight: 100 !important;
+  font-size: 12px;
+}
+
+::ng-deep .custom-dialog-container-delete {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+::ng-deep .custom-dialog-container-cancel {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-card {
+  font-family: 'Poppins', sans-serif !important;
 }

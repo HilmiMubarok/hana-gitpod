@@ -12,6 +12,7 @@ import { DelegationAppraisalRequest } from '../delegationApplicationRequest.mode
 @Component({
   selector: 'jhi-delegation-appraisal-dialog',
   templateUrl: './dialog-delegation-appraisal.component.html',
+  styleUrls: ['../employee.css'],
 })
 export class DialogDelegationAppraisalComponent implements OnInit {
   public partyId: string;

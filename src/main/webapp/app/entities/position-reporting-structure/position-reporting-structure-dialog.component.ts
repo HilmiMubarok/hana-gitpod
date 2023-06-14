@@ -13,6 +13,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-position-reporting-structure-dialog',
   templateUrl: './position-reporting-structure-dialog.component.html',
+  styleUrls: ['./position-reporting-structure.css'],
 })
 export class PositionReportingStructureDialogComponent implements OnInit {
   public positionReportingStructure: IPositionReportingStructure;
@@ -117,11 +118,12 @@ export class PositionReportingStructureDialogComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

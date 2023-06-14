@@ -13,6 +13,7 @@ import { DelegationApplicationRequest } from '../delegationApplicationRequest.mo
 @Component({
   selector: 'jhi-delegation-application-dialog',
   templateUrl: './dialog-delegation-application.component.html',
+  styleUrls: ['../employee.css'],
 })
 export class DialogDelegationApplicationComponent implements OnInit {
   public partyId: string;

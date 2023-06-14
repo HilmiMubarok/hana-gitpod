@@ -15,6 +15,8 @@ import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import lodash from 'lodash';
 import { IPartySlik } from 'app/entities/party-slik/party-slik.model';
 import { PartyCifService } from '../party-cif.service';
+import { IGroupCollateral } from 'app/shared/model/group-collateral.model';
+import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'jhi-group-collateral-list',
   templateUrl: './group-collateral-list.component.html',
@@ -38,7 +40,7 @@ import { PartyCifService } from '../party-cif.service';
     ]),
   ],
 })
-export class GroupCollateralListComponent implements OnChanges {
+export class GroupCollateralListComponent extends AbstractEntityMaterialComponent<IGroupCollateral> implements OnChanges {
   @Input() public cif: string;
   private _partyCif: IPartyCif;
   public listGroupCollateral: any;
@@ -54,7 +56,14 @@ export class GroupCollateralListComponent implements OnChanges {
   public displayedColumns: string[] = ['no', 'name', 'cif'];
   public columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
 
-  constructor(protected partyCifService: PartyCifService) {}
+  constructor(protected partyCifService: PartyCifService, protected _snackBar: MatSnackBar, public dialog: MatDialog) {
+    super(_snackBar, partyCifService);
+    this.itemsPerPage = 10;
+    this.page = 0;
+    this.displayedColumns = null;
+    this.predicate = 'id';
+    this.entityKeyName = 'id';
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['partyCif']) {
       this.loadDataBy();
@@ -67,5 +76,15 @@ export class GroupCollateralListComponent implements OnChanges {
       this.listGroupCollateral = res.body;
       console.log('datagroup', this.listGroupCollateral);
     });
+  }
+  loadDataLazy(event?: PageEvent) {
+    this.items = null;
+    this.page = event.pageIndex;
+    this.itemsPerPage = event.pageSize;
+    this.postLoadDataLazy();
+  }
+
+  protected postLoadDataLazy(): void {
+    this.loadDataBy();
   }
 }

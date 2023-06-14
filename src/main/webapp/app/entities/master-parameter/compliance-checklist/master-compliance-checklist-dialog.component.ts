@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-master-compliance-checklist-dialog',
   templateUrl: './master-compliance-checklist-dialog.component.html',
+  styleUrls: ['./master-compliance-checklist.css'],
 })
 export class MasterComplianceChecklistDialogComponent implements OnInit {
   public masterComplianceCheklist: IMasterComplianceChecklist;
@@ -124,11 +125,12 @@ export class MasterComplianceChecklistDialogComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

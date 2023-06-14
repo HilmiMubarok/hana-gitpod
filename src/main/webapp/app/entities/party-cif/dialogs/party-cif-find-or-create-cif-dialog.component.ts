@@ -21,6 +21,11 @@ export class PartyCifFindOrCreateCifDialogComponent {
     this.partyCifService.cashFindCif(this.cif, { idPosition: this.getLocStor('POS') }).subscribe(
       res => {
         if (res.body) {
+          this._snackBar.open(`Cif Success`, null, {
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
           this._dialog.close(res.body);
         } else {
           this._snackBar.open(`Cif with number ${this.cif} does not exist!`, null, {

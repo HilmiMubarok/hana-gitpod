@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-compliance-checklist-criteria-dialog-add',
   templateUrl: './compliance-checklist-criteria-dialog.component.html',
+  styleUrls: ['../master-compliance-checklist.css'],
 })
 export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
@@ -163,11 +164,12 @@ export class ComplianceChecklistCriteriaDialogAddComponent implements OnInit {
   // cancel confrimation dialog
   public openCancelDialog(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '20vw',
+      width: '25vw',
       data: {
         title: '',
-        message: 'Are you sure to cancel?',
+        message: 'Are you sure to cancel this data?',
       },
+      panelClass: 'custom-dialog-container-cancel',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

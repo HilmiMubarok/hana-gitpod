@@ -41,7 +41,12 @@
           <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
             <mat-card class="w-100 mx-auto">
               <mat-card-content>
-                <jhi-group-collateral-info [partyId]="element.partyId" [partyCif]="partyCif" [collateralInfo]="collateralInfo">
+                <jhi-group-collateral-info
+                  [pariPasu]="'pariPasu'"
+                  [partyId]="element.partyId"
+                  [partyCif]="partyCif"
+                  [collateralInfo]="collateralInfo"
+                >
                 </jhi-group-collateral-info>
               </mat-card-content>
             </mat-card>
@@ -59,5 +64,17 @@
       ></tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
+    <mat-card *ngIf="loading" id="material-loading-bar">
+      <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+    </mat-card>
+    <mat-paginator
+      showFirstLastButtons
+      ngClass="transparant"
+      [length]="paginatorLength"
+      [pageSize]="paginatorPageSize"
+      [pageSizeOptions]="paginatorPageSizeOption"
+      (page)="loadDataLazy($event)"
+    >
+    </mat-paginator>
   </mat-card-content>
 </mat-card>

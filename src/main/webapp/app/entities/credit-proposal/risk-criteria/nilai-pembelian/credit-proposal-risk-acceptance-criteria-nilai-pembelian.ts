@@ -99,11 +99,11 @@ export class CreditProposalRacNilaiPembelianComponent {
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
-        title: 'Delete Asset Transaction',
-        message: 'Are you sure to delete transaction value of ' + element.nilaiPembelian + ' ' + element.ccy + '?',
+        message: 'Are you sure to delete this data?',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

@@ -58,7 +58,7 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../colla
 import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-mesin.component';
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
-
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   providers: [
     CollateralAppraisalProcessComponent,
@@ -148,7 +148,7 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   public ketObjekJaminan: Boolean;
   public totalDataDocumentCollateral = [];
   public totalDataDocumentLainya = [];
-
+  public positionTypeId: string;
   public jpRenewal: boolean;
   public jpNew: boolean;
   public jpAdditional: boolean;
@@ -219,7 +219,8 @@ export class SurveyBatchEditInternalComponent implements OnInit {
     public collateralAppraisalDetailProcessLandComponent: CollateralAppraisalDetailProcessLandComponent,
     public collateralAppraisalDetailProcessUnitConditionComponent: CollateralAppraisalDetailProcessUnitConditionComponent,
     public collateralAppraisalDetailProcessMesinComponent: CollateralAppraisalDetailProcessMesinComponent,
-    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent
+    public collateralAppraisalDetailProcessRealEstateComponent: CollateralAppraisalDetailProcessRealEstateComponent,
+    public templateService: TemplateService
   ) {
     this.collateralAppraisal = this.activatedRoute.snapshot.data['content'];
     this.activatedRoute.params.subscribe(params => {
@@ -239,6 +240,14 @@ export class SurveyBatchEditInternalComponent implements OnInit {
   ngOnInit(): void {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
+    });
+
+    this.getPositionTypeId();
+  }
+
+  private getPositionTypeId(): void {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.positionTypeId = newPos.positionTypeId;
     });
   }
 
@@ -648,36 +657,15 @@ export class SurveyBatchEditInternalComponent implements OnInit {
 
     this.currentAccount = await firstValueFrom(this.accountService.identity());
     this.accountAuthorities = this.currentAccount.authorities;
-    if (lodash.indexOf(this.accountAuthorities, Authority.ADMIN) >= 0) {
-      this.subMenu =
-        this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-          ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-          : SUBMENU_COLLATERAL_APPRAISAL;
+    if (
+      this.positionTypeId === 'TL' ||
+      this.positionTypeId === 'APR_DEPT_HEAD' ||
+      this.positionTypeId === 'APR_DH' ||
+      this.positionTypeId === 'ADMIN_APPRAISER'
+    ) {
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
     } else {
-      if (
-        lodash.indexOf(this.accountAuthorities, Authority.ADMIN_APPRAISER) >= 0 ||
-        lodash.indexOf(this.accountAuthorities, Authority.RM) >= 0
-      ) {
-        if (
-          this.collateralAppraisal.statusId === STATUS.DRAFT ||
-          this.collateralAppraisal.statusId === STATUS.RETURNTORM ||
-          this.collateralAppraisal.statusId === STATUS.ASSIGNMENT ||
-          this.collateralAppraisal.statusId === STATUS.VISITED
-        ) {
-          this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-        } else {
-          this.subMenu =
-            this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-              ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-              : SUBMENU_COLLATERAL_APPRAISAL;
-        }
-        this.subMenu = SUBMENU_COLLATERAL_APPRAISAL_ADMIN;
-      } else {
-        this.subMenu =
-          this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
-            : SUBMENU_COLLATERAL_APPRAISAL;
-      }
+      this.subMenu = SUBMENU_COLLATERAL_APPRAISAL;
     }
     this.setAuthorizedRole();
     this.selectedMenu = 'Appraisal Info';

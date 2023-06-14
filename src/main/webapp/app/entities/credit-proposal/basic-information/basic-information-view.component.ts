@@ -150,7 +150,6 @@ export class ProposalBasicInformationViewComponent implements OnInit {
         this.getContainer();
       });
     });
-
   }
 
   public triggeredSave(): void {
@@ -297,11 +296,11 @@ export class ProposalBasicInformationViewComponent implements OnInit {
   // Delete Confirmation
   public onDelete(element): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: '40vw',
+      width: '25vw',
       data: {
-        title: 'Delete Co-Borrower Info Data',
-        message: 'Are you sure to delete ' + element.name + ' company with CIF number ' + element.customerNumber + '?',
+        message: 'Are you sure to delete this data',
       },
+      panelClass: 'custom-dialog-container-delete',
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {

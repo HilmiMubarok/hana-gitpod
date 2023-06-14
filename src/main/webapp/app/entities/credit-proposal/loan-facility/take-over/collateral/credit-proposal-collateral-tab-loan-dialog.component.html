@@ -2,95 +2,201 @@
   <button class="button-close" mat-button mat-dialog-close>X</button>
 </div>
 <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
-<mat-dialog-content>
-  <mat-card>
-    <mat-card-content>
-      <div class="row">
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-          <div class="form-group">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Collateral</mat-label>
-              <input matInput type="text" [(ngModel)]="collateralPrevious.collateralType" [disabled]="view" />
-            </mat-form-field>
-          </div>
-        </section>
-        <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-          <div class="fontsebled row">
-            <div class="col-1">Collateral</div>
-            <div class="col-md-auto">:</div>
-            <div class="col">
-              {{ collateralPrevious.collateralType }}
-            </div>
-          </div>
-        </section>
-        <div class="col-6">
+<section *ngIf="parentPath !== 'dar-final' || parentPath !== 'loan-committee-approval'">
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>MV Internal in IDR</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="collateralPrevious.marketValue = numberInputChanged($event)"
-                  [disabled]="view"
-                />
+                <mat-label>Collateral</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralPrevious.collateralType" [disabled]="view" />
               </mat-form-field>
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">MV Internal in IDR</div>
+              <div class="col-1">Collateral</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}
+                {{ collateralPrevious.collateralType }}
               </div>
             </div>
           </section>
-        </div>
+          <div class="col-6">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>MV Internal in IDR</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="collateralPrevious.marketValue = numberInputChanged($event)"
+                    [disabled]="view"
+                  />
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-2">MV Internal in IDR</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}
+                </div>
+              </div>
+            </section>
+          </div>
 
-        <div class="col-6">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+          <div class="col-6">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>LV Internal in IDR</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="collateralPrevious.liquidValue = numberInputChanged($event)"
+                    [disabled]="view"
+                  />
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-2">LV Internal in IDR</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-dialog-actions align="center">
+      <!-- <button mat-button mat-dialog-close>Cancel</button> -->
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <button mat-button *ngIf="!view" (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff" align="center">
+          Save
+        </button>
+      </section>
+      <button
+        mat-button
+        (click)="openCancelDialog()"
+        style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px"
+        align="center"
+      >
+        Cancel
+      </button>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <div class="mt-3 text-center">
+          <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
+        </div>
+      </section>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</section>
+<section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+  <mat-dialog-content>
+    <mat-card>
+      <mat-card-content>
+        <div class="row">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
-                <mat-label>LV Internal in IDR</mat-label>
-                <input
-                  matInput
-                  type="text"
-                  [ngModel]="collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0'"
-                  (ngModelChange)="collateralPrevious.liquidValue = numberInputChanged($event)"
-                  [disabled]="view"
-                />
+                <mat-label>Collateral</mat-label>
+                <input matInput type="text" [(ngModel)]="collateralPrevious.collateralType" [disabled]="view" />
               </mat-form-field>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
             <div class="fontsebled row">
-              <div class="col-2">LV Internal in IDR</div>
+              <div class="col-1">Collateral</div>
               <div class="col-md-auto">:</div>
               <div class="col">
-                {{ collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}
+                {{ collateralPrevious.collateralType }}
               </div>
             </div>
           </section>
+          <div class="col-6">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>MV Internal in IDR</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="collateralPrevious.marketValue = numberInputChanged($event)"
+                    [disabled]="view"
+                  />
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-2">MV Internal in IDR</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateralPrevious.marketValue | currency: 'IDR ':'symbol':'1.0-0' }}
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="col-6">
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+              <div class="form-group">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>LV Internal in IDR</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    [ngModel]="collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0'"
+                    (ngModelChange)="collateralPrevious.liquidValue = numberInputChanged($event)"
+                    [disabled]="view"
+                  />
+                </mat-form-field>
+              </div>
+            </section>
+            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+              <div class="fontsebled row">
+                <div class="col-2">LV Internal in IDR</div>
+                <div class="col-md-auto">:</div>
+                <div class="col">
+                  {{ collateralPrevious.liquidValue | currency: 'IDR ':'symbol':'1.0-0' }}
+                </div>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <mat-dialog-actions align="center">
-    <!-- <button mat-button mat-dialog-close>Cancel</button> -->
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-      <button mat-button *ngIf="!view" (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff" align="center">
-        Save
+      </mat-card-content>
+    </mat-card>
+    <mat-dialog-actions align="center">
+      <!-- <button mat-button mat-dialog-close>Cancel</button> -->
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
+        <button mat-button *ngIf="!view" (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff" align="center">
+          Save
+        </button>
+      </section>
+      <button
+        mat-button
+        (click)="openCancelDialog()"
+        style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px"
+        align="center"
+      >
+        Cancel
       </button>
-    </section>
-    <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff; margin-left: 15px" align="center">
-      Cancel
-    </button>
-    <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
-      <div class="mt-3 text-center">
-        <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
-      </div>
-    </section>
-  </mat-dialog-actions>
-</mat-dialog-content>
+      <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <div class="mt-3 text-center">
+          <button mat-raised-button color="primary" hidden (click)="save()">Save</button>
+        </div>
+      </section>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</section>

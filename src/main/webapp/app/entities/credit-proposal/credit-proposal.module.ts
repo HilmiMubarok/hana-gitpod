@@ -21,12 +21,6 @@ import { CreditProposalTabRepaymentCapabilityComponent } from './credit-proposal
 import { CreditProposalApprovalListComponent } from './credit-proposal-approval-list.component';
 import { CreditProposalGroupGuarantorAnalysisComponent } from './guarantour/credit-proposal-group-guarantor-analysis.component';
 import { CreditProposalNewComponent } from './credit-proposal-new.component';
-import { CreditProposalTradeCheckingBuyersComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers.component';
-import { CreditProposalTradeCheckingBuyersDialogComponent } from './trade-checking/buyers/credit-proposal-trade-checking-buyers-dialog.component';
-import { CreditProposalTradeCheckingBuyersDialogEditComponent } from './trade-checking/buyers/edit/credit-proposal-trade-checking-buyers-dialog-edit.component';
-import { CreditProposalTradeCheckingSupplierComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier.component';
-import { CreditProposalTradeCheckingSupplierDialogComponent } from './trade-checking/supplier/credit-proposal-trade-checking-supplier-dialog.component';
-import { CreditProposalTradeCheckingSupplierDialogEditComponent } from './trade-checking/supplier/edit/credit-proposal-trade-checking-supplier-dialog-edit.component';
 import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.component';
 import { CreditProposalListMaterialComponent } from './credit-proposal-list-material.component';
 import { CreditProposalLoanFacilityDialogComponent } from './loan-facility/dialog/loan-facility-dialog.component';
@@ -36,6 +30,8 @@ import { ForwardToComponent } from './forward-to/forward-to.component';
 import { CreditProposalLoanApplicationComponent } from './credit-proposal-loan-application.component';
 import { DialogCreditProposalCollateralInfoDialogBTBComponent } from './collateral-info/backtoback/dialog-credit-proposal-collateral-info-btb.component';
 import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-facility-dialog.component';
+import { MainFacilityDialogHistoryComponent } from './loan-facility-history/main-facility/main-facility-dialog-history.component';
+import { MainFacilityChildHistoryComponent } from './loan-facility-history/main-facility/main-facility-child-history.component';
 
 @NgModule({
   imports: [SharedModule, SharedLibsModule, SharedEntityModule, RouterModule.forChild(creditProposalRoute)],
@@ -63,6 +59,7 @@ import { MainFacilityDialogComponent } from './loan-facility/main-facility/main-
     DialogCreditProposalCollateralInfoDialogBTBComponent,
     ForwardToComponent,
     MainFacilityDialogComponent,
+    MainFacilityDialogHistoryComponent,
   ],
   entryComponents: [CreditProposalNewDialogComponent],
   providers: [PageService, ToolbarService, EditService],

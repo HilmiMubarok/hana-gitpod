@@ -1024,11 +1024,11 @@ export const APPRAISAL_MENU_TL: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'batch-apprisal/internal',
       },
-      {
-        name: 'Appraisal Process',
-        iconname: 'minus',
-        route: 'batch-apprisal/process',
-      },
+      // {
+      //   name: 'Appraisal Process',
+      //   iconname: 'minus',
+      //   route: 'batch-apprisal/process',
+      // },
       {
         name: 'Appraisal Report Approval',
         iconname: 'minus',
@@ -1540,11 +1540,11 @@ export const APPRAISAL_APR_DEPT_HEAD: ISidebarMenuModel[] = [
         iconname: 'minus',
         route: 'batch-apprisal/internal',
       },
-      {
-        name: 'Appraisal Process',
-        iconname: 'minus',
-        route: 'batch-apprisal/process',
-      },
+      // {
+      //   name: 'Appraisal Process',
+      //   iconname: 'minus',
+      //   route: 'batch-apprisal/process',
+      // },
       {
         name: 'Appraisal Report Approval',
         iconname: 'minus',

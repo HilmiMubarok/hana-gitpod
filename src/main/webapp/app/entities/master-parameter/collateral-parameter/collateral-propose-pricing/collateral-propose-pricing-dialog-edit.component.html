@@ -13,19 +13,19 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Collateral Parameter Detail Type</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.collateralParameterDetailType" />
+          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.collateralParameterDetailType" disabled />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Propose Pricing Code</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.proposePricingCode" />
+          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.proposePricingCode" required />
         </mat-form-field>
       </section>
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Propose Pricing</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.proposePricing" />
+          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.proposePricing" required />
         </mat-form-field>
       </section>
       <section class="mt-2">
@@ -43,6 +43,6 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="save()" style="background: rgba(0, 136, 129, 1); color: #ffffff">SAVE</button>
-  <button mat-button (click)="openCancelDialog()" style="background: rgb(228, 39, 39); color: #ffffff">CLOSE</button>
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">CLOSE</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="save()">SAVE</button>
 </mat-dialog-actions>

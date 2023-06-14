@@ -20,6 +20,7 @@ type SelectableEntity = IProductCategory | IProductCategoryType;
 @Component({
   selector: 'jhi-product-category-view',
   templateUrl: './product-category-view.component.html',
+  styleUrls: ['../master-parameter/master-product/master-product.css'],
 })
 export class ProductCategoryViewComponent extends AbstractEntityBaseViewComponent<IProductCategory> implements OnChanges {
   @Input() id: string;

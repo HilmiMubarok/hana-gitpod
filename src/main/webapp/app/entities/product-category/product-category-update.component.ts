@@ -22,6 +22,7 @@ type SelectableEntity = IProductCategory | IProductCategoryType;
 @Component({
   selector: 'jhi-product-category-update',
   templateUrl: './product-category-update.component.html',
+  styleUrls: ['../master-parameter/master-product/master-product.css'],
 })
 export class ProductCategoryUpdateComponent extends AbstractEntityUpdateComponent<IProductCategory> {
   productcategories: IProductCategory[] = [];
