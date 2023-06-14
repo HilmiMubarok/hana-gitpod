@@ -28,6 +28,7 @@ import { RequestSlikTimelineService } from './services/request-slik-timeline.ser
 import { RequestSlikValidateService } from './services/request-slik-validate.service';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { RequestSlikChecklistService } from './services/request-slik-checklist.service';
+import { RequestSlikStatus } from './enums/request-slik-status.enum';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -36,6 +37,7 @@ import { RequestSlikChecklistService } from './services/request-slik-checklist.s
   providers: [SelectionService, EditorService, SfdtExportService],
 })
 export class RequestSlikDetailComponent implements OnInit {
+  reqSlikStatus = RequestSlikStatus;
   customHeadersJWT;
   paramsIdGet;
   getKey;
@@ -70,7 +72,7 @@ export class RequestSlikDetailComponent implements OnInit {
       status: this.requestSlik.status,
       reqreffid: this.requestSlik.id,
     });
-    if (this.requestSlik.status === 'DRAFT' || this.requestSlik.status === 'RETURN_TO_RM') {
+    if (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM) {
       this.requestSlikChecklistService.getAllChecklistsByRequestSlikId(this.requestSlik.id).subscribe(res => {
         this.checkDataChecklist = res;
         console.log('all checklists: ', this.checkDataChecklist.data);
@@ -192,8 +194,6 @@ export class RequestSlikDetailComponent implements OnInit {
     protected requestSlikChecklistService: RequestSlikChecklistService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
-    // this.requestSlik = requestSlikData.filter(res => res.id === Number(this.router.url.split('/')[2]))[0];
-    // this.partyCif = PARTY_CIF_EXAMPLE;
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
     this.getAccountDetail();
@@ -430,7 +430,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   reject() {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, 'RETURN_TO_RM').subscribe({
+    this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, this.reqSlikStatus.RETURN_TO_RM).subscribe({
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       next: () => {
         this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
@@ -461,7 +461,8 @@ export class RequestSlikDetailComponent implements OnInit {
   }
 
   onDocumentChange() {
-    this.container.restrictEditing = this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM' && true;
+    this.container.restrictEditing =
+      this.requestSlik.status !== this.reqSlikStatus.DRAFT && this.requestSlik.status !== this.reqSlikStatus.RETURN_TO_RM && true;
   }
 
   private getBucket(): Promise<void> {
@@ -575,29 +576,35 @@ export class RequestSlikDetailComponent implements OnInit {
   // === End Document Editor ===
 
   protected checkStatus(currentStatus: string) {
-    if ((currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') && this.segment === 'Small Medium Enterprise') {
+    if (
+      (currentStatus === this.reqSlikStatus.DRAFT || currentStatus === this.reqSlikStatus.RETURN_TO_RM) &&
+      this.segment === 'Small Medium Enterprise'
+    ) {
       return {
-        status: 'APPROVAL_BU',
+        status: this.reqSlikStatus.APPROVAL_BU,
       };
-    } else if ((currentStatus === 'DRAFT' || currentStatus === 'RETURN_TO_RM') && this.segment !== 'Small Medium Enterprise') {
+    } else if (
+      (currentStatus === this.reqSlikStatus.DRAFT || currentStatus === this.reqSlikStatus.RETURN_TO_RM) &&
+      this.segment !== 'Small Medium Enterprise'
+    ) {
       return {
-        status: 'APPROVAL_SLIK',
+        status: this.reqSlikStatus.APPROVAL_SLIK,
       };
-    } else if (currentStatus === 'APPROVAL_BU') {
+    } else if (currentStatus === this.reqSlikStatus.APPROVAL_BU) {
       return {
-        status: 'APPROVAL_SLIK',
+        status: this.reqSlikStatus.APPROVAL_SLIK,
       };
-    } else if (currentStatus === 'APPROVAL_SLIK') {
+    } else if (currentStatus === this.reqSlikStatus.APPROVAL_SLIK) {
       return {
-        status: 'CHECKING',
+        status: this.reqSlikStatus.CHECKING,
       };
-    } else if (currentStatus === 'VERIFY') {
+    } else if (currentStatus === this.reqSlikStatus.VERIFY) {
       return {
-        status: 'COMPLETE',
+        status: this.reqSlikStatus.COMPLETE,
       };
     } else {
       return {
-        status: 'COMPLETE',
+        status: this.reqSlikStatus.COMPLETE,
       };
     }
   }
@@ -800,7 +807,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
     if (
       !this.requestSlikValidateService.validate() &&
-      (this.requestSlik.status === 'DRAFT' || this.requestSlik.status === 'RETURN_TO_RM')
+      (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM)
     ) {
       return this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Minimum document is 1' });
     }

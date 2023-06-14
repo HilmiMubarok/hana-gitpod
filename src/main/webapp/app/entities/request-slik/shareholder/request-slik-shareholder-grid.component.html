@@ -1,4 +1,4 @@
-<mat-card *ngIf="requestSlik.status !== 'VERIFY' && requestSlik.status !== 'COMPLETE'">
+<mat-card *ngIf="requestSlik.status !== reqSlikStatus.VERIFY && requestSlik.status !== reqSlikStatus.COMPLETE">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">shareholder</mat-card-header-subtitle>
   </mat-card-header>
@@ -54,7 +54,7 @@
               (click)="$event.stopPropagation()"
               (change)="updateChecklist(element, c)"
               [checked]="isDetailChecked(element)"
-              [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
+              [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
             ></mat-checkbox>
           </td>
         </ng-container>
@@ -82,7 +82,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'">
+<mat-card *ngIf="requestSlik.status === reqSlikStatus.VERIFY || requestSlik.status === reqSlikStatus.COMPLETE">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">shareholder</mat-card-header-subtitle>
   </mat-card-header>
@@ -186,7 +186,7 @@
                       <mat-radio-group
                         [ngModel]="element.person ? element.person.id : element.shareHolderOrg.id"
                         (ngModelChange)="element.person ? (element.person.id = $event) : (element.shareholderOrg.id = $event)"
-                        *ngIf="requestSlik.status === 'VERIFY'"
+                        *ngIf="requestSlik.status === reqSlikStatus.VERIFY"
                       >
                         <mat-radio-button [value]="tes" (click)="selectRow(tes)"></mat-radio-button>
                       </mat-radio-group>

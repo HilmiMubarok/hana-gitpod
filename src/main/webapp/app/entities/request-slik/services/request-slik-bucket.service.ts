@@ -9,11 +9,13 @@ import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
 import { Observable, forkJoin, map, of, switchMap } from 'rxjs';
 import _ from 'lodash';
+import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestSlikBucketService extends AbstractEntityService<any> {
+  reqSlikStatus = RequestSlikStatus;
   constructor(
     protected http: HttpClient,
     protected applicationConfigService: ApplicationConfigService,
@@ -155,21 +157,21 @@ export class RequestSlikBucketService extends AbstractEntityService<any> {
 
   displayStatusLabel(dataSource) {
     const modifiedData = _.map(dataSource, obj => {
-      if (obj.status === 'DRAFT') {
+      if (obj.status === this.reqSlikStatus.DRAFT) {
         return { ...obj, status: 'Draft' };
-      } else if (obj.status === 'APPROVAL_BU') {
+      } else if (obj.status === this.reqSlikStatus.APPROVAL_BU) {
         return { ...obj, status: 'Approval SLIK By BU' };
-      } else if (obj.status === 'APPROVAL_SLIK') {
+      } else if (obj.status === this.reqSlikStatus.APPROVAL_SLIK) {
         return { ...obj, status: 'Approval SLIK By Team SLIK' };
-      } else if (obj.status === 'CHECKING') {
+      } else if (obj.status === this.reqSlikStatus.CHECKING) {
         return { ...obj, status: 'Checking In Progress' };
-      } else if (obj.status === 'RETURN_TO_RM') {
+      } else if (obj.status === this.reqSlikStatus.RETURN_TO_RM) {
         return { ...obj, status: 'Return To RM' };
-      } else if (obj.status === 'VERIFY') {
+      } else if (obj.status === this.reqSlikStatus.VERIFY) {
         return { ...obj, status: 'Verify' };
-      } else if (obj.status === 'COMPLETE') {
+      } else if (obj.status === this.reqSlikStatus.COMPLETE) {
         return { ...obj, status: 'Complete' };
-      } else if (obj.status === 'CANCEL') {
+      } else if (obj.status === this.reqSlikStatus.CANCEL) {
         return { ...obj, status: 'Cancel' };
       }
       return obj;

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
@@ -13,7 +13,7 @@ export class RequestSlikStatusService extends AbstractEntityService<any> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/slik/request');
-    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.OCR + '/api/cbas_slik');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/app-menu-status-item');
   }
 
   // Endpoint LOV -> los/api/general-parameter/filterBy?idParameterType=REQUEST_PURPOSE_SLIK
@@ -31,7 +31,9 @@ export class RequestSlikStatusService extends AbstractEntityService<any> {
 
   // Get Statuses
   public getStatuses() {
-    return this.http.get<any>(this.resourceUrl + '/status', { observe: 'response' }).pipe(map(res => res.body.data));
+    const params = new HttpParams().set('appMenuId', 'SLIK_CHECKING_REQUEST_APPROVAL').set('page', 0).set('size', 999);
+
+    return this.http.get<any>(this.resourceUrlNew + '/filterBy', { params, observe: 'response' }).pipe(map(res => res.body));
   }
 
   public changeReqSlikStatus(reqSlikId, toStatus: string) {

@@ -13,6 +13,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { PartySlikService } from 'app/entities/party-slik/party-slik.service';
 import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
 import { RequestSlikVerifyService } from '../services/request-slik-verify.service';
+import _ from 'lodash';
+import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 
 @Component({
   selector: 'jhi-request-slik-debitur-grid',
@@ -20,7 +22,7 @@ import { RequestSlikVerifyService } from '../services/request-slik-verify.servic
   styleUrls: ['./request-slik-debitur-grid.styles.scss'],
 })
 export class RequestSlikDebiturGridComponent implements OnInit {
-  dataaa;
+  reqSlikStatus = RequestSlikStatus;
   ngOnInit(): void {
     // const a = this.requestSlikService.mapSlikResult(this.sampleData);
     // this.dataaa = this.requestSlikService.mapSlikResult(this.sampleData);

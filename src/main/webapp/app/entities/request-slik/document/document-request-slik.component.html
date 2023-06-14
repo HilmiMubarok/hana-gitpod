@@ -25,11 +25,15 @@
           <button
             mat-icon-button
             (click)="openDialog('edit', element)"
-            *ngIf="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM'"
+            *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
           >
             <mat-icon>create</mat-icon>
           </button>
-          <button mat-icon-button *ngIf="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM'" (click)="delete(element)">
+          <button
+            mat-icon-button
+            *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
+            (click)="delete(element)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -46,7 +50,7 @@
       mat-raised-button
       color="primary"
       (click)="openDialog('add', null)"
-      *ngIf="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM'"
+      *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
     >
       <mat-icon>add</mat-icon> UPLOAD
     </button>

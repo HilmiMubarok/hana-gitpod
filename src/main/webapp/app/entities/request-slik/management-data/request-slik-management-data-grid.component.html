@@ -1,4 +1,4 @@
-<mat-card *ngIf="requestSlik.status !== 'VERIFY' && requestSlik.status !== 'COMPLETE'">
+<mat-card *ngIf="requestSlik.status !== reqSlikStatus.VERIFY && requestSlik.status !== reqSlikStatus.COMPLETE">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">Management Data</mat-card-header-subtitle>
   </mat-card-header>
@@ -60,7 +60,7 @@
               (click)="$event.stopPropagation()"
               (change)="updateChecklist(element, c)"
               [checked]="isDetailChecked(element)"
-              [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
+              [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
             ></mat-checkbox>
           </td>
         </ng-container>
@@ -92,7 +92,7 @@
   Management Data for Verify
   =====================================
  -->
-<mat-card *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'">
+<mat-card *ngIf="requestSlik.status === reqSlikStatus.VERIFY || requestSlik.status === reqSlikStatus.COMPLETE">
   <mat-card-header>
     <mat-card-header-subtitle class="text-capitalize">Management Data</mat-card-header-subtitle>
   </mat-card-header>

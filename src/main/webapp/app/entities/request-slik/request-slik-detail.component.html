@@ -42,7 +42,7 @@
                   <h4 style="margin: 0 20px 0 0">Debtor Data</h4>
                   <section>
                     <mat-checkbox
-                      [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
+                      [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
                       #c
                       (click)="$event.stopPropagation()"
                       (change)="updateChecklist(element, c)"
@@ -136,7 +136,7 @@
             <div class="row px-3 pt-5">
               <div class="col">
                 <jhi-request-slik-debitur-grid
-                  *ngIf="requestSlik.status === 'VERIFY' || requestSlik.status === 'COMPLETE'"
+                  *ngIf="requestSlik.status === reqSlikStatus.VERIFY || requestSlik.status === reqSlikStatus.COMPLETE"
                   [cif]="partyCif.customerNumber"
                   [partyCif]="partyCif"
                   [checklists]="checklists"
@@ -191,7 +191,7 @@
               <mat-form-field appearance="fill" class="col-6">
                 <mat-label>Request Purpose Type</mat-label>
                 <mat-select
-                  [disabled]="requestSlik.status !== 'DRAFT' && requestSlik.status !== 'RETURN_TO_RM'"
+                  [disabled]="requestSlik.status !== reqSlikStatus.DRAFT && requestSlik.status !== reqSlikStatus.RETURN_TO_RM"
                   (selectionChange)="setPurposeCode($event)"
                   [(ngModel)]="requestSlik.purposeCode"
                 >
@@ -209,10 +209,18 @@
                   <ejs-documenteditorcontainer
                     #document_editor_container
                     [headers]="customHeadersJWT"
-                    [enableToolbar]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? true : false"
-                    [isReadOnly]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? false : true"
-                    [disabled]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? false : true"
-                    [enableEditor]="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM' ? true : false"
+                    [enableToolbar]="
+                      requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM ? true : false
+                    "
+                    [isReadOnly]="
+                      requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM ? false : true
+                    "
+                    [disabled]="
+                      requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM ? false : true
+                    "
+                    [enableEditor]="
+                      requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM ? true : false
+                    "
                     [enableLocalPaste]="false"
                     height="100vh"
                     style="display: block"
@@ -234,17 +242,17 @@
               class="d-flex justify-content-center"
               style="margin-top: 30px"
               *ngIf="
-                requestSlik.status !== 'COMPLETE' &&
-                requestSlik.status !== 'CHECKING' &&
+                requestSlik.status !== reqSlikStatus.COMPLETE &&
+                requestSlik.status !== reqSlikStatus.CHECKING &&
                 segment !== 'loading...' &&
-                requestSlik.status !== 'CANCEL'
+                requestSlik.status !== reqSlikStatus.CANCEL
               "
             >
               <button mat-raised-button color="primary" style="margin-right: 10px" (click)="openSubmitDialog('submit')">Submit</button>
               <button
                 mat-raised-button
                 color="primary"
-                *ngIf="requestSlik.status === 'DRAFT'"
+                *ngIf="requestSlik.status === reqSlikStatus.DRAFT"
                 style="margin-right: 10px"
                 (click)="openSubmitDialog('cancel')"
               >
@@ -253,7 +261,7 @@
               <button
                 mat-raised-button
                 color="primary"
-                *ngIf="requestSlik.status === 'APPROVAL_BU' || requestSlik.status === 'APPROVAL_SLIK'"
+                *ngIf="requestSlik.status === reqSlikStatus.APPROVAL_BU || requestSlik.status === reqSlikStatus.APPROVAL_SLIK"
                 style="margin-right: 10px"
                 (click)="openSubmitDialog('reject')"
               >
@@ -262,7 +270,7 @@
               <button
                 mat-raised-button
                 color="primary"
-                *ngIf="requestSlik.status === 'DRAFT' || requestSlik.status === 'RETURN_TO_RM'"
+                *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
                 (click)="save()"
               >
                 Save

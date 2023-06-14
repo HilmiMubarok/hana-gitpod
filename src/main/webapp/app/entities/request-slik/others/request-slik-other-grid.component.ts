@@ -20,6 +20,7 @@ import { RequestSlikService } from '../request-slik.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
 import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
+import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 
 @Component({
   selector: 'jhi-request-slik-other-grid',
@@ -45,6 +46,7 @@ import { RequestSlikChecklistService } from '../services/request-slik-checklist.
   ],
 })
 export class RequestSlikOtherGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+  reqSlikStatus = RequestSlikStatus;
   @Output() checklistData = new EventEmitter<any>();
   @Input() requestSlik: IRequestSlik;
   @Input() result: any;
@@ -147,7 +149,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
   private defineDisplayedColumns(param: string) {
     // this.displayedColumns = ['no', 'fullname', 'idCard', 'dob', 'address', 'action'];
     this.displayedColumns =
-      this.requestSlik.status === 'VERIFY' || this.requestSlik.status === 'COMPLETE'
+      this.requestSlik.status === this.reqSlikStatus.VERIFY || this.requestSlik.status === this.reqSlikStatus.COMPLETE
         ? ['no', 'fullname', 'idCard', 'dob', 'address', 'pep']
         : ['no', 'fullname', 'idCard', 'dob', 'address', 'pep', 'action'];
     this.displayedColumnsExpand = [...this.displayedColumns, 'expand'];
@@ -185,7 +187,7 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
                     });
                 });
               });
-            if (this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM') {
+            if (this.requestSlik.status !== this.reqSlikStatus.DRAFT && this.requestSlik.status !== this.reqSlikStatus.DRAFT) {
               this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
                 console.log('thee data', data);
                 this.ocrDatas.emit(data);
@@ -208,13 +210,6 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
               });
               this.initDataForMatTable(res, res.headers);
             }
-            // this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
-            //   ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-            //       console.log('thee data', data);
-            //       this.ocrDatas.emit(data);
-            //       this.initDataForMatTable(data, res.headers);
-            //     })
-            //   : this.initDataForMatTable(res, res.headers);
           },
           error: (res: HttpErrorResponse) => this.onError(res.message),
         });
