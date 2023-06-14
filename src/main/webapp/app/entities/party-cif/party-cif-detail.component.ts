@@ -263,7 +263,6 @@ export class PartyCifDetailComponent implements OnInit {
 
   getTitleMenu() {
     this.appNameMenu = sessionStorage.getItem('appNameMenu');
-    console.log('ini nama menu title', this.appNameMenu);
   }
 
   getTitleUrl() {

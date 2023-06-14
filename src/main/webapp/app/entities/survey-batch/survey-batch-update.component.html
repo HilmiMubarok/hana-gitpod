@@ -5,7 +5,7 @@
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item> -->
             <e-breadcrumb-item text="View Survey Batch" url="/batch-apprisal/view"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
@@ -20,7 +20,7 @@
     </div>
     <mat-card>
       <mat-card-content>
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div
             style="
               color: #008881;
@@ -123,8 +123,8 @@
         </div>
       </mat-card-content>
       <mat-card-actions align="center">
-        <button mat-raised-button class="button-info" (click)="generate()">GENERATE</button>
-        <button mat-raised-button class="button-info" (click)="openDialog()">UPLOAD</button>
+        <button mat-raised-button class="button-styling" (click)="generate()">GENERATE</button>
+        <button mat-raised-button class="button-styling" (click)="openDialog()">UPLOAD</button>
       </mat-card-actions>
     </mat-card>
   </div>
