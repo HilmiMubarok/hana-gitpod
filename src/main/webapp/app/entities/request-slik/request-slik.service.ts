@@ -12,9 +12,11 @@ import { PartySlikService } from '../party-slik/party-slik.service';
 import { StorageService } from '../storage/storage.service';
 import { InternalService } from '../internal/internal.service';
 import { MessageService } from 'primeng/api';
+import { RequestSlikStatus } from './enums/request-slik-status.enum';
 
 @Injectable({ providedIn: 'root' })
 export class RequestSlikService extends AbstractEntityService<any> {
+  reqSlikStatus = RequestSlikStatus;
   private bucket: string;
   constructor(
     protected http: HttpClient,
@@ -279,12 +281,12 @@ export class RequestSlikService extends AbstractEntityService<any> {
   }
 
   public onSubmit(data) {
-    if (data.status === 'CHECKING') {
+    if (data.status === this.reqSlikStatus.CHECKING) {
       // return this.postCBAS(data);
       return this.changeStatusAndRequest(data);
-    } else if (data.status === 'APPROVAL_SLIK') {
+    } else if (data.status === this.reqSlikStatus.APPROVAL_SLIK) {
       return this.submitDraft(data);
-    } else if (data.status === 'COMPLETE') {
+    } else if (data.status === this.reqSlikStatus.COMPLETE) {
       return this.pushPartySlik(data);
     } else {
       return this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });

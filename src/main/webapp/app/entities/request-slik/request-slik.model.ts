@@ -23,26 +23,3 @@ export class RequestSlik implements IRequestSlik {
     public status?: string
   ) {}
 }
-
-export const requestSlikData = [
-  {
-    id: 1,
-    requestNumber: '2023-000434',
-    cif: '0000000102',
-    debtorName: 'AJIS SUJAENI',
-    customerType: 'Personal',
-    segment: 'SME',
-    requestDate: '2023-000434',
-    status: 'Draft',
-  },
-  {
-    id: 2,
-    requestNumber: '2023-000434',
-    cif: '0000000101',
-    debtorName: 'JAYA MIMIKA LESTARI	',
-    customerType: 'Corporate',
-    segment: 'SME',
-    requestDate: '2023-000434',
-    status: 'Draft',
-  },
-];

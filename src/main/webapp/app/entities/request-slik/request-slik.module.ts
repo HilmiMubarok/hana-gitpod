@@ -16,6 +16,7 @@ import { RequestSlikManagementDataDialogComponent } from './management-data/dial
 import { RequestSlikDebiturGridComponent } from './debitur/request-slik-debitur-grid.component';
 import { RequestSlikPopupComponent } from './dialogs/request-slik-popup.component';
 import { RequestSlikDialogSlikFileComponent } from './dialogs/request-slik-dialog-slik-file.component';
+import { RequestSlikStatusPipe } from './pipes/request-slik-status.pipe';
 // import { RequestSlikShareholderGridExpandComponent } from './shareholder/expand/request-slik-shareholder-grid-expand.component';
 // import { RequestSlikManagementDataGridExpandComponent } from './management-data/expand/request-slik-management-data-grid-expand.component';
 // import { RequestSlikOtherGridExpandComponent } from './others/expand/request-slik-other-grid-expand.component';
@@ -35,7 +36,8 @@ import { RequestSlikDialogSlikFileComponent } from './dialogs/request-slik-dialo
     RequestSlikManagementDataDialogComponent,
     RequestSlikDebiturGridComponent,
     RequestSlikPopupComponent,
-    RequestSlikDialogSlikFileComponent
+    RequestSlikDialogSlikFileComponent,
+    RequestSlikStatusPipe,
     // RequestSlikShareholderGridExpandComponent,
     // RequestSlikManagementDataGridExpandComponent,
     // RequestSlikOtherGridExpandComponent,
@@ -53,7 +55,7 @@ import { RequestSlikDialogSlikFileComponent } from './dialogs/request-slik-dialo
     RequestSlikManagementDataDialogComponent,
     RequestSlikDebiturGridComponent,
     RequestSlikPopupComponent,
-    RequestSlikDialogSlikFileComponent
+    RequestSlikDialogSlikFileComponent,
     // RequestSlikShareholderGridExpandComponent,
     // RequestSlikManagementDataGridExpandComponent,
     // RequestSlikOtherGridExpandComponent,

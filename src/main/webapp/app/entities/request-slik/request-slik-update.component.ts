@@ -15,6 +15,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { AbstractEntityUpdateComponent } from 'app/shared/base/abstract-entity-update.component';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { RequestSlikStatus } from './enums/request-slik-status.enum';
 
 @Component({
   selector: 'jhi-request-slik-update',
@@ -56,7 +57,7 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
       cif: this.selection.selected[0].customerNumber,
       requestor: this.userLogin,
       requestDate: new Date(),
-      status: 'DRAFT',
+      status: RequestSlikStatus.DRAFT,
       requestNumber: null,
     };
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -71,14 +72,6 @@ export class RequestSlikUpdateComponent extends AbstractEntityUpdateComponent<IR
         size: 9999,
       })
       .pipe(map(res => res.body));
-    // this.partyCifService
-    //   .findLikeCif(this.currentSearch, {
-    //     page: 0,
-    //     size: 9999,
-    //   })
-    //   .subscribe(res => {
-    //     this.partyCifs = res.body;
-    //   });
   }
 
   protected initialState(): any {

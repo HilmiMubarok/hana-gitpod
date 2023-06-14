@@ -20,6 +20,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { RequestSlikManagementDataDialogComponent } from './dialog/request-slik-management-data-dialog.component';
 import { RequestSlikChecklistService } from '../services/request-slik-checklist.service';
 import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dialog-slik-file.component';
+import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 // import { RESULT_DATA } from './result.dummy';
 @Component({
   selector: 'jhi-request-slik-management-data-grid',
@@ -45,6 +46,7 @@ import { RequestSlikDialogSlikFileComponent } from '../dialogs/request-slik-dial
   ],
 })
 export class RequestSlikManagementDataGridComponent extends AbstractEntityMaterialComponent<IOrganizationManagement> implements OnChanges {
+  reqSlikStatus = RequestSlikStatus;
   constructor(
     protected organizationManagementService: OrganizationManagementService,
     protected _snackBar: MatSnackBar,
@@ -191,7 +193,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     // if status === 'Verify' then remove column select
 
     this.displayedColumns =
-      this.requestSlik.status === 'VERIFY' || this.requestSlik.status === 'COMPLETE'
+      this.requestSlik.status === this.reqSlikStatus.VERIFY || this.requestSlik.status === this.reqSlikStatus.COMPLETE
         ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep']
         : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
@@ -263,13 +265,8 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                   });
               });
             });
-            // this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM'
-            //   ? this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
-            //       console.log('thee data', data);
-            //       this.initDataForMatTable(data, res.headers);
-            //     })
-            //   : this.initDataForMatTable(res, res.headers);
-            if (this.requestSlik.status !== 'DRAFT' && this.requestSlik.status !== 'RETURN_TO_RM') {
+
+            if (this.requestSlik.status !== this.reqSlikStatus.DRAFT && this.requestSlik.status !== this.reqSlikStatus.RETURN_TO_RM) {
               this.requestSlikService.filterData(res, this.checklists, 'management').then(data => {
                 console.log('thee data manaaa', data);
                 this.ocrDatas.emit(data);

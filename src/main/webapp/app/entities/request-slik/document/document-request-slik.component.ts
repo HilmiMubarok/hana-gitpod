@@ -11,6 +11,7 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { RequestSlikStatus } from '../enums/request-slik-status.enum';
 
 @Component({
   selector: 'jhi-document-request-slik',
@@ -18,6 +19,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
   styleUrls: ['./document-request-slik.styles.scss'],
 })
 export class DocumentRequestSlikComponent {
+  reqSlikStatus = RequestSlikStatus;
   _requestSlik;
   @Input()
   get requestSlik() {

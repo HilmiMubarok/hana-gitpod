@@ -158,13 +158,13 @@ export class RequestSlikBucketComponent implements OnInit {
       next: data => {
         console.log('data', data);
 
-        // Modify status label
-        const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
+        // Modify status label Bucket
+        // const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
 
         // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
         // == get segment
-        modifiedData.forEach(item => {
+        data.data.forEach(item => {
           this.loadInternalById(item.internalId).then((res2: IInternal) => {
             if (res2.parentId) {
               this.rmBranch = res2;
@@ -185,7 +185,7 @@ export class RequestSlikBucketComponent implements OnInit {
           });
         });
         // == end get segment
-        this.dataSource = new MatTableDataSource(modifiedData);
+        this.dataSource = new MatTableDataSource(data.data);
         this.paginator.length = data.pageable.totalElements;
       },
       error: err => {
@@ -227,13 +227,13 @@ export class RequestSlikBucketComponent implements OnInit {
   public requestSlikStatusCodes: IOptionNode[] = [];
   getStatus() {
     this.lovAndStatusService.getStatuses().subscribe(res => {
-      console.log(
-        'res status',
-        res[0].filter(d => d.id !== 'CANCEL')
-      );
+      // console.log(
+      //   'res status',
+      //   res[0].filter(d => d.id !== 'CANCEL')
+      // );
       // this.requestSlikStatusCodes = res[0].filter(d => d.id !== 'CANCEL');
-      this.requestSlikStatusCodes = res[0];
-      console.log('this.requestSlikStatusCodes', this.requestSlikStatusCodes[0]);
+      this.requestSlikStatusCodes = res;
+      // console.log('this.requestSlikStatusCodes', this.requestSlikStatusCodes[0]);
     });
   }
   public drop(event: CdkDragDrop<string[]>): void {
@@ -264,12 +264,12 @@ export class RequestSlikBucketComponent implements OnInit {
           console.log('data', data);
 
           // Modify status label
-          const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
+          // const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
 
           // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
           // == get segment
-          modifiedData.forEach(item => {
+          data.data.forEach(item => {
             this.loadInternalById(item.internalId).then((res2: IInternal) => {
               if (res2.parentId) {
                 this.rmBranch = res2;
@@ -290,7 +290,7 @@ export class RequestSlikBucketComponent implements OnInit {
             });
           });
           // == end get segment
-          this.dataSource = new MatTableDataSource(modifiedData);
+          this.dataSource = new MatTableDataSource(data.data);
           this.paginator.length = data.pageable.totalElements;
         },
         error: err => {
@@ -320,12 +320,12 @@ export class RequestSlikBucketComponent implements OnInit {
         this.isLoading = true;
 
         // Modify status label
-        const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
+        // const modifiedData = this.requestSlikBucketService.displayStatusLabel(data.data);
 
         // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
         // == get segment
-        modifiedData.forEach(item => {
+        data.data.forEach(item => {
           this.loadInternalById(item.internalId).then((res2: IInternal) => {
             if (res2.parentId) {
               this.rmBranch = res2;
@@ -346,7 +346,7 @@ export class RequestSlikBucketComponent implements OnInit {
           });
         });
         // == end get segment
-        this.dataSource = new MatTableDataSource(modifiedData);
+        this.dataSource = new MatTableDataSource(data.data);
         this.paginator.length = data.pageable.totalElements ? data.pageable.totalElements : 0;
       },
       error: err => {
@@ -359,57 +359,6 @@ export class RequestSlikBucketComponent implements OnInit {
         this.isLoading = false;
       },
     });
-    // return this.requestSlikSearchService.searchRequestSlik(data).subscribe(res => {
-    //   console.log('SEARCH', res);
-
-    //   this.dataSource.data = res.length === 0 && [];
-
-    //   // Modify status label
-    //   const modifiedData = _.map(res, obj => {
-    //     if (obj.status === 'DRAFT') {
-    //       return { ...obj, status: 'Draft' };
-    //     } else if (obj.status === 'APPROVAL_BU') {
-    //       return { ...obj, status: 'Approval SLIK By BU' };
-    //     } else if (obj.status === 'APPROVAL_SLIK') {
-    //       return { ...obj, status: 'Approval SLIK By Team SLIK' };
-    //     } else if (obj.status === 'CHECKING') {
-    //       return { ...obj, status: 'Checking In Progress' };
-    //     } else if (obj.status === 'RETURN_TO_RM') {
-    //       return { ...obj, status: 'Return To RM' };
-    //     } else if (obj.status === 'VERIFY') {
-    //       return { ...obj, status: 'Verify' };
-    //     } else if (obj.status === 'COMPLETE') {
-    //       return { ...obj, status: 'Complete' };
-    //     }
-    //     return obj;
-    //   });
-
-    //   // modifiedData = modifiedData.filter(modified => modified.status !== 'CANCEL');
-
-    //   // == get segment
-    //   modifiedData.forEach(item => {
-    //     this.loadInternalById(item.internalId).then((res2: IInternal) => {
-    //       if (res2.parentId) {
-    //         this.rmBranch = res2;
-    //         this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-    //           this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-    //             if (res4.parentId) {
-    //               this.rmRegional = res4;
-    //               this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-    //                 this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-    //                   this.rmSegment = res6;
-    //                   item.segment = res6.organizationName;
-    //                 });
-    //               });
-    //             }
-    //           });
-    //         });
-    //       }
-    //     });
-    //   });
-    //   // == end get segment
-    //   this.dataSource.data = modifiedData.length === 0 ? [] : modifiedData;
-    // });
   }
 
   // searchCif: string | number;

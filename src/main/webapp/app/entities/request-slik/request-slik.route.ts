@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes, Router } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
 
 import { JhiResolvePagingParams } from 'app/shared/base/resolve-paging-params.service';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
@@ -8,9 +8,8 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { Observable, of, EMPTY } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 
-import { IRequestSlik, RequestSlik, requestSlikData } from './request-slik.model';
+import { IRequestSlik, RequestSlik } from './request-slik.model';
 import { RequestSlikService } from './request-slik.service';
-import { RequestSlikComponent } from './request-slik.component';
 import { RequestSlikDetailComponent } from './request-slik-detail.component';
 import { RequestSlikUpdateComponent } from './request-slik-update.component';
 import { RequestSlikBucketComponent } from './request-slik-bucket.component';
@@ -75,7 +74,7 @@ export const requestSlikRoute: Routes = [
     data: {
       authorities: ['ROLE_USER'],
       pageTitle: 'losgwApp.requestSlik.home.title',
-      requestSlik: requestSlikData,
+      // requestSlik: requestSlikData,
     },
     canActivate: [UserRouteAccessService],
   },
