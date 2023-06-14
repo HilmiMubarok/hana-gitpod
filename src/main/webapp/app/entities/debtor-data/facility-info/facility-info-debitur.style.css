@@ -138,7 +138,8 @@ td {
   padding-right: 40px;
 }
 .mat-column-collateralType {
-  text-align: left;
+  text-align: right;
+  padding-right: 40px;
 }
 .mat-column-collateralValue {
   text-align: right;
