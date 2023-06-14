@@ -5,7 +5,7 @@
         <div class="e-card-header-title">Collateral Appraisal</div>
       </div>
     </div>
-    <div class="e-card-content">
+    <div style="margin: 1rem">
       <div *ngIf="clickedMenu === 'appraisal-info'" class="e-sample-resize-container e-card-resize-container">
         <jhi-collateral-appraisal-info
           *ngIf="surveyAppraisal"
@@ -142,7 +142,7 @@
         {{ task.caption }}
       </button>
       <!-- <button mat-raised-button class="btn-lg text-uppercase" (click)="onPrint()">Print</button> -->
-      <button mat-raised-button class="btn-lg text-uppercase" (click)="onSave('default')">Save</button>
+      <button mat-raised-button class="btn-lg text-uppercase button-styling" (click)="onSave('default')">Save</button>
     </div>
   </div>
   <mat-sidenav position="end" style="position: fixed !important" #drawer class="example-sidenav" mode="over">
