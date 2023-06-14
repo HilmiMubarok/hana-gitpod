@@ -71,7 +71,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   .mat-header-cell {
     word-wrap: initial;
     display: table-cell;
-    padding: 0px 5px;
+    padding: 0, 24px, 0, 5px;
     line-break: unset;
     width: auto;
     white-space: nowrap;
@@ -86,6 +86,7 @@ th {
   font-family: 'Poppins', sans-serif !important;
   text-align: left;
 }
+
 th:first-child {
   border-top-left-radius: 15px;
 }
@@ -106,37 +107,12 @@ td {
 .mat-column-no {
   width: 5%;
   text-align: center;
+  padding-right: 25px;
 }
 .mat-column-action {
   width: 10%;
   text-align: center;
 }
-/* main facility IDD */
-.mat-column-approvalNo {
-  width: 15%;
-  text-align: left;
-}
-.mat-column-currency {
-  text-align: center;
-}
-.mat-column-mainPlafond {
-  text-align: right;
-  padding-right: 50px;
-}
-.mat-column-maturityDate {
-  text-align: right;
-}
-.mat-column-availableLimit {
-  text-align: right;
-}
-.mat-column-lastAgreementDate {
-  text-align: right;
-}
-.mat-column-expand {
-  width: 10%;
-  text-align: center;
-}
-/* main facility IDD */
 /* Facility info Debitur */
 .mat-column-facilityCategory {
   text-align: left;
@@ -152,18 +128,21 @@ td {
 }
 .mat-column-facilityType {
   text-align: right;
+  padding-right: 40px;
 }
 .mat-column-rate {
   text-align: left;
 }
 .mat-column-period {
   text-align: right;
+  padding-right: 40px;
 }
 .mat-column-collateralType {
-  text-align: right;
+  text-align: left;
 }
 .mat-column-collateralValue {
-  text-align: left;
+  text-align: right;
+  padding-right: 40px;
 }
 .mat-column-Disbursement {
   text-align: right;
