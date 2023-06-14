@@ -243,7 +243,6 @@ export class SurveyBatchEditComponent implements OnInit {
     this.loadCollateralAppraisal(this.id).then(res => {
       this.initialize();
     });
-    this.getTitleMenu();
     // console.log('ress doc lainnya', this.totalDataDocumentLainya);
   }
 
@@ -1300,30 +1299,30 @@ export class SurveyBatchEditComponent implements OnInit {
   getTextMenu() {
     if (this.clickedMenu === 'batch-apprisal') {
       this.titleMenu = 'Collateral Appraisal';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'appraisal-info') {
       this.titleMenu = 'Appraisal Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'customer-info') {
       this.titleMenu = 'Customer Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'collateral-info') {
       this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'report-independent') {
       this.titleMenu = 'Report Independent';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     return this.titleMenu;
   }
 
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
-  }
+  // getTitleMenu() {
+  //   this.appNameMenu = sessionStorage.getItem('appNameMenu');
+  // }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');

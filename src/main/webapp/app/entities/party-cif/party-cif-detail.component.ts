@@ -77,7 +77,7 @@ export class PartyCifDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPositionTypeId();
-    this.getTitleMenu();
+    // this.getTitleMenu();
     this.internalIdLocStor = this.getLocStor('INT');
     this.positionIdLocStor = this.getLocStor('POS');
     if (!this.internalIdLocStor || !this.positionIdLocStor) {
@@ -208,62 +208,62 @@ export class PartyCifDetailComponent implements OnInit {
   getTextMenu() {
     if (this.clickedMenu === 'party-cif') {
       this.titleMenu = 'Initial Debtor Data';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'customer-info') {
       this.titleMenu = 'Customer Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'organization-legal') {
       this.titleMenu = 'Organization Legal';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'business-group') {
       this.titleMenu = 'Business Group';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'management-data') {
       this.titleMenu = 'Management / Shareholder';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'document-checklist') {
       this.titleMenu = 'Document Checklist';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'facility-info') {
       this.titleMenu = 'Facility Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'collateral-info') {
       this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'financial-info') {
       this.titleMenu = 'Upload';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'retrive-info') {
       this.titleMenu = 'Retrive';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'credit-rating') {
       this.titleMenu = 'Credit Rating';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'slik') {
       this.titleMenu = 'Slik';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'decision-approval-report') {
       this.titleMenu = 'Decision Approval Report';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     return this.titleMenu;
   }
 
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
-  }
+  // getTitleMenu() {
+  //   this.appNameMenu = sessionStorage.getItem('appNameMenu');
+  // }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');

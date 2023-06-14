@@ -11,6 +11,7 @@ export class PartyCifOrganizationLegalComponent {
   private _partyCif: IPartyCif;
   public deedNumber: any;
   public deedDates: any;
+  private _positionTypeId: string;
   @Input()
   get partyCif() {
     return this._partyCif;
@@ -20,6 +21,14 @@ export class PartyCifOrganizationLegalComponent {
     this._partyCif = param;
     this.deedNumber = this._partyCif.organizationLegal.deedEstablishNum;
     this.deedDates = this._partyCif.organizationLegal.deedEstablishDate;
+  }
+
+  @Input() get positionTypeId() {
+    return this._positionTypeId;
+  }
+
+  set positionTypeId(string: string) {
+    this._positionTypeId = string;
   }
 
   constructor(public partyCifService: PartyCifService) {}

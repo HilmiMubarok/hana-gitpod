@@ -1256,30 +1256,30 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   getTextMenu() {
     if (this.clickedMenu === 'batch-apprisal') {
       this.titleMenu = 'View Survey Batch';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'appraisal-info') {
       this.titleMenu = 'Appraisal Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'customer-info') {
       this.titleMenu = 'Customer Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'collateral-info') {
       this.titleMenu = 'Collateral Info';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     if (this.clickedMenu === 'report-independent') {
       this.titleMenu = 'Report Independent';
-      sessionStorage.setItem('appNameMenu', this.titleMenu);
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
     return this.titleMenu;
   }
 
-  getTitleMenu() {
-    this.appNameMenu = sessionStorage.getItem('appNameMenu');
-  }
+  // getTitleMenu() {
+  //   this.appNameMenu = sessionStorage.getItem('appNameMenu');
+  // }
 
   getTitleUrl() {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
