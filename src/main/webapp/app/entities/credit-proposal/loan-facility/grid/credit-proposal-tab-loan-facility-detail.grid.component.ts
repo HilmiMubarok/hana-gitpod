@@ -169,7 +169,7 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
 
   public openDialog(param: IApplicationProduct = null): void {
     if (param) {
-      console.log('open dialog ', param);
+      // console.log('open dialog ', param);
       this.applicationProduct = param;
     } else {
       this.applicationProduct = new ApplicationProduct();
