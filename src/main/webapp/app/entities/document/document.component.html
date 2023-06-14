@@ -39,13 +39,7 @@
     </table>
   </mat-card-content>
   <mat-card-actions align="center">
-    <button
-      mat-raised-button
-      [disabled]="IfRmEnable"
-      [hidden]="showButton"
-      (click)="openDialog()"
-      style="background: rgba(0, 136, 129, 1); color: #ffffff"
-    >
+    <button class="button-styling:active" mat-raised-button [disabled]="IfRmEnable" [hidden]="showButton" (click)="openDialog()">
       <mat-icon>add</mat-icon> UPLOAD
     </button>
   </mat-card-actions>

@@ -2,29 +2,10 @@ ul.side-menu li a {
   font-weight: 400 !important;
 }
 
-// table {
-//   th {
-//     background-color: rgba(147, 201, 199, 1);
-//     color: black;
-//     font-family: 'Poppins', sans-serif;
-//   }
-//   td {
-//     font-family: 'Poppins', sans-serif;
-//   }
-//   .rounding-table-left {
-//     border-top-left-radius: 15px;
-//   }
-//   .rounding-table-right {
-//     border-top-right-radius: 15px;
-//   }
-// }
-
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black;
   font-family: 'Poppins', sans-serif;
-  // text-align: center !important;
-  // justify-content: center !important;
 }
 td {
   font-family: 'Poppins', sans-serif !important;
@@ -266,29 +247,6 @@ td {
   font-size: 14px;
   // background-color: darkturquoise;
 }
-
-// ::ng-deep .custom-dialog-container-delete {
-//   .mat-dialog-container {
-//     background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
-//     background: linear-gradient(
-//       to bottom,
-//       rgba(221, 235, 234, 1) 0%,
-//       rgba(221, 235, 234, 1) 75%,
-//       rgba(255, 253, 253, 1) 50%,
-//       rgba(255, 253, 253, 1) 100%
-//     );
-//     background-color: rgba(225, 225, 225, 1);
-//     background-position: bottom;
-//     background-position-y: -67px;
-//     background-size: cover;
-//     background-repeat: no-repeat;
-//     background-size: cover;
-//     border-radius: 20px;
-//   }
-//   .mat-button-focus-overlay {
-//     background-color: transparent !important;
-//   }
-// }
 
 ::ng-deep .custom-dialog-container-delete {
   .mat-dialog-container {
