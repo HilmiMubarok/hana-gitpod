@@ -212,3 +212,8 @@ th:last-child {
 .mat-column:last-child {
   border-top-right-radius: 15px;
 }
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffffff !important;
+}
