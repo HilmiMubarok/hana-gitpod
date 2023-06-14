@@ -157,10 +157,6 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
     ) {
       return '';
     } else {
-      console.log(
-        'fff',
-        this.sectorIndustry.filter(data => data.industry === industryCode)
-      );
       return this.sectorIndustry.filter(data => data.industry === industryCode)[0].industryLabel;
     }
   }
@@ -393,6 +389,7 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
       this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
     }
   }
+
   public defaultCurrencyData: string;
   defaultCurrency() {
     const setDate = new Date().toISOString().split('T')[0];

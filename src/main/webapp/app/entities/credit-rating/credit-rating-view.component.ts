@@ -12,9 +12,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { CODE } from 'app/shared/constants/base.constants';
 import { AbstractEntityBaseViewComponent } from 'app/shared/base/abstract-entity-view.component';
 import { TranslateService } from '@ngx-translate/core';
-// import { IParty, Party } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/party.service';
-// import { IApplication, Application } from 'app/entities/application/application.model';
 import { ApplicationService } from 'app/entities/application/application.service';
 
 import { ICreditProposal } from '../credit-proposal/credit-proposal.model';
@@ -25,11 +23,13 @@ import { IListOfValueIndustry } from '../../../../../../src/main/webapp/app/enti
 import { GeneralParameterService } from '../master-parameter/general-parameter/general-parameter.service';
 import lodash from 'lodash';
 import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
+
 @Component({
   selector: 'jhi-credit-rating-view',
   templateUrl: './credit-rating-view.component.html',
   styleUrls: ['./credit-rating-view.component.css'],
 })
+
 export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<ICreditRating> implements OnInit, OnChanges {
   @Input() id: number;
   readonly CODE: typeof CODE = CODE;
@@ -40,7 +40,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   public industry: string;
   public loading = false;
   public listOfIndustry: IListOfValueIndustry[];
-  // public industryList: string[] = [];
   public sectorIndustry = [];
   public internalMaxLLL = [];
   @Input()
@@ -74,7 +73,7 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     protected eventManager: EventManager,
     public account: AccountService,
     protected applicationOptionService: ApplicationOptionService,
-    public listOfIndustryService: ListOfValueIndustryService, // private _ngxSpinner: NgxSpinnerService
+    public listOfIndustryService: ListOfValueIndustryService,
     protected generalParameterService: GeneralParameterService,
     protected industryLimitExposureParameterService: IndustryLimitExposureParameterService
   ) {
@@ -120,7 +119,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         this.creditRatings.creditRating === undefined ||
         this.creditRatings.creditRating === null
       ) {
-        // this.creditRatings.creditRating = 'B4';
         this.creditRatings.creditRating = null;
       }
       this.industrys = this.partyCif.creditRatings[0].attributes['industry'];
@@ -147,7 +145,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
     this.creditRatingService.creditRetingSync(this.partyCif.customerNumber).subscribe(res => {
       this.cifNumber = res.body.creditRatings[0].creditRating;
       if (this.cifNumber === '' || this.cifNumber === undefined) {
-        // this.creditRatings.creditRating = 'B4';
         this.creditRatings.creditRating = null;
       } else {
         this.creditRatings.creditRating = this.cifNumber;
@@ -161,7 +158,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
         });
       }
       if (!this.cifNumber) {
-        // this.creditRatings.creditRating = 'B4';
         this.creditRatings.creditRating = null;
         this.messageService.add({
           severity: 'error',
@@ -216,12 +212,6 @@ export class CreditRatingViewComponent extends AbstractEntityBaseViewComponent<I
   }
 
   public getListIndustry() {
-    // this.listOfIndustryService.query().subscribe((res: any) => {
-    //   for (let i = 0; i < res.body.length; i++) {
-    //     this.industryList = [...this.industryList, res.body[i].label];
-    //   }
-    // });
-
     this.industryLimitExposureParameterService
       .query({
         page: 0,
