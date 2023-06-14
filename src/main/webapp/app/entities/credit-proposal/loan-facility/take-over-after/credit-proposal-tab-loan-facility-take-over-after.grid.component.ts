@@ -100,6 +100,13 @@ export class CreditProposalTabLoanFacilityTakeOverAfterGridComponent implements 
     });
   }
 
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
+
   // public onDelete(element: ICreditProposal) {
   //   const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'].filter(({ id }) => id !== element.id);
   //   // const dataGridTakeOver = this.creditProposal.attributes['facilityTakeOverAfterBank'];

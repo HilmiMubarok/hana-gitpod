@@ -830,14 +830,16 @@ export class AboveGridComponent extends AbstractEntityMaterialComponent<ICollate
       this.creditProposal.attributes['creditProposalCollateralData'].crossCollateralStatus = 'Yes';
       if (this.creditProposal.collaterals?.length > 0 && this.creditProposal.products?.length > 0) {
         for (let i = 0; i < this.creditProposal.collaterals.length; i++) {
-          for (let j = 0; j < this.creditProposal.products.length; j++) {
-            if ($event === true) {
-              const tempCollateralProductRelationObject = {
-                collateralId: this.creditProposal.collaterals[i].id,
-                bindingValue: 0,
-                applicationProduct: this.creditProposal.products[j],
-              };
-              this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+          if (this.creditProposal.collaterals[i].collateralTypeId !== 'CORPORATEPERSONALGUARANTEE') {
+            for (let j = 0; j < this.creditProposal.products.length; j++) {
+              if ($event === true) {
+                const tempCollateralProductRelationObject = {
+                  collateralId: this.creditProposal.collaterals[i].id,
+                  bindingValue: 0,
+                  applicationProduct: this.creditProposal.products[j],
+                };
+                this.creditProposal.collateralProductRelations.push(tempCollateralProductRelationObject);
+              }
             }
           }
         }

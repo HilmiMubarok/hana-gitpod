@@ -475,4 +475,11 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
       return element.replace('%', '');
     }
   }
+
+  public getCurrencyType(element) {
+    if (element !== null) {
+      return element;
+    }
+    return '';
+  }
 }

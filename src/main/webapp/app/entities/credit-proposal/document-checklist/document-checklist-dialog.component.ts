@@ -282,10 +282,14 @@ export class DocumentChecklistDialogComponent {
           const file: any = files[i];
           this.accountService.identity().subscribe(resAccount => {
             file.tags['dueDate'] =
-              this.files.dueDate === 'null' || this.files.dueDate === null ? 'null' : new Date(this.files.dueDate).toISOString();
+              this.files.dueDate === 'null' || this.files.dueDate === null || this.files.dueDate === undefined || this.files.dueDate === ''
+                ? 'null'
+                : new Date(this.files.dueDate).toISOString();
             file.tags['status'] = this.files.status;
             file.tags['remarks'] =
-              this.files.remarks === null || this.files.remarks === undefined ? null : this.files.remarks.replace('&', 'codeSpecialDan');
+              this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === undefined || this.files.remarks === ''
+                ? null
+                : this.files.remarks.replace('&', 'codeSpecialDan');
 
             file.tags['createdBy'] = resAccount.login;
           });
@@ -403,9 +407,13 @@ export class DocumentChecklistDialogComponent {
             metaData.id = this.files.id;
             metaData.status = this.files.status;
             metaData.dueDate =
-              this.files.dueDate === undefined || this.files.dueDate === null ? null : new Date(this.files.dueDate).toISOString();
+              this.files.dueDate === 'null' || this.files.dueDate === null || this.files.dueDate === undefined || this.files.dueDate === ''
+                ? null
+                : new Date(this.files.dueDate).toISOString();
             metaData.remarks =
-              this.files.remarks === null || this.files.remarks === undefined ? null : this.files.remarks.replace('&', 'codeSpecialDan');
+              this.files.remarks === null || this.files.remarks === 'null' || this.files.remarks === '' || this.files.remarks === undefined
+                ? null
+                : this.files.remarks.replace('&', 'codeSpecialDan');
 
             const formData = new FormData();
             formData.append('file', this.file[i]);

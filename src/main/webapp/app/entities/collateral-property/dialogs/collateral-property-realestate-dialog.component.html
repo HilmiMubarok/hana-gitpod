@@ -245,13 +245,13 @@
             <input
               type="text"
               matInput
-              [formControl]="myControlNjop"
-              [matAutocomplete]="autoOri"
+              [formControl]="myControlMVPs"
+              [matAutocomplete]="autoMvPs"
               [(ngModel)]="NjopCcy"
               (ngModelChange)="getNjopCcy()"
             />
-            <mat-autocomplete #autoOri="matAutocomplete" [displayWith]="displayFnNjop">
-              <mat-option *ngFor="let option of filteredOptionsMVOri | async" [value]="option">
+            <mat-autocomplete #autoMvPs="matAutocomplete" [displayWith]="displayFnMVPs">
+              <mat-option *ngFor="let option of filteredOptionsMVPs | async" [value]="option">
                 {{ option.abbreviation }} - {{ option.description }}
               </mat-option>
             </mat-autocomplete>
@@ -263,7 +263,7 @@
             <div class="col">Ccy</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ collateralProperty.marketValueOriginalCcy }}
+              {{ collateralProperty.marketValueNjopCcy }}
             </div>
           </div>
         </section>
