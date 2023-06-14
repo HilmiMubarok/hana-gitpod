@@ -1,4 +1,9 @@
-<h2 mat-dialog-title>ADD / EDIT COLLATERAL INFO DETAIL</h2>
+<div *ngIf="pariPasu !== 'pariPasu'">
+  <h2 mat-dialog-title>ADD / EDIT COLLATERAL INFO DETAIL</h2>
+</div>
+<div *ngIf="pariPasu === 'pariPasu'">
+  <h2 mat-dialog-title>VIEW GROUP COLLATERAL INFO DETAIL</h2>
+</div>
 <mat-dialog-content>
   <!-- <jhi-collateral-property-general-dialog-template
     *ngIf="collateralPropertyExternal && collateralProperty"
@@ -13,6 +18,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-realestate-dialog>
   <jhi-collateral-property-deposit-dialog
@@ -22,6 +28,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-deposit-dialog>
   <jhi-collateral-property-other-dialog
@@ -31,6 +38,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-other-dialog>
   <jhi-collateral-property-securities-dialog
@@ -40,6 +48,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-securities-dialog>
   <jhi-collateral-property-letter-guaranty
@@ -49,6 +58,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-letter-guaranty>
   <jhi-collateral-property-personal-property-dialog
@@ -58,6 +68,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-personal-property-dialog>
   <jhi-collateral-property-machine-dialog
@@ -67,6 +78,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-machine-dialog>
   <jhi-collateral-property-vehicle-dialog
@@ -76,6 +88,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-vehicle-dialog>
   <jhi-collateral-property-general-dialog-template
@@ -85,6 +98,7 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-general-dialog-template>
   <jhi-collateral-property-personal-corporate-guarantee
@@ -94,14 +108,13 @@
     [collateral]="collateral"
     [officerName]="partyCifData.rm?.name"
     [branchId]="branchId"
+    [pariPasu]="'pariPasu'"
   >
   </jhi-collateral-property-personal-corporate-guarantee>
-  <div *ngIf="pariPasu === 'pariPasu'">
+  <div>
     <jhi-paripasu-collateral-idd [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd>
   </div>
-  <div *ngIf="pariPasu !== 'pariPasu'">
-    <jhi-paripasu-collateral-idd-debtor [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd-debtor>
-  </div>
+
   <div
     *ngIf="
       collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'MACHINE' || collateral.collateralTypeId === 'VEHICLE'
