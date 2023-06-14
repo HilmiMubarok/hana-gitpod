@@ -383,7 +383,8 @@
                 [(ngModel)]="applicationProduct.initialLimit"
                 [options]="logoCcy"
                 [disabled]="statusFacilityDisabled"
-            /></ng-template>
+              />
+            </ng-template>
             <ng-template #elseBlock>
               <input matInput type="text" [(ngModel)]="applicationProduct.initialLimit" [disabled]="statusFacilityDisabled" />
             </ng-template>
@@ -660,13 +661,23 @@
       <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
         <div class="mb-2">
           <div class="row">
-            <div class="col-8">
+            <div class="col-8 col md-4">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Proposed Rate</mat-label>
                 <input matInput type="number" [(ngModel)]="applicationProduct.pricingRate" />
+                <div matSuffix class="input-suffix">&nbsp;%</div>
               </mat-form-field>
             </div>
-            <div class="col-4"></div>
+            <!-- <div class="col-4"></div> -->
+          </div>
+        </div>
+      </section>
+      <section *jhiMatrixDir="dataItem.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+        <div class="fontsebled row py-1">
+          <div class="col-3">Proposed Rate</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ (applicationProduct.pricingRate != null ? applicationProduct.pricingRate : 0) + ' %' }}
           </div>
         </div>
       </section>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBelow } from '../convenant.constant';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-covenant-below-temp',
@@ -15,7 +16,8 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardCovenant: any = dataCovenantBelow;
+  // public standardCovenant: any = dataCovenantBelow;
+  public standardCovenant: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -33,6 +35,8 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
     this._creditProposalItem = item;
   }
 
+  constructor(private generalParameterService: GeneralParameterService) {}
+
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardCovenant.length; i++) {
       if (i === Number(data.index)) {
@@ -49,6 +53,12 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.LovCovenantBelow();
+    console.log('wdwd', this.creditProposalItem);
+    // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  public getStandardDataGridBelow() {
     if (this.creditProposalItem.attributes['convenant'].standardCovenant.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
         this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardCovenant[i].status;
@@ -62,7 +72,34 @@ export class CreditProposalCovenantBelowTempComponent implements OnInit {
       }
       this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
     }
+  }
 
-    // console.log('proposal-type', this.creditProposalItem[])
+  public LovCovenantBelow() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_BELOW_STANDARD',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        const gridBelow = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridBelow[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardCovenant = gridBelow;
+        this.getStandardDataGridBelow();
+
+        if (this.creditProposalItem.attributes['convenant'].standardCovenant.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardCovenant = this.standardCovenant;
+        } else {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardCovenant.length; i++) {
+            this.standardCovenant = this.creditProposalItem.attributes['convenant'].standardCovenant;
+          }
+        }
+      });
   }
 }
