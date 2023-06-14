@@ -325,7 +325,6 @@ export class CollateralAppraisalMaterialProcessComponent extends AbstractEntityM
     } else {
       this.clickedChip = option.statusId;
     }
-
     this.loadAll();
   }
 

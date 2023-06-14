@@ -11,7 +11,6 @@
         <div class="form-space">
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <ejs-textbox
                 *ngIf="creditRatings.creditRating !== null"
                 [(ngModel)]="creditRatings.creditRating"
@@ -35,16 +34,6 @@
 
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Internal Maksimum LLL (%)</mat-label>
-                <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
-                  <mat-option value="">- Please Select -</mat-option>
-                  <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
-                    {{ item.value }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field> -->
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Internal Maksimum LLL (%)</mat-label>
                 <input matInput type="number" [(ngModel)]="creditRatings.internalMaxLLL" disabled />
@@ -54,8 +43,6 @@
 
           <div class="row my-3">
             <div class="col">
-              <!-- <ejs-textbox placeholder="Equity Position as of (Date)" floatLabelType="Auto" cssClass="e-outline">
-                  </ejs-textbox> -->
               <ejs-datepicker
                 cssClass="e-outline"
                 type="text"
@@ -85,7 +72,6 @@
 
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <ejs-numerictextbox
                 [(ngModel)]="creditRatings.idrMioLLL"
                 [value]="parse()"
@@ -97,11 +83,6 @@
                 disabled="true"
               >
               </ejs-numerictextbox>
-              <!-- <mat-form-field class="w-100" appearance="outline">
-                    <mat-label>Maximum Internal Credit Rating (LLL IDR MIO)</mat-label>
-                    <input matInput type="text" [(ngModel)]="creditProposalItem.creditRatings[0].idrMioLLL" [value]="parse()">
-                  </mat-form-field> -->
-              <!-- </div> -->
             </div>
           </div>
         </div>
@@ -121,7 +102,6 @@
         <div class="form-space">
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].pefindo"
@@ -155,16 +135,11 @@
                   disabled
                 ></ejs-datepicker>
               </section>
-
-              <!-- <ejs-datepicker cssClass="e-outline" [(value)]="creditProposalItem.creditRatings[0].pefindoDate"
-                [(ngModel)]="creditProposalItem.creditRatings[0].pefindoDate" placeholder="as of Date"
-                floatLabelType="Auto"></ejs-datepicker> -->
             </div>
           </div>
 
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].fitch"
@@ -208,7 +183,6 @@
 
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].snp"
@@ -252,7 +226,6 @@
 
           <div class="row my-3">
             <div class="col">
-              <!-- <div class="form-space"> -->
               <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <ejs-textbox
                   [(ngModel)]="creditProposalItem.creditRatings[0].moodys"
@@ -356,15 +329,6 @@
           <div class="row my-3">
             <div class="col">
               <section *jhiMatrixDirIDD="'input'">
-                <!-- <mat-form-field class="w-100" appearance="outline">
-                  <mat-label>Internal Maksimum LLL (%)</mat-label>
-                  <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
-                    <mat-option value="">- Please Select -</mat-option>
-                    <mat-option *ngFor="let item of internalMaxLLL" [value]="item.code">
-                      {{ item.value }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field> -->
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Internal Maksimum LLL (%)</mat-label>
                   <input matInput type="number" [(ngModel)]="creditRatings.internalMaxLLL" />
@@ -463,16 +427,6 @@
 
           <div class="row my-3">
             <div class="col">
-              <!-- <ejs-combobox
-                cssClass="e-outline"
-                [dataSource]="industryList"
-                placeholder="Sector Industry"
-                (change)="changeEvent($event)"
-                [(value)]="industrys"
-                floatLabelType="Auto"
-                [fields]="fields"
-              >
-              </ejs-combobox> -->
               <section *jhiMatrixDirIDD="'input'">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Sector Industry</mat-label>

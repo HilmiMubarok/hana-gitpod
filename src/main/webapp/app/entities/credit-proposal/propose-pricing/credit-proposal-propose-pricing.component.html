@@ -306,7 +306,7 @@
             </div>
           </section>
 
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+          <!-- <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-dropdownlist
                 cssClass="e-outline"
@@ -321,6 +321,31 @@
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <p class="lable-form-title">Industry: {{ creditProposal.attributes['purposePricing'].industry }}</p>
+          </section> -->
+		  
+		  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Pilih Sector Industry</mat-label>
+              <mat-select
+                name="sectorIndustry"
+                [(ngModel)]="creditProposal.attributes['purposePricing'].industryCode"
+                (selectionChange)="onSelectionChange($event)"
+              >
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of sectorIndustry" [value]="item.industry">
+                  {{ item.industryLabel }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+            <div class="fontsebled row">
+              <div class="col-3">Sector Industry</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">
+                {{ industryLable(creditProposal.attributes['purposePricing'].industryCode) }}
+              </div>
+            </div>
           </section>
         </div>
       </div>
