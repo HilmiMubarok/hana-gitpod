@@ -73,7 +73,9 @@
     </ng-container>
     <ng-container matColumnDef="proposeRate">
       <th mat-header-cell *matHeaderCellDef class="grid-index-left">Propose Rate</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.proposeRate }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">
+        {{ (element.pricingRate != null ? element.pricingRate : 0) + ' %' }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="provisionAmount">
       <th mat-header-cell *matHeaderCellDef class="grid-index-right">Provision Amount</th>
@@ -204,7 +206,9 @@
     </ng-container>
     <ng-container matColumnDef="proposeRate">
       <th mat-header-cell *matHeaderCellDef class="grid-index-left">Propose Rate</th>
-      <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element.proposeRate }}</td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">
+        {{ (element.pricingRate != null ? element.pricingRate : 0) + ' %' }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="provisionAmount">
       <th mat-header-cell *matHeaderCellDef class="grid-index-right">Provision Amount</th>
