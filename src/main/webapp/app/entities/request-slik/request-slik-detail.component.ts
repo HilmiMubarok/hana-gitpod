@@ -368,7 +368,7 @@ export class RequestSlikDetailComponent implements OnInit {
       // eslint-disable-next-line object-shorthand
       next: res => {
         console.log('RES', res);
-        data.status === 'CHECKING' && this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
+        data.status === this.reqSlikStatus.CHECKING && this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
         this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();
         this.router.navigate(['/request-slik']);
       },
@@ -376,12 +376,12 @@ export class RequestSlikDetailComponent implements OnInit {
       error: err => {
         console.log(err);
         if (
-          data.status === 'APPROVAL_BU' ||
-          data.status === 'APPROVAL_SLIK' ||
-          (data.status === 'CHECKING' && err.status === 200) ||
-          data.status === 'COMPLETE'
+          data.status === this.reqSlikStatus.APPROVAL_BU ||
+          data.status === this.reqSlikStatus.APPROVAL_SLIK ||
+          (data.status === this.reqSlikStatus.CHECKING && err.status === 200) ||
+          data.status === this.reqSlikStatus.COMPLETE
         ) {
-          data.status === 'CHECKING' &&
+          data.status === this.reqSlikStatus.CHECKING &&
             err.status === 200 &&
             this.lovAndStatus.changeReqSlikStatus(this.requestSlikId, data.status).subscribe();
           this.requestSlikTimelineService.postNoteTimeline(this.noteTimeline).subscribe();

@@ -193,7 +193,7 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     // if status === 'Verify' then remove column select
 
     this.displayedColumns =
-      this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.COMPLETE
+      this.requestSlik.status === this.reqSlikStatus.VERIFY || this.requestSlik.status === this.reqSlikStatus.COMPLETE
         ? ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep']
         : ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'npwp', 'pep', 'select'];
     // this.displayedColumns = ['no', 'fullname', 'position', 'idCard', 'dob', 'address', 'pep', 'select'];
