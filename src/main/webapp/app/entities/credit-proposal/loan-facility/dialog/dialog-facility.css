@@ -182,3 +182,9 @@ th:last-child {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+.input-suffix {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-100%);
+}
