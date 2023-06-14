@@ -174,16 +174,17 @@ export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit,
     } else {
       this.applicationProduct = new ApplicationProduct();
       const attr: IApplicationProductAttribute = new ApplicationProductAttribute();
+      const nomorUrutFasilitasUnsorted = [];
       if (this.creditProposal.products) {
         if (this.creditProposal.products.length > 0) {
           for (let i = 0; i < this.creditProposal.products.length; i++) {
-            const nomorUrutFasilitasUnsorted = [];
             nomorUrutFasilitasUnsorted.push(this.creditProposal.products[i].nomorUrutFasilitas);
-            const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b ? 1 : -1));
-            if (nomorUrutFasilitasSorted) {
-              if (nomorUrutFasilitasSorted.length > 0) {
-                this.applicationProduct.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
-              }
+          }
+          const nomorUrutFasilitasSorted = nomorUrutFasilitasUnsorted.sort((a, b) => (a > b ? 1 : -1));
+          console.log('nomorUrutFasilitasSorted ', nomorUrutFasilitasSorted);
+          if (nomorUrutFasilitasSorted) {
+            if (nomorUrutFasilitasSorted.length > 0) {
+              this.applicationProduct.nomorUrutFasilitas = Number(nomorUrutFasilitasSorted[nomorUrutFasilitasSorted.length - 1]) + 1;
             }
           }
         } else if (this.creditProposal.products.length === 0) {
