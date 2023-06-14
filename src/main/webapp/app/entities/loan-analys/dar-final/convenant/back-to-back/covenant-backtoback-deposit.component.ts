@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CreditProposal, ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { dataCovenantBackToBackDeposit } from '../convenant.constant';
 import lodash from 'lodash';
+import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 
 @Component({
   selector: 'jhi-dar-covenant-back-to-back-deposit',
@@ -15,7 +16,8 @@ export class DarCovenantBackToBackDepositComponent implements OnInit {
 
   public status: string[] = ['Applied', 'To be waived', 'Waived'];
 
-  public standardDataGridBackToBackDeposit: any = dataCovenantBackToBackDeposit;
+  // public standardDataGridBackToBackDeposit: any = dataCovenantBackToBackDeposit;
+  public standardDataGridBackToBackDeposit: any = [];
 
   public covenant?: string;
   public statusValue: any = [];
@@ -32,6 +34,8 @@ export class DarCovenantBackToBackDepositComponent implements OnInit {
   set creditProposalItem(item: any) {
     this._creditProposalItem = item;
   }
+
+  constructor(private generalParameterService: GeneralParameterService) {}
 
   public onKeyUpEvent(input: string, event: any, data: any) {
     for (let i = 0; i < this.standardDataGridBackToBackDeposit.length; i++) {
@@ -54,6 +58,11 @@ export class DarCovenantBackToBackDepositComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.LovCovenantBtbDeposit();
+    // console.log('proposal-type', this.creditProposalItem[])
+  }
+
+  public getBackToBackDeposit() {
     if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length !== 0) {
       for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {
         this.statusValue[i] = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit[i].status;
@@ -67,7 +76,34 @@ export class DarCovenantBackToBackDepositComponent implements OnInit {
       }
       this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
     }
+  }
 
-    // console.log('proposal-type', this.creditProposalItem[])
+  public LovCovenantBtbDeposit() {
+    this.generalParameterService
+      .queryFilterBy({
+        idParameterType: 'COVENANT_BTB_TERMS_CONDITION',
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        const data = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+        const gridDeposit = [];
+        for (let i = 0; i < data.length; i++) {
+          const num = i;
+          gridDeposit[i] = { id: num, covenant: data[i].value, status: 'Applied', deviation: '', justification: '' };
+        }
+        this.standardDataGridBackToBackDeposit = gridDeposit;
+        this.getBackToBackDeposit();
+
+        if (this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length === 0) {
+          this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit = this.standardDataGridBackToBackDeposit;
+        } else {
+          for (let i = 0; i < this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit.length; i++) {
+            this.standardDataGridBackToBackDeposit = this.creditProposalItem.attributes['convenant'].standardDataGridBackToBackDeposit;
+          }
+        }
+      });
   }
 }
