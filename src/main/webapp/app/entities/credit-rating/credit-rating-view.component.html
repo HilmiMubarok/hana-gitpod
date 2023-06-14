@@ -3,7 +3,7 @@
     <div class="e-card">
       <div class="e-card-header">
         <div class="e-card-header-caption">
-          <div class="e-card-header-title">Maksimum Internal Credit Rating</div>
+          <div class="e-card-header-title">Maksimum Internal Credit Rating cp</div>
           <div class="e-card-sub-title"></div>
         </div>
       </div>
@@ -36,7 +36,7 @@
           <div class="row my-3">
             <div class="col">
               <!-- <div class="form-space"> -->
-              <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Internal Maksimum LLL (%)</mat-label>
                 <mat-select name="internalMaxLLL" [(ngModel)]="creditRatings.internalMaxLLL">
                   <mat-option value="">- Please Select -</mat-option>
@@ -44,6 +44,10 @@
                     {{ item.value }}
                   </mat-option>
                 </mat-select>
+              </mat-form-field> -->
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Internal Maksimum LLL (%)</mat-label>
+                <input matInput type="number" [(ngModel)]="creditRatings.internalMaxLLL" disabled />
               </mat-form-field>
             </div>
           </div>
