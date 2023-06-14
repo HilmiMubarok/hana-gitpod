@@ -290,10 +290,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     private _dialog: MatDialogRef<CreditProposalLoanFacilityDialogComponent>
   ) {
     super(creditProposalService);
-    // _dialog.disableClose = true;
-    // _dialog.backdropClick().subscribe(_ => {
-    //   this.openCancelDialog();
-    // });
+    if (this.data.creditProposaldata.statusId === 'DRAFT') {
+      _dialog.disableClose = true;
+      _dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
     this.dataItem = this.data.item;
     this.applicationProduct = this.data.applicationProduct;
     this.creditProposalData = this.data.creditProposaldata;
@@ -305,7 +307,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   ngOnInit(): void {
     this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
-    console.log('application product ', this.applicationProduct);
+    // console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.sublimitFromExistingFacility);
@@ -566,7 +568,7 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.selectedMenu = subRoute;
       }
     });
-    console.log('in the menu : ', this.selectedMenu);
+    // console.log('in the menu : ', this.selectedMenu);
     // Condition Offering Letter in Route Finalize
     if (this.parentPath === 'finalize') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed

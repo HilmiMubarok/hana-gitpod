@@ -34,10 +34,12 @@ export class MainFacilityDialogComponent implements OnInit {
     },
     private _dialog: MatDialogRef<MainFacilityDialogComponent>
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
+    if (this.data.creditProposal.statusId === 'DRAFT') {
+      _dialog.disableClose = true;
+      _dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
     this.mainFacility = data.mainData;
     this.dataItem = data.creditProposal;
   }
