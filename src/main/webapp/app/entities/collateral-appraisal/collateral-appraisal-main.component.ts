@@ -101,7 +101,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private resProcess: any;
   private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
-
+  public title: string;
+  public titleMenu: string;
+  public titleUrl: any;
+  appName: any;
+  appNameMenu: any;
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -1171,5 +1175,39 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
       // }
     }
+  }
+
+  getTextMenu() {
+    if (this.clickedMenu === 'appraisal-info') {
+      this.titleMenu = 'Appraisal Info';
+    }
+    if (this.clickedMenu === 'customer-info') {
+      this.titleMenu = 'Customer Info';
+    }
+    if (this.clickedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+    }
+    if (this.clickedMenu === 'valuation') {
+      this.titleMenu = 'Valuation';
+    }
+    if (this.clickedMenu === 'comparison-data') {
+      this.titleMenu = 'Comparison Data';
+    }
+    if (this.clickedMenu === 'comparison-data') {
+      this.titleMenu = 'Comparison Data';
+    }
+    if (this.clickedMenu === 'foto-object-jaminan') {
+      this.titleMenu = 'Foto Bbject Jaminan';
+    }
+    if (this.clickedMenu === 'summary') {
+      this.titleMenu = 'Summary';
+    }
+    return this.titleMenu;
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
+
+    this.titleUrl = x;
   }
 }

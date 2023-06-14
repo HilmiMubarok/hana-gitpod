@@ -16,6 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'jhi-document',
   templateUrl: './document.component.html',
+  styleUrls: ['./document.scss'],
 })
 export class DocumentComponent implements OnChanges, OnInit {
   @Input()
