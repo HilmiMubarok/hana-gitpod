@@ -151,9 +151,16 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   }
 
   public industryLable(industryCode: string) {
-    if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
+    if (
+      this.creditProposal.attributes['purposePricing'].industryCode === '' ||
+      this.creditProposal.attributes['purposePricing'].industryCode === undefined
+    ) {
       return '';
     } else {
+      console.log(
+        'fff',
+        this.sectorIndustry.filter(data => data.industry === industryCode)
+      );
       return this.sectorIndustry.filter(data => data.industry === industryCode)[0].industryLabel;
     }
   }
