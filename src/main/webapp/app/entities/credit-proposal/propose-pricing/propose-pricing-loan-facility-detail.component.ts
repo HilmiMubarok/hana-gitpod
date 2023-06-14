@@ -104,7 +104,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         this.aplicationProducts[i].industrySpread = '0%';
         this.aplicationProducts[i].targetMargin = '0%';
         this.aplicationProducts[i].normalRate = '0%';
-        this.aplicationProducts[i].pricingRate = '0%';
+        this.aplicationProducts[i].proposedRate = '0%';
         this.aplicationProducts[i].requiredSpread = '0%';
         this.aplicationProducts[i].cost = '0%';
         this.aplicationProducts[i].roaa = '0%';
@@ -280,7 +280,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
         this.aplicationProducts[i].targetMargin = '0.00%';
         this.aplicationProducts[i].normalRate = '0.00%';
         this.aplicationProducts[i].discountProposal = '0.00%';
-        this.aplicationProducts[i].pricingRate = '0.00%';
+        this.aplicationProducts[i].proposedRate = '0.00%';
         this.aplicationProducts[i].referenceRate = this.aplicationProducts[i].indexRateStr;
         this.aplicationProducts[i].requiredSpread = '0.00%';
         this.aplicationProducts[i].cost = '0.00%';
@@ -302,7 +302,7 @@ export class ProposePricingLoanFacilityDetailComponent implements OnInit, OnChan
               res['proposePricing'][j]['normalRate'] === null ? '0.00%' : res['proposePricing'][j]['normalRate'];
             this.aplicationProducts[i].discountProposal =
               res['proposePricing'][j]['discountProposal'] === null ? '0.00%' : res['proposePricing'][j]['discountProposal'];
-            this.aplicationProducts[i].pricingRate =
+            this.aplicationProducts[i].proposedRate =
               res['proposePricing'][j]['proposedRate'] === null ? '0.00%' : res['proposePricing'][j]['proposedRate'];
             this.aplicationProducts[i].referenceRate =
               res['proposePricing'][j]['referenceRate'] === null ? '0.00%' : res['proposePricing'][j]['referenceRate'];
