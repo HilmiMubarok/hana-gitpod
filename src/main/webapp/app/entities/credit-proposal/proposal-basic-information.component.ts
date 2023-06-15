@@ -645,7 +645,6 @@ export class ProposalBasicInformationComponent implements OnInit {
       if (_res) {
         this.resAttr = _res;
         this.resAttr.attr.idPosition = this.getLocStor('POS');
-        let exposure = 0;
         let init = 0;
         let change = 0;
 
@@ -656,10 +655,7 @@ export class ProposalBasicInformationComponent implements OnInit {
           }
         }
 
-        exposure = init + change;
-
         this.resAttr.attr['applicationType'] = this.creditProposal.applicationTypeId;
-        this.resAttr.attr['exposure'] = exposure;
         this.resAttr.attr['proposalType'] = this.creditProposal.attributes.proposalType;
 
         this.save('process');
