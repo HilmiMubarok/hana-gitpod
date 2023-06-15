@@ -98,7 +98,8 @@
       <td mat-cell *matCellDef="let element">{{ element.referenceRate }}</td>
     </ng-container>
     <ng-container matColumnDef="requiredSpread">
-      <th mat-header-cell *matHeaderCellDef>Proposed Rate / Rate</th>
+      <!-- <th mat-header-cell *matHeaderCellDef>Proposed Rate / Rate</th> -->
+      <th mat-header-cell *matHeaderCellDef>Proposed Rate / spread</th>
       <td mat-cell *matCellDef="let element">{{ element.requiredSpread }}</td>
     </ng-container>
     <ng-container matColumnDef="maturityDate">
