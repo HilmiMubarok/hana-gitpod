@@ -15,6 +15,7 @@ export class CollateralParameterDialogComponent implements OnInit {
   public listCollateralType: any;
   public collateralParameter: ICollateralParameter;
   public view: boolean;
+  public mode: string;
   public collateralCode: ICollateralParameter[];
   public statusValue = [
     {
@@ -35,6 +36,7 @@ export class CollateralParameterDialogComponent implements OnInit {
     public data: {
       collateralParameter: ICollateralParameter;
       view: false;
+      mode: string;
     },
     private _dialog: MatDialogRef<CollateralParameterDialogComponent>,
     protected collateralParameterService: CollateralParameterService,
@@ -47,6 +49,7 @@ export class CollateralParameterDialogComponent implements OnInit {
     });
     this.collateralParameter = this.data.collateralParameter;
     this.view = this.data.view;
+    this.mode = this.data.mode;
   }
   ngOnInit(): void {
     this.getCollateralType();

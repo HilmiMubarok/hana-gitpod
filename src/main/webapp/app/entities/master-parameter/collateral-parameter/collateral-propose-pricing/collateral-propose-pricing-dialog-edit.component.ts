@@ -16,6 +16,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
   public collateralProposePricingParameter: ICollateralProposePricingParam;
   public collateralParameter: ICollateralProposePricingParam;
   public view: boolean;
+  public mode: string;
   public dataCollateral: ICollateralParameter;
 
   public statusValue = [
@@ -38,6 +39,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
       collateralProposePricingParameter: ICollateralProposePricingParam;
       dataCollateral: ICollateralParameter;
       view: false;
+      mode: string;
     },
     private _dialog: MatDialogRef<CollateralProposePricingDialogEditComponent>,
     protected collateralParameterService: CollateralParameterService,
@@ -51,6 +53,7 @@ export class CollateralProposePricingDialogEditComponent implements OnInit {
     this.collateralProposePricingParameter = this.data.collateralProposePricingParameter;
     this.dataCollateral = this.data.dataCollateral;
     this.view = this.data.view;
+    this.mode = this.data.mode;
   }
   ngOnInit(): void {
     this.collateralProposePricingParameter.collateralParameterId = this.dataCollateral.id;
