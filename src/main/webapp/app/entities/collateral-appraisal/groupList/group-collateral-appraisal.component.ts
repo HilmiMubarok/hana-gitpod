@@ -24,13 +24,14 @@ import { DialogCollateralAppraisalCifComponent } from '../addSelect/dialog-colla
 import { IPartyPostalAddress } from 'app/entities/party-postal-address/party-postal-address.model';
 import { PartyPostalAddressService } from 'app/entities/party-postal-address/party-postal-address.service';
 import { IPostalAddress } from 'app/entities/postal-address/postal-address.model';
+import { STATUS_COLLATERAL } from 'app/shared/constants/status.constants';
 
 @Component({
   selector: 'jhi-group-collateral-appraisal',
   templateUrl: './group-collateral-appraisal.component.html',
   styleUrls: ['./group-collateral-list-appraisal.css'],
 })
-export class GroupCollateralAppraisalComponent implements OnChanges {
+export class GroupCollateralAppraisalComponent implements OnChanges, OnInit {
   // @Output() outputCifGroup = new EventEmitter();
   @Output() outputDataGroup = new EventEmitter();
   @Output() outputgroupselected = new EventEmitter();
@@ -62,39 +63,31 @@ export class GroupCollateralAppraisalComponent implements OnChanges {
   @Input() isCheckDebColtoChild = false;
   @Input() partyId: string;
   constructor(
-    private cashCollateralService: CashCollateralService,
+    private collateralService: CollateralService,
     public dialog: MatDialog,
     protected partyPostalAddressService: PartyPostalAddressService
-  ) {
-    // this.showDetail = null;
-  }
-  private setAvailableCollateralForAppraise(partyId: string): void {
-    this.cashCollateralService.loadCollateralReadyForAppraise(partyId).subscribe(res => {
-      this.collateralsGroupData = res.body;
-      if (this.collateralsGroupData.length > 0) {
-        for (let i = 0; i < this.collateralsGroupData.length; i++) {
-          this.collateralsGroupData[i]['indexNum'] = i + 1;
+  ) {}
+  private setAvailableCollateralForAppraise(): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: this.partyId,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateralsGroupData = lodash.filter(res.body, function (e) {
+          return e.collateralTypeAppraise === true && e.statusId !== STATUS_COLLATERAL.CANCEL;
+        });
+        if (this.collateralsGroupData.length > 0) {
+          for (let i = 0; i < this.collateralsGroupData.length; i++) {
+            this.collateralsGroupData[i]['indexNum'] = i + 1;
+          }
         }
-      }
-    });
+      });
+  }
+  ngOnInit(): void {
+    this.setAvailableCollateralForAppraise();
   }
 
-  // public groupSelect(event: MatCheckboxChange, index: number): void {
-  //   if (event['checked'] === true) {
-  //     this.statusCheckeds.push(this.collateralsGroupData[index]);
-  //     this.statusCheckedGroup = true;
-  //   } else {
-  //     for (let i = 0; i < this.statusCheckeds.length; i++) {
-  //       if (this.collateralsGroupData[index]['id'] === this.statusCheckeds[i]['id']) {
-  //         this.collateralsGroupData.splice(i, 1);
-  //         i = this.collateralsGroupData.length - 1;
-  //       }
-  //       this.statusCheckedGroup = false;
-  //     }
-  //     console.log('xxx', this.statusCheckeds);
-  //     console.log('xyz', this.statusCheckedGroup);
-  //   }
-  // }
   public groupSelect(event: MatCheckboxChange, index: number): void {
     if (event.checked === true) {
       this.statusCheckeds.push(this.collateralsGroupData[index]);
@@ -112,9 +105,6 @@ export class GroupCollateralAppraisalComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['isCheckDebColtoChild']) {
       this.isCheckDebColfromParent = changes.isCheckDebColtoChild.currentValue;
-    }
-    if (changes['partyId']) {
-      this.setAvailableCollateralForAppraise(this.partyId);
     }
   }
   public onDetailClick(section: string, element: any): void {

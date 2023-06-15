@@ -307,7 +307,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
 
   ngOnInit(): void {
     this.applicationProduct.attributes['loanPurposeLegal'] = this.applicationProduct.attributes['loanPurpose'];
-    // console.log('application product ', this.applicationProduct);
     this.cekApplicationType();
     this.getLovSublimit();
     this.lovIndex = this.lovSublimit.filter(obj => obj.label === this.applicationProduct.sublimitFromExistingFacility);
@@ -319,7 +318,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     this.getApplicationOption();
     this.getObligation();
     this.setFacilityType();
-    this.loaddata();
 
     // Code Lov get General Parameter  List Of Value Improvement Phase 1
     this.lovInstallmentMethod();
@@ -377,17 +375,29 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     } else {
       const dateNew = new Date().toISOString().split('T')[0];
       if (this.rateType !== '' && this.ccy !== '' && dateNew) {
-        console.log('ini rate type ', this.rateType);
-        this.indexRateService
-          .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
-          .subscribe((res: any) => {
-            for (let i = 1; i < 13; i++) {
-              if (i === this.dateIndex) {
-                this.indexRate = res.body['rate' + i + 'M'] + '%';
-                this.applicationProduct.indexRateStr = this.indexRate;
+        if (this.rateType !== 'TERM SOFR') {
+          this.indexRateService
+            .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
+            .subscribe((res: any) => {
+              for (let i = 1; i < 13; i++) {
+                if (i === this.dateIndex) {
+                  this.indexRate = res.body['rate' + i + 'M'] + '%';
+                  this.applicationProduct.indexRateStr = this.indexRate;
+                }
               }
-            }
-          });
+            });
+        } else {
+          this.indexRateService
+            .find('get?date=' + dateNew.replace(/-/g, '') + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(5, 8))
+            .subscribe((res: any) => {
+              for (let i = 1; i < 13; i++) {
+                if (i === this.dateIndex) {
+                  this.indexRate = res.body['rate' + i + 'M'] + '%';
+                  this.applicationProduct.indexRateStr = this.indexRate;
+                }
+              }
+            });
+        }
       }
     }
   }
@@ -568,7 +578,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.selectedMenu = subRoute;
       }
     });
-    // console.log('in the menu : ', this.selectedMenu);
     // Condition Offering Letter in Route Finalize
     if (this.parentPath === 'finalize') {
       // If Selected Menu Loan Facility Detail and not from Loan Facility, the fields can be displayed and can be changed
@@ -759,15 +768,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     });
   }
 
-  public loaddata() {
-    const dateNew = new Date().toISOString().split('T')[0];
-    this.indexRateService
-      .find('get?date=' + dateNew + '&ccy=' + this.ccy + '&rateType=' + this.rateType.substring(0, 3))
-      .subscribe((res: any) => {
-        this.applicationProduct.indexRateStr = res.body['rate' + this.dateIndex + 'M'] + '%';
-      });
-  }
-
   // Code Lov get General Parameter  List Of Value Improvement Phase 1
 
   public lovInterestRateTypeList() {
@@ -781,7 +781,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.interestTypeList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('interest type', this.interestTypeList);
       });
   }
 
@@ -796,7 +795,6 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.installmentMethodList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('installment ', this.installmentMethodList);
       });
   }
 
@@ -811,14 +809,12 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
         this.restructList = lodash.filter(res.body, function (o) {
           return o.statusId === 'ACTIVE';
         });
-        console.log('restruct', this.restructList);
       });
   }
 
   public getFacilityType() {
     this.productParameterService.getLovFacilityType().subscribe(res => {
       this.listGeneralLov = res.body;
-      console.log('master product ', res.body);
       if (this.masterProduct.productTypeId !== '') {
         for (let i = 0; i < this.listGeneralLov.length; i++) {
           this.masterProduct.productTypeId = this.listGeneralLov[i].id;

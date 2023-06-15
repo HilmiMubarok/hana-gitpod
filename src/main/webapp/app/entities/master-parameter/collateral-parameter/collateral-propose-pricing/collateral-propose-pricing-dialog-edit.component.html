@@ -1,4 +1,9 @@
-<h2 mat-dialog-title>EDIT Collateral Propose Pricing Parameter</h2>
+<div *ngIf="mode === 'edit'">
+  <h2 mat-dialog-title>EDIT Collateral Propose Pricing Parameter</h2>
+</div>
+<div *ngIf="mode === 'add'">
+  <h2 mat-dialog-title>ADD Collateral Propose Pricing Parameter</h2>
+</div>
 <mat-dialog-content>
   <div class="row">
     <div class="col-12">
@@ -19,7 +24,13 @@
       <section class="mt-2">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Propose Pricing Code</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProposePricingParameter.proposePricingCode" required />
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="collateralProposePricingParameter.proposePricingCode"
+            required
+            [disabled]="mode === 'edit'"
+          />
         </mat-form-field>
       </section>
       <section class="mt-2">
