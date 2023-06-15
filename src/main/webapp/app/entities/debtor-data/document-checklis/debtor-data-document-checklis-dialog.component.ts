@@ -95,8 +95,27 @@ export class DebtorDataDocumentChecklistDialogComponent {
     this.setStatus();
     this.getMinIOData();
     this.filesStatus = this.files.status;
-    this.filesdueDate = this.files.dueDate;
-    this.files.remarks === null || this.files.remarks === 'null' ? '' : this.files.remarks;
+    if (this.files.dueDate === undefined || this.files.dueDate === null || this.files.dueDate === '' || this.files.dueDate === 'null') {
+      this.filesdueDate = '';
+    } else if (
+      this.files.dueDate !== undefined &&
+      this.files.dueDate !== null &&
+      this.files.dueDate !== '' &&
+      this.files.dueDate !== 'null'
+    ) {
+      this.filesdueDate = this.files.dueDate;
+    }
+
+    if (this.files.remarks === null || this.files.remarks === undefined || this.files.remarks === '' || this.files.remarks === 'null') {
+      this.filesRemarks = '';
+    } else if (
+      this.files.remarks !== null &&
+      this.files.remarks !== undefined &&
+      this.files.remarks !== '' &&
+      this.files.remarks !== 'null'
+    ) {
+      this.filesRemarks = this.files.remarks;
+    }
 
     this.filesDescription = this.files.description;
   }
@@ -150,6 +169,13 @@ export class DebtorDataDocumentChecklistDialogComponent {
       this.status = ['Available', 'TBO', 'Waived'];
     } else {
       this.status = ['Available', 'TBO', 'Waived', 'Not Available'];
+    }
+  }
+
+  public changeStatus(event: any) {
+    this.filesStatus = event.value;
+    if (this.filesStatus === 'Available') {
+      this.handleImage();
     }
   }
 
