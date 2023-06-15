@@ -111,7 +111,7 @@ export class PartyCifComponent extends AbstractEntityMaterialComponent<IPartyCif
       width: '80vw',
     });
     dialog.afterClosed().subscribe(res => {
-      if (res) {
+      if (res.length > 0) {
         this.loadAll();
       }
     });
