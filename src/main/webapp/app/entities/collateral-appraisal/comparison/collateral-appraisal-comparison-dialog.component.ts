@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollateralProperty, ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -11,6 +11,7 @@ import moment from 'moment';
 import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison-dialog',
@@ -27,6 +28,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   public nameFile: String;
 
   constructor(
+    private dialog: MatDialog,
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
     private _snackBar: MatSnackBar,
@@ -45,6 +47,16 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.findCollateral();
+    this.popUpValidation();
+  }
+
+  public popUpValidation() {
+    if (this.collateral.collateralTypeId === 'MACHINE') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   private initObject(collateral: ICollateral): void {
@@ -186,5 +198,22 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+  // menu appraisal dist/edit/comparison data
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close(this.collateralProperty);
+      }
+    });
   }
 }

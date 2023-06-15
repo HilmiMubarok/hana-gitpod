@@ -60,7 +60,51 @@
       <div class="e-card-sub-title">Collateral</div>
     </div>
   </div>
-  <ejs-grid #grid [dataSource]="collateralsData">
+  <div class="table-responsive-material">
+    <table mat-table [dataSource]="collateralsData" class="w-100">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let i = index">
+          <mat-checkbox [checked]="mappingStatusHelper[i] === 'yes'" (change)="onChecked($event, i)"></mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef>No</th>
+        <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="noCif">
+        <th mat-header-cell *matHeaderCellDef>Jenis Detail Jaminan</th>
+        <td mat-cell *matCellDef="let element">{{ element.collateralTypeDescription }}</td>
+      </ng-container>
+      <ng-container matColumnDef="debiturName">
+        <th mat-header-cell *matHeaderCellDef>Alamat Jaminan</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.collateralAddress.address1 }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="debiturType">
+        <th mat-header-cell *matHeaderCellDef>Kota</th>
+        <td mat-cell *matCellDef="let element">{{ element.collateralAddress.cityName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="onDetailClick('collateral', element)">
+            <mat-icon>remove_red_eye</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumnss.length">No records found.</td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnss"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumnss"></tr>
+    </table>
+  </div>
+  <mat-card *ngIf="loading" id="material-loading-bar">
+    <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
+  </mat-card>
+  <!-- <ejs-grid #grid [dataSource]="collateralsData">
     <e-columns>
       <e-column field="id" headerText="" textAlign="Left">
         <ng-template #template let-data>
@@ -79,7 +123,7 @@
         </ng-template>
       </e-column>
     </e-columns>
-  </ejs-grid>
+  </ejs-grid> -->
 </div>
 <div class="e-card-content">
   <div class="e-card-header">

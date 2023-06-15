@@ -8,7 +8,7 @@
 }
 
 .e-card-header .e-card-header-caption .e-card-header-title {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   font-size: 24px;
   font-weight: 600;
   color: #008881;
@@ -129,4 +129,161 @@
   padding: 0 16px;
   border-radius: 4px;
   overflow: visible;
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+::ng-deep .custom-dialog-container-delete {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+::ng-deep .custom-dialog-container-cancel {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-column-no {
+  text-align: right;
+  padding-right: 50px;
+}
+
+.mat-column-mfgDate {
+  text-align: right;
+  padding-right: 50px;
+}
+.mat-column-marketValue {
+  text-align: right;
+  padding-right: 50px;
+}
+.mat-column-liquidVal {
+  text-align: right;
+  padding-right: 50px;
+}
+
+.mat-column-percentage {
+  text-align: right;
+  padding-right: 50px;
+}
+.mat-column-action {
+  text-align: left;
+}
+
+.mat-table {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-elevation-z8 {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }

@@ -148,7 +148,7 @@
               <section *jhiMatrixDirIDD="'input'">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>Status</mat-label>
-                  <mat-select [(ngModel)]="filesStatus" name="status">
+                  <mat-select (selectionChange)="changeStatus($event)" [value]="filesStatus" name="status">
                     <mat-option value="">- Please Select -</mat-option>
                     <mat-option *ngFor="let item of status" [value]="item">
                       {{ item }}

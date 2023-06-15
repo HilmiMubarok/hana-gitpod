@@ -95,7 +95,7 @@
       <th mat-header-cell *matHeaderCellDef class="grid-index-right">FirstDisbursement Date</th>
       <td mat-cell *matCellDef="let element" class="grid-index-right">
         <span *ngIf="element.firstDisbursementDate === undefined">0</span>
-        <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate }}</span>
+        <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate | date: 'yyyy/MM/dd' }}</span>
       </td>
     </ng-container>
     <ng-container matColumnDef="action">
@@ -228,7 +228,7 @@
       <th mat-header-cell *matHeaderCellDef class="grid-index-right">FirstDisbursement Date</th>
       <td mat-cell *matCellDef="let element" class="grid-index-right">
         <span *ngIf="element.firstDisbursementDate === undefined">0</span>
-        <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate?.slice(0, 10) }}</span>
+        <span *ngIf="element.firstDisbursementDate !== undefined">{{ element.firstDisbursementDate | date: 'yyyy/MM/dd' }}</span>
       </td>
     </ng-container>
     <ng-container matColumnDef="action">

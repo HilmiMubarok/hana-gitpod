@@ -70,6 +70,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
   public isChecked: boolean;
   public biddingValueSum: number;
   public biddingValueCoverage: number;
+  public parsedAttribute;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
   public selectMenuItem(args: MenuEventArgs): void {
     this.selectedMenu = args.item.text;
@@ -137,6 +138,7 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     }
   }
   ngOnInit(): void {
+    this.parsedAttribute = parsePreviousAtrribute(this.creditProposal);
     this.loadData();
     // this.isViewMode && this.displayedColumns.pop();
 
@@ -454,34 +456,67 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     return 'IDR';
   }
 
-  public fungsiSumcredit(): Promise<void> {
+  public fungsiSumcredit(value: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       let result: number;
       let dolar: number;
+      let filterIdr = [];
+      let filterUsd = [];
       result = 0;
       dolar = 0;
 
-      const dataFilter = this.historyData().products.filter(
-        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-      );
+      const dataFilter =
+        this.parsedAttribute?.previousReturn && this.isOnCompareData && !this.isCompareDar
+          ? this.parsedAttribute?.previousReturn?.products?.filter(obj => obj.subLimit === false)
+          : this.parsedAttribute.previousHistory?.products.filter(obj => obj.subLimit === false);
 
-      if (dataFilter.length > 0) {
-        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
-        if (filterIdr.length > 0) {
-          for (let i = 0; i < filterIdr.length; i++) {
-            if (filterIdr[i].attributes.totalPlafond !== undefined) {
-              result = result + Number(filterIdr[i].attributes.totalPlafond);
+      if (dataFilter?.length > 0) {
+        if (value === 'USD' || value === 'both') {
+          filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          if (filterIdr.length > 0) {
+            for (let i = 0; i < filterIdr.length; i++) {
+              if (filterIdr[i].totalPlafond !== undefined) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
             }
           }
         }
-        if (filterUsd.length > 0) {
-          for (let i = 0; i < filterUsd.length; i++) {
-            if (filterUsd[i].attributes.totalPlafond !== undefined) {
-              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
+
+        if (value === 'USD') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond);
+              }
             }
           }
         }
+
+        if (value === 'both') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+      if (value === 'both') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
+      }
+      if (value === 'USD') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
+      }
+      if (value === 'IDR') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
       }
       this.totalPlafond = result + dolar;
       resolve();
@@ -809,9 +844,10 @@ export class AboveGridHistoryComponent extends AbstractEntityMaterialComponent<I
     array1.filter(({ id: value1 }) => {
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
       getBindingCalculateValue = data.filter(item => item !== undefined);
-      this.fungsiSumcredit().then(() => {
+      this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
       });
     });
   }

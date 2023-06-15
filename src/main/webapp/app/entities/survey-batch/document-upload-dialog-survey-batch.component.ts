@@ -14,11 +14,12 @@ import moment from 'moment';
 import { AccountService } from 'app/core/auth/account.service';
 import { Document, IDocument } from '../document/document.model';
 import { DocumentUploadDialogComponent } from '../document/document-upload-dialog.component';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ISurveyBatch } from './survey-batch.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-document-upload-dialog-survey-batch',
@@ -30,6 +31,7 @@ export class DocumentUploadDialogSurveyBatchComponent implements OnInit {
   public files: File[] = [];
   public file: File;
   public document: IDocument;
+  private dialog: MatDialog;
   public documentTypes: any;
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
@@ -43,6 +45,10 @@ export class DocumentUploadDialogSurveyBatchComponent implements OnInit {
     private accountService: AccountService,
     protected http?: HttpClient
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.document = new Document();
     this.file = null;
   }
@@ -109,5 +115,27 @@ export class DocumentUploadDialogSurveyBatchComponent implements OnInit {
 
   public onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  // menu appraisal external/ batch KJPP/ View /upload
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close();
+      }
+    });
   }
 }

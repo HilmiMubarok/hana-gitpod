@@ -50,6 +50,8 @@
           </div>
         </mat-card-content>
       </mat-card>
+    </div>
+    <div style="margin: 1rem">
       <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
         <ng-container matColumnDef="no">
           <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
@@ -115,7 +117,7 @@
     </div>
     <div class="e-card-actions">
       <div class="d-flex justify-content-center mb-3 mt-3">
-        <button class="button-info" mat-raised-button [routerLink]="['./new']">ADD BATCH</button>
+        <button class="button-styling" mat-raised-button [routerLink]="['./new']">ADD BATCH</button>
       </div>
     </div>
 

@@ -68,6 +68,7 @@ import { CollateralAppraisalComparisonComponent } from './comparison/collateral-
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { CollateralAppraisalSummaryComponent } from './summary/collateral-appraisal-summary.component';
 import { Subject, takeUntil } from 'rxjs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   providers: [
@@ -101,7 +102,11 @@ export class CollateralAppraisalMainComponent implements OnInit {
   private resProcess: any;
   private taskProcess: IProcessTask;
   private _collateralAppraisal: ICollateralAppraisal;
-
+  public title: string;
+  public titleMenu: string;
+  public titleUrl: any;
+  appName: any;
+  appNameMenu: any;
   get collateralAppraisal() {
     return this._collateralAppraisal;
   }
@@ -1171,5 +1176,57 @@ export class CollateralAppraisalMainComponent implements OnInit {
       });
       // }
     }
+  }
+
+  getTextMenu() {
+    if (this.clickedMenu === 'appraisal-info') {
+      this.titleMenu = 'Appraisal Info';
+    }
+    if (this.clickedMenu === 'customer-info') {
+      this.titleMenu = 'Customer Info';
+    }
+    if (this.clickedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+    }
+    if (this.clickedMenu === 'valuation') {
+      this.titleMenu = 'Valuation';
+    }
+    if (this.clickedMenu === 'comparison-data') {
+      this.titleMenu = 'Comparison Data';
+    }
+    if (this.clickedMenu === 'comparison-data') {
+      this.titleMenu = 'Comparison Data';
+    }
+    if (this.clickedMenu === 'foto-object-jaminan') {
+      this.titleMenu = 'Foto Bbject Jaminan';
+    }
+    if (this.clickedMenu === 'summary') {
+      this.titleMenu = 'Summary';
+    }
+    return this.titleMenu;
+  }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
+
+    this.titleUrl = x;
+  }
+
+  // menu request appraisal
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

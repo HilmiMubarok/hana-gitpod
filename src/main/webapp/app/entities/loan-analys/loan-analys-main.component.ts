@@ -57,6 +57,7 @@ import { CollateralService } from '../collateral/collateral.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { CollateralProperty, ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import moment from 'moment';
 
 @Component({
   selector: 'jhi-loan-analys-main',
@@ -796,6 +797,7 @@ export class LoanAnalysMainComponent implements OnInit {
                 copyCreditProposal.notes[i].recomendation = this.recomendation;
                 copyCreditProposal.notes[i].path = this.uuidPath;
                 copyCreditProposal.notes[i].type = tempOpinionType;
+				copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
                 tempHelper = tempHelper + 1;
               }
             }

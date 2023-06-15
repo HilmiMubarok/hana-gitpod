@@ -23,3 +23,10 @@
   font-family: 'Poppins';
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
+
+.mat-flat-button.mat-warn,
+.mat-raised-button.mat-warn,
+.mat-fab.mat-warn,
+.mat-mini-fab.mat-warn {
+  background-color: rgba(209, 91, 111, 1);
+}

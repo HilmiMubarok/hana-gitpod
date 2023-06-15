@@ -1,18 +1,18 @@
-<div class="row">
+<div class="row remove-row-scroll">
   <div class="e-card">
     <div class="e-card-header">
       <div class="e-card-header-caption">
         <ejs-breadcrumb cssClass="margin: 1rem;">
           <e-breadcrumb-items>
             <e-breadcrumb-item iconCss="e-icons e-home" url="/"></e-breadcrumb-item>
-            <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item>
+            <!-- <e-breadcrumb-item text="Survey Batch" url="/batch-apprisal"></e-breadcrumb-item> -->
             <e-breadcrumb-item text="New Offering Letter" url="/batch-apprisal/new"></e-breadcrumb-item>
           </e-breadcrumb-items>
         </ejs-breadcrumb>
         <div class="header-container">
           <div class="header-content">
-            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="previousState()" />
-            <span class="back-prefix" (click)="previousState()">Back | </span>
+            <img class="back-image" src="../../../content/images/back-icon.svg" (click)="openCancelDialog()" />
+            <span class="back-prefix" (click)="openCancelDialog()">Back | </span>
           </div>
           <p class="e-card-sub-title">Add New Offering Letter</p>
         </div>
@@ -20,7 +20,7 @@
     </div>
     <mat-card>
       <mat-card-content [hidden]="FormCollateral">
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div
             style="
               color: #008881;
@@ -122,7 +122,7 @@
       </mat-card-content>
 
       <mat-card-content [hidden]="FormPartner">
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div
             style="
               color: #008881;
@@ -226,14 +226,14 @@
 
       <mat-card-actions align="center">
         <div [hidden]="FormCollateral">
-          <button mat-raised-button class="button-info" (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>
-          <button mat-raised-button class="button-info" (click)="previousStateNew()">
+          <button mat-raised-button class="button-styling" (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>
+          <button mat-raised-button class="button-styling" (click)="openCancelDialogNew()">
             <fa-icon icon="arrow-left"></fa-icon> &nbsp;BACK
           </button>
         </div>
 
         <div [hidden]="FormPartner">
-          <button class="button-info" mat-raised-button (click)="nextStage()">NEXT</button>
+          <button class="button-styling" mat-raised-button (click)="nextStage()">NEXT</button>
         </div>
       </mat-card-actions>
     </mat-card>

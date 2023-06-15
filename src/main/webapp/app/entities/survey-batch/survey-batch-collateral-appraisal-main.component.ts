@@ -63,6 +63,7 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../colla
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { firstValueFrom } from 'rxjs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   providers: [
@@ -133,6 +134,13 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
   public totalDataDocumentLainya = [];
   public totalDataDetailLand = [];
   public checkedData: boolean;
+  public title: string;
+  public titleMenu: string;
+  public titleUrl: any;
+  appName: any;
+  appNameMenu: any;
+  public parentPath = this.router.url.split('/')[1];
+  public value: string;
 
   constructor(
     protected applicationStateLogService: ApplicationStateLogService,
@@ -1243,6 +1251,56 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
           break;
         default:
           resolve(true);
+      }
+    });
+  }
+  getTextMenu() {
+    if (this.clickedMenu === 'batch-apprisal') {
+      this.titleMenu = 'View Survey Batch';
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'appraisal-info') {
+      this.titleMenu = 'Appraisal Info';
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'customer-info') {
+      this.titleMenu = 'Customer Info';
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'collateral-info') {
+      this.titleMenu = 'Collateral Info';
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    if (this.clickedMenu === 'report-independent') {
+      this.titleMenu = 'Report Independent';
+      // sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
+    return this.titleMenu;
+  }
+
+  // getTitleMenu() {
+  //   this.appNameMenu = sessionStorage.getItem('appNameMenu');
+  // }
+
+  getTitleUrl() {
+    const x = this.router.url.split('/')[3].slice(0, 4).split('?');
+
+    this.titleUrl = x;
+  }
+  // menu appraisal external/ KJPP View/ Edit
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
       }
     });
   }

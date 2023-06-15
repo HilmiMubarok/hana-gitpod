@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { IDebtorData } from '../../debtor-data.model';
+import { TemplateService } from 'app/layouts/template/template.service';
 import { ICPFacilityTable } from 'app/entities/credit-proposal/exposure/total-exposure/cp-facility-table-model';
 import { CPFacility, ICPFacility } from 'app/shared/model/cp-facility.models';
 import { IDebtorDataFacility } from '../../debtor-data-facility.model';
@@ -26,18 +27,31 @@ export class FacilityInfoDebiturDialogComponent implements OnInit {
     public data: {
       debtorData: IDebtorDataFacility;
     },
+    private templateService: TemplateService,
+
     private _dialog: MatDialogRef<FacilityInfoDebiturDialogComponent>
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.debtorData = data.debtorData;
     this.preData = data.debtorData;
   }
 
   ngOnInit(): void {
-    console.log('debtor data init ', this.debtorData);
+    this.getRole();
+  }
+  // untuk mengambil role
+  public getRole(): void {
+    this.templateService.triggerChanggedPosIntObservable.subscribe((newPos: string) => {
+      this.checkRole(newPos);
+    });
+  }
+  // untuk mengkondisikan apakah bisa pop up atw tidak
+  public checkRole(param): void {
+    if (param === 'RM') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   public save(): void {

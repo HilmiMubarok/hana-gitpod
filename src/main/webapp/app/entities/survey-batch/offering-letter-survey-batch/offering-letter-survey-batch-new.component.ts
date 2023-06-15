@@ -22,6 +22,7 @@ import { SurveyAppraisalsService } from 'app/entities/survey-appraisals/survey-a
 import { PageEvent } from '@angular/material/paginator';
 import lodash from 'lodash';
 import { ISurveyAppraisals } from 'app/entities/survey-appraisals/survey-appraisals.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-offering-letter-survey-batch-new',
@@ -301,5 +302,40 @@ export class OfferingLetterSurveyBatchNewComponent extends AbstractEntityMateria
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.items.filter = filterValue;
+  }
+
+  // menu appraisal external/new offering letter
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
+  }
+
+  // cancel confrimation dialog new
+  public openCancelDialogNew(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousStateNew();
+      }
+    });
   }
 }
