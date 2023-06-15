@@ -185,3 +185,18 @@ th:last-child {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
+
+.mat-table {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-elevation-z8 {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}

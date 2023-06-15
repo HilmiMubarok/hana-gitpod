@@ -139,6 +139,7 @@ th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
   font-family: 'Poppins', sans-serif !important;
+  font-weight: 500;
 }
 td {
   font-family: 'Poppins', sans-serif !important;

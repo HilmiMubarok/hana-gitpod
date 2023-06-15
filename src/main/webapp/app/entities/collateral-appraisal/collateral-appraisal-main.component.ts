@@ -68,6 +68,7 @@ import { CollateralAppraisalComparisonComponent } from './comparison/collateral-
 import { CollateralAppraisalDetailProcessLandCertificatesComponent } from './collateral/collateral-appraisal-process-detail-land-certificates.component';
 import { CollateralAppraisalSummaryComponent } from './summary/collateral-appraisal-summary.component';
 import { Subject, takeUntil } from 'rxjs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   providers: [
@@ -1209,5 +1210,23 @@ export class CollateralAppraisalMainComponent implements OnInit {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
 
     this.titleUrl = x;
+  }
+
+  // menu request appraisal
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }
