@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik } from './request-slik.model';
@@ -45,22 +45,6 @@ export class RequestSlikDetailComponent implements OnInit {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
-
-    // this.getFinalOcrData();
-
-    // Test change checklist
-    // setTimeout(() => {
-    //   const data = {
-    //     idParty: null,
-    //     idRequestSlik: null,
-    //     cust: null,
-    //   };
-    //   data.cust = this.partyCif.customerPerson === null ? this.partyCif.customerOrganization : this.partyCif.customerPerson;
-    //   data.idParty = this.partyCif.partyId;
-    //   data.idRequestSlik = this.requestSlikId;
-
-    //   this.checklists.push(data);
-    // }, 2000);
   }
 
   /**
@@ -245,6 +229,7 @@ export class RequestSlikDetailComponent implements OnInit {
         console.log('RES DETAIL', { res, segment: this.segment });
       },
       complete: () => {
+        this.requestSlikValidateService.setPurposeType(this.requestSlik.purposeCode);
         this.isLoading = false;
         // this.getAllChecklistsAndPush();
       },
@@ -408,6 +393,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   setPurposeCode(ev) {
     this.requestSlik.purposeCode = ev.value;
+    this.requestSlikValidateService.setPurposeType(ev.value);
     console.log(this.requestSlik);
   }
 
@@ -815,7 +801,9 @@ export class RequestSlikDetailComponent implements OnInit {
       !this.requestSlikValidateService.validate() &&
       (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM)
     ) {
-      return this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Minimum document is 1' });
+      return this.requestSlikValidateService.messages.getValue().forEach(message => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+      });
     }
     const dialogRef = this.dialog.open(RequestSlikPopupComponent, {
       width: '80vw',
