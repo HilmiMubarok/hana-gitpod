@@ -20,8 +20,10 @@ export class RequestSlikStatusPipe implements PipeTransform {
       return 'Verify';
     } else if (status === this.reqSlikStatus.COMPLETE) {
       return 'Complete';
-    } else {
+    } else if (status === this.reqSlikStatus.CANCEL) {
       return 'Cancel';
+    } else {
+      return '';
     }
   }
 }
