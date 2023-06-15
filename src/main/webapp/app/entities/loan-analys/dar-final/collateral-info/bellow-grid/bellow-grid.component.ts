@@ -288,41 +288,6 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     });
   }
 
-  private fungsiSumcredit(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      let result: number;
-      let dolar: number;
-      result = 0;
-      dolar = 0;
-
-      const dataFilter = this.creditProposal.products.filter(
-        obj => obj.attributes['subLimit'] === 'false' || obj.attributes['subLimit'] === false
-      );
-
-      if (dataFilter.length > 0) {
-        const filterUsd = dataFilter.filter(obj => obj.attributes.currency === 'USD');
-        const filterIdr = dataFilter.filter(obj => obj.attributes.currency !== 'USD');
-        if (filterIdr.length > 0) {
-          for (let i = 0; i < filterIdr.length; i++) {
-            if (filterIdr[i].attributes.totalPlafond !== undefined) {
-              result = result + Number(filterIdr[i].attributes.totalPlafond);
-            }
-          }
-        }
-        if (filterUsd.length > 0) {
-          for (let i = 0; i < filterUsd.length; i++) {
-            if (filterUsd[i].attributes.totalPlafond !== undefined) {
-              dolar = dolar + Number(filterUsd[i].attributes.totalPlafond) * Number(filterUsd[i].attributes.kurs);
-            }
-          }
-        }
-      }
-
-      this.totalPlafond = result + dolar;
-      resolve();
-    });
-  }
-
   countKJJPLV(collateral: ICollateral) {
     let result: number;
     let data: ICollateralProperty;
@@ -746,7 +711,74 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     }
     return result;
   }
+  fungsiSumcredit(value: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      let result: number;
+      let dolar: number;
+      let filterIdr = [];
+      let filterUsd = [];
+      result = 0;
+      dolar = 0;
 
+      const dataFilter = this.creditProposal.products.filter(obj => obj.subLimit === false);
+
+      if (dataFilter.length > 0) {
+        if (value === 'USD' || value === 'both') {
+          filterUsd = dataFilter.filter(obj => obj.currencyId === 'USD');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          filterIdr = dataFilter.filter(obj => obj.currencyId === 'IDR');
+        }
+
+        if (value === 'IDR' || value === 'both') {
+          if (filterIdr.length > 0) {
+            for (let i = 0; i < filterIdr.length; i++) {
+              if (filterIdr[i].totalPlafond !== undefined) {
+                result = result + Number(filterIdr[i].totalPlafond);
+              }
+            }
+          }
+        }
+
+        if (value === 'USD') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond);
+              }
+            }
+          }
+        }
+
+        if (value === 'both') {
+          if (filterUsd.length > 0) {
+            for (let i = 0; i < filterUsd.length; i++) {
+              if (filterUsd[i].totalPlafond !== undefined) {
+                dolar = dolar + Number(filterUsd[i].totalPlafond) * Number(filterUsd[i].kurs);
+              }
+            }
+          }
+        }
+      }
+      if (value === 'both') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
+      }
+      if (value === 'USD') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
+      }
+      if (value === 'IDR') {
+        this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
+      }
+
+      const creditLimit = result + dolar;
+      this._creditProposal.attributes['coverageTotal'].creditLimit = creditLimit;
+
+      this.totalPlafond = result + dolar;
+
+      resolve();
+    });
+  }
   public openResult(element: ICollateral) {
     const dialogRef = this.dialog.open(CollateralPropertyResultListComponent, {
       width: '80vw',
@@ -844,9 +876,11 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     array1.filter(({ id: value1 }) => {
       data.push(array2.find(({ collateralId: value2 }) => value1 === value2));
       getBindingCalculateValue = data.filter(item => item !== undefined);
-      this.fungsiSumcredit().then(() => {
+      this.fungsiSumcredit('both').then(() => {
         this.biddingValueSum = getBindingCalculateValue.reduce((a: any, b: any) => a + Number(b.bindingValue), 0);
-        this.biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+        const biddingValueCoverage = this.convertNan(Number(this.biddingValueSum) / Number(this.totalPlafond));
+
+        this.biddingValueCoverage = biddingValueCoverage.toFixed(2);
       });
     });
   }
