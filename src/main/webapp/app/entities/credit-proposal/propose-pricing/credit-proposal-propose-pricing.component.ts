@@ -148,6 +148,12 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   public onSelectionChange(event: any) {
     this.creditProposal.attributes['purposePricing'].industryCode = event.value;
+	const data = this.sectorIndustry.filter(data => data.industry === event.value);
+    if (data.length > 0) {
+      this.creditProposal.attributes['purposePricing'].industryCode = data[0].industry;
+    } else {
+      this.creditProposal.attributes['purposePricing'].industryCode = '';
+    }
   }
 
   public industryLable(industryCode: string) {
@@ -387,6 +393,12 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
   public creditRatingCondition() {
     if (this.creditProposal.attributes['purposePricing'].industryCode === '') {
       this.creditProposal.attributes['purposePricing'].industryCode = this.creditProposal.creditRatings[0].attributes['industryCode'];
+	  const data = this.sectorIndustry.filter(data => data.industry === this.creditProposal.creditRatings[0].attributes['industryCode']);
+	  if (data.length > 0) {
+		this.creditProposal.attributes['purposePricing'].industryCode = data[0].industry;
+      } else {
+		this.creditProposal.attributes['purposePricing'].industryCode = '';
+      }
     }
   }
 
