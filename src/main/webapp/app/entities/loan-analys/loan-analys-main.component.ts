@@ -753,12 +753,23 @@ export class LoanAnalysMainComponent implements OnInit {
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
               if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
-                copyCreditProposal.notes[i].applicationId = this.id;
-                copyCreditProposal.notes[i].message = '';
-                copyCreditProposal.notes[i].recomendation = this.recomendation;
-                copyCreditProposal.notes[i].path = this.uuidPath;
-                copyCreditProposal.notes[i].type = tempOpinionType;
-                tempHelper = tempHelper + 1;
+                if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
+
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                } else {
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                }
               }
             }
 
@@ -792,13 +803,23 @@ export class LoanAnalysMainComponent implements OnInit {
           if (copyCreditProposal.notes.length > 0) {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
               if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
-                copyCreditProposal.notes[i].applicationId = this.id;
-                copyCreditProposal.notes[i].message = '';
-                copyCreditProposal.notes[i].recomendation = this.recomendation;
-                copyCreditProposal.notes[i].path = this.uuidPath;
-                copyCreditProposal.notes[i].type = tempOpinionType;
-				copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
-                tempHelper = tempHelper + 1;
+                if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
+
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].createDate = moment(new Date(Date.now())).format();
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                } else {
+                  copyCreditProposal.notes[i].applicationId = this.id;
+                  copyCreditProposal.notes[i].message = '';
+                  copyCreditProposal.notes[i].recomendation = this.recomendation;
+                  copyCreditProposal.notes[i].path = this.uuidPath;
+                  copyCreditProposal.notes[i].type = tempOpinionType;
+                  tempHelper = tempHelper + 1;
+                }
               }
             }
 
