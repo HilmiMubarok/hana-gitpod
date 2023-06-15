@@ -9,7 +9,7 @@
       </div>
       <ng-container [ngSwitch]="mode">
         <ng-container *ngSwitchCase="'view'">
-          <div class="e-card-content">
+          <div style="margin: 1rem">
             <div class="form-space">
               <div class="row my-3">
                 <div class="col-2">
@@ -58,7 +58,7 @@
                   </div> -->
                   <div class="col-sm-6">
                     <div class="my-3">
-                      <jhi-credit-proposal-branch [creditProposal]="item"></jhi-credit-proposal-branch>
+                      <jhi-credit-proposal-branch [creditProposal]="item" [menu]="parentPath"></jhi-credit-proposal-branch>
                     </div>
                     <div class="my-3">
                       <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
@@ -1013,7 +1013,7 @@
 
       <ng-container [ngSwitch]="mode">
         <ng-container *ngSwitchCase="'edit'">
-          <div class="e-card-content">
+          <div style="margin: 1rem">
             <div class="form-space">
               <div class="row my-3">
                 <div class="col-2">

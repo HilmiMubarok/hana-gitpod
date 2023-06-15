@@ -34,6 +34,7 @@ import { CollateralService } from '../collateral/collateral.service';
 import { ICollateral } from '../collateral/collateral.model';
 import { ICollateralProperty } from '../collateral-property/collateral-property.model';
 import { CollateralPropertyService } from '../collateral-property/collateral-property.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-offering-letter-main',
@@ -235,6 +236,7 @@ export class OfferingLetterMainComponent implements OnInit {
     if (this.creditProposal.cif) {
       this.loadByPartyId(this.creditProposal.cif.partyId);
     }
+    console.log('parent path ini', this.parentPath);
   }
 
   private getTasks(): void {
@@ -270,10 +272,6 @@ export class OfferingLetterMainComponent implements OnInit {
   print() {
     const id = this.item.id;
     this.reportUtils.downloadFile2('/services/report/api/report/spkk/word-stream/' + id, '', 'Report_' + id);
-  }
-
-  public previousState(): void {
-    window.history.back();
   }
 
   public goToSubMenu(menu: string): void {
@@ -501,6 +499,7 @@ export class OfferingLetterMainComponent implements OnInit {
       this.titleMenu = 'Compare Approval Report';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    return this.titleMenu;
   }
 
   getTitleMenu() {
@@ -614,11 +613,33 @@ export class OfferingLetterMainComponent implements OnInit {
     }
   }
 
+  public previousState(): void {
+    window.history.back();
+  }
+
   // public cekCgpgData() {
   //   for (let i = 0; i < this.collateralProperties.length; i++) {
   //     this.saveCollateralProperty(this.collateralProperties[i]);
   //   }
   // }
+
+  // offering letter / confirmation
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
+  }
 }
 interface IObj {
   key?: string;

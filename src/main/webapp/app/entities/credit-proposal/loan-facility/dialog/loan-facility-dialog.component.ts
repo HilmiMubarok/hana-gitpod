@@ -868,16 +868,16 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public changeAmountType(event, type) {
     if (type === 'provision') {
       if (event === '%p.a') {
-        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+        this.logoProvisonFee = 'p2';
       }
       if (event === 'Amount IDR') {
-        this.logoProvisonFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+        this.logoProvisonFee = 'IDR 0,';
       }
       if (event === 'Amount USD') {
-        this.logoProvisonFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+        this.logoProvisonFee = 'USD 0,';
       }
       if (event === '') {
-        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+        this.logoProvisonFee = '0';
       }
     }
     if (type === 'admin') {
