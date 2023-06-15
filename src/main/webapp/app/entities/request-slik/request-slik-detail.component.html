@@ -238,7 +238,38 @@
             </div>
             <!-- Getting segment... dont show the buttons, so flow can running properly -->
             <div class="w-100 text-center my-3" *ngIf="segment === 'loading...'">loading...</div>
-            <div
+            <div class="d-flex justify-content-center" style="margin-top: 30px" *ngIf="segment !== 'loading...'">
+              <button
+                mat-raised-button
+                color="primary"
+                style="margin-right: 10px"
+                (click)="openSubmitDialog('submit')"
+                *ngIf="showSubmitButton()"
+              >
+                {{ getSubmitTitle() }}
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                *ngIf="showCancelButton()"
+                style="margin-right: 10px"
+                (click)="openSubmitDialog('cancel')"
+              >
+                Cancel
+              </button>
+
+              <button
+                mat-raised-button
+                color="primary"
+                *ngIf="showRejectButton()"
+                style="margin-right: 10px"
+                (click)="openSubmitDialog('reject')"
+              >
+                Return to RM
+              </button>
+              <button mat-raised-button color="primary" (click)="save()">Save</button>
+            </div>
+            <!-- <div
               class="d-flex justify-content-center"
               style="margin-top: 30px"
               *ngIf="
@@ -275,7 +306,7 @@
               >
                 Save
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
