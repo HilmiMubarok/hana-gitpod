@@ -80,13 +80,8 @@ export class GroupCollateralListAppraisalComponent implements OnChanges {
     if (changes['isCheckDebCol']) {
       this.isCheckDebColtoChild = changes.isCheckDebCol.currentValue;
     }
-
-    // this.outputgroupListselected.emit(this.statusCheckedGroupEmit);
   }
-  // public getCif(selectedPartyCif: any): void{
-  //   this.getCifs = selectedPartyCif;
-  //   this.outputGetsCifs.emit(this.getCifs);
-  // }
+
   public getGroupData(statusCheckeds: any): void {
     this.listDataGroup = statusCheckeds;
     this.outputGroupDatas.emit(this.listDataGroup);
@@ -120,7 +115,6 @@ export class GroupCollateralListAppraisalComponent implements OnChanges {
       if (res.body.length > 0) {
         this.partyCifService.getBusinessGroup(this.cifNumber).subscribe(ress => {
           this.listGroupCollateral = ress.body;
-          // this.getAllColGroup();
           this.outputGetsCifs.emit(this.listGroupCollateral);
         });
       }
