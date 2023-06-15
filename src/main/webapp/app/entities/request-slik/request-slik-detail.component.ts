@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { IRequestSlik } from './request-slik.model';
@@ -29,6 +29,7 @@ import { RequestSlikValidateService } from './services/request-slik-validate.ser
 import { PartyCifService } from '../party-cif/party-cif.service';
 import { RequestSlikChecklistService } from './services/request-slik-checklist.service';
 import { RequestSlikStatus } from './enums/request-slik-status.enum';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-request-slik-detail',
@@ -41,26 +42,11 @@ export class RequestSlikDetailComponent implements OnInit {
   customHeadersJWT;
   paramsIdGet;
   getKey;
+  position;
   ngOnInit(): void {
     const token = this.getToken('XSRF-TOKEN');
     this.customHeadersJWT = [{ 'X-XSRF-TOKEN': token }];
     this.getLovPurposeType();
-
-    // this.getFinalOcrData();
-
-    // Test change checklist
-    // setTimeout(() => {
-    //   const data = {
-    //     idParty: null,
-    //     idRequestSlik: null,
-    //     cust: null,
-    //   };
-    //   data.cust = this.partyCif.customerPerson === null ? this.partyCif.customerOrganization : this.partyCif.customerPerson;
-    //   data.idParty = this.partyCif.partyId;
-    //   data.idRequestSlik = this.requestSlikId;
-
-    //   this.checklists.push(data);
-    // }, 2000);
   }
 
   /**
@@ -191,15 +177,70 @@ export class RequestSlikDetailComponent implements OnInit {
     protected requestSlikTimelineService: RequestSlikTimelineService,
     protected requestSlikValidateService: RequestSlikValidateService,
     protected partyCifService: PartyCifService,
-    protected requestSlikChecklistService: RequestSlikChecklistService
+    protected requestSlikChecklistService: RequestSlikChecklistService,
+    protected templateService: TemplateService
   ) {
     // this.requestSlik$ = this.activatedRoute.data;
     this.requestSlikId = Number(this.router.url.split('/')[2]);
     this.requestSlikDetail();
     this.getAccountDetail();
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.position = newPos.positionTypeId;
+      console.log('new pos', this.position);
+    });
   }
 
   segment = 'loading...';
+
+  roles = {
+    request: ['RM', 'CRO'],
+    approval: ['SME_HEAD', 'DEPT_HEAD', 'HCR1', 'HCR2'],
+  };
+
+  // submitTitle = this.getSubmitTitle()
+
+  getSubmitTitle() {
+    return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU || this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK
+      ? 'Approve'
+      : this.requestSlik.status === this.reqSlikStatus.VERIFY
+      ? 'Verify'
+      : 'Submit';
+  }
+
+  showSubmitButton() {
+    if (this.roles.request.includes(this.position)) {
+      // RM DLL
+      return this.requestSlik.status === this.reqSlikStatus.DRAFT ||
+        this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM ||
+        this.requestSlik.status === this.reqSlikStatus.VERIFY
+        ? true
+        : false;
+    } else {
+      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU || this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK
+        ? true
+        : false;
+    }
+  }
+  showRejectButton() {
+    if (this.roles.request.includes(this.position)) {
+      // RM DLL
+      return false;
+    } else {
+      return this.requestSlik.status === this.reqSlikStatus.APPROVAL_BU || this.requestSlik.status === this.reqSlikStatus.APPROVAL_SLIK
+        ? true
+        : false;
+    }
+  }
+  showCancelButton() {
+    if (this.roles.request.includes(this.position)) {
+      // RM DLL
+      return this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM
+        ? true
+        : false;
+    } else {
+      return false;
+    }
+  }
 
   ocrDatas = [];
   getOcrData(ev) {
@@ -245,6 +286,7 @@ export class RequestSlikDetailComponent implements OnInit {
         console.log('RES DETAIL', { res, segment: this.segment });
       },
       complete: () => {
+        this.requestSlikValidateService.setPurposeType(this.requestSlik.purposeCode);
         this.isLoading = false;
         // this.getAllChecklistsAndPush();
       },
@@ -327,6 +369,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   ocrData = [];
   submit() {
+    this.getFinalOcrData();
     console.log(this.requestSlikChecklistService.checklistOcrs.getValue());
     this.ocrData = [
       ...this.ocrData,
@@ -408,6 +451,7 @@ export class RequestSlikDetailComponent implements OnInit {
 
   setPurposeCode(ev) {
     this.requestSlik.purposeCode = ev.value;
+    this.requestSlikValidateService.setPurposeType(ev.value);
     console.log(this.requestSlik);
   }
 
@@ -809,13 +853,13 @@ export class RequestSlikDetailComponent implements OnInit {
 
   noteTimeline: IRequestSlikNote;
   public openSubmitDialog(task): void {
-    this.getFinalOcrData();
-
     if (
       !this.requestSlikValidateService.validate() &&
       (this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM)
     ) {
-      return this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Minimum document is 1' });
+      return this.requestSlikValidateService.messages.getValue().forEach(message => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+      });
     }
     const dialogRef = this.dialog.open(RequestSlikPopupComponent, {
       width: '80vw',

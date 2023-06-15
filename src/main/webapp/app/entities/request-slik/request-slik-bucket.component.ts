@@ -269,26 +269,28 @@ export class RequestSlikBucketComponent implements OnInit {
           // modifiedData = modifiedData.filter(res => res.status !== 'CANCEL');
 
           // == get segment
-          data.data.forEach(item => {
-            this.loadInternalById(item.internalId).then((res2: IInternal) => {
-              if (res2.parentId) {
-                this.rmBranch = res2;
-                this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
-                  this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
-                    if (res4.parentId) {
-                      this.rmRegional = res4;
-                      this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
-                        this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
-                          this.rmSegment = res6;
-                          item.segment = res6.organizationName;
+          data.data &&
+            data.data.length > 0 &&
+            data.data.forEach(item => {
+              this.loadInternalById(item.internalId).then((res2: IInternal) => {
+                if (res2.parentId) {
+                  this.rmBranch = res2;
+                  this.loadBranch(this.rmBranch.parentId.toString()).then(res3 => {
+                    this.loadInternalById(this.rmBranch.parentId.toString()).then(res4 => {
+                      if (res4.parentId) {
+                        this.rmRegional = res4;
+                        this.loadRegional(this.rmRegional.parentId.toString()).then(res5 => {
+                          this.loadInternalById(this.rmRegional.parentId.toString()).then(res6 => {
+                            this.rmSegment = res6;
+                            item.segment = res6.organizationName;
+                          });
                         });
-                      });
-                    }
+                      }
+                    });
                   });
-                });
-              }
+                }
+              });
             });
-          });
           // == end get segment
           this.dataSource = new MatTableDataSource(data.data);
           this.paginator.length = data.pageable.totalElements;
