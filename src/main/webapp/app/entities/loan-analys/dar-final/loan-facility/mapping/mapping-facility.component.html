@@ -5,41 +5,55 @@
   </ng-container>
   <ng-container matColumnDef="applicationType">
     <th mat-header-cell *matHeaderCellDef>Application Type</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.applicationType }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.applicationType }}</td>
   </ng-container>
   <ng-container matColumnDef="facilityType">
     <th mat-header-cell *matHeaderCellDef>Facility Type</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.facilityType }}</td>
+    <td mat-cell *matCellDef="let element">{{ element.productTypeId }}</td>
   </ng-container>
   <ng-container matColumnDef="subLimit">
     <th mat-header-cell *matHeaderCellDef>Sub Limit</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.subLimit }}</td>
+    <td mat-cell *matCellDef="let element">{{ getSublimit(element.subLimit) }}</td>
   </ng-container>
   <ng-container matColumnDef="currency">
     <th mat-header-cell *matHeaderCellDef>CCY</th>
-    <td mat-cell *matCellDef="let element">{{ element.attributes.currency }}</td>
+    <td mat-cell *matCellDef="let element">IDR</td>
   </ng-container>
   <ng-container matColumnDef="bindingValue">
     <th mat-header-cell *matHeaderCellDef>Proportional Binding Value (only for pricing calculation)</th>
     <td mat-cell *matCellDef="let i = index">
       <input
+        style="width: 89px"
+        currencyMask
+        [options]="{ prefix: ' ', thousands: ',', decimal: '.', precision: 0 }"
         matInput
-        type="number"
-        [disabled]="sableFeild()"
         [(ngModel)]="bindingValueHelper[i]"
-        (change)="onChangeBindingValue($event, i)"
+        [disabled]="field"
+        (ngModelChange)="onChangeBindingValue($event, i)"
       />
     </td>
   </ng-container>
   <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>Select</th>
-    <td mat-cell *matCellDef="let i = index">
-      <mat-checkbox
-        [disabled]="sableFeild()"
-        [checked]="mappingStatusHelper[i] === 'yes'"
-        (change)="changeBuildingFacility($event, i)"
-      ></mat-checkbox>
-    </td>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+      <th mat-header-cell *matHeaderCellDef>Select</th>
+      <td mat-cell *matCellDef="let i = index; let element">
+        <mat-checkbox
+          [checked]="mappingStatusHelper[i] === 'yes'"
+          [disabled]="field"
+          (change)="changeBuildingFacility($event, i); changeButton(i, $event)"
+        ></mat-checkbox>
+      </td>
+    </section>
+    <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+      <th mat-header-cell *matHeaderCellDef>Select</th>
+      <td mat-cell *matCellDef="let i = index; let element">
+        <mat-checkbox
+          [checked]="mappingStatusHelper[i] === 'yes'"
+          (change)="changeBuildingFacility($event, i); changeButton(i, $event)"
+          disabled
+        ></mat-checkbox>
+      </td>
+    </section>
   </ng-container>
   <tr class="mat-row" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="displayColumns.length">No records found.</td>
