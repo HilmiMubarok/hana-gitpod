@@ -50,7 +50,8 @@
     </ng-container>
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest</th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element"></td>
+      <td mat-cell *matCellDef="let element" class="grid-index-left">
         <div *ngIf="element.applicationType === 'Existing'">
           {{ element.intResetFrequency + ' ' + element.intResetPeriod + ' ' + element.rateTypeName + ' ' + element.currentInterestRate }}
         </div>
@@ -179,7 +180,7 @@
     </ng-container>
     <ng-container matColumnDef="interestrate">
       <th mat-header-cell *matHeaderCellDef>Interest</th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element" class="grid-index-left">
         <div *ngIf="element.applicationType === 'Existing'">
           {{ element.intResetFrequency + ' ' + element.intResetPeriod + ' ' + element.rateTypeName + ' ' + element.currentInterestRate }}
         </div>
