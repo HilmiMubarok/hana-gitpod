@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
@@ -7,6 +7,7 @@ import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-collateral-machine-dialog',
   templateUrl: './collateral-machine-dialog.component.html',
@@ -23,12 +24,17 @@ export class CollateralMachineDialogComponent implements OnInit {
     private _dialog: MatDialogRef<CollateralMachineDialogComponent>,
     private _snackBar: MatSnackBar,
     private accountService: AccountService,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       collateralProperty: ICollateralProperty;
       collateralAppraisal: ICollateralAppraisal;
     }
   ) {
+    _dialog.disableClose = true;
+    _dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
     this.collateralProp = this.data.collateralProperty;
     this.collateralAppraisal = this.data.collateralAppraisal;
   }
@@ -38,9 +44,9 @@ export class CollateralMachineDialogComponent implements OnInit {
     this.hiddenTombol();
   }
 
-  public cancel(): void {
-    this._dialog.close(this.collateralProp);
-  }
+  // public cancel(): void {
+  //   this._dialog.close(this.collateralProp);
+  // }
 
   public save(): void {
     if (!this.collateralProp.machineName) {
@@ -218,5 +224,23 @@ export class CollateralMachineDialogComponent implements OnInit {
   }
   public isAdminAppraisal(): any {
     return this.account.authorities.includes('ROLE_ADMIN_APPRAISER');
+  }
+
+  // menu appraisal internal/edit/collateral info
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close(this.collateralProp);
+      }
+    });
   }
 }

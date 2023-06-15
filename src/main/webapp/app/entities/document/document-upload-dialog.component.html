@@ -372,7 +372,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="center">
-    <button mat-raised-button class="confirm-button-no" mat-dialog-close>Cancel</button>
+    <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
     <button mat-raised-button class="confirm-button-yes" (click)="edit()">Save</button>
   </mat-dialog-actions>
 </div>

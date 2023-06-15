@@ -298,6 +298,8 @@
   </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button [disabled]="hideordisable()" (click)="save()" [disabled]="hiddenRmAdmin">Save</button>
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+  <button mat-raised-button class="confirm-button-yes" [disabled]="hideordisable()" (click)="save()" [disabled]="hiddenRmAdmin">
+    Save
+  </button>
 </mat-dialog-actions>
