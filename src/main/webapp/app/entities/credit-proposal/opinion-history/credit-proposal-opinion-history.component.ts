@@ -642,7 +642,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         this.disabledData = true;
       }
     }
-    if (this.isRoleSMEHead) {
+    if (this.isRoleDeptHead) {
       if (this.creditProposalItem.statusId === 'CP_APPROVAL_DEPTHEAD') {
         this.disabledData = false;
       } else {
