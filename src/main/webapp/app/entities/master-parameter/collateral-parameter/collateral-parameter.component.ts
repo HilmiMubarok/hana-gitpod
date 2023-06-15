@@ -117,7 +117,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
     this.loadAll();
   }
 
-  public openDialog(element: ICollateralParameter = null): void {
+  public openDialog(element: ICollateralParameter = null, view: string): void {
     let predicate: ICollateralParameter;
     predicate = new CollateralParameter();
     const data = this.collateralParameterService.paramTypeId.subscribe((message: any) => {
@@ -133,6 +133,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
       width: '100%',
       data: {
         collateralParameter: predicate,
+        mode: view,
       },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralParameter) => {
@@ -163,7 +164,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
     });
   }
 
-  public openDialogPricing(element: ICollateralProposePricingParam): void {
+  public openDialogPricing(element: ICollateralProposePricingParam = null, view: string): void {
     let predicate: ICollateralProposePricingParam;
     predicate = new CollateralProposePricingParameter();
 
@@ -182,6 +183,7 @@ export class CollateralParameterComponent extends AbstractEntityMaterialComponen
       data: {
         collateralProposePricingParameter: predicate,
         dataCollateral: this.selectedCollateral,
+        mode: view,
       },
     });
     dialogRef.afterClosed().subscribe((res: ICollateralProposePricingParam) => {
