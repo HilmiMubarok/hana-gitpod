@@ -20,7 +20,7 @@
     </div>
     <mat-card>
       <mat-card-content [hidden]="FormPartner">
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div
             style="
               color: #008881;
@@ -118,7 +118,7 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <div class="e-card-content">
+        <div style="margin: 1rem">
           <div
             style="
               color: #008881;
@@ -182,8 +182,19 @@
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
               <td mat-cell *matCellDef="let element" class="text-center">
-                <input *ngIf="element.surveyBatchId !== null" type="checkbox" disabled (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
-                <input *ngIf="element.surveyBatchId === null" type="checkbox"  (change)="checkedCollateral(element, $event.target.checked)" [checked]="element.checked" />
+                <input
+                  *ngIf="element.surveyBatchId !== null"
+                  type="checkbox"
+                  disabled
+                  (change)="checkedCollateral(element, $event.target.checked)"
+                  [checked]="element.checked"
+                />
+                <input
+                  *ngIf="element.surveyBatchId === null"
+                  type="checkbox"
+                  (change)="checkedCollateral(element, $event.target.checked)"
+                  [checked]="element.checked"
+                />
               </td>
             </ng-container>
 
@@ -216,13 +227,13 @@
 
       <mat-card-actions align="center">
         <div [hidden]="FormPartner">
-          <button class="button-info" mat-raised-button (click)="nextStage()">NEXT</button>
+          <button class="button-styling" mat-raised-button (click)="nextStage()">NEXT</button>
         </div>
         <div [hidden]="FormCollateral">
-          <button mat-raised-button class="button-info" (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>
-          <button mat-raised-button class="button-info" (click)="previousStateNew()">
+          <button mat-raised-button class="button-styling" (click)="previousStateNew()">
             <fa-icon icon="arrow-left"></fa-icon> &nbsp;BACK
           </button>
+          <button mat-raised-button class="button-styling" (click)="create()"><fa-icon icon="save"></fa-icon> &nbsp;CREATE</button>
         </div>
       </mat-card-actions>
     </mat-card>

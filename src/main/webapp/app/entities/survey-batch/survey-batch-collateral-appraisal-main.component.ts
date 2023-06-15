@@ -63,6 +63,7 @@ import { CollateralAppraisalDetailProcessUnitConditionComponent } from '../colla
 import { CollateralAppraisalProcessComponent } from '../collateral-appraisal/foto/collateral-appraisal-process.component';
 import { CollateralPropertyType } from 'app/shared/model/enumerations/collateral-property-type.model';
 import { firstValueFrom } from 'rxjs';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   providers: [
@@ -1285,5 +1286,22 @@ export class SurveyBatchCollateralAppraisalMainComponent implements OnInit {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
 
     this.titleUrl = x;
+  }
+  // menu appraisal external/ KJPP View/ Edit
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }
