@@ -244,7 +244,7 @@ export class CollateralAppraisalDetailProcessRealEstateComponent implements OnCh
       this.collateral.attributes['buildingFacCleanWater'] = value === true ? 'yes' : 'no';
     }
 
-    console.log('xxx', this.collateral);
+    // console.log('xxx', this.collateral);
   }
   public print() {
     console.log(this.items);

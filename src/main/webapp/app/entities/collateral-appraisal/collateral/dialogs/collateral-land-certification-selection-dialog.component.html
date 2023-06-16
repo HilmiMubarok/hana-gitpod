@@ -33,6 +33,6 @@
   </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()">Save</button>
+  <button mat-raised-button class="confirm-button-no" (click)="openCancelDialog()">Cancel</button>
+  <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
 </mat-dialog-actions>

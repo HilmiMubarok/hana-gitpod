@@ -54,15 +54,12 @@ tr.example-element-row:not(.example-expanded-row):active {
   color: #008881;
 }
 
-.grid-index {
+/* .grid-index-label {
   text-align: center;
-}
-
-.grid-index-label {
-  text-align: center;
-}
+} */
 
 th {
+  text-align: left;
   background-color: rgba(147, 201, 199, 1);
   color: black;
   font-family: 'Poppins', sans-serif;
@@ -79,4 +76,28 @@ td {
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
+}
+
+.mat-column-no {
+  width: 5%;
+  text-align: right !important;
+  padding-left: 24px !important;
+}
+
+.mat-column-dob {
+  text-align: right !important;
+}
+.mat-column-ownership {
+  text-align: right !important;
+}
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 5px 28px 5px 0 !important;
 }

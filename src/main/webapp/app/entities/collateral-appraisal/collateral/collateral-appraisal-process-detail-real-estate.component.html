@@ -114,7 +114,9 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="d-flex justify-content-end mb-3 mt-3">
-        <button mat-button [hidden]="hideordisable()" [hidden]="hiddenRmAdmin" (click)="openDialogBuilding()">Add Real Estate</button>
+        <button mat-raised-button [hidden]="hideordisable()" [hidden]="hiddenRmAdmin" class="button-styling" (click)="openDialogBuilding()">
+          Add Real Estate
+        </button>
       </div>
     </mat-card-actions>
   </mat-card>

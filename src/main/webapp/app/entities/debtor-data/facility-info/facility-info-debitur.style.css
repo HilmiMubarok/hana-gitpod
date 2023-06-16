@@ -87,6 +87,17 @@ th {
   text-align: left;
 }
 
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0 !important;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 5px 28px 5px 0 !important;
+}
+
 th:first-child {
   border-top-left-radius: 15px;
 }
@@ -103,7 +114,6 @@ td {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
 }
-
 .mat-column-no {
   width: 5%;
   text-align: center;
@@ -128,24 +138,20 @@ td {
 }
 .mat-column-facilityType {
   text-align: right;
-  padding-right: 40px;
 }
 .mat-column-rate {
   text-align: left;
 }
 .mat-column-period {
   text-align: right;
-  padding-right: 40px;
 }
 .mat-column-collateralType {
   text-align: right;
-  padding-right: 40px;
 }
 .mat-column-collateralValue {
   text-align: right;
-  padding-right: 40px;
 }
-.mat-column-Disbursement {
+.mat-column-tenor {
   text-align: right;
 }
 .mat-column-MaturityDate {
