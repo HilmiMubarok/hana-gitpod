@@ -56,7 +56,6 @@ export class DocumentChecklistDialogHistoryComponent {
   public setStatusCurrenValue = [];
   public memoryFiles = [];
   public fileDeleted = [];
-  public buttonEdit: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -68,7 +67,6 @@ export class DocumentChecklistDialogHistoryComponent {
       typeData: IDocumentType[];
       item: string;
       parentId: string;
-      buttonEdit: boolean;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogHistoryComponent>,
     private storageService: StorageService,
@@ -81,7 +79,6 @@ export class DocumentChecklistDialogHistoryComponent {
     this.files = this.data.files;
 
     this.itemData = this.data.item;
-    this.buttonEdit = this.data.buttonEdit;
     this.category();
     this.setStatus();
     this.getMinIOData();
