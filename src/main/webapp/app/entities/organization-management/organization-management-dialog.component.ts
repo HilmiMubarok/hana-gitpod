@@ -8,6 +8,7 @@ import { IOrganizationManagement } from './organization-management.model';
 import lodash from 'lodash';
 import { IPartyGroup } from '../party-group/party-group.model';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-organization-management-dialog',
@@ -31,6 +32,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
   public isDisabled = false;
 
   constructor(
+    private templateService: TemplateService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -43,10 +45,6 @@ export class OrganizationManagementDialogComponent implements OnInit {
     private partyCifService: PartyCifService,
     private generalParameterService: GeneralParameterService
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.organizationManagement = this.data.organizationManagement;
     this.managementType = this.data.managementType;
     this.typeSable = this.data.typeScreen;
@@ -58,6 +56,22 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.setPosition();
     // this.closes();
     this.setRadioButton();
+  }
+
+  // menu idd organization Management
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'RM') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   public dataSource() {

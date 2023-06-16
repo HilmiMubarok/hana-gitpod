@@ -125,11 +125,14 @@ td {
 }
 
 .mat-column-mainPlafond {
-  text-align: rigth !important;
+  padding-left: 50px;
+  text-align: right !important;
+  padding-right: 50px;
 }
 
 .mat-column-outstanding {
-  text-align: rigth !important;
+  text-align: right !important;
+  padding-right: 50px;
 }
 
 ::ng-deep .custom-dialog-container-cancel {
