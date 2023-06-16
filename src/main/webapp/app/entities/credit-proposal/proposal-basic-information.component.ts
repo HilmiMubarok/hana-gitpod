@@ -52,6 +52,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 import { ProductClassificationService } from '../product-classification/product-classification.service';
 import { MasterProductParameterService } from '../master-parameter/master-product/master-product-parameter.service';
 import { TemplateService } from 'app/layouts/template/template.service';
+import { IndustryLimitExposureParameterService } from '../master-parameter/industry-limit-exposure-parameter/industry-limit-exposure-parameter.service';
 @Component({
   selector: 'jhi-credit-proposal-basic',
   templateUrl: './proposal-basic-information-floating.component.html',
@@ -139,6 +140,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   public conditionSave: boolean;
 
   private BUCKET: string;
+  public sectorIndustry = [];
 
   public opinionFileSfdt: File;
   public opinionFileWord: File;
@@ -166,7 +168,8 @@ export class ProposalBasicInformationComponent implements OnInit {
     protected collateralPropertyService: CollateralPropertyService,
     protected productClasificationService: ProductClassificationService,
     protected productParameterService: MasterProductParameterService,
-    public templateService: TemplateService
+    public templateService: TemplateService,
+    public industryLimitExposureParameterService: IndustryLimitExposureParameterService
   ) {
     this.creditProposal = this.activatedRoute.snapshot.data['content'];
     this.creditProposalStartState = this.activatedRoute.snapshot.data['content'];
@@ -207,6 +210,30 @@ export class ProposalBasicInformationComponent implements OnInit {
     });
 
     return result;
+  }
+
+  public setIndustryName() {
+    const data = this.sectorIndustry.filter(
+      industry => industry.industry === this.creditProposal.attributes['purposePricing'].industryCode
+    );
+    if (data.length > 0) {
+      this.creditProposal.attributes['purposePricing'].industry = data[0].industryLabel;
+    } else {
+      this.creditProposal.attributes['purposePricing'].industry = '';
+    }
+  }
+
+  public getListIndustry() {
+    this.industryLimitExposureParameterService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        this.sectorIndustry = lodash.filter(res.body, function (o) {
+          return o.statusId === 'ACTIVE';
+        });
+      });
   }
 
   private getPositionTypeId(): void {
@@ -377,6 +404,7 @@ export class ProposalBasicInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getListIndustry();
     this.lendingProgramParameter();
     this.getPositionTypeId();
     this.getTitle();
