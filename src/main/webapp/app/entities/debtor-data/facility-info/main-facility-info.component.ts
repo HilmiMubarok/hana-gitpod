@@ -32,7 +32,7 @@ export class MainFacilityInfoComponent implements OnInit {
   constructor(protected mainFacilityService: MainFacilityService) {}
 
   ngOnInit(): void {
-    console.log('data party cif', this.partyCif);
+    // console.log('data party cif', this.partyCif);
     this.getData(this.partyCif.partyId);
   }
 

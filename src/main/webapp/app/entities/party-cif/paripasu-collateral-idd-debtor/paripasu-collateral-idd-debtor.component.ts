@@ -42,21 +42,14 @@ export class ParipasuCollateralIddDebtorComponent implements OnInit {
   constructor(protected crossCollateralService: CrossCollateralService) {}
 
   ngOnInit(): void {
-    this.crossCollateralGrid(this.collateral.id, this.partyCif.customerNumber);
+    this.crossCollateralGrid(this.collateral.id);
   }
 
-  public crossCollateralGrid(idCollateral: number, cifNumber: string): void {
-    this.crossCollateralService
-      .filterTableData({
-        page: 0,
-        size: 9999,
-        collateralId: idCollateral,
-        excludeCif: cifNumber,
-      })
-      .subscribe(res => {
-        const data = res.body || [];
-        this.items = new MatTableDataSource(data);
-        this.items.paginator = this.paginator;
-      });
+  public crossCollateralGrid(idCollateral: number): void {
+    this.crossCollateralService.filterTableDataHobis(idCollateral).subscribe(res => {
+      const data = res.body || [];
+      this.items = new MatTableDataSource(data);
+      this.items.paginator = this.paginator;
+    });
   }
 }

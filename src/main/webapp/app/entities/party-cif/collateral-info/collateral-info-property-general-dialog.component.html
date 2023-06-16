@@ -11,110 +11,243 @@
     [collateralPropertyExternal]="collateralPropertyExternal"
     [collateral]="collateral"
   ></jhi-collateral-property-general-dialog-template> -->
-  <jhi-collateral-property-realestate-dialog
-    *ngIf="collateral.collateralTypeId === 'REALESTATE' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-realestate-dialog>
-  <jhi-collateral-property-deposit-dialog
-    *ngIf="collateral.collateralTypeId === 'DEPOSIT' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-deposit-dialog>
-  <jhi-collateral-property-other-dialog
-    *ngIf="collateral.collateralTypeId === 'OTHER' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-other-dialog>
-  <jhi-collateral-property-securities-dialog
-    *ngIf="collateral.collateralTypeId === 'SECURITIES' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-securities-dialog>
-  <jhi-collateral-property-letter-guaranty
-    *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-letter-guaranty>
-  <jhi-collateral-property-personal-property-dialog
-    *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-personal-property-dialog>
-  <jhi-collateral-property-machine-dialog
-    *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-machine-dialog>
-  <jhi-collateral-property-vehicle-dialog
-    *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-vehicle-dialog>
-  <jhi-collateral-property-general-dialog-template
-    *ngIf="collateral.collateralTypeId === 'CASH' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-general-dialog-template>
-  <jhi-collateral-property-personal-corporate-guarantee
-    *ngIf="collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE' && collateralPropertyExternal && collateralProperty"
-    [collateralProperty]="collateralProperty"
-    [collateralPropertyExternal]="collateralPropertyExternal"
-    [collateral]="collateral"
-    [officerName]="partyCifData.rm?.name"
-    [branchId]="branchId"
-    [pariPasu]="'pariPasu'"
-  >
-  </jhi-collateral-property-personal-corporate-guarantee>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-realestate-dialog
+      *ngIf="collateral.collateralTypeId === 'REALESTATE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-realestate-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-realestate-dialog
+      *ngIf="collateral.collateralTypeId === 'REALESTATE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-realestate-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-deposit-dialog
+      *ngIf="collateral.collateralTypeId === 'DEPOSIT' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-deposit-dialog>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-deposit-dialog
+      *ngIf="collateral.collateralTypeId === 'DEPOSIT' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-deposit-dialog>
+  </div>
+
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-other-dialog
+      *ngIf="collateral.collateralTypeId === 'OTHER' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-other-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-other-dialog
+      *ngIf="collateral.collateralTypeId === 'OTHER' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-other-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-securities-dialog
+      *ngIf="collateral.collateralTypeId === 'SECURITIES' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-securities-dialog>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-securities-dialog
+      *ngIf="collateral.collateralTypeId === 'SECURITIES' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-securities-dialog>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-letter-guaranty
+      *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-letter-guaranty>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-letter-guaranty
+      *ngIf="collateral.collateralTypeId === 'LETTER_OF_GUARANTY' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-letter-guaranty>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-personal-property-dialog
+      *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-personal-property-dialog>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-personal-property-dialog
+      *ngIf="collateral.collateralTypeId === 'PERSONAL_PROPERTY' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-personal-property-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-machine-dialog
+      *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-machine-dialog>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-machine-dialog
+      *ngIf="collateral.collateralTypeId === 'MACHINE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-machine-dialog>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-vehicle-dialog
+      *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-vehicle-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-vehicle-dialog
+      *ngIf="collateral.collateralTypeId === 'VEHICLE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-vehicle-dialog>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-general-dialog-template
+      *ngIf="collateral.collateralTypeId === 'CASH' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-general-dialog-template>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-general-dialog-template
+      *ngIf="collateral.collateralTypeId === 'CASH' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-general-dialog-template>
+  </div>
+  <div *ngIf="pariPasu === 'pariPasu'">
+    <jhi-collateral-property-personal-corporate-guarantee
+      *ngIf="collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+      [pariPasu]="'pariPasu'"
+    >
+    </jhi-collateral-property-personal-corporate-guarantee>
+  </div>
+  <div *ngIf="pariPasu !== 'pariPasu'">
+    <jhi-collateral-property-personal-corporate-guarantee
+      *ngIf="collateral.collateralTypeId === 'CORPORATEPERSONALGUARANTEE' && collateralPropertyExternal && collateralProperty"
+      [collateralProperty]="collateralProperty"
+      [collateralPropertyExternal]="collateralPropertyExternal"
+      [collateral]="collateral"
+      [officerName]="partyCifData.rm?.name"
+      [branchId]="branchId"
+    >
+    </jhi-collateral-property-personal-corporate-guarantee>
+  </div>
   <div>
     <jhi-paripasu-collateral-idd [collateral]="collateral" [partyCif]="partyCifData"></jhi-paripasu-collateral-idd>
   </div>
-
+  <div>
+    <jhi-paripasu-collateral-idd-debtor [collateral]="collateral" [partyCif]="partyCifData"> </jhi-paripasu-collateral-idd-debtor>
+  </div>
   <div
     *ngIf="
       collateral.collateralTypeId === 'REALESTATE' || collateral.collateralTypeId === 'MACHINE' || collateral.collateralTypeId === 'VEHICLE'

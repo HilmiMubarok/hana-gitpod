@@ -22,8 +22,11 @@ export class CrossCollateralService extends AbstractEntityService<IPariPasu> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cross-collaterals');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/hobis-cross-collaterals');
   }
-
+  public filterTableDataHobis(collateralId: any): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.resourceUrlNew}/page/${collateralId}`, { observe: 'response' });
+  }
   public filterTableData(req?: any): Observable<HttpResponse<any>> {
     const options = createRequestOption(req);
     return this.http

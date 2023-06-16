@@ -4,21 +4,20 @@ import { AccountService } from 'app/core/auth/account.service';
 import { AbstractEntityMaterialComponent } from 'app/shared/base/abstract-entity-material.component';
 
 import { PersonService } from '../person/person.service';
-
-import { PositionReportingStructureService } from '../position-reporting-structure/position-reporting-structure.service';
-import { IPositionReportingStructure } from '../position-reporting-structure/position-reporting-structure.model';
 import { RelationTypeService } from '../relation-type/relation-type.service';
+import { IPosition } from '../position/position.model';
+import { PositionService } from '../position/position.service';
 
 @Component({
   selector: 'jhi-appraisal-role',
   templateUrl: './appraisal-role.component.html',
   styleUrls: ['./appraisal-role.css'],
 })
-export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
+export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPosition> implements OnInit {
   public displayColumns: string[] = ['no', 'approval_name', 'position'];
 
   public selectedRelationType: string;
-  public filteringItems: IPositionReportingStructure[];
+  public filteringItems: IPosition[];
   public relationTypes = [];
   private LOS_REL = 'LOS_REL';
   @Input() public appraisalId: number;
@@ -26,7 +25,7 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPos
   get appraisalRoles() {
     return this.items;
   }
-  set appraisalRoles(param: IPositionReportingStructure[]) {
+  set appraisalRoles(param: IPosition[]) {
     this.items = param;
   }
 
@@ -34,10 +33,10 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPos
     protected _snackbar: MatSnackBar,
     protected accountService: AccountService,
     protected personService: PersonService,
-    protected positionReportingStructureService: PositionReportingStructureService,
+    protected position: PositionService,
     protected relationTypeService: RelationTypeService
   ) {
-    super(_snackbar, positionReportingStructureService);
+    super(_snackbar, position);
     this.selectedRelationType = 'APPRAISALAPPROVAL';
   }
   ngOnInit(): void {
@@ -57,7 +56,7 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPos
         if (this.selectedRelationType === 'APPRAISALAPPROVAL') {
           this.getReportingStructureByAppraislId();
         } else {
-          this.items = [];
+          this.filteringItems = [];
         }
       });
   }
@@ -65,13 +64,13 @@ export class AppraisalRoleComponent extends AbstractEntityMaterialComponent<IPos
   public selectRelationType(event: any): void {
     event = this.selectedRelationType;
     console.log('evt', event);
-
     this.getReportingStructureByAppraislId();
   }
 
   private getReportingStructureByAppraislId(): void {
-    this.positionReportingStructureService.findPositionReportingStructure(this.appraisalId).subscribe(res => {
+    this.position.findPositionReportingStructureAppraisal(this.appraisalId).subscribe(res => {
       this.filteringItems = res.body;
+      console.log('zz', this.filteringItems);
     });
   }
 }

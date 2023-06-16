@@ -124,13 +124,16 @@ td {
   text-align: left !important;
 }
 
-.mat-column-mainPlafond {
-  text-align: rigth !important;
+/* .mat-column-mainPlafond {
+  padding-left: 50px;
+  text-align: right !important;
+  padding-right: 50px;
 }
 
 .mat-column-outstanding {
-  text-align: rigth !important;
-}
+  text-align: right !important;
+  padding-right: 50px;
+} */
 
 ::ng-deep .custom-dialog-container-cancel {
   .mat-dialog-container {
