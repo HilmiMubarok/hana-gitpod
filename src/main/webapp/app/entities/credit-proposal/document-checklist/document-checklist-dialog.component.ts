@@ -63,7 +63,7 @@ export class DocumentChecklistDialogComponent {
   public memoryFiles = [];
   public fileDeleted = [];
   public fileTbo = [];
-
+  public buttonEdit: boolean;
   public filesStatus: string;
   public filesdueDate: string;
   public filesRemarks: string;
@@ -79,6 +79,7 @@ export class DocumentChecklistDialogComponent {
       cpId: string;
       typeData: IDocumentType[];
       item: string;
+      buttonEdit: boolean;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogComponent>,
     private storageService: StorageService,
@@ -96,6 +97,7 @@ export class DocumentChecklistDialogComponent {
     this.files = this.data.files;
 
     this.itemData = this.data.item;
+    this.buttonEdit = this.data.buttonEdit;
     this.category();
     this.setStatus();
     this.getMinIOData();
