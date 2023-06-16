@@ -36,6 +36,14 @@ export interface User {
   templateUrl: './collateral-property-deposit-dialog.component.html',
 })
 export class CollateralPropertyDepositDialogComponent implements OnInit {
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   public myControlCurrency = new FormControl();
   public optionsCurrency: IUom[];
   public filteredOptionsCurrency: Observable<IUom[]>;

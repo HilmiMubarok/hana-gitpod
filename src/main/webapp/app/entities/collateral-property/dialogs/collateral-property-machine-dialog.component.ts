@@ -35,6 +35,14 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
   templateUrl: './collateral-property-machine-dialog.component.html',
 })
 export class CollateralPropertyMachineDialogComponent implements OnInit, OnChanges {
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;

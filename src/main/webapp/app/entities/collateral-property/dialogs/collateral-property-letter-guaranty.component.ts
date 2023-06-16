@@ -37,6 +37,14 @@ import { map, Observable, startWith } from 'rxjs';
   templateUrl: './collateral-property-letter-guaranty.component.html',
 })
 export class CollateralPropertyLetterGuarantyComponent implements OnInit {
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
