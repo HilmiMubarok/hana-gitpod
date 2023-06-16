@@ -198,30 +198,30 @@
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
-                <td>{{ avgNormalRateIDR }} %</td>
+                <td>{{ avgNormalRateIDR }}</td>
               </tr>
               <tr>
                 <td>DISCOUNT PROPOSAL</td>
-                <td>{{ avgDiscProposalIDR }} %</td>
+                <td>{{ avgDiscProposalIDR }}</td>
               </tr>
               <tr>
                 <td>PROPOSED RATE</td>
-                <td>{{ avgProposedRateIDR }} %</td>
+                <td>{{ avgProposedRateIDR }}</td>
               </tr>
               <tr>
                 <th colspan="2" class="rounding-table-left rounding-table-right">USD</th>
               </tr>
               <tr>
                 <td>NORMAL RATE</td>
-                <td>{{ avgNormalRateUSD }} %</td>
+                <td>{{ avgNormalRateUSD }}</td>
               </tr>
               <tr>
                 <td>DISCOUNT PROPOSAL</td>
-                <td>{{ avgDiscProposalUSD }} %</td>
+                <td>{{ avgDiscProposalUSD }}</td>
               </tr>
               <tr>
                 <td>PROPOSED RATE</td>
-                <td>{{ avgProposedRateUSD }} %</td>
+                <td>{{ avgProposedRateUSD }}</td>
               </tr>
             </table>
           </div>
@@ -322,8 +322,8 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
             <p class="lable-form-title">Industry: {{ creditProposal.attributes['purposePricing'].industry }}</p>
           </section> -->
-		  
-		  <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
+
+          <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Pilih Sector Industry</mat-label>
               <mat-select
