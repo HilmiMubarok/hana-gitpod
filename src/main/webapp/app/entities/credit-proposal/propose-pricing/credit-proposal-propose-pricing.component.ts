@@ -190,45 +190,45 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
 
   setValue(creditProposal: any) {
     for (let i = 0; i < creditProposal.products.length; i++) {
-      if (creditProposal.products[i].attributes.currency === 'IDR') {
-        if (creditProposal.products[i].attributes.availableLimit !== undefined) {
-          this.availabelLimitArray.push(creditProposal.products[i].attributes.availableLimit);
+      if (creditProposal.products[i].currencyId === 'IDR') {
+        if (creditProposal.products[i].availableLimit !== undefined) {
+          this.availabelLimitArray.push(creditProposal.products[i].availableLimit);
         } else {
           this.availabelLimitArray = [];
         }
 
-        if (creditProposal.products[i].attributes.outstanding !== undefined) {
-          this.OSArray.push(creditProposal.products[i].attributes.outstanding);
+        if (creditProposal.products[i].outstanding !== undefined) {
+          this.OSArray.push(creditProposal.products[i].outstanding);
         } else {
           this.OSArray = [];
         }
 
-        if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
-          this.plafontArray.push(creditProposal.products[i].attributes.totalPlafond);
+        if (creditProposal.products[i].totalPlafond !== undefined) {
+          this.plafontArray.push(creditProposal.products[i].totalPlafond);
         } else {
           this.plafontArray = [];
         }
 
-        if (creditProposal.products[i].attributes.normalRate !== undefined) {
-          this.normalRateIDRArr.push(creditProposal.products[i].attributes.normalRate);
+        if (creditProposal.products[i].normalRate !== undefined) {
+          this.normalRateIDRArr.push(creditProposal.products[i].normalRate);
         } else {
           this.normalRateIDRArr = [];
         }
 
-        if (creditProposal.products[i].attributes.discountProposal !== undefined) {
-          this.discountProposalIDRArr.push(creditProposal.products[i].attributes.discountProposal);
+        if (creditProposal.products[i].discountProposal !== undefined) {
+          this.discountProposalIDRArr.push(creditProposal.products[i].discountProposal);
         } else {
           this.discountProposalIDRArr = [];
         }
 
-        if (creditProposal.products[i].attributes.proposedRate !== undefined) {
-          this.proposedRateIDRArr.push(creditProposal.products[i].attributes.proposedRate);
+        if (creditProposal.products[i].proposedRate !== undefined) {
+          this.proposedRateIDRArr.push(creditProposal.products[i].proposedRate);
         } else {
           this.proposedRateIDRArr = [];
         }
-      } else if (creditProposal.products[i].attributes.currency === 'USD') {
-        if (creditProposal.products[i].attributes.availableLimit !== undefined) {
-          this.availabelLimitArrayUSD.push(creditProposal.products[i].attributes.availableLimit);
+      } else if (creditProposal.products[i].currency === 'USD') {
+        if (creditProposal.products[i].availableLimit !== undefined) {
+          this.availabelLimitArrayUSD.push(creditProposal.products[i].availableLimit);
         } else {
           this.availabelLimitArrayUSD = [];
         }
@@ -239,26 +239,26 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
           this.OSArrayUSD = [];
         }
 
-        if (creditProposal.products[i].attributes.totalPlafond !== undefined) {
-          this.plafontArrayUSD.push(creditProposal.products[i].attributes.totalPlafond);
+        if (creditProposal.products[i].totalPlafond !== undefined) {
+          this.plafontArrayUSD.push(creditProposal.products[i].totalPlafond);
         } else {
           this.plafontArrayUSD = [];
         }
 
-        if (creditProposal.products[i].attributes.normalRate !== undefined) {
-          this.normalRateUSDArr.push(creditProposal.products[i].attributes.normalRate);
+        if (creditProposal.products[i].normalRate !== undefined) {
+          this.normalRateUSDArr.push(creditProposal.products[i].normalRate);
         } else {
           this.normalRateUSDArr = [];
         }
 
-        if (creditProposal.products[i].attributes.discountProposal !== undefined) {
-          this.discountProposalUSDArr.push(creditProposal.products[i].attributes.discountProposal);
+        if (creditProposal.products[i].discountProposal !== undefined) {
+          this.discountProposalUSDArr.push(creditProposal.products[i].discountProposal);
         } else {
           this.discountProposalUSDArr = [];
         }
 
-        if (creditProposal.products[i].attributes.proposedRate !== undefined) {
-          this.proposedRateUSDArr.push(creditProposal.products[i].attributes.proposedRate);
+        if (creditProposal.products[i].proposedRate !== undefined) {
+          this.proposedRateUSDArr.push(creditProposal.products[i].proposedRate);
         } else {
           this.proposedRateUSDArr = [];
         }
