@@ -128,6 +128,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
       this.loadDataBy(this.partyCif.customerNumber, this.managementType);
       this.defineDisplayedColumns(this.managementType);
     }
+    if (changes['verifyChecklists']) {
+      console.log('VERIFYYYY - Verify checklist', this.verifyChecklists);
+      this.selectedVerifyDataNew = this.verifyChecklists;
+    }
   }
 
   mapCbasResult(dataCbas, dataFilter) {
@@ -261,6 +265,11 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                         dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
                       });
                       // console.log('THEE DATA', element);
+
+                      const dataaa = this.mapCbasResult(el, resFilter.body.data.content);
+                      dataaa.forEach((da, i) => {
+                        this.defaultVerifyChecklist.emit({ content: da, mode: 'add' });
+                      });
                     });
                   });
               });
@@ -416,4 +425,27 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   //     }
   //   });
   // }
+
+  // Change verify logic radio -> checkbox
+
+  selectedVerifyDataNew = [];
+  @Output() defaultVerifyChecklist = new EventEmitter<any>();
+  @Input() verifyChecklists;
+
+  selectCheckRow(element, c) {
+    const isChecked = c.checked;
+    const mode = isChecked ? 'add' : 'delete';
+    this.defaultVerifyChecklist.emit({ content: element, mode });
+
+    console.log('VERIFYYYY - Select check row elementccc', {
+      element,
+      c,
+      selectedVerifyDataNew: this.selectedVerifyDataNew,
+      verc: this.verifyChecklists,
+    });
+  }
+
+  isVerifySelected(element) {
+    return _.some(this.verifyChecklists, { id: element.id });
+  }
 }

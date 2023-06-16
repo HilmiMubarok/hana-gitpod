@@ -5,9 +5,9 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, merge, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
 import { PartyCifService } from '../party-cif/party-cif.service';
-import _ from 'lodash';
+import _, { concat } from 'lodash';
 import { PartySlikService } from '../party-slik/party-slik.service';
 import { StorageService } from '../storage/storage.service';
 import { InternalService } from '../internal/internal.service';
@@ -252,7 +252,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     // const push = data.verifyData.map(res =>
     //   this.CopasSlikFile(res.partyId, res.attributes['reqReffId'], `party_slik/cbas`, `party_slik`, data.nikNpwp)
     // );
-    const push = withParsedAttr.map(res => {
+    withParsedAttr.map(res => {
       console.log('MAP', res);
       this.CopasSlikFile(res['partyId'], res['attributes'].reqReffId, `party_slik/cbas`, `party_slik`, res['attributes'].nikNpwp);
     });
@@ -274,10 +274,14 @@ export class RequestSlikService extends AbstractEntityService<any> {
       return res;
     });
 
-    // return new Observable();
     const save = this.partySlikService.saveAll(checkVerifyData);
     const changeStatus = this.http.put<any>(this.resourceUrl + '/status/' + data.id, { status: data.status });
-    return forkJoin([save, changeStatus, push]);
+    console.log('SAVEE', {
+      save,
+      changeStatus,
+    });
+    // return forkJoin([save, changeStatus]).pipe(switchMap(() => forkJoin(push)));
+    return forkJoin([save, changeStatus]);
   }
 
   public onSubmit(data) {
@@ -434,7 +438,7 @@ export class RequestSlikService extends AbstractEntityService<any> {
     data.resultJson.sliks.forEach(slik => {
       const { nikNpwp, ideb, partySlik } = slik;
       finalData.push(
-        Object.assign({}, ideb.data.dataPokokDebitur[0], { requestReffId: data.resultJson.requestReffId, nikNpwp, partySlik })
+        Object.assign({}, ideb.data.dataPokokDebitur[0], { requestReffId: data.resultJson.requestReffId, nikNpwp, partySlik, id: data.id })
       );
     });
 
