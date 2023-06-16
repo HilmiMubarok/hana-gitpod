@@ -16,6 +16,7 @@ import { DocumentTypeService } from '../document-type/document-type.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { TemplateService } from 'app/layouts/template/template.service';
 @Component({
   selector: 'jhi-document-upload-dialog',
   templateUrl: './document-upload-dialog.component.html',
@@ -41,6 +42,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   public folder: object;
 
   constructor(
+    private templateService: TemplateService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -60,10 +62,6 @@ export class DocumentUploadDialogComponent implements OnInit {
     protected documentTypeService: DocumentTypeService,
     private router: Router
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.document = new Document();
     this.file = null;
     this.bucket = this.data.bucket;
@@ -85,8 +83,24 @@ export class DocumentUploadDialogComponent implements OnInit {
     if (this.data.appraisal) {
       this.collateralOrAppraisal = 'appraisal';
       this.object = this.data.appraisal;
-      console.log('document type', this.documentTypes);
+      // console.log('document type', this.documentTypes);
       // this.documentTypes = Object(DOCUMENT_TYPE_APPRAISAL);
+    }
+    this.getRole();
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'RM' || param === 'ADMIN_APPRAISER') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
     }
   }
 
@@ -233,7 +247,7 @@ export class DocumentUploadDialogComponent implements OnInit {
           file.tags['docNo'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan');
           file.tags['folder'] = this.folder['files'][0]['tags']['docNo'].replace('&', 'codeSpecialDan');
           file.tags['createdBy'] = resAccount.login;
-          console.log('ompuyy', file);
+          // console.log('ompuyy', file);
           this.storageService.update(this.bucket, file.tags, { key: file.key }).subscribe(res => {
             this._dialog.close(res);
           });
@@ -269,7 +283,7 @@ export class DocumentUploadDialogComponent implements OnInit {
           this.certiFicateTypeName = lodash.filter(res.body, function (o) {
             return o.rootId === DOCUMENT_TYPE_APPRAISAL.DOCUMET_COLLATERAL_IDD && o.statusId === 'ACTIVE';
           });
-          console.log('idd', this.certiFicateTypeName);
+          // console.log('idd', this.certiFicateTypeName);
         }
         if (this.collateralOrAppraisal === 'appraisal') {
           this.documentTypes = lodash.filter(res.body, function (o) {
