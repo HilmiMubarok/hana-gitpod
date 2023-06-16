@@ -729,9 +729,9 @@
         <div class="mb-2">
           <div class="row">
             <div class="col-8">
-              <!-- <mat-form-field class="w-100" appearance="outline"> -->
-              <!-- <mat-label>Provision Fee</mat-label> -->
-              <!-- <input
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Provision Fee</mat-label>
+                <input
                   matInput
                   currencyMask
                   type="text"
@@ -739,18 +739,8 @@
                   [options]="logoProvisonFee"
                   [disabled]="status"
                   id="fee"
-                /> -->
-              <ejs-numerictextbox
-                [(ngModel)]="applicationProduct.provisionFeeAmount"
-                cssClass="e-outline"
-                placeholder="Custody Fee"
-                floatLabelType="auto"
-                step="0.01"
-                floatLabelType="Always"
-                format="{{ logoProvisonFee }}"
-                min="0"
-              ></ejs-numerictextbox>
-              <!-- </mat-form-field> -->
+                />
+              </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
