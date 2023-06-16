@@ -76,6 +76,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private uuid: any;
 
   private countValidate = 0;
+  public cpApproval: boolean;
 
   constructor(
     protected datePipe: DatePipe,
@@ -649,5 +650,10 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         this.disabledData = true;
       }
     }
+  }
+
+  // generate Document Opinion History
+  public donwload() {
+    console.log('.');
   }
 }

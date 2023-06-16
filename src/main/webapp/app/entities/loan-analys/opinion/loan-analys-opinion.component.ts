@@ -119,6 +119,10 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   private countValidate = 0;
 
+  public generateButton: boolean;
+
+  public fileTypeList: string[] = ['Business Unit Director', 'Reviewer Opinion'];
+
   constructor(
     protected datePipe: DatePipe,
     protected dialog: MatDialog,
@@ -301,6 +305,7 @@ export class LoanAnalysOpinionComponent implements OnInit {
           }
         });
       });
+      this.showHideGenerateOpinion();
     }
 
     this.uuidPath.emit(this.uuid);
@@ -885,5 +890,23 @@ export class LoanAnalysOpinionComponent implements OnInit {
         });
       }
     });
+  }
+
+  public showHideGenerateOpinion() {
+    if (
+      this.tempRouter === 'la-analyst' ||
+      this.tempRouter === 'la-SME-CRC' ||
+      this.tempRouter === 'la-approval' ||
+      this.tempRouter === 'loan-committee-approval' ||
+      this.tempRouter === 'la-approval-inquiry'
+    ) {
+      this.generateButton = false;
+    } else {
+      this.generateButton = true;
+    }
+  }
+
+  public generateOpinion() {
+    console.log('cek data');
   }
 }
