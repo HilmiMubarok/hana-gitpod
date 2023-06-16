@@ -829,7 +829,12 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Grace Period</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.gracePeriod" />
+                <input
+                  matInput
+                  inputmode="numeric"
+                  [(ngModel)]="applicationProduct.gracePeriod"
+                  oninput="this.value = this.value.replace(/\D+/g, '')"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">
@@ -881,7 +886,12 @@
             <div class="col-8">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Available Period</mat-label>
-                <input matInput type="number" [(ngModel)]="applicationProduct.availablePeriod" />
+                <input
+                  matInput
+                  inputmode="numeric"
+                  [(ngModel)]="applicationProduct.availablePeriod"
+                  oninput="this.value = this.value.replace(/\D+/g, '')"
+                />
               </mat-form-field>
             </div>
             <div class="col-4">
