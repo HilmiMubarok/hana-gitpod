@@ -226,15 +226,15 @@ export class CreditProposalProposePricingComponent implements OnInit, OnDestroy,
         } else {
           this.proposedRateIDRArr = [];
         }
-      } else if (creditProposal.products[i].currency === 'USD') {
+      } else if (creditProposal.products[i].currencyId === 'USD') {
         if (creditProposal.products[i].availableLimit !== undefined) {
           this.availabelLimitArrayUSD.push(creditProposal.products[i].availableLimit);
         } else {
           this.availabelLimitArrayUSD = [];
         }
 
-        if (creditProposal.products[i].attributes.outstanding !== undefined) {
-          this.OSArrayUSD.push(creditProposal.products[i].attributes.outstanding);
+        if (creditProposal.products[i].outstanding !== undefined) {
+          this.OSArrayUSD.push(creditProposal.products[i].outstanding);
         } else {
           this.OSArrayUSD = [];
         }
