@@ -28,11 +28,11 @@
       </ng-container>
       <ng-container matColumnDef="approval_name">
         <th mat-header-cell *matHeaderCellDef>Approval Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.positionToEmployeeName }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.employeeFirstName + ' ' + element.employeeLastName }}</td>
       </ng-container>
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>Position</th>
-        <td mat-cell *matCellDef="let element">{{ element.positionTypeToDescription }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.positionTypeDescription }}</td>
       </ng-container>
       <!-- <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Date</th>

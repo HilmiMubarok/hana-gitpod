@@ -12,6 +12,7 @@ export class PositionService extends AbstractEntityService<IPosition> {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/positions');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-survey-appraisals');
   }
 
   protected isNew(entity: IPosition): boolean {
@@ -20,6 +21,12 @@ export class PositionService extends AbstractEntityService<IPosition> {
 
   public findByLogin(): Observable<HttpResponse<IPosition>> {
     return this.http.get<IPosition>(this.resourceUrl + '/get-by-login/', { observe: 'response' });
+  }
+
+  public findPositionReportingStructureAppraisal(idAppraisal: number) {
+    return this.http.get<IPosition[]>(`${this.resourceUrlNew}/approval-user/${idAppraisal}`, {
+      observe: 'response',
+    });
   }
 
   protected preSave(entity: IPosition) {}
