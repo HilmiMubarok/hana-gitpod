@@ -14,6 +14,7 @@ import { IDocumentNode } from 'app/entities/document-node/document-node.model';
 import { IDocumentType } from 'app/entities/document-type/document-type.model';
 import { MatSelectChange } from '@angular/material/select';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 export const MY_DATE_FORMAT = {
   parse: { dateInput: { month: 'numeric', year: 'numeric', day: 'numeric' } },
@@ -42,7 +43,7 @@ class PickDateAdapter extends NativeDateAdapter {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
   ],
 })
-export class DebtorDataDocumentChecklistDialogComponent {
+export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
   public documentChecklist: IDocumentChecklistDebtorData;
   public file = [];
   public files: any;
@@ -64,6 +65,7 @@ export class DebtorDataDocumentChecklistDialogComponent {
   public filesRemarks: string;
   public filesDescription: string;
   constructor(
+    private templateService: TemplateService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -81,13 +83,6 @@ export class DebtorDataDocumentChecklistDialogComponent {
     public reportUtilService: ReportUtilService
   ) {
     this.view = this.data.view;
-    if (this.view !== 'view') {
-      _dialog.disableClose = true;
-      _dialog.backdropClick().subscribe(_ => {
-        this.openCancelDialog();
-      });
-      this.isTBO();
-    }
 
     this.files = this.data.files;
     this.itemData = this.data.item;
@@ -118,6 +113,22 @@ export class DebtorDataDocumentChecklistDialogComponent {
     }
 
     this.filesDescription = this.files.description;
+  }
+  ngOnInit(): void {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'RM') {
+      if (this.view !== 'view') {
+        this._dialog.disableClose = true;
+        this._dialog.backdropClick().subscribe(_ => {
+          this.openCancelDialog();
+        });
+      }
+    }
   }
 
   public getMinIOData() {

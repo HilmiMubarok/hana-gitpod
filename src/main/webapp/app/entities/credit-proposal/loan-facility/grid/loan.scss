@@ -231,11 +231,13 @@ td {
 }
 
 .mat-column-mainPlafond {
-  text-align: rigth !important;
+  text-align: right !important;
+  padding-right: 50px;
 }
 
 .mat-column-outstanding {
-  text-align: rigth !important;
+  text-align: right !important;
+  padding-right: 50px;
 }
 
 .mat-column-totalCreditLimit {
@@ -326,5 +328,8 @@ td {
   font-family: 'Poppins', sans-serif !important;
 }
 .mat-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.mat-table {
   font-family: 'Poppins', sans-serif !important;
 }

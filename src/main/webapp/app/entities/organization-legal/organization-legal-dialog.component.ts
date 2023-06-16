@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IOrganizationLegal } from './organization-legal.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import * as _moment from 'moment';
 import moment from 'moment';
 import { FormControl } from '@angular/forms';
 import { Input } from '@syncfusion/ej2-angular-inputs';
+import { TemplateService } from 'app/layouts/template/template.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 export const MY_FORMATS = {
@@ -36,13 +37,14 @@ export const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
 })
-export class OrganizationLegalDialogComponent {
+export class OrganizationLegalDialogComponent implements OnInit {
   public organizationLegal: IOrganizationLegal;
   public managementType: string;
   moment = _rollupMoment || _moment;
   date = new FormControl(moment());
 
   constructor(
+    private templateService: TemplateService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -52,15 +54,26 @@ export class OrganizationLegalDialogComponent {
     },
     private _dialog: MatDialogRef<OrganizationLegalDialogComponent>
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.organizationLegal = this.data.organizationLegal;
     if (this.organizationLegal.deedEstablishNum === '' || this.organizationLegal.deedEstablishNum === undefined) {
       this.organizationLegal.deedEstablishNum = this.data.deedNumber;
     }
     this.organizationLegal.deedEstablishDate = this.data.deedDates;
+  }
+
+  ngOnInit(): void {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+  // IDD organization Legal
+  public checkRole(param): void {
+    if (param === 'RM') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   public dataSource() {
