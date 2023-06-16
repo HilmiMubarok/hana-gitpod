@@ -716,7 +716,7 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
         obj => obj.propertyType === 'GENERAL' && obj.collateralId === collateral.id && obj.external === false
       );
       if (data !== undefined) {
-        if (data.certificateNumber === undefined) {
+        if (data.certificateNumber === undefined || data.certificateNumber === null) {
           string2 = '';
         } else {
           string2 = data.certificateNumber;
