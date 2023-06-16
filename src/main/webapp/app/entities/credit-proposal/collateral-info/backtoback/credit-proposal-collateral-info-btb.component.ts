@@ -96,7 +96,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     super(_snackbar, collateralService);
     this.itemsPerPage = 10;
     this.page = 0;
-    this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
+    // this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }
@@ -111,6 +111,7 @@ export class CreditProposalCollateralInfoBTPComponent extends AbstractEntityMate
     }
 
     this.setCertyficateType();
+    this.lovBindingType();
     // this.isViewMode ? this.displayedColumns.splice(this.displayedColumns.length - 1, 1) : null;
   }
 
