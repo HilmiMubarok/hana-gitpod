@@ -21,6 +21,7 @@ import {
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL,
   SUBMENU_COLLATERAL_APPRAISAL_EXTERNAL_REALESTATE,
   SUBMENU_COLLATERAL_APPRAISAL_REALESTATE,
+  SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL,
 } from 'app/shared/constants/base.constants';
 import { IProcessTask } from 'app/shared/model/process-task.model';
 import { MessageService } from 'primeng/api';
@@ -682,7 +683,7 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       } else {
         this.subMenu =
           this.collateralAppraisal.collateral.collateralTypeId === 'REALESTATE'
-            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE
+            ? SUBMENU_COLLATERAL_APPRAISAL_REALESTATE_ALL
             : SUBMENU_COLLATERAL_APPRAISAL;
       }
     }
