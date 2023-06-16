@@ -1,16 +1,85 @@
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black;
+  font-family: 'Poppins', sans-serif;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+.html * {
+  font-family: 'Poppins', sans-serif;
+}
+.mat-table {
+  font-family: 'Poppins', sans-serif;
+}
+.rounding-table-left {
+  border-top-left-radius: 15px;
+}
+.rounding-table-right {
+  border-top-right-radius: 15px;
+}
+
+.button-styling {
+  background-color: rgba(49, 158, 152, 1);
+  color: #ffffff;
+}
+
+.mat-header-cell:first-child {
+  width: 5%;
+  border-top-left-radius: 15px;
+}
+
+.mat-header-cell:last-child {
+  width: 10%;
+  border-top-right-radius: 15px;
+}
+
+.mat-header-cell {
+  font-weight: 100 !important;
+  font-size: 12px;
+}
+
+.td-no {
+  text-align: center;
+}
+.mat-column-action {
+  text-align: center !important;
+}
+
+.mat-column-hobis {
+  text-align: center !important;
+}
+
 .e-card {
   padding: 10px;
   margin-bottom: 1rem;
 }
 
+.remove-row-scroll {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.e-breadcrumb-text {
+  color: rgba(136, 136, 136, 1) !important;
+}
+.e-breadcrumb-icon.e-icons.e-home {
+  color: rgba(136, 136, 136, 1) !important;
+}
+.col {
+  padding-bottom: 10px;
+}
 .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
-  color: red;
+  color: rgba(158, 138, 113, 1);
   line-height: 35px;
   margin-left: 10px;
   padding-top: 13px;
+}
+
+.html * {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .e-card-content {
@@ -24,10 +93,6 @@
 
 .e-multi-select-wrapper .e-chips {
   background-color: rgba(0, 136, 129, 0.8);
-}
-
-.html * {
-  font-family: 'Poppins', sans-serif !important;
 }
 
 .e-toolbar {
@@ -73,16 +138,16 @@
 }
 
 .back-image {
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   margin: 1rem;
   cursor: pointer;
 }
 
 .back-prefix {
   font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  color: rgba(136, 136, 136);
+  font-size: 14px;
+  color: rgba(136, 136, 136, 1) !important;
   padding-top: 20px;
   cursor: pointer;
 }
@@ -112,7 +177,171 @@
   font-style: normal;
   border-radius: 6px;
 }
+
+.submit-button {
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px !important;
+  background: rgba(0, 136, 129, 1);
+  padding: 2px 20px 2px 20px;
+}
 @font-face {
   font-family: 'Poppins';
   src: local(''), url('../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.mat-select {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-option {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-checkbox {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-form-field {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-radio-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-raised-button {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-card {
+  font-family: 'Poppins', sans-serif !important;
+}
+.e-float-input,
+.e-float-input.e-control-wrapper,
+.e-float-input.e-disabled,
+.e-float-input.e-control-wrapper.e-disabled,
+.e-float-input.e-input-group.e-disabled,
+.e-float-input.e-input-group.e-control-wrapper.e-disabled {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+::ng-deep .custom-dialog-container-delete {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+::ng-deep .custom-dialog-container-cancel {
+  .mat-dialog-container {
+    background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
+    background-color: rgba(225, 225, 225, 1);
+    background-position: bottom;
+    background-position-y: -67px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .mat-button-focus-overlay {
+    background-color: transparent !important;
+  }
+}
+
+.confirm-button-yes {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-no {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(224, 223, 223, 1);
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-no:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: #f44336;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+.confirm-button-yes:active:hover:not([disabled]) {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(157, 157, 157, 1);
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.confirm-button-yes:enabled:hover {
+  padding: 3px 43px 3px 43px;
+  border-radius: 10px;
+  background-color: rgba(49, 158, 152, 1) !important;
+  color: #ffff;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-table {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-column-no {
+  text-align: right;
+}
+.mat-column-proposalNumber {
+  text-align: left;
+  padding-left: 50px;
+}
+.mat-column-applicationTypeDescription-proposalType {
+  text-align: left;
+}
+.mat-column-cif {
+  text-align: left;
+}
+.mat-column-customerName {
+  text-align: left;
+}
+.mat-column-customerType {
+  text-align: left;
+}
+.mat-column-createdDate {
+  text-align: right;
+  padding-right: 50px;
+}
+.mat-column-status {
+  text-align: left;
+}
+.mat-column-action {
+  text-align: left;
 }

@@ -53,7 +53,12 @@ td {
 .mat-column-hobis {
   text-align: center !important;
 }
-
+.mat-column-proposalNumber {
+  padding-left: 50px;
+}
+.mat-column-createdDate {
+  padding-right: 50px;
+}
 .e-card {
   padding: 10px;
   margin-bottom: 1rem;
