@@ -96,7 +96,7 @@ export class DocumentUploadDialogComponent implements OnInit {
   }
 
   public checkRole(param): void {
-    if (param === 'RM' || param === 'ADMIN_APPRAISER') {
+    if (param === 'RM' || param === 'ADMIN_APPRAISER' || param === 'SURVEYOR' || param === 'APR_DH') {
       this._dialog.disableClose = true;
       this._dialog.backdropClick().subscribe(_ => {
         this.openCancelDialog();

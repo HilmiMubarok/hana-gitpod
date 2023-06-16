@@ -64,7 +64,6 @@ export class DocumentChecklistDialogTempComponent {
   public filesdueDate: string;
   public filesRemarks: string;
   public filesDescription: string;
-  public buttonEdit: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -76,7 +75,6 @@ export class DocumentChecklistDialogTempComponent {
       cpId: string;
       typeData: IDocumentType[];
       item: string;
-      buttonEdit: boolean;
     },
     private _dialog: MatDialogRef<DocumentChecklistDialogTempComponent>,
     private storageService: StorageService,
@@ -92,7 +90,6 @@ export class DocumentChecklistDialogTempComponent {
     this.category();
     this.setStatus();
     this.getMinIOData();
-    this.buttonEdit = this.data.buttonEdit;
 
     this.filesStatus = this.files.status;
     if (this.files.dueDate === undefined || this.files.dueDate === null || this.files.dueDate === '' || this.files.dueDate === 'null') {

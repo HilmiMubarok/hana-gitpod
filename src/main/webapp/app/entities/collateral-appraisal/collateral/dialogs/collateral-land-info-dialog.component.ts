@@ -1,14 +1,17 @@
 import { Component, Inject, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-collateral-land-info-dialog',
   templateUrl: './collateral-land-info-dialog.component.html',
+  styleUrls: ['./collateral-land-info-dialog.style.scss'],
 })
 export class CollateralLandInfoDialogComponent implements OnInit {
   public collateralAppraisal: ICollateralAppraisal;
@@ -16,6 +19,8 @@ export class CollateralLandInfoDialogComponent implements OnInit {
   public account: Account;
   public hiddenRmAdmin: boolean;
   constructor(
+    private templateService: TemplateService,
+    protected dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { collateralAppraisal: ICollateralAppraisal; collateralProperty: ICollateralProperty },
     private _dialog: MatDialogRef<CollateralLandInfoDialogComponent>,
     private accountService: AccountService
@@ -27,6 +32,22 @@ export class CollateralLandInfoDialogComponent implements OnInit {
   ngOnInit(): void {
     this.checkLogin();
     this.hiddenTombol();
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+      console.log('this is the role', newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'SURVEYOR' || param === 'TL' || param === 'APR_DEPT_HEAD') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   public cancel(): void {
@@ -61,6 +82,23 @@ export class CollateralLandInfoDialogComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close(this.data);
+      }
+    });
   }
 
   private hiddenTombol() {

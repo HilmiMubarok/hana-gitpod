@@ -12,6 +12,7 @@ import lodash from 'lodash';
 import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-collateral-appraisal-comparison-dialog',
@@ -28,6 +29,7 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
   public nameFile: String;
 
   constructor(
+    private templateService: TemplateService,
     private dialog: MatDialog,
     private collateralService: CollateralService,
     private collateralPropertyService: CollateralPropertyService,
@@ -47,11 +49,17 @@ export class CollateralAppraisalComparisonDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.findCollateral();
-    this.popUpValidation();
+    this.getRole();
   }
 
-  public popUpValidation() {
-    if (this.collateral.collateralTypeId === 'MACHINE') {
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'SURVEYOR') {
       this._dialog.disableClose = true;
       this._dialog.backdropClick().subscribe(_ => {
         this.openCancelDialog();

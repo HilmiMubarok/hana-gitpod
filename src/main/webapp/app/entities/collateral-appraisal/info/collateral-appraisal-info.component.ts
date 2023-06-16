@@ -464,7 +464,7 @@ export class CollateralAppraisalInfoComponent implements OnInit, OnChanges {
         const teamLeader = [];
         for (let i = 0; i < res.body.length; i++) {
           if (res.body[i].positionTypeDescription === 'Team Leader') {
-            teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName, id: res.body[i].id });
+            teamLeader.push({ employeeFirstName: res.body[i].employeeFirstName + ' ' + res.body[i].employeeLastName, id: res.body[i].id });
           }
         }
 

@@ -868,30 +868,34 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public changeAmountType(event, type) {
     if (type === 'provision') {
       if (event === '%p.a') {
-        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+        this.logoProvisonFee = '';
       }
       if (event === 'Amount IDR') {
-        this.logoProvisonFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+        this.logoProvisonFee = 'IDR 0,';
       }
       if (event === 'Amount USD') {
-        this.logoProvisonFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+        this.logoProvisonFee = 'USD 0,';
       }
-      if (event === '') {
-        this.logoProvisonFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+      if (event === '' || event === undefined) {
+        this.logoProvisonFee = '';
       }
     }
     if (type === 'admin') {
       if (event === '%p.a') {
-        this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+        // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
+        this.logoAdminFee = '';
       }
       if (event === 'Amount IDR') {
-        this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+        // this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
+        this.logoAdminFee = 'IDR 0,';
       }
       if (event === 'Amount USD') {
-        this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+        // this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
+        this.logoAdminFee = 'USD 0,';
       }
-      if (event === '') {
-        this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+      if (event === '' || event === undefined) {
+        // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
+        this.logoAdminFee = '';
       }
     }
   }
