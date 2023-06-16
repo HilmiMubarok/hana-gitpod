@@ -4,38 +4,37 @@
       <div class="e-card">
         <div class="e-card-header">
           <div class="e-card-header-caption">
-            <!-- <div class="e-card-header-title">Paripasu Collateral</div> -->
-            <div class="e-card-header-title">Cross Collateral with other CIF</div>
+            <div class="e-card-header-title">Cross Collateral with other CIF Hobis</div>
             <div class="e-card-sub-title"></div>
             <div class="table-responsive-material">
-              <table mat-table [dataSource]="dataItem" class="w-100">
+              <table mat-table [dataSource]="items" class="w-100">
                 <ng-container matColumnDef="no">
                   <th mat-header-cell *matHeaderCellDef>No</th>
-                  <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+                  <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
                 </ng-container>
                 <ng-container matColumnDef="cif">
                   <th mat-header-cell *matHeaderCellDef>CIF</th>
-                  <td mat-cell *matCellDef="let element">{{ element }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.otherCifNo }}</td>
                 </ng-container>
                 <ng-container matColumnDef="debtorNames">
                   <th mat-header-cell *matHeaderCellDef>Debtor Names</th>
-                  <td mat-cell *matCellDef="let element">{{ element }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.otherDebtorName }}</td>
                 </ng-container>
                 <ng-container matColumnDef="facilityType">
                   <th mat-header-cell *matHeaderCellDef>Facility Category</th>
-                  <td mat-cell *matCellDef="let element">{{ element }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.categoryId }}</td>
                 </ng-container>
                 <ng-container matColumnDef="ccy">
                   <th mat-header-cell *matHeaderCellDef>Currency</th>
-                  <td mat-cell *matCellDef="let element">{{ element }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
                 </ng-container>
                 <ng-container matColumnDef="totalPlafond">
                   <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
-                  <td mat-cell *matCellDef="let element">{{ element }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.mainPlafond | number }}</td>
                 </ng-container>
                 <ng-container matColumnDef="os">
                   <th mat-header-cell *matHeaderCellDef>Outstanding</th>
-                  <td mat-cell *matCellDef="let element">{{ element }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.outstanding | number }}</td>
                 </ng-container>
                 <tr class="mat-row" *matNoDataRow>
                   <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
