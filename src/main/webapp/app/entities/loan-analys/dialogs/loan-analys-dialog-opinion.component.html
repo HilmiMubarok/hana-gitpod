@@ -1,4 +1,4 @@
-<mat-card-subtitle>Opinion History </mat-card-subtitle>
+<mat-card-subtitle>Opinion History</mat-card-subtitle>
 <mat-dialog-content>
   <mat-card>
     <div class="row">
@@ -26,54 +26,79 @@
   <mat-card>
     <p class="mb-5">
       <mat-card-subtitle>Opinion</mat-card-subtitle>
-      <ejs-documenteditorcontainer #document_editor_container [enableToolbar]="false" [enableLocalPaste]="false"
-        height="30vh" style="display: block" (documentChange)="onDocumentChange()" [enableEditor]="false"
-        [isReadOnly]="true">
+      <ejs-documenteditorcontainer
+        #document_editor_container
+        [enableToolbar]="false"
+        [enableLocalPaste]="false"
+        height="30vh"
+        style="display: block"
+        (documentChange)="onDocumentChange()"
+        [enableEditor]="false"
+        [isReadOnly]="true"
+      >
       </ejs-documenteditorcontainer>
     </p>
   </mat-card>
 
   <mat-card>
     <div class="form-group">
-      <section *ngIf="
+      <section
+        *ngIf="
           notes.recomendation === 'Approved as Propose' ||
           notes.recomendation === 'Approved With Condition' ||
           notes.recomendation === 'Not Approved'
-        ">
+        "
+      >
         <mat-card-subtitle>Approved Status</mat-card-subtitle>
         <div class="d-flex justify-content-around">
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Approved as Propose"
-              label="Approved as Propose"></ejs-radiobutton>
+            <ejs-radiobutton
+              disabled
+              [(ngModel)]="notes.recomendation"
+              value="Approved as Propose"
+              label="Approved as Propose"
+            ></ejs-radiobutton>
           </div>
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Approved With Condition"
-              label="Approved With Condition"></ejs-radiobutton>
+            <ejs-radiobutton
+              disabled
+              [(ngModel)]="notes.recomendation"
+              value="Approved With Condition"
+              label="Approved With Condition"
+            ></ejs-radiobutton>
           </div>
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Approved" label="Not Approved">
-            </ejs-radiobutton>
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Approved" label="Not Approved"> </ejs-radiobutton>
           </div>
         </div>
       </section>
-      <section *ngIf="
+      <section
+        *ngIf="
           notes.recomendation === 'Recommend as Propose' ||
           notes.recomendation === 'Recommend With Condition' ||
           notes.recomendation === 'Not Recommend'
-        ">
+        "
+      >
         <mat-card-subtitle>Recomendation</mat-card-subtitle>
         <div class="d-flex justify-content-around">
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend as Propose"
-              label="Recommend as Propose"></ejs-radiobutton>
+            <ejs-radiobutton
+              disabled
+              [(ngModel)]="notes.recomendation"
+              value="Recommend as Propose"
+              label="Recommend as Propose"
+            ></ejs-radiobutton>
           </div>
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Recommend With Condition"
-              label="Recommend With Condition"></ejs-radiobutton>
+            <ejs-radiobutton
+              disabled
+              [(ngModel)]="notes.recomendation"
+              value="Recommend With Condition"
+              label="Recommend With Condition"
+            ></ejs-radiobutton>
           </div>
           <div class="mx-2">
-            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend">
-            </ejs-radiobutton>
+            <ejs-radiobutton disabled [(ngModel)]="notes.recomendation" value="Not Recommend" label="Not Recommend"> </ejs-radiobutton>
           </div>
         </div>
       </section>
@@ -83,10 +108,21 @@
   <mat-card>
     <p class="mb-5">
       <mat-card-subtitle>Condition </mat-card-subtitle>
-      <ejs-documenteditorcontainer #document_editor_container_condition [enableToolbar]="false"
-        [enableLocalPaste]="false" height="30vh" style="display: block" (documentChange)="onDocumentChanges()"
-        [enableEditor]="false" [isReadOnly]="true">
+      <ejs-documenteditorcontainer
+        #document_editor_container_condition
+        [enableToolbar]="false"
+        [enableLocalPaste]="false"
+        height="30vh"
+        style="display: block"
+        (documentChange)="onDocumentChanges()"
+        [enableEditor]="false"
+        [isReadOnly]="true"
+      >
       </ejs-documenteditorcontainer>
     </p>
+    <mat-dialog-actions align="center">
+      <button mat-button mat-dialog-close class="confirm-button-no">Cancel</button>
+      <!-- <button mat-raised-button mat-dialog-close class="confirm-button-no" (click)="cancel()">Cancel</button> -->
+    </mat-dialog-actions>
   </mat-card>
 </mat-dialog-content>

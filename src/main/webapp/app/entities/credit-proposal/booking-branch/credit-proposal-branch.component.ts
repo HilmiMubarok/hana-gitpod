@@ -13,6 +13,7 @@ import lodash from 'lodash';
 })
 export class CreditProposalBranchComponent implements OnChanges {
   private _creditProposal: ICreditProposal;
+  private _menu;
   public rmPosition: IPosition;
   public rmBranch: IInternal;
   public rmRegional: IInternal;
@@ -29,6 +30,14 @@ export class CreditProposalBranchComponent implements OnChanges {
 
   set creditProposal(data: ICreditProposal) {
     this._creditProposal = data;
+  }
+
+  @Input()
+  get menu() {
+    return this._menu;
+  }
+  set menu(param: string) {
+    this._menu = param;
   }
 
   constructor(private internalService: InternalService, private positionService: PositionService) {

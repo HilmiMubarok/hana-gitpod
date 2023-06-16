@@ -18,6 +18,8 @@ import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.mo
 import { INotes } from 'app/entities/notes/notes.model';
 import { NoteDataService } from 'app/entities/note-data/note-data.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { IPositionReportingStructure } from 'app/entities/position-reporting-structure/position-reporting-structure.model';
+import { RelationTypeService } from 'app/entities/relation-type/relation-type.service';
 @Component({
   selector: 'jhi-loan-facility-approve-level',
   templateUrl: './approve-level.component.html',
@@ -41,19 +43,18 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ]),
   ],
 })
-export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
-  public displayColumns: string[]
+export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
+  public displayColumns: string[];
   public idRelationType: string;
   public dateCurren: any;
   public idApp: any;
   public relType: IOptionNode[];
   public selectedRelationType: string;
-  public filteringItems: IApplicationRole[];
+  public filteringItems: IPositionReportingStructure[];
   public whoAmI: IPerson;
   public patch: any;
   public view: boolean;
   public statusId: boolean;
-  // public field = false;
   public _creditProposal: ICreditProposal;
   public statusList = [
     'CP_DRAFT',
@@ -66,11 +67,15 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     'CP_REJECT',
     'CP_COMPLETE',
   ];
-  public dropDwon = false
+  public dropDwon = false;
   public approvalStatus: string;
   @Output() newItemEvent = new EventEmitter<string>();
   public disabled: boolean;
   public hidden: boolean;
+  public relationTypes = [];
+  private LOS_REL = 'LOS_REL';
+  public positionIdLocStor: any;
+
   constructor(
     protected router: Router,
     protected positionReportingStructureService: PositionReportingStructureService,
@@ -81,14 +86,12 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     protected personService: PersonService,
     protected accountService: AccountService,
     public creditProposalService: CreditProposalService,
-    public noteDataService: NoteDataService
+    public noteDataService: NoteDataService,
+    protected relationTypeService: RelationTypeService
   ) {
     super(snackbar, positionReportingStructureService);
     this.loading = false;
     this.idApp = this.activatedRoute.snapshot.paramMap.get('id');
-    this.relType = [];
-    this.selectedRelationType = '';
-    this.filteringItems = [];
   }
 
   @Input()
@@ -100,23 +103,34 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     this._creditProposal = item;
   }
 
-  public displayedColumnsExpand = []
+  public displayedColumnsExpand = [];
 
   ngOnInit(): void {
-    
-    this.getWhoAmI().then(res => {
-      this.getApplicationRolesByApplicationId();
-    });
+    this.positionIdLocStor = this.getLocStor('POS');
+
+    if (this.selectedRelationType !== null) {
+      if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+        this.selectedRelationType = 'CREDIT_PROPOSAL';
+      } else if (this.creditProposal.statusId === 'CP_ASSIGNMENT') {
+        this.selectedRelationType = this.creditProposal.approvalLcDefault;
+      } else {
+        this.selectedRelationType = this.creditProposal.approvalLc;
+      }
+    } else {
+      this.selectedRelationType = '';
+    }
+    this.loadRelationType();
+    // this.getWhoAmI().then(res => {
+    //   this.getApplicationRolesByApplicationId();
+    // });
     // this.approvalStatus = this.creditProposal?.attributes['approvalStatus'];
     // this.newItemEvent.emit(this.creditProposal?.attributes['approvalStatus']);
     if (this.creditProposal.statusId === 'LA_DAR_NOTIF') {
-      this.displayColumns = [ 'approval_name', 'position', 'date', 'alternatename',];
+      this.displayColumns = ['approval_name', 'position', 'alternatename'];
 
-
-
-     this.displayedColumnsExpand = [...this.displayColumns, 'expand'];
-    }else{
-      this.displayColumns = ['approval_name', 'position', 'date', 'alternatename'];
+      this.displayedColumnsExpand = [...this.displayColumns, 'expand'];
+    } else {
+      this.displayColumns = ['approval_name', 'position', 'alternatename'];
     }
     this.hidePleaseSelect();
   }
@@ -129,8 +143,6 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     }
   }
 
-  
-
   singleCheck(checkNode: any) {
     if (checkNode.target.classList.contains('checked')) {
       checkNode.target.classList.remove('checked');
@@ -139,104 +151,104 @@ export class LoanFacilityAproveLevelComponent extends AbstractEntityMaterialComp
     }
   }
 
-  private filteringRelType(params: IApplicationRole[]): void {
-    this.relType = this.applicationRoleService.filteringRelationTypes(params);
+  // private async getWhoAmI(): Promise<void> {
+  //   const account: Account = await firstValueFrom(this.accountService.identity());
+  //   const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
+  //     .body;
+  //   if (persons.length > 0) {
+  //     this.whoAmI = persons[0];
+  //   }
+  // }
+
+  public emailConfirmation(applicationId: number): any {
+    const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId);
+    const status =
+      this.creditProposal.notes[notesCp].received === null || this.creditProposal.notes[notesCp].received === false
+        ? 'Not Confirmation'
+        : 'Confirmation';
+    return status;
   }
 
-  private async getWhoAmI(): Promise<void> {
-    const account: Account = await firstValueFrom(this.accountService.identity());
-    const persons: IPerson[] = (await firstValueFrom(this.personService.queryFilterBy({ page: 0, size: 99, userLogin: account.login })))
-      .body;
-    if (persons.length > 0) {
-      this.whoAmI = persons[0];
-    }
+  public recomendation(applicationId: number): any {
+    console.log('app', this.filteringItems);
+    const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId);
+    return this.creditProposal.notes[notesCp].recomendation;
   }
 
-  public selRelType(value: string): void {
-    this.filteringItems = [];
+  public selectRelationType(event): void {
+    this.selectedRelationType = event.value;
+    // this.getReportingStructureLoanAnalys();
+  }
 
-    if (value !== '') {
-      if (value.toLowerCase() !== 'credit_proposal') {
-        for (let i = 0; i < this.items.length; i++) {
-          const each: IApplicationRole = this.items[i];
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase()) {
-            this.filteringItems.push(each);
-          }
-        }
-      } else {
-        for (let i = 0; i < this.items.length; i++) {
-          const each: IApplicationRole = this.items[i];
-          if (each.relationTypeId && each.relationTypeId.toLowerCase() === value.toLowerCase()) {
-            this.filteringItems.push(each);
-          }
-        }
+  private getLocStor(cookieName: string) {
+    let result = null;
+    const cookies: string[] = document.cookie.split(';');
+
+    cookies.forEach(o => {
+      const cookie: string[] = o.split('=');
+      const name: string = cookie[0].trim();
+      if (name === cookieName) {
+        result = cookie[1];
       }
-    }
+    });
+
+    return result;
   }
 
-  public emailConfirmation(applicationId: number): any{
-    const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId)
-    const status = this.creditProposal.notes[notesCp].received === null || this.creditProposal.notes[notesCp].received === false ? 'Not Confirmation' : 'Confirmation'
-    return status
+  private getReportingStructureByCP(): void {
+    this.positionReportingStructureService.findPositionReportingStructureCp(this.creditProposal.id).subscribe(res => {
+      this.filteringItems = res.body;
+    });
   }
-
-  public recomendation(applicationId: number): any{
-    console.log('app', this.filteringItems)
-    const notesCp = this.creditProposal.notes.findIndex((notesRes: INotes) => notesRes.applicationId === applicationId)
-    return this.creditProposal.notes[notesCp].recomendation
-
-  }
-
-  private getApplicationRolesByApplicationId(): void {
-    this.applicationRoleService
+  private loadRelationType(): void {
+    this.relationTypeService
       .queryFilterBy({
-        idApplication: this.idApp,
-        isActive: true,
+        idParent: this.LOS_REL,
         page: 0,
         size: 9999,
       })
       .subscribe(res => {
-        this.items = res.body;
-        this.filteringRelType(this.items);
-        this.creditProposalService.find(this.idApp).subscribe((response: any) => {
-          for (let i = 0; i < this.statusList.length; i++) {
-            if (this.statusList[i] === response.body.statusId) {
-              this.selectedRelationType = 'CREDIT_PROPOSAL';
-              this.selRelType('CREDIT_PROPOSAL');
-            } else {
-              for (let j = 0; j < this.relType.length; j++) {
-                if (this.relType[j].id !== 'CREDIT_PROPOSAL') {
-                  if (this.router.url.split('=').indexOf('summary') > -1 !== true) {
-                    this.selectedRelationType = this.relType[j].id;
-                    this.selRelType(this.relType[j].id);
-                  }else if (this.router.url.split('=').indexOf('summary') > -1 === true) {
-                    this.selectedRelationType = 'CREDIT_PROPOSAL';
-                  this.selRelType('CREDIT_PROPOSAL');
-                  }
-                 
-                }
-              }
-            }
-          }
-        });
+        if (this.creditProposal.statusId === 'CP_ASSIGNMENT') {
+          this.relationTypes = res.body.filter(o => o.id === this.creditProposal.approvalLcDefault);
+          this.getReportingStructureLoanAnalys();
+        } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA') {
+          this.relationTypes = res.body.filter(o => o.id === 'CREDIT_PROPOSAL');
+          this.getReportingStructureByCP();
+        } else {
+          this.relationTypes = res.body.filter(o => o.id === this.creditProposal.approvalLc);
+          this.getReportingStructureLoanAnalys();
+        }
       });
   }
 
-  public recomendationData: string
-  public receivedData: string
+  private getReportingStructureLoanAnalys(): void {
+    this.positionReportingStructureService
+      .query({
+        page: 0,
+        size: 9999,
+      })
+      .subscribe(res => {
+        if (res.body.length > 0) {
+          this.filteringItems = res.body.filter(e => e.relationTypeId === this.creditProposal.approvalLcDefault);
+        }
+      });
+  }
 
-  public getNoteDataByPartyIdAndApplicationId(element: IApplicationRole){
+  public recomendationData: string;
+  public receivedData: string;
 
-    this.noteDataService.queryFilterBy({
-      idParty: element.partyId,
-      idApplication: element.applicationId,
-      size: 1,
-      page: 0
-
-    }).subscribe((res: any)=> {
-      console.log('oke',res)
-      this.recomendationData = res.body[0].recomendation
-      this.receivedData = res.body[0].received === null || res.body[0].received === false ? 'Not Confirmation' : 'Confirmation'
-    })
+  public getNoteDataByPartyIdAndApplicationId(element: IApplicationRole) {
+    this.noteDataService
+      .queryFilterBy({
+        idParty: element.partyId,
+        idApplication: element.applicationId,
+        size: 1,
+        page: 0,
+      })
+      .subscribe((res: any) => {
+        console.log('oke', res);
+        this.recomendationData = res.body[0].recomendation;
+        this.receivedData = res.body[0].received === null || res.body[0].received === false ? 'Not Confirmation' : 'Confirmation';
+      });
   }
 }

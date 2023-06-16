@@ -5,7 +5,7 @@
       <div style="float: right">
         <mat-form-field appearance="fill">
           <mat-label>Approval Level</mat-label>
-          <mat-select [(value)]="selectedRelationType" (selectionChange)="selectRelationType($event.value)">
+          <mat-select [(value)]="selectedRelationType" (selectionChange)="selectRelationType($event.value)" [disabled]="true">
             <mat-option *ngFor="let item of relationTypes" [value]="item.id">
               {{ item.description }}
             </mat-option>

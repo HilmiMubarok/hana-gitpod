@@ -39,10 +39,10 @@ export class PartyCifService extends AbstractEntityService<IPartyCif> {
 
   cashFindCif(cif: any, req?: any): Observable<HttpResponse<IPartyCif[]>> {
     const options = createRequestOption(req);
-    return this.http
-      .get<IPartyCif[]>(MICROSERVICENAME.LOS + '/api/cash-party-cif/cif/find/' + cif, { params: options, observe: 'response' })
-      .pipe(map((res: HttpResponse<IPartyCif[]>) => this.convertDateArrayFromServer(res)))
-      .pipe(map((res: HttpResponse<IPartyCif[]>) => this.preLoadItemArray(res)));
+    return this.http.get<IPartyCif[]>(MICROSERVICENAME.LOS + '/api/cash-party-cif/cif/find/' + cif, {
+      params: options,
+      observe: 'response',
+    });
   }
 
   public findCifCash(cif: string): Observable<HttpResponse<IPartyCif>> {
