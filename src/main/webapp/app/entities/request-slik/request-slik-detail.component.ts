@@ -401,7 +401,7 @@ export class RequestSlikDetailComponent implements OnInit {
       status: this.checkStatus(this.requestSlik.status).status,
       checklists: this.checklists,
       partyCif: this.partyCif,
-      verifyData: this.verifyData,
+      verifyData: this.verifyChecklistDatas,
       ocr: this.ocrData,
       isSaved: this.isSaved,
       nikNpwp: this.nikNpwp,
@@ -901,5 +901,37 @@ export class RequestSlikDetailComponent implements OnInit {
         this.previousState();
       }
     });
+  }
+
+  verifyChecklistDatas;
+  getAllChecklistVerifyData(el) {
+    console.log('ELL', el);
+
+    this.tempData = [];
+    this.nikNpwp = el.content.nikNpwp;
+
+    // if el.mode !== 'add' then remove data from verifyData with same id on el.content.id
+    if (el.mode !== 'add') {
+      this.verifyData = this.verifyData.filter(verifyObj => verifyObj.id !== el.content.id);
+    } else {
+      this.verifyData = this.verifyData.filter(verifyObj => verifyObj.id !== el.content.id);
+      this.verifyData.push(el.content);
+    }
+
+    // makePartySlikWithPartyId on each element of verifyData
+    this.verifyData.forEach(element => {
+      this.tempData.push(this.makePartySlikWithPartyId(element));
+    });
+
+    console.log('ELL allVerifyData', { ver: this.verifyData, temp: this.tempData });
+
+    let finalTempData = this.tempData.map(temp => this.mapperIPDFSlikToPartySlik(temp));
+
+    // Take out all array inside finalTempData, and merge it into one array
+    finalTempData = _.flattenDeep(finalTempData);
+
+    this.verifyChecklistDatas = finalTempData;
+
+    console.log('ELL allVerifyData final', { finalTempData, verifyChecklistDatas: this.verifyChecklistDatas });
   }
 }

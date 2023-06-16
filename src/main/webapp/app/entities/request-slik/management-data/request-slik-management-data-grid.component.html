@@ -198,9 +198,13 @@
                   <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell *matCellDef="let tes">
-                      <mat-radio-group [(ngModel)]="element.person.id" *ngIf="requestSlik.status === 'VERIFY'">
-                        <mat-radio-button [value]="tes" (click)="selectRow(tes)"></mat-radio-button>
-                      </mat-radio-group>
+                      <mat-checkbox
+                        #checkboxRow
+                        (click)="$event.stopPropagation()"
+                        *ngIf="requestSlik.status === reqSlikStatus.VERIFY"
+                        [checked]="isVerifySelected(tes)"
+                        (change)="selectCheckRow(tes, checkboxRow)"
+                      ></mat-checkbox>
                       <button
                         mat-icon-button
                         matTooltip="Slik File"

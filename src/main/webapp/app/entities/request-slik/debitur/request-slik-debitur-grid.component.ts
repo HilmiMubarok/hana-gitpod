@@ -21,7 +21,7 @@ import { RequestSlikStatus } from '../enums/request-slik-status.enum';
   templateUrl: './request-slik-debitur-grid.component.html',
   styleUrls: ['./request-slik-debitur-grid.styles.scss'],
 })
-export class RequestSlikDebiturGridComponent implements OnInit {
+export class RequestSlikDebiturGridComponent implements OnInit, OnChanges {
   reqSlikStatus = RequestSlikStatus;
   ngOnInit(): void {
     // const a = this.requestSlikService.mapSlikResult(this.sampleData);
@@ -126,6 +126,11 @@ export class RequestSlikDebiturGridComponent implements OnInit {
             this.reqReffId = this.dataSource[0].requestReffId;
             console.log('Elemeeeeeen reqreffid', this.reqReffId);
             console.log('THEE DATA DEBITUR', this.dataSource);
+
+            // Emit data to parent, for default checked on verify status
+            this.dataSource.forEach((element, i) => {
+              this.defaultVerifyChecklist.emit({ content: element, mode: 'add' });
+            });
           });
         });
     });
@@ -173,5 +178,35 @@ export class RequestSlikDebiturGridComponent implements OnInit {
     delete el.partySlik.partySlikCollaterals;
     this.nikNpwp = el.nikNpwp;
     this.selectedVerifyData.emit(el);
+  }
+
+  // Change verify logic radio -> checkbox
+
+  selectedVerifyDataNew = [];
+  @Output() defaultVerifyChecklist = new EventEmitter<any>();
+  @Input() verifyChecklists;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['verifyChecklists']) {
+      console.log('VERIFYYYY - Verify checklist', this.verifyChecklists);
+      this.selectedVerifyDataNew = this.verifyChecklists;
+    }
+  }
+
+  selectCheckRow(element, c) {
+    const isChecked = c.checked;
+    const mode = isChecked ? 'add' : 'delete';
+    this.defaultVerifyChecklist.emit({ content: element, mode });
+
+    console.log('VERIFYYYY - Select check row elementccc', {
+      element,
+      c,
+      selectedVerifyDataNew: this.selectedVerifyDataNew,
+      verc: this.verifyChecklists,
+    });
+  }
+
+  isVerifySelected(element) {
+    return _.some(this.verifyChecklists, { id: element.id });
   }
 }

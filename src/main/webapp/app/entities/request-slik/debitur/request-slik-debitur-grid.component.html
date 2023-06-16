@@ -32,10 +32,14 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <!-- {{element | json}} -->
-            <mat-radio-group [(ngModel)]="requestReffId" *ngIf="requestSlik.status === 'VERIFY'">
-              <mat-radio-button [value]="element" (click)="selectRow(element)"></mat-radio-button>
-            </mat-radio-group>
+            <mat-checkbox
+              #checkboxRow
+              (click)="$event.stopPropagation()"
+              *ngIf="requestSlik.status === reqSlikStatus.VERIFY"
+              [checked]="isVerifySelected(element)"
+              (change)="selectCheckRow(element, checkboxRow)"
+            ></mat-checkbox>
+
             <button
               mat-icon-button
               matTooltip="Slik File"
