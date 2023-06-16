@@ -729,18 +729,29 @@
         <div class="mb-2">
           <div class="row">
             <div class="col-8">
-              <mat-form-field class="w-100" appearance="outline">
-                <mat-label>Provision Fee</mat-label>
-                <input
-                  matInput
-                  currencyMask
-                  type="text"
-                  [(ngModel)]="applicationProduct.provisionFeeAmount"
-                  [options]="logoProvisonFee"
-                  [disabled]="status"
-                  id="fee"
-                />
-              </mat-form-field>
+              <!-- <div *ngIf="type === 'provision' && event === '%p.a'">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Provision Fee</mat-label>
+                  <input
+                    matInput
+                    currencyMask
+                    type="text"
+                    [(ngModel)]="applicationProduct.provisionFeeAmount"
+                    [options]="logoProvisonFee"
+                    [disabled]="status"
+                    id="fee"
+                  />
+                </mat-form-field>
+              </div> -->
+              <ejs-numerictextbox
+                [(ngModel)]="applicationProduct.provisionFeeAmount"
+                cssClass="e-outline"
+                placeholder="Provision Fee"
+                floatLabelType="auto"
+                floatLabelType="Always"
+                format="{{ logoProvisonFee }}"
+                min="0"
+              ></ejs-numerictextbox>
             </div>
             <div class="col-4">
               <mat-form-field class="w-100" appearance="outline">
@@ -778,7 +789,7 @@
         <div class="mb-2">
           <div class="row">
             <div class="col-8">
-              <mat-form-field class="w-100" appearance="outline">
+              <!-- <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Admin Fee</mat-label>
                 <input
                   matInput
@@ -789,10 +800,19 @@
                   [disabled]="status"
                   id="fee"
                 />
-              </mat-form-field>
+              </mat-form-field> -->
+              <ejs-numerictextbox
+                [(ngModel)]="applicationProduct.adminFeeAmount"
+                cssClass="e-outline"
+                placeholder="Admin Fee"
+                floatLabelType="auto"
+                floatLabelType="Always"
+                format="{{ logoAdminFee }}"
+                min="0"
+              ></ejs-numerictextbox>
             </div>
             <div class="col-4">
-              <mat-form-field class="w-100" appearance="outline">
+              <mat-form-field class="h-100" appearance="outline">
                 <mat-label>Rate / Amount Type</mat-label>
                 <mat-select
                   [(ngModel)]="applicationProduct.adminFeeType"
