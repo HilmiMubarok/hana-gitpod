@@ -124,7 +124,7 @@ td {
   text-align: left !important;
 }
 
-.mat-column-mainPlafond {
+/* .mat-column-mainPlafond {
   padding-left: 50px;
   text-align: right !important;
   padding-right: 50px;
@@ -133,7 +133,7 @@ td {
 .mat-column-outstanding {
   text-align: right !important;
   padding-right: 50px;
-}
+} */
 
 ::ng-deep .custom-dialog-container-cancel {
   .mat-dialog-container {
