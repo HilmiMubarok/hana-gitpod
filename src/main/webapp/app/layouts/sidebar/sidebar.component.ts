@@ -42,6 +42,7 @@ import {
   MENU_MASTER,
   APPRAISAL_MENU_ADMIN_CONFIG,
   MENU_MASTER_CONFIG,
+  SLIK_MENU_BUSINESS_SUPPORT,
   DASHBOARD,
 } from './menu-side-bar';
 import { Authority } from 'app/config/authority.constants';
@@ -149,6 +150,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
             this.dataSource.data = APPRAISAL_MENU_CREDIT_DIR;
           } else if (newPosSet === 'CC_ANALYST') {
             this.dataSource.data = APPRAISAL_MENU_CC_ANALYST;
+          } else if (newPosSet === 'BUSINESS_SUPPORT') {
+            this.dataSource.data = SLIK_MENU_BUSINESS_SUPPORT;
           } else if (newPosSet === 'FINANCE_DIR') {
             this.dataSource.data = APPRAISAL_MENU_FINANCE_DIR;
           } else if (newPosSet === 'CC_ADMIN') {

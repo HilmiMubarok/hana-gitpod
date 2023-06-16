@@ -301,6 +301,20 @@ export const APPRAISAL_MENU_ADMIN: ISidebarMenuModel[] = [
 ];
 
 // seperated config
+export const SLIK_MENU_BUSINESS_SUPPORT: ISidebarMenuModel[] = [
+  {
+    name: 'Initiation',
+    iconname: 'pencil-alt',
+    children: [
+      {
+        name: 'SLIK Checking',
+        iconname: 'minus',
+        route: 'request-slik',
+      },
+    ],
+  },
+];
+
 export const APPRAISAL_MENU_ADMIN_CONFIG: ISidebarMenuModel[] = [
   {
     name: 'MIS Report',

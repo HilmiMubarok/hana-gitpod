@@ -113,6 +113,7 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
   public detailType: any;
   public collPropVehicle: ICollateralProperty[];
   public liquidValueMV: number;
+  public collateralCodeName: string;
 
   constructor(
     private uomService: UomService,
@@ -409,5 +410,15 @@ export class CollateralPropertyVehicleDialogComponent implements OnInit, OnChang
 
   public sliceText(text: string) {
     return text.slice(5);
+  }
+
+  public filternameValue(data: string) {
+    const keys = Object.keys(this.collateralDetailType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.collateralDetailType[key];
+      }
+    }
+    return undefined;
   }
 }
