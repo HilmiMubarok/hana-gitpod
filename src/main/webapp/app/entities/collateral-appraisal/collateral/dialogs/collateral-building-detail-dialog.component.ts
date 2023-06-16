@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
@@ -10,6 +10,8 @@ import { ICollateralAppraisal } from '../../collateral-appraisal.model';
 import { STATUS } from 'app/shared/constants/status.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 @Component({
   selector: 'jhi-collateral-building-detail-dialog',
@@ -37,6 +39,8 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
   public roofData: Observable<any>;
   public fields: Object = { text: 'label', value: 'id' }; */
   constructor(
+    private templateService: TemplateService,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { collateralProperty: ICollateralProperty; collateralAppraisal: ICollateralAppraisal },
     private _dialog: MatDialogRef<CollateralBuildingDetailDialogComponent>,
     private collateralPropertyService: CollateralPropertyService,
@@ -52,6 +56,23 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
   ngOnInit(): void {
     this.checkLogin();
     this.hiddenTombol();
+    this.getRole();
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+      console.log('ini adalah role', newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'SURVEYOR' || param === 'TL' || param === 'APR_DEPT_HEAD') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   private getLov(): void {
@@ -73,6 +94,23 @@ export class CollateralBuildingDetailDialogComponent implements OnInit {
         this.constructionData = res.body;
         resolve();
       });
+    });
+  }
+
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this._dialog.close(this.collateralProp);
+      }
     });
   }
 

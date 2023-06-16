@@ -1,62 +1,3 @@
-table td,
-table th {
-  padding: 2px 10px;
-}
-
-.grid-index {
-  text-align: center;
-}
-
-.grid-index-label {
-  text-align: center;
-}
-
-.label-font-detail {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-}
-
-table {
-  border: 5px;
-  th {
-    background-color: rgba(147, 201, 199, 1);
-    color: black;
-    font-family: 'Poppins', sans-serif;
-  }
-  td {
-    font-family: 'Poppins', sans-serif;
-  }
-  .rounding-table-left {
-    border-top-left-radius: 15px;
-  }
-  .rounding-table-right {
-    border-top-right-radius: 15px;
-  }
-}
-.mat-column:first-child {
-  border-top-left-radius: 15px;
-}
-
-.mat-column:last-child {
-  border-top-right-radius: 15px;
-}
-.mat-column-no {
-  width: 5%;
-}
-
-.mat-column-action {
-  width: 10%;
-}
-.button-styling {
-  background-color: rgba(49, 158, 152, 1) !important;
-  color: #ffffff;
-}
-.html * {
-  font-family: 'Poppins', sans-serif !important;
-}
-
 ::ng-deep .custom-dialog-container-delete {
   .mat-dialog-container {
     background: linear-gradient(150deg, rgba(196, 223, 222, 1) 62%, rgba(147, 201, 199, 1) 68%);
@@ -129,7 +70,6 @@ table {
   font-weight: bold;
   font-family: 'Poppins', sans-serif !important;
 }
-
 .mat-select {
   font-family: 'Poppins', sans-serif !important;
 }
@@ -161,26 +101,13 @@ table {
 .e-float-input.e-input-group.e-control-wrapper.e-disabled {
   font-family: 'Poppins', sans-serif !important;
 }
+
 .e-card {
   font-family: 'Poppins', sans-serif !important;
 }
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
-
-.mat-column-no {
-  width: 5%;
-  text-align: right !important;
-  padding-left: 24px !important;
-}
-
-.mat-header-cell {
-  min-height: auto !important;
-  padding: 4px 36px 4px 0;
-}
-
-mat-cell,
-.mat-cell {
-  min-height: auto !important;
-  padding: 5px 28px 5px 0 !important;
+.mat-table {
+  font-family: 'Poppins', sans-serif !important;
 }

@@ -1540,6 +1540,10 @@ export class SurveyBatchEditProcessComponent implements OnInit {
       this.titleMenu = 'Valuation';
       sessionStorage.setItem('appNameMenu', this.titleMenu);
     }
+    if (this.clickedMenu === 'negative-collateral') {
+      this.titleMenu = 'Negative Collateral';
+      sessionStorage.setItem('appNameMenu', this.titleMenu);
+    }
     if (this.clickedMenu === 'comparison-data') {
       this.titleMenu = 'Comparison Data';
       sessionStorage.setItem('appNameMenu', this.titleMenu);

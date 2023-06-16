@@ -46,8 +46,8 @@ td {
 }
 .mat-column-no {
   width: 5%;
-  justify-content: flex-end;
-  padding-right: 30px;
+  text-align: right !important;
+  padding-left: 24px !important;
 }
 .mat-header-cell:first-child {
   width: 5%;
@@ -174,4 +174,45 @@ td {
 }
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
+}
+
+/* Table */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0, 24px, 0, 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 28px 0 0 !important;
 }

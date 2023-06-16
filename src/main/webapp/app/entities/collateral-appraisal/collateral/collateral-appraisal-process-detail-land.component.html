@@ -67,7 +67,13 @@
                 </mat-list>
               </mat-card-content>
               <mat-card-actions align="right">
-                <button mat-button [disabled]="hideordisable()" [disabled]="hiddenRmAdmin" (click)="openDialogCertificate(expandedElement)">
+                <button
+                  mat-raised-button
+                  [disabled]="hideordisable()"
+                  [disabled]="hiddenRmAdmin"
+                  class="button-styling"
+                  (click)="openDialogCertificate(expandedElement)"
+                >
                   ADD CERTIFICATE
                 </button>
               </mat-card-actions>
@@ -103,7 +109,9 @@
     </mat-paginator>
   </mat-card-content>
   <mat-card-actions align="right">
-    <button mat-button [hidden]="hideordisable()" [hidden]="hiddenRmAdmin" (click)="openDialog()">ADD NEW LAND INFO</button>
+    <button mat-raised-button [hidden]="hideordisable()" [hidden]="hiddenRmAdmin" class="button-styling" (click)="openDialog()">
+      ADD NEW LAND INFO
+    </button>
   </mat-card-actions>
 </mat-card>
 <mat-card>
