@@ -483,6 +483,7 @@ export class LoanAnalysMainComponent implements OnInit {
     if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.creditProposal.statusId === 'CP_DAR_FINAL') {
       this.disabledData = false;
     }
+    this.loadByPartyId(this.creditProposal.cif.partyId);
   }
 
   private getLocStor(cookieName: string) {
@@ -754,7 +755,6 @@ export class LoanAnalysMainComponent implements OnInit {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
               if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
                 if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
-
                   copyCreditProposal.notes[i].applicationId = this.id;
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
@@ -804,7 +804,6 @@ export class LoanAnalysMainComponent implements OnInit {
             for (let i = 0; i < copyCreditProposal.notes.length; i++) {
               if (copyCreditProposal.notes[i].positionId === this.positionLoginFromEmit) {
                 if (this.creditProposal.statusId === 'CP_LOAN_COMMITTEE' || this.parentPath === 'loan-committee-approval') {
-
                   copyCreditProposal.notes[i].applicationId = this.id;
                   copyCreditProposal.notes[i].message = '';
                   copyCreditProposal.notes[i].recomendation = this.recomendation;
@@ -1343,6 +1342,7 @@ export class LoanAnalysMainComponent implements OnInit {
     }
     this.saveWord = true;
     this.saveWordOpinionCondition = true;
+    this.cekCgpgData();
   }
 
   public getTitle(): void {
@@ -1657,6 +1657,16 @@ export class LoanAnalysMainComponent implements OnInit {
         this.collateralProperties = [...this.collateralProperties, ...res.body];
       });
     }
+  }
+
+  public cekCgpgData() {
+    for (let i = 0; i < this.collateralProperties.length; i++) {
+      this.saveCollateralProperty(this.collateralProperties[i]);
+    }
+  }
+
+  public saveCollateralProperty(property: ICollateralProperty) {
+    this.collateralPropertyService.save(property).subscribe(res => {});
   }
 }
 

@@ -43,8 +43,6 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   public creditProposalStartState: ICreditProposal;
   public certificateType: any;
   public dataCertyficate: any;
-
-  public collateralProperties: ICollateralProperty[];
   public dataItem: any;
   public totalMVInt: number;
   public totalLVInt: number;
@@ -57,6 +55,7 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
     this.selectedMenu = args.item.text;
   }
   public parsedData;
+  private _collateralProperties: ICollateralProperty[];
 
   @Input() isViewMode?: Boolean = false;
 
@@ -66,6 +65,14 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperties;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperties = item;
   }
 
   constructor(

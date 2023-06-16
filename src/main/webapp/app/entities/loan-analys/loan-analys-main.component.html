@@ -528,7 +528,10 @@
     </div>
 
     <div *ngIf="selectedMenu === 'facility-mapping'" class="e-sample-resize-container e-card-resize-container">
-      <jhi-collateral-info-dar-final [creditProposal]="creditProposal"></jhi-collateral-info-dar-final>
+      <jhi-collateral-info-dar-final
+        [creditProposal]="creditProposal"
+        [collateralProperties]="collateralProperties"
+      ></jhi-collateral-info-dar-final>
     </div>
 
     <div *ngIf="selectedMenu === 'loan-facility-view'" class="e-sample-resize-container e-card-resize-container">
