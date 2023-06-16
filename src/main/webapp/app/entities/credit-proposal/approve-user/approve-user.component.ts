@@ -18,7 +18,7 @@ import { RelationTypeService } from 'app/entities/relation-type/relation-type.se
   templateUrl: './approve-user.component.html',
   styleUrls: ['./approve-user.css'],
 })
-export class CreditProposalApproveUserComponent extends AbstractEntityMaterialComponent<IApplicationRole> implements OnInit {
+export class CreditProposalApproveUserComponent extends AbstractEntityMaterialComponent<IPositionReportingStructure> implements OnInit {
   public displayColumns: string[] = ['no', 'approval_name', 'position'];
   public creditProposalStatusCodes = [
     'DRAFT',
@@ -107,7 +107,7 @@ export class CreditProposalApproveUserComponent extends AbstractEntityMaterialCo
         if (this.selectedRelationType === 'CREDIT_PROPOSAL') {
           this.getReportingStructureByCP();
         } else {
-          this.items = [];
+          this.filteringItems = [];
         }
       });
   }
