@@ -6,6 +6,7 @@ import {
   IDocumentChecklistDebtorData,
   DocumentChecklistDebtorData,
 } from 'app/entities/debtor-data/document-checklis/debtor-data-document-checklist';
+import { Router } from '@angular/router';
 import { DocumentChecklistDialogTempComponent } from './document-checklist-dialog.component';
 import { IDebtorData } from 'app/entities/debtor-data/debtor-data.model';
 import { DocumentTypeService } from 'app/entities/document-type/document-type.service';
@@ -33,10 +34,16 @@ export class DocumentChecklistTempComponent implements OnInit {
   public file = [];
   public file1 = [];
   public file2 = [];
+  public buttonEdit: boolean;
   datePipe: DatePipe = new DatePipe('en-US');
   public dataArray: IDocumentType[];
   public fileUrl = [];
-  constructor(private storageService: StorageService, public dialog: MatDialog, private documentTypeService: DocumentTypeService) {}
+  constructor(
+    private storageService: StorageService,
+    public dialog: MatDialog,
+    private documentTypeService: DocumentTypeService,
+    public router: Router
+  ) {}
   @Input()
   get creditProposal() {
     return this._creditProposal;
@@ -46,75 +53,118 @@ export class DocumentChecklistTempComponent implements OnInit {
     this._creditProposal = item;
   }
 
+  buttonUpdate() {
+    const routers = this.router.url.split('/')[1];
+    if (
+      routers === 'dar-checker' ||
+      routers === 'dar-notif' ||
+      routers === 'cc-checking' ||
+      routers === 'cc-distribution' ||
+      routers === 'cc-review' ||
+      routers === 'distribution' ||
+      routers === 'finalize' ||
+      routers === 'review' ||
+      routers === 'confirmation'
+    ) {
+      this.buttonEdit = false;
+    } else {
+      this.buttonEdit = true;
+    }
+  }
+
   ngOnInit(): void {
+    this.buttonUpdate();
     this.getBucket().then(() => {
       this.getFiles(String(this.creditProposal.id)).then(() => {
         this.documentTypeService.documentTypeList('DOC_IDD').subscribe((res: any) => {
           this.documentTypeService.documentTypeList('DOC_CP').subscribe((res1: any) => {
             this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res2: any) => {
-              this.typeData = [...res.body, ...res1.body, ...res2.body];
-              for (let i = 0; i < this.typeData.length; i++) {
-                if (this.typeData[i].id.includes('DEPO')) {
-                  this.typeData[i].collateralTypeId = 'DEPOSIT';
-                } else if (this.typeData[i].id.includes('RE')) {
-                  this.typeData[i].collateralTypeId = 'REALESTATE';
-                } else if (this.typeData[i].id.includes('MC')) {
-                  this.typeData[i].collateralTypeId = 'MACHINE';
-                } else if (this.typeData[i].id.includes('SHIP')) {
-                  this.typeData[i].collateralTypeId = 'MACHINE';
-                } else if (this.typeData[i].id.includes('VH')) {
-                  this.typeData[i].collateralTypeId = 'VEHICLE';
-                } else if (this.typeData[i].id.includes('GRNT')) {
-                  this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
-                } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
-                  this.typeData[i].collateralTypeId = 'OTHER';
-                } else if (this.typeData[i].id.includes('STOCK')) {
-                  this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
-                } else if (this.typeData[i].id.includes('PIUTG')) {
-                  this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
-                } else if (this.typeData[i].id.includes('COR')) {
-                  this.typeData[i].collateralTypeId = 'COR';
-                } else if (this.typeData[i].id.includes('IND')) {
-                  this.typeData[i].collateralTypeId = 'IND';
+              this.documentTypeService.documentTypeList('DOC_COLL').subscribe((res3: any) => {
+                this.typeData = [...res.body, ...res1.body, ...res2.body];
+                for (let i = 0; i < this.typeData.length; i++) {
+                  if (this.typeData[i].id.includes('DEPO')) {
+                    this.typeData[i].collateralTypeId = 'DEPOSIT';
+                  } else if (this.typeData[i].id.includes('RE')) {
+                    this.typeData[i].collateralTypeId = 'REALESTATE';
+                  } else if (this.typeData[i].id.includes('MC')) {
+                    this.typeData[i].collateralTypeId = 'MACHINE';
+                  } else if (this.typeData[i].id.includes('SHIP')) {
+                    this.typeData[i].collateralTypeId = 'MACHINE';
+                  } else if (this.typeData[i].id.includes('VH')) {
+                    this.typeData[i].collateralTypeId = 'VEHICLE';
+                  } else if (this.typeData[i].id.includes('GRNT')) {
+                    this.typeData[i].collateralTypeId = 'CORPORATEPERSONALGUARANTEE';
+                  } else if (this.typeData[i].id.includes('DOC_CP_COLL_OTHER') || this.typeData[i].id.includes('DOC_COLL_OTHER')) {
+                    this.typeData[i].collateralTypeId = 'OTHER';
+                  } else if (this.typeData[i].id.includes('STOCK')) {
+                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
+                  } else if (this.typeData[i].id.includes('PIUTG')) {
+                    this.typeData[i].collateralTypeId = 'PERSONAL_PROPERTY';
+                  } else if (this.typeData[i].id.includes('COR')) {
+                    this.typeData[i].collateralTypeId = 'COR';
+                  } else if (this.typeData[i].id.includes('IND')) {
+                    this.typeData[i].collateralTypeId = 'IND';
+                  }
                 }
-              }
-              const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
-              const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
-                filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
-              );
-              const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType);
-              const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR');
-              const PengikatKredit: IDocumentType[] = this.typeData.filter(
-                obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
-              );
-              const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
-              const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_OTHER_ID');
-              const result: IDocumentType[] = [
-                ...collateralData,
-                ...INDCORData,
-                ...PersetujuanKredit,
-                ...PengikatKredit,
-                ...DocumentLainnya,
-                ...DocumentLainnyaIdentitasDebiturPerorangan,
-              ];
+                const laFilter = this.typeData.filter(obj => obj.id === 'DOC_LA_OPINION');
+                const DocumentLA: IDocumentType[] =
+                  this.router.url.includes('la-distribution') ||
+                  this.router.url.includes('la-analyst') ||
+                  this.router.url.includes('la-SME-CRC') ||
+                  this.router.url.includes('la-approval') ||
+                  this.router.url.includes('la-approval-inquiry') ||
+                  this.router.url.includes('dar-final') ||
+                  this.router.url.includes('loan-committee-approval') ||
+                  this.router.url.includes('dar-notif') ||
+                  this.router.url.includes('cc-distribution') ||
+                  this.router.url.includes('dar-checker') ||
+                  this.router.url.includes('cc-checking') ||
+                  this.router.url.includes('cc-review') ||
+                  this.router.url.includes('cc-inquiry') ||
+                  this.router.url.includes('loan-analys-and-approval-monitoring')
+                    ? laFilter
+                    : [];
+                const filterStatus: ICollateral[] = this.creditProposal.collaterals.filter(obj => obj.statusCode !== 'CANCEL');
+                const collateralData: IDocumentType[] = this.typeData.filter(obj1 =>
+                  filterStatus.map(obj2 => obj2.collateralTypeId).includes(obj1.collateralTypeId)
+                );
+                const INDCORData: IDocumentType[] = this.typeData.filter(obj => obj.customerType === this.creditProposal.customerType);
+                const PersetujuanKredit: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_CP_AGGR');
+                const PengikatKredit: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_BINDING' || obj.id === 'DOC_IDD_BINDING'
+                );
+                const DocumentLainnya: IDocumentType[] = this.typeData.filter(obj => obj.id === 'DOC_IDD_OTHER');
+                const DocumentLainnyaIdentitasDebiturPerorangan: IDocumentType[] = this.typeData.filter(
+                  obj => obj.id === 'DOC_CP_OTHER_ID'
+                );
+                const result: IDocumentType[] = [
+                  ...collateralData,
+                  ...INDCORData,
+                  ...PersetujuanKredit,
+                  ...PengikatKredit,
+                  ...DocumentLainnya,
+                  ...DocumentLainnyaIdentitasDebiturPerorangan,
+                  ...DocumentLA,
+                ];
 
-              for (let i = 0; i < result.length; i++) {
-                this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
-                  result[i].level = re.body;
+                for (let i = 0; i < result.length; i++) {
+                  this.documentTypeService.documentTypeList(result[i].id).subscribe((re: any) => {
+                    result[i].level = re.body;
 
-                  const mergeArray: ILevel[] = result[i].level.map(item1 => {
-                    const file = this.file.find(item2 => item2.idFile === item1.id);
-                    return { ...item1, ...file };
+                    const mergeArray: ILevel[] = result[i].level.map(item1 => {
+                      const file = this.file.find(item2 => item2.idFile === item1.id);
+                      return { ...item1, ...file };
+                    });
+
+                    const personalCorporate = mergeArray.filter(obj => obj.customerType === this.creditProposal.customerType);
+                    const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
+
+                    result[i].level = [...personalCorporate, ...nullData];
+
+                    this.dataArray = result;
                   });
-
-                  const personalCorporate = mergeArray.filter(obj => obj.customerType === this.creditProposal.customerType);
-                  const nullData = mergeArray.filter(obj => obj.customerType === 'ALL');
-
-                  result[i].level = [...personalCorporate, ...nullData];
-
-                  this.dataArray = result;
-                });
-              }
+                }
+              });
             });
           });
         });
@@ -148,6 +198,7 @@ export class DocumentChecklistTempComponent implements OnInit {
     predicate.data['typeData'] = this.typeData;
     predicate.data['view'] = view;
     predicate.data['item'] = item;
+    predicate.data['buttonEdit'] = this.buttonEdit;
 
     const dialogRef = this.dialog.open(DocumentChecklistDialogTempComponent, predicate);
     dialogRef.afterClosed().subscribe((r: any) => {});
