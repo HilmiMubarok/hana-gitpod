@@ -132,7 +132,7 @@ export class RequestSlikDetailComponent implements OnInit {
           partyId: ocrData.id,
           requestSlikId: this.requestSlikId.toString(),
           name: ocrData.name !== null ? ocrData.name : ocrData.groupName,
-          dob: new Date(ocrData.dob).toISOString().slice(0, 10),
+          dob: ocrData.dob.slice(0, 10),
           ktp: ocrData.personalIdNumber !== null ? ocrData.personalIdNumber : '',
           npwp: ocrData.taxIdNumber,
           gender: ocrData.gender === null ? '' : ocrData.gender === 'L' ? 'M' : 'F',
@@ -379,8 +379,8 @@ export class RequestSlikDetailComponent implements OnInit {
         name: this.partyCif.customerType === 'CORPORATE' ? this.partyCif.customerOrganization.groupName : this.partyCif.customerPerson.name,
         dob:
           this.partyCif.customerType === 'CORPORATE'
-            ? new Date(this.partyCif.organizationLegal.deedEstablishDate).toISOString().slice(0, 10)
-            : new Date(this.partyCif.customerPerson.dob).toISOString().slice(0, 10),
+            ? this.partyCif.organizationLegal.deedEstablishDate.slice(0, 10)
+            : this.partyCif.customerPerson.dob.slice(0, 10),
         ktp: this.partyCif.customerType === 'CORPORATE' ? '' : this.partyCif.customerPerson.personalIdNumber,
         npwp:
           this.partyCif.customerType === 'CORPORATE'
