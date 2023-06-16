@@ -124,6 +124,14 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       'FullScreen',
     ],
   };
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   public iframe: object = { enable: true };
   public height = 500;
 

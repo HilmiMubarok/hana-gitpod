@@ -34,6 +34,14 @@ import { map, Observable, startWith } from 'rxjs';
   templateUrl: './collateral-property-securities-dialog.component.html',
 })
 export class CollateralPropertySecuritiesDialogComponent implements OnInit {
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;

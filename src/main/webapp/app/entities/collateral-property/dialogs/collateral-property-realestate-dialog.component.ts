@@ -108,7 +108,14 @@ export class CollateralPropertyRealestateDialogComponent implements OnInit, OnCh
   set collateralPropertyExternal(param: ICollateralProperty) {
     this._collateralPropertyExternal = param;
   }
-
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   @Input() // for internal purpose
   get collateralProperty() {
     return this._collateralProperty;

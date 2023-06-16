@@ -32,6 +32,14 @@ import {
   templateUrl: './collateral-property-general-dialog-template.component.html',
 })
 export class CollateralPropertyGeneralDialogTemplateComponent implements OnInit {
+  private _pariPasu: string;
+  @Input()
+  get pariPasu() {
+    return this._pariPasu;
+  }
+  set pariPasu(data: string) {
+    this._pariPasu = data;
+  }
   private _collateralProperty: ICollateralProperty;
   private _collateralPropertyExternal: ICollateralProperty;
   private _collateral: ICollateral;
