@@ -74,6 +74,7 @@ export class LoanFacilityDetailGridTempComponent implements OnInit, OnChanges {
     'changes',
     'totalCreditLimit',
     'interestrate',
+    'proposeRate',
     'provisionAmount',
     'tenor',
     'maturityDate',
