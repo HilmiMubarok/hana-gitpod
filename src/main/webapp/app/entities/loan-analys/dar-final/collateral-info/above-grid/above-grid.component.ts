@@ -61,12 +61,12 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
-  public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public biddingValueSum: number;
   public biddingValueCoverage: number;
+  private _collateralProperties: ICollateralProperty[];
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -82,6 +82,14 @@ export class AboveGridDarFinalComponent extends AbstractEntityMaterialComponent<
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperties;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperties = item;
   }
 
   public presentage(value: string, status: string) {

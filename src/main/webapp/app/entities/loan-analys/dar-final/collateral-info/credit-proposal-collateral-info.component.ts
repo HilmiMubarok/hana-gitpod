@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ICreditProposal } from 'app/entities/credit-proposal/credit-proposal.model';
 import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigations';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 
 @Component({
   selector: 'jhi-collateral-info-dar-final',
@@ -8,10 +9,8 @@ import { MenuEventArgs, MenuItemModel } from '@syncfusion/ej2-angular-navigation
   styleUrls: ['./collateral-info-cp.style.scss'],
 })
 export class CollateralInfoDarFinalComponent implements OnInit {
-  ngOnInit(): void {
-    console.log(this.creditProposal.attributes['proposalType']);
-  }
   private _creditProposal: ICreditProposal;
+  private _collateralProperties: ICollateralProperty[];
 
   public selectedMenu: string;
   public menuItems: MenuItemModel[] = [{ text: 'INFORMATION' }, { text: 'CHECKLIST' }];
@@ -27,5 +26,17 @@ export class CollateralInfoDarFinalComponent implements OnInit {
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperties;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperties = item;
+  }
+
+  ngOnInit(): void {
+    console.log('collateral properties parent ', this.collateralProperties);
   }
 }

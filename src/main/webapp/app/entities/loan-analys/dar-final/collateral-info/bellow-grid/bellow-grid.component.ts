@@ -61,12 +61,12 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
-  public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
   public biddingValueSum: number;
   public biddingValueCoverage: number;
+  private _collateralProperties: ICollateralProperty[];
 
   public selectedMenu: string;
   public isChecked: boolean;
@@ -84,6 +84,14 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     this._creditProposal = cp;
   }
 
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperties;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperties = item;
+  }
+
   @Input() isViewMode;
 
   constructor(
@@ -98,7 +106,6 @@ export class BellowGridDarFinalComponent extends AbstractEntityMaterialComponent
     this.itemsPerPage = 10;
     this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
-    this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }

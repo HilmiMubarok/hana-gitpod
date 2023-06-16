@@ -43,7 +43,7 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
       applicationProduct: IApplicationProduct;
       collateral: ICollateral;
       cp: ICreditProposal;
-      collateralProperties: ICollateralProperty[];
+      properties: ICollateralProperty[];
     },
     protected collateralService: CollateralService,
     protected collateralPropertyService: CollateralPropertyService
@@ -53,7 +53,7 @@ export class MappingFacilityTempComponent implements OnChanges, OnInit {
     this.creditProposalData = this.data.cp;
     this.setUp();
     this.checked = false;
-    this.collateralProperties = this.data.collateralProperties;
+    this.collateralProperties = this.data.properties;
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['collateralData']) {
