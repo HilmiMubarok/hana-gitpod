@@ -27,4 +27,11 @@ export class MainFacilityChildDarComponent implements OnChanges {
       this.dataSource = this.mainData.categoryListDTO;
     }
   }
+
+  public getValue(element) {
+    if (element === null) {
+      return 0;
+    }
+    return element;
+  }
 }
