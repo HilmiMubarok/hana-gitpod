@@ -93,6 +93,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   public areaMeasure: IUom[];
   public displayColumns: string[] = ['no'];
   public collateralDetailType: any;
+  public collateralCodeName: string;
   public certificateType: any;
   public managementBranch: any;
   public provinces: IStateBoundary[];
@@ -146,6 +147,34 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
       this.branchesNames = res.body;
       console.log('vrk', this.branchesNames);
     });
+  }
+
+  public filternameValue(data: string) {
+    const keys = Object.keys(this.collateralDetailType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.collateralDetailType[key];
+      }
+    }
+    return undefined;
+  }
+
+  public param(data: string) {
+    const value = this.branceManagement.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.branceManagement.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+
+  public filterBranch(data: string) {
+    const branchValue = this.branchesNames.filter(obj => obj.id === data);
+    if (branchValue.length > 0) {
+      return this.branchesNames.filter(obj => obj.id === data)[0].name;
+    } else {
+      return '';
+    }
   }
 
   filteredMVImb() {
@@ -346,6 +375,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   public currency = 0;
 
   public getMVImbPsCcy() {
+    console.log('data curent', this.currency);
     this.collateralProperty.marketValueOriginalCcy = this.MVImbPsCcy.id;
 
     const setDate = new Date().toISOString().split('T')[0];
