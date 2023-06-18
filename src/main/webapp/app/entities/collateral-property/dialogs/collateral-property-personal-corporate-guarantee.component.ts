@@ -545,4 +545,30 @@ export class CollateralPropertyPersonalCorporateGuaranteeComponent implements On
       this.collateralProperty.attributes.remark = '';
     }
   }
+  public filterNameValue(data: string) {
+    const keys = this.certypicateTypeLov.filter(obj => obj.code === data);
+    if (keys.length > 0) {
+      return this.certypicateTypeLov.filter(obj => obj.code === data)[0].value;
+    } else {
+      return '';
+    }
+  }
+
+  public param(data: string) {
+    const value = this.branceManagement.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.branceManagement.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+
+  public filterBranch(data: string) {
+    const branchValue = this.branchs.filter(obj => obj.name === data);
+    if (branchValue.length > 0) {
+      return this.branchs.filter(obj => obj.name === data)[0].name;
+    } else {
+      return '';
+    }
+  }
 }
