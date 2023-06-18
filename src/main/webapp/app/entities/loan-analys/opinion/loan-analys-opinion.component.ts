@@ -32,6 +32,7 @@ import { IOptionNode, OptionNode } from 'app/shared/model/option-node.model';
 
 import lodash from 'lodash';
 import * as uuid from 'uuid';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-loan-analys-opinion',
@@ -121,7 +122,9 @@ export class LoanAnalysOpinionComponent implements OnInit {
 
   public generateButton: boolean;
 
-  public fileTypeList: string[] = ['Business Unit Director', 'Reviewer Opinion'];
+  public fileTypeList = { typeOfPosition: ['Business Unit Director', 'Reviewer Opinion'] };
+
+  public typeOfPosition: any;
 
   constructor(
     protected datePipe: DatePipe,
@@ -134,7 +137,8 @@ export class LoanAnalysOpinionComponent implements OnInit {
     protected positionService: PositionService,
     protected messageService: MessageService,
     protected applicationRoleService: ApplicationRoleService,
-    protected personService: PersonService
+    protected personService: PersonService,
+    protected reportUtils: ReportUtilService
   ) {
     this.tempRouter = this.router.url.split('/')[1];
     if (
@@ -906,7 +910,17 @@ export class LoanAnalysOpinionComponent implements OnInit {
     }
   }
 
+  public setOpionHistory(position: string) {
+    const id = this.creditProposalItem.id;
+    this.typeOfPosition = position;
+  }
+
   public generateOpinion() {
-    console.log('cek data');
+    const id = this.creditProposalItem.id;
+    if (this.typeOfPosition === 'Business Unit Director') {
+      this.reportUtils.downloadFile3('/services/report/api/report/bussiness_unit_opinion/pdf-word-stream/' + id, '', 'Report_' + id);
+    } else if (this.typeOfPosition === 'Reviewer Opinion') {
+      this.reportUtils.downloadFile3('/services/report/api/report/credit_reviewer_unit_opinion/pdf-word-stream/' + id, '', 'Report_' + id);
+    }
   }
 }
