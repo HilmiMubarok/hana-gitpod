@@ -12,10 +12,12 @@ import { CreditProposalNewDialogComponent } from './credit-proposal-new-dialog.c
 import { CreditProposal, ICreditProposal } from './credit-proposal.model';
 import { CreditProposalService } from './credit-proposal.service';
 import { MessageService } from 'primeng/api';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-credit-proposal-new',
   templateUrl: './credit-proposal-new.component.html',
+  styleUrls: ['./credit-proposal-list.css'],
   animations: [
     trigger('detailExpand', [
       state(
@@ -172,6 +174,27 @@ export class CreditProposalNewComponent {
         }
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Terjadi kesalahan pada sistem, silahkan ulangi proses' });
+      }
+    });
+  }
+  public previousState(): void {
+    window.history.back();
+  }
+
+  // CP/add new CP
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
       }
     });
   }

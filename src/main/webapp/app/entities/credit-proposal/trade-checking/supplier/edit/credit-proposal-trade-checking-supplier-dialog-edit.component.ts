@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog
 @Component({
   selector: 'jhi-trade-checking-supplier-dialog-edit',
   templateUrl: './credit-proposal-trade-checking-supplier-dialog-edit.component.html',
+  styleUrls: ['./credit-proposal-trade-checking-supplier-dialog-edit.style.scss'],
 })
 export class CreditProposalTradeCheckingSupplierDialogEditComponent {
   public tradeCheckingSupplier: ITradeCheckingSupplier;
