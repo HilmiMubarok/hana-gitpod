@@ -247,8 +247,22 @@ td {
   padding-right: 25px;
 }
 
+.mat-column-currency {
+  text-align: left;
+}
+
 .mat-column-no {
+  text-align: right;
   width: 5% !important;
+}
+.mat-columng-lvInternal {
+  text-align: right;
+}
+.mat-columng-mvInternal {
+  text-align: right;
+}
+.mat-columng-bindingValue {
+  text-align: right;
 }
 .mat-column-action {
   width: 10% !important;

@@ -2,6 +2,7 @@ table#tblSuppliers {
   width: 100%;
   th {
     background-color: rgba(147, 201, 199, 1);
+    text-align: left;
     color: black;
     font-family: 'Poppins', sans-serif;
   }
@@ -20,24 +21,6 @@ table#tblSuppliers {
   border-top-right-radius: 15px;
 }
 
-.grid-index-left {
-  justify-content: flex-start;
-  font-family: 'Poppins', sans-serif;
-}
-
-.grid-index-right {
-  justify-content: flex-end;
-  text-align: right;
-  padding-right: 45px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.grid-index-center {
-  justify-content: center;
-  text-align: center;
-  font-family: 'Poppins', sans-serif !important;
-}
-
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff;
@@ -46,6 +29,7 @@ table#tblBuyers {
   width: 100%;
   th {
     background-color: rgba(147, 201, 199, 1);
+    text-align: left;
     color: black;
     font-family: 'Poppins', sans-serif;
   }
@@ -55,6 +39,16 @@ table#tblBuyers {
     font-family: 'Poppins', sans-serif;
     border-bottom: 1px solid #ddd;
   }
+}
+
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+td {
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .mat-success {
@@ -191,4 +185,61 @@ mat-card-subtitle {
 }
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
+}
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 5px 28px 5px 0 !important;
+}
+
+.mat-column-no {
+  text-align: right;
+  width: 5%;
+}
+
+.mat-column-relationshipSince {
+  text-align: right;
+  width: 5%;
+}
+.mat-column-purchase {
+  text-align: right;
+  width: 5%;
+}
+.mat-column-reflection {
+  text-align: right;
+  width: 5%;
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 5px;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
 }
