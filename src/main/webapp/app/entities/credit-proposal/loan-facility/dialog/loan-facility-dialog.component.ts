@@ -104,6 +104,10 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public disButtonSub = true;
   public labelSublimit = [];
   public lovIndex = [];
+  private selectedType;
+  private selectedCurrency;
+  private provisionFormat = '0';
+  private adminFormat = '0';
 
   public preCurent = '';
   public lovLoanType = [];
@@ -866,15 +870,60 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   }
 
   public changeAmountType(event, type) {
+    this.selectedType = type;
+    this.selectedCurrency = event;
+    this.updateFormat(this.selectedType, this.selectedCurrency);
+  }
+
+  public checkForDecimalProvision(inputProvision) {
+    if (this.selectedCurrency !== '%p.a') {
+      const predicate = JSON.stringify(inputProvision);
+      const regex = /[0-9]+\./;
+      if (inputProvision > 0) {
+        const param = predicate.match(regex);
+        if (param !== null) {
+          this.provisionFormat = '0,0.00';
+        } else {
+          this.provisionFormat = '0,';
+        }
+      } else {
+        this.provisionFormat = '';
+      }
+    } else {
+      this.provisionFormat = '';
+    }
+    this.updateFormat(this.selectedType, this.selectedCurrency);
+  }
+  public checkForDecimalAdmin(inputAdmin) {
+    if (this.selectedCurrency !== '%p.a') {
+      const predicate = JSON.stringify(inputAdmin);
+      const regex = /[0-9]+\./;
+      if (inputAdmin > 0) {
+        const param = predicate.match(regex);
+        if (param !== null) {
+          this.adminFormat = '0,0.00';
+        } else {
+          this.adminFormat = '0,';
+        }
+      } else {
+        this.adminFormat = '';
+      }
+    } else {
+      this.provisionFormat = '';
+    }
+    this.updateFormat(this.selectedType, this.selectedCurrency);
+  }
+
+  public updateFormat(type, event) {
     if (type === 'provision') {
       if (event === '%p.a') {
-        this.logoProvisonFee = '';
+        this.logoProvisonFee = this.provisionFormat;
       }
       if (event === 'Amount IDR') {
-        this.logoProvisonFee = 'IDR 0,';
+        this.logoProvisonFee = 'IDR ' + this.provisionFormat;
       }
       if (event === 'Amount USD') {
-        this.logoProvisonFee = 'USD 0,';
+        this.logoProvisonFee = 'USD ' + this.provisionFormat;
       }
       if (event === '' || event === undefined) {
         this.logoProvisonFee = '';
@@ -883,15 +932,15 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
     if (type === 'admin') {
       if (event === '%p.a') {
         // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0, suffix: ' %p.a' };
-        this.logoAdminFee = '';
+        this.logoAdminFee = this.adminFormat;
       }
       if (event === 'Amount IDR') {
         // this.logoAdminFee = { prefix: 'IDR ', thousands: ',', decimal: '.', precision: 0 };
-        this.logoAdminFee = 'IDR 0,';
+        this.logoAdminFee = 'IDR ' + this.adminFormat;
       }
       if (event === 'Amount USD') {
         // this.logoAdminFee = { prefix: 'USD ', thousands: ',', decimal: '.', precision: 0 };
-        this.logoAdminFee = 'USD 0,';
+        this.logoAdminFee = 'USD ' + this.adminFormat;
       }
       if (event === '' || event === undefined) {
         // this.logoAdminFee = { prefix: '', thousands: '', decimal: '.', precision: 0 };
