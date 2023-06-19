@@ -381,15 +381,15 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
       }
     }
 
-    if (value === 'both') {
-      this.creditProposal.attributes['facilityDetail'].totalInitialLimit = result + dolar;
-    }
-    if (value === 'USD') {
-      this.creditProposal.attributes['facilityDetail'].totalInitialLimitUsd = result + dolar;
-    }
-    if (value === 'IDR') {
-      this.creditProposal.attributes['facilityDetail'].totalInitialLimitIdr = result + dolar;
-    }
+    // if (value === 'both') {
+    //   this.creditProposal.attributes['facilityDetail'].totalInitialLimit = result + dolar;
+    // }
+    // if (value === 'USD') {
+    //   this.creditProposal.attributes['facilityDetail'].totalInitialLimitUsd = result + dolar;
+    // }
+    // if (value === 'IDR') {
+    //   this.creditProposal.attributes['facilityDetail'].totalInitialLimitIdr = result + dolar;
+    // }
     return result + dolar;
   }
 
@@ -445,15 +445,15 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         }
       }
     }
-    if (value === 'both') {
-      this.creditProposal.attributes['facilityDetail'].totalChanges = result + dolar;
-    }
-    if (value === 'USD') {
-      this.creditProposal.attributes['facilityDetail'].totalChangesUsd = result + dolar;
-    }
-    if (value === 'IDR') {
-      this.creditProposal.attributes['facilityDetail'].totalChangesIdr = result + dolar;
-    }
+    // if (value === 'both') {
+    //   this.creditProposal.attributes['facilityDetail'].totalChanges = result + dolar;
+    // }
+    // if (value === 'USD') {
+    //   this.creditProposal.attributes['facilityDetail'].totalChangesUsd = result + dolar;
+    // }
+    // if (value === 'IDR') {
+    //   this.creditProposal.attributes['facilityDetail'].totalChangesIdr = result + dolar;
+    // }
     return result + dolar;
   }
 
@@ -509,15 +509,15 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         }
       }
     }
-    if (value === 'both') {
-      this.creditProposal.attributes['facilityDetail'].totalOs = result + dolar;
-    }
-    if (value === 'USD') {
-      this.creditProposal.attributes['facilityDetail'].totalOsUsd = result + dolar;
-    }
-    if (value === 'IDR') {
-      this.creditProposal.attributes['facilityDetail'].totalOsIdr = result + dolar;
-    }
+    // if (value === 'both') {
+    //   this.creditProposal.attributes['facilityDetail'].totalOs = result + dolar;
+    // }
+    // if (value === 'USD') {
+    //   this.creditProposal.attributes['facilityDetail'].totalOsUsd = result + dolar;
+    // }
+    // if (value === 'IDR') {
+    //   this.creditProposal.attributes['facilityDetail'].totalOsIdr = result + dolar;
+    // }
     return result + dolar;
   }
 
@@ -587,15 +587,15 @@ export class LoanFacilityDetailHistoryComponent implements OnInit, OnChanges {
         }
       }
     }
-    if (value === 'both') {
-      this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
-    }
-    if (value === 'USD') {
-      this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
-    }
-    if (value === 'IDR') {
-      this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
-    }
+    // if (value === 'both') {
+    //   this.creditProposal.attributes['facilityDetail'].totalPlafond = result + dolar;
+    // }
+    // if (value === 'USD') {
+    //   this.creditProposal.attributes['facilityDetail'].totalPlafondUsd = result + dolar;
+    // }
+    // if (value === 'IDR') {
+    //   this.creditProposal.attributes['facilityDetail'].totalPlafondIdr = result + dolar;
+    // }
     return result + dolar;
   }
 
