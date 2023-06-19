@@ -1,0 +1,37 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle class="e-card-header-title">Certificate Info</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-responsive-material">
+      <table mat-table [dataSource]="dataItem" class="w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-right rounding-table-left">No</th>
+          <td mat-cell *matCellDef="let i = index" class="grid-index-right">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="buktiKepemilikan">
+          <th mat-header-cell *matHeaderCellDef class="rounding-table-">Bukti Kepemilikan</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element }}</td>
+        </ng-container>
+        <ng-container matColumnDef="jangkaWaktu">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Jangka Waktu kepemilikan</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element }}</td>
+        </ng-container>
+        <ng-container matColumnDef="luasTanah">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Luas Tanah</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element }}</td>
+        </ng-container>
+        <ng-container matColumnDef="luasBangunan">
+          <th mat-header-cell *matHeaderCellDef class="grid-index-left">Luas Bangunan</th>
+          <td mat-cell *matCellDef="let element" class="grid-index-left">{{ element }}</td>
+        </ng-container>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No records found.</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator #paginator [pageSizeOptions]="[5, 12, 18]" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
