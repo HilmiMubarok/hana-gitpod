@@ -33,6 +33,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
 export class CreditProposalTabLoanFacilityDetailGridComponent implements OnInit, OnChanges {
   public dataParty = [];
 
+  @Input() isOnMemo: Boolean = false;
   @Input() isViewMode: Boolean = false;
   public _creditProposal: ICreditProposal;
   @Input()

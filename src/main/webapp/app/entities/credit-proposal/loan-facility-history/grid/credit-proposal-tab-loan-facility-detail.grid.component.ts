@@ -28,6 +28,7 @@ import { GeneralParameterService } from 'app/entities/master-parameter/general-p
   styleUrls: ['./loan.scss'],
 })
 export class LoanFacilityDetailGridHistoryComponent implements OnInit {
+  @Input() isOnMemo: Boolean = false;
   @Output() newItemEvent = new EventEmitter<any[]>();
   public dataParty = [];
   @Input() isViewMode: Boolean = false;
