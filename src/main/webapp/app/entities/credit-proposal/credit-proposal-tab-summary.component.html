@@ -89,19 +89,19 @@
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef width="10%" class="grid-index-left rounding-table-right">Action</th>
             <td mat-cell *matCellDef="let element">
-              <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'"> -->
-              <button pButton type="button" (click)="onEdit(element)" class="flat-button">
-                <fa-icon icon="eye"></fa-icon>
-              </button>
-              <button pButton type="button" (click)="onDelete(element)" class="flat-button">
-                <fa-icon icon="trash-alt"></fa-icon>
-              </button>
-              <!-- </section> -->
-              <!-- <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
                 <button pButton type="button" (click)="onEdit(element)" class="flat-button">
                   <fa-icon icon="eye"></fa-icon>
                 </button>
-              </section> -->
+                <button pButton type="button" (click)="onDelete(element)" class="flat-button">
+                  <fa-icon icon="trash-alt"></fa-icon>
+                </button>
+              </section>
+              <section *jhiMatrixDir="item.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
+                <button pButton type="button" (click)="onEdit(element)" class="flat-button">
+                  <fa-icon icon="eye"></fa-icon>
+                </button>
+              </section>
             </td>
           </ng-container>
           <tr class="mat-row" *matNoDataRow>

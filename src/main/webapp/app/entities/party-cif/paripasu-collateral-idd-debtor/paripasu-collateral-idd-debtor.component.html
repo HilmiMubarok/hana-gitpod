@@ -30,11 +30,11 @@
                 </ng-container>
                 <ng-container matColumnDef="totalPlafond">
                   <th mat-header-cell *matHeaderCellDef>Total Plafond</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mainPlafond | number }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.mainPlafondCategory | number }}</td>
                 </ng-container>
                 <ng-container matColumnDef="os">
                   <th mat-header-cell *matHeaderCellDef>Outstanding</th>
-                  <td mat-cell *matCellDef="let element">{{ element.outstanding | number }}</td>
+                  <td mat-cell *matCellDef="let element">{{ element.outstandingCategory | number }}</td>
                 </ng-container>
 
                 <tr class="mat-row" *matNoDataRow>
