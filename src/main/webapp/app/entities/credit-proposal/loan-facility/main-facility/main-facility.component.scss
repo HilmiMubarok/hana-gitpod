@@ -49,6 +49,7 @@ table {
     background-color: rgba(147, 201, 199, 1) !important;
     color: black !important;
     font-family: 'Poppins', sans-serif !important;
+    text-align: left;
   }
   td {
     font-family: 'Poppins', sans-serif !important;
@@ -59,18 +60,6 @@ table {
   .rounding-table-right {
     border-top-right-radius: 15px !important;
   }
-}
-
-.grid-index-left {
-  justify-content: flex-start !important;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.grid-index-right {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  padding-right: 45px !important;
-  font-family: 'Poppins', sans-serif !important;
 }
 
 .button-styling {
@@ -98,7 +87,6 @@ table {
   .mat-header-cell {
     word-wrap: initial;
     display: table-cell;
-    padding: 0px 5px;
     line-break: unset;
     width: auto;
     white-space: nowrap;
@@ -118,8 +106,32 @@ mat-cell,
   padding: 5px 28px 5px 0 !important;
 }
 
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
 .mat-column-no {
   width: 5%;
   text-align: right !important;
-  padding-left: 24px !important;
+}
+.mat-column-mainPlafond {
+  text-align: right !important;
+}
+.mat-column-changes {
+  text-align: right !important;
+}
+.mat-column-totalPlafond {
+  text-align: right !important;
+}
+.mat-column-currentMaturityDate {
+  text-align: right !important;
+}
+.mat-column-newMaturityDate {
+  text-align: right !important;
+}
+.mat-column-lastAgrmeentDate {
+  text-align: right !important;
 }

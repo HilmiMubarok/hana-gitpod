@@ -191,3 +191,16 @@ table {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+// table
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 0px 36px 0px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 5px 28px 5px 0 !important;
+}
+// table
