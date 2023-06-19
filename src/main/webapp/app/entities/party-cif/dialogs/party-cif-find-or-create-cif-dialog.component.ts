@@ -21,7 +21,7 @@ export class PartyCifFindOrCreateCifDialogComponent {
     this.partyCifService.cashFindCif(this.cif, { idPosition: this.getLocStor('POS') }).subscribe(
       res => {
         if (res.body) {
-          const snackBarRef = this._snackBar.open(`Cif Success`, null, {
+          this._snackBar.open(`Cif Success`, null, {
             horizontalPosition: 'right',
             verticalPosition: 'top',
             duration: 3000,
