@@ -2,17 +2,33 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ICreditProposal } from '../credit-proposal.model';
 import _ from 'lodash';
 import { CpMemoBandingService } from './services/cp-memo-banding.service';
+import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
+import { CollateralService } from 'app/entities/collateral/collateral.service';
+import { ICollateral } from 'app/entities/collateral/collateral.model';
+import { CollateralPropertyService } from 'app/entities/collateral-property/collateral-property.service';
+import { memoBandingData } from './memo-banding';
 
 @Component({
   selector: 'jhi-credit-proposal-memo-banding',
   templateUrl: './credit-proposal-memo-banding.component.html',
 })
 export class MemoBandingComponent implements OnInit {
-  constructor(private cpMemoBandingService: CpMemoBandingService) {}
+  constructor(
+    private cpMemoBandingService: CpMemoBandingService,
+    private collateralService: CollateralService,
+    private collateralPropertyService: CollateralPropertyService
+  ) {}
 
   ngOnInit(): void {
+    this.cpMemoBandingService.parseAttrCp(this.testData);
     this.cpMemoBandingService.compareDeepData(this.d1, this.d2);
+    if (this.creditProposal.cif) {
+      this.loadByPartyId(this.creditProposal.cif.partyId);
+    }
   }
+
+  testData = memoBandingData;
+
   @Input() creditProposal: ICreditProposal;
 
   public loanFacilityData: unknown;
@@ -63,4 +79,30 @@ export class MemoBandingComponent implements OnInit {
       age: 25,
     },
   ];
+
+  public collateralProperties: ICollateralProperty[] = [];
+  public collateral: ICollateral[] = [];
+  private loadByPartyId(param: string): void {
+    this.collateralService
+      .queryFilterBy({
+        idParty: param,
+        isActive: true,
+      })
+      .subscribe(res => {
+        this.collateral = res.body;
+        if (this.collateral.length > 0) {
+          for (let i = 0; i < this.collateral.length; i++) {
+            this.findCollateralProperty(this.collateral[i]);
+          }
+        }
+      });
+  }
+
+  public findCollateralProperty(collateral: ICollateral): void {
+    if (collateral.id) {
+      this.collateralPropertyService.queryFilterBy({ idCollateral: collateral.id, page: 0, size: 9999 }).subscribe(res => {
+        this.collateralProperties = [...this.collateralProperties, ...res.body];
+      });
+    }
+  }
 }

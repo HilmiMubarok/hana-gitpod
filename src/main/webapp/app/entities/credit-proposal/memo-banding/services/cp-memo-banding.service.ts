@@ -59,4 +59,16 @@ export class CpMemoBandingService extends AbstractEntityService<any> {
     console.log('comparedObject', comparedObject);
     return comparedObject;
   }
+
+  parseAttrCp(creditProposal: any) {
+    const parsed = {};
+    console.log('creditProposal', creditProposal);
+
+    // Check if creditProposal has attributes['previousOfferingLetter']
+    if (creditProposal.attributes['previousOfferingLetter']) {
+      const previousOfferingLetter = JSON.parse(creditProposal.attributes['previousOfferingLetter']);
+      parsed['previousOfferingLetter'] = previousOfferingLetter;
+    }
+    console.log('creditProposal after', parsed);
+  }
 }
