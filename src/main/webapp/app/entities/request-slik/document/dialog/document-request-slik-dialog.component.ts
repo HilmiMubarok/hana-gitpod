@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccountService } from 'app/core/auth/account.service';
 import { StorageService } from 'app/entities/storage/storage.service';
@@ -72,7 +72,6 @@ export class DocumentRequestSlikDialogComponent {
         docName: this.docName,
         objectName: `/request-slik/${this.slikRequestId}/document/${new Date().getTime().toString(36) + file.name}`,
         entityId: this.slikRequestId,
-        docDate: new Date(this.docDate).toISOString(),
         createdBy: this.userLogin,
       };
 
@@ -89,7 +88,6 @@ export class DocumentRequestSlikDialogComponent {
     const file = this.data.fileData;
     const tags = {
       docName: this.docName,
-      docDate: new Date(this.docDate).toISOString(),
     };
     this.storageService.update(this.bucket, tags, { key: file.key }).subscribe(res => this._dialog.close(res));
   }
