@@ -6,6 +6,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ICollateralProperty } from 'app/entities/collateral-property/collateral-property.model';
 import { ICollateral } from 'app/entities/collateral/collateral.model';
 import { CreditProposalService } from 'app/entities/credit-proposal/credit-proposal.service';
+import { IPartyCif } from 'app/entities/party-cif/party-cif.model';
 import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { IStateBoundary } from 'app/entities/state-boundary/state-boundary.model';
 import { StateBoundaryService } from 'app/entities/state-boundary/state-boundary.service';
@@ -63,7 +64,7 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   public optionsQuantity: IUom[];
   public filteredOptionsQuantity: Observable<IUom[]>;
   public qty: IUom;
-  public branchesNames: any;
+  public branchesNames = [];
 
   @Input() public officerName;
   @Input() public branchId;
@@ -146,9 +147,8 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
   }
 
   public setBranches() {
-    this.partyCifService.geBranches().subscribe(res => {
+    this.partyCifService.geBranches().subscribe((res: any) => {
       this.branchesNames = res.body;
-      console.log('vrk', this.branchesNames);
     });
   }
 
@@ -414,5 +414,43 @@ export class CollateralPropertySecuritiesDialogComponent implements OnInit {
     this.partyCifService.getDebitBlock().subscribe(res => {
       this.debitBlock = res.body;
     });
+  }
+  public filternameValue(data: string) {
+    const keys = Object.keys(this.collateralDetailType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.collateralDetailType[key];
+      }
+    }
+    return undefined;
+  }
+  public filterDebit(data: number) {
+    const value = this.debitBlock.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.debitBlock.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+  public param(data: string) {
+    const value = this.branceManagement.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.branceManagement.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+
+  public filterBranch(data: string) {
+    if (this.branchesNames.length > 0) {
+      const branchValue = this.branchesNames.filter(obj => obj.id === data);
+      if (branchValue.length > 0) {
+        return this.branchesNames.filter(obj => obj.id === data)[0].name;
+      } else {
+        return '';
+      }
+    } else {
+      return '';
+    }
   }
 }

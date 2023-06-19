@@ -295,6 +295,7 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
         // this.options = this.findIndex(this.options);
         this.filteredCurrency();
         this.filteredMVImb();
+        this.getAmountCcy();
         this.amountCcy = this.optionsCurrency.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
         this.MVImbCcy = this.optionsMVImb.find(obj => obj.id === this.collateralProperty.attributes.marketValueImbCcy);
       });
@@ -411,5 +412,22 @@ export class CollateralPropertyDepositDialogComponent implements OnInit {
   public amountChange() {
     this.collateralProperty.liquidationValue = this.collateralProperty.attributes.amount * this.currency;
     this.collateralProperty.marketValue = this.collateralProperty.attributes.amount * this.currency;
+  }
+  public filternameValue(data: string) {
+    const keys = Object.keys(this.collateralDetailType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.collateralDetailType[key];
+      }
+    }
+    return undefined;
+  }
+  public param(data: number) {
+    const value = this.debitBlock.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.debitBlock.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
   }
 }

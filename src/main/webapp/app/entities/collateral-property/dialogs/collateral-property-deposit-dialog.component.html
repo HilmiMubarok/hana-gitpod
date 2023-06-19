@@ -3,24 +3,46 @@
     <!-- LEFT SIDE -->
     <div class="col-6">
       <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Collateral Detail Type</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" [disabled]="dataSource()">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
-          </mat-select>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Collateral Detail Type</mat-label>
+            <mat-select [(ngModel)]="collateralProperty.attributes.collateralDetailType" [disabled]="dataSource()">
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of collateralDetailType | keyvalue" [value]="item.key"> {{ item.value }} </mat-option>
+            </mat-select>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Collateral Detail Type</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ filternameValue(collateralProperty.attributes.collateralDetailType) }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Branch</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
-          </mat-select>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Branch</mat-label>
+            <mat-select [(ngModel)]="collateralProperty.attributes.branch" disabled>
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of branchesNames" [value]="item.id"> {{ item.name }} </mat-option>
+            </mat-select>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Branch</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.branch }}
+            </div>
+          </div>
+        </section>
       </div>
       <!-- <div class="form-group">
       <mat-form-field appearance="outline" class="w-100">
@@ -33,151 +55,284 @@
       </mat-form-field>
     </div> -->
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account Number</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountNumber" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account Number</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountNumber" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Account Number</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.accountNumber }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account Customer Number</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountCustomerNo" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account Customer Number</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountCustomerNo" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Account Customer Number</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.accountNumber }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account Customer Name</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountCustomer" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account Customer Name</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountCustomer" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Account Customer Name</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.accountCustomer }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="row form-group">
         <div class="col-8">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Amount</mat-label>
+              <!-- <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [options]="logoCcy" -->
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="collateralProperty.attributes.amount"
+                [options]="logoCcy"
+                (ngModelChange)="amountChange()"
+                [disabled]="dataSource()"
+              />
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Amount</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.attributes.amount }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="col-4">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Ccy</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="myControlCurrency"
+                [matAutocomplete]="auto"
+                [(ngModel)]="amountCcy"
+                (ngModelChange)="getAmountCcy()"
+              />
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
+                <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option">
+                  {{ option.abbreviation }} - {{ option.description }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- <mat-select [(ngModel)]="collateralProperty.attributes.amountCcy" [disabled]="dataSource()">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select> -->
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Ccy</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.marketValueOriginalCcy }}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Kurs</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="currency" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Kurs</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ currency }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Market Value</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Market Value</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ collateralProperty.marketValue }}
+          </div>
+        </div>
+      </section>
+
+      <section *jhiMatrixDirIDD="'input'">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Liquidation Value</mat-label>
+          <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
+          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+        </mat-form-field>
+      </section>
+      <section *jhiMatrixDirIDD="''">
+        <div class="fontsebled row">
+          <div class="col">Liquidation Value</div>
+          <div class="col-md-auto">:</div>
+          <div class="col">
+            {{ collateralProperty.liquidationValue }}
+          </div>
+        </div>
+      </section>
+
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Amount</mat-label>
-            <!-- <input currencyMask matInput type="text" [(ngModel)]="applicationProduct.attributes['initialLimit']" [options]="logoCcy" -->
+            <mat-label>Contract Amount</mat-label>
             <input
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="collateralProperty.attributes.amount"
+              [(ngModel)]="collateralProperty.attributes.contractAmount"
               [options]="logoCcy"
-              (ngModelChange)="amountChange()"
               [disabled]="dataSource()"
             />
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
-        </div>
-        <div class="col-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Ccy</mat-label>
-            <input
-              type="text"
-              matInput
-              [formControl]="myControlCurrency"
-              [matAutocomplete]="auto"
-              [(ngModel)]="amountCcy"
-              (ngModelChange)="getAmountCcy()"
-            />
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCurrency">
-              <mat-option *ngFor="let option of filteredOptionsCurrency | async" [value]="option">
-                {{ option.abbreviation }} - {{ option.description }}
-              </mat-option>
-            </mat-autocomplete>
-            <!-- <mat-select [(ngModel)]="collateralProperty.attributes.amountCcy" [disabled]="dataSource()">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select> -->
-            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
-        </div>
-      </div>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Kurs</mat-label>
-        <input currencyMask matInput type="text" [(ngModel)]="currency" [options]="logoCcy" disabled />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Market Value</mat-label>
-        <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.marketValue" [options]="logoCcy" disabled />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
-
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Liquidation Value</mat-label>
-        <input currencyMask matInput type="text" [(ngModel)]="collateralProperty.liquidationValue" [options]="logoCcy" disabled />
-        <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-      </mat-form-field>
-
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Contract Amount</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.attributes.contractAmount"
-            [options]="logoCcy"
-            [disabled]="dataSource()"
-          />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Contract Amount</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.contractAmount }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="row form-group">
         <div class="col-8">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Market Value (IMB)</mat-label>
+              <input
+                currencyMask
+                matInput
+                type="text"
+                [(ngModel)]="collateralProperty.propertyMarketValueIMB"
+                [options]="logoCcy"
+                [disabled]="dataSource()"
+              />
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Market Value (IMB)</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.propertyMarketValueIMB }}
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="col-4">
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Ccy</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="myControlMVImb"
+                [matAutocomplete]="autoImb"
+                [(ngModel)]="MVImbCcy"
+                (ngModelChange)="getMVImbCcy()"
+              />
+              <mat-autocomplete #autoImb="matAutocomplete" [displayWith]="displayFnMVImb">
+                <mat-option *ngFor="let option of filteredOptionsMVImb | async" [value]="option">
+                  {{ option.abbreviation }} - {{ option.description }}
+                </mat-option>
+              </mat-autocomplete>
+              <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueImbCcy" [disabled]="dataSource()">
+            <mat-option value="">Please Select</mat-option>
+            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
+          </mat-select> -->
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Ccy</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.attributes.marketValueImbCcy }}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="form-group">
+        <section *jhiMatrixDirIDD="'input'">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Market Value (IMB)</mat-label>
+            <mat-label>Monthly Installment Amount</mat-label>
             <input
               currencyMask
               matInput
               type="text"
-              [(ngModel)]="collateralProperty.propertyMarketValueIMB"
-              [options]="logoCcy"
+              [(ngModel)]="collateralProperty.attributes.montlyInstallmentAmount"
               [disabled]="dataSource()"
+              [options]="logoCcy"
             />
             <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
           </mat-form-field>
-        </div>
-        <div class="col-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Ccy</mat-label>
-            <input
-              type="text"
-              matInput
-              [formControl]="myControlMVImb"
-              [matAutocomplete]="autoImb"
-              [(ngModel)]="MVImbCcy"
-              (ngModelChange)="getMVImbCcy()"
-            />
-            <mat-autocomplete #autoImb="matAutocomplete" [displayWith]="displayFnMVImb">
-              <mat-option *ngFor="let option of filteredOptionsMVImb | async" [value]="option">
-                {{ option.abbreviation }} - {{ option.description }}
-              </mat-option>
-            </mat-autocomplete>
-            <!-- <mat-select [(ngModel)]="collateralProperty.attributes.marketValueImbCcy" [disabled]="dataSource()">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of currencies" [value]="item.id"> {{ item.abbreviation }} - {{ item.description }} </mat-option>
-          </mat-select> -->
-            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Monthly Installment Amount</mat-label>
-          <input
-            currencyMask
-            matInput
-            type="text"
-            [(ngModel)]="collateralProperty.attributes.montlyInstallmentAmount"
-            [disabled]="dataSource()"
-            [options]="logoCcy"
-          />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Monthly Installment Amount</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.montlyInstallmentAmount }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
     <!-- RIGHT SIDE -->
@@ -189,50 +344,112 @@
         </mat-form-field>
       </div> -->
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Installment Time</mat-label>
-          <input matInput type="number" [(ngModel)]="collateralProperty.attributes.installMentTime" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Installment Time</mat-label>
+            <input matInput type="number" [(ngModel)]="collateralProperty.attributes.installMentTime" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Installment Time</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.installMentTime }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Opening Date</mat-label>
-          <input [matDatepicker]="certCreatedDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.openingDate" disabled />
-          <mat-datepicker-toggle matSuffix [for]="certCreatedDate"></mat-datepicker-toggle>
-          <mat-datepicker #certCreatedDate [disabled]="dataSource()"></mat-datepicker>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Opening Date</mat-label>
+            <input
+              [matDatepicker]="certCreatedDate"
+              matInput
+              type="text"
+              [(ngModel)]="collateralProperty.attributes.openingDate"
+              disabled
+            />
+            <mat-datepicker-toggle matSuffix [for]="certCreatedDate"></mat-datepicker-toggle>
+            <mat-datepicker #certCreatedDate [disabled]="dataSource()"></mat-datepicker>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Opening Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.openingDate | date: 'yyyy/dd/MM' }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Maturity Date</mat-label>
-          <input [matDatepicker]="maturityDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.maturityDate" disabled />
-          <mat-datepicker-toggle matSuffix [for]="maturityDate"></mat-datepicker-toggle>
-          <mat-datepicker #maturityDate [disabled]="dataSource()"></mat-datepicker>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Maturity Date</mat-label>
+            <input [matDatepicker]="maturityDate" matInput type="text" [(ngModel)]="collateralProperty.attributes.maturityDate" disabled />
+            <mat-datepicker-toggle matSuffix [for]="maturityDate"></mat-datepicker-toggle>
+            <mat-datepicker #maturityDate [disabled]="dataSource()"></mat-datepicker>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Maturity Date</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.maturityDate | date: 'yyyy/dd/MM' }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Account Officer</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" disabled />
-          <mat-icon matSuffix>search</mat-icon>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Account Officer</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.accountOfficer" disabled />
+            <mat-icon matSuffix>search</mat-icon>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Account Officer</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.accountOfficer }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="row">
         <div class="col-8">
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Quantity Size</mat-label>
-            <input matInput type="number" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
-            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Quantity Size</mat-label>
+              <input matInput type="number" [(ngModel)]="collateralProperty.total" [disabled]="dataSource()" />
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Quantity Size</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.total }}
+              </div>
+            </div>
+          </section>
         </div>
         <div class="col-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Qty</mat-label>
-            <!-- <input
+          <section *jhiMatrixDirIDD="'input'">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Qty</mat-label>
+              <!-- <input
             type="text"
             matInput
             [formControl]="myControlQuantity"
@@ -245,30 +462,62 @@
               {{ option.id }} - {{ option.description }}
             </mat-option>
           </mat-autocomplete> -->
-            <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
-              <mat-option value="">Please Select</mat-option>
-              <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
-                {{ item.abbreviation }} - {{ item.description }}
-              </mat-option>
-            </mat-select>
-            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-          </mat-form-field>
+              <mat-select [(ngModel)]="collateralProperty.attributes.quantitySizeUomId" [disabled]="dataSource()">
+                <mat-option value="">Please Select</mat-option>
+                <mat-option *ngFor="let item of areaMeasure" [value]="item.abbreviation">
+                  {{ item.abbreviation }} - {{ item.description }}
+                </mat-option>
+              </mat-select>
+              <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+            </mat-form-field>
+          </section>
+          <section *jhiMatrixDirIDD="''">
+            <div class="fontsebled row">
+              <div class="col">Qty</div>
+              <div class="col-md-auto">:</div>
+              <div class="col">
+                {{ collateralProperty.attributes.quantitySizeUomId }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>Issuing Institution</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuingInstitusi" [disabled]="dataSource()" />
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Issuing Institution</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.attributes.issuingInstitusi" [disabled]="dataSource()" />
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Issuing Institution</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.attributes.issuingInstitusi }}
+            </div>
+          </div>
+        </section>
       </div>
       <div class="form-group">
-        <mat-form-field class="w-100" appearance="outline">
-          <mat-label>BIC Code</mat-label>
-          <input matInput type="text" [(ngModel)]="collateralProperty.bicCode" [disabled]="dataSource()" />
-          <mat-icon matSuffix>search</mat-icon>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>BIC Code</mat-label>
+            <input matInput type="text" [(ngModel)]="collateralProperty.bicCode" [disabled]="dataSource()" />
+            <mat-icon matSuffix>search</mat-icon>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">BIC Code</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ collateralProperty.bicCode }}
+            </div>
+          </div>
+        </section>
       </div>
       <!-- <div class="form-group">
         <mat-form-field class="w-100" appearance="outline">
@@ -277,14 +526,25 @@
         </mat-form-field>
       </div> -->
       <div class="form-group">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Debit Block</mat-label>
-          <mat-select [(ngModel)]="collateralProperty.attributes.debitBlock" [disabled]="dataSource()">
-            <mat-option value="">Please Select</mat-option>
-            <mat-option *ngFor="let item of debitBlock" [value]="item.id"> {{ item.label }} </mat-option>
-          </mat-select>
-          <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
-        </mat-form-field>
+        <section *jhiMatrixDirIDD="'input'">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Debit Block</mat-label>
+            <mat-select [(ngModel)]="collateralProperty.attributes.debitBlock" [disabled]="dataSource()">
+              <mat-option value="">Please Select</mat-option>
+              <mat-option *ngFor="let item of debitBlock" [value]="item.id"> {{ item.label }} </mat-option>
+            </mat-select>
+            <mat-hint align="end" [hidden]="!dataSource()">*) Disabled, Data From HOBIS</mat-hint>
+          </mat-form-field>
+        </section>
+        <section *jhiMatrixDirIDD="''">
+          <div class="fontsebled row">
+            <div class="col">Debit Block</div>
+            <div class="col-md-auto">:</div>
+            <div class="col">
+              {{ param(collateralProperty.attributes.debitBlock) }}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>
