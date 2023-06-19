@@ -55,224 +55,226 @@
       </div>
     </div>
     <div style="margin: 1rem">
-      <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
-        <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
-          <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
-            {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="proposalNumber">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Number</th>
-          <td mat-cell *matCellDef="let element">{{ element.applicationNumber }}</td>
-        </ng-container>
-        <ng-container matColumnDef="applicationTypeDescription-proposalType">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Segment / Proposal Type</th>
-          <td mat-cell *matCellDef="let element">{{ element.applicationTypeDescription }} / {{ element.attributes.proposalType }}</td>
-        </ng-container>
-        <ng-container matColumnDef="cif">
-          <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
-          <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
-        </ng-container>
-        <ng-container matColumnDef="customerName">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.prospectPerson ? element.prospectPerson.afiks : '' }}
-            {{ element.prospectOrganization ? element.prospectOrganization.groupName : element.prospectPerson.name }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="customerType">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
-          <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
-            {{ element.customerType | lowercase }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="createdDate">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Date</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.createdDate | formatMediumDate }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="maturityDate">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Maturity Date</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            {{ element.maturityDate | formatMediumDate }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <mat-chip>{{ element.statusDescription }}</mat-chip>
-          </td>
-        </ng-container>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="items" class="mat-table-expand" multiTemplateDataRows>
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef class="text-center">No</th>
+            <td mat-cell *matCellDef="let element; let i = dataIndex" class="text-center">
+              {{ i + 1 + paginator.pageIndex * paginator.pageSize }}.
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="proposalNumber">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Number</th>
+            <td mat-cell *matCellDef="let element">{{ element.applicationNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="applicationTypeDescription-proposalType">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Segment / Proposal Type</th>
+            <td mat-cell *matCellDef="let element">{{ element.applicationTypeDescription }} / {{ element.attributes.proposalType }}</td>
+          </ng-container>
+          <ng-container matColumnDef="cif">
+            <th mat-header-cell *matHeaderCellDef class="text-center">CIF</th>
+            <td mat-cell *matCellDef="let element">{{ element.customerNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="customerName">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Debtor Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.prospectPerson ? element.prospectPerson.afiks : '' }}
+              {{ element.prospectOrganization ? element.prospectOrganization.groupName : element.prospectPerson.name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="customerType">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Customer Type</th>
+            <td mat-cell *matCellDef="let element" class="text-center text-capitalize">
+              {{ element.customerType | lowercase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Proposal Date</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.createdDate | formatMediumDate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="maturityDate">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Maturity Date</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              {{ element.maturityDate | formatMediumDate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Status</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <mat-chip>{{ element.statusDescription }}</mat-chip>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
-          <td mat-cell *matCellDef="let element" class="text-center">
-            <a href="javascript:void();" [routerLink]="[element.id, 'edit']" mat-icon-button (click)="$event.stopPropagation()">
-              <fa-icon icon="pencil-alt"></fa-icon>
-            </a>
-            <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
-              <fa-icon [icon]="iconTimeline"></fa-icon>
-            </button>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="expand">
-          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              aria-label="expand row"
-              (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
-            >
-              <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
-              <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <a href="javascript:void();" [routerLink]="[element.id, 'edit']" mat-icon-button (click)="$event.stopPropagation()">
+                <fa-icon icon="pencil-alt"></fa-icon>
+              </a>
+              <button mat-icon-button (click)="$event.stopPropagation(); showTimeLine(element)">
+                <fa-icon [icon]="iconTimeline"></fa-icon>
+              </button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                aria-label="expand row"
+                (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+              >
+                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
-            <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-              <div class="p-3 w-100">
-                <mat-card class="w-50 mx-auto">
-                  <mat-card-header class="w-100">
-                    <mat-card-subtitle class="fw-bold black text-uppercase">RM Info</mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <div class="clearfix">
-                      <div class="float-start fw-bolder">Name</div>
-                      <div class="float-end">{{ element.rmName }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Branch</div>
-                      <div class="float-end text-capitalize">{{ element.rmBranch }}</div>
-                    </div>
-                  </mat-card-content>
-                </mat-card>
-                <mat-card class="w-50 mx-auto" *ngIf="element.prospectPerson">
-                  <mat-card-header class="w-100">
-                    <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <div class="clearfix">
-                      <div class="float-start fw-bolder">Place, Date of Birth</div>
-                      <div class="float-end">{{ element.prospectPerson.pob }}, {{ element.prospectPerson.dob | formatMediumDate }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Marital Status</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.maritalStatus | lowercase }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">KTP</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.personalIdNumber }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">KK</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.familyIdNumber }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">NPWP</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.taxIdNumber }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Address</div>
-                      <div class="float-end text-capitalize">{{ element.addressF }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Email</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.personalEmail }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Home Phone</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.homePhone }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">CellPhone</div>
-                      <div class="float-end text-capitalize">{{ element.prospectPerson.cellPhone1 }}</div>
-                    </div>
-                  </mat-card-content>
-                </mat-card>
-                <mat-card class="w-50 mx-auto" *ngIf="element.prospectOrganization">
-                  <mat-card-header>
-                    <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <div class="clearfix">
-                      <div class="float-start fw-bolder">NPWP</div>
-                      <div class="float-end">{{ element.prospectOrganization.taxIdNumber }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Address</div>
-                      <div class="float-end text-capitalize">{{ element.addressF }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Office Phone</div>
-                      <div class="float-end">{{ element.prospectOrganization.officePhone }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Phone 1</div>
-                      <div class="float-end">{{ element.prospectOrganization.otherPhone1 }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Phone 2</div>
-                      <div class="float-end">{{ element.prospectOrganization.otherPhone2 }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Email</div>
-                      <div class="float-end">{{ element.prospectOrganization.officeMail }}</div>
-                    </div>
-                    <div class="clearfix mt-3">
-                      <div class="float-start fw-bolder">Fax</div>
-                      <div class="float-end">{{ element.prospectOrganization.faxOffice }}</div>
-                    </div>
-                  </mat-card-content>
-                </mat-card>
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsExpand.length">
+              <div class="mat-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="p-3 w-100">
+                  <mat-card class="w-50 mx-auto">
+                    <mat-card-header class="w-100">
+                      <mat-card-subtitle class="fw-bold black text-uppercase">RM Info</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">Name</div>
+                        <div class="float-end">{{ element.rmName }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Branch</div>
+                        <div class="float-end text-capitalize">{{ element.rmBranch }}</div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class="w-50 mx-auto" *ngIf="element.prospectPerson">
+                    <mat-card-header class="w-100">
+                      <mat-card-subtitle class="fw-bold black text-uppercase">Personal Detail</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">Place, Date of Birth</div>
+                        <div class="float-end">{{ element.prospectPerson.pob }}, {{ element.prospectPerson.dob | formatMediumDate }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Marital Status</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.maritalStatus | lowercase }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">KTP</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.personalIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">KK</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.familyIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">NPWP</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.taxIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Address</div>
+                        <div class="float-end text-capitalize">{{ element.addressF }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Email</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.personalEmail }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Home Phone</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.homePhone }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">CellPhone</div>
+                        <div class="float-end text-capitalize">{{ element.prospectPerson.cellPhone1 }}</div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class="w-50 mx-auto" *ngIf="element.prospectOrganization">
+                    <mat-card-header>
+                      <mat-card-subtitle class="fw-bold black text-uppercase text-center">Corporate Detail </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">NPWP</div>
+                        <div class="float-end">{{ element.prospectOrganization.taxIdNumber }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Address</div>
+                        <div class="float-end text-capitalize">{{ element.addressF }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Office Phone</div>
+                        <div class="float-end">{{ element.prospectOrganization.officePhone }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Phone 1</div>
+                        <div class="float-end">{{ element.prospectOrganization.otherPhone1 }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Phone 2</div>
+                        <div class="float-end">{{ element.prospectOrganization.otherPhone2 }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Email</div>
+                        <div class="float-end">{{ element.prospectOrganization.officeMail }}</div>
+                      </div>
+                      <div class="clearfix mt-3">
+                        <div class="float-start fw-bolder">Fax</div>
+                        <div class="float-end">{{ element.prospectOrganization.faxOffice }}</div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
 
-                <mat-card class="w-50 mx-auto" *ngIf="element.pic !== null">
-                  <mat-card-header>
-                    <mat-card-subtitle class="fw-bold black text-uppercase text-center">RM Info </mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <div class="clearfix">
-                      <div class="float-start fw-bolder">PIC Name</div>
-                      <div class="float-end" *ngFor="let item of element.listOfPic">{{ item.partyName }} |</div>
-                    </div>
-                    <!-- <div class="clearfix mt-3">
+                  <mat-card class="w-50 mx-auto" *ngIf="element.pic !== null">
+                    <mat-card-header>
+                      <mat-card-subtitle class="fw-bold black text-uppercase text-center">RM Info </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">PIC Name</div>
+                        <div class="float-end" *ngFor="let item of element.listOfPic">{{ item.partyName }} |</div>
+                      </div>
+                      <!-- <div class="clearfix mt-3">
                       <div class="float-start fw-bolder">RM Name</div>
                       <div class="float-end" *ngIf="element.rm !== null">{{ element.rm.partyName }}</div>
                     </div> -->
-                    <div class="clearfix mt-3" *ngIf="element.ownerPosition !== null">
-                      <div class="float-start fw-bolder">RM Name</div>
-                      <div class="float-end">
-                        {{ element.ownerPosition?.employeeFirstName + ' ' + element.ownerPosition?.employeeLastName }}
+                      <div class="clearfix mt-3" *ngIf="element.ownerPosition !== null">
+                        <div class="float-start fw-bolder">RM Name</div>
+                        <div class="float-end">
+                          {{ element.ownerPosition?.employeeFirstName + ' ' + element.ownerPosition?.employeeLastName }}
+                        </div>
                       </div>
-                    </div>
-                    <div class="clearfix">
-                      <div class="float-start fw-bolder">PIC Date</div>
-                      <div class="float-end" *ngFor="let item of element.listOfPic">{{ item.fromDate | date: 'medium' }} |</div>
-                    </div>
-                  </mat-card-content>
-                </mat-card>
+                      <div class="clearfix">
+                        <div class="float-start fw-bolder">PIC Date</div>
+                        <div class="float-end" *ngFor="let item of element.listOfPic">{{ item.fromDate | date: 'medium' }} |</div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
               </div>
-            </div>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
-        </tr>
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: displayedColumnsExpand"
-          [class.mat-expanded-row]="expandedElement === element"
-          class="mat-element-row"
-          (click)="expandedElement = expandedElement === element ? null : element"
-        ></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
-      </table>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumnsExpand.length">No records found.</td>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsExpand"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: displayedColumnsExpand"
+            [class.mat-expanded-row]="expandedElement === element"
+            class="mat-element-row"
+            (click)="expandedElement = expandedElement === element ? null : element"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="mat-detail-row"></tr>
+        </table>
+      </div>
       <mat-card *ngIf="loading" id="material-loading-bar">
         <mat-progress-spinner color="warn" mode="indeterminate"> </mat-progress-spinner>
       </mat-card>
