@@ -62,6 +62,13 @@ export class CreditProposalService extends AbstractEntityService<ICreditProposal
     return result;
   }
 
+  public applicationGroubProduct(id: number): Observable<HttpResponse<any>> {
+    return this.http
+      .get<ICreditProposal[]>(MICROSERVICENAME.LOS + '/api/application-group-products/page/' + id, { observe: 'response' })
+      .pipe(map((res: HttpResponse<any[]>) => this.convertDateArrayFromServer(res)))
+      .pipe(map((res: HttpResponse<any[]>) => this.preLoadItemArray(res)));
+  }
+
   protected convertDateArrayFromServer(res: HttpResponse<ICreditProposal[]>): HttpResponse<ICreditProposal[]> {
     res.body.forEach((creditProposal: ICreditProposal) => {
       //
