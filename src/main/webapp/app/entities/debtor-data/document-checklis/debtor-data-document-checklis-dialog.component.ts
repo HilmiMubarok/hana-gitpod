@@ -118,6 +118,7 @@ export class DebtorDataDocumentChecklistDialogComponent implements OnInit {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
     });
+    this.isTBO();
   }
 
   public checkRole(param): void {
