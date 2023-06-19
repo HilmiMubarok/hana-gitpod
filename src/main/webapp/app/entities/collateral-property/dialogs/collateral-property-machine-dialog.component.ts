@@ -429,4 +429,39 @@ export class CollateralPropertyMachineDialogComponent implements OnInit, OnChang
   public getMVOriCcy() {
     this.collateralProperty.marketValueOriginalCcy = this.MVOriCcy.id;
   }
+  public filternameValue(data: string) {
+    const keys = Object.keys(this.collateralDetailType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.collateralDetailType[key];
+      }
+    }
+    return undefined;
+  }
+
+  public filtercertificateType(data: string) {
+    const value = this.certificateType.filter(obj => obj.code === data);
+    if (value.length > 0) {
+      return this.certificateType.filter(obj => obj.code === data)[0].value;
+    } else {
+      return '';
+    }
+  }
+  public param(data: number) {
+    const value = this.branceManagement.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.branceManagement.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+
+  public filterBranch(data: number) {
+    const branchValue = this.branchesNames.filter(obj => obj.id === data);
+    if (branchValue.length > 0) {
+      return this.branchesNames.filter(obj => obj.id === data)[0].name;
+    } else {
+      return '';
+    }
+  }
 }
