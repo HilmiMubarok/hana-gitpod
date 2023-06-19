@@ -26,6 +26,7 @@ import {
 
 import lodash from 'lodash';
 import * as uuid from 'uuid';
+import { ReportUtilService } from 'app/shared/base/report-util.service';
 
 @Component({
   selector: 'jhi-credit-proposal-opinion-history',
@@ -76,6 +77,7 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
   private uuid: any;
 
   private countValidate = 0;
+  public cpApproval: boolean;
 
   constructor(
     protected datePipe: DatePipe,
@@ -85,7 +87,8 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
     protected storageService: StorageService,
     protected creditProposalService: CreditProposalService,
     protected positionService: PositionService,
-    protected messageService: MessageService
+    protected messageService: MessageService,
+    protected reportUtils: ReportUtilService
   ) {
     this.uuid = uuid.v4();
   }
@@ -649,5 +652,11 @@ export class CreditProposalOpinionHistoryComponent implements OnInit {
         this.disabledData = true;
       }
     }
+  }
+
+  // generate Document Opinion History
+  public donwload() {
+    const id = this.creditProposalItem.id;
+    this.reportUtils.downloadFile3('/services/report/api/report/bussiness_unit_opinion/pdf-word-stream/' + id, '', 'Report_' + id);
   }
 }

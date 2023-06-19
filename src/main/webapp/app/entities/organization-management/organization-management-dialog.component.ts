@@ -56,6 +56,7 @@ export class OrganizationManagementDialogComponent implements OnInit {
     this.setPosition();
     // this.closes();
     this.setRadioButton();
+    this.getRole();
   }
 
   // menu idd organization Management

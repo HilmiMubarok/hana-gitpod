@@ -55,6 +55,7 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     'action',
   ];
 
+  public _collateralProperty: ICollateralProperty[];
   public collateralStartState: ICollateral;
   public creditProposalStartState: ICreditProposal;
   public dataCollateral: ICollateral[];
@@ -63,7 +64,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   public dataCertyficate: any;
   private bindingTypeVal: any;
   private facilityTypes: any;
-  public collateralProperties: ICollateralProperty[];
   public totalMVInt: number;
   public totalLVInt: number;
   private _creditProposal: ICreditProposal;
@@ -93,6 +93,14 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
   }
   set creditProposal(cp: ICreditProposal) {
     this._creditProposal = cp;
+  }
+
+  @Input()
+  get collateralProperties() {
+    return this._collateralProperty;
+  }
+  set collateralProperties(item: ICollateralProperty[]) {
+    this._collateralProperty = item;
   }
 
   public presentage(value: string, status: string) {
@@ -164,7 +172,6 @@ export class SummaryGridComponent extends AbstractEntityMaterialComponent<IColla
     this.page = 0;
     this.bindingTypeVal = COLLATERAL_BINDING_TYPE;
     this.facilityTypes = COLLATERAL_FACILITY_TYPE;
-    this.collateralProperties = [];
     this.totalMVInt = 0;
     this.totalLVInt = 0;
   }

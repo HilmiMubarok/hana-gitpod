@@ -19,6 +19,7 @@ import { ICollateralAppraisal } from '../collateral-appraisal.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 @Component({
   selector: 'jhi-collateral-appraisal-process-detail-land',
   templateUrl: './collateral-appraisal-process-detail-land.component.html',
@@ -170,13 +171,34 @@ export class CollateralAppraisalDetailProcessLandComponent
     return 0;
   }
 
-  public delete(element: ICollateralProperty): void {
-    this.collateralPropertyService.delete(element.id).subscribe(res => {
-      this.loadAll(this.collateral.id);
-      // Validation
-      this.collateralAppraisalService.totalDataDetailLand = res.body;
+  // Delete Confirmation
+  public delete(element): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: 'Delete Certificate',
+        message: 'Are you sure to delete this data?',
+      },
+      panelClass: 'custom-dialog-container-delete',
+    });
+    dialogRef.afterClosed().subscribe(param => {
+      if (param) {
+        this.collateralPropertyService.delete(element.id).subscribe(res => {
+          this.loadAll(this.collateral.id);
+          // Validation
+          this.collateralAppraisalService.totalDataDetailLand = res.body;
+        });
+      }
     });
   }
+
+  // public delete(element: ICollateralProperty): void {
+  //   this.collateralPropertyService.delete(element.id).subscribe(res => {
+  //     this.loadAll(this.collateral.id);
+  //     // Validation
+  //     this.collateralAppraisalService.totalDataDetailLand = res.body;
+  //   });
+  // }
 
   public openDialogCertificate(element: ICollateralProperty): void {
     const dialogRef = this.dialog.open(CollateralLandCertificationDialogComponent, {

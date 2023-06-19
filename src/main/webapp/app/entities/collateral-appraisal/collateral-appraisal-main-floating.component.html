@@ -321,7 +321,23 @@
             >
               <!-- [input]="ketObjekJaminan" -->
             </jhi-collateral-appraisal-summary>
-            <div *ngIf="surveyAppraisal.statusId !== 'DRAFT' || collateralAppraisal.statusId !== 'DRAFT'">
+
+            <div
+              *ngIf="
+                surveyAppraisal.statusId === 'VISITED' ||
+                surveyAppraisal.statusId === 'APPROVAL_TL' ||
+                surveyAppraisal.statusId === 'APPROVAL_DEPT_HEAD' ||
+                surveyAppraisal.statusId === 'APPROVAL_DH' ||
+                surveyAppraisal.statusId === 'APPROVED' ||
+                surveyAppraisal.statusId === 'COMPLETE' ||
+                collateralAppraisal.statusId === 'VISITED' ||
+                collateralAppraisal.statusId === 'APPROVAL_TL' ||
+                collateralAppraisal.statusId === 'APPROVAL_DEPT_HEAD' ||
+                collateralAppraisal.statusId === 'APPROVAL_DH' ||
+                collateralAppraisal.statusId === 'APPROVED' ||
+                collateralAppraisal.statusId === 'COMPLETE'
+              "
+            >
               <jhi-appraisal-role [appraisalId]="collateralAppraisal.id"></jhi-appraisal-role>
             </div>
           </div>

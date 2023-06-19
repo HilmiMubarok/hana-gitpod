@@ -11,7 +11,6 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/position-reporting-structures');
-    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position-reporting-structure');
   }
 
   protected isNew(entity: IPositionReportingStructure): boolean {
@@ -32,12 +31,6 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
         positionReportingStructure.thruDate != null ? new Date(positionReportingStructure.thruDate) : null;
     });
     return res;
-  }
-
-  public findPositionReportingStructure(idAppraisal: number) {
-    return this.http.get<IPositionReportingStructure[]>(`${this.resourceUrlNew}/appraisal/${idAppraisal}/find-base-on-surveyor`, {
-      observe: 'response',
-    });
   }
 
   public findPositionReportingStructureCp(idApplication: number) {

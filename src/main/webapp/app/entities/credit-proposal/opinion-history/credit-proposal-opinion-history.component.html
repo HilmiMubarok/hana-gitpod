@@ -40,6 +40,9 @@
       <tr mat-header-row *matHeaderRowDef="['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
       <tr mat-row *matRowDef="let row; columns: ['no', 'reviewerName', 'position', 'date', 'recomendation', 'action']"></tr>
     </table>
+    <div class="mt-4" style="justify-content: flex-end; display: flex" [hidden]="cpApproval">
+      <button style="float: right" mat-raised-button class="confirm-button-yes" (click)="donwload()">Generate Business Unit Opinion</button>
+    </div>
 
     <section *jhiMatrixDir="creditProposalItem.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
       <div class="e-card-content mt-5">

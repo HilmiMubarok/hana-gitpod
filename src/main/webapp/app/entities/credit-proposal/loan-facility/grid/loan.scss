@@ -232,12 +232,14 @@ td {
 
 .mat-column-mainPlafond {
   text-align: right !important;
-  padding-right: 50px;
+}
+
+.mat-column-proposeRate {
+  text-align: right !important;
 }
 
 .mat-column-outstanding {
   text-align: right !important;
-  padding-right: 50px;
 }
 
 .mat-column-totalCreditLimit {
@@ -332,4 +334,15 @@ td {
 }
 .mat-table {
   font-family: 'Poppins', sans-serif !important;
+}
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 5px 28px 5px 0 !important;
 }
