@@ -6,24 +6,16 @@ export class RequestSlikStatusPipe implements PipeTransform {
   reqSlikStatus = RequestSlikStatus;
 
   transform(status: string): string {
-    if (status === this.reqSlikStatus.DRAFT) {
-      return 'Draft';
-    } else if (status === this.reqSlikStatus.APPROVAL_BU) {
-      return 'Approval SLIK By BU';
-    } else if (status === this.reqSlikStatus.APPROVAL_SLIK) {
-      return 'Approval SLIK By Team SLIK';
-    } else if (status === this.reqSlikStatus.CHECKING) {
-      return 'Checking In Progress';
-    } else if (status === this.reqSlikStatus.RETURN_TO_RM) {
-      return 'Return To RM';
-    } else if (status === this.reqSlikStatus.VERIFY) {
-      return 'Verify';
-    } else if (status === this.reqSlikStatus.COMPLETE) {
-      return 'Complete';
-    } else if (status === this.reqSlikStatus.CANCEL) {
-      return 'Cancel';
-    } else {
-      return '';
-    }
+    const statusMap = {
+      [this.reqSlikStatus.DRAFT]: 'Draft',
+      [this.reqSlikStatus.APPROVAL_BU]: 'Approval SLIK By BU',
+      [this.reqSlikStatus.APPROVAL_SLIK]: 'Approval SLIK By Team SLIK',
+      [this.reqSlikStatus.CHECKING]: 'Checking In Progress',
+      [this.reqSlikStatus.RETURN_TO_RM]: 'Return To RM',
+      [this.reqSlikStatus.VERIFY]: 'Verify',
+      [this.reqSlikStatus.COMPLETE]: 'Complete',
+      [this.reqSlikStatus.CANCEL]: 'Cancel',
+    };
+    return statusMap[status] || '';
   }
 }

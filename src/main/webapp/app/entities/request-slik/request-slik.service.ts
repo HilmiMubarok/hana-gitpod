@@ -5,7 +5,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IRequestSlik } from './request-slik.model';
 import { AbstractEntityService } from 'app/shared/base/abstract-entity.service';
 import { MICROSERVICENAME } from 'app/shared/constants/config.constants';
-import { BehaviorSubject, catchError, forkJoin, map, merge, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, concatMap, forkJoin, map, merge, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
 import { PartyCifService } from '../party-cif/party-cif.service';
 import _, { concat } from 'lodash';
 import { PartySlikService } from '../party-slik/party-slik.service';
@@ -281,7 +281,16 @@ export class RequestSlikService extends AbstractEntityService<any> {
       changeStatus,
     });
     // return forkJoin([save, changeStatus]).pipe(switchMap(() => forkJoin(push)));
-    return forkJoin([save, changeStatus]);
+
+    // return forkJoin([save, changeStatus]);
+
+    return changeStatus.pipe(
+      mergeMap(() => save),
+      catchError(error => {
+        console.error('Error in changeStatus:', error);
+        return save;
+      })
+    );
   }
 
   public onSubmit(data) {
