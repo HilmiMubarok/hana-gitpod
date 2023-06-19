@@ -243,6 +243,17 @@ export class RequestSlikDetailComponent implements OnInit {
     }
   }
 
+  showSaveButton() {
+    if (this.roles.request.includes(this.position)) {
+      // RM DLL
+      return this.requestSlik.status === this.reqSlikStatus.DRAFT || this.requestSlik.status === this.reqSlikStatus.RETURN_TO_RM
+        ? true
+        : false;
+    } else {
+      return false;
+    }
+  }
+
   ocrDatas = [];
   getOcrData(ev) {
     console.log('evv', ev);

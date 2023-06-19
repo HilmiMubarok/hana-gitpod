@@ -12,6 +12,8 @@ import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 import { RequestSlikStatus } from '../enums/request-slik-status.enum';
+import JSZip from 'jszip';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-document-request-slik',
@@ -28,7 +30,7 @@ export class DocumentRequestSlikComponent {
   set requestSlik(param) {
     this._requestSlik = param;
   }
-  public displayedColumns: string[] = ['no', 'docName', 'docDate', 'action'];
+  public displayedColumns: string[] = ['no', 'docName', 'action'];
   private bucket: string;
   private id: number;
   constructor(
@@ -132,5 +134,44 @@ export class DocumentRequestSlikComponent {
         }
       }
     });
+  }
+
+  datePipe: DatePipe = new DatePipe('en-US');
+
+  isLoading: Boolean = false;
+
+  download() {
+    if (this.data$) {
+      this.isLoading = true;
+      this.data$.subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        async data => {
+          const zip = new JSZip();
+          const downloadPromises = data.map(async file => {
+            try {
+              const nameFile = file['name'];
+              const fileContent = await fetch(file['url']).then(res => res.arrayBuffer());
+              zip.file(nameFile, fileContent);
+            } catch (error) {
+              console.error(`Error downloading file ${file['name']}:`, error);
+            }
+          });
+
+          await Promise.all(downloadPromises);
+
+          const content = await zip.generateAsync({ type: 'blob' });
+          const url = URL.createObjectURL(content);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + '-' + 'file-donwload.zip';
+          link.click();
+          URL.revokeObjectURL(url);
+        },
+        () => {
+          this.isLoading = false;
+          this.downloadAllLabel = 'Download All';
+        }
+      );
+    }
   }
 }
