@@ -39,15 +39,15 @@ export class CreditProposalOtherCovenantDialogComponent implements OnInit {
   public categorys = [
     {
       parameterTypeId: 'OTHER_COVENANT_CATEGORY_OTHER',
-      parameterTypeDescription: 'Other Covenant',
+      parameterTypeDescription: 'Other Covenant Category Other',
     },
     {
       parameterTypeId: 'OTHER_COVENANT_CATEGORY_NOTES',
-      parameterTypeDescription: 'Notes',
+      parameterTypeDescription: 'Other Covenant Category Notes',
     },
     {
       parameterTypeId: 'OTHER_COVENANT_CATEGORY_CONDITION',
-      parameterTypeDescription: 'Condition',
+      parameterTypeDescription: 'Other Covenant Category Condition',
     },
   ];
 
