@@ -126,13 +126,14 @@ export class RequestSlikDetailComponent implements OnInit {
     let finalOcr = [];
 
     this.ocrDatas.forEach(ocrData => {
+      console.log('evv ocr data', ocrData.dob);
       finalOcr = [
         ...finalOcr,
         {
           partyId: ocrData.id,
           requestSlikId: this.requestSlikId.toString(),
           name: ocrData.name !== null ? ocrData.name : ocrData.groupName,
-          dob: ocrData.dob.slice(0, 10),
+          dob: ocrData.dob && ocrData.dob.slice(0, 10),
           ktp: ocrData.personalIdNumber !== null ? ocrData.personalIdNumber : '',
           npwp: ocrData.taxIdNumber,
           gender: ocrData.gender === null ? '' : ocrData.gender === 'L' ? 'M' : 'F',
@@ -193,8 +194,8 @@ export class RequestSlikDetailComponent implements OnInit {
   segment = 'loading...';
 
   roles = {
-    request: ['RM', 'CRO'],
-    approval: ['SME_HEAD', 'DEPT_HEAD', 'HCR1', 'HCR2', 'BUSINESS_SUPPORT'],
+    request: ['RM', 'CRO', 'BUSINESS_SUPPORT'],
+    approval: ['SME_HEAD', 'DEPT_HEAD', 'HCR1', 'HCR2'],
   };
 
   // submitTitle = this.getSubmitTitle()
@@ -905,16 +906,14 @@ export class RequestSlikDetailComponent implements OnInit {
 
   verifyChecklistDatas;
   getAllChecklistVerifyData(el) {
-    console.log('ELL', el);
-
     this.tempData = [];
     this.nikNpwp = el.content.nikNpwp;
 
     // if el.mode !== 'add' then remove data from verifyData with same id on el.content.id
     if (el.mode !== 'add') {
-      this.verifyData = this.verifyData.filter(verifyObj => verifyObj.id !== el.content.id);
+      // filter verifyData, and remove inside verifyData with same el.content
+      this.verifyData = this.verifyData.filter(verifyObj => _.isEqual(verifyObj, el.content) === false);
     } else {
-      this.verifyData = this.verifyData.filter(verifyObj => verifyObj.id !== el.content.id);
       this.verifyData.push(el.content);
     }
 
@@ -923,8 +922,6 @@ export class RequestSlikDetailComponent implements OnInit {
       this.tempData.push(this.makePartySlikWithPartyId(element));
     });
 
-    console.log('ELL allVerifyData', { ver: this.verifyData, temp: this.tempData });
-
     let finalTempData = this.tempData.map(temp => this.mapperIPDFSlikToPartySlik(temp));
 
     // Take out all array inside finalTempData, and merge it into one array
@@ -932,6 +929,6 @@ export class RequestSlikDetailComponent implements OnInit {
 
     this.verifyChecklistDatas = finalTempData;
 
-    console.log('ELL allVerifyData final', { finalTempData, verifyChecklistDatas: this.verifyChecklistDatas });
+    console.log('FINAL DATA', this.verifyChecklistDatas);
   }
 }
