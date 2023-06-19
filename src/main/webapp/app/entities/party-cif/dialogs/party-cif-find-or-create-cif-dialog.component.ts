@@ -21,14 +21,13 @@ export class PartyCifFindOrCreateCifDialogComponent {
     this.partyCifService.cashFindCif(this.cif, { idPosition: this.getLocStor('POS') }).subscribe(
       res => {
         if (res.body) {
-          const snackBarRef = this._snackBar.open(`Cif Success`, null, {
+          this._snackBar.open(`Cif Success`, null, {
             horizontalPosition: 'right',
             verticalPosition: 'top',
             duration: 3000,
           });
-          snackBarRef.afterDismissed().subscribe(() => {
-            this._dialog.close(res.body);
-          });
+
+          this._dialog.close(res.body);
         } else {
           this._snackBar.open(`Cif with number ${this.cif} does not exist!`, null, {
             horizontalPosition: 'right',
@@ -39,7 +38,7 @@ export class PartyCifFindOrCreateCifDialogComponent {
       },
       error => {
         // Mengembalikan respons error dari backend
-        console.log('error', error);
+
         this.messageService.add({
           severity: 'error',
           summary: 'Error',

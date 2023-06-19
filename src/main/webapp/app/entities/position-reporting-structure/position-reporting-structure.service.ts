@@ -11,6 +11,7 @@ export class PositionReportingStructureService extends AbstractEntityService<IPo
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http);
     this.resourceUrl = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.MASTERCONTROL + '/api/position-reporting-structures');
+    this.resourceUrlNew = this.applicationConfigService.getEndpointFor(MICROSERVICENAME.LOS + '/api/cash-position-reporting-structure');
   }
 
   protected isNew(entity: IPositionReportingStructure): boolean {

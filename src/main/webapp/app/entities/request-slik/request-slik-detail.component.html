@@ -272,46 +272,8 @@
               >
                 Return to RM
               </button>
-              <button mat-raised-button color="primary" (click)="save()">Save</button>
+              <button mat-raised-button color="primary" *ngIf="showSaveButton()" (click)="save()">Save</button>
             </div>
-            <!-- <div
-              class="d-flex justify-content-center"
-              style="margin-top: 30px"
-              *ngIf="
-                requestSlik.status !== reqSlikStatus.COMPLETE &&
-                requestSlik.status !== reqSlikStatus.CHECKING &&
-                segment !== 'loading...' &&
-                requestSlik.status !== reqSlikStatus.CANCEL
-              "
-            >
-              <button mat-raised-button color="primary" style="margin-right: 10px" (click)="openSubmitDialog('submit')">Submit</button>
-              <button
-                mat-raised-button
-                color="primary"
-                *ngIf="requestSlik.status === reqSlikStatus.DRAFT"
-                style="margin-right: 10px"
-                (click)="openSubmitDialog('cancel')"
-              >
-                Cancel
-              </button>
-              <button
-                mat-raised-button
-                color="primary"
-                *ngIf="requestSlik.status === reqSlikStatus.APPROVAL_BU || requestSlik.status === reqSlikStatus.APPROVAL_SLIK"
-                style="margin-right: 10px"
-                (click)="openSubmitDialog('reject')"
-              >
-                Return to RM
-              </button>
-              <button
-                mat-raised-button
-                color="primary"
-                *ngIf="requestSlik.status === reqSlikStatus.DRAFT || requestSlik.status === reqSlikStatus.RETURN_TO_RM"
-                (click)="save()"
-              >
-                Save
-              </button>
-            </div> -->
           </div>
         </div>
       </div>

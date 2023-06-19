@@ -188,6 +188,7 @@ export class BellowGridComponent extends AbstractEntityMaterialComponent<ICollat
     this.setCertyficateType();
     this.totalCoverage();
     this.getLovInsuranceType();
+    this.lovBindingType();
   }
 
   @ViewChild('paginator') paginator: MatPaginator;

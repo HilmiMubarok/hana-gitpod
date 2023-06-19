@@ -385,16 +385,11 @@ export class RequestSlikOtherGridComponent extends AbstractEntityMaterialCompone
     const isChecked = c.checked;
     const mode = isChecked ? 'add' : 'delete';
     this.defaultVerifyChecklist.emit({ content: element, mode });
-
-    console.log('VERIFYYYY - Select check row elementccc', {
-      element,
-      c,
-      selectedVerifyDataNew: this.selectedVerifyDataNew,
-      verc: this.verifyChecklists,
-    });
   }
 
   isVerifySelected(element) {
-    return _.some(this.verifyChecklists, { id: element.id });
+    return _.some(this.verifyChecklists, _.pick(element, ['id', 'nikNpwp', 'partyId']));
+
+    // return _.some(this.verifyChecklists, { id: element.id });
   }
 }

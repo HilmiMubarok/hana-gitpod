@@ -405,6 +405,8 @@ export class RequestSlikShareholderGridComponent extends AbstractEntityMaterialC
   }
 
   isVerifySelected(element) {
-    return _.some(this.verifyChecklists, { id: element.id });
+    return _.some(this.verifyChecklists, _.pick(element, ['id', 'nikNpwp', 'partyId']));
+
+    // return _.some(this.verifyChecklists, { id: element.id });
   }
 }

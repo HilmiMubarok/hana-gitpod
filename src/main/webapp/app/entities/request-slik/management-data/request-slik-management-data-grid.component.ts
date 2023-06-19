@@ -206,7 +206,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
 
   @Output() selectedVerifyData = new EventEmitter<any>();
   selectRow(el) {
-    // console.log('select row', el);
     this.nikNpwp = el.nikNpwp;
 
     delete el.partySlik.partySlikCollaterals;
@@ -234,9 +233,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
   @Output() defaultChecklist = new EventEmitter<any>();
   public loadDataBy(cif: string = null, managementType: string = null): void {
     if (cif && managementType) {
-      // this.dataSourceExpand = ELEMENT_DATA;
-      // console.log('res test', this.requestSlikService.parseSlikResult(RESULT_DATA.data.content));
-      // this.dataSourceExpand = this.requestSlikService.parseSlikResult(RESULT_DATA.data.content);
       this.organizationManagementService
         .queryFilterBy({
           cifNumber: this.cif,
@@ -247,24 +243,15 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
         })
         .subscribe({
           next: (res: HttpResponse<IOrganizationManagement[]>) => {
-            console.log('res management data', {
-              res: res.body,
-              checklists: this.checklists,
-            });
-            // console.log(this.result);
-
             res.body.forEach(element => {
               this.requestSlikService.getCbasRes(this.requestSlikId, element.person.id).subscribe(cbasRes => {
-                // console.log('cbasRes cbas', cbasRes.body.data.content);
                 cbasRes.body.data.content.length > 0 &&
                   cbasRes.body.data.content.forEach(el => {
                     this.requestSlikService.getCbasFilterBy(el.id).subscribe(resFilter => {
-                      // console.log('res filter', resFilter.body.data.content);
                       // add object key dataExpand on element
                       Object.assign(element, {
                         dataExpand: this.mapCbasResult(el, resFilter.body.data.content),
                       });
-                      // console.log('THEE DATA', element);
 
                       const dataaa = this.mapCbasResult(el, resFilter.body.data.content);
                       dataaa.forEach((da, i) => {
@@ -282,8 +269,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                 this.initDataForMatTable(data, res.headers);
               });
             } else {
-              console.log('sadkjhgsdjkasjdh', res);
-
               let checklistsDefault = [];
               res.body.forEach(checklist => {
                 checklistsDefault = [
@@ -297,26 +282,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
                 this.defaultChecklist.emit(checklistsDefault);
               });
 
-              /**
-               * Get all Checklists -> Bandingkan dengan res, kalau yg ga ada di db jangan emit
-               * kalau db kosong emit semua
-               * */
-
-              // this.requestSlikChecklistService.getAllChecklists().subscribe(sd => console.log('aaaaa', sd['data']));
-
-              // res.body.forEach(element => {
-              //   const data = {
-              //     idParty: null,
-              //     idRequestSlik: null,
-              //   };
-              //   data.idParty = element.person.id;
-              //   data.idRequestSlik = this.requestSlikId;
-
-              //   this.checklistData.emit({
-              //     data,
-              //     mode: 'add',
-              //   });
-              // });
               this.initDataForMatTable(res, res.headers);
             }
           },
@@ -377,55 +342,6 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     this.loadDataBy(this.partyCif.customerNumber, this.managementType);
   }
 
-  // private setAttribute(param: IOrganizationManagement): void {
-  //   param.attributes = new OrganizationManagementAttributeManagementData();
-  // }
-
-  // public openDialog(param) {
-  //   const dialogRef = this.dialog.open(RequestSlikManagementDataDialogComponent, {
-  //     width: '90vw',
-  //     data: {
-  //       data: param,
-  //     },
-  //   });
-  //   dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
-  //     console.log(res);
-  //   });
-  // }
-  // public openDialog(param: IOrganizationManagement = null): void {
-  //   let orgMgm: IOrganizationManagement;
-  //   orgMgm = new OrganizationManagement();
-  //   orgMgm.cifNumber = this.cif;
-  //   orgMgm.organizationManagementTypeId = this.managementType;
-  //   orgMgm.attributes = {};
-  //   this.setAttribute(orgMgm);
-  //   if (param) {
-  //     orgMgm = param;
-  //   }
-  //   const dialogRef = this.dialog.open(OrganizationManagementDialogComponent, {
-  //     width: '80vw',
-  //     data: {
-  //       organizationManagement: orgMgm,
-  //       managementType: this.managementType,
-  //     },
-  //   });
-  //   dialogRef.afterClosed().subscribe((res: IOrganizationManagement) => {
-  //     if (res) {
-  //       if (res.id) {
-  //         // update
-  //         this.organizationManagementService.update(res).subscribe(rs => {
-  //           this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-  //         });
-  //       } else {
-  //         // create
-  //         this.organizationManagementService.create(res).subscribe(rs => {
-  //           this.loadDataBy(this.partyCif.customerNumber, this.managementType);
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
-
   // Change verify logic radio -> checkbox
 
   selectedVerifyDataNew = [];
@@ -436,16 +352,10 @@ export class RequestSlikManagementDataGridComponent extends AbstractEntityMateri
     const isChecked = c.checked;
     const mode = isChecked ? 'add' : 'delete';
     this.defaultVerifyChecklist.emit({ content: element, mode });
-
-    console.log('VERIFYYYY - Select check row elementccc', {
-      element,
-      c,
-      selectedVerifyDataNew: this.selectedVerifyDataNew,
-      verc: this.verifyChecklists,
-    });
   }
 
   isVerifySelected(element) {
-    return _.some(this.verifyChecklists, { id: element.id });
+    // return item exist in verifyChecklists with predicate id, nikNpwp, and partyId is same with element
+    return _.some(this.verifyChecklists, _.pick(element, ['id', 'nikNpwp', 'partyId']));
   }
 }
