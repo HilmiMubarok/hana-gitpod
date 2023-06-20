@@ -608,6 +608,19 @@ export class LoanAnalysMainComponent implements OnInit {
             detail: 'Please press button approval status!',
             life: 3000,
           });
+        } else if (
+          this.creditProposal.statusId === 'CP_DAR_FINAL' &&
+          this.creditProposal.attributes['approvalStatus'] !== 'Approved as condition' &&
+          this.creditProposal.attributes['approvalStatus'] !== 'Approved as proposed' &&
+          this.creditProposal.attributes['approvalStatus'] !== 'Reject' &&
+          _res.caption === 'Submit'
+        ) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please press button approval status before submit!',
+            life: 3000,
+          });
         } else if (this.creditProposal.statusId === 'CP_APPROVE_TO_LA' && _res.caption === 'Submit') {
           this.validate()
             .then(() => {
