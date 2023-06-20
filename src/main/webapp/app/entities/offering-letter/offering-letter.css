@@ -192,6 +192,7 @@ td {
 th {
   background-color: rgba(147, 201, 199, 1) !important;
   color: black !important;
+  text-align: left;
   font-family: 'Poppins', sans-serif !important;
 }
 td {
@@ -345,3 +346,70 @@ th:last-child {
 .mat-column-action {
   text-align: left;
 }
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}
+
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 28px 0 0 !important;
+}
+
+/* Table Offering Letter */
+.mat-column-no {
+  width: 5% !important;
+  text-align: right !important;
+}
+.mat-column-proposalNumber {
+  text-align: left;
+}
+.mat-column-applicationTypeDescription-proposalType {
+  text-align: left;
+}
+.mat-column-cif {
+  text-align: left;
+}
+.mat-column-customerName {
+  text-align: left;
+}
+.mat-column-customerType {
+  text-align: left;
+}
+.mat-column-createdDate {
+  text-align: right;
+}
+.mat-column-status {
+  text-align: left;
+}
+/* Table Offering Letter */

@@ -110,7 +110,6 @@ th:last-child {
 .grid-index-right {
   justify-content: flex-end;
   text-align: right;
-  padding-right: 45px;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -125,7 +124,7 @@ th:last-child {
   color: #ffffff;
 }
 .mat-column-no {
-  width: 5%;
+  width: 1%;
 }
 .mat-column-action {
   width: 10%;
@@ -175,3 +174,16 @@ th:last-child {
 .mat-card {
   font-family: 'Poppins', sans-serif !important;
 }
+
+// table
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 0px 36px 0px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 5px 28px 5px 0 !important;
+}
+// table

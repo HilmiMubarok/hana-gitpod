@@ -130,7 +130,9 @@ export class CollateralInfoBTPDarFinalComponent extends AbstractEntityMaterialCo
           return (
             o.collateralTypeId !== COLLATERAL_TYPE['machine'] &&
             o.collateralTypeId !== COLLATERAL_TYPE['realestate'] &&
-            o.collateralTypeId !== COLLATERAL_TYPE['vehicle']
+            o.collateralTypeId !== COLLATERAL_TYPE['vehicle'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['property'] &&
+            o.collateralTypeId !== COLLATERAL_TYPE['personalCorporateGuarantee']
           );
         });
         this.dataItem = new MatTableDataSource(filter);

@@ -1,0 +1,61 @@
+.mat-header-cell {
+  min-height: auto !important;
+  padding: 4px 36px 4px 0;
+}
+
+mat-cell,
+.mat-cell {
+  min-height: auto !important;
+  padding: 0 28px 0 0 !important;
+}
+
+/* tabel co-borrower */
+.mat-column-no {
+  width: 5% !important;
+  text-align: right !important;
+}
+.mat-column-customerNumber {
+  text-align: left;
+}
+.mat-column-name {
+  text-align: left;
+}
+.mat-column-taxIdNumber {
+  text-align: left;
+}
+.mat-column-address {
+  text-align: left;
+}
+.mat-column-action {
+  width: 10% !important;
+  text-align: left;
+}
+/* tabel co-borrower */
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  .mat-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    display: table;
+    border-collapse: collapse;
+    margin: 0px;
+  }
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    line-break: unset;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+}

@@ -62,6 +62,7 @@ import { CollateralAppraisalDetailProcessMesinComponent } from '../collateral-ap
 import { CollateralAppraisalSummaryComponent } from '../collateral-appraisal/summary/collateral-appraisal-summary.component';
 import { CollateralLandCertificateService } from '../collateral-appraisal/collateral/dialogs/collateral-land-certificate.service';
 import { CollateralAppraisalDetailProcessRealEstateComponent } from '../collateral-appraisal/collateral/collateral-appraisal-process-detail-real-estate.component';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   providers: [
@@ -1567,5 +1568,22 @@ export class SurveyBatchEditProcessComponent implements OnInit {
     const x = this.router.url.split('/')[3].slice(0, 4).split('?');
 
     this.titleUrl = x;
+  }
+  // menu request appraisal
+  // cancel confrimation dialog
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

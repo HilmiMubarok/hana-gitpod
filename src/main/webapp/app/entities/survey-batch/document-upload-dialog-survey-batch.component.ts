@@ -31,7 +31,6 @@ export class DocumentUploadDialogSurveyBatchComponent implements OnInit {
   public files: File[] = [];
   public file: File;
   public document: IDocument;
-  private dialog: MatDialog;
   public documentTypes: any;
   public object: ICollateral | ICollateralAppraisal;
   public multiple: Boolean = false;
@@ -40,21 +39,24 @@ export class DocumentUploadDialogSurveyBatchComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: string },
     private storageService: StorageService,
+    private dialog: MatDialog,
     private _dialog: MatDialogRef<DocumentUploadDialogSurveyBatchComponent>,
     private _snackBar: MatSnackBar,
     private accountService: AccountService,
     protected http?: HttpClient
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.document = new Document();
     this.file = null;
   }
-
   ngOnInit(): void {
-    console.log('this dialog', this.data.id);
+    this.cancelBackdrop();
+  }
+
+  public cancelBackdrop() {
+    this._dialog.disableClose = true;
+    this._dialog.backdropClick().subscribe(_ => {
+      this.openCancelDialog();
+    });
   }
 
   protected convertDateFromServer(res: HttpResponse<ISurveyBatch>): HttpResponse<ISurveyBatch> {

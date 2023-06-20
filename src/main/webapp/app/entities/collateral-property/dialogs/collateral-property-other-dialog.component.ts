@@ -168,7 +168,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
     }
   }
 
-  public filterBranch(data: string) {
+  public filterBranch(data: number) {
     const branchValue = this.branchesNames.filter(obj => obj.id === data);
     if (branchValue.length > 0) {
       return this.branchesNames.filter(obj => obj.id === data)[0].name;
@@ -302,6 +302,7 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
         this.optionsMVImbPs = res.body;
         this.filteredMVImbPs();
         this.MVImbPsCcy = this.optionsMVImbPs.find(obj => obj.id === this.collateralProperty.marketValueOriginalCcy);
+        this.getMVImbPsCcy();
       });
   }
 
@@ -375,7 +376,6 @@ export class CollateralPropertyOtherDialogComponent implements OnInit {
   public currency = 0;
 
   public getMVImbPsCcy() {
-    console.log('data curent', this.currency);
     this.collateralProperty.marketValueOriginalCcy = this.MVImbPsCcy.id;
 
     const setDate = new Date().toISOString().split('T')[0];

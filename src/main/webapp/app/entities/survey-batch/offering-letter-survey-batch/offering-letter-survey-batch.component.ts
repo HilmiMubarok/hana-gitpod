@@ -19,6 +19,7 @@ import { IOfferingLetter } from 'app/entities/offering-letter/offering-page/offe
 import { ISurveyRequest } from './survey-request.model';
 import { SurveyRequestService } from './survey-request.service';
 import { ReportUtilService } from 'app/shared/base/report-util.service';
+import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
 
 @Component({
   selector: 'jhi-offering-letter-survey-batch',
@@ -28,7 +29,7 @@ import { ReportUtilService } from 'app/shared/base/report-util.service';
 export class OfferingLetterSurveyBatchComponent extends AbstractEntityMaterialComponent<ISurveyRequest> implements OnInit {
   public clickedMenu: string;
   offeringLetter: IOfferingLetter | null = null;
-  public displayedColumns: string[] = ['no', 'tanggal', 'nomor', 'namaKjpp','biaya','action'];
+  public displayedColumns: string[] = ['no', 'tanggal', 'nomor', 'namaKjpp', 'biaya', 'action'];
   public displayedColumnsExpand = [...this.displayedColumns];
   clickedChip: { id: string; label: string };
   iconTimeline: any;
@@ -59,7 +60,7 @@ export class OfferingLetterSurveyBatchComponent extends AbstractEntityMaterialCo
   ngOnInit(): void {
     // this.activatedRoute.data.subscribe(({ surveyBatch }) => (this.surveyBatch = surveyBatch));
     this.subMenu = OFFERING_LETTER_SURVEY_BATCH;
-    console.log("menu", this.subMenu);
+    console.log('menu', this.subMenu);
     this.loadAll();
   }
 
@@ -100,5 +101,20 @@ export class OfferingLetterSurveyBatchComponent extends AbstractEntityMaterialCo
 
   public downloadSpk(id): void {
     this.reportUtils.downloadFile('/services/report/api/report/generate-spk/' + id);
+  }
+  public openCancelDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '25vw',
+      data: {
+        title: '',
+        message: 'Are you sure to cancel this data?',
+      },
+      panelClass: 'custom-dialog-container-cancel',
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.previousState();
+      }
+    });
   }
 }

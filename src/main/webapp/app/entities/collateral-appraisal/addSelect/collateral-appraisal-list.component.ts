@@ -82,8 +82,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public collateralsDataGroup?: any[];
   getsCif: IPartyCif[];
   public createSurveyAppraisalPromises = [];
-  collateralDetails: object[];
-  collateralCode: any;
+  public collateralDetails: object[];
+  public collateralCode: any;
   collateralCodeMatrik: any;
   // collateralValidate: any;
   // public collateralValidate = [];
@@ -122,7 +122,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       }
     }
   }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.initialize();
     if (
@@ -281,21 +280,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   public getCollateralChecklist(statusCheckedGroupEmit: any): void {
     this.statusCheckedGroupFromColl = statusCheckedGroupEmit;
   }
-
-  public dataGroupCollaterals(): void {
-    for (let i = 0; i < this.dataGroupCollateral.length; i++) {
-      if (this.statusCheckedGroupFromColl === true) {
-        this.dataSelectedCheckbox.push(this.dataGroupCollateral[i]);
-      } else {
-        for (let j = 0; j < this.dataSelectedCheckbox.length; j++) {
-          this.dataSelectedCheckbox.splice(i, 1);
-          i = this.dataSelectedCheckbox.length - 1;
-        }
-      }
-    }
-  }
-  public getDataGroup(listDataGroup: any): void {
-    this.dataGroupCollateral = listDataGroup;
+  public getDataGroup(listDataGroup: ICollateral[]): void {
+    this.dataSelectedCheckbox = listDataGroup;
   }
   public onChecked(event: MatCheckboxChange, index: number): void {
     if (event.checked === true) {
@@ -309,19 +295,6 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
       this.isCheckDebCol = false;
     }
   }
-  // public onChecked(changeEventArgs: ChangeEventArgs, value: ICollateral): void {
-  //   this.dataSelectedCheckbox = [];
-  //   if (changeEventArgs['checked'] === true) {
-  //     this.dataSelectedCheckbox.push(value);
-  //     this.isCheckDebCol = true;
-  //   } else {
-  //     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-  //       this.dataSelectedCheckbox.splice(i, 1);
-  //       i = this.dataSelectedCheckbox.length - 1;
-  //     }
-  //     this.isCheckDebCol = false;
-  //   }
-  // }
   private createSurveyAppraisal(surveyAppraisal: ISurveyAppraisals): Promise<void> {
     return new Promise((resolve, reject) => {
       this.surveyAppraisalsService.create(surveyAppraisal, { idPosition: this.getLocStor('POS') }).subscribe(res => {
@@ -346,12 +319,8 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
   }
 
   public onAdd(): void {
-    this.dataGroupCollaterals();
     this.internalIdLocStor = this.getLocStor('INT');
     this.positionIdLocStor = this.getLocStor('POS');
-    this.loadCollateralDetailOption().then(resolve => {
-      this.setCollateralDetail();
-    });
     if (!this.internalIdLocStor || !this.positionIdLocStor) {
       this.logout();
     } else {
@@ -365,56 +334,65 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
           for (let i = 0; i < this.statusChecked.length; i++) {
             this.InternalExternal.push(this.statusChecked[i]);
           }
-          for (let e = 0; e < this.statusChecked.length; e++) {
-            for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
-              this.surveyAppraisalCross = lodash.clone(this.surveyAppraisalTemplate);
-              if (this.selectedPartyCif?.partyId === this.dataSelectedCheckbox[i].partyId) {
-                if (this.selectedPartyCif.customerType === 'PERSONAL') {
-                  this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerPerson.id;
-                } else {
-                  this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerOrganization.id;
-                }
-              } else {
-                for (let j = 0; j < this.getsCif.length; j++) {
-                  if (this.dataSelectedCheckbox[i].partyId === this.getsCif[j].customerPartyId) {
-                    if (this.getsCif[j].customerType === 'PERSONAL') {
-                      this.surveyAppraisalCross.partyId = this.getsCif[j].customerPartyId;
+          if (this.dataSelectedCheckbox.length === 0) {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Silahkan pilih Collateral' });
+          } else {
+            for (let e = 0; e < this.statusChecked.length; e++) {
+              for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+                this.loadCollateralDetailOption().then(resolve => {
+                  this.setCollateralDetail();
+                  console.log(resolve);
+                });
+                this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
+                  error: (error: HttpErrorResponse) => {
+                    if (error.status === 500) {
+                      this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail:
+                          'Collateral' +
+                          ' ' +
+                          this.dataSelectedCheckbox[i].collateralNumber +
+                          ' ' +
+                          ' ' +
+                          this.collateralCodeMatrik +
+                          ' ' +
+                          'masih dalam proses appraisal.',
+                        life: 5000,
+                      });
                     } else {
-                      this.surveyAppraisalCross.partyId = this.getsCif[j].customerPartyId;
+                      this.surveyAppraisalCross = lodash.clone(this.surveyAppraisalTemplate);
+                      if (this.selectedPartyCif?.partyId === this.dataSelectedCheckbox[i].partyId) {
+                        if (this.selectedPartyCif.customerType === 'PERSONAL') {
+                          this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerPerson.id;
+                        } else {
+                          this.surveyAppraisalCross.partyId = this.selectedPartyCif.customerOrganization.id;
+                        }
+                      } else {
+                        for (let j = 0; j < this.getsCif.length; j++) {
+                          if (this.dataSelectedCheckbox[i].partyId === this.getsCif[j].customerPartyId) {
+                            if (this.getsCif[j].customerType === 'PERSONAL') {
+                              this.surveyAppraisalCross.partyId = this.getsCif[j].customerPartyId;
+                            } else {
+                              this.surveyAppraisalCross.partyId = this.getsCif[j].customerPartyId;
+                            }
+                          }
+                        }
+                      }
+                      this.surveyAppraisalCross.apprOfficer = this.statusChecked[e];
+                      this.surveyAppraisalCross.collateralId = this.dataSelectedCheckbox[i].id;
+                      this.surveyAppraisalCross.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
+                      this.surveyAppraisalCross.internalId = this.internalIdLocStor;
+                      this.surveyAppraisalCross.applicationId = null;
+                      console.log(this.createSurveyAppraisalPromises);
+                      this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
+                      Promise.all(this.createSurveyAppraisalPromises).then(results => {
+                        this.router.navigate(['./collateral-appraisal']);
+                      });
                     }
-                  }
-                }
+                  },
+                });
               }
-              this.surveyAppraisalCross.apprOfficer = this.statusChecked[e];
-              this.surveyAppraisalCross.collateralId = this.dataSelectedCheckbox[i].id;
-              this.surveyAppraisalCross.collateralTypeDescription = this.dataSelectedCheckbox[i].collateralTypeDescription;
-              this.surveyAppraisalCross.internalId = this.internalIdLocStor;
-              this.surveyAppraisalCross.applicationId = null;
-              this.collateralAppraisalsAppraiseService.validateAppraise(this.dataSelectedCheckbox).subscribe({
-                error: (error: HttpErrorResponse) => {
-                  if (error.status === 500) {
-                    this.messageService.add({
-                      severity: 'error',
-                      summary: 'Error',
-                      detail:
-                        'Collateral' +
-                        ' ' +
-                        this.dataSelectedCheckbox[i].collateralNumber +
-                        ' ' +
-                        ' ' +
-                        this.collateralCodeMatrik +
-                        ' ' +
-                        'masih dalam proses appraisal.',
-                      life: 5000,
-                    });
-                  } else {
-                    this.createSurveyAppraisalPromises.push(this.createSurveyAppraisal(this.surveyAppraisalCross));
-                    Promise.all(this.createSurveyAppraisalPromises).then(results => {
-                      this.router.navigate(['./collateral-appraisal']);
-                    });
-                  }
-                },
-              });
             }
           }
         }
@@ -434,18 +412,23 @@ export class CollateralAppraisalListComponent extends AbstractEntityMaterialComp
     });
   }
   public getCollateralCode() {
-    const data = this.collateralCode.find(obj => obj.id === this.collateral.attributes.collateralCode);
-    this.collateralCodeMatrik = data.description;
+    for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
+      const data = this.collateralCode.find(obj => obj.id === this.dataSelectedCheckbox[i].attributes.collateralCode);
+      this.collateralCodeMatrik = data.description;
+    }
   }
+
   private setCollateralDetail(): void {
     for (let i = 0; i < this.dataSelectedCheckbox.length; i++) {
       if (this.dataSelectedCheckbox[i].id) {
-        const collateral = this.collateral;
+        const collateral = this.dataSelectedCheckbox;
         this.collateralCode = lodash.find(this.collateralDetails, function (o) {
-          return o['id'] === collateral.collateralTypeId;
+          return o['id'] === collateral[i].collateralTypeId;
         })['child'];
         this.getCollateralCode();
       }
     }
+    console.log(this.collateral);
+    console.log(this.dataSelectedCheckbox);
   }
 }

@@ -11,12 +11,6 @@
         <mat-label>Document Name</mat-label>
         <input matInput type="text" [(ngModel)]="docName" />
       </mat-form-field>
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Document Issued Date</mat-label>
-        <input [matDatepicker]="documentDate" matInput type="text" [(ngModel)]="docDate" />
-        <mat-datepicker-toggle matSuffix [for]="documentDate"></mat-datepicker-toggle>
-        <mat-datepicker #documentDate [disabled]="mode === 'view'"></mat-datepicker>
-      </mat-form-field>
     </div>
   </div>
   <div class="row mt-3 px-5">

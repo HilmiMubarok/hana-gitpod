@@ -1,8 +1,8 @@
-<div class="style-close">
-  <button class="button-close" mat-button mat-dialog-close>X</button>
-</div>
-<h2 mat-dialog-title class="header-title">Collateral Detail</h2>
-<section *ngIf="parentPath !== 'dar-final' || parentPath !== 'loan-committee-approval'">
+<section *ngIf="parentPath !== 'dar-final' && parentPath !== 'loan-committee-approval'">
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
+  <h2 mat-dialog-title class="header-title">Collateral Detail</h2>
   <mat-dialog-content>
     <mat-card>
       <mat-card-content>
@@ -95,11 +95,15 @@
   </mat-dialog-content>
 </section>
 <section *ngIf="parentPath === 'dar-final' || parentPath === 'loan-committee-approval'">
+  <div class="style-close">
+    <button class="button-close" mat-button mat-dialog-close>X</button>
+  </div>
+  <h2 mat-dialog-title class="header-title">Collateral Detailxx</h2>
   <mat-dialog-content>
     <mat-card>
       <mat-card-content>
         <div class="row">
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+          <section *ngIf="!view">
             <div class="form-group">
               <mat-form-field class="w-100" appearance="outline">
                 <mat-label>Collateral</mat-label>
@@ -107,7 +111,7 @@
               </mat-form-field>
             </div>
           </section>
-          <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+          <section *ngIf="view">
             <div class="fontsebled row">
               <div class="col-1">Collateral</div>
               <div class="col-md-auto">:</div>
@@ -117,7 +121,7 @@
             </div>
           </section>
           <div class="col-6">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+            <section *ngIf="!view">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>MV Internal in IDR</mat-label>
@@ -131,7 +135,7 @@
                 </mat-form-field>
               </div>
             </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: ''">
+            <section *ngIf="view">
               <div class="fontsebled row">
                 <div class="col-2">MV Internal in IDR</div>
                 <div class="col-md-auto">:</div>
@@ -143,7 +147,7 @@
           </div>
 
           <div class="col-6">
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'dar-final'; subMenu: ''; elementType: 'input'">
+            <section *ngIf="!view">
               <div class="form-group">
                 <mat-form-field class="w-100" appearance="outline">
                   <mat-label>LV Internal in IDR</mat-label>
@@ -157,7 +161,7 @@
                 </mat-form-field>
               </div>
             </section>
-            <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+            <section *ngIf="view">
               <div class="fontsebled row">
                 <div class="col-2">LV Internal in IDR</div>
                 <div class="col-md-auto">:</div>
@@ -171,14 +175,12 @@
       </mat-card-content>
     </mat-card>
     <mat-dialog-actions align="center">
-      <button mat-raised-button mat-dialog-close *ngIf="view" class="confirm-button-no" style="margin-right: 5px">Cancel</button>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: 'input'">
-        <button mat-raised-button (click)="openCancelDialog()" *ngIf="!view" class="confirm-button-no" style="margin-right: 5px">
-          Cancel
-        </button>
-        <button mat-raised-button class="confirm-button-yes" *ngIf="!view" (click)="save()">Save</button>
+      <!-- <button mat-raised-button mat-dialog-close *ngIf="view" class="confirm-button-no" style="margin-right: 5px">Cancel</button> -->
+      <section *ngIf="!view">
+        <button mat-raised-button (click)="openCancelDialog()" class="confirm-button-no" style="margin-right: 5px">Cancel</button>
+        <button mat-raised-button class="confirm-button-yes" (click)="save()">Save</button>
       </section>
-      <section *jhiMatrixDir="creditProposal.statusId; menu: 'cp-and-memo'; subMenu: ''; elementType: ''">
+      <section *ngIf="view">
         <div class="mt-3 text-center">
           <button mat-raised-button class="confirm-button-yes" hidden (click)="save()">Save</button>
         </div>

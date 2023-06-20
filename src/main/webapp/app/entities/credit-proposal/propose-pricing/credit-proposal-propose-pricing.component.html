@@ -41,8 +41,17 @@
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: 'input'">
             <div class="form-group">
               <ejs-textbox
+                *ngIf="creditProposal.creditRatings[0].creditRating !== null && creditProposal.creditRatings[0].creditRating !== ''"
                 placeholder="Credit Rating"
                 [(ngModel)]="creditProposal.creditRatings[0].creditRating"
+                cssClass="e-outline"
+                floatLabelType="Always"
+                disabled
+              ></ejs-textbox>
+              <ejs-textbox
+                *ngIf="creditProposal.creditRatings[0].creditRating === null || creditProposal.creditRatings[0].creditRating === ''"
+                placeholder="Credit Rating"
+                value="N/A"
                 cssClass="e-outline"
                 floatLabelType="Always"
                 disabled
@@ -50,12 +59,24 @@
             </div>
           </section>
           <section *jhiMatrixDir="creditProposal.statusId; menu: 'credit-proposal'; subMenu: ''; elementType: ''">
-            <div class="fontsebled row">
+            <div
+              *ngIf="creditProposal.creditRatings[0].creditRating !== null || creditProposal.creditRatings[0].creditRating !== ''"
+              class="fontsebled row"
+            >
               <div class="col-3">Credit Rating</div>
               <div class="col-md-auto">:</div>
               <div class="col col-lg-2">
                 {{ creditProposal.creditRatings[0].creditRating }}
               </div>
+            </div>
+
+            <div
+              *ngIf="creditProposal.creditRatings[0].creditRating === null || creditProposal.creditRatings[0].creditRating === ''"
+              class="fontsebled row"
+            >
+              <div class="col-3">Credit Rating</div>
+              <div class="col-md-auto">:</div>
+              <div class="col col-lg-2">N/A</div>
             </div>
           </section>
 

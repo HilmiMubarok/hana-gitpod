@@ -105,33 +105,6 @@ table {
   }
 }
 
-.rounding-table-left {
-  border-top-left-radius: 15px !important;
-}
-.rounding-table-right {
-  border-top-right-radius: 15px !important;
-}
-
-.grid-index-left {
-  justify-content: flex-start !important;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.grid-index-right {
-  justify-content: flex-end !important;
-  text-align: right !important;
-  padding-right: 25px !important;
-  font-family: 'Poppins', sans-serif !important;
-}
-
-.mat-column:first-child {
-  border-top-left-radius: 15px !important;
-}
-
-.mat-column:last-child {
-  border-top-right-radius: 15px !important;
-}
-
 .button-styling {
   background-color: rgba(49, 158, 152, 1) !important;
   color: #ffffff !important;
@@ -244,11 +217,24 @@ td {
 
 .mat-column-totalCreditLimit {
   text-align: right;
-  padding-right: 25px;
+}
+
+.mat-column-currency {
+  text-align: left;
 }
 
 .mat-column-no {
+  text-align: right;
   width: 5% !important;
+}
+.mat-columng-lvInternal {
+  text-align: right;
+}
+.mat-columng-mvInternal {
+  text-align: right;
+}
+.mat-columng-bindingValue {
+  text-align: right;
 }
 .mat-column-action {
   width: 10% !important;
@@ -346,3 +332,51 @@ mat-cell,
   min-height: auto !important;
   padding: 5px 28px 5px 0 !important;
 }
+
+// table exposure di CP
+.mat-column-facilityType {
+  text-align: left;
+}
+.mat-column-availableLimit {
+  text-align: right;
+}
+.mat-column-initialLimit {
+  text-align: right;
+}
+.mat-column-change {
+  text-align: right;
+}
+.mat-column-changes {
+  text-align: right;
+}
+.mat-column-os {
+  text-align: right;
+}
+.mat-column-provisionAmount {
+  text-align: right;
+}
+.mat-column-firstDisbursementDate {
+  text-align: right;
+}
+.mat-column-totalPlatfond {
+  text-align: right;
+}
+.mat-column-interet {
+  text-align: left;
+}
+.mat-column-provision {
+  text-align: right;
+}
+.mat-column-adminFee {
+  text-align: right;
+}
+.mat-column-firstDisbursmentDate {
+  text-align: right;
+}
+.mat-column-tenor {
+  text-align: left;
+}
+.mat-column-maturityDate {
+  text-align: right;
+}
+// table exposure di CP

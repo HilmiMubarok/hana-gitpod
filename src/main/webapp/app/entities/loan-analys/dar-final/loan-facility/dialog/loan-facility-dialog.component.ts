@@ -61,6 +61,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public listGeneralLov = [];
   public masterProduct: IMasterProductParameter;
   public listCategoryLov = [];
+  public revolving: Boolean;
 
   @Input()
   get collateral() {
@@ -305,6 +306,7 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.lovInterestRateTypeList();
     this.lovRestructMethod();
     this.getFacilityType();
+    this.berubah(this.applicationProduct.attributes.facilityType);
   }
 
   public save(): void {
@@ -377,9 +379,14 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     this.productParameterService
       .queryFilterBy({
         idProductType: event,
+        page: 0,
+        size: 9999,
       })
       .subscribe(res => {
         this.listLoanType = res.body;
+        // const a = this.listLoanType.find(obj => obj.name === event);
+        console.log('loan type List', this.listLoanType);
+        this.getfacilityCategory(this.applicationProduct.productName);
       });
 
     this.disableButtonChange(event);
@@ -398,9 +405,20 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
     }
   }
 
-  public calTotalPlafond(): number {
-    this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
-    return Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
+  // public calTotalPlafond(): number {
+  //   this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
+  //   return Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes);
+  // }
+
+  public calTotalPlafond(revolving?: Boolean): number {
+    this.revolving = revolving;
+    if (revolving === true) {
+      return (this.applicationProduct.totalPlafond =
+        Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes));
+    } else if (revolving === false) {
+      return (this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes));
+    }
+    return 0;
   }
 
   public getLovSublimit() {
@@ -734,29 +752,51 @@ export class LoanFacilityDialogTempComponent extends AbstractEntityBaseViewCompo
   public getFacilityType() {
     this.productParameterService.getLovFacilityType().subscribe(res => {
       this.listGeneralLov = res.body;
-      if (this.masterProduct.productTypeId !== '') {
-        for (let i = 0; i < this.listGeneralLov.length; i++) {
-          this.masterProduct.productTypeId = this.listGeneralLov[i].id;
-        }
+      // if (this.masterProduct.productTypeId !== '') {
+      for (let i = 0; i < this.listGeneralLov.length; i++) {
+        this.masterProduct.productTypeId = this.listGeneralLov[i].id;
       }
+      // }
     });
   }
 
+  // public getfacilityCategory(event: any): void {
+  //   console.log('evt', event.value);
+  //   const data = this.listLoanType.find(obj => obj.name === event.value);
+
+  //   if (data) {
+  //     this.productClasificationService
+  //       .queryFilterBy({
+  //         idProduct: data.id,
+  //         page: 0,
+  //         size: 9999,
+  //         sort: ['asc'],
+  //       })
+  //       .subscribe(res => {
+  //         console.log('ini catgeory ', res.body);
+  //         this.listCategoryLov = res.body;
+  //         this.applicationProduct.productId = data.id;
+  //       });
+  //   }
+  // }
+
   public getfacilityCategory(event) {
-    console.log('id product', event);
     const data = this.listLoanType.find(obj => obj.name === event);
+
     if (data) {
       this.productClasificationService
         .queryFilterBy({
           idProduct: data.id,
+          isActive: true,
           page: 0,
           size: 9999,
           sort: ['asc'],
         })
         .subscribe(res => {
-          console.log('ini catgeory ', res.body);
           this.listCategoryLov = res.body;
         });
+      this.applicationProduct.productId = data.id;
+      this.calTotalPlafond(data.revolving);
     }
   }
 

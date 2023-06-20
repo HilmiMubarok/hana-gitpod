@@ -65,6 +65,8 @@ export class OrganizationLegalDialogComponent implements OnInit {
     this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
       this.checkRole(newPos.positionTypeId);
     });
+    this.changeNumber();
+    this.changeDate();
   }
   // IDD organization Legal
   public checkRole(param): void {
@@ -85,6 +87,19 @@ export class OrganizationLegalDialogComponent implements OnInit {
 
   public save(): void {
     this._dialog.close(this.organizationLegal);
+  }
+
+  public changeNumber() {
+    if (this.organizationLegal.deedRecentChangeNumber === null || this.organizationLegal.deedRecentChangeNumber === undefined) {
+      return 'N/A';
+    }
+    return this.organizationLegal.deedRecentChangeNumber;
+  }
+  public changeDate() {
+    if (this.organizationLegal.deedRecentChangeDate === null) {
+      return 'N/A';
+    }
+    return this.organizationLegal.deedRecentChangeDate;
   }
 
   // cancel confrimation dialog

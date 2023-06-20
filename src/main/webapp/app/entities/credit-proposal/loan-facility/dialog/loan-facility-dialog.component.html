@@ -214,7 +214,7 @@
           <div class="col-3">Tenor</div>
           <div class="col-md-auto">:</div>
           <div class="col">
-            {{ applicationProduct.maturity }}
+            {{ applicationProduct.tenor }}
           </div>
         </div>
         <div class="fontsebled row">
@@ -488,7 +488,7 @@
               />
             </ng-template>
             <ng-template #f>
-              <input matInput type="text" [(ngModel)]="applicationProduct.totalPlafond" />
+              <input matInput type="text" currencyMask [(ngModel)]="applicationProduct.totalPlafond" />
             </ng-template>
           </mat-form-field>
         </div>
@@ -746,12 +746,14 @@
               </div> -->
               <ejs-numerictextbox
                 [(ngModel)]="applicationProduct.provisionFeeAmount"
+                (blur)="checkForDecimalProvision(applicationProduct.provisionFeeAmount)"
                 cssClass="e-outline"
                 placeholder="Provision Fee"
                 floatLabelType="auto"
                 floatLabelType="Always"
                 format="{{ logoProvisonFee }}"
                 min="0"
+                style="height: 4em"
               ></ejs-numerictextbox>
             </div>
             <div class="col-4">
@@ -804,12 +806,14 @@
               </mat-form-field> -->
               <ejs-numerictextbox
                 [(ngModel)]="applicationProduct.adminFeeAmount"
+                (blur)="checkForDecimalAdmin(applicationProduct.adminFeeAmount)"
                 cssClass="e-outline"
                 placeholder="Admin Fee"
                 floatLabelType="auto"
                 floatLabelType="Always"
                 format="{{ logoAdminFee }}"
                 min="0"
+                style="height: 4em"
               ></ejs-numerictextbox>
             </div>
             <div class="col-4">

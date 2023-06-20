@@ -24,6 +24,7 @@ import { PartyCifService } from 'app/entities/party-cif/party-cif.service';
 import { CashCollateralService } from 'app/entities/cash-collateral/cash-collateral.service';
 import { GeneralParameterService } from 'app/entities/master-parameter/general-parameter/general-parameter.service';
 import { ConfirmDialogComponent } from 'app/layouts/miscellaneous/confirm-dialog.component';
+import { TemplateService } from 'app/layouts/template/template.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -124,6 +125,7 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     private cashCollateralService: CashCollateralService,
     protected generalParameterService: GeneralParameterService,
     private _dialog: MatDialogRef<DialogCreditProposalCollateralInfoDialogBTBComponent>,
+    private templateService: TemplateService,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       cp: ICreditProposal;
@@ -134,10 +136,6 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
       isViewMode: Boolean;
     }
   ) {
-    _dialog.disableClose = true;
-    _dialog.backdropClick().subscribe(_ => {
-      this.openCancelDialog();
-    });
     this.creditProposal = this.data.cp;
     this.creditProposalOpenState = lodash.cloneDeep(this.data.cp);
     this.collateral = this.data.collateral;
@@ -163,6 +161,23 @@ export class DialogCreditProposalCollateralInfoDialogBTBComponent implements OnI
     this.setBranches();
     this.lovBindingType();
     this.cekCurrency();
+    this.getRole();
+  }
+
+  public getRole() {
+    this.templateService.triggerChanggedPosIntObjectObservable.subscribe((newPos: any) => {
+      this.checkRole(newPos.positionTypeId);
+      console.log('ini adalah role', newPos.positionTypeId);
+    });
+  }
+
+  public checkRole(param): void {
+    if (param === 'RM') {
+      this._dialog.disableClose = true;
+      this._dialog.backdropClick().subscribe(_ => {
+        this.openCancelDialog();
+      });
+    }
   }
 
   moment = _rollupMoment || _moment;

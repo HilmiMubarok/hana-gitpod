@@ -19,7 +19,7 @@
             <div class="col">Certificate Type</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ collateralProperty.attributes.certificateType }}
+              {{ filterNameValue(collateralProperty.attributes.certificateType) }}
             </div>
           </div>
         </section>
@@ -346,7 +346,7 @@
             <div class="col">Branch</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ collateralProperty.attributes.branch }}
+              {{ filterBranch(collateralProperty.attributes.branch) }}
             </div>
           </div>
         </section>
@@ -367,7 +367,7 @@
             <div class="col">Management Branch</div>
             <div class="col-md-auto">:</div>
             <div class="col">
-              {{ collateralProperty.attributes.managementBranch }}
+              {{ param(collateralProperty.attributes.managementBranch) }}
             </div>
           </div>
         </section>

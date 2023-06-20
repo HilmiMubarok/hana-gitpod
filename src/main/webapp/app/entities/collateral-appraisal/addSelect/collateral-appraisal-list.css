@@ -60,10 +60,33 @@
   src: local(''), url('../../../../content/fonts/poppins/Poppins-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
 }
 
-td.e-rowcell.e-templatecell{
+td.e-rowcell.e-templatecell {
   width: 20px;
 }
 
 .e-grid .e-gridheader tr th:first-child {
   width: 20px;
+}
+
+th {
+  background-color: rgba(147, 201, 199, 1) !important;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+td {
+  font-family: 'Poppins', sans-serif !important;
+}
+th:first-child {
+  border-top-left-radius: 15px;
+}
+th:last-child {
+  border-top-right-radius: 15px;
+}
+
+.button-styling:enabled {
+  color: white;
+  background-color: rgba(49, 158, 152, 1) !important;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif !important;
 }

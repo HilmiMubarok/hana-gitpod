@@ -143,6 +143,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.cekData();
     this.setData();
     this.setDebitBlock();
+    this.filterChar();
   }
 
   public cekData() {
@@ -304,6 +305,7 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
         this.optionsApr = res.body;
         this.filteredApr();
         this.CcyApr = this.optionsApr.find(obj => obj.id === this.collateralProperty.attributes.approvedCreditLineCcy);
+        this.getAmountCcy();
       });
   }
 
@@ -433,5 +435,69 @@ export class CollateralPropertyLetterGuarantyComponent implements OnInit {
     this.partyCifService.getDebitBlock().subscribe(res => {
       this.debitBlock = res.body;
     });
+  }
+  public filternameValue(data: string) {
+    const keys = Object.keys(this.collateralDetailType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.collateralDetailType[key];
+      }
+    }
+    return undefined;
+  }
+  public filterGuarante(data: string) {
+    const keys = Object.keys(this.guaranteeCoverage);
+    for (const key of keys) {
+      if (key === data) {
+        return this.guaranteeCoverage[key];
+      }
+    }
+    return undefined;
+  }
+
+  public filterguaranteeType(data: string) {
+    const keys = Object.keys(this.guaranteeType);
+    for (const key of keys) {
+      if (key === data) {
+        return this.guaranteeType[key];
+      }
+    }
+    return undefined;
+  }
+
+  public param(data: number) {
+    const value = this.branceManagement.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.branceManagement.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+  public filterDebit(data: number) {
+    const value = this.debitBlock.filter(obj => obj.id === data);
+    if (value.length > 0) {
+      return this.debitBlock.filter(obj => obj.id === data)[0].label;
+    } else {
+      return '';
+    }
+  }
+
+  public filterBranch(data: number) {
+    const branchValue = this.branchesNames.filter(obj => obj.id === data);
+    if (branchValue.length > 0) {
+      return this.branchesNames.filter(obj => obj.id === data)[0].name;
+    } else {
+      return '';
+    }
+  }
+  public chatCollateral: string;
+
+  public filterChar() {
+    const valueChar = this.collateralProperty.attributes.charCollateral;
+    if (valueChar === '1') {
+      this.chatCollateral = 'Eligible';
+    } else {
+      this.chatCollateral = 'Non Eligible';
+    }
   }
 }
