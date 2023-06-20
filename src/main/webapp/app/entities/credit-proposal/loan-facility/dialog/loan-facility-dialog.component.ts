@@ -447,10 +447,13 @@ export class CreditProposalLoanFacilityDialogComponent extends AbstractEntityBas
   public calTotalPlafond(revolving?: Boolean): number {
     this.revolving = revolving;
     if (revolving === true) {
-      return (this.applicationProduct.totalPlafond =
-        Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes));
+      return Number(
+        (this.applicationProduct.totalPlafond = Number(this.applicationProduct.initialLimit) + Number(this.applicationProduct.changes))
+      );
     } else if (revolving === false) {
-      return (this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes));
+      return Number(
+        (this.applicationProduct.totalPlafond = Number(this.applicationProduct.outstanding) + Number(this.applicationProduct.changes))
+      );
     }
     return 0;
   }
